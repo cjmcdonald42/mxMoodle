@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180404" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180405" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -13,16 +13,35 @@
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The gender of the student"/>
         <FIELD NAME="boarding_day" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student"/>
         <FIELD NAME="boarding_day_next_year" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year"/>
-        <FIELD NAME="advisor" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The facultyid of the student's advisor"/>
-        <FIELD NAME="dorm" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The dormid of the student's dorm"/>
+        <FIELD NAME="advisorid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty id of the student's advisor"/>
+        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The dorm id of the student's dorm"/>
         <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm"/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The student's phone number"/>
         <FIELD NAME="birthdate" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate"/>
-        <FIELD NAME="permissions" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="the permissionsid of the student's permissions record"/>
+        <FIELD NAME="permissionsid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="the permissions id of the student's permissions record"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="the student's user record"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="the student's user record"/>
+        <KEY NAME="permissions" TYPE="foreign-unique" FIELDS="permissionsid" REFTABLE="local_mxschool_permissions" REFFIELDS="id" COMMENT="the student's permissions record"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_permissions" COMMENT="mxschool student permissions table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="overnight" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Can the student stay overnight? [parent, host]"/>
+        <FIELD NAME="riding" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Can the student ride with other students? [Parent Permission, Over 21, Any Driver, Specific Drivers]"/>
+        <FIELD NAME="comment" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Comment to be used if riding permissions are granted for specific drivers."/>
+        <FIELD NAME="rideshare" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Can the student use ride sharing services? [yes, parent, no]"/>
+        <FIELD NAME="boston" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Can the student go to Boston? [yes, parent, no]"/>
+        <FIELD NAME="drive_to_town" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Can the student drive to town during the day? [yes, no]"/>
+        <FIELD NAME="give_rides" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Can the student give rides to other students? [yes, no]"/>
+        <FIELD NAME="swim_competent" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student able to swim competently? [yes, no]"/>
+        <FIELD NAME="swim_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student allowed to swim? [yes, no]"/>
+        <FIELD NAME="boat_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student allowed in a boat? [yes, no]"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>
