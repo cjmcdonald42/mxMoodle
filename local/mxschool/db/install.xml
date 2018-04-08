@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180405" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180407" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_mxschool_students" COMMENT="mxschool student table">
+    <TABLE NAME="local_mxschool_student" COMMENT="mxschool student table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="the student's user id"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The student's user id"/>
         <FIELD NAME="admission_year" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="The year the student entered Middlesex"/>
         <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="The current grade of the student [9 - 12]"/>
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The gender of the student"/>
-        <FIELD NAME="boarding_day" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student"/>
-        <FIELD NAME="boarding_day_next_year" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year"/>
-        <FIELD NAME="advisorid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty id of the student's advisor"/>
-        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The dorm id of the student's dorm"/>
+        <FIELD NAME="preferred_gender_pronouns" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The student's preferred pronouns"/>
+        <FIELD NAME="boarding_status" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student"/>
+        <FIELD NAME="boarding_status_next_year" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year"/>
+        <FIELD NAME="advisorid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's advisor"/>
+        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The dorm id of the student's dorm"/>
         <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm"/>
-        <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The student's phone number"/>
+        <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's phone number"/>
         <FIELD NAME="birthdate" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate"/>
-        <FIELD NAME="permissionsid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="the permissions id of the student's permissions record"/>
+        <FIELD NAME="permissionsid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The permissions id of the student's permissions record"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
