@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Database updgrade steps for local_mxschool plugin.
+ * Database updgrade steps for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -34,14 +34,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Define table local_mxschool_students to be dropped.
         $table = new xmldb_table('local_mxschool_students');
-
-        // Conditionally launch drop table for local_mxschool_students.
-        if ($dbman->table_exists($table)) {
-            $dbman->drop_table($table);
-        }
-
-        // Define table local_mxschool_student to be dropped.
-        $table = new xmldb_table('local_mxschool_student');
 
         // Conditionally launch drop table for local_mxschool_students.
         if ($dbman->table_exists($table)) {
@@ -79,6 +71,46 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2018040704, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018040705) {
+
+        // Define table local_mxschool_permissions to be dropped.
+        $table = new xmldb_table('local_mxschool_permissions');
+
+        // Conditionally launch drop table for local_mxschool_permissions.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_permissions to be created.
+        $table = new xmldb_table('local_mxschool_permissions');
+
+        // Adding fields to table local_mxschool_permissions.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('overnight', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('may_ride_with', XMLDB_TYPE_CHAR, '20', null, null, null, null);
+        $table->add_field('comment', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('ride_share', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('may_drive_to_boston', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('may_drive_to_town', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('may_drive_passengers', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('swim_competent', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('swim_allowed', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('boat_allowed', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+
+        // Adding keys to table local_mxschool_permissions.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_permissions.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018040705, 'local', 'mxschool');
     }
 
     return true;
