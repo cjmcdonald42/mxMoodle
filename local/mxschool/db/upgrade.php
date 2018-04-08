@@ -73,7 +73,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018040704, 'local', 'mxschool');
     }
 
-    if ($oldversion < 2018040705) {
+    if ($oldversion < 2018040800) {
 
         // Define table local_mxschool_permissions to be dropped.
         $table = new xmldb_table('local_mxschool_permissions');
@@ -110,7 +110,36 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018040705, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2018040800, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018040801) {
+
+        // Define table local_mxschool_parents to be created.
+        $table = new xmldb_table('local_mxschool_parents');
+
+        // Adding fields to table local_mxschool_parents.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('is_primary_parent', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'Yes');
+        $table->add_field('relationship', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('parent_name', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('home_phone', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('cell_phone', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('work_phone', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('email', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_parents.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_parents.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018040801, 'local', 'mxschool');
     }
 
     return true;
