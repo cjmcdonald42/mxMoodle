@@ -25,6 +25,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student"/>
         <KEY NAME="permissions" TYPE="foreign-unique" FIELDS="permissionsid" REFTABLE="local_mxschool_permissions" REFFIELDS="id" COMMENT="The permissions record of the student"/>
+        <KEY NAME="advisor" TYPE="foreign" FIELDS="advisorid" REFTABLE="local_mxschool_faculty" REFFIELDS="id" COMMENT="The faculty record of the student's advisor"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_permissions" COMMENT="mxschool student permissions table">
@@ -62,6 +63,20 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the parent's student"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_faculty" COMMENT="mxschool faculty table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the faculty member"/>
+        <FIELD NAME="faculty_code" TYPE="char" LENGTH="5" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty member's 5 character code from Senior Systems"/>
+        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the faculty member's dorm, if the faculty member is a dorm faculty"/>
+        <FIELD NAME="advisory_available" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty member's advisory is accepting new advisees {&quot;Yes&quot;, &quot;No&quot;}"/>
+        <FIELD NAME="advisory_closing" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty member's advisory is going to close and all students must switch out of it {&quot;Yes&quot;, &quot;No&quot;}"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty member"/>
       </KEYS>
     </TABLE>
   </TABLES>

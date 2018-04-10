@@ -150,5 +150,38 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018040900, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018040902) {
+
+        // Define table local_mxschool_faculty to be created.
+        $table = new xmldb_table('local_mxschool_faculty');
+
+        // Adding fields to table local_mxschool_faculty.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('faculty_code', XMLDB_TYPE_CHAR, '5', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('dormid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('advisory_available', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('advisory_closing', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_faculty.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_faculty.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Define key advisor (foreign) to be added to local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('advisor', XMLDB_KEY_FOREIGN, array('advisorid'), 'local_mxschool_faculty', array('id'));
+
+        // Launch add key advisor.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018040902, 'local', 'mxschool');
+    }
+
     return true;
 }
