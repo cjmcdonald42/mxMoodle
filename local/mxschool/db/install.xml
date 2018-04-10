@@ -1,32 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180409" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180410" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_mxschool_student" COMMENT="mxschool student table">
+    <TABLE NAME="local_mxschool_dorm" COMMENT="mxschool dorm table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student"/>
-        <FIELD NAME="admission_year" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="The year the student entered Middlesex"/>
-        <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="The current grade of the student {9, 10, 11, 12}"/>
-        <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The gender of the student"/>
-        <FIELD NAME="preferred_gender_pronouns" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The student's preferred pronouns"/>
-        <FIELD NAME="boarding_status" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student {boarder, day}"/>
-        <FIELD NAME="boarding_status_next_year" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year {boarding, day}"/>
-        <FIELD NAME="advisorid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's advisor"/>
-        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the student's dorm"/>
-        <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm"/>
-        <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's cell phone number"/>
-        <FIELD NAME="birthdate" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate {mm/dd/yy}"/>
-        <FIELD NAME="permissionsid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the student's permissions record"/>
+        <FIELD NAME="hohid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the dorm's head of house"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the dorm"/>
+        <FIELD NAME="abbreviation" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The abbreviation for the dorm"/>
+        <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boarding dorm or a day house {&quot;Boarding&quot;, &quot;Day&quot;, &quot;All&quot;}"/>
+        <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boys dorm or a girls dorm {&quot;Boys&quot;, &quot;Girls&quot;, &quot;All&quot;}"/>
+        <FIELD NAME="available" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Whether the dorm is currently available for students to live in {&quot;Yes&quot;, &quot;No&quot;}"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student"/>
-        <KEY NAME="permissions" TYPE="foreign-unique" FIELDS="permissionsid" REFTABLE="local_mxschool_permissions" REFFIELDS="id" COMMENT="The permissions record of the student"/>
-        <KEY NAME="advisor" TYPE="foreign" FIELDS="advisorid" REFTABLE="local_mxschool_faculty" REFFIELDS="id" COMMENT="The faculty record of the student's advisor"/>
-        <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the student's dorm"/>
+        <KEY NAME="hoh" TYPE="foreign-unique" FIELDS="hohid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the dorm's head of house"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_faculty" COMMENT="mxschool faculty table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the faculty member"/>
+        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the faculty member's dorm, if the faculty member is a dorm faculty"/>
+        <FIELD NAME="faculty_code" TYPE="char" LENGTH="5" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty member's 5 character code from Senior Systems"/>
+        <FIELD NAME="advisory_available" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty member's advisory is accepting new advisees {&quot;Yes&quot;, &quot;No&quot;}"/>
+        <FIELD NAME="advisory_closing" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty member's advisory is going to close and all students must switch out of it {&quot;Yes&quot;, &quot;No&quot;}"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty member"/>
+        <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the faculty member's dorm, if the faculty member is a dorm faculty"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_parent" COMMENT="mxschool parent table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the parent's student"/>
+        <FIELD NAME="is_primary_parent" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Is this parent is the student's primary parent? {&quot;Yes&quot;, &quot;No&quot;}"/>
+        <FIELD NAME="relationship" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's relationship with their student"/>
+        <FIELD NAME="parent_name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's full name, including saluations"/>
+        <FIELD NAME="home_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's home phone number"/>
+        <FIELD NAME="cell_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's cell phone number"/>
+        <FIELD NAME="work_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's work phone number"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's email address"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the parent's student"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_permissions" COMMENT="mxschool student permissions table">
@@ -49,51 +71,29 @@
         <KEY NAME="student" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_parent" COMMENT="mxschool parent table">
+    <TABLE NAME="local_mxschool_student" COMMENT="mxschool student table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the parent's student"/>
-        <FIELD NAME="is_primary_parent" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Is this parent is the student's primary parent? {&quot;Yes&quot;, &quot;No&quot;}"/>
-        <FIELD NAME="relationship" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's relationship with their student"/>
-        <FIELD NAME="parent_name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's full name, including saluations"/>
-        <FIELD NAME="home_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's home phone number"/>
-        <FIELD NAME="cell_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's cell phone number"/>
-        <FIELD NAME="work_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's work phone number"/>
-        <FIELD NAME="email" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's email address"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student"/>
+        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the student's dorm"/>
+        <FIELD NAME="advisorid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's advisor"/>
+        <FIELD NAME="permissionsid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the student's permissions record"/>
+        <FIELD NAME="admission_year" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="The year the student entered Middlesex"/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="The current grade of the student {9, 10, 11, 12}"/>
+        <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The gender of the student"/>
+        <FIELD NAME="preferred_gender_pronouns" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The student's preferred pronouns"/>
+        <FIELD NAME="boarding_status" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student {boarder, day}"/>
+        <FIELD NAME="boarding_status_next_year" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year {boarding, day}"/>
+        <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm"/>
+        <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's cell phone number"/>
+        <FIELD NAME="birthdate" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate {mm/dd/yy}"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the parent's student"/>
-      </KEYS>
-    </TABLE>
-    <TABLE NAME="local_mxschool_faculty" COMMENT="mxschool faculty table">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the faculty member"/>
-        <FIELD NAME="faculty_code" TYPE="char" LENGTH="5" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty member's 5 character code from Senior Systems"/>
-        <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the faculty member's dorm, if the faculty member is a dorm faculty"/>
-        <FIELD NAME="advisory_available" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty member's advisory is accepting new advisees {&quot;Yes&quot;, &quot;No&quot;}"/>
-        <FIELD NAME="advisory_closing" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty member's advisory is going to close and all students must switch out of it {&quot;Yes&quot;, &quot;No&quot;}"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty member"/>
-        <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the faculty member's dorm, if the faculty member is a dorm faculty"/>
-      </KEYS>
-    </TABLE>
-    <TABLE NAME="local_mxschool_dorm" COMMENT="mxschool dorm table">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="name" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the dorm"/>
-        <FIELD NAME="abbreviation" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The abbreviation for the dorm"/>
-        <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boarding dorm or a day house {&quot;Boarding&quot;, &quot;Day&quot;, &quot;All&quot;}"/>
-        <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boys dorm or a girls dorm {&quot;Boys&quot;, &quot;Girls&quot;, &quot;All&quot;}"/>
-        <FIELD NAME="available" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Whether the dorm is currently available for students to live in {&quot;Yes&quot;, &quot;No&quot;}"/>
-        <FIELD NAME="hohid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the dorm's head of house"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="hoh" TYPE="foreign-unique" FIELDS="hohid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the dorm's head of house"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student"/>
+        <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the student's dorm"/>
+        <KEY NAME="advisor" TYPE="foreign" FIELDS="advisorid" REFTABLE="local_mxschool_faculty" REFFIELDS="id" COMMENT="The faculty record of the student's advisor"/>
+        <KEY NAME="permissions" TYPE="foreign-unique" FIELDS="permissionsid" REFTABLE="local_mxschool_permissions" REFFIELDS="id" COMMENT="The permissions record of the student"/>
       </KEYS>
     </TABLE>
   </TABLES>

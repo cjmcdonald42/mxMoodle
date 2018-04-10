@@ -30,7 +30,15 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2018040704) {
+    if ($oldversion < 2018041000) {
+
+        // Define table local_mxschool_parents to be dropped.
+        $table = new xmldb_table('local_mxschool_parents');
+
+        // Conditionally launch drop table for local_mxschool_parents.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
 
         // Define table local_mxschool_students to be dropped.
         $table = new xmldb_table('local_mxschool_students');
@@ -40,47 +48,86 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->drop_table($table);
         }
 
-        // Define table local_mxschool_student to be created.
+        // Define table local_mxschool_dorm to be dropped.
+        $table = new xmldb_table('local_mxschool_dorm');
+
+        // Conditionally launch drop table for local_mxschool_dorm.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_faculty to be dropped.
+        $table = new xmldb_table('local_mxschool_faculty');
+
+        // Conditionally launch drop table for local_mxschool_faculty.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_parent to be dropped.
+        $table = new xmldb_table('local_mxschool_parent');
+
+        // Conditionally launch drop table for local_mxschool_parent.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_permissions to be dropped.
+        $table = new xmldb_table('local_mxschool_permissions');
+
+        // Conditionally launch drop table for local_mxschool_permissions.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_student to be dropped.
         $table = new xmldb_table('local_mxschool_student');
 
-        // Adding fields to table local_mxschool_student.
+        // Conditionally launch drop table for local_mxschool_student.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_dorm to be created.
+        $table = new xmldb_table('local_mxschool_dorm');
+
+        // Adding fields to table local_mxschool_dorm.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('admission_year', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('grade', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('hohid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('name', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('abbreviation', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('type', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('gender', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('preferred_gender_pronouns', XMLDB_TYPE_TEXT, null, null, null, null, null);
-        $table->add_field('boarding_status', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('boarding_status_next_year', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('advisorid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('dormid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('room', XMLDB_TYPE_INTEGER, '3', null, null, null, null);
-        $table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('birthdate', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('permissionsid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('available', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'Yes');
 
-        // Adding keys to table local_mxschool_student.
+        // Adding keys to table local_mxschool_dorm.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
-        $table->add_key('permissions', XMLDB_KEY_FOREIGN_UNIQUE, array('permissionsid'), 'local_mxschool_permissions', array('id'));
+        $table->add_key('hoh', XMLDB_KEY_FOREIGN_UNIQUE, array('hohid'), 'user', array('id'));
 
-        // Conditionally launch create table for local_mxschool_student.
+        // Conditionally launch create table for local_mxschool_dorm.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
 
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018040704, 'local', 'mxschool');
-    }
+        // Define table local_mxschool_faculty to be created.
+        $table = new xmldb_table('local_mxschool_faculty');
 
-    if ($oldversion < 2018040802) {
+        // Adding fields to table local_mxschool_faculty.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dormid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('faculty_code', XMLDB_TYPE_CHAR, '5', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('advisory_available', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('advisory_closing', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
 
-        // Define table local_mxschool_parents to be dropped.
-        $table = new xmldb_table('local_mxschool_parents');
+        // Adding keys to table local_mxschool_faculty.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+        $table->add_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
 
-        // Conditionally launch drop table for local_mxschool_parents.
-        if ($dbman->table_exists($table)) {
-            $dbman->drop_table($table);
+        // Conditionally launch create table for local_mxschool_faculty.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
         }
 
         // Define table local_mxschool_parent to be created.
@@ -104,20 +151,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         // Conditionally launch create table for local_mxschool_parent.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018040802, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018040900) {
-
-        // Define table local_mxschool_permissions to be dropped.
-        $table = new xmldb_table('local_mxschool_permissions');
-
-        // Conditionally launch drop table for local_mxschool_permissions.
-        if ($dbman->table_exists($table)) {
-            $dbman->drop_table($table);
         }
 
         // Define table local_mxschool_permissions to be created.
@@ -146,82 +179,39 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->create_table($table);
         }
 
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018040900, 'local', 'mxschool');
-    }
+        // Define table local_mxschool_student to be created.
+        $table = new xmldb_table('local_mxschool_student');
 
-    if ($oldversion < 2018040902) {
-
-        // Define table local_mxschool_faculty to be created.
-        $table = new xmldb_table('local_mxschool_faculty');
-
-        // Adding fields to table local_mxschool_faculty.
+        // Adding fields to table local_mxschool_student.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('faculty_code', XMLDB_TYPE_CHAR, '5', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('dormid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
-        $table->add_field('advisory_available', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('advisory_closing', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('dormid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('advisorid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('permissionsid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('admission_year', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('grade', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('gender', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('preferred_gender_pronouns', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('boarding_status', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('boarding_status_next_year', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('room', XMLDB_TYPE_INTEGER, '3', null, null, null, null);
+        $table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('birthdate', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
 
-        // Adding keys to table local_mxschool_faculty.
+        // Adding keys to table local_mxschool_student.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+        $table->add_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+        $table->add_key('advisor', XMLDB_KEY_FOREIGN, array('advisorid'), 'local_mxschool_faculty', array('id'));
+        $table->add_key('permissions', XMLDB_KEY_FOREIGN_UNIQUE, array('permissionsid'), 'local_mxschool_permissions', array('id'));
 
-        // Conditionally launch create table for local_mxschool_faculty.
+        // Conditionally launch create table for local_mxschool_student.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
 
-        // Define key advisor (foreign) to be added to local_mxschool_student.
-        $table = new xmldb_table('local_mxschool_student');
-        $key = new xmldb_key('advisor', XMLDB_KEY_FOREIGN, array('advisorid'), 'local_mxschool_faculty', array('id'));
-
-        // Launch add key advisor.
-        $dbman->add_key($table, $key);
-
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018040902, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018040904) {
-
-        // Define table local_mxschool_dorm to be created.
-        $table = new xmldb_table('local_mxschool_dorm');
-
-        // Adding fields to table local_mxschool_dorm.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('name', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('abbreviation', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('type', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('gender', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('available', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'Yes');
-        $table->add_field('hohid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-
-        // Adding keys to table local_mxschool_dorm.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('hoh', XMLDB_KEY_FOREIGN_UNIQUE, array('hohid'), 'user', array('id'));
-
-        // Conditionally launch create table for local_mxschool_dorm.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Define key dorm (foreign) to be added to local_mxschool_student.
-        $table = new xmldb_table('local_mxschool_student');
-        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
-
-        // Launch add key dorm.
-        $dbman->add_key($table, $key);
-
-        // Define key dorm (foreign) to be added to local_mxschool_faculty.
-        $table = new xmldb_table('local_mxschool_faculty');
-        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
-
-        // Launch add key dorm.
-        $dbman->add_key($table, $key);
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018040904, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2018041000, 'local', 'mxschool');
     }
 
     return true;
