@@ -183,5 +183,46 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018040902, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018040904) {
+
+        // Define table local_mxschool_dorm to be created.
+        $table = new xmldb_table('local_mxschool_dorm');
+
+        // Adding fields to table local_mxschool_dorm.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('name', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('abbreviation', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('type', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('gender', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('available', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'Yes');
+        $table->add_field('hohid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table local_mxschool_dorm.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('hoh', XMLDB_KEY_FOREIGN_UNIQUE, array('hohid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_dorm.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Define key dorm (foreign) to be added to local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+
+        // Launch add key dorm.
+        $dbman->add_key($table, $key);
+
+        // Define key dorm (foreign) to be added to local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+
+        // Launch add key dorm.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018040904, 'local', 'mxschool');
+    }
+
     return true;
 }
