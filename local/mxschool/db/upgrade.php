@@ -30,7 +30,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2018041000) {
+    if ($oldversion < 2018041400) {
 
         // Define table local_mxschool_parents to be dropped.
         $table = new xmldb_table('local_mxschool_parents');
@@ -191,7 +191,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $table->add_field('admission_year', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
         $table->add_field('grade', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, null);
         $table->add_field('gender', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('preferred_gender_pronouns', XMLDB_TYPE_TEXT, null, null, null, null, null);
         $table->add_field('boarding_status', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('boarding_status_next_year', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('room', XMLDB_TYPE_INTEGER, '3', null, null, null, null);
@@ -211,7 +210,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018041000, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2018041400, 'local', 'mxschool');
     }
 
     return true;
