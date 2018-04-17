@@ -15,21 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Renderer for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018041711;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+namespace local_mxschool\output;
+
+use plugin_renderer_base;
+
+class renderer extends plugin_renderer_base {
+
+    /**
+     * Renders an index page according to the template.
+     *
+     * @param index_page $page
+     *
+     * @return string html for the page
+     */
+    public function render_index_page($page) {
+        $data = $page->export_for_template($this);
+        return parent::render_from_template('local_mxschool/index_page', $data);
+    }
+
+}

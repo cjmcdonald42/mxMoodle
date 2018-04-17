@@ -27,6 +27,9 @@ $string['pluginname'] = 'Middlesex School';
 
 // Settings.
 $string['mxschool_category'] = 'Middlesex School';
+$string['indexes'] = 'Index Pages';
+$string['main_index'] = 'Middlesex School Index';
+$string['user_management_index'] = 'User Management Index';
 
 // Capabilities.
 $string['mxschool:view_users'] = 'Middlesex School: View user reports';

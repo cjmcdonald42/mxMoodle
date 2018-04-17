@@ -15,21 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * User management index page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require(__DIR__.'/../../../config.php');
+require_once($CFG->libdir.'/adminlib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018041711;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+admin_externalpage_setup('user_management_index');
+
+$url = '/local/mxschool/user_management/index.php';
+$title = get_string('user_management', 'local_mxschool');
+
+$PAGE->set_url(new moodle_url($url));
+$PAGE->set_context(context_system::instance());
+$PAGE->set_title($title);
+$PAGE->set_heading($title);
+
+$output = $PAGE->get_renderer('local_mxschool');
+$renderable = new \local_mxschool\output\index_page(array(
+    get_string('student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
+));
+
+echo $output->header();
+echo $output->heading($title);
+echo $output->render($renderable);
+echo $output->footer();
