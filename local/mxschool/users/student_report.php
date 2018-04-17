@@ -15,21 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Student management report for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require(__DIR__.'/../../../config.php');
+require_once('student_table.php');
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018041619;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+require_login();
+require_capability('local/mxschool:view_users', context_system::instance());
+
+$url = '/local/mxschool/users/student_report.php';
+$title = get_string('student_report', 'local_mxschool');
+
+$PAGE->set_url(new moodle_url($url));
+$PAGE->set_context(context_system::instance());
+$PAGE->set_title($title);
+$PAGE->set_heading($title);
+$PAGE->set_pagelayout('incourse');
+$PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/local/mxschool/index.php'));
+$PAGE->navbar->add(get_string('user_management', 'local_mxschool'), new moodle_url('/local/mxschool/users/index.php'));
+$PAGE->navbar->add($title);
+
+$table = new student_table('student_table');
+
+echo $OUTPUT->header();
+echo $OUTPUT->heading($title);
+echo $OUTPUT->footer();

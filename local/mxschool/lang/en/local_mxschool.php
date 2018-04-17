@@ -31,3 +31,7 @@ $string['mxschool_category'] = 'Middlesex School';
 // Capabilities.
 $string['mxschool:view_users'] = 'Middlesex School: View user reports';
 $string['mxschool:manage_users'] = 'Middlesex School: Manage user data';
+
+// User management.
+$string['user_management'] = 'User Management';
+$string['student_report'] = 'Student Report';
