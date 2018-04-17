@@ -29,7 +29,7 @@ require_once('student_table.php');
 require_login();
 require_capability('local/mxschool:view_users', context_system::instance());
 
-$url = '/local/mxschool/users/student_report.php';
+$url = '/local/mxschool/user_management/student_report.php';
 $title = get_string('student_report', 'local_mxschool');
 
 $PAGE->set_url(new moodle_url($url));
@@ -38,11 +38,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('incourse');
 $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/local/mxschool/index.php'));
-$PAGE->navbar->add(get_string('user_management', 'local_mxschool'), new moodle_url('/local/mxschool/users/index.php'));
+$PAGE->navbar->add(get_string('user_management', 'local_mxschool'), new moodle_url('/local/mxschool/user_management/index.php'));
 $PAGE->navbar->add($title);
 
 $table = new student_table('student_table');
-
-echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
-echo $OUTPUT->footer();
