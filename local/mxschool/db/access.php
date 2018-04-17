@@ -15,19 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English Language file for Middlesex School's Dorm and Student functions plugin.
+ * Capabilites for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
  */
 
-$string['pluginname'] = 'Middlesex School';
+defined('MOODLE_INTERNAL') || die();
 
-// Settings.
-$string['mxschool_category'] = 'Middlesex School';
-
-// Capabilities.
-$string['mxschool:view_users'] = 'Middlesex School: View user reports';
-$string['mxschool:manage_users'] = 'Middlesex School: Manage user data';
+$capabilities = array(
+    'local/mxschool:view_users' => array(
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:manage_users' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    )
+);
