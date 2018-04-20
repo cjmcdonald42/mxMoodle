@@ -1,0 +1,26 @@
+/**
+ * CSS Colour Spec for MX Moodle, the LMS for Middlesex School
+ *
+ * @filename   mxcolours.css
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+
+.w3-mx-red
+{color:#fff;background-color:#cf003d}
+
+.w3-mx-black
+{color:#fff;background-color:#000000}
+
+.w3-mx-gray70
+{color:#fff;background-color:#333333}
+
+.w3-mx-gray10
+{color:#fff;background-color:#999999}
+
+.w3-mx-white
+{color:#fff;background-color:#ffffff}
+
