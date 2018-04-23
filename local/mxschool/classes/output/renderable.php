@@ -43,12 +43,12 @@ use stdClass;
 class index_page implements renderable, templatable {
 
     /** @var array $links Array of links (displayText => url) to be passed to the template.*/
-    private $links = null;
+    private $links;
 
     /**
      * @param array $links Array of links (displayText => url) to be passed to the template.
      */
-    public function __construct(array $links) {
+    public function __construct($links) {
         $this->links = $links;
     }
 
@@ -66,4 +66,43 @@ class index_page implements renderable, templatable {
         }
         return $data;
     }
+}
+
+/**
+ * Renderable class for report pages.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class report_page implements renderable, templatable {
+
+    /** @var mx_table $table table object to be outputed to the template.*/
+    private $table;
+    /** @var int $size  the number of rows to output.*/
+    private $size;
+
+    /**
+     * @param mx_table $table table object to be outputed to the template.
+     * @param int $size the number of rows to output
+     */
+    public function __construct($table, $size) {
+        $this->table = $table;
+        $this->size = $size;
+    }
+
+    /**
+     * Export this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass with property table which is an html string for the table.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        ob_start();
+        $this->table->out($this->size, true);
+        $data->table = ob_get_clean();
+        return $data;
+    }
+
 }

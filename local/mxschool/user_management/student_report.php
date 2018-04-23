@@ -25,6 +25,7 @@
 
 require(__DIR__.'/../../../config.php');
 require_once('student_table.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
 
 require_login();
 require_capability('local/mxschool:view_users', context_system::instance());
@@ -41,4 +42,12 @@ $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/
 $PAGE->navbar->add(get_string('user_management', 'local_mxschool'), new moodle_url('/local/mxschool/user_management/index.php'));
 $PAGE->navbar->add($title);
 
-$table = new student_table('student_table');
+$table = new student_table('student_table', 'students', new stdClass());
+
+$output = $PAGE->get_renderer('local_mxschool');
+$renderable = new \local_mxschool\output\report_page($table, 50);
+
+echo $output->header();
+echo $output->heading($title);
+echo $output->render($renderable);
+echo $output->footer();

@@ -29,8 +29,62 @@ require_once(__DIR__.'/../classes/mx_table.php');
 
 class student_table extends local_mxschool_table {
 
-    public function __construct($uniqueid) {
-        parent::__construct($uniqueid);
+    /**
+     * Creates a new student_table.
+     *
+     * @param string $uniqueid a unique identifier for the table.
+     * @param string $type the type of report - either 'students', 'permissions', or 'parents'.
+     * @param stdClass $filter any filtering for the table - could include dorm or search.
+     */
+    public function __construct($uniqueid, $type, $filter) {
+        $columns = $headers = array();
+        $fields; $from; $where = array('u.id > 0', 'u.deleted = 0');
+        switch($type) {
+            case 'students':
+                $columns = array(
+                    'student',
+                    'grade',
+                    'advisor',
+                    'dorm',
+                    'room',
+                    'phone',
+                    'birthday'
+                );
+                foreach ($columns as $column) {
+                    $headers[] = get_string("student_report_header_$column", 'local_mxschool');
+                }
+                $fields = array(
+                    STUDENT_NAME,
+                    's.grade',
+                    "CONCAT(f.lastname, ', ', f.firstname) AS advisor",
+                    'd.name AS dorm',
+                    's.room',
+                    's.phone_number AS phone',
+                    's.birthdate AS birthday'
+                );
+                $from = "{local_mxschool_student} s
+               LEFT JOIN {user} u ON s.userid = u.id
+               LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+               LEFT JOIN {user} f ON s.advisorid = f.id";
+                $where = array_merge($where, array(
+                    $filter->dorm ? "d.name = $filter->dorm" : '',
+                    $filter->search ? "(u.firstname LIKE '%$search%'
+                                        OR u.lastname LIKE '%$search%'
+                                        OR u.alternatename LIKE '%$search%'
+                                       )" : ''
+                                       // TODO: add advisor.
+                ));
+                break;
+            case 'permissions':
+
+                break;
+            case 'parents':
+
+                break;
+        }
+
+        parent::__construct($uniqueid, $columns, $headers);
+        $this->set_sql(implode(', ', $fields), $from, implode(' AND ', array_filter($where)));
     }
 
 }

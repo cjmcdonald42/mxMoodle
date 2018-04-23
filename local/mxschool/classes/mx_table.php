@@ -27,10 +27,23 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/tablelib.php');
 
+define('STUDENT_NAME', "CONCAT(u.lastname, ', ', u.firstname,
+    CASE WHEN u.alternatename = NULL OR u.alternatename = '' THEN '' ELSE CONCAT(' (', u.alternatename, ')') END) AS student");
+
 class local_mxschool_table extends table_sql {
 
-    public function __construct($uniqueid) {
+    /**
+     * Creates a new table_sql with reasonable defaults.
+     *
+     * @param string $uniqueid a unique identifier for the table.
+     * @param array $columns the columns of the table.
+     * @param array $headers the headers of the table.
+     */
+    public function __construct($uniqueid, $columns, $headers) {
         parent::__construct($uniqueid);
+
+        $this->define_columns($columns);
+        $this->define_headers($headers);
         $this->collapsible(false);
     }
 

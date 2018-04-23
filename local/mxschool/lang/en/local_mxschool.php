@@ -35,6 +35,17 @@ $string['user_management_index'] = 'User Management Index';
 $string['mxschool:view_users'] = 'Middlesex School: View user reports';
 $string['mxschool:manage_users'] = 'Middlesex School: Manage user data';
 
+// General.
+$string['report_header_actions'] = 'Actions';
+
 // User management.
 $string['user_management'] = 'User Management';
 $string['student_report'] = 'Student Report';
+
+$string['student_report_header_student'] = 'Name';
+$string['student_report_header_grade'] = 'Grade';
+$string['student_report_header_advisor'] = 'Advisor';
+$string['student_report_header_dorm'] = 'Dorm';
+$string['student_report_header_room'] = 'Room';
+$string['student_report_header_phone'] = 'Phone Number';
+$string['student_report_header_birthday'] = 'Birthday';
