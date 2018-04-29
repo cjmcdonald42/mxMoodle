@@ -36,13 +36,46 @@ class local_mxschool_table extends table_sql {
      * @param string $uniqueid a unique identifier for the table.
      * @param array $columns the columns of the table.
      * @param array $headers the headers of the table.
+     * @param array $urlparams the parameters for the baseurl.
      */
-    public function __construct($uniqueid, $columns, $headers) {
+    public function __construct($uniqueid, $columns, $headers, $urlparams) {
         parent::__construct($uniqueid);
 
         $this->define_columns($columns);
         $this->define_headers($headers);
+        $this->define_baseurl(new moodle_url($PAGE->url, $urlparams));
         $this->collapsible(false);
+    }
+
+    /**
+     * Creates an edit icon for the actions column of a table.
+     *
+     * @param string $url the url of the edit form.
+     * @param int $id the id of the record to edit.
+     * @return string the html for the edit icon.
+     */
+    protected function edit_icon($url, $id) {
+        global $OUTPUT;
+        return $OUTPUT->action_icon(
+            new moodle_url($url, array('id' => $id)),
+            new pix_icon('t/edit', get_string('edit'), 'core', array('class' => 'iconsmall'))
+        );
+    }
+
+    /**
+     * Creates a delete icon for the actions column of a table.
+     *
+     * @param int $id the id of the record to delete.
+     * @return string the html for the delete icon.
+     */
+    protected function delete_icon($id) {
+        global $OUTPUT;
+        $warning = get_string('report_delete_warning', 'local_mxschool');
+        return $OUTPUT->action_icon(
+            new moodle_url($this->baseurl, array('action' => 'delete', 'id' => $id)),
+            new pix_icon('t/delete', get_string('delete'), 'core', array('class' => 'iconsmall')),
+            null, array('onclick' => "return confirm($warning)")
+        );
     }
 
 }

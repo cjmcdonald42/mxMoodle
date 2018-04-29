@@ -61,8 +61,13 @@ class student_table extends local_mxschool_table {
 
                 break;
         }
-
-        parent::__construct($uniqueid, $columns, $headers);
+        $columns[] = 'actions';
+        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        parent::__construct($uniqueid, $columns, $headers, array(
+            'type' => $type,
+            'dorm' => $filter->dorm,
+            'search' => $filter->search
+        ));
 
         $fields; $from; $where;
         switch($type) {
@@ -103,14 +108,8 @@ class student_table extends local_mxschool_table {
 
                 break;
         }
-
+        $this->no_sorting('actions');
         $this->set_sql(implode(', ', $fields), $from, implode(' AND ', array_filter($where)));
-
-        $this->define_baseurl(new moodle_url($PAGE->url, array(
-            'type' => $type,
-            'dorm' => $filter->dorm,
-            'search' => $filter->search
-        )));
     }
 
     /**
@@ -126,6 +125,13 @@ class student_table extends local_mxschool_table {
     protected function col_birthday($values) {
         $date = new DateTime($values->birthday, core_date::get_server_timezone_object());
         return $date->format('m/d');
+    }
+
+    /**
+     * Formats the actions column.
+     */
+    protected function col_actions($values) {
+        return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }
