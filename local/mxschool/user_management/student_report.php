@@ -33,9 +33,9 @@ require_login();
 require_capability('local/mxschool:view_users', context_system::instance());
 
 $filter = new stdClass();
+$type = optional_param('type', 'students', PARAM_RAW);
 $filter->dorm = optional_param('dorm', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
-$type = optional_param('type', 'students', PARAM_RAW);
 
 $url = '/local/mxschool/user_management/student_report.php';
 $title = get_string('student_report', 'local_mxschool');

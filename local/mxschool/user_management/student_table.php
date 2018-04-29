@@ -105,6 +105,12 @@ class student_table extends local_mxschool_table {
         }
 
         $this->set_sql(implode(', ', $fields), $from, implode(' AND ', array_filter($where)));
+
+        $this->define_baseurl(new moodle_url($PAGE->url, array(
+            'type' => $type,
+            'dorm' => $filter->dorm,
+            'search' => $filter->search
+        )));
     }
 
     /**
