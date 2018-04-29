@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic sql table with desired defaults to be used for Middlesex School's Dorm and Student functions plugin.
+ * Local functions for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -25,23 +25,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/tablelib.php');
-
-class local_mxschool_table extends table_sql {
-
-    /**
-     * Creates a new table_sql with reasonable defaults.
-     *
-     * @param string $uniqueid a unique identifier for the table.
-     * @param array $columns the columns of the table.
-     * @param array $headers the headers of the table.
-     */
-    public function __construct($uniqueid, $columns, $headers) {
-        parent::__construct($uniqueid);
-
-        $this->define_columns($columns);
-        $this->define_headers($headers);
-        $this->collapsible(false);
+/**
+ * Querys the database to create a list of all the available dorms.
+ *
+ * @return array the available dorms as id => name
+ */
+function get_dorms_list() {
+    global $DB;
+    $list = array();
+    $dorms = $DB->get_records_sql("SELECT id, name FROM {local_mxschool_dorm} WHERE available = 'Yes' ORDER BY name");
+    if ($dorms) {
+        foreach ($dorms as $dorm) {
+            $list[$dorm->id] = $dorm->name;
+        }
     }
-
+    return $list;
 }

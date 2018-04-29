@@ -38,7 +38,6 @@ class student_table extends local_mxschool_table {
      */
     public function __construct($uniqueid, $type, $filter) {
         $columns = $headers = array();
-        $fields; $from; $where = array('u.id > 0', 'u.deleted = 0');
         switch($type) {
             case 'students':
                 $columns = array(
@@ -53,8 +52,26 @@ class student_table extends local_mxschool_table {
                 foreach ($columns as $column) {
                     $headers[] = get_string("student_report_header_$column", 'local_mxschool');
                 }
+                break;
+            case 'permissions':
+
+                break;
+            case 'parents':
+
+                break;
+        }
+
+        parent::__construct($uniqueid, $columns, $headers);
+
+        $fields; $from; $where;
+        switch($type) {
+            case 'students':
+                $this->no_sorting('phone');
+
                 $fields = array(
-                    STUDENT_NAME,
+                    's.id',
+                    "CONCAT(u.lastname, ', ', u.firstname) AS student",
+                    'u.alternatename',
                     's.grade',
                     "CONCAT(f.lastname, ', ', f.firstname) AS advisor",
                     'd.name AS dorm',
@@ -66,14 +83,17 @@ class student_table extends local_mxschool_table {
                LEFT JOIN {user} u ON s.userid = u.id
                LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
                LEFT JOIN {user} f ON s.advisorid = f.id";
-                $where = array_merge($where, array(
-                    $filter->dorm ? "d.name = $filter->dorm" : '',
-                    $filter->search ? "(u.firstname LIKE '%$search%'
-                                        OR u.lastname LIKE '%$search%'
-                                        OR u.alternatename LIKE '%$search%'
-                                       )" : ''
-                                       // TODO: add advisor.
-                ));
+                $where = array(
+                    'u.deleted = 0',
+                    $filter->dorm ? "d.id = $filter->dorm" : '',
+                    $filter->search ? "(
+                        u.firstname LIKE '%$filter->search%'
+                        OR u.lastname LIKE '%$filter->search%'
+                        OR u.alternatename LIKE '%$filter->search%'
+                        OR f.firstname LIKE '%$filter->search%'
+                        OR f.lastname LIKE '%$filter->search%'
+                    )" : ''
+                );
                 break;
             case 'permissions':
 
@@ -83,8 +103,22 @@ class student_table extends local_mxschool_table {
                 break;
         }
 
-        parent::__construct($uniqueid, $columns, $headers);
         $this->set_sql(implode(', ', $fields), $from, implode(' AND ', array_filter($where)));
+    }
+
+    /**
+     * Formats the student column to "last, first (alternate)" or "last, first".
+     */
+    protected function col_student($values) {
+        return $values->student . ($values->alternatename ? " ($values->alternatename)" : '');
+    }
+
+    /**
+     * Formats the birthday column to "mm/dd".
+     */
+    protected function col_birthday($values) {
+        $date = new DateTime($values->birthday, core_date::get_server_timezone_object());
+        return $date->format('m/d');
     }
 
 }

@@ -31,6 +31,7 @@ use renderable;
 use renderer_base;
 use templatable;
 use stdClass;
+use html_writer;
 
 /**
  * Renderable class for index pages.
@@ -42,11 +43,11 @@ use stdClass;
  */
 class index_page implements renderable, templatable {
 
-    /** @var array $links Array of links (displayText => url) to be passed to the template.*/
+    /** @var array $links array of links (displayText => url) to be passed to the template.*/
     private $links;
 
     /**
-     * @param array $links Array of links (displayText => url) to be passed to the template.
+     * @param array $links array of links (displayText => url) to be passed to the template.
      */
     public function __construct($links) {
         $this->links = $links;
@@ -80,16 +81,24 @@ class report_page implements renderable, templatable {
 
     /** @var mx_table $table table object to be outputed to the template.*/
     private $table;
-    /** @var int $size  the number of rows to output.*/
+    /** @var int $size the number of rows to output.*/
     private $size;
+    /** @param array $dropdowns array of drowdowns objects with properties name, options, selected, default.*/
+    private $dropdowns;
+    /** @var string $search default search text.*/
+    private $search;
 
     /**
      * @param mx_table $table table object to be outputed to the template.
-     * @param int $size the number of rows to output
+     * @param int $size the number of rows to output.
+     * @param array $dropdowns array of drowdowns objects with properties name, options, selected, default.
+     * @param string $search default search text.
      */
-    public function __construct($table, $size) {
+    public function __construct($table, $size, $dropdowns, $search) {
         $this->table = $table;
         $this->size = $size;
+        $this->dropdowns = $dropdowns;
+        $this->search = $search;
     }
 
     /**
@@ -98,7 +107,16 @@ class report_page implements renderable, templatable {
      * @return stdClass with property table which is an html string for the table.
      */
     public function export_for_template(renderer_base $output) {
+        global $PAGE;
         $data = new stdClass();
+        $data->url = $PAGE->url;
+        $data->dropdowns = array();
+        foreach ($this->dropdowns as $dropdown) {
+            $data->dropdowns[] = html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->default);
+        }
+        $data->placeholder = get_string('search').'...';
+        $data->search = $this->search;
+        $data->submit = get_string('search');
         ob_start();
         $this->table->out($this->size, true);
         $data->table = ob_get_clean();
