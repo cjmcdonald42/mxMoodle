@@ -36,13 +36,27 @@ class local_mxschool_table extends table_sql {
      * @param string $uniqueid a unique identifier for the table.
      * @param array $columns the columns of the table.
      * @param array $headers the headers of the table.
+     * @param array $sortable the columns which can be sorted.
+     * @param array $fields the database fields to select.
+     * @param array $from the database tables to query.
+     * @param array $where the constaints on the query.
      * @param array $urlparams the parameters for the baseurl.
      */
-    public function __construct($uniqueid, $columns, $headers, $urlparams) {
+    public function __construct($uniqueid, $columns, $headers, $sortable, $fields, $from, $where, $urlparams) {
+        global $PAGE;
+
         parent::__construct($uniqueid);
 
         $this->define_columns($columns);
         $this->define_headers($headers);
+        foreach ($columns as $column) {
+            if (!in_array($column, $sortable)) {
+                $this->no_sorting($column);
+            }
+        }
+
+        $this->set_sql(implode(', ', $fields), implode(' LEFT JOIN ', $from), implode(' AND ', $where));
+
         $this->define_baseurl(new moodle_url($PAGE->url, $urlparams));
         $this->collapsible(false);
     }

@@ -49,10 +49,30 @@ $string['student_report_type_students'] = 'General Report';
 $string['student_report_type_permissions'] = 'Permissions Report';
 $string['student_report_type_parents'] = 'Parents Report';
 
-$string['student_report_header_student'] = 'Name';
-$string['student_report_header_grade'] = 'Grade';
-$string['student_report_header_advisor'] = 'Advisor';
-$string['student_report_header_dorm'] = 'Dorm';
-$string['student_report_header_room'] = 'Room';
-$string['student_report_header_phone'] = 'Phone Number';
-$string['student_report_header_birthday'] = 'Birthday';
+$string['student_report_students_header_student'] = 'Name';
+$string['student_report_students_header_grade'] = 'Grade';
+$string['student_report_students_header_advisor'] = 'Advisor';
+$string['student_report_students_header_dorm'] = 'Dorm';
+$string['student_report_students_header_room'] = 'Room';
+$string['student_report_students_header_phone'] = 'Phone Number';
+$string['student_report_students_header_birthday'] = 'Birthday';
+
+$string['student_report_permissions_header_student'] = 'Name';
+$string['student_report_permissions_header_overnight'] = 'Overnight';
+$string['student_report_permissions_header_riding'] = 'May Ride With';
+$string['student_report_permissions_header_comment'] = 'Riding Comment';
+$string['student_report_permissions_header_rideshare'] = 'May Use Rideshare?';
+$string['student_report_permissions_header_boston'] = 'May Drive to Boston?';
+$string['student_report_permissions_header_town'] = 'May Drive to Town?';
+$string['student_report_permissions_header_passengers'] = 'May Drive Passengers?';
+$string['student_report_permissions_header_swimcompetent'] = 'Competent Swimmer?';
+$string['student_report_permissions_header_swimallowed'] = 'Allowed to Swim?';
+$string['student_report_permissions_header_boatallowed'] = 'Allowed in Boats?';
+
+$string['student_report_parents_header_student'] = 'Student Name';
+$string['student_report_parents_header_parent'] = 'Parent Name';
+$string['student_report_parents_header_primaryparent'] = 'Primary';
+$string['student_report_parents_header_homephone'] = 'Home Phone';
+$string['student_report_parents_header_cellphone'] = 'Cell Phone';
+$string['student_report_parents_header_workphone'] = 'Work Phone';
+$string['student_report_parents_header_email'] = 'Email';

@@ -41,6 +41,11 @@ $id = optional_param('id', 0, PARAM_INT);
 
 $url = '/local/mxschool/user_management/student_report.php';
 $title = get_string('student_report', 'local_mxschool');
+$types = array(
+    'students' => get_string('student_report_type_students', 'local_mxschool'),
+    'permissions' => get_string('student_report_type_permissions', 'local_mxschool'),
+    'parents' => get_string('student_report_type_parents', 'local_mxschool')
+);
 
 if ($action == 'delete' and $id) {
     $userid = $DB->get_field('local_mxschool_student', 'userid', array('id' => $id));
@@ -49,6 +54,9 @@ if ($action == 'delete' and $id) {
         delete_user($user);
     }
     redirect(new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)));
+}
+if (!isset($types[$type])) {
+    redirect(new moodle_url($url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
 }
 
 $PAGE->set_url(new moodle_url($url));
@@ -64,11 +72,7 @@ $table = new student_table('student_table', $type, $filter);
 
 $typeselect = new stdClass();
 $typeselect->name = 'type';
-$typeselect->options = array(
-    'students' => get_string('student_report_type_students', 'local_mxschool'),
-    'permissions' => get_string('student_report_type_permissions', 'local_mxschool'),
-    'parents' => get_string('student_report_type_parents', 'local_mxschool')
-);
+$typeselect->options = $types;
 $typeselect->selected = $type;
 $typeselect->default = false;
 

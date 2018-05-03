@@ -38,78 +38,111 @@ class student_table extends local_mxschool_table {
      * @param stdClass $filter any filtering for the table - could include dorm or search.
      */
     public function __construct($uniqueid, $type, $filter) {
-        $columns = $headers = array();
+        $columns = array('student');
+        $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.alternatename');
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
+        $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
+
         switch($type) {
             case 'students':
-                $columns = array(
-                    'student',
+                $columns = array_merge($columns, array(
                     'grade',
                     'advisor',
                     'dorm',
                     'room',
                     'phone',
                     'birthday'
-                );
-                foreach ($columns as $column) {
-                    $headers[] = get_string("student_report_header_$column", 'local_mxschool');
-                }
-                break;
-            case 'permissions':
-
-                break;
-            case 'parents':
-
-                break;
-        }
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
-        parent::__construct($uniqueid, $columns, $headers, array(
-            'type' => $type,
-            'dorm' => $filter->dorm,
-            'search' => $filter->search
-        ));
-
-        $fields; $from; $where;
-        switch($type) {
-            case 'students':
-                $this->no_sorting('phone');
-
-                $fields = array(
-                    's.id',
-                    "CONCAT(u.lastname, ', ', u.firstname) AS student",
-                    'u.alternatename',
+                ));
+                $fields = array_merge(array('s.id'), $fields, array(
                     's.grade',
-                    "CONCAT(f.lastname, ', ', f.firstname) AS advisor",
+                    "CONCAT(a.lastname, ', ', a.firstname) AS advisor",
                     'd.name AS dorm',
                     's.room',
                     's.phone_number AS phone',
                     's.birthdate AS birthday'
-                );
-                $from = "{local_mxschool_student} s
-               LEFT JOIN {user} u ON s.userid = u.id
-               LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-               LEFT JOIN {user} f ON s.advisorid = f.id";
-                $where = array(
-                    'u.deleted = 0',
-                    $filter->dorm ? "d.id = $filter->dorm" : '',
-                    $filter->search ? "(
-                        u.firstname LIKE '%$filter->search%'
-                        OR u.lastname LIKE '%$filter->search%'
-                        OR u.alternatename LIKE '%$filter->search%'
-                        OR f.firstname LIKE '%$filter->search%'
-                        OR f.lastname LIKE '%$filter->search%'
-                    )" : ''
-                );
+                ));
+                $from[] = '{user} a ON s.advisorid = a.id';
+                $searchable = array_merge($searchable, array('a.firstname', 'a.lastname'));
                 break;
+
             case 'permissions':
-
+                $columns = array_merge($columns, array(
+                    'overnight',
+                    'riding',
+                    'comment',
+                    'rideshare',
+                    'boston',
+                    'town',
+                    'passengers',
+                    'swimcompetent',
+                    'swimallowed',
+                    'boatallowed'
+                ));
+                $fields = array_merge(array('p.id'), $fields, array(
+                    'p.overnight',
+                    'p.may_ride_with AS riding',
+                    'p.ride_permission_details AS comment',
+                    'p.ride_share AS rideshare',
+                    'p.may_drive_to_boston AS boston',
+                    'p.may_drive_to_town AS town',
+                    'p.may_drive_passengers AS passengers',
+                    'p.swim_competent AS swimcompetent',
+                    'p.swim_allowed AS swimallowed',
+                    'p.boat_allowed AS boatallowed'
+                ));
+                $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';
                 break;
-            case 'parents':
 
+            case 'parents':
+                $columns = array_merge($columns, array(
+                    'parent',
+                    'primaryparent',
+                    'homephone',
+                    'cellphone',
+                    'workphone',
+                    'email'
+                ));
+                $fields = array_merge(array('p.id'), $fields, array(
+                    'p.parent_name AS parent',
+                    'p.is_primary_parent AS primaryparent',
+                    'p.home_phone AS homephone',
+                    'p.cell_phone AS cellphone',
+                    'p.work_phone AS workphone',
+                    'p.email'
+                ));
+                $from[] = '{local_mxschool_parent} p ON u.id = p.userid';
+                $searchable[] = 'p.parent_name';
                 break;
         }
-        $this->no_sorting('actions');
-        $this->set_sql(implode(', ', $fields), $from, implode(' AND ', array_filter($where)));
+        $headers = array();
+        foreach ($columns as $column) {
+            $headers[] = get_string("student_report_{$type}_header_{$column}", 'local_mxschool');
+        }
+        $columns[] = 'actions';
+        $headers[] = get_string('report_header_actions', 'local_mxschool');
+
+        $where[] = $filter->search ? '(' . implode(' OR ', array_map(
+            function($field) use($filter) {
+                return "$field LIKE '%$filter->search%'";
+            }, $searchable)) . ')' : '';
+
+            $sortable = array(
+                'student',
+                'grade',
+                'advisor',
+                'dorm',
+                'room',
+                'birthday',
+                'parent'
+            );
+            $urlparams = array(
+                'type' => $type,
+                'dorm' => $filter->dorm,
+                'search' => $filter->search
+            );
+
+        parent::__construct($uniqueid, $columns, $headers, $sortable, $fields, $from, array_filter($where), $urlparams);
     }
 
     /**
