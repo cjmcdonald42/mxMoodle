@@ -39,15 +39,15 @@ $string['mxschool:manage_users'] = 'Middlesex School: Manage user data';
 // General.
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
-$string['report_select_dorm'] = 'Select Dorm';
+$string['report_select_dorm'] = 'All Dorms';
 
 // User management.
 $string['user_management'] = 'User Management';
 $string['student_report'] = 'Student Report';
 
-$string['student_report_type_students'] = 'General Report';
+$string['student_report_type_students'] = 'Student Report';
 $string['student_report_type_permissions'] = 'Permissions Report';
-$string['student_report_type_parents'] = 'Parents Report';
+$string['student_report_type_parents'] = 'Parent Report';
 
 $string['student_report_students_header_student'] = 'Name';
 $string['student_report_students_header_grade'] = 'Grade';
