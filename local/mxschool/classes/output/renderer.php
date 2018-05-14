@@ -35,9 +35,9 @@ class renderer extends plugin_renderer_base {
     /**
      * Renders an index page according to the template.
      *
-     * @param index_page $page
+     * @param index_page $page.
      *
-     * @return string html for the page
+     * @return string html for the page.
      */
     public function render_index_page($page) {
         $data = $page->export_for_template($this);
@@ -47,9 +47,9 @@ class renderer extends plugin_renderer_base {
     /**
      * Renders a report page according to the template.
      *
-     * @param report_page $page
+     * @param report_page $page.
      *
-     * @return string html for the page
+     * @return string html for the page.
      */
     public function render_report_page($page) {
         $data = $page->export_for_template($this);

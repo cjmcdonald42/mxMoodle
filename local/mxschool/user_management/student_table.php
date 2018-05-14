@@ -39,7 +39,7 @@ class student_table extends local_mxschool_table {
      */
     public function __construct($uniqueid, $type, $filter) {
         $columns = array('student');
-        $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.alternatename');
+        $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
@@ -149,7 +149,8 @@ class student_table extends local_mxschool_table {
      * Formats the student column to "last, first (alternate)" or "last, first".
      */
     protected function col_student($values) {
-        return $values->student . ($values->alternatename ? " ($values->alternatename)" : '');
+        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
+        return $values->student . $alternatename;
     }
 
     /**
@@ -164,7 +165,7 @@ class student_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id) . $this->delete_icon($values->id);
+        return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id);
     }
 
 }

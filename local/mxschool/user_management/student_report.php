@@ -36,8 +36,6 @@ $filter = new stdClass();
 $type = optional_param('type', 'students', PARAM_RAW);
 $filter->dorm = optional_param('dorm', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
-$action = optional_param('action', '', PARAM_RAW);
-$id = optional_param('id', 0, PARAM_INT);
 
 $url = '/local/mxschool/user_management/student_report.php';
 $title = get_string('student_report', 'local_mxschool');
@@ -47,14 +45,6 @@ $types = array(
     'parents' => get_string('student_report_type_parents', 'local_mxschool')
 );
 
-if ($action == 'delete' and $id) {
-    $userid = $DB->get_field('local_mxschool_student', 'userid', array('id' => $id));
-    $user = $DB->get_record('user', array('id' => $userid));
-    if ($user) {
-        delete_user($user);
-    }
-    redirect(new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)));
-}
 if (!isset($types[$type])) {
     redirect(new moodle_url($url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
 }
