@@ -33,8 +33,9 @@ $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
 
 // Capabilities.
-$string['mxschool:view_users'] = 'Middlesex School: View user reports';
-$string['mxschool:manage_users'] = 'Middlesex School: Manage user data';
+$string['mxschool:manage_students'] = 'Middlesex School: View and manage student data';
+$string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty data';
+$string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
 
 // General.
 $string['report_header_actions'] = 'Actions';

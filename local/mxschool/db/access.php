@@ -28,13 +28,18 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'local/mxschool:view_users' => array(
-        'riskbitmask' => RISK_PERSONAL,
-        'captype' => 'read',
+    'local/mxschool:manage_students' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
-    'local/mxschool:manage_users' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+    'local/mxschool:manage_faculty' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:manage_dorms' => array(
+        'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     )
