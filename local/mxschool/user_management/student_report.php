@@ -27,6 +27,7 @@
 require(__DIR__.'/../../../config.php');
 require_once('student_table.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
@@ -48,6 +49,9 @@ $types = array(
 if (!isset($types[$type])) {
     redirect(new moodle_url($url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
 }
+
+$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
+$event->trigger();
 
 $PAGE->set_url(new moodle_url($url));
 $PAGE->set_context(context_system::instance());

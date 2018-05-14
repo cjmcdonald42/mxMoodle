@@ -37,6 +37,9 @@ $string['mxschool:manage_students'] = 'Middlesex School: View and manage student
 $string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty data';
 $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
 
+// Events.
+$string['event_page_visited'] = 'page visited event';
+
 // General.
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
