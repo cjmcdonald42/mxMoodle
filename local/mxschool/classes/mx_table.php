@@ -33,16 +33,18 @@ class local_mxschool_table extends table_sql {
     /**
      * Creates a new table_sql with reasonable defaults.
      *
-     * @param string $uniqueid a unique identifier for the table.
-     * @param array $columns the columns of the table.
-     * @param array $headers the headers of the table.
-     * @param array $sortable the columns which can be sorted.
-     * @param array $fields the database fields to select.
-     * @param array $from the database tables to query.
-     * @param array $where the constaints on the query.
-     * @param array $urlparams the parameters for the baseurl.
+     * @param string $uniqueid A unique identifier for the table.
+     * @param array $columns The columns of the table.
+     * @param array $headers The headers of the table.
+     * @param array $sortable The columns which can be sorted.
+     * @param array $fields The database fields to select.
+     * @param array $from The database tables to query.
+     * @param array $where The constaints on the query.
+     * @param array $searchable The database fields to search.
+     * @param string $search The string to search for as a constraint.
+     * @param array $urlparams The parameters for the baseurl.
      */
-    public function __construct($uniqueid, $columns, $headers, $sortable, $fields, $from, $where, $urlparams) {
+    public function __construct($uniqueid, $columns, $headers, $sortable, $fields, $from, $where, $searchable, $search, $urlparams) {
         global $PAGE;
 
         parent::__construct($uniqueid);
@@ -55,7 +57,11 @@ class local_mxschool_table extends table_sql {
             }
         }
 
-        $this->set_sql(implode(', ', $fields), implode(' LEFT JOIN ', $from), implode(' AND ', $where));
+        $where[] = $search ? '(' . implode(' OR ', array_map(function($field) use($search) {
+            return "$field LIKE '%$search%'";
+        }, $searchable)) . ')' : '';
+
+        $this->set_sql(implode(', ', $fields), implode(' LEFT JOIN ', $from), implode(' AND ', array_filter($where)));
 
         $this->define_baseurl(new moodle_url($PAGE->url, $urlparams));
         $this->collapsible(false);

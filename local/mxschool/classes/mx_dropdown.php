@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Generic class to encapsulate dropdown fields for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,10 +26,28 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018051506;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+class local_mxschool_dropdown {
+
+    /** @var string $name The name of the dropdown.*/
+    public $name;
+    /** @param array $options The options for the dropdown.*/
+    public $options;
+    /** @param string $selected The initially selected option.*/
+    public $selected;
+    /** @param array|bool $default A 'nothing' option or false if there is no such option.*/
+    public $nothing;
+
+    /**
+     * @param string $name The name of the dropdown.
+     * @param array $options The options for the dropdown.
+     * @param string $selected The initially selected option.
+     * @param string|bool $default A 'nothing' option or false if there is no such option.
+     */
+    public function __construct($name, $options, $selected, $default = false) {
+        $this->name = $name;
+        $this->options = $options;
+        $this->selected = $selected;
+        $this->nothing = is_string($default) ? array('' => $default) : false;
+    }
+
+}

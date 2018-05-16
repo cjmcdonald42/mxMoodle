@@ -86,7 +86,7 @@ class report_page implements renderable, templatable {
     private $table;
     /** @var int $size the number of rows to output.*/
     private $size;
-    /** @param array $dropdowns array of drowdowns objects with properties name, options, selected, default.*/
+    /** @param array $dropdowns array of local_mxschool_dropdown objects.*/
     private $dropdowns;
     /** @var string $search default search text.*/
     private $search;
@@ -94,7 +94,7 @@ class report_page implements renderable, templatable {
     /**
      * @param mx_table $table table object to be outputed to the template.
      * @param int $size the number of rows to output.
-     * @param array $dropdowns array of drowdowns objects with properties name, options, selected, default.
+     * @param array $dropdowns array of local_mxschool_dropdown objects.
      * @param string $search default search text.
      */
     public function __construct($table, $size, $dropdowns, $search) {
@@ -115,7 +115,7 @@ class report_page implements renderable, templatable {
         $data->url = $PAGE->url;
         $data->dropdowns = array();
         foreach ($this->dropdowns as $dropdown) {
-            $data->dropdowns[] = html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->default);
+            $data->dropdowns[] = html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
         }
         $data->placeholder = get_string('search').'...';
         $data->search = $this->search;

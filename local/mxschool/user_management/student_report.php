@@ -26,6 +26,7 @@
 
 require(__DIR__.'/../../../config.php');
 require_once('student_table.php');
+require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
@@ -45,6 +46,7 @@ $types = array(
     'permissions' => get_string('student_report_type_permissions', 'local_mxschool'),
     'parents' => get_string('student_report_type_parents', 'local_mxschool')
 );
+$dorms = get_dorms_list();
 
 if (!isset($types[$type])) {
     redirect(new moodle_url($url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
@@ -62,19 +64,9 @@ $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/
 $PAGE->navbar->add(get_string('user_management', 'local_mxschool'), new moodle_url('/local/mxschool/user_management/index.php'));
 $PAGE->navbar->add($title);
 
+$typeselect = new local_mxschool_dropdown('type', $types, $type);
+$dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
 $table = new student_table('student_table', $type, $filter);
-
-$typeselect = new stdClass();
-$typeselect->name = 'type';
-$typeselect->options = $types;
-$typeselect->selected = $type;
-$typeselect->default = false;
-
-$dormselect = new stdClass();
-$dormselect->name = 'dorm';
-$dormselect->options = get_dorms_list();
-$dormselect->selected = $filter->dorm;
-$dormselect->default = array('' => get_string('report_select_dorm', 'local_mxschool'));
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page($table, 50, array($typeselect, $dormselect), $filter->search);

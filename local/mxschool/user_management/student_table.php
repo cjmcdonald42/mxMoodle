@@ -43,7 +43,6 @@ class student_table extends local_mxschool_table {
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-
         switch($type) {
             case 'students':
                 $columns = array_merge($columns, array(
@@ -122,27 +121,9 @@ class student_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
 
-        $where[] = $filter->search ? '(' . implode(' OR ', array_map(
-            function($field) use($filter) {
-                return "$field LIKE '%$filter->search%'";
-            }, $searchable)) . ')' : '';
-
-            $sortable = array(
-                'student',
-                'grade',
-                'advisor',
-                'dorm',
-                'room',
-                'birthday',
-                'parent'
-            );
-            $urlparams = array(
-                'type' => $type,
-                'dorm' => $filter->dorm,
-                'search' => $filter->search
-            );
-
-        parent::__construct($uniqueid, $columns, $headers, $sortable, $fields, $from, array_filter($where), $urlparams);
+        $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'parent');
+        $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
+        parent::__construct($uniqueid, $columns, $headers, $sortable, $fields, $from, $where, $searchable, $filter->search, $urlparams);
     }
 
     /**
