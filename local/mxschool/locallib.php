@@ -42,3 +42,25 @@ function get_dorms_list() {
     }
     return $list;
 }
+
+/**
+ * Querys the database to create a list of all the available advisors.
+ *
+ * @return array the available advisors as id => name
+ */
+function get_advisor_list() {
+    global $DB;
+    $list = array();
+    $advisors = $DB->get_records_sql(
+        "SELECT f.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
+         WHERE f.advisory_available = 'Yes' and f.advisory_closing = 'No'
+         ORDER BY name"
+    );
+    if ($advisors) {
+        foreach ($advisors as $advisor) {
+            $list[$advisor->id] = $advisor->name;
+        }
+    }
+    return $list;
+}

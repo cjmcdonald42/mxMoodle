@@ -56,7 +56,7 @@ class index_page implements renderable, templatable {
     }
 
     /**
-     * Export this data so it can be used as the context for a mustache template.
+     * Exports this data so it can be used as the context for a mustache template.
      *
      * @return stdClass with property links which is an array of stdClass with properties text and url.
      */
@@ -65,7 +65,7 @@ class index_page implements renderable, templatable {
         $data = new stdClass();
         $data->links = array();
         foreach ($this->links as $text => $url) {
-            $data->links[] = array(text => $text, url => $CFG->wwwroot.$url);
+            $data->links[] = array('text' => $text, 'url' => $CFG->wwwroot.$url);
         }
         return $data;
     }
@@ -105,9 +105,9 @@ class report_page implements renderable, templatable {
     }
 
     /**
-     * Export this data so it can be used as the context for a mustache template.
+     * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with property table which is an html string for the table.
+     * @return stdClass with properties url, dropdowns, placeholder, search, submit, and table.
      */
     public function export_for_template(renderer_base $output) {
         global $PAGE;
@@ -126,4 +126,39 @@ class report_page implements renderable, templatable {
         return $data;
     }
 
+}
+
+/**
+ * Renderable class for form pages.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class form_page implements renderable, templatable {
+
+    /** @var moodleform $form The form object to render.*/
+    private $form;
+
+    /**
+     * @param moodleform $form The form object to render.
+     */
+    public function __construct($form) {
+        $this->form = $form;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass with property form which is an html string.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        ob_start();
+        $this->form->display();
+        $data->form = ob_get_clean();
+        return $data;
+    }
 }

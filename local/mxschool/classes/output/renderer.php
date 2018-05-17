@@ -56,4 +56,16 @@ class renderer extends plugin_renderer_base {
         return parent::render_from_template('local_mxschool/report_page', $data);
     }
 
+    /**
+     * Renders a form page according to the template.
+     *
+     * @param form_page $page.
+     *
+     * @return string html for the page.
+     */
+    public function render_form_page($page) {
+        $data = $page->export_for_template($this);
+        return parent::render_from_template('local_mxschool/form_page', $data);
+    }
+
 }

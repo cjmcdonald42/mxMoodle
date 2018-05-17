@@ -48,6 +48,7 @@ $string['report_select_dorm'] = 'All Dorms';
 // User management.
 $string['user_management'] = 'User Management';
 $string['student_report'] = 'Student Report';
+$string['student_edit'] = 'Edit Student Record';
 
 $string['student_report_type_students'] = 'Student Report';
 $string['student_report_type_permissions'] = 'Permissions Report';
@@ -80,3 +81,31 @@ $string['student_report_parents_header_homephone'] = 'Home Phone';
 $string['student_report_parents_header_cellphone'] = 'Cell Phone';
 $string['student_report_parents_header_workphone'] = 'Work Phone';
 $string['student_report_parents_header_email'] = 'Email';
+
+$string['student_edit_header_student'] = 'Student Information';
+$string['student_edit_header_permissions'] = 'Student Permissions';
+
+$string['student_edit_student_firstname'] = 'First Name';
+$string['student_edit_student_middlename'] = 'Middle Name';
+$string['student_edit_student_lastname'] = 'Last Name';
+$string['student_edit_student_alternatename'] = 'Alternate Name';
+$string['student_edit_student_email'] = 'Email';
+$string['student_edit_student_admissionyear'] = 'Year of Admission';
+$string['student_edit_student_grade'] = 'Grade';
+$string['student_edit_student_gender'] = 'Gender';
+$string['student_edit_student_advisor'] = 'Advisor';
+$string['student_edit_student_dorm'] = 'Dorm';
+$string['student_edit_student_room'] = 'Room';
+$string['student_edit_student_phonenumber'] = 'Phone Number';
+$string['student_edit_student_birthdate'] = 'Birthdate';
+
+$string['student_edit_permissions_overnight'] = 'Overnight';
+$string['student_edit_permissions_riding'] = 'May Ride With';
+$string['student_edit_permissions_comment'] = 'Riding Comment';
+$string['student_edit_permissions_rideshare'] = 'May Use Rideshare?';
+$string['student_edit_permissions_boston'] = 'May Drive to Boston?';
+$string['student_edit_permissions_town'] = 'May Drive to Town?';
+$string['student_edit_permissions_passengers'] = 'May Drive Passengers?';
+$string['student_edit_permissions_swimcompetent'] = 'Competent Swimmer?';
+$string['student_edit_permissions_swimallowed'] = 'Allowed to Swim?';
+$string['student_edit_permissions_boatallowed'] = 'Allowed in Boats?';
