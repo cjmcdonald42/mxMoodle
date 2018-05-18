@@ -37,6 +37,7 @@ class local_mxschool_table extends table_sql {
      * @param array $columns The columns of the table.
      * @param array $headers The headers of the table.
      * @param array $sortable The columns which can be sorted.
+     * @param string $deafultsort The column to sort by before another column is specified.
      * @param array $fields The database fields to select.
      * @param array $from The database tables to query.
      * @param array $where The constaints on the query.
@@ -44,13 +45,14 @@ class local_mxschool_table extends table_sql {
      * @param string $search The string to search for as a constraint.
      * @param array $urlparams The parameters for the baseurl.
      */
-    public function __construct($uniqueid, $columns, $headers, $sortable, $fields, $from, $where, $searchable, $search, $urlparams) {
+    public function __construct($uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $searchable, $search, $urlparams) {
         global $PAGE;
 
         parent::__construct($uniqueid);
 
         $this->define_columns($columns);
         $this->define_headers($headers);
+        $this->sortable(true, $defaultsort);
         foreach ($columns as $column) {
             if (!in_array($column, $sortable)) {
                 $this->no_sorting($column);

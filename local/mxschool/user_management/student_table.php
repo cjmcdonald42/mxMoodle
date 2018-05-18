@@ -123,7 +123,7 @@ class student_table extends local_mxschool_table {
 
         $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'parent');
         $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
-        parent::__construct($uniqueid, $columns, $headers, $sortable, $fields, $from, $where, $searchable, $filter->search, $urlparams);
+        parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $searchable, $filter->search, $urlparams);
     }
 
     /**
