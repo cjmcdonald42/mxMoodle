@@ -26,81 +26,49 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/formslib.php');
+require_once(__DIR__.'/../classes/mx_form.php');
 
-class student_edit_form extends moodleform {
-
-    private const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT);
-    private const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
+class student_edit_form extends local_mxschool_form {
 
     /**
      * Form definition.
      */
     protected function definition() {
-        $mform = $this->_form;
         $id = $this->_customdata['id'];
         $dorms = $this->_customdata['dorms'];
         $advisors = $this->_customdata['advisors'];
         $grades = array(9 => 9, 10 => 10, 11 => 11, 12 => 12);
 
-        $hidden = array('id', 'userid', 'dormid', 'advisorid', 'permissionsid');
+        $hidden = array('id', 'userid', 'permissionsid');
         $fields = array(
             'student' => array(
-                'firstname' => self::ELEMENT_TEXT,
-                'middlename' => self::ELEMENT_TEXT,
-                'lastname' => self::ELEMENT_TEXT,
-                'alternatename' => self::ELEMENT_TEXT,
-                'email' => self::ELEMENT_TEXT,
+                'firstname' => parent::ELEMENT_TEXT,
+                'middlename' => parent::ELEMENT_TEXT,
+                'lastname' => parent::ELEMENT_TEXT,
+                'alternatename' => parent::ELEMENT_TEXT,
+                'email' => parent::ELEMENT_TEXT,
                 'admissionyear' => array('element' => 'text', 'type' => PARAM_INT),
                 'grade' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $grades),
-                'gender' => self::ELEMENT_TEXT,
+                'gender' => parent::ELEMENT_TEXT,
                 'advisor' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $advisors),
                 'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms),
-                'room' => self::ELEMENT_TEXT,
-                'phonenumber' => self::ELEMENT_TEXT,
-                'birthdate' => self::ELEMENT_TEXT
+                'room' => parent::ELEMENT_TEXT,
+                'phonenumber' => parent::ELEMENT_TEXT,
+                'birthdate' => parent::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
                 'riding' => array('element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')),
-                'comment' => self::ELEMENT_TEXT,
+                'comment' => parent::ELEMENT_TEXT,
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
-                'town' => self::ELEMENT_YES_NO,
-                'passengers' => self::ELEMENT_YES_NO,
-                'swimcompetent' => self::ELEMENT_YES_NO,
-                'swimallowed' => self::ELEMENT_YES_NO,
-                'boatallowed' => self::ELEMENT_YES_NO
+                'town' => parent::ELEMENT_YES_NO,
+                'passengers' => parent::ELEMENT_YES_NO,
+                'swimcompetent' => parent::ELEMENT_YES_NO,
+                'swimallowed' => parent::ELEMENT_YES_NO,
+                'boatallowed' => parent::ELEMENT_YES_NO
             )
         );
 
-        $this->add_action_buttons();
-        foreach ($hidden as $name) {
-            $mform->addElement('hidden', $name, null);
-            $mform->setType($name, PARAM_INT);
-        }
-        foreach ($fields as $category => $categoryfields) {
-            $mform->addElement('header', $category, get_string("student_edit_header_{$category}", 'local_mxschool'));
-            foreach ($categoryfields as $name => $element) {
-                $displayname = get_string("student_edit_{$category}_{$name}", 'local_mxschool');
-                switch($element['element']) {
-                    case 'select':
-                        $mform->addElement($element['element'], $name, $displayname, $element['options']);
-                        break;
-                    case 'radio':
-                        $buttons = array();
-                        foreach ($element['options'] as $option) {
-                            $buttons[] = $mform->createElement('radio', $name, '', $option, $option);
-                        }
-                        $mform->addGroup($buttons, "{$name}group", $displayname, array(' '), false);
-                        break;
-                    default:
-                        $mform->addElement($element['element'], $name, $displayname);
-                }
-                if (isset($element['type'])) {
-                    $mform->setType($name, $element['type']);
-                }
-            }
-        }
-        $this->add_action_buttons();
+        parent::set_fields($hidden, $fields, 'student_edit');
     }
 }

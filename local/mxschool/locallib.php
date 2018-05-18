@@ -52,7 +52,7 @@ function get_advisor_list() {
     global $DB;
     $list = array();
     $advisors = $DB->get_records_sql(
-        "SELECT f.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
          WHERE f.advisory_available = 'Yes' and f.advisory_closing = 'No'
          ORDER BY name"

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/tablelib.php');
 
-class local_mxschool_table extends table_sql {
+abstract class local_mxschool_table extends table_sql {
 
     /**
      * Creates a new table_sql with reasonable defaults.
