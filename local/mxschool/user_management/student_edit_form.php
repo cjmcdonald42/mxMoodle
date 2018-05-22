@@ -55,7 +55,7 @@ class student_edit_form extends local_mxschool_form {
                 'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms),
                 'room' => parent::ELEMENT_TEXT,
                 'phonenumber' => parent::ELEMENT_TEXT,
-                'birthdate' => parent::ELEMENT_TEXT
+                'birthday' => parent::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
                 'riding' => array('element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')),

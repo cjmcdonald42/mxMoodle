@@ -100,7 +100,7 @@ $string['student_edit_student_isboardernextyear'] = 'Boarder/Day Student Next Ye
 $string['student_edit_student_dorm'] = 'Dorm';
 $string['student_edit_student_room'] = 'Room';
 $string['student_edit_student_phonenumber'] = 'Phone Number';
-$string['student_edit_student_birthdate'] = 'Birthdate';
+$string['student_edit_student_birthday'] = 'Birthday';
 
 $string['student_edit_permissions_overnight'] = 'Overnight';
 $string['student_edit_permissions_riding'] = 'May Ride With';

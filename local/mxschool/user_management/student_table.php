@@ -59,7 +59,7 @@ class student_table extends local_mxschool_table {
                     'd.name AS dorm',
                     's.room',
                     's.phone_number AS phone',
-                    's.birthdate AS birthday'
+                    's.birthday'
                 ));
                 $from[] = '{user} a ON s.advisorid = a.id';
                 $searchable = array_merge($searchable, array('a.firstname', 'a.lastname'));
@@ -134,14 +134,6 @@ class student_table extends local_mxschool_table {
     protected function col_student($values) {
         $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
         return $values->student . $alternatename;
-    }
-
-    /**
-     * Formats the birthday column to "mm/dd".
-     */
-    protected function col_birthday($values) {
-        $date = new DateTime($values->birthday, core_date::get_server_timezone_object());
-        return $date->format('m/d');
     }
 
     /**

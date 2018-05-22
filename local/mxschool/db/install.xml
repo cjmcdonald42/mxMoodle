@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180414" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180521" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -85,7 +85,7 @@
         <FIELD NAME="boarding_status_next_year" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year {boarding, day}"/>
         <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm"/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's cell phone number"/>
-        <FIELD NAME="birthdate" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate {mm/dd/yy}"/>
+        <FIELD NAME="birthday" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate {mm/dd}"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
