@@ -97,6 +97,7 @@ class student_table extends local_mxschool_table {
                 $columns = array_merge($columns, array(
                     'parent',
                     'primaryparent',
+                    'relationship',
                     'homephone',
                     'cellphone',
                     'workphone',
@@ -105,6 +106,7 @@ class student_table extends local_mxschool_table {
                 $fields = array_merge(array('p.id'), $fields, array(
                     'p.parent_name AS parent',
                     'p.is_primary_parent AS primaryparent',
+                    'p.relationship',
                     'p.home_phone AS homephone',
                     'p.cell_phone AS cellphone',
                     'p.work_phone AS workphone',

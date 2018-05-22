@@ -37,7 +37,6 @@ class student_edit_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $dorms = $this->_customdata['dorms'];
         $advisors = $this->_customdata['advisors'];
-        $grades = array(9 => 9, 10 => 10, 11 => 11, 12 => 12);
 
         $hidden = array('id', 'userid', 'permissionsid');
         $fields = array(
@@ -46,11 +45,13 @@ class student_edit_form extends local_mxschool_form {
                 'middlename' => parent::ELEMENT_TEXT,
                 'lastname' => parent::ELEMENT_TEXT,
                 'alternatename' => parent::ELEMENT_TEXT,
-                'email' => parent::ELEMENT_TEXT,
+                'email' => array('element' => 'text', 'type' => PARAM_TEXT, 'width' => 40),
                 'admissionyear' => array('element' => 'text', 'type' => PARAM_INT),
-                'grade' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $grades),
-                'gender' => parent::ELEMENT_TEXT,
+                'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12)),
+                'gender' => array('element' => 'radio', 'type' => PARAM_TEXT, 'options' => array('M', 'F')),
                 'advisor' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $advisors),
+                'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day')),
+                'isboardernextyear' => array('element' => 'radio', 'options' => array('Boarder', 'Day')),
                 'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms),
                 'room' => parent::ELEMENT_TEXT,
                 'phonenumber' => parent::ELEMENT_TEXT,
@@ -58,7 +59,7 @@ class student_edit_form extends local_mxschool_form {
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
                 'riding' => array('element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')),
-                'comment' => parent::ELEMENT_TEXT,
+                'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'rows' => 3, 'width' => 40),
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'town' => parent::ELEMENT_YES_NO,
@@ -68,7 +69,6 @@ class student_edit_form extends local_mxschool_form {
                 'boatallowed' => parent::ELEMENT_YES_NO
             )
         );
-
         parent::set_fields($hidden, $fields, 'student_edit');
     }
 }

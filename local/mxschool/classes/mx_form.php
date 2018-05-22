@@ -30,7 +30,7 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
-    protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT);
+    protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'width' => 20);
     protected const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
 
     /**
@@ -53,15 +53,21 @@ abstract class local_mxschool_form extends moodleform {
             foreach ($categoryfields as $name => $properties) {
                 $displayname = get_string("{$stringprefix}_{$category}_{$name}", 'local_mxschool');
                 switch($properties['element']) {
-                    case 'select':
-                        $mform->addElement($properties['element'], $name, $displayname, $properties['options']);
-                        break;
                     case 'radio':
                         $buttons = array();
                         foreach ($properties['options'] as $option) {
                             $buttons[] = $mform->createElement('radio', $name, '', $option, $option);
                         }
-                        $mform->addGroup($buttons, "{$name}group", $displayname, array(' '), false);
+                        $mform->addGroup($buttons, "{$name}group", $displayname, '     ', false);
+                        break;
+                    case 'select':
+                        $mform->addElement('select', $name, $displayname, $properties['options']);
+                        break;
+                    case 'text':
+                        $mform->addElement('text', $name, $displayname, array('size' => $properties['width']));
+                        break;
+                    case 'textarea':
+                        $mform->addElement('textarea', $name, $displayname, array('rows' => $properties['rows'], 'cols' => $properties['width']));
                         break;
                     default:
                         $mform->addElement($properties['element'], $name, $displayname);

@@ -66,7 +66,7 @@ $data = $DB->get_record_sql(
     "SELECT s.id, s.userid, s.permissionsid,
             u.firstname, u.middlename, u.lastname, u.alternatename, u.email,
             s.admission_year AS admissionyear, s.grade, s.gender, s.advisorid AS advisor,
-            s.dormid AS dorm, s.room, s.phone_number AS phonenumber, s.birthdate,
+            s.boarding_status AS isboarder, s.boarding_status_next_year AS isboardernextyear, s.dormid AS dorm, s.room, s.phone_number AS phonenumber, s.birthdate,
             p.overnight, p.may_ride_with AS riding, p.ride_permission_details AS comment, p.ride_share AS rideshare,
             p.may_drive_to_boston AS boston, p.may_drive_to_town AS town, p.may_drive_passengers AS passengers,
             p.swim_competent AS swimcompetent, p.swim_allowed AS swimallowed, p.boat_allowed AS boatallowed
@@ -97,6 +97,8 @@ if ($form->is_cancelled()) {
     $student->grade = $data->grade;
     $student->gender = $data->gender;
     $student->advisorid = $data->advisor;
+    $student->boarding_status = $data->isboarder;
+    $student->boarding_status_next_year = $data->isboardernextyear;
     $student->dormid = $data->dorm;
     $student->room = $data->room ?: null;
     $student->phone_number = $data->phonenumber;
