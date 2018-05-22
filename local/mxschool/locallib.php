@@ -64,3 +64,40 @@ function get_advisor_list() {
     }
     return $list;
 }
+
+/**
+ * Generates a select string for an SQL query.
+ *
+ * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
+ * @return string the select string for the data
+ */
+function get_select_string($queryfields) {
+    $selectfields = array();
+    foreach ($queryfields as $table => $tablefields) {
+        $abbreviation = $tablefields['abbreviation'];
+        foreach ($tablefields['fields'] as $header => $name) {
+            $selectfields[] = "{$abbreviation}.$header AS {$name}";
+        }
+    }
+    return implode($selectfields, ', ');
+}
+
+/**
+ * Generates a from string for an SQL query.
+ *
+ * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
+ * @return string the from string for the data
+ */
+function get_from_string($queryfields) {
+    $from = '';
+    foreach ($queryfields as $table => $tablefields) {
+        $abbreviation = $tablefields['abbreviation'];
+        if (!isset($tablefields['join'])) {
+            $from .= "{{$table}} {$abbreviation}";
+        } else {
+            $join = $tablefields['join'];
+            $from .= " LEFT JOIN {{$table}} {$abbreviation} ON {$join}";
+        }
+    }
+    return $from;
+}

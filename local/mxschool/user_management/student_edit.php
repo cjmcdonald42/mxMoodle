@@ -63,19 +63,22 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$data = $DB->get_record_sql(
-    "SELECT s.id, s.userid, s.permissionsid,
-            u.firstname, u.middlename, u.lastname, u.alternatename, u.email,
-            s.phone_number AS phonenumber, s.birthday, s.admission_year AS admissionyear, s.grade, s.gender, s.advisorid AS advisor,
-            s.boarding_status AS isboarder, s.boarding_status_next_year AS isboardernextyear, s.dormid AS dorm, s.room,
-            p.overnight, p.may_ride_with AS riding, p.ride_permission_details AS comment, p.ride_share AS rideshare,
-            p.may_drive_to_boston AS boston, p.may_drive_to_town AS town, p.may_drive_passengers AS passengers,
-            p.swim_competent AS swimcompetent, p.swim_allowed AS swimallowed, p.boat_allowed AS boatallowed
-    FROM {local_mxschool_student} s
-    LEFT JOIN {user} u ON s.userid = u.id
-    LEFT JOIN {local_mxschool_permissions} p ON s.permissionsid = p.id
-    WHERE s.id = ?", array($id)
-);
+$queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
+    'id' => 'id', 'phone_number' => 'phonenumber', 'birthday' => 'birthday', 'admission_year' => 'admissionyear',
+    'grade' => 'grade', 'gender' => 'gender', 'advisorid' => 'advisor', 'boarding_status' => 'isboarder',
+    'boarding_status_next_year' => 'isboardernextyear', 'dormid' => 'dorm', 'room' => 'room'
+)), 'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
+    'id' => 'userid', 'firstname' => 'firstname', 'middlename' => 'middlename', 'lastname' => 'lastname',
+    'alternatename' => 'alternatename', 'email' => 'email'
+)), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.permissionsid = p.id', 'fields' => array(
+    'id' => 'permissionsid', 'overnight' => 'overnight', 'may_ride_with' => 'riding', 'ride_permission_details' => 'comment',
+    'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'may_drive_to_town' => 'town',
+    'may_drive_passengers' => 'passengers', 'swim_competent' => 'swimcompetent', 'swim_allowed' => 'swimallowed',
+    'boat_allowed' => 'boatallowed'
+)));
+$select = get_select_string($queryfields);
+$from = get_from_string($queryfields);
+$data = $DB->get_record_sql("SELECT $select FROM $from WHERE s.id = ?", array($id));
 
 $form = new student_edit_form(null, array('id' => $id, 'dorms' => $dorms, 'advisors' => $advisors));
 $form->set_data($data);
@@ -83,43 +86,16 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($redirect);
 } else if ($data = $form->get_data()) {
-    $user = new stdClass();
-    $user->id = $data->userid;
-    $user->firstname = $data->firstname;
-    $user->middlename = $data->middlename;
-    $user->lastname = $data->lastname;
-    $user->alternatename = $data->alternatename;
-    $user->email = $data->email;
-    $DB->update_record('user', $user);
-
-    $student = new stdClass();
-    $student->id = $data->id;
-    $student->phone_number = $data->phonenumber;
-    $student->birthday = $data->birthday;
-    $student->admission_year = $data->admissionyear;
-    $student->grade = $data->grade;
-    $student->gender = $data->gender;
-    $student->advisorid = $data->advisor;
-    $student->boarding_status = $data->isboarder;
-    $student->boarding_status_next_year = $data->isboardernextyear;
-    $student->dormid = $data->dorm;
-    $student->room = $data->room ?: null;
-    $DB->update_record('local_mxschool_student', $student);
-
-    $permissions = new stdClass();
-    $permissions->id = $data->permissionsid;
-    $permissions->overnight = $data->overnight;
-    $permissions->may_ride_with = $data->riding;
-    $permissions->ride_permission_details = $data->comment;
-    $permissions->ride_share = $data->rideshare;
-    $permissions->may_drive_to_boston = $data->boston;
-    $permissions->may_drive_to_town = $data->town;
-    $permissions->may_drive_passengers = $data->passengers;
-    $permissions->swim_competent = $data->swimcompetent;
-    $permissions->swim_allowed = $data->swimallowed;
-    $permissions->boat_allowed = $data->boatallowed;
-    $DB->update_record('local_mxschool_permissions', $permissions);
-
+    if (!$data->room) {
+        $data->room = null;
+    }
+    foreach ($queryfields as $table => $tablefields) {
+        $record = new stdClass();
+        foreach ($tablefields['fields'] as $header => $name) {
+            $record->$header = $data->$name;
+        }
+        $DB->update_record($table, $record);
+    }
     redirect($redirect, get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
