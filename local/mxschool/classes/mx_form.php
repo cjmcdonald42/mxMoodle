@@ -30,7 +30,7 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
-    protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'width' => 20);
+    protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
     protected const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
 
     /**
@@ -63,14 +63,8 @@ abstract class local_mxschool_form extends moodleform {
                     case 'select':
                         $mform->addElement('select', $name, $displayname, $properties['options']);
                         break;
-                    case 'text':
-                        $mform->addElement('text', $name, $displayname, array('size' => $properties['width']));
-                        break;
-                    case 'textarea':
-                        $mform->addElement('textarea', $name, $displayname, array('rows' => $properties['rows'], 'cols' => $properties['width']));
-                        break;
                     default:
-                        $mform->addElement($properties['element'], $name, $displayname);
+                        $mform->addElement($properties['element'], $name, $displayname, $properties['attributes']);
                 }
                 if (isset($properties['type'])) {
                     $mform->setType($name, $properties['type']);

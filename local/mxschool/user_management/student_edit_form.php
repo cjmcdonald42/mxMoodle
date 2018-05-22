@@ -45,7 +45,9 @@ class student_edit_form extends local_mxschool_form {
                 'middlename' => parent::ELEMENT_TEXT,
                 'lastname' => parent::ELEMENT_TEXT,
                 'alternatename' => parent::ELEMENT_TEXT,
-                'email' => array('element' => 'text', 'type' => PARAM_TEXT, 'width' => 40),
+                'email' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
+                'phonenumber' => parent::ELEMENT_TEXT,
+                'birthday' => parent::ELEMENT_TEXT,
                 'admissionyear' => array('element' => 'text', 'type' => PARAM_INT),
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12)),
                 'gender' => array('element' => 'radio', 'type' => PARAM_TEXT, 'options' => array('M', 'F')),
@@ -53,13 +55,13 @@ class student_edit_form extends local_mxschool_form {
                 'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day')),
                 'isboardernextyear' => array('element' => 'radio', 'options' => array('Boarder', 'Day')),
                 'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms),
-                'room' => parent::ELEMENT_TEXT,
-                'phonenumber' => parent::ELEMENT_TEXT,
-                'birthday' => parent::ELEMENT_TEXT
+                'room' => parent::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
-                'riding' => array('element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')),
-                'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'rows' => 3, 'width' => 40),
+                'riding' => array(
+                    'element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')
+                ),
+                'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40)),
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'town' => parent::ELEMENT_YES_NO,

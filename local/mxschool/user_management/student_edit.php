@@ -40,13 +40,14 @@ $parents = array(
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
     get_string('student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
 );
+$redirect = new moodle_url(end(array_values($parents)));
 $url = '/local/mxschool/user_management/student_edit.php';
 $title = get_string('student_edit', 'local_mxschool');
 $dorms = get_dorms_list();
 $advisors = get_advisor_list();
 
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
-    redirect(new moodle_url(end(array_values($parents))));
+    redirect($redirect);
 }
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
@@ -65,8 +66,8 @@ $PAGE->navbar->add($title);
 $data = $DB->get_record_sql(
     "SELECT s.id, s.userid, s.permissionsid,
             u.firstname, u.middlename, u.lastname, u.alternatename, u.email,
-            s.admission_year AS admissionyear, s.grade, s.gender, s.advisorid AS advisor,
-            s.boarding_status AS isboarder, s.boarding_status_next_year AS isboardernextyear, s.dormid AS dorm, s.room, s.phone_number AS phonenumber, s.birthday,
+            s.phone_number AS phonenumber, s.birthday, s.admission_year AS admissionyear, s.grade, s.gender, s.advisorid AS advisor,
+            s.boarding_status AS isboarder, s.boarding_status_next_year AS isboardernextyear, s.dormid AS dorm, s.room,
             p.overnight, p.may_ride_with AS riding, p.ride_permission_details AS comment, p.ride_share AS rideshare,
             p.may_drive_to_boston AS boston, p.may_drive_to_town AS town, p.may_drive_passengers AS passengers,
             p.swim_competent AS swimcompetent, p.swim_allowed AS swimallowed, p.boat_allowed AS boatallowed
@@ -80,7 +81,7 @@ $form = new student_edit_form(null, array('id' => $id, 'dorms' => $dorms, 'advis
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
-    redirect(new moodle_url(end(array_values($parents))));
+    redirect($redirect);
 } else if ($data = $form->get_data()) {
     $user = new stdClass();
     $user->id = $data->userid;
@@ -93,6 +94,8 @@ if ($form->is_cancelled()) {
 
     $student = new stdClass();
     $student->id = $data->id;
+    $student->phone_number = $data->phonenumber;
+    $student->birthday = $data->birthday;
     $student->admission_year = $data->admissionyear;
     $student->grade = $data->grade;
     $student->gender = $data->gender;
@@ -101,8 +104,6 @@ if ($form->is_cancelled()) {
     $student->boarding_status_next_year = $data->isboardernextyear;
     $student->dormid = $data->dorm;
     $student->room = $data->room ?: null;
-    $student->phone_number = $data->phonenumber;
-    $student->birthday = $data->birthday;
     $DB->update_record('local_mxschool_student', $student);
 
     $permissions = new stdClass();
@@ -119,7 +120,7 @@ if ($form->is_cancelled()) {
     $permissions->boat_allowed = $data->boatallowed;
     $DB->update_record('local_mxschool_permissions', $permissions);
 
-    redirect(new moodle_url(end(array_values($parents))), get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
+    redirect($redirect, get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
