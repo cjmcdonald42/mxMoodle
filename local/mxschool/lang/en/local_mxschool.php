@@ -40,6 +40,9 @@ $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data'
 // Events.
 $string['event_page_visited'] = 'page visited event';
 
+// Notifications.
+$string['student_edit_success'] = 'Student Record Updated Successfully';
+
 // General.
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';

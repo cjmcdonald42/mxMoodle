@@ -119,7 +119,7 @@ if ($form->is_cancelled()) {
     $permissions->boat_allowed = $data->boatallowed;
     $DB->update_record('local_mxschool_permissions', $permissions);
 
-    redirect(new moodle_url(end(array_values($parents))));
+    redirect(new moodle_url(end(array_values($parents))), get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
