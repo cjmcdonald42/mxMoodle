@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180521" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180522" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -39,7 +39,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the parent's student"/>
         <FIELD NAME="is_primary_parent" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Is this parent is the student's primary parent? {&quot;Yes&quot;, &quot;No&quot;}"/>
-        <FIELD NAME="relationship" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's relationship with their student"/>
+        <FIELD NAME="relationship" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's relationship with their student"/>
         <FIELD NAME="parent_name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's full name, including saluations"/>
         <FIELD NAME="home_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's home phone number"/>
         <FIELD NAME="cell_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's cell phone number"/>

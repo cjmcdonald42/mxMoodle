@@ -50,5 +50,18 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018052111, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018052234) {
+
+        // Changing precision of field relationship on table local_mxschool_parent to (20).
+        $table = new xmldb_table('local_mxschool_parent');
+        $field = new xmldb_field('relationship', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null, 'is_primary_parent');
+
+        // Launch change of precision for field relationship.
+        $dbman->change_field_precision($table, $field);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018052234, 'local', 'mxschool');
+    }
+
     return true;
 }
