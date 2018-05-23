@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Querys the database to create a list of all the available dorms.
+ * Queries the database to create a list of all the available dorms.
  *
  * @return array the available dorms as id => name
  */
@@ -44,9 +44,31 @@ function get_dorms_list() {
 }
 
 /**
- * Querys the database to create a list of all the available advisors.
+ * Querys the database to create a list of all the faculty.
  *
- * @return array the available advisors as id => name
+ * @return array the faculty as userid => name
+ */
+function get_faculty_list() {
+    global $DB;
+    $list = array();
+    $allfaculty = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
+         WHERE u.deleted = 0
+         ORDER BY name"
+    );
+    if ($allfaculty) {
+        foreach ($allfaculty as $faculty) {
+            $list[$faculty->id] = $faculty->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the available advisors.
+ *
+ * @return array the available advisors as userid => name
  */
 function get_advisor_list() {
     global $DB;
@@ -54,7 +76,7 @@ function get_advisor_list() {
     $advisors = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
-         WHERE f.advisory_available = 'Yes' and f.advisory_closing = 'No'
+         WHERE u.deleted = 0 and f.advisory_available = 'Yes' and f.advisory_closing = 'No'
          ORDER BY name"
     );
     if ($advisors) {

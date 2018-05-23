@@ -45,11 +45,12 @@ class faculty_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'd.name AS dorm', 'f.advisory_available', 'f.advisory_closing'
+            'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'd.name AS dorm', 'f.advisory_available AS advisoryavailable',
+            'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
-        $searchable = array('name');
+        $searchable = array('u.firstname', 'u.lastname');
         $sortable = array('name', 'dorm', 'advisoryavailable', 'advisoryclosing');
         $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
         parent::__construct(

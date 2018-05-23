@@ -42,7 +42,7 @@ $parents = array(
 $url = '/local/mxschool/user_management/dorm_report.php';
 $title = get_string('dorm_report', 'local_mxschool');
 
-$event = \local_mxschool\event\page_visited::create(array(other => array(page => $title)));
+$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
 
 $PAGE->set_url(new moodle_url($url));

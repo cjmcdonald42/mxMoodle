@@ -25,9 +25,9 @@
  */
 
 require(__DIR__.'/../../../config.php');
+require_once('student_edit_form.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/events/page_visited.php');
-require_once('student_edit_form.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();

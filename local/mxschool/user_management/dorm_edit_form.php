@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Form for editting dorm data for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,10 +26,26 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018052310;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+require_once(__DIR__.'/../classes/mx_form.php');
+
+class dorm_edit_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $id = $this->_customdata['id'];
+        $faculty = $this->_customdata['faculty'];
+
+        $hidden = array('id');
+        $fields = array('dorm' => array(
+            'name' => parent::ELEMENT_TEXT,
+            'abbreviation' => parent::ELEMENT_TEXT,
+            'hoh' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $faculty),
+            'type' => array('element' => 'radio', 'options' => array('Boarding', 'Day', 'All')),
+            'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'All')),
+            'available' => parent::ELEMENT_YES_NO
+        ));
+        parent::set_fields($hidden, $fields, 'dorm_edit');
+    }
+}

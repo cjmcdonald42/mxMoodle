@@ -49,7 +49,7 @@ class dorm_table extends local_mxschool_table {
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('u.deleted = 0');
-        $searchable = array('name', 'abbreviation', 'hoh');
+        $searchable = array('d.name', 'd.abbreviation', 'u.lastname', 'u.firstname');
         $sortable = array('name', 'type', 'gender');
         $urlparams = array('search' => $search);
         parent::__construct(
@@ -61,7 +61,7 @@ class dorm_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/user_management/faculty_edit.php', $values->id).$this->delete_icon($values->id);
+        return $this->edit_icon('/local/mxschool/user_management/dorm_edit.php', $values->id).$this->delete_icon($values->id);
     }
 
 }

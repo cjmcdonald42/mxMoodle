@@ -42,6 +42,8 @@ $string['event_page_visited'] = 'page visited event';
 
 // Notifications.
 $string['student_edit_success'] = 'Student Record Updated Successfully';
+$string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
+$string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 
 // General.
 $string['report_header_actions'] = 'Actions';
@@ -54,6 +56,8 @@ $string['student_report'] = 'Student Report';
 $string['faculty_report'] = 'Faculty Report';
 $string['dorm_report'] = 'Dorm Report';
 $string['student_edit'] = 'Edit Student Record';
+$string['faculty_edit'] = 'Edit Faculty Record';
+$string['dorm_edit'] = 'Edit Dorm Record';
 
 $string['student_report_type_students'] = 'Student Report';
 $string['student_report_type_permissions'] = 'Permissions Report';
@@ -129,3 +133,24 @@ $string['student_edit_permissions_passengers'] = 'May Drive Passengers?';
 $string['student_edit_permissions_swimcompetent'] = 'Competent Swimmer?';
 $string['student_edit_permissions_swimallowed'] = 'Allowed to Swim?';
 $string['student_edit_permissions_boatallowed'] = 'Allowed in Boats?';
+
+$string['faculty_edit_header_faculty'] = 'Faculty Information';
+
+$string['faculty_edit_faculty_firstname'] = 'First Name';
+$string['faculty_edit_faculty_middlename'] = 'Middle Name';
+$string['faculty_edit_faculty_lastname'] = 'Last Name';
+$string['faculty_edit_faculty_alternatename'] = 'Alternate Name';
+$string['faculty_edit_faculty_email'] = 'Email';
+$string['faculty_edit_faculty_facultycode'] = 'Faculty Code';
+$string['faculty_edit_faculty_dorm'] = 'Dorm';
+$string['faculty_edit_faculty_advisoryavailable'] = 'Advisory Available';
+$string['faculty_edit_faculty_advisoryclosing'] = 'Advisory Closing';
+
+$string['dorm_edit_header_dorm'] = 'Dorm Information';
+
+$string['dorm_edit_dorm_name'] = 'Name';
+$string['dorm_edit_dorm_abbreviation'] = 'Abbreviation';
+$string['dorm_edit_dorm_hoh'] = 'Head of House';
+$string['dorm_edit_dorm_type'] = 'Type';
+$string['dorm_edit_dorm_gender'] = 'Gender';
+$string['dorm_edit_dorm_available'] = 'Available';

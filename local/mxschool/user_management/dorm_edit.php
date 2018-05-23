@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Faculty management report for Middlesex School's Dorm and Student functions plugin.
+ * Dorm edit page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -25,26 +25,32 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('faculty_table.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
+require_once('dorm_edit_form.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_faculty', context_system::instance());
+require_capability('local/mxschool:manage_dorms', context_system::instance());
 
-$filter = new stdClass();
-$filter->dorm = optional_param('dorm', '', PARAM_RAW);
-$filter->search = optional_param('search', '', PARAM_RAW);
+$id = required_param('id', PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
+    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
+    get_string('faculty_report', 'local_mxschool') => '/local/mxschool/user_management/dorm_report.php'
 );
-$url = '/local/mxschool/user_management/faculty_report.php';
-$title = get_string('faculty_report', 'local_mxschool');
-$dorms = get_dorms_list();
+$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$url = '/local/mxschool/user_management/dorm_edit.php';
+$title = get_string('dorm_edit', 'local_mxschool');
+$queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fields' => array(
+    'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available'
+)));
+$faculty = get_faculty_list();
+
+if (!$DB->record_exists('local_mxschool_dorm', array('id' => $id))) {
+    redirect($redirect);
+}
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -59,12 +65,19 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$table = new faculty_table('faculty_table', $filter);
+$form = new dorm_edit_form(null, array('id' => $id, 'faculty' => $faculty));
+$data = get_record($queryfields, "d.id = ?", array($id));
+$form->set_data($data);
 
-$dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
+if ($form->is_cancelled()) {
+    redirect($redirect);
+} else if ($data = $form->get_data()) {
+    update_record($queryfields, $data);
+    redirect($redirect, get_string('dorm_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page($table, 50, array($dormselect), $filter->search);
+$renderable = new \local_mxschool\output\form_page($form);
 
 echo $output->header();
 echo $output->heading($title);
