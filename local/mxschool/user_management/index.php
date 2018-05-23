@@ -40,7 +40,9 @@ $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index_page(array(
-    get_string('student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
+    get_string('student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php',
+    get_string('faculty_report', 'local_mxschool') => '/local/mxschool/user_management/faculty_report.php',
+    get_string('dorm_report', 'local_mxschool') => '/local/mxschool/user_management/dorm_report.php'
 ));
 
 echo $output->header();

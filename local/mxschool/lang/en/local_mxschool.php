@@ -51,6 +51,8 @@ $string['report_select_dorm'] = 'All Dorms';
 // User management.
 $string['user_management'] = 'User Management';
 $string['student_report'] = 'Student Report';
+$string['faculty_report'] = 'Faculty Report';
+$string['dorm_report'] = 'Dorm Report';
 $string['student_edit'] = 'Edit Student Record';
 
 $string['student_report_type_students'] = 'Student Report';
@@ -85,6 +87,18 @@ $string['student_report_parents_header_homephone'] = 'Home Phone';
 $string['student_report_parents_header_cellphone'] = 'Cell Phone';
 $string['student_report_parents_header_workphone'] = 'Work Phone';
 $string['student_report_parents_header_email'] = 'Email';
+
+$string['faculty_report_header_name'] = 'Name';
+$string['faculty_report_header_dorm'] = 'Dorm';
+$string['faculty_report_header_advisoryavailable'] = 'Advisory Available';
+$string['faculty_report_header_advisoryclosing'] = 'Advisory Closing';
+
+$string['dorm_report_header_name'] = 'Name';
+$string['dorm_report_header_abbreviation'] = 'Abbreviation';
+$string['dorm_report_header_hoh'] = 'Head of House';
+$string['dorm_report_header_type'] = 'Type';
+$string['dorm_report_header_gender'] = 'Gender';
+$string['dorm_report_header_available'] = 'Available';
 
 $string['student_edit_header_student'] = 'Student Information';
 $string['student_edit_header_permissions'] = 'Student Permissions';

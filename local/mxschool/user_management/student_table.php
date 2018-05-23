@@ -45,72 +45,35 @@ class student_table extends local_mxschool_table {
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         switch($type) {
             case 'students':
-                $columns = array_merge($columns, array(
-                    'grade',
-                    'advisor',
-                    'dorm',
-                    'room',
-                    'phone',
-                    'birthday'
-                ));
+                $columns = array_merge($columns, array('grade', 'advisor', 'dorm', 'room', 'phone', 'birthday'));
                 $fields = array_merge(array('s.id'), $fields, array(
-                    's.grade',
-                    "CONCAT(a.lastname, ', ', a.firstname) AS advisor",
-                    'd.name AS dorm',
-                    's.room',
-                    's.phone_number AS phone',
-                    's.birthday'
-                ));
+                    's.grade', "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 'd.name AS dorm', 's.room',
+                    's.phone_number AS phone', 's.birthday')
+                );
                 $from[] = '{user} a ON s.advisorid = a.id';
                 $searchable = array_merge($searchable, array('a.firstname', 'a.lastname'));
                 break;
 
             case 'permissions':
                 $columns = array_merge($columns, array(
-                    'overnight',
-                    'riding',
-                    'comment',
-                    'rideshare',
-                    'boston',
-                    'town',
-                    'passengers',
-                    'swimcompetent',
-                    'swimallowed',
-                    'boatallowed'
-                ));
+                    'overnight', 'riding', 'comment', 'rideshare', 'boston', 'town', 'passengers',
+                    'swimcompetent', 'swimallowed', 'boatallowed')
+                );
                 $fields = array_merge(array('p.id'), $fields, array(
-                    'p.overnight',
-                    'p.may_ride_with AS riding',
-                    'p.ride_permission_details AS comment',
-                    'p.ride_share AS rideshare',
-                    'p.may_drive_to_boston AS boston',
-                    'p.may_drive_to_town AS town',
-                    'p.may_drive_passengers AS passengers',
-                    'p.swim_competent AS swimcompetent',
-                    'p.swim_allowed AS swimallowed',
-                    'p.boat_allowed AS boatallowed'
+                    'p.overnight', 'p.may_ride_with AS riding', 'p.ride_permission_details AS comment', 'p.ride_share AS rideshare',
+                    'p.may_drive_to_boston AS boston', 'p.may_drive_to_town AS town', 'p.may_drive_passengers AS passengers',
+                    'p.swim_competent AS swimcompetent', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
                 ));
                 $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';
                 break;
 
             case 'parents':
                 $columns = array_merge($columns, array(
-                    'parent',
-                    'primaryparent',
-                    'relationship',
-                    'homephone',
-                    'cellphone',
-                    'workphone',
-                    'email'
+                    'parent', 'primaryparent', 'relationship', 'homephone', 'cellphone', 'workphone', 'email'
                 ));
                 $fields = array_merge(array('p.id'), $fields, array(
-                    'p.parent_name AS parent',
-                    'p.is_primary_parent AS primaryparent',
-                    'p.relationship',
-                    'p.home_phone AS homephone',
-                    'p.cell_phone AS cellphone',
-                    'p.work_phone AS workphone',
-                    'p.email'
+                    'p.parent_name AS parent', 'p.is_primary_parent AS primaryparent', 'p.relationship',
+                    'p.home_phone AS homephone', 'p.cell_phone AS cellphone', 'p.work_phone AS workphone', 'p.email'
                 ));
                 $from[] = '{local_mxschool_parent} p ON u.id = p.userid';
                 $searchable[] = 'p.parent_name';

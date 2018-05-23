@@ -45,7 +45,9 @@ abstract class local_mxschool_table extends table_sql {
      * @param string $search The string to search for as a constraint.
      * @param array $urlparams The parameters for the baseurl.
      */
-    public function __construct($uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $searchable, $search, $urlparams) {
+    public function __construct(
+        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $searchable, $search, $urlparams
+    ) {
         global $PAGE;
 
         parent::__construct($uniqueid);
