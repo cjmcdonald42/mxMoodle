@@ -66,38 +66,52 @@ function get_advisor_list() {
 }
 
 /**
- * Generates a select string for an SQL query.
+ * Generates and performs an SQL query to retrieve a record from the database.
  *
  * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
- * @return string the select string for the data
+ * @param string $where a where clause (without the WHERE keyword).
+ * @param array $params and parameters for the where clause.
  */
-function get_select_string($queryfields) {
-    $selectfields = array();
+function get_record($queryfields, $where, $params = array()) {
+    global $DB;
+    $selectarray = array();
+    $fromarray = array();
     foreach ($queryfields as $table => $tablefields) {
         $abbreviation = $tablefields['abbreviation'];
         foreach ($tablefields['fields'] as $header => $name) {
-            $selectfields[] = "{$abbreviation}.$header AS {$name}";
+            if (is_numeric($header)) {
+                $header = $name;
+            }
+            $selectarray[] = "{$abbreviation}.$header AS {$name}";
+        }
+        if (!isset($tablefields['join'])) {
+            $fromarray[] = "{{$table}} {$abbreviation}";
+        } else {
+            $join = $tablefields['join'];
+            $fromarray[] = "LEFT JOIN {{$table}} {$abbreviation} ON {$join}";
         }
     }
-    return implode($selectfields, ', ');
+    $select = implode($selectarray, ', ');
+    $from = implode($fromarray, ' ');
+    return $DB->get_record_sql("SELECT $select FROM $from WHERE $where", $params);
 }
 
 /**
- * Generates a from string for an SQL query.
+ * Updates a record in the database.
  *
  * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
- * @return string the from string for the data
+ * @param stdClass $data the new data to update the database with.
  */
-function get_from_string($queryfields) {
-    $from = '';
+function update_record($queryfields, $data) {
+    global $DB;
     foreach ($queryfields as $table => $tablefields) {
-        $abbreviation = $tablefields['abbreviation'];
-        if (!isset($tablefields['join'])) {
-            $from .= "{{$table}} {$abbreviation}";
-        } else {
-            $join = $tablefields['join'];
-            $from .= " LEFT JOIN {{$table}} {$abbreviation} ON {$join}";
+        $record = new stdClass();
+        foreach ($tablefields['fields'] as $header => $name) {
+            if (is_numeric($header)) {
+                $header = $name;
+            }
+            $record->$header = $data->$name;
         }
+        $DB->update_record($table, $record);
     }
-    return $from;
 }

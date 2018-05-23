@@ -40,9 +40,21 @@ $parents = array(
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
     get_string('student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
 );
-$redirect = new moodle_url(end(array_values($parents)));
+$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/user_management/student_edit.php';
 $title = get_string('student_edit', 'local_mxschool');
+$queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
+    'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
+    'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
+    'dormid' => 'dorm', 'room'
+)), 'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
+    'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
+)), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.permissionsid = p.id', 'fields' => array(
+    'id' => 'permissionsid', 'overnight', 'may_ride_with' => 'riding', 'ride_permission_details' => 'comment',
+    'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'may_drive_to_town' => 'town',
+    'may_drive_passengers' => 'passengers', 'swim_competent' => 'swimcompetent', 'swim_allowed' => 'swimallowed',
+    'boat_allowed' => 'boatallowed'
+)));
 $dorms = get_dorms_list();
 $advisors = get_advisor_list();
 
@@ -63,24 +75,8 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
-    'id' => 'id', 'phone_number' => 'phonenumber', 'birthday' => 'birthday', 'admission_year' => 'admissionyear',
-    'grade' => 'grade', 'gender' => 'gender', 'advisorid' => 'advisor', 'boarding_status' => 'isboarder',
-    'boarding_status_next_year' => 'isboardernextyear', 'dormid' => 'dorm', 'room' => 'room'
-)), 'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
-    'id' => 'userid', 'firstname' => 'firstname', 'middlename' => 'middlename', 'lastname' => 'lastname',
-    'alternatename' => 'alternatename', 'email' => 'email'
-)), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.permissionsid = p.id', 'fields' => array(
-    'id' => 'permissionsid', 'overnight' => 'overnight', 'may_ride_with' => 'riding', 'ride_permission_details' => 'comment',
-    'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'may_drive_to_town' => 'town',
-    'may_drive_passengers' => 'passengers', 'swim_competent' => 'swimcompetent', 'swim_allowed' => 'swimallowed',
-    'boat_allowed' => 'boatallowed'
-)));
-$select = get_select_string($queryfields);
-$from = get_from_string($queryfields);
-$data = $DB->get_record_sql("SELECT $select FROM $from WHERE s.id = ?", array($id));
-
 $form = new student_edit_form(null, array('id' => $id, 'dorms' => $dorms, 'advisors' => $advisors));
+$data = get_record($queryfields, "s.id = ?", array($id));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -89,13 +85,7 @@ if ($form->is_cancelled()) {
     if (!$data->room) {
         $data->room = null;
     }
-    foreach ($queryfields as $table => $tablefields) {
-        $record = new stdClass();
-        foreach ($tablefields['fields'] as $header => $name) {
-            $record->$header = $data->$name;
-        }
-        $DB->update_record($table, $record);
-    }
+    update_record($queryfields, $data);
     redirect($redirect, get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 

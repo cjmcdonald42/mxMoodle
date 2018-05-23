@@ -48,7 +48,7 @@ class student_edit_form extends local_mxschool_form {
                 'email' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
                 'phonenumber' => parent::ELEMENT_TEXT,
                 'birthday' => parent::ELEMENT_TEXT,
-                'admissionyear' => array('element' => 'text', 'type' => PARAM_INT),
+                'admissionyear' => array('element' => 'text', 'type' => PARAM_INT, 'attributes' => array('size' => 20)),
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12)),
                 'gender' => array('element' => 'radio', 'type' => PARAM_TEXT, 'options' => array('M', 'F')),
                 'advisor' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $advisors),
