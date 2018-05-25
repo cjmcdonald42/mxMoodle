@@ -39,15 +39,15 @@ class faculty_edit_form extends local_mxschool_form {
 
         $hidden = array('id', 'userid');
         $fields = array('faculty' => array(
-            'firstname' => parent::ELEMENT_TEXT,
+            'firstname' => parent::ELEMENT_TEXT_REQUIRED,
             'middlename' => parent::ELEMENT_TEXT,
-            'lastname' => parent::ELEMENT_TEXT,
+            'lastname' => parent::ELEMENT_TEXT_REQUIRED,
             'alternatename' => parent::ELEMENT_TEXT,
-            'email' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
-            'facultycode' => parent::ELEMENT_TEXT,
+            'email' => parent::ELEMENT_EMAIL_REQUIRED,
+            'facultycode' => parent::ELEMENT_TEXT_REQUIRED,
             'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms),
-            'advisoryavailable' => parent::ELEMENT_YES_NO,
-            'advisoryclosing' => parent::ELEMENT_YES_NO
+            'advisoryavailable' => parent::ELEMENT_YES_NO_REQUIRED,
+            'advisoryclosing' => parent::ELEMENT_YES_NO_REQUIRED
         ));
         parent::set_fields($hidden, $fields, 'faculty_edit');
     }

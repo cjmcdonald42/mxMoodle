@@ -33,12 +33,12 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_dorms', context_system::instance());
 
-$id = required_param('id', PARAM_INT);
+$id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('faculty_report', 'local_mxschool') => '/local/mxschool/user_management/dorm_report.php'
+    get_string('dorm_report', 'local_mxschool') => '/local/mxschool/user_management/dorm_report.php'
 );
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/user_management/dorm_edit.php';
@@ -48,7 +48,7 @@ $queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fiel
 )));
 $faculty = get_faculty_list();
 
-if (!$DB->record_exists('local_mxschool_dorm', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_mxschool_dorm', array('id' => $id))) {
     redirect($redirect);
 }
 

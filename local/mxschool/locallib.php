@@ -119,7 +119,7 @@ function get_record($queryfields, $where, $params = array()) {
 }
 
 /**
- * Updates a record in the database.
+ * Updates a record in the database or inserts it if it doesn't already exist.
  *
  * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
  * @param stdClass $data the new data to update the database with.
@@ -134,6 +134,10 @@ function update_record($queryfields, $data) {
             }
             $record->$header = $data->$name;
         }
-        $DB->update_record($table, $record);
+        if ($record->id) {
+            $DB->update_record($table, $record);
+        } else {
+            $DB->insert_record($table, $record);
+        }
     }
 }

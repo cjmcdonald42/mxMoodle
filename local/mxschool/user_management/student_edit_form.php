@@ -41,20 +41,24 @@ class student_edit_form extends local_mxschool_form {
         $hidden = array('id', 'userid', 'permissionsid');
         $fields = array(
             'student' => array(
-                'firstname' => parent::ELEMENT_TEXT,
+                'firstname' => parent::ELEMENT_TEXT_REQUIRED,
                 'middlename' => parent::ELEMENT_TEXT,
-                'lastname' => parent::ELEMENT_TEXT,
+                'lastname' => parent::ELEMENT_TEXT_REQUIRED,
                 'alternatename' => parent::ELEMENT_TEXT,
-                'email' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
-                'phonenumber' => parent::ELEMENT_TEXT,
-                'birthday' => parent::ELEMENT_TEXT,
-                'admissionyear' => array('element' => 'text', 'type' => PARAM_INT, 'attributes' => array('size' => 20)),
-                'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12)),
+                'email' => parent::ELEMENT_EMAIL_REQUIRED,
+                'phonenumber' => parent::ELEMENT_TEXT_REQUIRED,
+                'birthday' => parent::ELEMENT_TEXT_REQUIRED,
+                'admissionyear' => parent::ELEMENT_TEXT_REQUIRED,
+                'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'required' => true),
                 'gender' => array('element' => 'radio', 'type' => PARAM_TEXT, 'options' => array('M', 'F')),
-                'advisor' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $advisors),
-                'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day')),
-                'isboardernextyear' => array('element' => 'radio', 'options' => array('Boarder', 'Day')),
-                'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms),
+                'advisor' => array(
+                    'element' => 'select', 'type' => PARAM_INT, 'options' => $advisors, 'rules' => array('required')
+                ),
+                'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
+                'isboardernextyear' => array(
+                    'element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')
+                ),
+                'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms, 'rules' => array('required')),
                 'room' => parent::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),

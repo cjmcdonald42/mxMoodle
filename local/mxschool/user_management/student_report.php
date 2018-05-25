@@ -75,7 +75,7 @@ $typeselect = new local_mxschool_dropdown('type', $types, $type);
 $dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page($table, 50, array($typeselect, $dormselect), $filter->search);
+$renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect));
 
 echo $output->header();
 echo $output->heading($title);

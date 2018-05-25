@@ -97,6 +97,8 @@ $string['faculty_report_header_dorm'] = 'Dorm';
 $string['faculty_report_header_advisoryavailable'] = 'Advisory Available';
 $string['faculty_report_header_advisoryclosing'] = 'Advisory Closing';
 
+$string['dorm_report_add'] = 'New Dorm';
+
 $string['dorm_report_header_name'] = 'Name';
 $string['dorm_report_header_abbreviation'] = 'Abbreviation';
 $string['dorm_report_header_hoh'] = 'Head of House';

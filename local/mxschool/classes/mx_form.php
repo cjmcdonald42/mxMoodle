@@ -30,8 +30,21 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
-    protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
-    protected const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
+    protected const ELEMENT_TEXT = array(
+        'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20)
+    );
+    protected const ELEMENT_TEXT_REQUIRED = array(
+        'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20), 'rules' => array('required')
+    );
+    protected const ELEMENT_YES_NO = array(
+        'element' => 'radio', 'options' => array('Yes', 'No')
+    );
+    protected const ELEMENT_YES_NO_REQUIRED = array(
+        'element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required')
+    );
+    protected const ELEMENT_EMAIL_REQUIRED = array(
+        'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email', 'required')
+    );
 
     /**
      * Sets all the fields for the form.
@@ -58,7 +71,8 @@ abstract class local_mxschool_form extends moodleform {
                         foreach ($properties['options'] as $option) {
                             $buttons[] = $mform->createElement('radio', $name, '', $option, $option);
                         }
-                        $mform->addGroup($buttons, "{$name}group", $displayname, '     ', false);
+                        $name = "{$name}group";
+                        $mform->addGroup($buttons, $name, $displayname, '     ', false);
                         break;
                     case 'select':
                         $mform->addElement('select', $name, $displayname, $properties['options']);
@@ -68,6 +82,14 @@ abstract class local_mxschool_form extends moodleform {
                 }
                 if (isset($properties['type'])) {
                     $mform->setType($name, $properties['type']);
+                }
+                if (isset($properties['rules'])) {
+                    if (in_array('required', $properties['rules'])) {
+                        $mform->addRule($name, null, 'required', null, 'client');
+                    }
+                    if (in_array('email', $properties['rules'])) {
+                        $mform->addRule($name, null, 'email');
+                    }
                 }
             }
         }

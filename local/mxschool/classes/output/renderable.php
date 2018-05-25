@@ -86,22 +86,26 @@ class report_page implements renderable, templatable {
     private $table;
     /** @var int $size the number of rows to output.*/
     private $size;
-    /** @param array $dropdowns array of local_mxschool_dropdown objects.*/
-    private $dropdowns;
     /** @var string $search default search text.*/
     private $search;
+    /** @param array $dropdowns array of local_mxschool_dropdown objects.*/
+    private $dropdowns;
+    /** @var string|bool $addbutton text and url for an add button or false.*/
+    private $addbutton;
 
     /**
      * @param mx_table $table table object to be outputed to the template.
      * @param int $size the number of rows to output.
-     * @param array $dropdowns array of local_mxschool_dropdown objects.
      * @param string $search default search text.
+     * @param array $dropdowns array of local_mxschool_dropdown objects.
+     * @param array|bool $addbutton text and url for an add button or false.
      */
-    public function __construct($table, $size, $dropdowns, $search) {
+    public function __construct($table, $size, $search, $dropdowns = array(), $addbutton = false) {
         $this->table = $table;
         $this->size = $size;
-        $this->dropdowns = $dropdowns;
         $this->search = $search;
+        $this->dropdowns = $dropdowns;
+        $this->addbutton = $addbutton;
     }
 
     /**
@@ -120,6 +124,11 @@ class report_page implements renderable, templatable {
         $data->placeholder = get_string('search').'...';
         $data->search = $this->search;
         $data->submit = get_string('search');
+        if ($this->addbutton) {
+            $data->addbutton = true;
+            $data->addtext = $this->addbutton['text'];
+            $data->addurl = $this->addbutton['url']->out();
+        }
         ob_start();
         $this->table->out($this->size, true);
         $data->table = ob_get_clean();
