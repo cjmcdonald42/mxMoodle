@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Form for editting parent data for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,10 +26,28 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018052506;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+require_once(__DIR__.'/../classes/mx_form.php');
+
+class parent_edit_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $id = $this->_customdata['id'];
+        $students = $this->_customdata['students'];
+
+        $hidden = array('id');
+        $fields = array('parent' => array(
+            'student' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $students, 'rules' => array('required')),
+            'name' => parent::ELEMENT_TEXT_REQUIRED,
+            'isprimary' => parent::ELEMENT_YES_NO_REQUIRED,
+            'relationship' => parent::ELEMENT_TEXT_REQUIRED,
+            'homephone' => parent::ELEMENT_TEXT,
+            'cellphone' => parent::ELEMENT_TEXT,
+            'workphone' => parent::ELEMENT_TEXT,
+            'email' => parent::ELEMENT_EMAIL_REQUIRED
+        ));
+        parent::set_fields($hidden, $fields, 'parent_edit');
+    }
+}

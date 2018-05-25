@@ -44,6 +44,28 @@ function get_dorms_list() {
 }
 
 /**
+ * Querys the database to create a list of all the students.
+ *
+ * @return array the students as userid => name
+ */
+function get_student_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0
+         ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Querys the database to create a list of all the faculty.
  *
  * @return array the faculty as userid => name
@@ -102,9 +124,10 @@ function get_record($queryfields, $where, $params = array()) {
         $abbreviation = $tablefields['abbreviation'];
         foreach ($tablefields['fields'] as $header => $name) {
             if (is_numeric($header)) {
-                $header = $name;
+                $selectarray[] = "{$abbreviation}.{$name}";
+            } else {
+                $selectarray[] = "{$abbreviation}.{$header} AS {$name}";
             }
-            $selectarray[] = "{$abbreviation}.$header AS {$name}";
         }
         if (!isset($tablefields['join'])) {
             $fromarray[] = "{{$table}} {$abbreviation}";

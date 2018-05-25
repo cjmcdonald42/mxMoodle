@@ -33,7 +33,7 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
 
-$id = required_param('id', PARAM_INT);
+$id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',

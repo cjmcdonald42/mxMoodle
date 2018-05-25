@@ -30,6 +30,9 @@ require_once(__DIR__.'/../classes/mx_table.php');
 
 class student_table extends local_mxschool_table {
 
+    /** @var string $type the type of report - either 'students', 'permissions', or 'parents'.*/
+    private $type;
+
     /**
      * Creates a new student_table.
      *
@@ -38,6 +41,7 @@ class student_table extends local_mxschool_table {
      * @param stdClass $filter any filtering for the table - could include dorm or search.
      */
     public function __construct($uniqueid, $type, $filter) {
+        $this->type = $type;
         $columns = array('student');
         $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
@@ -105,7 +109,11 @@ class student_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id);
+        if ($this->type === 'parents') {
+            return $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id);
+        } else {
+            return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id);
+        }
     }
 
 }

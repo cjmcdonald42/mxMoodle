@@ -73,9 +73,17 @@ $table = new student_table('student_table', $type, $filter);
 
 $typeselect = new local_mxschool_dropdown('type', $types, $type);
 $dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
+$addbutton = array(
+    'text' => get_string('parent_report_add', 'local_mxschool'),
+    'url' => new moodle_url('/local/mxschool/user_management/parent_edit.php')
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect));
+if ($type === 'parents') {
+    $renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), $addbutton);
+} else {
+    $renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect));
+}
 
 echo $output->header();
 echo $output->heading($title);

@@ -42,6 +42,7 @@ $string['event_page_visited'] = 'page visited event';
 
 // Notifications.
 $string['student_edit_success'] = 'Student Record Updated Successfully';
+$string['parent_edit_success'] = 'Parent Record Updated Successfully';
 $string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 
@@ -56,6 +57,7 @@ $string['student_report'] = 'Student Report';
 $string['faculty_report'] = 'Faculty Report';
 $string['dorm_report'] = 'Dorm Report';
 $string['student_edit'] = 'Edit Student Record';
+$string['parent_edit'] = 'Edit Parent Record';
 $string['faculty_edit'] = 'Edit Faculty Record';
 $string['dorm_edit'] = 'Edit Dorm Record';
 
@@ -91,6 +93,8 @@ $string['student_report_parents_header_homephone'] = 'Home Phone';
 $string['student_report_parents_header_cellphone'] = 'Cell Phone';
 $string['student_report_parents_header_workphone'] = 'Work Phone';
 $string['student_report_parents_header_email'] = 'Email';
+
+$string['parent_report_add'] = 'New Parent';
 
 $string['faculty_report_header_name'] = 'Name';
 $string['faculty_report_header_dorm'] = 'Dorm';
@@ -135,6 +139,17 @@ $string['student_edit_permissions_passengers'] = 'May Drive Passengers?';
 $string['student_edit_permissions_swimcompetent'] = 'Competent Swimmer?';
 $string['student_edit_permissions_swimallowed'] = 'Allowed to Swim?';
 $string['student_edit_permissions_boatallowed'] = 'Allowed in Boats?';
+
+$string['parent_edit_header_parent'] = 'Parent Information';
+
+$string['parent_edit_parent_student'] = 'Child';
+$string['parent_edit_parent_name'] = 'Parent Name';
+$string['parent_edit_parent_isprimary'] = 'Primary Parent?';
+$string['parent_edit_parent_relationship'] = 'Relationship to Child';
+$string['parent_edit_parent_homephone'] = 'Parent Home Phone';
+$string['parent_edit_parent_cellphone'] = 'Parent Cell Phone';
+$string['parent_edit_parent_workphone'] = 'Parent Work Phone';
+$string['parent_edit_parent_email'] = 'Parent Email';
 
 $string['faculty_edit_header_faculty'] = 'Faculty Information';
 

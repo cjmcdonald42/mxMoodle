@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Faculty edit page for Middlesex School's Dorm and Student functions plugin.
+ * Parent edit page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,34 +24,32 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(__DIR__.'/../../../config.php');
-require_once('faculty_edit_form.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
-require_once(__DIR__.'/../locallib.php');
+ require(__DIR__.'/../../../config.php');
+ require_once('parent_edit_form.php');
+ require_once(__DIR__.'/../classes/output/renderable.php');
+ require_once(__DIR__.'/../classes/events/page_visited.php');
+ require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_faculty', context_system::instance());
+require_capability('local/mxschool:manage_students', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('faculty_report', 'local_mxschool') => '/local/mxschool/user_management/faculty_report.php'
+    get_string('student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
 );
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
-$url = '/local/mxschool/user_management/faculty_edit.php';
-$title = get_string('faculty_edit', 'local_mxschool');
-$queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'fields' => array(
-    'id', 'dormid' => 'dorm', 'faculty_code' => 'facultycode', 'advisory_available' => 'advisoryavailable',
-    'advisory_closing' => 'advisoryclosing'
-)), 'user' => array('abbreviation' => 'u', 'join' => 'f.userid = u.id', 'fields' => array(
-    'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
+$url = '/local/mxschool/user_management/parent_edit.php';
+$title = get_string('parent_edit', 'local_mxschool');
+$queryfields = array('local_mxschool_parent' => array('abbreviation' => 'p', 'fields' => array(
+    'id', 'userid' => 'student', 'parent_name' => 'name', 'is_primary_parent' => 'isprimary', 'relationship',
+    'home_phone' => 'homephone', 'cell_phone' => 'cellphone', 'work_phone' => 'workphone', 'email'
 )));
-$dorms = array(null => '') + get_dorms_list();
+$students = get_student_list();
 
-if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_mxschool_parent', array('id' => $id))) {
     redirect($redirect);
 }
 
@@ -68,15 +66,15 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new faculty_edit_form(null, array('id' => $id, 'dorms' => $dorms));
-$data = get_record($queryfields, "f.id = ?", array($id));
+$form = new parent_edit_form(null, array('id' => $id, 'students' => $students));
+$data = get_record($queryfields, "p.id = ?", array($id));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
     redirect($redirect);
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
-    redirect($redirect, get_string('faculty_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
+    redirect($redirect, get_string('parent_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
