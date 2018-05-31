@@ -30,19 +30,19 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
-    protected const ELEMENT_TEXT = array(
+    const ELEMENT_TEXT = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20)
     );
-    protected const ELEMENT_TEXT_REQUIRED = array(
+    const ELEMENT_TEXT_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20), 'rules' => array('required')
     );
-    protected const ELEMENT_YES_NO = array(
+    const ELEMENT_YES_NO = array(
         'element' => 'radio', 'options' => array('Yes', 'No')
     );
-    protected const ELEMENT_YES_NO_REQUIRED = array(
+    const ELEMENT_YES_NO_REQUIRED = array(
         'element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required')
     );
-    protected const ELEMENT_EMAIL_REQUIRED = array(
+    const ELEMENT_EMAIL_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email', 'required')
     );
 
