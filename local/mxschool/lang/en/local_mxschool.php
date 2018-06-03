@@ -47,6 +47,7 @@ $string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 
 // General.
+$string['print'] = 'Print';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
 $string['report_select_dorm'] = 'All Dorms';

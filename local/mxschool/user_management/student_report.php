@@ -79,11 +79,10 @@ $addbutton = array(
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
-if ($type === 'parents') {
-    $renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), $addbutton);
-} else {
-    $renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect));
-}
+$renderable = ($type === 'parents'
+    ? new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), true, $addbutton)
+    : new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), true)
+);
 
 echo $output->header();
 echo $output->heading($title);

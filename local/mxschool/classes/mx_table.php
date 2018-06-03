@@ -44,9 +44,11 @@ abstract class local_mxschool_table extends table_sql {
      * @param array $searchable The database fields to search.
      * @param string $search The string to search for as a constraint.
      * @param array $urlparams The parameters for the baseurl.
+     * @param array $noprint The columns which should not be displayed if the page is printing.
      */
     public function __construct(
-        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $searchable, $search, $urlparams
+        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $searchable, $search, $urlparams,
+        $noprint = array()
     ) {
         global $PAGE;
 
@@ -58,6 +60,9 @@ abstract class local_mxschool_table extends table_sql {
         foreach ($columns as $column) {
             if (!in_array($column, $sortable)) {
                 $this->no_sorting($column);
+            }
+            if (in_array($column, $noprint)) {
+                $this->column_class($column, 'noprint');
             }
         }
 

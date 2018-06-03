@@ -90,7 +90,9 @@ class report_page implements renderable, templatable {
     private $search;
     /** @param array $dropdowns array of local_mxschool_dropdown objects.*/
     private $dropdowns;
-    /** @var string|bool $addbutton text and url for an add button or false.*/
+    /** @var bool $printbutton whether to display a print button.*/
+    private $printbutton;
+    /** @var array|bool $addbutton text and url for an add button or false.*/
     private $addbutton;
 
     /**
@@ -98,13 +100,15 @@ class report_page implements renderable, templatable {
      * @param int $size the number of rows to output.
      * @param string $search default search text.
      * @param array $dropdowns array of local_mxschool_dropdown objects.
+     * @param bool $printbutton whether to display a print button.
      * @param array|bool $addbutton text and url for an add button or false.
      */
-    public function __construct($table, $size, $search, $dropdowns = array(), $addbutton = false) {
+    public function __construct($table, $size, $search, $dropdowns = array(), $printbutton = false, $addbutton = false) {
         $this->table = $table;
         $this->size = $size;
         $this->search = $search;
         $this->dropdowns = $dropdowns;
+        $this->printbutton = $printbutton;
         $this->addbutton = $addbutton;
     }
 
@@ -124,6 +128,10 @@ class report_page implements renderable, templatable {
         $data->placeholder = get_string('search').'...';
         $data->search = $this->search;
         $data->submit = get_string('search');
+        if ($this->printbutton) {
+            $data->printbutton = true;
+            $data->printtext = get_string('print', 'local_mxschool');
+        }
         if ($this->addbutton) {
             $data->addbutton = true;
             $data->addtext = $this->addbutton['text'];

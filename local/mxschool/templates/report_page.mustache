@@ -1,18 +1,21 @@
-<div>
+<div class="mx-table-form noprint">
     <form action="{{ url }}">
         {{# dropdowns }}
             {{{ . }}}
         {{/ dropdowns }}
-        <input type="text" name="search" placeholder="{{ placeholder }}" value="{{ search }}">
-        <input type="submit" value="{{ submit }}">
+        <input type="text" name="search" placeholder="{{ placeholder }}" value="{{ search }}" />
+        <input type="submit" value="{{ submit }}" />
     </form>
+    {{# printbutton }}
+        <input type="button" onclick="window.print()" value="{{ printtext }}" />
+    {{/ printbutton}}
     {{# addbutton }}
-    <form action="{{ addurl }}">
-        <input type="submit" value="{{ addtext }}">
-    </form>
+        <form action="{{ addurl }}">
+            <input type="submit" value="{{ addtext }}" />
+        </form>
     {{/ addbutton }}
 </div>
 
-<div>
+<div class="mx-table">
     {{{ table }}}
 </div>

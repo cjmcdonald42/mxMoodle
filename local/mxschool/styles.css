@@ -1,0 +1,26 @@
+.path-local-mxschool h1 {
+    font-size: 18pt;
+}
+
+.path-local-mxschool h2 {
+    font-size: 14pt;
+}
+
+.path-local-mxschool .mx-table table {
+    padding: 1pt;
+    font-size: 10pt;
+}
+
+.path-local-mxschool .mx-table thead {
+    font-weight: bold;
+}
+
+.path-local-mxschool .mx-table-form form {
+    display: inline;
+}
+
+@media print {
+    .path-local-mxschool header, .path-local-mxschool footer, .path-local-mxschool nav, .path-local-mxschool .noprint {
+        display: none;
+    }
+}
