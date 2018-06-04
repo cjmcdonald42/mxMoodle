@@ -103,7 +103,7 @@ abstract class local_mxschool_table extends table_sql {
         return $OUTPUT->action_icon(
             new moodle_url($this->baseurl, array('action' => 'delete', 'id' => $id)),
             new pix_icon('t/delete', get_string('delete'), 'core', array('class' => 'iconsmall')),
-            null, array('onclick' => "return confirm($warning)")
+            null, array('onclick' => "return window.confirm(\"$warning\")")
         );
     }
 

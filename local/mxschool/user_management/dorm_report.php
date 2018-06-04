@@ -34,6 +34,8 @@ require_login();
 require_capability('local/mxschool:manage_dorms', context_system::instance());
 
 $search = optional_param('search', '', PARAM_RAW);
+$action = optional_param('action', '', PARAM_RAW);
+$id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
@@ -41,6 +43,23 @@ $parents = array(
 );
 $url = '/local/mxschool/user_management/dorm_report.php';
 $title = get_string('dorm_report', 'local_mxschool');
+
+if ($action === 'delete' && $id) {
+    $record = $DB->get_record('local_mxschool_dorm', array('id' => $id));
+    if ($record) {
+        $record->deleted = 1;
+        $DB->update_record('local_mxschool_dorm', $record);
+        redirect(
+            new moodle_url($url, array('search' => $search)), get_string('dorm_delete_success', 'local_mxschool'), null,
+            \core\output\notification::NOTIFY_SUCCESS
+        );
+    } else {
+        redirect(
+            new moodle_url($url, array('search' => $search)), get_string('dorm_delete_failure', 'local_mxschool'), null,
+            \core\output\notification::NOTIFY_WARNING
+        );
+    }
+}
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

@@ -34,10 +34,12 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
 
-$filter = new stdClass();
 $type = optional_param('type', 'students', PARAM_RAW);
+$filter = new stdClass();
 $filter->dorm = optional_param('dorm', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
+$action = optional_param('action', '', PARAM_RAW);
+$id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
@@ -54,6 +56,22 @@ $dorms = get_dorms_list();
 
 if (!isset($types[$type])) {
     redirect(new moodle_url($url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
+}
+if ($type === 'parents' && $action === 'delete' && $id) {
+    $record = $DB->get_record('local_mxschool_parent', array('id' => $id));
+    if ($record) {
+        $record->deleted = 1;
+        $DB->update_record('local_mxschool_parent', $record);
+        redirect(
+            new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)),
+            get_string('parent_delete_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
+        );
+    } else {
+        redirect(
+            new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)),
+            get_string('parent_delete_failure', 'local_mxschool'), null, \core\output\notification::NOTIFY_WARNING
+        );
+    }
 }
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

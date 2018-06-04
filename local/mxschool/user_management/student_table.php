@@ -80,6 +80,7 @@ class student_table extends local_mxschool_table {
                     'p.home_phone AS homephone', 'p.cell_phone AS cellphone', 'p.work_phone AS workphone', 'p.email'
                 ));
                 $from[] = '{local_mxschool_parent} p ON u.id = p.userid';
+                $where = array_merge($where, array('p.deleted = 0'));
                 $searchable[] = 'p.parent_name';
                 break;
         }

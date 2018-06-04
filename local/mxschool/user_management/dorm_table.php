@@ -48,7 +48,7 @@ class dorm_table extends local_mxschool_table {
             'd.id', 'd.name', 'd.abbreviation', "CONCAT(u.lastname, ', ', u.firstname) AS hoh", 'd.type', 'd.gender', 'd.available'
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
-        $where = array('u.deleted = 0');
+        $where = array('d.deleted = 0', 'u.deleted = 0');
         $searchable = array('d.name', 'd.abbreviation', 'u.lastname', 'u.firstname');
         $sortable = array('name', 'type', 'gender');
         $urlparams = array('search' => $search);

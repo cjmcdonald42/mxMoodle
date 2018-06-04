@@ -40,17 +40,22 @@ $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data'
 // Events.
 $string['event_page_visited'] = 'page visited event';
 
+// General.
+$string['print'] = 'Print';
+$string['report_header_actions'] = 'Actions';
+$string['report_delete_warning'] = 'Are you sure want to delete this record?';
+$string['report_select_dorm'] = 'All Dorms';
+
 // Notifications.
 $string['student_edit_success'] = 'Student Record Updated Successfully';
 $string['parent_edit_success'] = 'Parent Record Updated Successfully';
 $string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 
-// General.
-$string['print'] = 'Print';
-$string['report_header_actions'] = 'Actions';
-$string['report_delete_warning'] = 'Are you sure want to delete this record?';
-$string['report_select_dorm'] = 'All Dorms';
+$string['parent_delete_success'] = 'Parent Record Deleted Successfully';
+$string['dorm_delete_success'] = 'Dorm Record Deleted Successfully';
+$string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
+$string['dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
 
 // User management.
 $string['user_management'] = 'User Management';

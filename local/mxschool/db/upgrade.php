@@ -63,5 +63,29 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018052234, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018060300) {
+
+        // Define field deleted to be added to local_mxschool_parent.
+        $table = new xmldb_table('local_mxschool_parent');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'userid');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field deleted to be added to local_mxschool_dorm.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'hohid');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018060300, 'local', 'mxschool');
+    }
+
     return true;
 }
