@@ -3,7 +3,9 @@
         {{# dropdowns }}
             {{{ . }}}
         {{/ dropdowns }}
-        <input type="text" name="search" placeholder="{{ placeholder }}" value="{{ search }}" />
+        {{# search }}
+            <input type="text" name="search" placeholder="{{ placeholder }}" value="{{ search }}" />
+        {{/ search }}
         <input type="submit" value="{{ submit }}" />
     </form>
     {{# printbutton }}

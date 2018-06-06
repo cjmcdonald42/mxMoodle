@@ -53,7 +53,7 @@ class dorm_table extends local_mxschool_table {
         $sortable = array('name', 'type', 'gender');
         $urlparams = array('search' => $search);
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $searchable, $search, $urlparams
+            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $search, $searchable
         );
     }
 

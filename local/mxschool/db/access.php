@@ -42,5 +42,9 @@ $capabilities = array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:view_checkin' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
     )
 );

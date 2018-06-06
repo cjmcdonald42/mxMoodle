@@ -31,11 +31,13 @@ $string['mxschool_category'] = 'Middlesex School';
 $string['indexes'] = 'Index Pages';
 $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
+$string['checkin_index'] = 'Checkin Sheets Index';
 
 // Capabilities.
 $string['mxschool:manage_students'] = 'Middlesex School: View and manage student data';
 $string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty data';
 $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
+$string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
 
 // Events.
 $string['event_page_visited'] = 'page visited event';
@@ -177,3 +179,20 @@ $string['dorm_edit_dorm_hoh'] = 'Head of House';
 $string['dorm_edit_dorm_type'] = 'Type';
 $string['dorm_edit_dorm_gender'] = 'Gender';
 $string['dorm_edit_dorm_available'] = 'Available';
+
+// Checkin Sheets.
+$string['checkin'] = 'Check-in Sheets';
+$string['checkin_preferences'] = 'Check-in Sheets Preferences';
+$string['generic_report'] = 'Check-in Sheet';
+$string['weekday_report'] = 'Weekday Check-in Sheet';
+
+$string['generic_report_header_student'] = 'Name';
+$string['generic_report_header_room'] = 'Room #';
+$string['generic_report_header_grade'] = 'Grade';
+$string['generic_report_header_checkin'] = '_____';
+
+$string['weekday_report_header_student'] = 'Name';
+$string['weekday_report_header_room'] = 'Room #';
+$string['weekday_report_header_grade'] = 'Grade';
+$string['weekday_report_header_early'] = 'Early';
+$string['weekday_report_header_late'] = 'Late';

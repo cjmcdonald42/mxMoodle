@@ -30,7 +30,7 @@ if ($hassiteconfig) {
 
     $ADMIN->add('root', new admin_category('mxschool', new lang_string('mxschool_category', 'local_mxschool')));
 
-    $ADMIN->add('mxschool', new admin_settingpage('user_management', new lang_string('user_management', 'local_mxschool')));
+    // $ADMIN->add('mxschool', new admin_settingpage('user_management', new lang_string('user_management', 'local_mxschool')));
 
     $ADMIN->add('mxschool', new admin_category('indexes', new lang_string('indexes', 'local_mxschool')));
     $ADMIN->add('indexes', new admin_externalpage(
@@ -42,6 +42,11 @@ if ($hassiteconfig) {
         'user_management_index',
         new lang_string('user_management_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/user_management/index.php")
+    );
+    $ADMIN->add('indexes', new admin_externalpage(
+        'checkin_index',
+        new lang_string('checkin_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/checkin/index.php")
     );
 
 }

@@ -86,7 +86,7 @@ class report_page implements renderable, templatable {
     private $table;
     /** @var int $size the number of rows to output.*/
     private $size;
-    /** @var string $search default search text.*/
+    /** @var string $search default search text, null if there is no search option.*/
     private $search;
     /** @param array $dropdowns array of local_mxschool_dropdown objects.*/
     private $dropdowns;
@@ -98,12 +98,12 @@ class report_page implements renderable, templatable {
     /**
      * @param mx_table $table table object to be outputed to the template.
      * @param int $size the number of rows to output.
-     * @param string $search default search text.
+     * @param string $search default search text, null if there is no search option.
      * @param array $dropdowns array of local_mxschool_dropdown objects.
      * @param bool $printbutton whether to display a print button.
      * @param array|bool $addbutton text and url for an add button or false.
      */
-    public function __construct($table, $size, $search, $dropdowns = array(), $printbutton = false, $addbutton = false) {
+    public function __construct($table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false) {
         $this->table = $table;
         $this->size = $size;
         $this->search = $search;

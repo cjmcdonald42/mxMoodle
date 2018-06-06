@@ -54,7 +54,7 @@ class faculty_table extends local_mxschool_table {
         $sortable = array('name', 'dorm', 'advisoryavailable', 'advisoryclosing');
         $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $searchable, $filter->search, $urlparams
+            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $filter->search, $searchable
         );
     }
 

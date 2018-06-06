@@ -41,14 +41,14 @@ abstract class local_mxschool_table extends table_sql {
      * @param array $fields The database fields to select.
      * @param array $from The database tables to query.
      * @param array $where The constaints on the query.
-     * @param array $searchable The database fields to search.
-     * @param string $search The string to search for as a constraint.
      * @param array $urlparams The parameters for the baseurl.
+     * @param string $search The string to search for as a constraint, null indicates no search option.
+     * @param array $searchable The database fields to search.
      * @param array $noprint The columns which should not be displayed if the page is printing.
      */
     public function __construct(
-        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $searchable, $search, $urlparams,
-        $noprint = array()
+        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $urlparams,
+        $search = null, $searchable = array(), $noprint = array()
     ) {
         global $PAGE;
 

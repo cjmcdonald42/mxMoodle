@@ -95,7 +95,7 @@ class student_table extends local_mxschool_table {
         $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
         $noprint = array('actions');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $searchable, $filter->search, $urlparams,
+            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $filter->search, $searchable,
             $noprint
         );
     }
