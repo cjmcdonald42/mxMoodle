@@ -112,11 +112,10 @@ class student_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        if ($this->type === 'parents') {
-            return $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id);
-        } else {
-            return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id);
-        }
+        return ($this->type === 'parents'
+            ? $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id)
+            : $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id)
+        );
     }
 
 }
