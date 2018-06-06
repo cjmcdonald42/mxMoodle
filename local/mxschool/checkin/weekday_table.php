@@ -37,7 +37,7 @@ class weekday_table extends local_mxschool_table {
      * @param string $dorm the id of the currently selected dorm or '' for all dorms.
      */
     public function __construct($uniqueid, $dorm) {
-        $columns = array('student', 'room', 'grade', 'early', 'late');
+        $columns = array('student', 'room', 'grade', 'early1', 'late1', 'early2', 'late2', 'early3', 'late3', 'early4', 'late4', 'early5', 'late5');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("weekday_report_header_{$column}", 'local_mxschool');
