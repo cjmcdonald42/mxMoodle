@@ -77,6 +77,9 @@ abstract class local_mxschool_form extends moodleform {
                     case 'select':
                         $mform->addElement('select', $name, $displayname, $properties['options']);
                         break;
+                    case 'date_selector':
+                        $mform->addElement('date_selector', $name, $displayname);
+                        break;
                     default:
                         $mform->addElement($properties['element'], $name, $displayname, $properties['attributes']);
                 }

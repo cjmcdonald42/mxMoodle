@@ -34,11 +34,14 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
-        {{store any parameters}}
-
-        $hidden = {{array of hidden fields}};
-        $fields = {{array of fields}};
-        parent::set_fields($hidden, $fields, {{string_prefix}});
+        $fields = array(
+            'dates' => array(
+                'dormsopen' => array('element' => 'date_selector'),
+                'secondsemester' => array('element' => 'date_selector'),
+                'dormsclose' => array('element' => 'date_selector')
+            )
+        );
+        parent::set_fields(array(), $fields, 'checkin_preferences');
     }
 
 }

@@ -189,6 +189,12 @@ $string['checkin_preferences'] = 'Check-in Sheets Preferences';
 $string['generic_report'] = 'Check-in Sheet';
 $string['weekday_report'] = 'Weekday Check-in Sheet';
 
+$string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
+
+$string['checkin_preferences_dates_dormsopen'] = 'Dorms Open On: ';
+$string['checkin_preferences_dates_secondsemester'] = 'Second Semester Starts On: ';
+$string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
+
 $string['generic_report_header_student'] = 'Name';
 $string['generic_report_header_room'] = 'Room #';
 $string['generic_report_header_grade'] = 'Grade';
