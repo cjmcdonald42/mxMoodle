@@ -51,4 +51,5 @@ class faculty_edit_form extends local_mxschool_form {
         ));
         parent::set_fields($hidden, $fields, 'faculty_edit');
     }
+
 }

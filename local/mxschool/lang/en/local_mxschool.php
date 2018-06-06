@@ -38,6 +38,7 @@ $string['mxschool:manage_students'] = 'Middlesex School: View and manage student
 $string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty data';
 $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
+$string['mxschool:manage_checkin'] = 'Middlesex School: Manage checkin preferences';
 
 // Events.
 $string['event_page_visited'] = 'page visited event';
@@ -58,6 +59,8 @@ $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['dorm_delete_success'] = 'Dorm Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
 $string['dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
+
+$string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 
 // User management.
 $string['user_management'] = 'User Management';
