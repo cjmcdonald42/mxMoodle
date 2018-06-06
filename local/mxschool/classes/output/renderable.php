@@ -125,8 +125,11 @@ class report_page implements renderable, templatable {
         foreach ($this->dropdowns as $dropdown) {
             $data->dropdowns[] = html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
         }
-        $data->placeholder = get_string('search').'...';
-        $data->search = $this->search;
+        if ($this->search !== null) {
+            $data->search = true;
+            $data->placeholder = get_string('search').'...';
+            $data->searchtext = $this->search;
+        }
         $data->submit = get_string('search');
         if ($this->printbutton) {
             $data->printbutton = true;
