@@ -3,12 +3,13 @@
 }
 
 .path-local-mxschool h2 {
-    font-size: 14pt;
+    font-size: 18pt;
+    font-weight: 600;
 }
 
 .path-local-mxschool .mx-table table {
     padding: 1pt;
-    font-size: 10pt;
+    font-size: 9pt;
 }
 
 .path-local-mxschool .mx-table thead {
