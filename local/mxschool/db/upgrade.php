@@ -87,5 +87,29 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018060300, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018060621) {
+
+        // Define table local_mxschool_weekend to be created.
+        $table = new xmldb_table('local_mxschool_weekend');
+
+        // Adding fields to table local_mxschool_weekend.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('sunday_date', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('type', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'Open');
+        $table->add_field('start_day', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'Saturday');
+        $table->add_field('end_day', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'Sunday');
+
+        // Adding keys to table local_mxschool_weekend.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for local_mxschool_weekend.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018060621, 'local', 'mxschool');
+    }
+
     return true;
 }

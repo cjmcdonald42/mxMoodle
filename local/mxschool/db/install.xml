@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180603" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180606" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -95,6 +95,18 @@
         <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the student's dorm"/>
         <KEY NAME="advisor" TYPE="foreign" FIELDS="advisorid" REFTABLE="local_mxschool_faculty" REFFIELDS="id" COMMENT="The faculty record of the student's advisor"/>
         <KEY NAME="permissions" TYPE="foreign-unique" FIELDS="permissionsid" REFTABLE="local_mxschool_permissions" REFFIELDS="id" COMMENT="The permissions record of the student"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_weekend" COMMENT="mxschool weekend table - used for check-in reports">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="sunday_date" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The date of the Sunday of the weekend (dd/mm/yyyy)."/>
+        <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Open" SEQUENCE="false" COMMENT="The type of the weekend {&quot;Open&quot;, &quot;Closed&quot;, &quot;Free&quot;, &quot;Vacation&quot;}."/>
+        <FIELD NAME="start_day" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Saturday" SEQUENCE="false" COMMENT="The day on which the weekend starts {&quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;}."/>
+        <FIELD NAME="end_day" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Sunday" SEQUENCE="false" COMMENT="The day on which the weekend ends {&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;}."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>
