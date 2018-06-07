@@ -67,14 +67,17 @@ foreach ($parents as $display => $url) {
 $PAGE->navbar->add($title);
 
 $form = new parent_edit_form(null, array('id' => $id, 'students' => $students));
+$form->set_redirect($redirect);
 $data = get_record($queryfields, "p.id = ?", array($id));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
-    redirect($redirect);
+    redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
-    redirect($redirect, get_string('parent_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
+    redirect(
+        $form->get_redirect(), get_string('parent_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
+    );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
