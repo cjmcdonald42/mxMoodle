@@ -37,9 +37,9 @@ $parents = $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
 );
+$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/checkin/preferences.php';
 $title = get_string('checkin_preferences', 'local_mxschool');
-
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -55,6 +55,7 @@ foreach ($parents as $display => $url) {
 $PAGE->navbar->add($title);
 
 $form = new preferences_form(null);
+$form->set_redirect($redirect);
 $data = new stdClass;
 $data->dormsopen = get_config('local_mxschool', 'dorms_open_date');
 $data->secondsemester = get_config('local_mxschool', 'second_semester_start_date');
@@ -62,13 +63,13 @@ $data->dormsclose = get_config('local_mxschool', 'dorms_close_date');
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
-    redirect(new moodle_url($url));
+    redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     set_config('dorms_open_date', $data->dormsopen, 'local_mxschool');
     set_config('second_semester_start_date', $data->secondsemester, 'local_mxschool');
     set_config('dorms_close_date', $data->dormsclose, 'local_mxschool');
     redirect(
-        new moodle_url($url), get_string('checkin_preferences_edit_success', 'local_mxschool'), null,
+        $form->get_redirect(), get_string('checkin_preferences_edit_success', 'local_mxschool'), null,
         \core\output\notification::NOTIFY_SUCCESS
     );
 }
