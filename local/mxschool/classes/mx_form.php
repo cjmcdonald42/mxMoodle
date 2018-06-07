@@ -57,6 +57,8 @@ abstract class local_mxschool_form extends moodleform {
         $mform = $this->_form;
 
         $this->add_action_buttons();
+        $mform->addElement('hidden', 'redirect', null);
+        $mform->setType('redirect', PARAM_TEXT);
         foreach ($hidden as $name) {
             $mform->addElement('hidden', $name, null);
             $mform->setType($name, PARAM_INT);
@@ -97,6 +99,27 @@ abstract class local_mxschool_form extends moodleform {
             }
         }
         $this->add_action_buttons();
+    }
+
+    /**
+     * Sets the redirect url so long as the form has been neither cancelled nor submitted.
+     * Uses the server's HTTP_REFERER if it is set, otherwise uses the fallback provided.
+     *
+     * @param moodle_url $fallback The url to use if no referer is set.
+     */
+    public function set_redirect($fallback) {
+        if (!$this->is_submitted()) {
+            $this->_form->setDefault('redirect', isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback->out());
+        }
+    }
+
+    /**
+     * Retrieves the redirect url to be used after the form is submitted or cancelled.
+     *
+     * @return string url to redirect to.
+     */
+    public function get_redirect() {
+        return $this->_form->exportValue('redirect');
     }
 
 }

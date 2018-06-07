@@ -76,17 +76,20 @@ foreach ($parents as $display => $url) {
 $PAGE->navbar->add($title);
 
 $form = new student_edit_form(null, array('id' => $id, 'dorms' => $dorms, 'advisors' => $advisors));
+$form->set_redirect($redirect);
 $data = get_record($queryfields, "s.id = ?", array($id));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
-    redirect($redirect);
+    redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     if (!$data->room) {
         $data->room = null;
     }
     update_record($queryfields, $data);
-    redirect($redirect, get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS);
+    redirect(
+        $form->get_redirect(), get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
+    );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

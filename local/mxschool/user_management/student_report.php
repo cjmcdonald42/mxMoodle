@@ -61,6 +61,17 @@ if ($type === 'parents' && $action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_parent', array('id' => $id));
     if ($record) {
         $record->deleted = 1;
+        if ($record->is_primary_parent === 'Yes') { // Each student must have a primary parent.
+            $record->is_primary_parent = 'No';
+            $newprimary = $DB->get_record_sql(
+                "SELECT id, is_primary_parent FROM {local_mxschool_parent} WHERE userid = ? AND id != ? AND deleted = 0",
+                array($record->userid, $record->id), IGNORE_MULTIPLE
+            );
+            if ($newprimary) {
+                $newprimary->is_primary_parent = 'Yes';
+                $DB->update_record('local_mxschool_parent', $newprimary);
+            }
+        }
         $DB->update_record('local_mxschool_parent', $record);
         redirect(
             new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)),
@@ -98,11 +109,11 @@ $addbutton = array(
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = ($type === 'parents'
-    ? new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), true, $addbutton)
+    ? new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), false, $addbutton)
     : new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), true)
 );
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($types[$type].($filter->dorm ? " - {$dorms[$filter->dorm]}" : ''));
 echo $output->render($renderable);
 echo $output->footer();
