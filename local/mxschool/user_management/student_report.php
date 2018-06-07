@@ -61,6 +61,17 @@ if ($type === 'parents' && $action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_parent', array('id' => $id));
     if ($record) {
         $record->deleted = 1;
+        if ($record->is_primary_parent === 'Yes') { // Each student must have a primary parent.
+            $record->is_primary_parent = 'No';
+            $newprimary = $DB->get_record_sql(
+                "SELECT id, is_primary_parent FROM {local_mxschool_parent} WHERE userid = ? AND id != ? AND deleted = 0",
+                array($record->userid, $record->id), IGNORE_MULTIPLE
+            );
+            if ($newprimary) {
+                $newprimary->is_primary_parent = 'Yes';
+                $DB->update_record('local_mxschool_parent', $newprimary);
+            }
+        }
         $DB->update_record('local_mxschool_parent', $record);
         redirect(
             new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)),
