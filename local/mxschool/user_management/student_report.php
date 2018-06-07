@@ -98,11 +98,11 @@ $addbutton = array(
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = ($type === 'parents'
-    ? new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), true, $addbutton)
+    ? new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), false, $addbutton)
     : new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), true)
 );
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($types[$type].($filter->dorm ? " - {$dorms[$filter->dorm]}" : ''));
 echo $output->render($renderable);
 echo $output->footer();

@@ -57,7 +57,7 @@ abstract class local_mxschool_form extends moodleform {
         $mform = $this->_form;
 
         $this->add_action_buttons();
-        $mform->addElement('text', 'redirect', null);
+        $mform->addElement('hidden', 'redirect', null);
         $mform->setType('redirect', PARAM_TEXT);
         foreach ($hidden as $name) {
             $mform->addElement('hidden', $name, null);
