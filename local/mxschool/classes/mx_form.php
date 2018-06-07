@@ -45,6 +45,8 @@ abstract class local_mxschool_form extends moodleform {
     const ELEMENT_EMAIL_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email', 'required')
     );
+    const ELEMENT_ROW_DIV = array('element' => 'html', 'html' => '<div class="mx-form-row form-group row fitem">');
+    const ELEMENT_END_DIV = array('element' => 'html', 'html' => '</div>');
 
     /**
      * Sets all the fields for the form.
@@ -66,8 +68,15 @@ abstract class local_mxschool_form extends moodleform {
         foreach ($fields as $category => $categoryfields) {
             $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", 'local_mxschool'));
             foreach ($categoryfields as $name => $properties) {
-                $displayname = get_string("{$stringprefix}_{$category}_{$name}", 'local_mxschool');
+                $tag = isset($properties['name']) ? $properties['name'] : $name;
+                $displayname = get_string("{$stringprefix}_{$category}_{$tag}", 'local_mxschool');
                 switch($properties['element']) {
+                    case 'static':
+                        $mform->addElement('static', $name, $displayname, $properties['text']);
+                        break;
+                    case 'html':
+                        $mform->addElement('html', $properties['html']);
+                        break;
                     case 'radio':
                         $buttons = array();
                         foreach ($properties['options'] as $option) {

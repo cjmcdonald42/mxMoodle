@@ -190,10 +190,16 @@ $string['generic_report'] = 'Check-in Sheet';
 $string['weekday_report'] = 'Weekday Check-in Sheet';
 
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
+$string['checkin_preferences_header_weekends'] = 'Weekend Types';
 
 $string['checkin_preferences_dates_dormsopen'] = 'Dorms Open On: ';
 $string['checkin_preferences_dates_secondsemester'] = 'Second Semester Starts On: ';
 $string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
+
+$string['checkin_preferences_weekends_sunday'] = 'Sunday Date';
+$string['checkin_preferences_weekends_type'] = 'Type';
+$string['checkin_preferences_weekends_startday'] = 'First Day';
+$string['checkin_preferences_weekends_endday'] = 'Last Day';
 
 $string['generic_report_header_student'] = 'Name';
 $string['generic_report_header_room'] = 'Room #';

@@ -34,12 +34,38 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
+        $weekends = $this->_customdata['weekends'];
+
+        $weekendfields = array();
+        foreach ($weekends as $weekend) {
+            $identifier = "weekend_$weekend->id";
+            $weekendfields["{$identifier}_div"] = parent::ELEMENT_ROW_DIV;
+            $weekendfields["{$identifier}_sunday"] = array(
+                'element' => 'static', 'name' => 'sunday', 'text' => strftime('%D', $weekend->sunday_date)
+            );
+            $weekendfields["{$identifier}_type"] = array(
+                'element' => 'radio', 'name' => 'type', 'options' => array('Open', 'Closed', 'Free', 'Vacation')
+            );
+            $weekendfields["{$identifier}_startday"] = array(
+                'element' => 'select', 'name' => 'startday', 'options' => array(
+                    'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday'
+                )
+            );
+            $weekendfields["{$identifier}_endday"] = array(
+                'element' => 'select', 'name' => 'endday', 'options' => array(
+                    'Sunday' => 'Sunday', 'Monday' => 'Monday', 'Tuesday' => 'Tuesday'
+                )
+            );
+            $weekendfields["{$identifier}_enddiv"] = parent::ELEMENT_END_DIV;
+        }
+
         $fields = array(
             'dates' => array(
                 'dormsopen' => array('element' => 'date_selector'),
                 'secondsemester' => array('element' => 'date_selector'),
                 'dormsclose' => array('element' => 'date_selector')
-            )
+            ),
+            'weekends' => $weekendfields
         );
         parent::set_fields(array(), $fields, 'checkin_preferences');
     }
