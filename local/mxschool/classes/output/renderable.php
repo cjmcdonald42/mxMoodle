@@ -82,6 +82,8 @@ class index_page implements renderable, templatable {
  */
 class report_page implements renderable, templatable {
 
+    /** @var string $id an id to tag this report for custom formatting.*/
+    private $id;
     /** @var mx_table $table table object to be outputed to the template.*/
     private $table;
     /** @var int $size the number of rows to output.*/
@@ -96,6 +98,7 @@ class report_page implements renderable, templatable {
     private $addbutton;
 
     /**
+     * @param string $id an id to tag this report for custom formatting.
      * @param mx_table $table table object to be outputed to the template.
      * @param int $size the number of rows to output.
      * @param string $search default search text, null if there is no search option.
@@ -103,7 +106,10 @@ class report_page implements renderable, templatable {
      * @param bool $printbutton whether to display a print button.
      * @param array|bool $addbutton text and url for an add button or false.
      */
-    public function __construct($table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false) {
+    public function __construct(
+        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false
+    ) {
+        $this->id = $id;
         $this->table = $table;
         $this->size = $size;
         $this->search = $search;
@@ -120,6 +126,7 @@ class report_page implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         global $PAGE;
         $data = new stdClass();
+        $data->id = $this->id;
         $data->url = $PAGE->url;
         $data->dropdowns = array();
         foreach ($this->dropdowns as $dropdown) {

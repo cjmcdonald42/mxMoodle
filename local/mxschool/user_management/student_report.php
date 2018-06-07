@@ -108,9 +108,9 @@ $addbutton = array(
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = ($type === 'parents'
-    ? new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), false, $addbutton)
-    : new \local_mxschool\output\report_page($table, 50, $filter->search, array($typeselect, $dormselect), true)
+$renderable = new \local_mxschool\output\report_page(
+    'student-report', $table, 50, $filter->search, array($typeselect, $dormselect), $type !== 'parents',
+    $type === 'parents' ? $addbutton : false
 );
 
 echo $output->header();

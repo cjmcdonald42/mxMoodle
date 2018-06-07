@@ -1,35 +1,70 @@
+/**
+ * General Styling.
+ */
+/* Page Headers. */
 .path-local-mxschool h1 {
     font-size: 18pt;
 }
-
+/* Content Headers. */
 .path-local-mxschool h2 {
-    font-size: 18pt;
-    font-weight: 600;
+    font-size: 14pt;
 }
 
+/**
+ * Default Table Styling.
+ */
+/* All table cells */
 .path-local-mxschool .mx-table table {
-    padding: 1pt;
-    font-size: 9pt;
+    font-size: 10pt;
 }
-
-.path-local-mxschool .mx-table thead {
+/* Table Header Cells. */
+.path-local-mxschool .mx-table th {
     font-weight: bold;
 }
-
-.path-local-mxschool .mx-table-form form {
+/* All filtering and buttons on one line. */
+.path-local-mxschool .mx-table-filter form,
+.path-local-mxschool .mx-table-filter input {
     display: inline;
 }
 
+/**
+ * Custom Table Styling.
+ */
+/* Weekday Check-in Report. (Proof of Concept) */
+.path-local-mxschool #checkin-weekday-report th,
+.path-local-mxschool #checkin-weekday-report td {
+    font-size: 8pt;
+    padding: 1px;
+}
+
+/**
+ * Form Styling.
+ */
+/* Experimental */
 .path-local-mxschool .mx-form-row > .row {
 
 }
-
+/* Experimental */
 .path-local-mxschool .mx-form-row > .row::after {
 
 }
 
+/**
+ * Print Styling.
+ */
 @media print {
-    .path-local-mxschool header, .path-local-mxschool footer, .path-local-mxschool nav, .path-local-mxschool .noprint {
+    .path-local-mxschool .noprint,
+    .path-local-mxschool header,
+    .path-local-mxschool footer,
+    .path-local-mxschool .mx-table nav {
         display: none;
+    }
+    /* Needs Further Attention */
+    .path-local-mxschool #page-wrapper {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    .path-local-mxschool #page-wrapper::after {
+        content: none;
     }
 }

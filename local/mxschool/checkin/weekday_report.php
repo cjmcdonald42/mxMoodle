@@ -63,7 +63,7 @@ $table = new weekday_table('weekday_table', $dorm);
 $dormselect = new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool'));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page($table, 50, null, array($dormselect), true);
+$renderable = new \local_mxschool\output\report_page('checkin-weekday-report', $table, 50, null, array($dormselect), true);
 
 echo $output->header();
 echo $output->heading("$dorms[$dorm] $title");
