@@ -50,22 +50,20 @@ class student_edit_form extends local_mxschool_form {
                 'birthday' => parent::ELEMENT_TEXT_REQUIRED,
                 'admissionyear' => parent::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'required' => true),
-                'gender' => array('element' => 'radio', 'type' => PARAM_TEXT, 'options' => array('M', 'F')),
-                'advisor' => array(
-                    'element' => 'select', 'type' => PARAM_INT, 'options' => $advisors, 'rules' => array('required')
-                ),
+                'gender' => array('element' => 'radio', 'options' => array('M', 'F')),
+                'advisor' => array('element' => 'select', 'options' => $advisors, 'rules' => array('required')),
                 'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
                 'isboardernextyear' => array(
                     'element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')
                 ),
-                'dorm' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $dorms, 'rules' => array('required')),
+                'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
                 'room' => parent::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
                 'riding' => array(
                     'element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')
                 ),
-                'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40)),
+                'comment' => parent::ELEMENT_TEXT_AREA,
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'town' => parent::ELEMENT_YES_NO,

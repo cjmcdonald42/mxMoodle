@@ -27,6 +27,62 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Generates and performs an SQL query to retrieve a record from the database.
+ *
+ * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
+ * @param string $where a where clause (without the WHERE keyword).
+ * @param array $params and parameters for the where clause.
+ */
+function get_record($queryfields, $where, $params = array()) {
+    global $DB;
+    $selectarray = array();
+    $fromarray = array();
+    foreach ($queryfields as $table => $tablefields) {
+        $abbreviation = $tablefields['abbreviation'];
+        foreach ($tablefields['fields'] as $header => $name) {
+            if (is_numeric($header)) {
+                $selectarray[] = "{$abbreviation}.{$name}";
+            } else {
+                $selectarray[] = "{$abbreviation}.{$header} AS {$name}";
+            }
+        }
+        if (!isset($tablefields['join'])) {
+            $fromarray[] = "{{$table}} {$abbreviation}";
+        } else {
+            $join = $tablefields['join'];
+            $fromarray[] = "LEFT JOIN {{$table}} {$abbreviation} ON {$join}";
+        }
+    }
+    $select = implode($selectarray, ', ');
+    $from = implode($fromarray, ' ');
+    return $DB->get_record_sql("SELECT $select FROM $from WHERE $where", $params);
+}
+
+/**
+ * Updates a record in the database or inserts it if it doesn't already exist.
+ *
+ * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
+ * @param stdClass $data the new data to update the database with.
+ */
+function update_record($queryfields, $data) {
+    global $DB;
+    foreach ($queryfields as $table => $tablefields) {
+        $record = new stdClass();
+        foreach ($tablefields['fields'] as $header => $name) {
+            if (is_numeric($header)) {
+                $header = $name;
+            }
+            $record->$header = $data->$name;
+        }
+        if ($record->id) {
+            $DB->update_record($table, $record);
+        } else {
+            $DB->insert_record($table, $record);
+        }
+    }
+}
+
+/**
  * Queries the database to create a list of all the available dorms.
  *
  * @return array the available dorms as id => name
@@ -110,6 +166,16 @@ function get_advisor_list() {
 }
 
 /**
+ * Determines whether the user has a record in the student table of the database.
+ *
+ * @return bool Whether the user is a student.
+ */
+function user_is_student() {
+    global $USER, $DB;
+    return $DB->record_exists('local_mxschool_student', array('userid' => $USER->id));
+}
+
+/**
  * Determines the dorm id to display for a faculty.
  * The priorities of this function are as follows:
  * 1) An id specified as a 'dorm' GET parameter.
@@ -122,60 +188,4 @@ function get_param_faculty_dorm() {
     global $DB, $USER;
     return isset($_GET['dorm']) ? $_GET['dorm']
     : $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
-}
-
-/**
- * Generates and performs an SQL query to retrieve a record from the database.
- *
- * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
- * @param string $where a where clause (without the WHERE keyword).
- * @param array $params and parameters for the where clause.
- */
-function get_record($queryfields, $where, $params = array()) {
-    global $DB;
-    $selectarray = array();
-    $fromarray = array();
-    foreach ($queryfields as $table => $tablefields) {
-        $abbreviation = $tablefields['abbreviation'];
-        foreach ($tablefields['fields'] as $header => $name) {
-            if (is_numeric($header)) {
-                $selectarray[] = "{$abbreviation}.{$name}";
-            } else {
-                $selectarray[] = "{$abbreviation}.{$header} AS {$name}";
-            }
-        }
-        if (!isset($tablefields['join'])) {
-            $fromarray[] = "{{$table}} {$abbreviation}";
-        } else {
-            $join = $tablefields['join'];
-            $fromarray[] = "LEFT JOIN {{$table}} {$abbreviation} ON {$join}";
-        }
-    }
-    $select = implode($selectarray, ', ');
-    $from = implode($fromarray, ' ');
-    return $DB->get_record_sql("SELECT $select FROM $from WHERE $where", $params);
-}
-
-/**
- * Updates a record in the database or inserts it if it doesn't already exist.
- *
- * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
- * @param stdClass $data the new data to update the database with.
- */
-function update_record($queryfields, $data) {
-    global $DB;
-    foreach ($queryfields as $table => $tablefields) {
-        $record = new stdClass();
-        foreach ($tablefields['fields'] as $header => $name) {
-            if (is_numeric($header)) {
-                $header = $name;
-            }
-            $record->$header = $data->$name;
-        }
-        if ($record->id) {
-            $DB->update_record($table, $record);
-        } else {
-            $DB->insert_record($table, $record);
-        }
-    }
 }

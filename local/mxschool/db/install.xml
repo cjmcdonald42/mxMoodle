@@ -124,8 +124,8 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
-        <KEY NAME="weekend" TYPE="foreign-unique" FIELDS="weekendid" REFTABLE="local_mxschool_weekend" REFFIELDS="id" COMMENT="The weekend record associated with the record."/>
+        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+        <KEY NAME="weekend" TYPE="foreign" FIELDS="weekendid" REFTABLE="local_mxschool_weekend" REFFIELDS="id" COMMENT="The weekend record associated with the record."/>
       </KEYS>
     </TABLE>
   </TABLES>

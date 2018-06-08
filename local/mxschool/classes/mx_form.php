@@ -45,6 +45,13 @@ abstract class local_mxschool_form extends moodleform {
     const ELEMENT_EMAIL_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email', 'required')
     );
+    const ELEMENT_TEXT_AREA = array(
+        'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40)
+    );
+    const ELEMENT_TEXT_AREA_REQUIRED = array(
+        'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40),
+        'rules' => array('required')
+    );
     const ELEMENT_ROW_DIV = array('element' => 'html', 'html' => '<div class="mx-form-row form-group row fitem">');
     const ELEMENT_END_DIV = array('element' => 'html', 'html' => '</div>');
 

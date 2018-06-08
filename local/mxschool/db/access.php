@@ -51,4 +51,8 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
+    'local/mxschool:manage_weekend' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
 );

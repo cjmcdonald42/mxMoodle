@@ -149,5 +149,39 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018060802, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018060808) {
+
+        // Define key user (foreign) to be dropped form local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch drop key user.
+        $dbman->drop_key($table, $key);
+
+        // Define key weekend (foreign) to be dropped form local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN_UNIQUE, array('weekendid'), 'local_mxschool_weekend', array('id'));
+
+        // Launch drop key weekend.
+        $dbman->drop_key($table, $key);
+
+        // Define key user (foreign) to be added to local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch add key user.
+        $dbman->add_key($table, $key);
+
+        // Define key weekend (foreign) to be added to local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
+
+        // Launch add key weekend.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018060808, 'local', 'mxschool');
+    }
+
     return true;
 }

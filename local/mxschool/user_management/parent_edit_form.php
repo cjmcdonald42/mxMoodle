@@ -39,7 +39,7 @@ class parent_edit_form extends local_mxschool_form {
 
         $hidden = array('id');
         $fields = array('parent' => array(
-            'student' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $students, 'rules' => array('required')),
+            'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
             'name' => parent::ELEMENT_TEXT_REQUIRED,
             'isprimary' => parent::ELEMENT_YES_NO_REQUIRED,
             'relationship' => parent::ELEMENT_TEXT_REQUIRED,

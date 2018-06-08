@@ -39,6 +39,7 @@ $string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty 
 $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
 $string['mxschool:manage_checkin'] = 'Middlesex School: Manage checkin preferences';
+$string['mxschool:manage_weekend'] = 'Middlesex School: Manage weekend forms';
 
 // Events.
 $string['event_page_visited'] = 'page visited event';
@@ -54,6 +55,7 @@ $string['student_edit_success'] = 'Student Record Updated Successfully';
 $string['parent_edit_success'] = 'Parent Record Updated Successfully';
 $string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
+$string['weekend_form_success'] = 'Weekend Form Submitted Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['dorm_delete_success'] = 'Dorm Record Deleted Successfully';
@@ -188,6 +190,8 @@ $string['checkin'] = 'Check-in Sheets';
 $string['checkin_preferences'] = 'Check-in Sheets Preferences';
 $string['generic_report'] = 'Check-in Sheet';
 $string['weekday_report'] = 'Weekday Check-in Sheet';
+$string['weekend_form'] = 'Weekend Form';
+$string['weekend_report'] = 'Weekend Check-in Sheet';
 
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
 $string['checkin_preferences_header_weekends'] = 'Weekend Types';
@@ -219,3 +223,12 @@ $string['weekday_report_header_late2'] = 'Late';
 $string['weekday_report_header_late3'] = 'Late';
 $string['weekday_report_header_late4'] = 'Late';
 $string['weekday_report_header_late5'] = 'Late';
+
+$string['weekend_form_description'] = 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than 10:30 PM on Friday. All relevant phone calls giving permission should also be received by Friday at 10:30 PM. (Voice mail messages are OK; Email messages are NOT)';
+$string['weekend_form_header_form'] = 'Weekend Form';
+$string['weekend_form_form_student'] = 'Student';
+$string['weekend_form_form_departuretime'] = 'Departure Date and Time';
+$string['weekend_form_form_returntime'] = 'Departure Date and Time';
+$string['weekend_form_form_destination'] = 'Your Destination';
+$string['weekend_form_form_transportation'] = 'Transportation by';
+$string['weekend_form_form_phone'] = 'Phone Number<br>(even if you are going home)';

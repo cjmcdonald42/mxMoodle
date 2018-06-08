@@ -168,12 +168,16 @@ class form_page implements renderable, templatable {
 
     /** @var moodleform $form The form object to render.*/
     private $form;
+    /** @var string|bool $description A description for the form or false.*/
+    private $descrption;
 
     /**
      * @param moodleform $form The form object to render.
+     * @param string|bool $description A description for the form or false.
      */
-    public function __construct($form) {
+    public function __construct($form, $description = false) {
         $this->form = $form;
+        $this->description = $description;
     }
 
     /**
@@ -186,6 +190,10 @@ class form_page implements renderable, templatable {
         ob_start();
         $this->form->display();
         $data->form = ob_get_clean();
+        if ($this->description) {
+            $data->description = true;
+            $data->descriptiontext = $this->description;
+        }
         return $data;
     }
 }

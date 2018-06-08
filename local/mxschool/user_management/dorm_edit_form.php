@@ -41,7 +41,7 @@ class dorm_edit_form extends local_mxschool_form {
         $fields = array('dorm' => array(
             'name' => parent::ELEMENT_TEXT_REQUIRED,
             'abbreviation' => parent::ELEMENT_TEXT_REQUIRED,
-            'hoh' => array('element' => 'select', 'type' => PARAM_INT, 'options' => $faculty, 'rules' => array('required')),
+            'hoh' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
             'type' => array('element' => 'radio', 'options' => array('Boarding', 'Day', 'All'), 'rules' => array('required')),
             'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'All'), 'rules' => array('required')),
             'available' => parent::ELEMENT_YES_NO_REQUIRED
