@@ -110,6 +110,21 @@ function get_advisor_list() {
 }
 
 /**
+ * Determines the dorm id to display for a faculty.
+ * The priorities of this function are as follows:
+ * 1) An id specified as a 'dorm' GET parameter.
+ * 2) The dorm of the currently logged in faculty member, if it exists.
+ * 3) An empty string.
+ *
+ * @return string The dorm id or an empty string, as specified.
+ */
+function get_param_faculty_dorm() {
+    global $DB, $USER;
+    return isset($_GET['dorm']) ? $_GET['dorm']
+    : $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
+}
+
+/**
  * Generates and performs an SQL query to retrieve a record from the database.
  *
  * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].

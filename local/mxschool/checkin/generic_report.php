@@ -34,7 +34,7 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
 
-$dorm = optional_param('dorm', '', PARAM_RAW);
+$dorm = get_param_faculty_dorm();
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
