@@ -111,5 +111,43 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018060621, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018060802) {
+
+        // Define table local_mxschool_weekend_form to be created.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+
+        // Adding fields to table local_mxschool_weekend_form.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('weekendid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('departure_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('return_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('destination', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('transportation', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_weekend_form.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+        $table->add_key('weekend', XMLDB_KEY_FOREIGN_UNIQUE, array('weekendid'), 'local_mxschool_weekend', array('id'));
+
+        // Conditionally launch create table for local_mxschool_weekend_form.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Changing type of field sunday_date on table local_mxschool_weekend to int.
+        $table = new xmldb_table('local_mxschool_weekend');
+        $field = new xmldb_field('sunday_date', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of type for field sunday_date.
+        $dbman->change_field_type($table, $field);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018060802, 'local', 'mxschool');
+    }
+
     return true;
 }

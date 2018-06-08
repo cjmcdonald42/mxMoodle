@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180606" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180608" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -100,13 +100,32 @@
     <TABLE NAME="local_mxschool_weekend" COMMENT="mxschool weekend table - used for check-in reports">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="sunday_date" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The date of the Sunday of the weekend (dd/mm/yyyy)."/>
+        <FIELD NAME="sunday_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The date of the Sunday of the weekend (dd/mm/yyyy)."/>
         <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Open" SEQUENCE="false" COMMENT="The type of the weekend {&quot;Open&quot;, &quot;Closed&quot;, &quot;Free&quot;, &quot;Vacation&quot;}."/>
         <FIELD NAME="start_day" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Saturday" SEQUENCE="false" COMMENT="The day on which the weekend starts {&quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;}."/>
         <FIELD NAME="end_day" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Sunday" SEQUENCE="false" COMMENT="The day on which the weekend ends {&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;}."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_weekend_form" COMMENT="mxschool weekend form table - stores the forms which students submit for weekend permissions">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student who submitted the form."/>
+        <FIELD NAME="weekendid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the weekend associated with the record."/>
+        <FIELD NAME="departure_date_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for departure date and time."/>
+        <FIELD NAME="return_date_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for the return date and time."/>
+        <FIELD NAME="destination" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
+        <FIELD NAME="transportation" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The student's means of transportation."/>
+        <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+        <KEY NAME="weekend" TYPE="foreign-unique" FIELDS="weekendid" REFTABLE="local_mxschool_weekend" REFFIELDS="id" COMMENT="The weekend record associated with the record."/>
       </KEYS>
     </TABLE>
   </TABLES>
