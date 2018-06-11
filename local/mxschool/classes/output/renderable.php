@@ -132,18 +132,10 @@ class report_page implements renderable, templatable {
         foreach ($this->dropdowns as $dropdown) {
             $data->dropdowns[] = html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
         }
-        if ($this->search !== null) {
-            $data->search = true;
-            $data->placeholder = get_string('search').'...';
-            $data->searchtext = $this->search;
-        }
-        $data->submit = get_string('search');
-        if ($this->printbutton) {
-            $data->printbutton = true;
-            $data->printtext = get_string('print', 'local_mxschool');
-        }
+        $data->searchable = $this->search !== null;
+        $data->search = $this->search;
+        $data->printable = $this->printbutton;
         if ($this->addbutton) {
-            $data->addbutton = true;
             $data->addtext = $this->addbutton['text'];
             $data->addurl = $this->addbutton['url']->out();
         }
@@ -194,14 +186,8 @@ class form_page implements renderable, templatable {
         ob_start();
         $this->form->display();
         $data->form = ob_get_clean();
-        if ($this->topdescription) {
-            $data->topdescription = true;
-            $data->topdescriptiontext = $this->topdescription;
-        }
-        if ($this->bottomdescription) {
-            $data->bottomdescription = true;
-            $data->bottomdescriptiontext = $this->bottomdescription;
-        }
+        $data->topdescription = $this->topdescription;
+        $data->bottomdescription = $this->bottomdescription;
         return $data;
     }
 }

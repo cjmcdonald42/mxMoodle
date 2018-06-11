@@ -22,8 +22,8 @@
     font-weight: bold;
 }
 /* All filtering and buttons on one line. */
-.path-local-mxschool .mx-table-filter form,
-.path-local-mxschool .mx-table-filter input {
+.path-local-mxschool .mx-filter form,
+.path-local-mxschool .mx-filter input {
     display: inline;
 }
 
