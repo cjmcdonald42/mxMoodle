@@ -37,10 +37,7 @@ class weekday_table extends local_mxschool_table {
      * @param string $dorm the id of the currently selected dorm or '' for all dorms.
      */
     public function __construct($uniqueid, $dorm) {
-        $columns = array(
-            'student', 'room', 'grade',
-            'early1', 'late1', 'early2', 'late2', 'early3', 'late3', 'early4', 'late4', 'early5', 'late5'
-        );
+        $columns = array('student', 'room', 'grade');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("weekday_report_header_{$column}", 'local_mxschool');
@@ -48,6 +45,14 @@ class weekday_table extends local_mxschool_table {
         $fields = array(
             's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room', 's.grade'
         );
+        for ($i = 1; $i <= 5; $i++) {
+            $columns[] = "early_$i";
+            $headers[] = get_string("weekday_report_header_early", 'local_mxschool');
+            $fields[] = "'&emsp;' AS early_$i";
+            $columns[] = "late_$i";
+            $headers[] = get_string("weekday_report_header_late", 'local_mxschool');
+            $fields[] = "'&emsp;' AS late_$i";
+        }
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $dorm ? "d.id = $dorm" : '');
         $sortable = array('student', 'room', 'grade');

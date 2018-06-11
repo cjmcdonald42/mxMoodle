@@ -117,8 +117,8 @@
         <FIELD NAME="weekendid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the weekend associated with the record."/>
         <FIELD NAME="departure_date_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for departure date and time."/>
         <FIELD NAME="return_date_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for the return date and time."/>
-        <FIELD NAME="destination" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
-        <FIELD NAME="transportation" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The student's means of transportation."/>
+        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
+        <FIELD NAME="transportation" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's means of transportation."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
         <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>

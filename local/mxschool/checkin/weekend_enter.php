@@ -124,6 +124,6 @@ $renderable = new \local_mxschool\output\form_page(
 );
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($title.($isstudent ? " for {$record->student} ({$record->dorm})" : ''));
 echo $output->render($renderable);
 echo $output->footer();

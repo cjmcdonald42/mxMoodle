@@ -56,8 +56,12 @@ class weekend_form extends local_mxschool_form {
             'returntime' => array(
                 'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
             ),
-            'destination' => parent::ELEMENT_TEXT_AREA_REQUIRED,
-            'transportation' => parent::ELEMENT_TEXT_AREA_REQUIRED,
+            'destination' => array(
+                'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')
+            ),
+            'transportation' => array(
+                'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')
+            ),
             'phone' => parent::ELEMENT_TEXT_REQUIRED
         ));
         parent::set_fields($fields, 'weekend_form', false);

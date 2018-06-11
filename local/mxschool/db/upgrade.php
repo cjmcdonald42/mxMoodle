@@ -142,5 +142,25 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061105, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061110) {
+
+        // Changing precision of field destination on table local_mxschool_weekend_form to (100).
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'return_date_time');
+
+        // Launch change of precision for field destination.
+        $dbman->change_field_precision($table, $field);
+
+        // Changing precision of field transportation on table local_mxschool_weekend_form to (100).
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('transportation', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'destination');
+
+        // Launch change of precision for field transportation.
+        $dbman->change_field_precision($table, $field);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061110, 'local', 'mxschool');
+    }
+
     return true;
 }

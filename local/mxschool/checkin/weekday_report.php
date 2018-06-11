@@ -66,6 +66,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page('checkin-weekday-report', $table, 50, null, array($dormselect), true);
 
 echo $output->header();
-echo $output->heading("$dorms[$dorm] $title");
+echo $output->heading(($dorm ? $dorms[$dorm] : '')." $title");
 echo $output->render($renderable);
 echo $output->footer();

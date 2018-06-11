@@ -30,7 +30,9 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
-    const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
+    const ELEMENT_HIDDEN_INT = array(
+        'element' => 'hidden', 'name' => null, 'type' => PARAM_INT
+    );
     const ELEMENT_TEXT = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20)
     );
@@ -42,6 +44,9 @@ abstract class local_mxschool_form extends moodleform {
     );
     const ELEMENT_YES_NO_REQUIRED = array(
         'element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required')
+    );
+    const ELEMENT_EMAIL = array(
+        'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email')
     );
     const ELEMENT_EMAIL_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email', 'required')
@@ -59,10 +64,10 @@ abstract class local_mxschool_form extends moodleform {
      *
      * @param array $fields Array of fields as category => [name => [properties]].
      * @param string $stringprefix A prefix for any necessary language strings.
-     * @param bool $actiontop Whether the submit and cancel buttons should appear at the top of the form as well as at the bottom.
+     * @param bool $actionstop Whether the submit and cancel buttons should appear at the top of the form as well as at the bottom.
      */
-    protected function set_fields($fields, $stringprefix, $actiontop = true) {
-        if ($actiontop) {
+    protected function set_fields($fields, $stringprefix, $actionstop = true) {
+        if ($actionstop) {
             $this->add_action_buttons();
         }
         $mform = $this->_form;
@@ -103,11 +108,9 @@ abstract class local_mxschool_form extends moodleform {
      */
     private function create_element($name, $properties, $stringprefix) {
         $mform = $this->_form;
-        $tag = isset($properties['name']) ? $properties['name'] : $name;
-        if ($tag) {
-            $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
-            $displayname = get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param);
-        }
+        $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
+        $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
+        $displayname = $tag ? get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param) : '';
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
 
         $result = null;

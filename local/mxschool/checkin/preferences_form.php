@@ -52,13 +52,15 @@ class preferences_form extends local_mxschool_form {
                 $endtime->modify("+$i days -1 second");
                 $endoptions[$endtime->getTimestamp()] = $endtime->format('l');
             }
+            $labeltime = clone $sundaytime;
+            $labeltime->modify("-1 day");
             $weekendfields["weekend_$weekend->id"] = array(
-                'element' => 'group', 'name' => 'sunday', 'nameparam' => $sundaytime->format('m/d/y'), 'children' => array(
-                    'type' => array('element' => 'radio', 'name' => 'type', 'options' => array(
+                'element' => 'group', 'name' => 'label', 'nameparam' => $labeltime->format('m/d/y'), 'children' => array(
+                    'type' => array('element' => 'radio', 'name' => null, 'options' => array(
                         'Open', 'Closed', 'Free', 'Vacation'
                     )),
-                    'starttime' => array('element' => 'select', 'name' => 'starttime', 'options' => $startoptions),
-                    'endtime' => array('element' => 'select', 'name' => 'endtime', 'options' => $endoptions)
+                    'starttime' => array('element' => 'select', 'name' => null, 'options' => $startoptions),
+                    'endtime' => array('element' => 'select', 'name' => null, 'options' => $endoptions)
                 )
             );
         }
