@@ -30,6 +30,7 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
+    const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
     const ELEMENT_TEXT = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20)
     );
@@ -56,24 +57,24 @@ abstract class local_mxschool_form extends moodleform {
     /**
      * Sets all the fields for the form.
      *
-     * @param array $hidden any hidden fields to be placed at the top of the form.
-     * @param array $fields array of fields as category => [name => [properties]].
-     * @param string $stringprefix a prefix for any necessary language strings.
+     * @param array $fields Array of fields as category => [name => [properties]].
+     * @param string $stringprefix A prefix for any necessary language strings.
+     * @param bool $actiontop Whether the submit and cancel buttons should appear at the top of the form as well as at the bottom.
      */
-    protected function set_fields($hidden, $fields, $stringprefix) {
+    protected function set_fields($fields, $stringprefix, $actiontop = true) {
+        if ($actiontop) {
+            $this->add_action_buttons();
+        }
         $mform = $this->_form;
-
-        $this->add_action_buttons();
         $mform->addElement('hidden', 'redirect', null);
         $mform->setType('redirect', PARAM_TEXT);
-        foreach ($hidden as $name) {
-            $mform->addElement('hidden', $name, null);
-            $mform->setType($name, PARAM_INT);
-        }
         foreach ($fields as $category => $categoryfields) {
-            $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", 'local_mxschool'));
+            if ($category) {
+                $category = "_{$category}";
+                $mform->addElement('header', $category, get_string("{$stringprefix}_header{$category}", 'local_mxschool'));
+            }
             foreach ($categoryfields as $name => $properties) {
-                $mform->addElement($this->create_element($name, $properties, "{$stringprefix}_{$category}"));
+                $mform->addElement($this->create_element($name, $properties, $stringprefix.$category));
                 if (isset($properties['type'])) {
                     $mform->setType($name, $properties['type']);
                 }
@@ -103,12 +104,17 @@ abstract class local_mxschool_form extends moodleform {
     private function create_element($name, $properties, $stringprefix) {
         $mform = $this->_form;
         $tag = isset($properties['name']) ? $properties['name'] : $name;
-        $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
-        $displayname = get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param);
+        if ($tag) {
+            $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
+            $displayname = get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param);
+        }
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
 
         $result = null;
         switch($properties['element']) {
+            case 'hidden':
+                $result = $mform->createElement($properties['element'], $name, null);
+                break;
             case 'text':
             case 'textarea':
                 $result = $mform->createElement($properties['element'], $name, $displayname, $attributes);

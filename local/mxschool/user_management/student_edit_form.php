@@ -38,9 +38,12 @@ class student_edit_form extends local_mxschool_form {
         $dorms = $this->_customdata['dorms'];
         $advisors = $this->_customdata['advisors'];
 
-        $hidden = array('id', 'userid', 'permissionsid');
         $fields = array(
-            'student' => array(
+            '' => array(
+                'id' => parent::ELEMENT_HIDDEN_INT,
+                'userid' => parent::ELEMENT_HIDDEN_INT,
+                'permissionsid' => parent::ELEMENT_HIDDEN_INT
+            ), 'student' => array(
                 'firstname' => parent::ELEMENT_TEXT_REQUIRED,
                 'middlename' => parent::ELEMENT_TEXT,
                 'lastname' => parent::ELEMENT_TEXT_REQUIRED,
@@ -55,15 +58,13 @@ class student_edit_form extends local_mxschool_form {
                 'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
                 'isboardernextyear' => array(
                     'element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')
-                ),
-                'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
+                ), 'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
                 'room' => parent::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
                 'riding' => array(
                     'element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')
-                ),
-                'comment' => parent::ELEMENT_TEXT_AREA,
+                ), 'comment' => parent::ELEMENT_TEXT_AREA,
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'town' => parent::ELEMENT_YES_NO,
@@ -73,7 +74,7 @@ class student_edit_form extends local_mxschool_form {
                 'boatallowed' => parent::ELEMENT_YES_NO
             )
         );
-        parent::set_fields($hidden, $fields, 'student_edit');
+        parent::set_fields($fields, 'student_edit');
     }
 
 }

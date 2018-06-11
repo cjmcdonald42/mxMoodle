@@ -224,11 +224,17 @@ $string['weekday_report_header_late3'] = 'Late';
 $string['weekday_report_header_late4'] = 'Late';
 $string['weekday_report_header_late5'] = 'Late';
 
-$string['weekend_form_description'] = 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than 10:30 PM on Friday. All relevant phone calls giving permission should also be received by Friday at 10:30 PM. (Voice mail messages are OK; Email messages are NOT)';
-$string['weekend_form_header_form'] = 'Weekend Form';
-$string['weekend_form_form_student'] = 'Student';
-$string['weekend_form_form_departuretime'] = 'Departure Date and Time';
-$string['weekend_form_form_returntime'] = 'Departure Date and Time';
-$string['weekend_form_form_destination'] = 'Your Destination';
-$string['weekend_form_form_transportation'] = 'Transportation by';
-$string['weekend_form_form_phone'] = 'Phone Number<br>(even if you are going home)';
+$string['weekend_form_topdescription'] = 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.';
+$string['weekend_form_bottomdescription'] = 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to {$a->hoh} @{$a->permissionsline}.<br>If your plans change, you must get permission from {$a->hoh}. Remember to sign out.';
+
+$string['weekend_form_dorm'] = 'Dorm';
+$string['weekend_form_student'] = 'Student';
+$string['weekend_form_departuretime'] = 'Departure Date and Time';
+$string['weekend_form_returntime'] = 'Return Date and Time';
+$string['weekend_form_destination'] = 'Your Destination';
+$string['weekend_form_transportation'] = 'Transportation by';
+$string['weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
+
+$string['weekend_form_error_outoforder'] = 'You must select a return date and time after your departure date and time.';
+$string['weekend_form_error_notinweekend'] = 'You must select a departure date within a valid weekend.';
+$string['weekend_form_error_indifferentweekends'] = 'You must select a return date in the same weekend as your departure date.';

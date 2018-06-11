@@ -1,8 +1,13 @@
-{{# description }}
-    <p class="mx_form_description">
-        {{ descriptiontext }}
+{{# topdescription }}
+    <p class="topdescription">
+        {{{ topdescriptiontext }}}
     </p>
-{{/ description }}
-<div>
+{{/ topdescription }}
+<div class="mx_form">
     {{{ form }}}
 </div>
+{{# bottomdescription }}
+    <p class="bottomdescription">
+        {{{ bottomdescriptiontext }}}
+    </p>
+{{/ bottomdescription }}

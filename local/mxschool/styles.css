@@ -38,18 +38,6 @@
 }
 
 /**
- * Form Styling.
- */
-/* Experimental */
-.path-local-mxschool .mx-form-row > .row {
-
-}
-/* Experimental */
-.path-local-mxschool .mx-form-row > .row::after {
-
-}
-
-/**
  * Print Styling.
  */
 @media print {

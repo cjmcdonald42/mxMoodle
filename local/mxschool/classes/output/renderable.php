@@ -168,16 +168,20 @@ class form_page implements renderable, templatable {
 
     /** @var moodleform $form The form object to render.*/
     private $form;
-    /** @var string|bool $description A description for the form or false.*/
+    /** @var string|bool $topdescription A description for the top of the form or false.*/
     private $descrption;
+    /** @var string|bool $bottomdescription A description for the bottom of the form or false.*/
+    private $bottomdescription;
 
     /**
      * @param moodleform $form The form object to render.
-     * @param string|bool $description A description for the form or false.
+     * @param string|bool $topdescription A description for the top of the form or false.
+     * @param string|bool $bottomdescription A description for the bottom of the form or false.
      */
-    public function __construct($form, $description = false) {
+    public function __construct($form, $topdescription = false, $bottomdescription = false) {
         $this->form = $form;
-        $this->description = $description;
+        $this->topdescription = $topdescription;
+        $this->bottomdescription = $bottomdescription;
     }
 
     /**
@@ -190,9 +194,13 @@ class form_page implements renderable, templatable {
         ob_start();
         $this->form->display();
         $data->form = ob_get_clean();
-        if ($this->description) {
-            $data->description = true;
-            $data->descriptiontext = $this->description;
+        if ($this->topdescription) {
+            $data->topdescription = true;
+            $data->topdescriptiontext = $this->topdescription;
+        }
+        if ($this->bottomdescription) {
+            $data->bottomdescription = true;
+            $data->bottomdescriptiontext = $this->bottomdescription;
         }
         return $data;
     }

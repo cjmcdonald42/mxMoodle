@@ -97,7 +97,7 @@ function generate_weekend_records($starttime, $endtime) {
     foreach ($weekends as $weekend) {
         $sorted[$weekend->sunday_time] = $weekend;
     }
-    $date = new DateTime("now", core_date::get_server_timezone_object());
+    $date = new DateTime('now', core_date::get_server_timezone_object());
     $date->setTimestamp($starttime);
     $date->modify('Sunday this week');
     while ($date->getTimestamp() < $endtime) {

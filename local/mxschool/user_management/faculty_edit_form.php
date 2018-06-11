@@ -37,19 +37,23 @@ class faculty_edit_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $dorms = $this->_customdata['dorms'];
 
-        $hidden = array('id', 'userid');
-        $fields = array('faculty' => array(
-            'firstname' => parent::ELEMENT_TEXT_REQUIRED,
-            'middlename' => parent::ELEMENT_TEXT,
-            'lastname' => parent::ELEMENT_TEXT_REQUIRED,
-            'alternatename' => parent::ELEMENT_TEXT,
-            'email' => parent::ELEMENT_EMAIL_REQUIRED,
-            'facultycode' => parent::ELEMENT_TEXT_REQUIRED,
-            'dorm' => array('element' => 'select', 'options' => $dorms),
-            'advisoryavailable' => parent::ELEMENT_YES_NO_REQUIRED,
-            'advisoryclosing' => parent::ELEMENT_YES_NO_REQUIRED
-        ));
-        parent::set_fields($hidden, $fields, 'faculty_edit');
+        $fields = array(
+            '' => array(
+                'id' => parent::ELEMENT_HIDDEN_INT,
+                'userid' => parent::ELEMENT_HIDDEN_INT
+            ), 'faculty' => array(
+                'firstname' => parent::ELEMENT_TEXT_REQUIRED,
+                'middlename' => parent::ELEMENT_TEXT,
+                'lastname' => parent::ELEMENT_TEXT_REQUIRED,
+                'alternatename' => parent::ELEMENT_TEXT,
+                'email' => parent::ELEMENT_EMAIL_REQUIRED,
+                'facultycode' => parent::ELEMENT_TEXT_REQUIRED,
+                'dorm' => array('element' => 'select', 'options' => $dorms),
+                'advisoryavailable' => parent::ELEMENT_YES_NO_REQUIRED,
+                'advisoryclosing' => parent::ELEMENT_YES_NO_REQUIRED
+            )
+        );
+        parent::set_fields($fields, 'faculty_edit');
     }
 
 }

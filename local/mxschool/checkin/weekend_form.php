@@ -35,6 +35,7 @@ class weekend_form extends local_mxschool_form {
      */
     protected function definition() {
         $id = $this->_customdata['id'];
+        $dorms = $this->_customdata['dorms'];
         $students = $this->_customdata['students'];
 
         strftime('%Y', get_config('local_mxschool', 'dorms_open_date'));
@@ -44,8 +45,10 @@ class weekend_form extends local_mxschool_form {
             'timezone'  => core_date::get_server_timezone_object(), 'step' => 15
         );
 
-        $hidden = array('id', 'isstudent');
-        $fields = array('form' => array(
+        $fields = array('' => array(
+            'id' => parent::ELEMENT_HIDDEN_INT,
+            'isstudent' => parent::ELEMENT_HIDDEN_INT,
+            'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
             'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
             'departuretime' => array(
                 'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
@@ -57,8 +60,13 @@ class weekend_form extends local_mxschool_form {
             'transportation' => parent::ELEMENT_TEXT_AREA_REQUIRED,
             'phone' => parent::ELEMENT_TEXT_REQUIRED
         ));
-        parent::set_fields($hidden, $fields, 'weekend_form');
-        $this->_form->hideIf('student', 'isstudent', 'eq');
+        parent::set_fields($fields, 'weekend_form', false);
+
+        $mform = $this->_form;
+        $mform->hideIf('dorm', 'isstudent', 'eq');
+        $mform->hideIf('dorm', 'id', 'neq', '0');
+        $mform->hideIf('student', 'isstudent', 'eq');
+        $mform->hideIf('student', 'id', 'neq', '0');
     }
 
     /**
@@ -68,8 +76,21 @@ class weekend_form extends local_mxschool_form {
      * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
      */
     public function validation($data, $files) {
+        global $DB;
         $errors = parent::validation($data, $files);
-
+        if ($data['departuretime'] >= $data['returntime']) {
+            $errors['returntime'] = get_string('weekend_form_error_outoforder', 'local_mxschool');
+        }
+        $weekend = $DB->get_record_sql(
+            "SELECT * FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < end_time",
+            array($data['departuretime'], $data['departuretime'])
+        );
+        if (!$weekend) {
+            $errors['departuretime'] = get_string('weekend_form_error_notinweekend', 'local_mxschool');
+        }
+        if ($weekend && ($data['returntime'] < $weekend->start_time || $data['returntime'] > $weekend->end_time)) {
+            $errors['returntime'] = get_string('weekend_form_error_indifferentweekends', 'local_mxschool');
+        }
         return $errors;
     }
 }

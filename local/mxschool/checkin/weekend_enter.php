@@ -47,17 +47,26 @@ $url = '/local/mxschool/checkin/weekend_enter.php';
 $title = get_string('weekend_form', 'local_mxschool');
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departuretime',
-    'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone', 'time_modified'
+    'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone', 'time_modified', 'time_created'
 )));
+$dorms = get_dorms_list();
 $students = get_student_list();
-
-if (!$id) {
-    $record = new stdClass();
-    $record->userid = $isstudent ? $USER->id : 0;
-    $record->departure_date_time = $record->return_date_time = $record->time_created = $record->time_modified = time();
-    $id = $DB->insert_record('local_mxschool_weekend_form', $record);
-    redirect(new moodle_url($url, array('id' => $id)));
+$data;
+if ($id) {
+    if ($isstudent) { // Students cannot edit weekend forms.
+        redirect(new moodle_url($url));
+    } else {
+        $data = get_record($queryfields, "wf.id = ?", array($id));
+    }
+} else {
+    $data = new stdClass();
+    $data->id = $id;
+    $data->departure_date_time = $data->return_date_time = time();
+    if ($isstudent) {
+        $data->userid = $USER->id;
+    }
 }
+$data->isstudent = $isstudent;
 
 if ($id && !$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
     redirect($redirect);
@@ -76,18 +85,18 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new weekend_form(null, array('id' => $id, 'students' => $students));
+$form = new weekend_form(null, array('id' => $id, 'dorms' => $dorms, 'students' => $students));
 $form->set_redirect($redirect);
-$data = get_record($queryfields, "wf.id = ?", array($id));
-$data->isstudent = $isstudent;
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $data->time_modified = time();
-    $data->weekend = 0;
-    // TODO: Calculate weekend and validate.
+    $data->time_created = $data->time_modified = time();
+    $data->weekend = $DB->get_field_sql(
+        "SELECT id FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < sunday_time",
+        array($data->departuretime, $data->departuretime)
+    );
     update_record($queryfields, $data);
     // TODO: email notification.
     redirect(
@@ -96,7 +105,12 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form_page($form, get_string('weekend_form_description', 'local_mxschool'));
+$renderable = new \local_mxschool\output\form_page(
+    $form, get_string('weekend_form_topdescription', 'local_mxschool'),
+    get_string('weekend_form_bottomdescription', 'local_mxschool', array(
+        'hoh' => 'placeholder', 'permissionsline' => 'placeholder'
+    ))
+);
 
 echo $output->header();
 echo $output->heading($title);

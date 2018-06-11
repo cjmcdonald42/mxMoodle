@@ -37,18 +37,20 @@ class parent_edit_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
 
-        $hidden = array('id');
-        $fields = array('parent' => array(
-            'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
-            'name' => parent::ELEMENT_TEXT_REQUIRED,
-            'isprimary' => parent::ELEMENT_YES_NO_REQUIRED,
-            'relationship' => parent::ELEMENT_TEXT_REQUIRED,
-            'homephone' => parent::ELEMENT_TEXT,
-            'cellphone' => parent::ELEMENT_TEXT,
-            'workphone' => parent::ELEMENT_TEXT,
-            'email' => parent::ELEMENT_EMAIL_REQUIRED
-        ));
-        parent::set_fields($hidden, $fields, 'parent_edit');
+        $fields = array(
+            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
+            'parent' => array(
+                'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
+                'name' => parent::ELEMENT_TEXT_REQUIRED,
+                'isprimary' => parent::ELEMENT_YES_NO_REQUIRED,
+                'relationship' => parent::ELEMENT_TEXT_REQUIRED,
+                'homephone' => parent::ELEMENT_TEXT,
+                'cellphone' => parent::ELEMENT_TEXT,
+                'workphone' => parent::ELEMENT_TEXT,
+                'email' => parent::ELEMENT_EMAIL_REQUIRED
+            )
+        );
+        parent::set_fields($fields, 'parent_edit');
     }
 
 }

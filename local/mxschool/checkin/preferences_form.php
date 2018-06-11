@@ -38,7 +38,7 @@ class preferences_form extends local_mxschool_form {
 
         $weekendfields = array();
         foreach ($weekends as $weekend) {
-            $sundaytime = new DateTime("now", core_date::get_server_timezone_object());
+            $sundaytime = new DateTime('now', core_date::get_server_timezone_object());
             $sundaytime->setTimestamp($weekend->sunday_time);
             $startoptions = array();
             for ($i = 4; $i >= 1; $i--) {
@@ -77,7 +77,7 @@ class preferences_form extends local_mxschool_form {
             ),
             'weekends' => $weekendfields
         );
-        parent::set_fields(array(), $fields, 'checkin_preferences');
+        parent::set_fields($fields, 'checkin_preferences');
     }
 
 }
