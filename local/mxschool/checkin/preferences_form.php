@@ -38,32 +38,33 @@ class preferences_form extends local_mxschool_form {
 
         $weekendfields = array();
         foreach ($weekends as $weekend) {
-            $identifier = "weekend_$weekend->id";
-            $weekendfields["{$identifier}_div"] = parent::ELEMENT_ROW_DIV;
-            $weekendfields["{$identifier}_sunday"] = array(
-                'element' => 'static', 'name' => 'sunday', 'text' => strftime('%D', $weekend->sunday_date)
-            );
-            $weekendfields["{$identifier}_type"] = array(
-                'element' => 'radio', 'name' => 'type', 'options' => array('Open', 'Closed', 'Free', 'Vacation')
-            );
-            $weekendfields["{$identifier}_startday"] = array(
-                'element' => 'select', 'name' => 'startday', 'options' => array(
-                    'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday'
+            $weekendfields["weekend_$weekend->id"] = array(
+                'element' => 'group', 'name' => 'sunday', 'nameparam' => strftime('%D', $weekend->sunday_date), 'children' => array(
+                    'type' => array('element' => 'radio', 'name' => 'type', 'options' => array(
+                        'Open', 'Closed', 'Free', 'Vacation'
+                    )),
+                    'startday' => array('element' => 'select', 'name' => 'startday', 'options' => array(
+                        'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday'
+                    )),
+                    'endday' => array('element' => 'select', 'name' => 'endday', 'options' => array(
+                        'Sunday' => 'Sunday', 'Monday' => 'Monday', 'Tuesday' => 'Tuesday'
+                    ))
                 )
             );
-            $weekendfields["{$identifier}_endday"] = array(
-                'element' => 'select', 'name' => 'endday', 'options' => array(
-                    'Sunday' => 'Sunday', 'Monday' => 'Monday', 'Tuesday' => 'Tuesday'
-                )
-            );
-            $weekendfields["{$identifier}_enddiv"] = parent::ELEMENT_END_DIV;
         }
+
+        $year = new DateTime();
+        $year->modify('-1 year');
+        $start = $year->format('Y');
+        $year->modify('+2 year');
+        $end = $year->format('Y');
+        $datetimeoptions = array('startyear' => $start, 'stopyear' => $end, 'timezone'  => core_date::get_server_timezone_object());
 
         $fields = array(
             'dates' => array(
-                'dormsopen' => array('element' => 'date_selector'),
-                'secondsemester' => array('element' => 'date_selector'),
-                'dormsclose' => array('element' => 'date_selector')
+                'dormsopen' => array('element' => 'date_selector', 'options' => $datetimeoptions),
+                'secondsemester' => array('element' => 'date_selector', 'options' => $datetimeoptions),
+                'dormsclose' => array('element' => 'date_selector', 'options' => $datetimeoptions)
             ),
             'weekends' => $weekendfields
         );

@@ -200,10 +200,10 @@ $string['checkin_preferences_dates_dormsopen'] = 'Dorms Open On: ';
 $string['checkin_preferences_dates_secondsemester'] = 'Second Semester Starts On: ';
 $string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
 
-$string['checkin_preferences_weekends_sunday'] = 'Sunday Date';
-$string['checkin_preferences_weekends_type'] = 'Type';
-$string['checkin_preferences_weekends_startday'] = 'First Day';
-$string['checkin_preferences_weekends_endday'] = 'Last Day';
+$string['checkin_preferences_weekends_sunday'] = 'Sunday {$a}';
+$string['checkin_preferences_weekends_type'] = 'Type:&emsp;';
+$string['checkin_preferences_weekends_startday'] = 'Start:&emsp;';
+$string['checkin_preferences_weekends_endday'] = 'End:&emsp;';
 
 $string['generic_report_header_student'] = 'Name';
 $string['generic_report_header_room'] = 'Room #';

@@ -52,8 +52,6 @@ abstract class local_mxschool_form extends moodleform {
         'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40),
         'rules' => array('required')
     );
-    const ELEMENT_ROW_DIV = array('element' => 'html', 'html' => '<div class="mx-form-row form-group row fitem">');
-    const ELEMENT_END_DIV = array('element' => 'html', 'html' => '</div>');
 
     /**
      * Sets all the fields for the form.
@@ -75,32 +73,7 @@ abstract class local_mxschool_form extends moodleform {
         foreach ($fields as $category => $categoryfields) {
             $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", 'local_mxschool'));
             foreach ($categoryfields as $name => $properties) {
-                $tag = isset($properties['name']) ? $properties['name'] : $name;
-                $displayname = get_string("{$stringprefix}_{$category}_{$tag}", 'local_mxschool');
-                switch($properties['element']) {
-                    case 'static':
-                        $mform->addElement('static', $name, $displayname, $properties['text']);
-                        break;
-                    case 'html':
-                        $mform->addElement('html', $properties['html']);
-                        break;
-                    case 'radio':
-                        $buttons = array();
-                        foreach ($properties['options'] as $option) {
-                            $buttons[] = $mform->createElement('radio', $name, '', $option, $option);
-                        }
-                        $name = "{$name}group";
-                        $mform->addGroup($buttons, $name, $displayname, '     ', false);
-                        break;
-                    case 'select':
-                        $mform->addElement('select', $name, $displayname, $properties['options']);
-                        break;
-                    case 'date_selector':
-                        $mform->addElement('date_selector', $name, $displayname);
-                        break;
-                    default:
-                        $mform->addElement($properties['element'], $name, $displayname, $properties['attributes']);
-                }
+                $mform->addElement($this->create_element($name, $properties, "{$stringprefix}_{$category}"));
                 if (isset($properties['type'])) {
                     $mform->setType($name, $properties['type']);
                 }
@@ -115,6 +88,57 @@ abstract class local_mxschool_form extends moodleform {
             }
         }
         $this->add_action_buttons();
+    }
+
+    /**
+     * Creates and returns an element for the form. Has different behavior for different elements.
+     * Can be used recursively for grouped elements which will appear on the same line.
+     *
+     * @param string $name The name of the element (what appears in the html).
+     * @param array $properties Variable properties depeding upon element type.
+     *        Must include an 'element' key and may optionsally include 'name', 'nameparam', 'options', 'text', and 'children' keys.
+     * @param string $stringprefix A prefix for the language string.
+     * @return HTML_QuickForm_element The newly created element.
+     */
+    private function create_element($name, $properties, $stringprefix) {
+        $mform = $this->_form;
+        $tag = isset($properties['name']) ? $properties['name'] : $name;
+        $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
+        $displayname = get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param);
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
+
+        $result = null;
+        switch($properties['element']) {
+            case 'text':
+            case 'textarea':
+                $result = $mform->createElement($properties['element'], $name, $displayname, $attributes);
+                break;
+            case 'static':
+                $result = $mform->createElement($properties['element'], $name, $displayname, $properties['text']);
+                break;
+            case 'date_selector':
+            case 'date_time_selector':
+            case 'select':
+                $result = $mform->createElement($properties['element'], $name, $displayname, $properties['options'], $attributes);
+                break;
+            case 'radio':
+                $buttons = array();
+                foreach ($properties['options'] as $option) {
+                    $buttons[] = $mform->createElement($properties['element'], $name, '', $option, $option, $attributes);
+                }
+                $result = $mform->createElement('group', $name, $displayname, $buttons, '&emsp;', false);
+                break;
+            case 'group':
+                $childelements = array();
+                foreach ($properties['children'] as $childname => $childproperties) {
+                    $childelements[] = $this->create_element("{$name}_{$childname}", $childproperties, $stringprefix);
+                }
+                $result = $mform->createElement('group', $name, $displayname, $childelements, '&emsp;', false);
+                break;
+            default:
+                debugging("unsupported element type: {$properties['element']}");
+        }
+        return $result;
     }
 
     /**
