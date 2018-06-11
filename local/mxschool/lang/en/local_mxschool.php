@@ -119,6 +119,7 @@ $string['dorm_report_add'] = 'New Dorm';
 $string['dorm_report_header_name'] = 'Name';
 $string['dorm_report_header_abbreviation'] = 'Abbreviation';
 $string['dorm_report_header_hoh'] = 'Head of House';
+$string['dorm_report_header_permissionsline'] = 'Permissions Line';
 $string['dorm_report_header_type'] = 'Type';
 $string['dorm_report_header_gender'] = 'Gender';
 $string['dorm_report_header_available'] = 'Available';
@@ -181,6 +182,7 @@ $string['dorm_edit_header_dorm'] = 'Dorm Information';
 $string['dorm_edit_dorm_name'] = 'Name';
 $string['dorm_edit_dorm_abbreviation'] = 'Abbreviation';
 $string['dorm_edit_dorm_hoh'] = 'Head of House';
+$string['dorm_edit_dorm_permissionsline'] = 'Permissions Line';
 $string['dorm_edit_dorm_type'] = 'Type';
 $string['dorm_edit_dorm_gender'] = 'Gender';
 $string['dorm_edit_dorm_available'] = 'Available';
@@ -225,7 +227,7 @@ $string['weekday_report_header_late4'] = 'Late';
 $string['weekday_report_header_late5'] = 'Late';
 
 $string['weekend_form_topdescription'] = 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.';
-$string['weekend_form_bottomdescription'] = 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to {$a->hoh} @{$a->permissionsline}.<br>If your plans change, you must get permission from {$a->hoh}. Remember to sign out.';
+$string['weekend_form_bottomdescription'] = 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{$a->hoh}</b> @ <b>{$a->permissionsline}</b>.<br>If your plans change, you must get permission from <b>{$a->hoh}</b>. <b>Remember to sign out.</b>';
 
 $string['weekend_form_dorm'] = 'Dorm';
 $string['weekend_form_student'] = 'Student';

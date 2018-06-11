@@ -51,9 +51,9 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
 )));
 $dorms = get_dorms_list();
 $students = get_student_list();
-$data;
+
 if ($id) {
-    if ($isstudent) { // Students cannot edit weekend forms.
+    if ($isstudent) { // Students cannot edit existing weekend forms.
         redirect(new moodle_url($url));
     } else {
         $data = get_record($queryfields, "wf.id = ?", array($id));
@@ -64,6 +64,15 @@ if ($id) {
     $data->departure_date_time = $data->return_date_time = time();
     if ($isstudent) {
         $data->userid = $USER->id;
+        $record = $DB->get_record_sql(
+            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, d.name AS dorm,
+                    CONCAT(hoh.firstname, ' ', hoh.lastname) AS hoh, d.permissions_line AS permissionsline
+             FROM {local_mxschool_student} s
+             LEFT JOIN {user} u ON s.userid = u.id
+             LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+             LEFT JOIN {user} hoh ON d.hohid = hoh.id
+             WHERE s.userid = ?", array($USER->id)
+        );
     }
 }
 $data->isstudent = $isstudent;
@@ -107,9 +116,11 @@ if ($form->is_cancelled()) {
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form_page(
     $form, get_string('weekend_form_topdescription', 'local_mxschool'),
-    get_string('weekend_form_bottomdescription', 'local_mxschool', array(
-        'hoh' => 'placeholder', 'permissionsline' => 'placeholder'
-    ))
+    get_string(
+        'weekend_form_bottomdescription', 'local_mxschool', $isstudent
+        ? array('hoh' => $record->hoh, 'permissionsline' => $record->permissionsline)
+        : array('hoh' => 'your head of house', 'permissionsline' => 'the house permissions line')
+    )
 );
 
 echo $output->header();

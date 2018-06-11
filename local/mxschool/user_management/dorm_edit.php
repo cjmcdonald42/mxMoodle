@@ -44,7 +44,7 @@ $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/user_management/dorm_edit.php';
 $title = get_string('dorm_edit', 'local_mxschool');
 $queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fields' => array(
-    'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available'
+    'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline'
 )));
 $faculty = get_faculty_list();
 

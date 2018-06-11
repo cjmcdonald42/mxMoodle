@@ -127,5 +127,20 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061003, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061105) {
+
+        // Define field permissions_line to be added to local_mxschool_dorm.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('permissions_line', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null, 'available');
+
+        // Conditionally launch add field permissions_line.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061105, 'local', 'mxschool');
+    }
+
     return true;
 }

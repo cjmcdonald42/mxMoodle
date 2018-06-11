@@ -37,7 +37,7 @@ class dorm_table extends local_mxschool_table {
      * @param string $search the search for the table.
      */
     public function __construct($uniqueid, $search) {
-        $columns = array('name', 'abbreviation', 'hoh', 'type', 'gender', 'available');
+        $columns = array('name', 'abbreviation', 'hoh', 'permissionsline', 'type', 'gender', 'available');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("dorm_report_header_{$column}", 'local_mxschool');
@@ -45,7 +45,8 @@ class dorm_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'd.id', 'd.name', 'd.abbreviation', "CONCAT(u.lastname, ', ', u.firstname) AS hoh", 'd.type', 'd.gender', 'd.available'
+            'd.id', 'd.name', 'd.abbreviation', "CONCAT(u.lastname, ', ', u.firstname) AS hoh",
+            'd.permissions_line AS permissionsline', 'd.type', 'd.gender', 'd.available'
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('d.deleted = 0', 'u.deleted = 0');

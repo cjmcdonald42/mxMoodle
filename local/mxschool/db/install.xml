@@ -14,6 +14,7 @@
         <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boarding dorm or a day house {&quot;Boarding&quot;, &quot;Day&quot;, &quot;All&quot;}"/>
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boys dorm or a girls dorm {&quot;Boys&quot;, &quot;Girls&quot;, &quot;All&quot;}"/>
         <FIELD NAME="available" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Whether the dorm is currently available for students to live in {&quot;Yes&quot;, &quot;No&quot;}"/>
+        <FIELD NAME="permissions_line" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number that should be called for permissions purposes."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
