@@ -79,6 +79,7 @@ $PAGE->navbar->add($title);
 $form = new weekend_form(null, array('id' => $id, 'students' => $students));
 $form->set_redirect($redirect);
 $data = get_record($queryfields, "wf.id = ?", array($id));
+$data->isstudent = $isstudent;
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

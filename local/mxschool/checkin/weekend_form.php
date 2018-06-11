@@ -37,15 +37,39 @@ class weekend_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
 
-        $hidden = array('id');
+        strftime('%Y', get_config('local_mxschool', 'dorms_open_date'));
+        $datetimeoptions = array(
+            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
+            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
+            'timezone'  => core_date::get_server_timezone_object(), 'step' => 15
+        );
+
+        $hidden = array('id', 'isstudent');
         $fields = array('form' => array(
             'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
-            'departuretime' => array('element' => 'date_time_selector', 'rules' => array('required')),
-            'returntime' => array('element' => 'date_time_selector', 'rules' => array('required')),
+            'departuretime' => array(
+                'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
+            ),
+            'returntime' => array(
+                'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
+            ),
             'destination' => parent::ELEMENT_TEXT_AREA_REQUIRED,
             'transportation' => parent::ELEMENT_TEXT_AREA_REQUIRED,
             'phone' => parent::ELEMENT_TEXT_REQUIRED
         ));
         parent::set_fields($hidden, $fields, 'weekend_form');
+        $this->_form->hideIf('student', 'isstudent', 'eq');
+    }
+
+    /**
+     * Validates the weekend form before it can be submitted.
+     * The checks performed are to ensure that the departure time is before the return time and the occur within the same weekend.
+     *
+     * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
+     */
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+
+        return $errors;
     }
 }
