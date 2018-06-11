@@ -38,27 +38,36 @@ class preferences_form extends local_mxschool_form {
 
         $weekendfields = array();
         foreach ($weekends as $weekend) {
+            $sundaytime = new DateTime("now", core_date::get_server_timezone_object());
+            $sundaytime->setTimestamp($weekend->sunday_time);
+            $startoptions = array();
+            for ($i = 4; $i >= 1; $i--) {
+                $starttime = clone $sundaytime;
+                $starttime->modify("-$i days");
+                $startoptions[$starttime->getTimestamp()] = $starttime->format('l');
+            }
+            $endoptions = array();
+            for ($i = 1; $i <= 3; $i++) {
+                $endtime = clone $sundaytime;
+                $endtime->modify("+$i days -1 second");
+                $endoptions[$endtime->getTimestamp()] = $endtime->format('l');
+            }
             $weekendfields["weekend_$weekend->id"] = array(
-                'element' => 'group', 'name' => 'sunday', 'nameparam' => strftime('%D', $weekend->sunday_date), 'children' => array(
+                'element' => 'group', 'name' => 'sunday', 'nameparam' => $sundaytime->format('m/d/y'), 'children' => array(
                     'type' => array('element' => 'radio', 'name' => 'type', 'options' => array(
                         'Open', 'Closed', 'Free', 'Vacation'
                     )),
-                    'startday' => array('element' => 'select', 'name' => 'startday', 'options' => array(
-                        'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday'
-                    )),
-                    'endday' => array('element' => 'select', 'name' => 'endday', 'options' => array(
-                        'Sunday' => 'Sunday', 'Monday' => 'Monday', 'Tuesday' => 'Tuesday'
-                    ))
+                    'starttime' => array('element' => 'select', 'name' => 'starttime', 'options' => $startoptions),
+                    'endtime' => array('element' => 'select', 'name' => 'endtime', 'options' => $endoptions)
                 )
             );
         }
 
-        $year = new DateTime();
-        $year->modify('-1 year');
-        $start = $year->format('Y');
-        $year->modify('+2 year');
-        $end = $year->format('Y');
-        $datetimeoptions = array('startyear' => $start, 'stopyear' => $end, 'timezone'  => core_date::get_server_timezone_object());
+        $datetimeoptions = array(
+            'startyear' => (new DateTime('-1 year', core_date::get_server_timezone_object()))->format('Y'),
+            'stopyear' => (new DateTime('+1 year', core_date::get_server_timezone_object()))->format('Y'),
+            'timezone' => core_date::get_server_timezone_object()
+        );
 
         $fields = array(
             'dates' => array(

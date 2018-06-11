@@ -83,6 +83,40 @@ function update_record($queryfields, $data) {
 }
 
 /**
+ * Adds default weekend records for all Sundays between two timestamps.
+ *
+ * @param int $starttime The timestamp for the beginning of the range.
+ * @param int $endtime The timestamp for the end of the range.
+ */
+function generate_weekend_records($starttime, $endtime) {
+    global $DB;
+    $weekends = $DB->get_records_sql(
+        "SELECT sunday_time FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ?", array($starttime, $endtime)
+    );
+    $sorted = array();
+    foreach ($weekends as $weekend) {
+        $sorted[$weekend->sunday_time] = $weekend;
+    }
+    $date = new DateTime("now", core_date::get_server_timezone_object());
+    $date->setTimestamp($starttime);
+    $date->modify('Sunday this week');
+    while ($date->getTimestamp() < $endtime) {
+        if (!isset($sorted[$date->getTimestamp()])) {
+            $startdate = clone $date;
+            $startdate->modify('-1 day');
+            $enddate = clone $date;
+            $enddate->modify('+1 day -1 second');
+            $newweekend = new stdClass();
+            $newweekend->sunday_time = $date->getTimestamp();
+            $newweekend->start_time = $startdate->getTimestamp();
+            $newweekend->end_time = $enddate->getTimestamp();
+            $DB->insert_record('local_mxschool_weekend', $newweekend);
+        }
+        $date->modify('+1 week');
+    }
+}
+
+/**
  * Queries the database to create a list of all the available dorms.
  *
  * @return array the available dorms as id => name

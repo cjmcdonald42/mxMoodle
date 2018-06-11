@@ -47,33 +47,16 @@ $data->secondsemester = get_config('local_mxschool', 'second_semester_start_date
 $data->dormsclose = get_config('local_mxschool', 'dorms_close_date');
 $weekends = array();
 if ($data->dormsopen && $data->dormsclose) {
+    generate_weekend_records(intval($data->dormsopen), intval($data->dormsclose));
     $weekends = $DB->get_records_sql(
-        "SELECT sunday_date FROM {local_mxschool_weekend} WHERE sunday_date > ? AND sunday_date < ?",
-        array($data->dormsopen, $data->dormsclose)
-    );
-    $sorted = array();
-    foreach ($weekends as $weekend) {
-        $sorted[$weekend->sunday_date] = $weekend;
-    }
-    $date = new DateTime("@$data->dormsopen");
-    $date->modify('Sunday this week');
-    while ($date->getTimestamp() < $data->dormsclose) {
-        if (!isset($sorted[$date->getTimestamp()])) {
-            $newweekend = new stdClass();
-            $newweekend->sunday_date = $date->getTimestamp();
-            $DB->insert_record('local_mxschool_weekend', $newweekend);
-        }
-        $date->modify('+1 week');
-    }
-    $weekends = $DB->get_records_sql(
-        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_date > ? AND sunday_date < ?",
+        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ?",
         array($data->dormsopen, $data->dormsclose)
     );
     foreach ($weekends as $weekend) {
         $identifier = "weekend_$weekend->id";
         $data->{"{$identifier}_type"} = $weekend->type;
-        $data->{"{$identifier}_startday"} = $weekend->start_day;
-        $data->{"{$identifier}_endday"} = $weekend->end_day;
+        $data->{"{$identifier}_starttime"} = $weekend->start_time;
+        $data->{"{$identifier}_endtime"} = $weekend->end_time;
     }
 }
 
@@ -103,8 +86,8 @@ if ($form->is_cancelled()) {
     foreach ($weekends as $weekend) {
         $identifier = "weekend_$weekend->id";
         $weekend->type = $data->{"{$identifier}_type"};
-        $weekend->start_day = $data->{"{$identifier}_startday"};
-        $weekend->end_day = $data->{"{$identifier}_endday"};
+        $weekend->start_time = $data->{"{$identifier}_starttime"};
+        $weekend->end_time = $data->{"{$identifier}_endtime"};
         $DB->update_record('local_mxschool_weekend', $weekend);
     }
     redirect(

@@ -202,8 +202,8 @@ $string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
 
 $string['checkin_preferences_weekends_sunday'] = 'Sunday {$a}';
 $string['checkin_preferences_weekends_type'] = 'Type:&emsp;';
-$string['checkin_preferences_weekends_startday'] = 'Start:&emsp;';
-$string['checkin_preferences_weekends_endday'] = 'End:&emsp;';
+$string['checkin_preferences_weekends_starttime'] = 'Start:&emsp;';
+$string['checkin_preferences_weekends_endtime'] = 'End:&emsp;';
 
 $string['generic_report_header_student'] = 'Name';
 $string['generic_report_header_room'] = 'Room #';

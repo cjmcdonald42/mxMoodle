@@ -102,8 +102,8 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="sunday_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp (server time) for the Sunday of the weekend."/>
         <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Open" SEQUENCE="false" COMMENT="The type of the weekend {&quot;Open&quot;, &quot;Closed&quot;, &quot;Free&quot;, &quot;Vacation&quot;}."/>
-        <FIELD NAME="start_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp (server time) of 0:00 on the day the weekend starts (options are Wednesday - Saturday)."/>
-        <FIELD NAME="end_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp (server time) of 0:00 on the day immediately after the weekend starts (options are Sunday - Tuesday)."/>
+        <FIELD NAME="start_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp (server time) of 0:00:00 on the day the weekend starts (options are Wednesday - Saturday)."/>
+        <FIELD NAME="end_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp (server time) of 23:59:59 on the day the weekend ends (options are Sunday - Tuesday)."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
