@@ -162,5 +162,47 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061110, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061202) {
+
+        // Define field active to be added to local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('active', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'phone_number');
+
+        // Conditionally launch add field active.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field parent to be added to local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('parent', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'active');
+
+        // Conditionally launch add field parent.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field invite to be added to local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('invite', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'parent');
+
+        // Conditionally launch add field invite.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field approved to be added to local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('approved', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'invite');
+
+        // Conditionally launch add field approved.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061202, 'local', 'mxschool');
+    }
+
     return true;
 }

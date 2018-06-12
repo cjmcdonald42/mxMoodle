@@ -47,7 +47,8 @@ $url = '/local/mxschool/checkin/weekend_enter.php';
 $title = get_string('weekend_form', 'local_mxschool');
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departuretime',
-    'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone', 'time_modified', 'time_created'
+    'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone',
+    'time_modified' => 'timemodified', 'time_created' => 'timecreated'
 )));
 $dorms = get_dorms_list();
 $students = get_student_list();
@@ -57,15 +58,16 @@ if ($id) {
         redirect(new moodle_url($url));
     } else {
         $data = get_record($queryfields, "wf.id = ?", array($id));
+        $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->userid));
     }
 } else {
     $data = new stdClass();
     $data->id = $id;
-    $data->departure_date_time = $data->return_date_time = time();
+    $data->timecreated = time();
     if ($isstudent) {
-        $data->userid = $USER->id;
+        $data->student = $USER->id;
         $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, d.name AS dorm,
+            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, d.id AS dorm,
                     CONCAT(hoh.firstname, ' ', hoh.lastname) AS hoh, d.permissions_line AS permissionsline
              FROM {local_mxschool_student} s
              LEFT JOIN {user} u ON s.userid = u.id
@@ -73,6 +75,7 @@ if ($id) {
              LEFT JOIN {user} hoh ON d.hohid = hoh.id
              WHERE s.userid = ?", array($USER->id)
         );
+        $data->dorm = $record->dorm;
     }
 }
 $data->isstudent = $isstudent;
@@ -101,12 +104,20 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $data->time_created = $data->time_modified = time();
+    $data->timemodified = time();
     $data->weekend = $DB->get_field_sql(
-        "SELECT id FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < sunday_time",
+        "SELECT id FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < end_time",
         array($data->departuretime, $data->departuretime)
     );
-    update_record($queryfields, $data);
+    $id = update_record($queryfields, $data);
+    $oldrecord = $DB->get_record_sql(
+        "SELECT * FROM {local_mxschool_weekend_form} WHERE userid = ? AND weekendid = ? AND id != ? AND active = 1",
+        array($data->student, $data->weekend, $id)
+    );
+    if ($oldrecord) {
+        $oldrecord->active = 0; // Each student can have only one active record for a given weekend.
+        $DB->update_record('local_mxschool_weekend_form', $oldrecord);
+    }
     // TODO: email notification.
     redirect(
         $form->get_redirect(), get_string('weekend_form_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
@@ -124,6 +135,6 @@ $renderable = new \local_mxschool\output\form_page(
 );
 
 echo $output->header();
-echo $output->heading($title.($isstudent ? " for {$record->student} ({$record->dorm})" : ''));
+echo $output->heading($title.($isstudent ? " for {$record->student} ({$dorms[$record->dorm]})" : ''));
 echo $output->render($renderable);
 echo $output->footer();

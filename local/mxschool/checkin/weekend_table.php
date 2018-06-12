@@ -1,5 +1,3 @@
-Template for Tables
-Header
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
@@ -39,31 +37,55 @@ class weekend_table extends local_mxschool_table {
      * @param stdClass $filter any filtering for the table - could include dorm, weekend, submitted, and search keys.
      */
     public function __construct($uniqueid, $filter) {
-        $columns = array(
-            'student', 'room', 'grade', 'early', 'late', 'clean', 'parent', 'invite', 'approval', 'destination', 'transportation',
-            'phone', 'departuretime', 'returntime'
-        );
+        global $DB;
+        $columns = array('student', 'room', 'grade');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
         }
+        $fields = array(
+            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
+            's.grade', "'&emsp;' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
+            'wf.phone_number AS phone', 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
+        );
+        $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
+        $startday = date('w', $weekendrecord->start_time) - 7;
+        $endday = date('w', $weekendrecord->end_time);
+        for ($i = 1; $i <= $endday - $startday + 1; $i++) {
+            $columns[] = "early_$i";
+            $headers[] = get_string('weekend_report_header_early', 'local_mxschool');
+            $fields[] = "'&emsp;' AS early_$i";
+            $columns[] = "late_$i";
+            $headers[] = get_string('weekend_report_header_late', 'local_mxschool');
+            $fields[] = "'&emsp;' AS late_$i";
+        }
+        $columns2 = array(
+            'clean', 'parent', 'invite', 'approved', 'destination', 'transportation', 'phone', 'departuretime', 'returntime'
+        );
+        $headers2 = array();
+        foreach ($columns2 as $column) {
+            $headers2[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
+        }
+        $columns = array_merge($columns, $columns2);
+        $headers = array_merge($headers, $headers2);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $fields = array(
-            's.id', 'wf.weekendid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
-            's.grade', "'&emsp;' AS early", "'&emsp;' AS late", "'&emsp;' AS clean", "'&emsp;' AS parent", "'&emsp;' AS invite",
-            "'&emsp;' AS approval", 'wf.destination', 'wf.transportation', 'wf.phone_number AS phone',
-            'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
-        );
         $from = array(
-            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_weekend_form} wf ON s.userid = wf.userid'
+            '{local_mxschool_student} s', '{user} u ON s.userid = u.id',
+            "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = $filter->weekend AND wf.active = 1"
         );
-        $where = array('u.deleted = 0', "wf.weekendid = $filter->weekend", $filter->dorm ? "s.dormid = $filter->dorm" : ''); // TODO: check for multiple reports.
+        $where = array(
+            'u.deleted = 0', $filter->dorm ? "s.dormid = $filter->dorm" : '', $filter->submitted === '1' ? "EXISTS (
+                SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
+            )" : '', $filter->submitted === '0' ? "NOT EXISTS (
+                SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
+            )" : ''
+        );
         $sortable = array('student', 'room', 'grade', 'destination', 'transportation');
         $urlparams = array(
             'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
         );
-        $searchable = array('student', 'destination', 'transportation');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'wf.destination', 'wf.transportation');
         $noprint = array('actions');
         parent::__construct(
             $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $filter->search, $searchable,
@@ -80,11 +102,25 @@ class weekend_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the departure time column to 'n/j/y g:i A'.
+     */
+    protected function col_departuretime($values) {
+        return $values->departuretime ? date('n/j/y g:i A', $values->departuretime) : '';
+    }
+
+    /**
+     * Formats the return time column to 'n/j/y g:i A'.
+     */
+    protected function col_returntime($values) {
+        return $values->returntime ? date('n/j/y g:i A', $values->returntime) : '';
+    }
+
+    /**
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->weekendid)
-              .$this->delete_icon($values->weekendid);
+        return $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->wfid)
+              .$this->delete_icon($values->wfid);
     }
 
 }

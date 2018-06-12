@@ -39,6 +39,8 @@ $filter->dorm = get_param_faculty_dorm();
 $filter->weekend = get_param_current_weekend();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
+$action = optional_param('action', '', PARAM_RAW);
+$id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
@@ -52,6 +54,26 @@ $submittedoptions = array(
     '1' => get_string('weekend_report_select_submitted_true', 'local_mxschool'),
     '0' => get_string('weekend_report_select_submitted_false', 'local_mxschool')
 );
+
+if ($action === 'delete' && $id) {
+    $record = $DB->get_record('local_mxschool_weekend_form', array('id' => $id));
+    $urlparams = array(
+        'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
+    );
+    if ($record) {
+        $record->active = 0;
+        $DB->update_record('local_mxschool_weekend_form', $record);
+        redirect(
+            new moodle_url($url, $urlparams), get_string('weekend_form_delete_success', 'local_mxschool'), null,
+            \core\output\notification::NOTIFY_SUCCESS
+        );
+    } else {
+        redirect(
+            new moodle_url($url, $urlparams), get_string('weekend_form_delete_failure', 'local_mxschool'), null,
+            \core\output\notification::NOTIFY_WARNING
+        );
+    }
+}
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -85,6 +107,8 @@ $renderable = new \local_mxschool\output\report_page(
 );
 
 echo $output->header();
-echo $output->heading(($filter->dorm ? $dorms[$filter->dorm] : '')." $title");
+echo $output->heading(
+    ($filter->dorm ? $dorms[$filter->dorm] : '')." $title for the Weekend of {$weekends[$filter->weekend]}"
+);
 echo $output->render($renderable);
 echo $output->footer();

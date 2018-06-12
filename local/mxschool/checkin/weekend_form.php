@@ -47,9 +47,10 @@ class weekend_form extends local_mxschool_form {
 
         $fields = array('' => array(
             'id' => parent::ELEMENT_HIDDEN_INT,
+            'timecreated' => parent::ELEMENT_HIDDEN_INT,
             'isstudent' => parent::ELEMENT_HIDDEN_INT,
-            'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
-            'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
+            'dorm' => array('element' => 'select', 'options' => $dorms),
+            'student' => array('element' => 'select', 'options' => $students),
             'departuretime' => array(
                 'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
             ),
@@ -68,9 +69,9 @@ class weekend_form extends local_mxschool_form {
 
         $mform = $this->_form;
         $mform->hideIf('dorm', 'isstudent', 'eq');
-        $mform->hideIf('dorm', 'id', 'neq', '0');
         $mform->hideIf('student', 'isstudent', 'eq');
-        $mform->hideIf('student', 'id', 'neq', '0');
+        $mform->disabledIf('dorm', 'id', 'neq', '0');
+        $mform->disabledIf('student', 'id', 'neq', '0');
     }
 
     /**

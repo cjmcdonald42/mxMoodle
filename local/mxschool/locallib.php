@@ -29,9 +29,10 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Generates and performs an SQL query to retrieve a record from the database.
  *
- * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
- * @param string $where a where clause (without the WHERE keyword).
- * @param array $params and parameters for the where clause.
+ * @param array $queryfields The fields to query - must be organized as [table => [abbreviation, join, fields => [header => name]]].
+ * @param string $where A where clause (without the WHERE keyword).
+ * @param array $params Any parameters for the where clause.
+ * @return stdClass The record object.
  */
 function get_record($queryfields, $where, $params = array()) {
     global $DB;
@@ -61,8 +62,9 @@ function get_record($queryfields, $where, $params = array()) {
 /**
  * Updates a record in the database or inserts it if it doesn't already exist.
  *
- * @param array $queryfields must be organized as [table => [abbreviation, join, fields => [header => name]]].
- * @param stdClass $data the new data to update the database with.
+ * @param array $queryfields The fields to query - must be organized as [table => [abbreviation, join, fields => [header => name]]].
+ * @param stdClass $data The new data to update the database with.
+ * @return int The id of the updated or inserted record,
  */
 function update_record($queryfields, $data) {
     global $DB;
@@ -76,8 +78,9 @@ function update_record($queryfields, $data) {
         }
         if ($record->id) {
             $DB->update_record($table, $record);
+            return $record->id;
         } else {
-            $DB->insert_record($table, $record);
+            return $DB->insert_record($table, $record);
         }
     }
 }
@@ -269,12 +272,19 @@ function get_param_current_weekend() {
         return $_GET['weekend'];
     }
     $date = new DateTime('now', core_date::get_server_timezone_object());
-    $date->modify('-2 days'); // Map 0:00:00 Wednesday to 0:00:00 Monday.
+    $date->modify('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
     $date->modify("Sunday this week");
     echo $date->getTimestamp();
     $weekend = $DB->get_field('local_mxschool_weekend', 'id', array('sunday_time' => $date->getTimestamp()));
     if ($weekend) {
         return $weekend;
     }
-    return '1';
+    $weekend = $DB->get_field_sql(
+        "SELECT id FROM {local_mxschool_weekend} WHERE sunday_time > ? ORDER BY sunday_time",
+        array($date->getTimestamp()), IGNORE_MULTIPLE
+    );
+    if ($weekend) {
+        return $weekend;
+    }
+    return '0';
 }

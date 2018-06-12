@@ -62,6 +62,8 @@ $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
 $string['dorm_delete_success'] = 'Dorm Record Deleted Successfully';
 $string['dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
+$string['weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
+$string['weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
 
 
 /* User Management. */
@@ -254,7 +256,7 @@ $string['weekend_report_header_late'] = 'Late';
 $string['weekend_report_header_clean'] = 'Room Clean?';
 $string['weekend_report_header_parent'] = 'Call from Parent?';
 $string['weekend_report_header_invite'] = 'Invite?';
-$string['weekend_report_header_approval'] = 'Approved?';
+$string['weekend_report_header_approved'] = 'Approved?';
 $string['weekend_report_header_destination'] = 'Destination';
 $string['weekend_report_header_transportation'] = 'Transportation';
 $string['weekend_report_header_phone'] = 'Phone #';
