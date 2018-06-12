@@ -8,19 +8,27 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+.w3-mx-red {
+    color: #fff;
+    background-color: #cf003d;
+}
 
-.w3-mx-red
-{color:#fff;background-color:#cf003d}
+.w3-mx-black {
+    color: #fff;
+    background-color: #000;
+}
 
-.w3-mx-black
-{color:#fff;background-color:#000000}
+.w3-mx-gray70 {
+    color: #fff;
+    background-color: #333;
+}
 
-.w3-mx-gray70
-{color:#fff;background-color:#333333}
+.w3-mx-gray10 {
+    color: #fff;
+    background-color: #999;
+}
 
-.w3-mx-gray10
-{color:#fff;background-color:#999999}
-
-.w3-mx-white
-{color:#fff;background-color:#ffffff}
-
+.w3-mx-white {
+    color: #fff;
+    background-color: #fff;
+}

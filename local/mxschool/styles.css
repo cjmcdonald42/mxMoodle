@@ -1,13 +1,23 @@
 /**
+ * CSS Styles for Middlesex School's Dorm and Student functions plugin.
+ *
+ * @filename   styles.css
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/**
  * General Styling.
  */
 /* Page Headers. */
 .path-local-mxschool h1 {
-    font-size: 18pt;
+    font-size: 2.0rem;
 }
 /* Content Headers. */
 .path-local-mxschool h2 {
-    font-size: 14pt;
+    font-size: 1.5rem;
 }
 
 /**
@@ -15,7 +25,7 @@
  */
 /* All table cells */
 .path-local-mxschool .mx-table table {
-    font-size: 10pt;
+    font-size: 1.0rem;
 }
 /* Table Header Cells. */
 .path-local-mxschool .mx-table th {
@@ -33,7 +43,7 @@
 /* Weekday Check-in Report. (Proof of Concept) */
 .path-local-mxschool #checkin-weekday-report th,
 .path-local-mxschool #checkin-weekday-report td {
-    font-size: 8pt;
+    font-size: 0.75rem;
     padding: 1px;
 }
 
