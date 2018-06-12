@@ -87,6 +87,7 @@ function update_record($queryfields, $data) {
  *
  * @param int $starttime The timestamp for the beginning of the range.
  * @param int $endtime The timestamp for the end of the range.
+ * @return array The fully populated list of weekend records occuring between the two timestamps, ordered by date.
  */
 function generate_weekend_records($starttime, $endtime) {
     global $DB;
@@ -114,12 +115,16 @@ function generate_weekend_records($starttime, $endtime) {
         }
         $date->modify('+1 week');
     }
+    return $DB->get_records_sql(
+        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ? ORDER BY sunday_time",
+        array($starttime, $endtime)
+    );
 }
 
 /**
  * Queries the database to create a list of all the available dorms.
  *
- * @return array the available dorms as id => name
+ * @return array The available dorms as id => name, ordered alphabetically by dorm name.
  */
 function get_dorms_list() {
     global $DB;
@@ -136,7 +141,7 @@ function get_dorms_list() {
 /**
  * Querys the database to create a list of all the students.
  *
- * @return array the students as userid => name
+ * @return array The students as userid => name, ordered alphabetically by student name.
  */
 function get_student_list() {
     global $DB;
@@ -158,7 +163,7 @@ function get_student_list() {
 /**
  * Querys the database to create a list of all the faculty.
  *
- * @return array the faculty as userid => name
+ * @return array The faculty as userid => name, ordered alphabetically by faculty name.
  */
 function get_faculty_list() {
     global $DB;
@@ -180,7 +185,7 @@ function get_faculty_list() {
 /**
  * Queries the database to create a list of all the available advisors.
  *
- * @return array the available advisors as userid => name
+ * @return array The available advisors as userid => name, ordered alphabetically by advisor name.
  */
 function get_advisor_list() {
     global $DB;
@@ -194,6 +199,31 @@ function get_advisor_list() {
     if ($advisors) {
         foreach ($advisors as $advisor) {
             $list[$advisor->id] = $advisor->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the weekends between the dorms open date and the dorms close date.
+ *
+ * @return array The weekends within the specified bounds as id => date (mm/dd/yy), ordered by date.
+ */
+function get_weekend_list() {
+    global $DB;
+    $starttime = get_config('local_mxschool', 'dorms_open_date');
+    $endtime = get_config('local_mxschool', 'dorms_close_date');
+    $list = array();
+    $weekends = $DB->get_records_sql(
+        "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ? ORDER BY sunday_time",
+        array($starttime, $endtime)
+    );
+    if ($weekends) {
+        foreach ($weekends as $weekend) {
+            $time = new DateTime('now', core_date::get_server_timezone_object());
+            $time->setTimestamp($weekend->sunday_time);
+            $time->modify("-1 day");
+            $list[$weekend->id] = $time->format('m/d/y');
         }
     }
     return $list;
@@ -222,4 +252,29 @@ function get_param_faculty_dorm() {
     global $DB, $USER;
     return isset($_GET['dorm']) ? $_GET['dorm']
     : $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
+}
+
+/**
+ * Determines the weekend id to be selected.
+ * The priorities of this function are as follows:
+ * 1) An id specified as a 'weekend' GET parameter.
+ * 2) The current or upcoming weekend (resets Wednesday 0:00:00).
+ * 3) The next weekend with a record in the database.
+ *
+ * @return string The weekend id, as specified.
+ */
+function get_param_current_weekend() {
+    global $DB;
+    if (isset($_GET['weekend'])) {
+        return $_GET['weekend'];
+    }
+    $date = new DateTime('now', core_date::get_server_timezone_object());
+    $date->modify('-2 days'); // Map 0:00:00 Wednesday to 0:00:00 Monday.
+    $date->modify("Sunday this week");
+    echo $date->getTimestamp();
+    $weekend = $DB->get_field('local_mxschool_weekend', 'id', array('sunday_time' => $date->getTimestamp()));
+    if ($weekend) {
+        return $weekend;
+    }
+    return '1';
 }

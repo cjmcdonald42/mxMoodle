@@ -47,11 +47,7 @@ $data->secondsemester = get_config('local_mxschool', 'second_semester_start_date
 $data->dormsclose = get_config('local_mxschool', 'dorms_close_date');
 $weekends = array();
 if ($data->dormsopen && $data->dormsclose) {
-    generate_weekend_records(intval($data->dormsopen), intval($data->dormsclose));
-    $weekends = $DB->get_records_sql(
-        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ?",
-        array($data->dormsopen, $data->dormsclose)
-    );
+    $weekends = generate_weekend_records($data->dormsopen, $data->dormsclose);
     foreach ($weekends as $weekend) {
         $identifier = "weekend_$weekend->id";
         $data->{"{$identifier}_type"} = $weekend->type;

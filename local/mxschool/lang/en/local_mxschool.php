@@ -194,13 +194,14 @@ $string['dorm_edit_dorm_type'] = 'Type';
 $string['dorm_edit_dorm_gender'] = 'Gender';
 $string['dorm_edit_dorm_available'] = 'Available';
 
+
 /* Check-in Sheets. */
 $string['checkin'] = 'Check-in Sheets';
 $string['checkin_preferences'] = 'Check-in Sheets Preferences';
 $string['generic_report'] = 'Check-in Sheet';
-$string['weekday_report'] = 'Weekday Check-in Sheet';
+$string['weekday_report'] = 'Weekday Check-In Sheet';
 $string['weekend_form'] = 'Weekend Form';
-$string['weekend_report'] = 'Weekend Check-in Sheet';
+$string['weekend_report'] = 'Weekend Check-In Sheet';
 
 // Check-in Preferences.
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
@@ -238,3 +239,24 @@ $string['weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
 $string['weekend_form_error_outoforder'] = 'You must select a return date and time after your departure date and time.';
 $string['weekend_form_error_notinweekend'] = 'You must select a departure date within a valid weekend.';
 $string['weekend_form_error_indifferentweekends'] = 'You must select a return date in the same weekend as your departure date.';
+
+// Weekend Check-in Sheet.
+$string['weekend_report_select_submitted_all'] = 'All';
+$string['weekend_report_select_submitted_true'] = 'Weekend Form';
+$string['weekend_report_select_submitted_false'] = 'No Weekend Form';
+$string['weekend_report_add'] = 'New Weekend Form';
+
+$string['weekend_report_header_student'] = 'Name';
+$string['weekend_report_header_room'] = 'Room #';
+$string['weekend_report_header_grade'] = 'Grade';
+$string['weekend_report_header_early'] = 'Early';
+$string['weekend_report_header_late'] = 'Late';
+$string['weekend_report_header_clean'] = 'Room Clean?';
+$string['weekend_report_header_parent'] = 'Call from Parent?';
+$string['weekend_report_header_invite'] = 'Invite?';
+$string['weekend_report_header_approval'] = 'Approved?';
+$string['weekend_report_header_destination'] = 'Destination';
+$string['weekend_report_header_transportation'] = 'Transportation';
+$string['weekend_report_header_phone'] = 'Phone #';
+$string['weekend_report_header_departuretime'] = 'Departure Time';
+$string['weekend_report_header_returntime'] = 'Return Time';

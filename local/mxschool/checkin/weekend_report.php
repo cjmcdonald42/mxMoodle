@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Weekday checkin sheet for Middlesex School's Dorm and Student functions plugin.
+ * Weekend checkin sheet for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -25,7 +25,7 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('weekday_table.php');
+require_once('weekend_table.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/events/page_visited.php');
@@ -34,15 +34,24 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
 
-$dorm = get_param_faculty_dorm();
+$filter = new stdClass();
+$filter->dorm = get_param_faculty_dorm();
+$filter->weekend = get_param_current_weekend();
+$filter->submitted = optional_param('submitted', '', PARAM_RAW);
+$filter->search = optional_param('search', '', PARAM_RAW);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
 );
-$url = '/local/mxschool/checkin/weekday_report.php';
-$title = get_string('weekday_report', 'local_mxschool');
+$url = '/local/mxschool/checkin/weekend_report.php';
+$title = get_string('weekend_report', 'local_mxschool');
 $dorms = get_dorms_list();
+$weekends = get_weekend_list();
+$submittedoptions = array(
+    '1' => get_string('weekend_report_select_submitted_true', 'local_mxschool'),
+    '0' => get_string('weekend_report_select_submitted_false', 'local_mxschool')
+);
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -57,14 +66,25 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$table = new weekday_table('weekday_table', $dorm);
+$table = new weekend_table('weekend_table', $filter);
 
-$dormselect = new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool'));
+$dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
+$weekendselect = new local_mxschool_dropdown('weekend', $weekends, $filter->weekend);
+$submittedselect = new local_mxschool_dropdown(
+    'submitted', $submittedoptions, $filter->submitted, get_string('weekend_report_select_submitted_all', 'local_mxschool')
+);
+
+$addbutton = array(
+    'text' => get_string('weekend_report_add', 'local_mxschool'),
+    'url' => new moodle_url('/local/mxschool/checkin/weekend_enter.php')
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('checkin-weekday-report', $table, 50, null, array($dormselect), true);
+$renderable = new \local_mxschool\output\report_page(
+    'weekend_report', $table, 50, $filter->search, array($dormselect, $weekendselect, $submittedselect), true, $addbutton
+);
 
 echo $output->header();
-echo $output->heading(($dorm ? $dorms[$dorm] : '')." $title");
+echo $output->heading(($filter->dorm ? $dorms[$filter->dorm] : '')." $title");
 echo $output->render($renderable);
 echo $output->footer();

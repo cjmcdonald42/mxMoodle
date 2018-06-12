@@ -53,8 +53,8 @@ class weekday_table extends local_mxschool_table {
             $headers[] = get_string("weekday_report_header_late", 'local_mxschool');
             $fields[] = "'&emsp;' AS late_$i";
         }
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $dorm ? "d.id = $dorm" : '');
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id');
+        $where = array('u.deleted = 0', $dorm ? "s.dormid = $dorm" : '');
         $sortable = array('student', 'room', 'grade');
         $urlparams = array('dorm' => $dorm);
         parent::__construct(
