@@ -102,6 +102,35 @@ class weekend_table extends local_mxschool_table {
         return $values->student . $alternatename;
     }
 
+    protected function col_parent($values) {
+        global $PAGE;
+        if (!isset($values->wfid)) {
+            return '&emsp;';
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'parent', $values->parent);
+        return $output->render($renderable);
+    }
+
+    protected function col_invite($values) {
+        global $PAGE;
+        if (!isset($values->wfid)) {
+            return '&emsp;';
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'invite', $values->invite);
+        return $output->render($renderable);
+    }
+
+    protected function col_approved($values) {
+        global $PAGE;
+        if (!isset($values->wfid)) {
+            return '&emsp;';
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'approved', $values->approved);
+        return $output->render($renderable);
+    }
 
     /**
      * Formats the departure and return time column to 'n/j/y g:i A'<br>'n/j/y g:i A'.

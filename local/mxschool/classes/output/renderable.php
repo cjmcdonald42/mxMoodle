@@ -121,7 +121,7 @@ class report_page implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with properties url, dropdowns, placeholder, search, submit, and table.
+     * @return stdClass with properties id, url, dropdowns, searchable, search, printable, addtext, addurl, and table.
      */
     public function export_for_template(renderer_base $output) {
         global $PAGE;
@@ -179,7 +179,7 @@ class form_page implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with property form which is an html string.
+     * @return stdClass with properties form, topdescription, and bottomdescription.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
@@ -190,4 +190,48 @@ class form_page implements renderable, templatable {
         $data->bottomdescription = $this->bottomdescription;
         return $data;
     }
+}
+
+/**
+ * Renderable class for checkboxes.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class checkbox implements renderable, templatable {
+
+    /** @var string $value The value attribute of the checkbox.*/
+    private $value;
+    /** @var string $name The name attribute of the checkbox.*/
+    private $name;
+    /** @var bool $checked Whether the checkbox should be checked.*/
+    private $checked;
+
+    /**
+     * @param string $value The value attribute of the checkbox.
+     * @param string $name The name attribute of the checkbox.
+     * @param bool $checked Whether the checkbox should be checked.
+     */
+    public function __construct($value, $name, $checked) {
+        $this->value = $value;
+        $this->name = $name;
+        $this->checked = $checked;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass with properties value, name, and checked.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->value = $this->value;
+        $data->name = $this->name;
+        $data->checked = $this->checked;
+        return $data;
+    }
+
 }

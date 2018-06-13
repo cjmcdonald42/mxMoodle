@@ -68,4 +68,16 @@ class renderer extends plugin_renderer_base {
         return parent::render_from_template('local_mxschool/form_page', $data);
     }
 
+    /**
+     * Renders a checkbox according to the template.
+     *
+     * @param checkbox $checkbox.
+     *
+     * @return string html for the page.
+     */
+    public function render_checkbox($checkbox) {
+        $data = $checkbox->export_for_template($this);
+        return parent::render_from_template('local_mxschool/checkbox', $data);
+    }
+
 }
