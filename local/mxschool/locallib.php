@@ -142,7 +142,7 @@ function get_dorms_list() {
 }
 
 /**
- * Querys the database to create a list of all the students.
+ * Queries the database to create a list of all the students.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
@@ -164,7 +164,34 @@ function get_student_list() {
 }
 
 /**
- * Querys the database to create a list of all the faculty.
+ * Queries the database to create a list of all the students in a specified dorm.
+ *
+ * @param int $dorm the id of the desired dorm.
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_students_in_dorm_list($dorm) {
+    if (!$dorm) {
+        return get_student_list();
+    }
+
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.dormid = $dorm
+         ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the faculty.
  *
  * @return array The faculty as userid => name, ordered alphabetically by faculty name.
  */

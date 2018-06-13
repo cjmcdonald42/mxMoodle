@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Services for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,10 +26,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018061300;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+$functions = array(
+    'local_mxschool_get_dorm_students' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'get_dorm_students',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Queries the database to find all students in a specified dorm.',
+        'type' => 'read',
+        'ajax' => 'true',
+        'capabilities' => 'local/mxschool:manage_weekend'
+    )
+);

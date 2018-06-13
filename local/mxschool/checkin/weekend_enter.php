@@ -50,7 +50,7 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
     'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone',
     'time_modified' => 'timemodified', 'time_created' => 'timecreated'
 )));
-$dorms = get_dorms_list();
+$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorms_list();
 $students = get_student_list();
 
 if ($id) {
@@ -58,7 +58,7 @@ if ($id) {
         redirect(new moodle_url($url));
     } else {
         $data = get_record($queryfields, "wf.id = ?", array($id));
-        $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->userid));
+        $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
     }
 } else {
     $data = new stdClass();
