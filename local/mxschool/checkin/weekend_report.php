@@ -48,12 +48,6 @@ $parents = array(
 );
 $url = '/local/mxschool/checkin/weekend_report.php';
 $title = get_string('weekend_report', 'local_mxschool');
-$dorms = get_dorms_list();
-$weekends = get_weekend_list();
-$submittedoptions = array(
-    '1' => get_string('weekend_report_select_submitted_true', 'local_mxschool'),
-    '0' => get_string('weekend_report_select_submitted_false', 'local_mxschool')
-);
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_weekend_form', array('id' => $id));
@@ -75,6 +69,16 @@ if ($action === 'delete' && $id) {
     }
 }
 
+$dorms = get_dorms_list();
+$weekends = get_weekend_list();
+$submittedoptions = array(
+    '1' => get_string('weekend_report_select_submitted_true', 'local_mxschool'),
+    '0' => get_string('weekend_report_select_submitted_false', 'local_mxschool')
+);
+$weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
+$startday = date('w', $weekendrecord->start_time) - 7;
+$endday = date('w', $weekendrecord->end_time);
+
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
 
@@ -95,15 +99,21 @@ $weekendselect = new local_mxschool_dropdown('weekend', $weekends, $filter->week
 $submittedselect = new local_mxschool_dropdown(
     'submitted', $submittedoptions, $filter->submitted, get_string('weekend_report_select_submitted_all', 'local_mxschool')
 );
-
 $addbutton = array(
     'text' => get_string('weekend_report_add', 'local_mxschool'),
     'url' => new moodle_url('/local/mxschool/checkin/weekend_enter.php')
 );
+$headers = array(array('text' => '', 'length' => 3));
+for ($i = $startday; $i <= $endday; $i++) {
+    $day = ($i + 7) % 7;
+    $headers[] = array('text' => get_string("day_$day", 'local_mxschool'), 'length' => 2);
+}
+$headers[] = array('text' => '', 'length' => 9);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page(
-    'checkin-weekend-report', $table, 50, $filter->search, array($dormselect, $weekendselect, $submittedselect), true, $addbutton
+    'checkin-weekend-report', $table, 50, $filter->search, array($dormselect, $weekendselect, $submittedselect), true, $addbutton,
+    $headers
 );
 
 echo $output->header();

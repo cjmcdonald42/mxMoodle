@@ -302,7 +302,7 @@ function get_param_current_weekend() {
     $endtime = get_config('local_mxschool', 'dorms_close_date');
     $date = new DateTime('now', core_date::get_server_timezone_object());
     $date->modify('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
-    $date->modify("Sunday this week");
+    $date->modify('Sunday this week');
     $timestamp = $date->getTimestamp();
     if ($timestamp > $starttime && $timestamp < $endtime) {
         $weekend = $DB->get_field('local_mxschool_weekend', 'id', array('sunday_time' => $timestamp));

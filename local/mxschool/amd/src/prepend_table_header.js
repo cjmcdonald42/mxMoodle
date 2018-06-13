@@ -14,9 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates a select element with students from a specified dorm for Middlesex School's Dorm and Student functions plugin.
+ * Prepends a second header to a table for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_dorm_students
+ * @module     local_mxschool/prepend_table_header
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,23 +24,27 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], ($, ajax, notification) => {
+define(['jquery'], $ => {
     return  {
-        update_students: () => {
-            $('.mx-form #id_dorm').change(() => {
-                let promises = ajax.call([{
-                    methodname: 'local_mxschool_get_dorm_students',
-                    args: {
-                        dorm: $('.mx-form #id_dorm > option:selected')[0].value
-                    }
-                }]);
-                promises[0].done(data => {
-                    $('.mx-form #id_student').empty();
-                    $.each(data, (index, student) => {
-                        $('.mx-form #id_student').append($('<option></option>').attr('value', student.userid).text(student.name));
+        prepend: headers => {
+            if (headers) {
+                $(window).ready(() => {
+                    $('.mx-table thead').prepend(() => {
+                        let row = $('<tr></tr>');
+                        let count = 0;
+                        $.each(headers, (index, header) => {
+                            row.append($('<th></th>').attr('class', () => {
+                                let result = 'header';
+                                for (let c = count; c < count + header.length; c++)
+                                    result += ' c' + c;
+                                count += header.length;
+                                return result;
+                            }).attr('colspan', header.length).attr('scope', 'col').text(header.text));
+                        });
+                        return row;
                     });
-                }).fail(notification.exception);
-            });
+                });
+            }
         }
     };
 });

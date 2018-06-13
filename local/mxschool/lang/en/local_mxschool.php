@@ -31,6 +31,13 @@ $string['print'] = 'Print';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
 $string['report_select_dorm'] = 'All Dorms';
+$string['day_0'] = 'Sunday';
+$string['day_1'] = 'Monday';
+$string['day_2'] = 'Tuesday';
+$string['day_3'] = 'Wednesday';
+$string['day_4'] = 'Thursday';
+$string['day_5'] = 'Friday';
+$string['day_6'] = 'Saturday';
 
 // Capabilities.
 $string['mxschool:manage_students'] = 'Middlesex School: View and manage student data';
@@ -254,7 +261,7 @@ $string['weekend_report_header_grade'] = 'Grade';
 $string['weekend_report_header_early'] = 'Early';
 $string['weekend_report_header_late'] = 'Late';
 $string['weekend_report_header_clean'] = 'Room Clean?';
-$string['weekend_report_header_parent'] = 'Call from Parent?';
+$string['weekend_report_header_parent'] = 'Parent?';
 $string['weekend_report_header_invite'] = 'Invite?';
 $string['weekend_report_header_approved'] = 'Approved?';
 $string['weekend_report_header_destination'] = 'Destination';

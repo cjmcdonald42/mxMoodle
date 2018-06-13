@@ -38,10 +38,10 @@ class weekend_table extends local_mxschool_table {
      */
     public function __construct($uniqueid, $filter) {
         global $DB;
-        $columns = array('student', 'room', 'grade');
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
+        $columns1 = array('student', 'room', 'grade');
+        $headers1 = array();
+        foreach ($columns1 as $column) {
+            $headers1[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
         }
         $fields = array(
             's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
@@ -53,11 +53,11 @@ class weekend_table extends local_mxschool_table {
         $startday = date('w', $weekendrecord->start_time) - 7;
         $endday = date('w', $weekendrecord->end_time);
         for ($i = 1; $i <= $endday - $startday + 1; $i++) {
-            $columns[] = "early_$i";
-            $headers[] = get_string('weekend_report_header_early', 'local_mxschool');
+            $columns1[] = "early_$i";
+            $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
             $fields[] = "'&emsp;' AS early_$i";
-            $columns[] = "late_$i";
-            $headers[] = get_string('weekend_report_header_late', 'local_mxschool');
+            $columns1[] = "late_$i";
+            $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
             $fields[] = "'&emsp;' AS late_$i";
         }
         $columns2 = array(
@@ -67,8 +67,8 @@ class weekend_table extends local_mxschool_table {
         foreach ($columns2 as $column) {
             $headers2[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
         }
-        $columns = array_merge($columns, $columns2);
-        $headers = array_merge($headers, $headers2);
+        $columns = array_merge($columns1, $columns2);
+        $headers = array_merge($headers1, $headers2);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $from = array(
@@ -102,6 +102,9 @@ class weekend_table extends local_mxschool_table {
         return $values->student . $alternatename;
     }
 
+    /**
+     * Formats the parent column to a checkbox.
+     */
     protected function col_parent($values) {
         global $PAGE;
         if (!isset($values->wfid)) {
@@ -112,6 +115,9 @@ class weekend_table extends local_mxschool_table {
         return $output->render($renderable);
     }
 
+    /**
+     * Formats the invite column to a checkbox.
+     */
     protected function col_invite($values) {
         global $PAGE;
         if (!isset($values->wfid)) {
@@ -122,6 +128,9 @@ class weekend_table extends local_mxschool_table {
         return $output->render($renderable);
     }
 
+    /**
+     * Formats the approved column to a checkbox.
+     */
     protected function col_approved($values) {
         global $PAGE;
         if (!isset($values->wfid)) {

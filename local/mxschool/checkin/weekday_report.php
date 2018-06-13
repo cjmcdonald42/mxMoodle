@@ -42,7 +42,12 @@ $parents = array(
 );
 $url = '/local/mxschool/checkin/weekday_report.php';
 $title = get_string('weekday_report', 'local_mxschool');
+
 $dorms = get_dorms_list();
+
+// $date = new DateTime('now', core_date::get_user_timezone_object());
+// $date->modify('-4 days'); // Map 0:00:00 on Friday to 0:00:00 on Monday.
+// $date->modify('Sunday this week');
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -60,11 +65,17 @@ $PAGE->navbar->add($title);
 $table = new weekday_table('weekday_table', $dorm);
 
 $dormselect = new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool'));
+$headers = array(array('text' => '', 'length' => 3));
+for ($i = 1; $i <= 5; $i++) {
+    $headers[] = array('text' => get_string("day_$i", 'local_mxschool'), 'length' => 2);
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('checkin-weekday-report', $table, 50, null, array($dormselect), true);
+$renderable = new \local_mxschool\output\report_page(
+    'checkin-weekday-report', $table, 50, null, array($dormselect), true, false, $headers
+);
 
 echo $output->header();
-echo $output->heading(($dorm ? $dorms[$dorm] : '')." $title");
+echo $output->heading(($dorm ? $dorms[$dorm] : '')." $title for the Week of __________");
 echo $output->render($renderable);
 echo $output->footer();
