@@ -49,11 +49,12 @@ $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'f
 )), 'user' => array('abbreviation' => 'u', 'join' => 'f.userid = u.id', 'fields' => array(
     'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
 )));
-$dorms = array(null => '') + get_dorms_list();
 
 if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
     redirect($redirect);
 }
+
+$dorms = array(null => '') + get_dorms_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

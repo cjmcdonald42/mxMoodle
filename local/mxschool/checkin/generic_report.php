@@ -42,6 +42,7 @@ $parents = array(
 );
 $url = '/local/mxschool/checkin/generic_report.php';
 $title = get_string('generic_report', 'local_mxschool');
+
 $dorms = get_dorms_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
@@ -59,10 +60,10 @@ $PAGE->navbar->add($title);
 
 $table = new generic_table('checkin_table', $dorm);
 
-$dormselect = new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool'));
+$dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool')));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('checkin-generic-report', $table, 50, null, array($dormselect), true);
+$renderable = new \local_mxschool\output\report_page('checkin-generic-report', $table, 50, null, $dropdowns, true);
 
 echo $output->header();
 echo $output->heading(($dorm ? $dorms[$dorm] : '')." $title for __________");

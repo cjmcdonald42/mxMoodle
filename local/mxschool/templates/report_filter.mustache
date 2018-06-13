@@ -33,9 +33,9 @@
     {{# printable }}
         <input type="button" onclick="window.print()" value="{{# str }} print, local_mxschool {{/ str }}" />
     {{/ printable }}
-    {{# addtext }}
-        <form action="{{ addurl }}">
-            <input type="submit" value="{{ addtext }}" />
+    {{# addbutton }}
+        <form action="{{ addbutton.url }}">
+            <input type="submit" value="{{ addbutton.text }}" />
         </form>
-    {{/ addtext }}
+    {{/ addbutton }}
 </div>

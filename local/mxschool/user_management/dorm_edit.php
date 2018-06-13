@@ -46,11 +46,12 @@ $title = get_string('dorm_edit', 'local_mxschool');
 $queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fields' => array(
     'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline'
 )));
-$faculty = get_faculty_list();
 
 if ($id && !$DB->record_exists('local_mxschool_dorm', array('id' => $id))) {
     redirect($redirect);
 }
+
+$faculty = get_faculty_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

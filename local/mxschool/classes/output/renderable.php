@@ -45,11 +45,11 @@ use html_writer;
  */
 class index_page implements renderable, templatable {
 
-    /** @var array $links array of links (displayText => url) to be passed to the template.*/
+    /** @var array $links array of links [unlocalizedtext => url] to be passed to the template.*/
     private $links;
 
     /**
-     * @param array $links array of links (displayText => url) to be passed to the template.
+     * @param array $links array of links [unlocalizedtext => url] to be passed to the template.
      */
     public function __construct($links) {
         $this->links = $links;
@@ -65,7 +65,7 @@ class index_page implements renderable, templatable {
         $data = new stdClass();
         $data->links = array();
         foreach ($this->links as $text => $url) {
-            $data->links[] = array('text' => $text, 'url' => $CFG->wwwroot.$url);
+            $data->links[] = array('text' => get_string($text, 'local_mxschool'), 'url' => $CFG->wwwroot.$url);
         }
         return $data;
     }
@@ -96,7 +96,7 @@ class report_page implements renderable, templatable {
      * @param string $search Default search text, null if there is no search option.
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
      * @param bool $printbutton Whether to display a print button.
-     * @param array|bool $addbutton Text and url for an add button or false.
+     * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
     public function __construct(
@@ -184,14 +184,14 @@ class report_filter implements renderable, templatable {
     private $dropdowns;
     /** @var bool $printbutton Whether to display a print button.*/
     private $printbutton;
-    /** @var array|bool $addbutton Text and url for an add button or false.*/
+    /** @var stdClass|bool $addbutton Object with text and url properties for an add button or false.*/
     private $addbutton;
 
     /**
      * @param string $search Default search text, null if there is no search option.
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
      * @param bool $printbutton Whether to display a print button.
-     * @param array|bool $addbutton Text and url for an add button or false.
+     * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
      */
     public function __construct($search, $dropdowns, $printbutton, $addbutton) {
         $this->search = $search;
@@ -203,7 +203,7 @@ class report_filter implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with properties url, dropdowns, searchable, search, printable, addtext, and addurl.
+     * @return stdClass with properties url, dropdowns, searchable, search, printable, and addbutton.
      */
     public function export_for_template(renderer_base $output) {
         global $PAGE;
@@ -217,8 +217,9 @@ class report_filter implements renderable, templatable {
         $data->search = $this->search;
         $data->printable = $this->printbutton;
         if ($this->addbutton) {
-            $data->addtext = $this->addbutton['text'];
-            $data->addurl = $this->addbutton['url']->out();
+            $data->addbutton = new stdClass();
+            $data->addbutton->text = $this->addbutton->text;
+            $data->addbutton->url = $this->addbutton->url->out();
         }
         return $data;
     }

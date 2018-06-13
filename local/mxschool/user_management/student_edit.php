@@ -55,12 +55,13 @@ $queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'f
     'may_drive_passengers' => 'passengers', 'swim_competent' => 'swimcompetent', 'swim_allowed' => 'swimallowed',
     'boat_allowed' => 'boatallowed'
 )));
-$dorms = get_dorms_list();
-$advisors = get_advisor_list();
 
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
     redirect($redirect);
 }
+
+$dorms = get_dorms_list();
+$advisors = get_advisor_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

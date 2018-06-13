@@ -44,6 +44,7 @@ $parents = array(
 );
 $url = '/local/mxschool/user_management/faculty_report.php';
 $title = get_string('faculty_report', 'local_mxschool');
+
 $dorms = get_dorms_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
@@ -61,10 +62,10 @@ $PAGE->navbar->add($title);
 
 $table = new faculty_table('faculty_table', $filter);
 
-$dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
+$dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool')));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('faculty-report', $table, 50, $filter->search, array($dormselect));
+$renderable = new \local_mxschool\output\report_page('faculty-report', $table, 50, $filter->search, $dropdowns);
 
 echo $output->header();
 echo $output->heading($title);

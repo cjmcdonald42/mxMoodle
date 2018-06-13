@@ -47,11 +47,12 @@ $queryfields = array('local_mxschool_parent' => array('abbreviation' => 'p', 'fi
     'id', 'userid' => 'student', 'parent_name' => 'name', 'is_primary_parent' => 'isprimary', 'relationship',
     'home_phone' => 'homephone', 'cell_phone' => 'cellphone', 'work_phone' => 'workphone', 'email'
 )));
-$students = get_student_list();
 
 if ($id && !$DB->record_exists('local_mxschool_parent', array('id' => $id))) {
     redirect($redirect);
 }
+
+$students = get_student_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

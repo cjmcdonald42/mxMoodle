@@ -94,15 +94,16 @@ $PAGE->navbar->add($title);
 
 $table = new weekend_table('weekend_table', $filter);
 
-$dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
-$weekendselect = new local_mxschool_dropdown('weekend', $weekends, $filter->weekend);
-$submittedselect = new local_mxschool_dropdown(
-    'submitted', $submittedoptions, $filter->submitted, get_string('weekend_report_select_submitted_all', 'local_mxschool')
+$dropdowns = array(
+    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool')),
+    new local_mxschool_dropdown('weekend', $weekends, $filter->weekend),
+    new local_mxschool_dropdown(
+        'submitted', $submittedoptions, $filter->submitted, get_string('weekend_report_select_submitted_all', 'local_mxschool')
+    )
 );
-$addbutton = array(
-    'text' => get_string('weekend_report_add', 'local_mxschool'),
-    'url' => new moodle_url('/local/mxschool/checkin/weekend_enter.php')
-);
+$addbutton = new stdClass();
+$addbutton->text = get_string('weekend_report_add', 'local_mxschool');
+$addbutton->url = new moodle_url('/local/mxschool/checkin/weekend_enter.php');
 $headers = array(array('text' => '', 'length' => 3));
 for ($i = $startday; $i <= $endday; $i++) {
     $day = ($i + 7) % 7;
@@ -112,8 +113,7 @@ $headers[] = array('text' => '', 'length' => 9);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page(
-    'checkin-weekend-report', $table, 50, $filter->search, array($dormselect, $weekendselect, $submittedselect), true, $addbutton,
-    $headers
+    'checkin-weekend-report', $table, 50, $filter->search, $dropdowns, true, $addbutton, $headers
 );
 
 echo $output->header();

@@ -76,10 +76,9 @@ $PAGE->navbar->add($title);
 
 $table = new dorm_table('dorm_table', $search);
 
-$addbutton = array(
-    'text' => get_string('dorm_report_add', 'local_mxschool'),
-    'url' => new moodle_url('/local/mxschool/user_management/dorm_edit.php')
-);
+$addbutton = new stdClass();
+$addbutton->text = get_string('dorm_report_add', 'local_mxschool');
+$addbutton->url = new moodle_url('/local/mxschool/user_management/dorm_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page('dorm-report', $table, 50, $search, array(), false, $addbutton);

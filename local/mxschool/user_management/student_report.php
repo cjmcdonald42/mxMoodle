@@ -52,7 +52,6 @@ $types = array(
     'permissions' => get_string('student_report_type_permissions', 'local_mxschool'),
     'parents' => get_string('student_report_type_parents', 'local_mxschool')
 );
-$dorms = get_dorms_list();
 
 if (!isset($types[$type])) {
     redirect(new moodle_url($url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
@@ -85,6 +84,8 @@ if ($type === 'parents' && $action === 'delete' && $id) {
     }
 }
 
+$dorms = get_dorms_list();
+
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
 
@@ -100,17 +101,19 @@ $PAGE->navbar->add($title);
 
 $table = new student_table('student_table', $type, $filter);
 
-$typeselect = new local_mxschool_dropdown('type', $types, $type);
-$dormselect = new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'));
-$addbutton = array(
-    'text' => get_string('parent_report_add', 'local_mxschool'),
-    'url' => new moodle_url('/local/mxschool/user_management/parent_edit.php')
+$dropdowns = array(
+    new local_mxschool_dropdown('type', $types, $type),
+    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'))
 );
+if ($type === 'parents') {
+    $addbutton = new stdClass();
+    $addbutton->text = get_string('parent_report_add', 'local_mxschool');
+    $addbutton->url = new moodle_url('/local/mxschool/user_management/parent_edit.php');
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page(
-    'student-report', $table, 50, $filter->search, array($typeselect, $dormselect), $type !== 'parents',
-    $type === 'parents' ? $addbutton : false
+    'student-report', $table, 50, $filter->search, $dropdowns, $type !== 'parents', $addbutton ?: false
 );
 
 echo $output->header();

@@ -50,15 +50,17 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
     'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone',
     'time_modified' => 'timemodified', 'time_created' => 'timecreated'
 )));
-$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorms_list();
-$students = get_student_list();
 
 if ($id) {
     if ($isstudent) { // Students cannot edit existing weekend forms.
         redirect(new moodle_url($url));
     } else {
-        $data = get_record($queryfields, "wf.id = ?", array($id));
-        $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
+        if ($DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
+            $data = get_record($queryfields, "wf.id = ?", array($id));
+            $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
+        } else {
+            redirect($redirect);
+        }
     }
 } else {
     $data = new stdClass();
@@ -79,10 +81,8 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent;
-
-if ($id && !$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
-    redirect($redirect);
-}
+$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorms_list();
+$students = get_student_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

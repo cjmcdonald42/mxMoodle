@@ -64,16 +64,14 @@ $PAGE->navbar->add($title);
 
 $table = new weekday_table('weekday_table', $dorm);
 
-$dormselect = new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool'));
+$dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool')));
 $headers = array(array('text' => '', 'length' => 3));
 for ($i = 1; $i <= 5; $i++) {
     $headers[] = array('text' => get_string("day_$i", 'local_mxschool'), 'length' => 2);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page(
-    'checkin-weekday-report', $table, 50, null, array($dormselect), true, false, $headers
-);
+$renderable = new \local_mxschool\output\report_page('checkin-weekday-report', $table, 50, null, $dropdowns, true, false, $headers);
 
 echo $output->header();
 echo $output->heading(($dorm ? $dorms[$dorm] : '')." $title for the Week of __________");
