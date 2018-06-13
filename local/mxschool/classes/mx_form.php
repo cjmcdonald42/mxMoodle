@@ -75,8 +75,8 @@ abstract class local_mxschool_form extends moodleform {
         $mform->setType('redirect', PARAM_TEXT);
         foreach ($fields as $category => $categoryfields) {
             if ($category) {
+                $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", 'local_mxschool'));
                 $category = "_{$category}";
-                $mform->addElement('header', $category, get_string("{$stringprefix}_header{$category}", 'local_mxschool'));
             }
             foreach ($categoryfields as $name => $properties) {
                 $mform->addElement($this->create_element($name, $properties, $stringprefix.$category));

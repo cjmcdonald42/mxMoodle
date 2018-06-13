@@ -24,8 +24,9 @@
  * Default Table Styling.
  */
 /* All table cells */
-.path-local-mxschool .mx-table table {
+.path-local-mxschool .mx-table th, .path-local-mxschool .mx-table td {
     font-size: 1.0rem;
+    padding: 0.25rem;
 }
 /* Table Header Cells. */
 .path-local-mxschool .mx-table th {
@@ -38,16 +39,6 @@
 }
 
 /**
- * Custom Table Styling.
- */
-/* Weekday Check-in Report. (Proof of Concept) */
-.path-local-mxschool #checkin-weekday-report th,
-.path-local-mxschool #checkin-weekday-report td {
-    font-size: 0.75rem;
-    padding: 1px;
-}
-
-/**
  * Print Styling.
  */
 @media print {
@@ -57,6 +48,15 @@
     .path-local-mxschool .mx-table nav {
         display: none;
     }
+
+    /* Weekday and Weekend Check-in Reports. (Proof of Concept) */
+    .path-local-mxschool #checkin-weekday-report th,
+    .path-local-mxschool #checkin-weekday-report td,
+    .path-local-mxschool #checkin-weekend-report th,
+    .path-local-mxschool #checkin-weekend-report td {
+        font-size: 0.75rem;
+    }
+
     /* Needs Further Attention */
     .path-local-mxschool #page-wrapper {
         padding-bottom: 0;

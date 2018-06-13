@@ -298,17 +298,22 @@ function get_param_current_weekend() {
     if (isset($_GET['weekend'])) {
         return $_GET['weekend'];
     }
+    $starttime = get_config('local_mxschool', 'dorms_open_date');
+    $endtime = get_config('local_mxschool', 'dorms_close_date');
     $date = new DateTime('now', core_date::get_server_timezone_object());
     $date->modify('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
     $date->modify("Sunday this week");
-    echo $date->getTimestamp();
-    $weekend = $DB->get_field('local_mxschool_weekend', 'id', array('sunday_time' => $date->getTimestamp()));
-    if ($weekend) {
-        return $weekend;
+    $timestamp = $date->getTimestamp();
+    if ($timestamp > $starttime && $timestamp < $endtime) {
+        $weekend = $DB->get_field('local_mxschool_weekend', 'id', array('sunday_time' => $timestamp));
+        if ($weekend) {
+            return $weekend;
+        }
     }
     $weekend = $DB->get_field_sql(
-        "SELECT id FROM {local_mxschool_weekend} WHERE sunday_time > ? ORDER BY sunday_time",
-        array($date->getTimestamp()), IGNORE_MULTIPLE
+        "SELECT id FROM {local_mxschool_weekend}
+         WHERE sunday_time > ? AND sunday_time > ? AND sunday_time < ? ORDER BY sunday_time",
+        array($timestamp, $starttime, $endtime), IGNORE_MULTIPLE
     );
     if ($weekend) {
         return $weekend;

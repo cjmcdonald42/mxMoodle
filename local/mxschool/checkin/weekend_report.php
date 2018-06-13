@@ -103,7 +103,7 @@ $addbutton = array(
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page(
-    'weekend_report', $table, 50, $filter->search, array($dormselect, $weekendselect, $submittedselect), true, $addbutton
+    'checkin-weekend-report', $table, 50, $filter->search, array($dormselect, $weekendselect, $submittedselect), true, $addbutton
 );
 
 echo $output->header();

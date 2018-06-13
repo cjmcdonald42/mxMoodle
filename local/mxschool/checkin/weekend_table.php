@@ -46,7 +46,8 @@ class weekend_table extends local_mxschool_table {
         $fields = array(
             's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
             's.grade', "'&emsp;' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
-            'wf.phone_number AS phone', 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
+            'wf.phone_number AS phone', "'&emsp;' AS departurereturn", 'wf.departure_date_time AS departuretime',
+            'wf.return_date_time AS returntime'
         );
         $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
         $startday = date('w', $weekendrecord->start_time) - 7;
@@ -60,7 +61,7 @@ class weekend_table extends local_mxschool_table {
             $fields[] = "'&emsp;' AS late_$i";
         }
         $columns2 = array(
-            'clean', 'parent', 'invite', 'approved', 'destination', 'transportation', 'phone', 'departuretime', 'returntime'
+            'clean', 'parent', 'invite', 'approved', 'destination', 'transportation', 'phone', 'departurereturn'
         );
         $headers2 = array();
         foreach ($columns2 as $column) {
@@ -101,18 +102,13 @@ class weekend_table extends local_mxschool_table {
         return $values->student . $alternatename;
     }
 
-    /**
-     * Formats the departure time column to 'n/j/y g:i A'.
-     */
-    protected function col_departuretime($values) {
-        return $values->departuretime ? date('n/j/y g:i A', $values->departuretime) : '';
-    }
 
     /**
-     * Formats the return time column to 'n/j/y g:i A'.
+     * Formats the departure and return time column to 'n/j/y g:i A'<br>'n/j/y g:i A'.
      */
-    protected function col_returntime($values) {
-        return $values->returntime ? date('n/j/y g:i A', $values->returntime) : '';
+    protected function col_departurereturn($values) {
+        return ($values->departuretime ? date('n/j/y g:i A', $values->departuretime) : '')
+               .'<br>'.($values->returntime ? date('n/j/y g:i A', $values->returntime) : '');
     }
 
     /**
