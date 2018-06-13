@@ -57,6 +57,30 @@ class renderer extends plugin_renderer_base {
     }
 
     /**
+     * Renders a report table according to the template.
+     *
+     * @param report_table $table.
+     *
+     * @return string html for the page.
+     */
+    public function render_report_table($table) {
+        $data = $table->export_for_template($this);
+        return parent::render_from_template('local_mxschool/report_table', $data);
+    }
+
+    /**
+     * Renders a report filter according to the template.
+     *
+     * @param report_filter $filter.
+     *
+     * @return string html for the page.
+     */
+    public function render_report_filter($filter) {
+        $data = $filter->export_for_template($this);
+        return parent::render_from_template('local_mxschool/report_filter', $data);
+    }
+
+    /**
      * Renders a form page according to the template.
      *
      * @param form_page $page.

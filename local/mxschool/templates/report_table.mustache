@@ -15,12 +15,17 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/report_page
+    @template local_mxschool/report_table
 
-    The purpose of this template is to render a report with a table and filtering options.
+    The purpose of this template is to render a mx table.
 }}
 
-<div class="mx-report" id={{ id }}>
-    {{{ filter }}}
+<div class="mx-table">
     {{{ table }}}
 </div>
+
+{{# js }}
+    require(['local_mxschool/prepend_table_header'], prepend_table_header => {
+        prepend_table_header.prepend({{{ headers }}});
+    });
+{{/ js }}

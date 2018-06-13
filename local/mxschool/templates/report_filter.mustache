@@ -1,0 +1,41 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_mxschool/report_filter
+
+    The purpose of this template is to render filtering options and other interactions for a report.
+}}
+
+<div class="mx-filter noprint">
+    <form action="{{ url }}">
+        {{# dropdowns }}
+            {{{ . }}}
+        {{/ dropdowns }}
+        {{# searchable }}
+            <input type="text" name="search" placeholder="{{# str }} search {{/ str }}..." value="{{ search }}" />
+        {{/ searchable }}
+        <input type="submit" value="{{# str }} search {{/ str }}" />
+    </form>
+    {{# printable }}
+        <input type="button" onclick="window.print()" value="{{# str }} print, local_mxschool {{/ str }}" />
+    {{/ printable }}
+    {{# addtext }}
+        <form action="{{ addurl }}">
+            <input type="submit" value="{{ addtext }}" />
+        </form>
+    {{/ addtext }}
+</div>

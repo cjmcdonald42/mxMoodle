@@ -82,36 +82,118 @@ class index_page implements renderable, templatable {
  */
 class report_page implements renderable, templatable {
 
-    /** @var string $id an id to tag this report for custom formatting.*/
+    /** @var string $id An id to tag this report for custom formatting.*/
     private $id;
-    /** @var mx_table $table table object to be outputed to the template.*/
+    /** @var report_table The table for the report.*/
     private $table;
-    /** @var int $size the number of rows to output.*/
+    /** @var report_filter The filter for the report.*/
+    private $filter;
+
+    /**
+     * @param string $id An id to tag this report for custom formatting.
+     * @param mx_table $table The table object to output to the template
+     * @param int $size The number of rows to output.
+     * @param string $search Default search text, null if there is no search option.
+     * @param array $dropdowns Array of local_mxschool_dropdown objects.
+     * @param bool $printbutton Whether to display a print button.
+     * @param array|bool $addbutton Text and url for an add button or false.
+     * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
+     */
+    public function __construct(
+        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false
+    ) {
+        $this->id = $id;
+        $this->table = new report_table($table, $size, $headers);
+        $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton);
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass with properties id, filter, and table.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->id = $this->id;
+        $data->filter = $output->render($this->filter);
+        $data->table = $output->render($this->table);
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for report tables.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class report_table implements renderable, templatable {
+
+    /** @var mx_table $table The table object to output to the template.*/
+    private $table;
+    /** @var int $size The number of rows to output.*/
     private $size;
-    /** @var string $search default search text, null if there is no search option.*/
+    /** @var array|bool $headers Array of headers as ['text', 'length'] to prepend or false.*/
+    private $headers;
+
+    /**
+     * @param mx_table $table The table object to output to the template
+     * @param int $size The number of rows to output.
+     * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
+     */
+    public function __construct($table, $size, $headers) {
+        $this->table = $table;
+        $this->size = $size;
+        $this->headers = $headers;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass with property table.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        ob_start();
+        $this->table->out($this->size, true);
+        $data->table = ob_get_clean();
+        $data->headers = json_encode($this->headers);
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for report filters.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class report_filter implements renderable, templatable {
+
+    /** @var string $search Default search text, null if there is no search option.*/
     private $search;
-    /** @param array $dropdowns array of local_mxschool_dropdown objects.*/
+    /** @param array $dropdowns Array of local_mxschool_dropdown objects.*/
     private $dropdowns;
-    /** @var bool $printbutton whether to display a print button.*/
+    /** @var bool $printbutton Whether to display a print button.*/
     private $printbutton;
-    /** @var array|bool $addbutton text and url for an add button or false.*/
+    /** @var array|bool $addbutton Text and url for an add button or false.*/
     private $addbutton;
 
     /**
-     * @param string $id an id to tag this report for custom formatting.
-     * @param mx_table $table table object to be outputed to the template.
-     * @param int $size the number of rows to output.
-     * @param string $search default search text, null if there is no search option.
-     * @param array $dropdowns array of local_mxschool_dropdown objects.
-     * @param bool $printbutton whether to display a print button.
-     * @param array|bool $addbutton text and url for an add button or false.
+     * @param string $search Default search text, null if there is no search option.
+     * @param array $dropdowns Array of local_mxschool_dropdown objects.
+     * @param bool $printbutton Whether to display a print button.
+     * @param array|bool $addbutton Text and url for an add button or false.
      */
-    public function __construct(
-        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false
-    ) {
-        $this->id = $id;
-        $this->table = $table;
-        $this->size = $size;
+    public function __construct($search, $dropdowns, $printbutton, $addbutton) {
         $this->search = $search;
         $this->dropdowns = $dropdowns;
         $this->printbutton = $printbutton;
@@ -121,12 +203,11 @@ class report_page implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with properties id, url, dropdowns, searchable, search, printable, addtext, addurl, and table.
+     * @return stdClass with properties url, dropdowns, searchable, search, printable, addtext, and addurl.
      */
     public function export_for_template(renderer_base $output) {
         global $PAGE;
         $data = new stdClass();
-        $data->id = $this->id;
         $data->url = $PAGE->url;
         $data->dropdowns = array();
         foreach ($this->dropdowns as $dropdown) {
@@ -139,9 +220,6 @@ class report_page implements renderable, templatable {
             $data->addtext = $this->addbutton['text'];
             $data->addurl = $this->addbutton['url']->out();
         }
-        ob_start();
-        $this->table->out($this->size, true);
-        $data->table = ob_get_clean();
         return $data;
     }
 
