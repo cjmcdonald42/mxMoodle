@@ -290,6 +290,7 @@ function get_param_faculty_dorm() {
  * 1) An id specified as a 'weekend' GET parameter.
  * 2) The current or upcoming weekend (resets Wednesday 0:00:00).
  * 3) The next weekend with a record in the database.
+ * 4) Defaults to a value of '0'.
  *
  * @return string The weekend id, as specified.
  */
@@ -319,4 +320,47 @@ function get_param_current_weekend() {
         return $weekend;
     }
     return '0';
+}
+
+/**
+ * Determines the semester ('1' or '2') to be selected.
+ * The priorities of this function are as follows:
+ * 1) A value specified as a 'semester' GET parameter.
+ * 2) The current semster.
+ * 3) The first semester if before the dorms open date; the second semester if after the dorms close date.
+ *
+ * @return string The semester, as specified.
+ */
+function get_param_current_semester() {
+    global $DB;
+    if (isset($_GET['semester']) && ($_GET['semester'] === '1' || $_GET['semester'] === '2')) {
+        return $_GET['semester'];
+    }
+    $semesterdate = get_config('local_mxschool', 'second_semester_start_date');
+    $date = new DateTime('now', core_date::get_server_timezone_object());
+    return $date->getTimestamp() < $semesterdate ? '1' : '2';
+}
+
+/**
+ * Calculates the number of weekends which a student has used.
+ * This number is determined by the number of active weekend forms for the student
+ * on open or closed weekends in the specified semester.
+ *
+ * @param int $studentid The id of the student to query for.
+ * @param int $semester The semester to query for.
+ * @return int The count of the applicable records.
+ */
+function calculate_weekends_used($studentid, $semester) {
+    global $DB;
+    $startdate = $semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
+                                        : get_config('local_mxschool', 'second_semester_start_date');
+    $enddate = $semester == 1 ? get_config('local_mxschool', 'second_semester_start_date')
+                                      : get_config('local_mxschool', 'dorms_close_date');
+    return $DB->count_records_sql(
+        "SELECT COUNT(wf.id) FROM {local_mxschool_student} s
+         LEFT JOIN {local_mxschool_weekend_form} wf ON s.userid = wf.userid
+         LEFT JOIN {local_mxschool_weekend} w ON wf.weekendid = w.id
+         WHERE s.id = $studentid AND sunday_time >= $startdate AND sunday_time < $enddate
+         AND wf.active = 1 AND (w.type = 'open' OR w.type = 'closed')"
+    );
 }

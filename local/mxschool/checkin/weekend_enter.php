@@ -38,7 +38,7 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = $parents = array(
+$parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
 );

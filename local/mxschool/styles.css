@@ -58,11 +58,18 @@
         display: none;
     }
 
-    /* Weekday and Weekend Check-in Reports. (Proof of Concept) */
+    /* Remove Border Around Reports. */
+    .path-local-mxschool .card {
+        border: 0;
+    }
+
+    /* Weekday Check-in, Weekend Check-in, and Weekened Calculator Reports. (Proof of Concept) */
     .path-local-mxschool #checkin-weekday-report th,
     .path-local-mxschool #checkin-weekday-report td,
     .path-local-mxschool #checkin-weekend-report th,
-    .path-local-mxschool #checkin-weekend-report td {
+    .path-local-mxschool #checkin-weekend-report td,
+    .path-local-mxschool #weekend-calculator th,
+    .path-local-mxschool #weekend-calculator td {
         font-size: 0.75rem;
     }
 

@@ -54,7 +54,7 @@ class weekend_table extends local_mxschool_table {
         $fields = array(
             's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
             's.grade', "'&emsp;' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
-            'wf.phone_number AS phone', "'&emsp;' AS departurereturn", 'wf.departure_date_time AS departuretime',
+            'wf.phone_number AS phone', "'' AS departurereturn", 'wf.departure_date_time AS departuretime',
             'wf.return_date_time AS returntime'
         );
         for ($i = 1; $i <= $numdays; $i++) {

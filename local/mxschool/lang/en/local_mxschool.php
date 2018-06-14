@@ -39,6 +39,8 @@ $string['day_3'] = 'Wednesday';
 $string['day_4'] = 'Thursday';
 $string['day_5'] = 'Friday';
 $string['day_6'] = 'Saturday';
+$string['first_semester'] = 'First Semester';
+$string['second_semester'] = 'Second Semester';
 
 // Capabilities.
 $string['mxschool:manage_students'] = 'Middlesex School: View and manage student data';
@@ -212,6 +214,7 @@ $string['generic_report'] = 'Check-in Sheet';
 $string['weekday_report'] = 'Weekday Check-In Sheet';
 $string['weekend_form'] = 'Weekend Form';
 $string['weekend_report'] = 'Weekend Check-In Sheet';
+$string['weekend_calculator'] = 'Weekend Calculator';
 
 // Check-in Preferences.
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
@@ -269,3 +272,9 @@ $string['weekend_report_header_destination'] = 'Destination';
 $string['weekend_report_header_transportation'] = 'Transportation';
 $string['weekend_report_header_phone'] = 'Phone #';
 $string['weekend_report_header_departurereturn'] = 'Departure Time<br>Return Time';
+
+// Weekend Calculator.
+$string['weekend_calculator_report_header_student'] = 'Name';
+$string['weekend_calculator_report_header_grade'] = 'Grade';
+$string['weekend_calculator_report_header_total'] = 'Total';
+$string['weekend_calculator_report_header_allowed'] = 'Allowed';

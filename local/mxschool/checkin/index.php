@@ -44,7 +44,8 @@ $renderable = new \local_mxschool\output\index_page(array(
     'generic_report' => '/local/mxschool/checkin/generic_report.php',
     'weekday_report' => '/local/mxschool/checkin/weekday_report.php',
     'weekend_form' => '/local/mxschool/checkin/weekend_enter.php',
-    'weekend_report' => '/local/mxschool/checkin/weekend_report.php'
+    'weekend_report' => '/local/mxschool/checkin/weekend_report.php',
+    'weekend_calculator' => '/local/mxschool/checkin/weekend_calculator.php'
 ));
 
 echo $output->header();
