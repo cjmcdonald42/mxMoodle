@@ -31,7 +31,7 @@ $string['print'] = 'Print';
 $string['email_button'] = 'Send Email';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
-$string['report_select_dorm'] = 'All Dorms';
+$string['report_select_dorm'] = 'All Houses';
 $string['day_0'] = 'Sunday';
 $string['day_1'] = 'Monday';
 $string['day_2'] = 'Tuesday';
@@ -208,9 +208,9 @@ $string['dorm_edit_dorm_available'] = 'Available';
 
 
 /* Check-in Sheets. */
-$string['checkin'] = 'Check-in Sheets';
-$string['checkin_preferences'] = 'Check-in Sheets Preferences';
-$string['generic_report'] = 'Check-in Sheet';
+$string['checkin'] = 'Check-In Sheets and Weekend Forms';
+$string['checkin_preferences'] = 'Check-In Sheets Preferences';
+$string['generic_report'] = 'Check-In Sheet';
 $string['weekday_report'] = 'Weekday Check-In Sheet';
 $string['weekend_form'] = 'Weekend Form';
 $string['weekend_report'] = 'Weekend Check-In Sheet';
@@ -225,12 +225,14 @@ $string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
 $string['checkin_preferences_weekends_label'] = 'Saturday {$a}';
 
 // Generic Check-in Sheet.
+$string['generic_report_title'] = '{$a}Check-In Sheet for __________';
 $string['generic_report_header_student'] = 'Name';
 $string['generic_report_header_room'] = 'Room #';
 $string['generic_report_header_grade'] = 'Grade';
-$string['generic_report_header_checkin'] = 'Present';
+$string['generic_report_header_checkin'] = '&emsp;&emsp;';
 
 // Weekday Check-in Sheet.
+$string['weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
 $string['weekday_report_header_student'] = 'Name';
 $string['weekday_report_header_room'] = 'Room #';
 $string['weekday_report_header_grade'] = 'Grade';
@@ -254,6 +256,7 @@ $string['weekend_form_error_notinweekend'] = 'You must select a departure date w
 $string['weekend_form_error_indifferentweekends'] = 'You must select a return date in the same weekend as your departure date.';
 
 // Weekend Check-in Sheet.
+$string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend}';
 $string['weekend_report_select_submitted_all'] = 'All';
 $string['weekend_report_select_submitted_true'] = 'Weekend Form';
 $string['weekend_report_select_submitted_false'] = 'No Weekend Form';
@@ -274,6 +277,7 @@ $string['weekend_report_header_phone'] = 'Phone #';
 $string['weekend_report_header_departurereturn'] = 'Departure Time<br>Return Time';
 
 // Weekend Calculator.
+$string['weekend_calculator_report_title'] = 'Weekend Calculator{$a}';
 $string['weekend_calculator_report_header_student'] = 'Name';
 $string['weekend_calculator_report_header_grade'] = 'Grade';
 $string['weekend_calculator_report_header_total'] = 'Total';

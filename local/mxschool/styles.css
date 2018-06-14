@@ -9,23 +9,10 @@
  */
 
 /**
- * General Styling.
- */
-/* Page Headers. */
-.path-local-mxschool h1 {
-    font-size: 2.0rem;
-}
-/* Content Headers. */
-.path-local-mxschool h2 {
-    font-size: 1.5rem;
-}
-
-/**
  * Default Table Styling.
  */
 /* All table cells */
 .path-local-mxschool .mx-table th, .path-local-mxschool .mx-table td {
-    font-size: 1.0rem;
     padding: 0.25rem;
 }
 /* Table Header Cells. */
@@ -37,14 +24,6 @@
 .path-local-mxschool .mx-filter form,
 .path-local-mxschool .mx-filter input {
     display: inline;
-}
-
-/**
- * Button Styling
- */
-.path-local-mxschool .mx-emailbutton {
-    font-size: 0.75rem;
-    padding: 0.25rem;
 }
 
 /**
@@ -63,7 +42,7 @@
         border: 0;
     }
 
-    /* Weekday Check-in, Weekend Check-in, and Weekened Calculator Reports. (Proof of Concept) */
+    /* Weekday Check-in, Weekend Check-in, and Weekened Calculator Reports. */
     .path-local-mxschool #checkin-weekday-report th,
     .path-local-mxschool #checkin-weekday-report td,
     .path-local-mxschool #checkin-weekend-report th,

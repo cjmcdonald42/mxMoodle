@@ -117,8 +117,8 @@ $renderable = new \local_mxschool\output\report_page(
 );
 
 echo $output->header();
-echo $output->heading(
-    ($filter->dorm ? $dorms[$filter->dorm] : '')." $title for the Weekend of {$weekends[$filter->weekend]}"
-);
+echo $output->heading(get_string('weekend_report_title', 'local_mxschool', array(
+    'dorm' => $filter->dorm ? "{$dorms[$filter->dorm]} " : '', 'weekend' => $weekends[$filter->weekend]
+)));
 echo $output->render($renderable);
 echo $output->footer();

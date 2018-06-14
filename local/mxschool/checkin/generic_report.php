@@ -66,6 +66,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page('checkin-generic-report', $table, 50, null, $dropdowns, true);
 
 echo $output->header();
-echo $output->heading(($dorm ? $dorms[$dorm] : '')." $title for __________");
+echo $output->heading(get_string('generic_report_title', 'local_mxschool', $dorm ? "{$dorms[$dorm]} " : ''));
 echo $output->render($renderable);
 echo $output->footer();

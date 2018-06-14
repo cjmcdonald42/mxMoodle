@@ -28,17 +28,17 @@
         {{# searchable }}
             <input type="text" name="search" placeholder="{{# str }} search {{/ str }}..." value="{{ search }}" />
         {{/ searchable }}
-        <input type="submit" value="{{# str }} search {{/ str }}" />
+        <input type="submit" class="btn btn-primary" value="{{# str }} search {{/ str }}" />
     </form>
     <form action="{{ url }}">
-        <input type="submit" value="{{# str }} reset {{/ str }}" />
+        <input type="submit" class="btn btn-secondary" value="{{# str }} reset {{/ str }}" />
     </form>
     {{# printable }}
-        <input type="button" onclick="window.print()" value="{{# str }} print, local_mxschool {{/ str }}" />
+        <input type="button" class="btn btn-secondary" onclick="window.print()" value="{{# str }} print, local_mxschool {{/ str }}" />
     {{/ printable }}
     {{# addbutton }}
         <form action="{{ addbutton.url }}">
-            <input type="submit" value="{{ addbutton.text }}" />
+            <input type="submit" class="btn btn-secondary" value="{{ addbutton.text }}" />
         </form>
     {{/ addbutton }}
 </div>

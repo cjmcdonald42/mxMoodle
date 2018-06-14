@@ -75,6 +75,8 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page('weekend-calculator', $table, 50, null, $dropdowns, true);
 
 echo $output->header();
-echo $output->heading($title.($filter->dorm ? " for {$dorms[$filter->dorm]}" : ''));
+echo $output->heading(
+    get_string('weekend_calculator_report_title', 'local_mxschool', $filter->dorm ? " for {$dorms[$filter->dorm]}" : '')
+);
 echo $output->render($renderable);
 echo $output->footer();
