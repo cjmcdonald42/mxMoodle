@@ -42,20 +42,20 @@
         border: 0;
     }
 
-    /* Weekday Check-in, Weekend Check-in, and Weekened Calculator Reports. */
-    .path-local-mxschool #checkin-weekday-report th,
-    .path-local-mxschool #checkin-weekday-report td,
-    .path-local-mxschool #checkin-weekend-report th,
-    .path-local-mxschool #checkin-weekend-report td,
-    .path-local-mxschool #weekend-calculator th,
-    .path-local-mxschool #weekend-calculator td {
+    /* Smaller Font Size when Printing Reports. */
+    .path-local-mxschool h2 {
+        font-size: 1.5rem;
+    }
+    .path-local-mxschool .mx-table th,
+    .path-local-mxschool .mx-table td {
         font-size: 0.75rem;
     }
 
-    /* Needs Further Attention */
-    .path-local-mxschool #page-wrapper {
-        padding-bottom: 0;
-        margin-bottom: 0;
+    /** Remove excess empty space. */
+    .path-local-mxschool #page-wrapper,
+    .path-local-mxschool div #page  {
+        margin: 0;
+        padding: 0;
     }
     .path-local-mxschool #page-wrapper::after {
         content: none;
