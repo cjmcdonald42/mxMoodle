@@ -58,7 +58,7 @@ class index_page implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with property links which is an array of stdClass with properties text and url.
+     * @return stdClass Object with property links which is an array of stdClass with properties text and url.
      */
     public function export_for_template(renderer_base $output) {
         global $CFG;
@@ -84,9 +84,9 @@ class report_page implements renderable, templatable {
 
     /** @var string $id An id to tag this report for custom formatting.*/
     private $id;
-    /** @var report_table The table for the report.*/
+    /** @var report_table $table The table for the report.*/
     private $table;
-    /** @var report_filter The filter for the report.*/
+    /** @var report_filter $filter The filter for the report.*/
     private $filter;
 
     /**
@@ -110,7 +110,7 @@ class report_page implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with properties id, filter, and table.
+     * @return stdClass Object with properties id, filter, and table.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
@@ -154,7 +154,7 @@ class report_table implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with property table.
+     * @return stdClass Object with property table.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
@@ -203,7 +203,7 @@ class report_filter implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with properties url, dropdowns, searchable, search, printable, and addbutton.
+     * @return stdClass Object with properties url, dropdowns, searchable, search, printable, and addbutton.
      */
     public function export_for_template(renderer_base $output) {
         global $PAGE;
@@ -258,7 +258,7 @@ class form_page implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with properties form, topdescription, and bottomdescription.
+     * @return stdClass Object with properties form, topdescription, and bottomdescription.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
@@ -288,28 +288,72 @@ class checkbox implements renderable, templatable {
     private $name;
     /** @var bool $checked Whether the checkbox should be checked.*/
     private $checked;
+    /** @var string $table The table in the database which the checkbox corresponds to.*/
+    private $table;
 
     /**
      * @param string $value The value attribute of the checkbox.
      * @param string $name The name attribute of the checkbox.
      * @param bool $checked Whether the checkbox should be checked.
+     * @param string $table The table in the database which the checkbox corresponds to.
      */
-    public function __construct($value, $name, $checked) {
+    public function __construct($value, $name, $checked, $table) {
         $this->value = $value;
         $this->name = $name;
         $this->checked = $checked;
+        $this->table = $table;
     }
 
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass with properties value, name, and checked.
+     * @return stdClass Object with properties value, name, and checked.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         $data->value = $this->value;
         $data->name = $this->name;
         $data->checked = $this->checked;
+        $data->table = $this->table;
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for email buttons.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class emailbutton implements renderable, templatable {
+
+    /** @var int The value attribute of the button.*/
+    private $value;
+    /** @var string The string identifier for the email.*/
+    private $emailclass;
+
+    /**
+     * @param int $value The value attribute of the button.
+     * @param string $emailclass The string identifier for the email.
+     */
+    public function __construct($value, $emailclass) {
+        $this->value = $value;
+        $this->emailclass = $emailclass;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties value and emailclass.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->value = $this->value;
+        $data->emailclass = $this->emailclass;
         return $data;
     }
 

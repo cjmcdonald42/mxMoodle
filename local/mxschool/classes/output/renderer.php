@@ -61,7 +61,7 @@ class renderer extends plugin_renderer_base {
      *
      * @param report_table $table.
      *
-     * @return string html for the page.
+     * @return string html for the table.
      */
     public function render_report_table($table) {
         $data = $table->export_for_template($this);
@@ -73,7 +73,7 @@ class renderer extends plugin_renderer_base {
      *
      * @param report_filter $filter.
      *
-     * @return string html for the page.
+     * @return string html for the filter.
      */
     public function render_report_filter($filter) {
         $data = $filter->export_for_template($this);
@@ -97,11 +97,23 @@ class renderer extends plugin_renderer_base {
      *
      * @param checkbox $checkbox.
      *
-     * @return string html for the page.
+     * @return string html for the checkbox.
      */
     public function render_checkbox($checkbox) {
         $data = $checkbox->export_for_template($this);
         return parent::render_from_template('local_mxschool/checkbox', $data);
+    }
+
+    /**
+     * Renders a email button according to the template.
+     *
+     * @param emailbutton $button.
+     *
+     * @return string html for the button.
+     */
+    public function render_emailbutton($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template('local_mxschool/email_button', $data);
     }
 
 }

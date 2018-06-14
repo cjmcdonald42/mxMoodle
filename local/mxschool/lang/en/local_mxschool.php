@@ -28,6 +28,7 @@ $string['pluginname'] = 'Middlesex School';
 
 /* General */
 $string['print'] = 'Print';
+$string['email_button'] = 'Send Email';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
 $string['report_select_dorm'] = 'All Dorms';

@@ -31,11 +31,20 @@
 /* Table Header Cells. */
 .path-local-mxschool .mx-table th {
     font-weight: bold;
+    text-align: center;
 }
 /* All filtering and buttons on one line. */
 .path-local-mxschool .mx-filter form,
 .path-local-mxschool .mx-filter input {
     display: inline;
+}
+
+/**
+ * Button Styling
+ */
+.path-local-mxschool .mx-emailbutton {
+    font-size: 0.75rem;
+    padding: 0.25rem;
 }
 
 /**

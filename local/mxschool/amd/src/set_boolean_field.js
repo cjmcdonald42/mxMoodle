@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Services for Middlesex School's Dorm and Student functions plugin.
+ * Sets a boolean field in the database for Middlesex School's Dorm and Student functions plugin.
  *
+ * @module     local_mxschool/get_dorm_students
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,25 +24,25 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$functions = array(
-    'local_mxschool_get_dorm_students' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'get_dorm_students',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to find all students in a specified dorm.',
-        'type' => 'read',
-        'ajax' => 'true',
-        'capabilities' => 'local/mxschool:manage_weekend'
-    ),
-    'local_mxschool_set_boolean_field' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'set_boolean_field',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Sets a boolean field in the database.',
-        'type' => 'write',
-        'ajax' => 'true',
-        'capabilities' => 'local/mxschool:manage_weekend'
-    ),
-);
+define(['jquery', 'core/ajax', 'core/notification'], ($, ajax, notification) => {
+    return  {
+        update_field: (table, name, value) => {
+            let element = $('.mx-checkbox[name="' + name + '"][value="' + value + '"]');
+            element.change(() => {
+                let promises = ajax.call([{
+                    methodname: 'local_mxschool_set_boolean_field',
+                    args: {
+                        table,
+                        field: name,
+                        id: value,
+                        value: element.prop("checked")
+                    }
+                }]);
+                promises[0].done(data => {
+                    console.log(data);
+                    // TODO: feedback
+                }).fail(notification.exception);
+            });
+        }
+    };
+});

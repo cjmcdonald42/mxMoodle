@@ -15,15 +15,15 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/checkbox
+    @template local_mxschool/email_button
 
-    The purpose of this template is to render a checkbox with ajax functionality.
+    The purpose of this template is to render a button with ajax functionality to send an email.
 }}
 
-<input type="checkbox" class="mx-checkbox" name="{{ name }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
+<button class="mx-emailbutton" value="{{ value }}">{{# str }} email_button, local_mxschool {{/ str }}</button>
 
 {{# js }}
-    require(['local_mxschool/set_boolean_field'], (set_boolean_field) => {
-        set_boolean_field.update_field('{{ table }}', '{{ name }}', {{ value }});
+    require(['local_mxschool/send_email'], (send_email) => {
+        send_email.send_email('{{ emailclass }}', {{ value }});
     });
 {{/ js }}

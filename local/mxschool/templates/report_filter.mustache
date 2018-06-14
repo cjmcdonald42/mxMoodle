@@ -30,6 +30,9 @@
         {{/ searchable }}
         <input type="submit" value="{{# str }} search {{/ str }}" />
     </form>
+    <form action="{{ url }}">
+        <input type="submit" value="{{# str }} reset {{/ str }}" />
+    </form>
     {{# printable }}
         <input type="button" onclick="window.print()" value="{{# str }} print, local_mxschool {{/ str }}" />
     {{/ printable }}

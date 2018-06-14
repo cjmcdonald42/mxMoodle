@@ -33,32 +33,16 @@ class weekend_table extends local_mxschool_table {
     /**
      * Creates a new weekend_table.
      *
-     * @param string $uniqueid a unique identifier for the table.
-     * @param stdClass $filter any filtering for the table - could include dorm, weekend, submitted, and search keys.
+     * @param string $uniqueid A unique identifier for the table.
+     * @param stdClass $filter Any filtering for the table - could include dorm, weekend, submitted, and search keys.
+     * @param int $numdays The number of days to include checkin columns for.
      */
-    public function __construct($uniqueid, $filter) {
+    public function __construct($uniqueid, $filter, $numdays) {
         global $DB;
         $columns1 = array('student', 'room', 'grade');
         $headers1 = array();
         foreach ($columns1 as $column) {
             $headers1[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
-        }
-        $fields = array(
-            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
-            's.grade', "'&emsp;' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
-            'wf.phone_number AS phone', "'&emsp;' AS departurereturn", 'wf.departure_date_time AS departuretime',
-            'wf.return_date_time AS returntime'
-        );
-        $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
-        $startday = date('w', $weekendrecord->start_time) - 7;
-        $endday = date('w', $weekendrecord->end_time);
-        for ($i = 1; $i <= $endday - $startday + 1; $i++) {
-            $columns1[] = "early_$i";
-            $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
-            $fields[] = "'&emsp;' AS early_$i";
-            $columns1[] = "late_$i";
-            $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
-            $fields[] = "'&emsp;' AS late_$i";
         }
         $columns2 = array(
             'clean', 'parent', 'invite', 'approved', 'destination', 'transportation', 'phone', 'departurereturn'
@@ -66,6 +50,20 @@ class weekend_table extends local_mxschool_table {
         $headers2 = array();
         foreach ($columns2 as $column) {
             $headers2[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
+        }
+        $fields = array(
+            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
+            's.grade', "'&emsp;' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
+            'wf.phone_number AS phone', "'&emsp;' AS departurereturn", 'wf.departure_date_time AS departuretime',
+            'wf.return_date_time AS returntime'
+        );
+        for ($i = 1; $i <= $numdays; $i++) {
+            $columns1[] = "early_$i";
+            $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
+            $fields[] = "'&emsp;' AS early_$i";
+            $columns1[] = "late_$i";
+            $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
+            $fields[] = "'&emsp;' AS late_$i";
         }
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
@@ -108,10 +106,10 @@ class weekend_table extends local_mxschool_table {
     protected function col_parent($values) {
         global $PAGE;
         if (!isset($values->wfid)) {
-            return '&emsp;';
+            return '';
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'parent', $values->parent);
+        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'parent', $values->parent, 'local_mxschool_weekend_form');
         return $output->render($renderable);
     }
 
@@ -121,10 +119,10 @@ class weekend_table extends local_mxschool_table {
     protected function col_invite($values) {
         global $PAGE;
         if (!isset($values->wfid)) {
-            return '&emsp;';
+            return '';
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'invite', $values->invite);
+        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'invite', $values->invite, 'local_mxschool_weekend_form');
         return $output->render($renderable);
     }
 
@@ -134,11 +132,14 @@ class weekend_table extends local_mxschool_table {
     protected function col_approved($values) {
         global $PAGE;
         if (!isset($values->wfid)) {
-            return '&emsp;';
+            return '';
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'approved', $values->approved);
-        return $output->render($renderable);
+        $checkboxrenderable = new \local_mxschool\output\checkbox(
+            $values->wfid, 'approved', $values->approved, 'local_mxschool_weekend_form'
+        );
+        $buttonrenderable = new \local_mxschool\output\emailbutton($values->wfid, 'weekend_form_approved');
+        return "{$output->render($checkboxrenderable)}&emsp;{$output->render($buttonrenderable)}";
     }
 
     /**
