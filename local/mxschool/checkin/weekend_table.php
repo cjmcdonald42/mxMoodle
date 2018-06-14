@@ -35,9 +35,8 @@ class weekend_table extends local_mxschool_table {
      *
      * @param string $uniqueid A unique identifier for the table.
      * @param stdClass $filter Any filtering for the table - could include dorm, weekend, submitted, and search keys.
-     * @param int $numdays The number of days to include checkin columns for.
      */
-    public function __construct($uniqueid, $filter, $numdays) {
+    public function __construct($uniqueid, $filter) {
         global $DB;
         $columns1 = array('student', 'room', 'grade');
         $headers1 = array();
@@ -57,13 +56,23 @@ class weekend_table extends local_mxschool_table {
             'wf.phone_number AS phone', "'' AS departurereturn", 'wf.departure_date_time AS departuretime',
             'wf.return_date_time AS returntime'
         );
-        for ($i = 1; $i <= $numdays; $i++) {
+        $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
+        $startday = date('w', $weekendrecord->start_time) - 7;
+        $endday = date('w', $weekendrecord->end_time);
+        $date = new DateTime('now', core_date::get_server_timezone_object());
+        $date->setTimestamp($weekendrecord->start_time);
+        for ($i = 1; $i <= $endday - $startday + 1; $i++) {
+            $date->modify('+1 day');
+            $sql = "IF(
+                wf.departure_date_time < {$date->getTimestamp()} AND wf.return_date_time > {$date->getTimestamp()},
+                '&ensp;X&ensp;', ''
+            )";
             $columns1[] = "early_$i";
             $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
-            $fields[] = "'&emsp;' AS early_$i";
+            $fields[] = "$sql AS early_$i";
             $columns1[] = "late_$i";
             $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
-            $fields[] = "'&emsp;' AS late_$i";
+            $fields[] = "$sql AS late_$i";
         }
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);

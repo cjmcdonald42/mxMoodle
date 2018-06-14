@@ -92,7 +92,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$table = new weekend_table('weekend_table', $filter, $endday - $startday + 1);
+$table = new weekend_table('weekend_table', $filter);
 
 $dropdowns = array(
     new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool')),
