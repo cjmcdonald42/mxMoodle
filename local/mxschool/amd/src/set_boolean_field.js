@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], ($, ajax, notification) => {
+define(['jquery', 'core/str', 'core/ajax', 'core/notification'], ($, str, ajax, notification) => {
     return  {
         update_field: (table, name, value) => {
             let element = $('.mx-checkbox[name="' + name + '"][value="' + value + '"]');
@@ -39,8 +39,26 @@ define(['jquery', 'core/ajax', 'core/notification'], ($, ajax, notification) => 
                     }
                 }]);
                 promises[0].done(data => {
-                    console.log(data);
-                    // TODO: feedback
+                    let saved = $('<span></span>').text(' saved').attr('class', 'green')
+                    $(element).after(saved);
+                    setTimeout(() => {
+                        saved.fadeOut('slow', () => {
+                            saved.remove();
+                            let button = element.parent().children('button');
+                            if(button) {
+                                if(element.prop('checked')) {
+                                    $.when(str.get_string('email_button_default', 'local_mxschool')).done(defaultString => {
+                                        button.text(defaultString);
+                                        button.show('slow');
+                                    });
+                                } else {
+                                    button.hide('slow', () => {
+                                        button.text('');
+                                    });
+                                }
+                            }
+                        });
+                    }, 400);
                 }).fail(notification.exception);
             });
         }

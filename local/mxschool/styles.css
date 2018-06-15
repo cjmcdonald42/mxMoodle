@@ -53,6 +53,14 @@
 }
 
 /**
+ * Custom Element Styling.
+ */
+/* Email Button Styling. */
+.path-local-mxschool .mx-email-button {
+    display: none;
+}
+
+/**
  * Print Styling.
  */
 @media print {

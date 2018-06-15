@@ -28,7 +28,8 @@ $string['pluginname'] = 'Middlesex School';
 
 /* General */
 $string['print'] = 'Print';
-$string['email_button'] = 'Send Email';
+$string['email_button_default'] = 'Send Email';
+$string['email_button_sent'] = 'Email Sent';
 $string['legend_header'] = 'Legend';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';

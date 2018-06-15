@@ -20,10 +20,10 @@
     The purpose of this template is to render a button with ajax functionality to send an email.
 }}
 
-<button class="btn btn-secondary noprint" value="{{ value }}">{{# str }} email_button, local_mxschool {{/ str }}</button>
+<button class="mx-email-button btn btn-secondary noprint" value="{{ value }}"></button>
 
 {{# js }}
-    require(['local_mxschool/send_email'], (send_email) => {
-        send_email.send_email('{{ emailclass }}', {{ value }});
+    require(['local_mxschool/email_button'], (emailButton) => {
+        emailButton.send_email('{{ emailclass }}', {{ value }});
     });
 {{/ js }}

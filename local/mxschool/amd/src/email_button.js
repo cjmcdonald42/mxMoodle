@@ -16,7 +16,7 @@
 /**
  * Sends an email for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_dorm_students
+ * @module     local_mxschool/email_button
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,12 +24,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], ($, ajax, notification) => {
+define(['jquery', 'core/str', 'core/ajax', 'core/notification'], ($, str, ajax, notification) => {
     return  {
-        send_email: (email_class, value) => {
-            let element = $('.mx-emailbutton[value="' + value + '"]');
+        send_email: (emailClass, value) => {
+            let element = $('.mx-email-button[value="' + value + '"]');
             element.click(() => {
-                console.log('request to send email of class ' + email_class + ' for weekend form with id ' + value);
+                console.log('request to send email of class ' + emailClass + ' for weekend form with id ' + value);
+                // TODO: email notification.
+                $.when(str.get_string('email_button_sent', 'local_mxschool')).done(sentString => {
+                    element.text(sentString);
+                    setTimeout(() => {
+                        element.hide('slow', () => {
+                            element.text('');
+                        });
+                    }, 400);
+                });
             });
         }
     };
