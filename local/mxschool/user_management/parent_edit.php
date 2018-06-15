@@ -52,6 +52,7 @@ if ($id && !$DB->record_exists('local_mxschool_parent', array('id' => $id))) {
     redirect($redirect);
 }
 
+$data = get_record($queryfields, "p.id = ?", array($id));
 $students = get_student_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
@@ -62,14 +63,13 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
+foreach ($parents as $display => $parenturl) {
+    $PAGE->navbar->add($display, new moodle_url($parenturl));
 }
 $PAGE->navbar->add($title);
 
 $form = new parent_edit_form(null, array('id' => $id, 'students' => $students));
 $form->set_redirect($redirect);
-$data = get_record($queryfields, "p.id = ?", array($id));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

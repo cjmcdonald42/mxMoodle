@@ -360,7 +360,7 @@ function calculate_weekends_used($studentid, $semester) {
         "SELECT COUNT(wf.id) FROM {local_mxschool_student} s
          LEFT JOIN {local_mxschool_weekend_form} wf ON s.userid = wf.userid
          LEFT JOIN {local_mxschool_weekend} w ON wf.weekendid = w.id
-         WHERE s.id = $studentid AND sunday_time >= $startdate AND sunday_time < $enddate
-         AND wf.active = 1 AND (w.type = 'open' OR w.type = 'closed')"
+         WHERE s.id = ? AND sunday_time >= ? AND sunday_time < ? AND wf.active = 1 AND (w.type = 'open' OR w.type = 'closed')",
+        array($studentid, $startdate, $enddate)
     );
 }

@@ -60,6 +60,7 @@ if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
     redirect($redirect);
 }
 
+$data = get_record($queryfields, "s.id = ?", array($id));
 $dorms = get_dorms_list();
 $advisors = get_advisor_list();
 
@@ -71,14 +72,13 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
+foreach ($parents as $display => $parenturl) {
+    $PAGE->navbar->add($display, new moodle_url($parenturl));
 }
 $PAGE->navbar->add($title);
 
 $form = new student_edit_form(null, array('id' => $id, 'dorms' => $dorms, 'advisors' => $advisors));
 $form->set_redirect($redirect);
-$data = get_record($queryfields, "s.id = ?", array($id));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

@@ -69,8 +69,8 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
+foreach ($parents as $display => $parenturl) {
+    $PAGE->navbar->add($display, new moodle_url($parenturl));
 }
 $PAGE->navbar->add($title);
 
