@@ -29,6 +29,7 @@ $string['pluginname'] = 'Middlesex School';
 /* General */
 $string['print'] = 'Print';
 $string['email_button'] = 'Send Email';
+$string['legend_header'] = 'Legend';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
 $string['report_select_dorm'] = 'All Houses';
@@ -285,3 +286,14 @@ $string['weekend_calculator_report_header_student'] = 'Name';
 $string['weekend_calculator_report_header_grade'] = 'Grade';
 $string['weekend_calculator_report_header_total'] = 'Total';
 $string['weekend_calculator_report_header_allowed'] = 'Allowed';
+$string['weekend_report_abbreviation_offcampus'] = '&emsp;X&emsp;';
+$string['weekend_report_abbreviation_free'] = 'free';
+$string['weekend_report_abbreviation_closed'] = 'camp';
+
+$string['weekend_report_legend_0_left'] = 'No weekends left';
+$string['weekend_report_legend_1_left'] = '1 weekend left';
+$string['weekend_report_legend_2_left'] = '2 weekends left';
+$string['weekend_report_legend_3_left'] = '3+ weekends left';
+$string['weekend_report_legend_offcampus'] = 'Student Off Campus';
+$string['weekend_report_legend_free'] = 'Free weekend';
+$string['weekend_report_legend_closed'] = 'Campus weekend';

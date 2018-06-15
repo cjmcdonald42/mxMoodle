@@ -14,9 +14,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prepends a second header to a table for Middlesex School's Dorm and Student functions plugin.
+ * Highlighs table cells for Middlesex School's Dorm and Student functions plugin.
+ * This module is currently only intended to be used for the weekend calculator and is very non-reusable.
  *
- * @module     local_mxschool/prepend_table_header
+ * @module     local_mxschool/highlight_cells
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -26,21 +27,20 @@
 
 define(['jquery'], $ => {
     return  {
-        prepend: headers => {
+        highlight: (col_format, col_reference) => {
             $(window).ready(() => {
-                $('.mx-table thead').prepend(() => {
-                    let row = $('<tr></tr>');
-                    let count = 0;
-                    $.each(headers, (index, header) => {
-                        row.append($('<th></th>').attr('class', () => {
-                            let result = 'header';
-                            for (let c = count; c < count + header.length; c++)
-                                result += ' c' + c;
-                            count += header.length;
-                            return result;
-                        }).attr('colspan', header.length).attr('scope', 'col').text(header.text));
-                    });
-                    return row;
+                $('.mx-table tbody > tr').each((index, element) => {
+                    let formatCell = $($(element)[0].cells[col_format]);
+                    let referenceCell = $($(element)[0].cells[col_reference]);
+                    if (formatCell && referenceCell) {
+                        let difference = referenceCell.text() - formatCell.text();
+                        if (difference === 2)
+                            formatCell.addClass('green');
+                        else if (difference === 1)
+                            formatCell.addClass('yellow');
+                        else if (difference <= 0)
+                            formatCell.addClass('red');
+                    }
                 });
             });
         }

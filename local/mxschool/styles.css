@@ -17,13 +17,39 @@
 }
 /* Table Header Cells. */
 .path-local-mxschool .mx-table th {
-    font-weight: bold;
     text-align: center;
 }
 /* All filtering and buttons on one line. */
 .path-local-mxschool .mx-filter form,
 .path-local-mxschool .mx-filter input {
     display: inline;
+}
+
+/**
+ * Custom Table Styling.
+ */
+/* Cell Highlighting. */
+.path-local-mxschool .generaltable td.green {
+    background-color: #dff0d8;
+    border-color: #d0e9c6;
+    color: #3c763d;
+}
+.path-local-mxschool .generaltable td.yellow {
+    background-color: #fcf8e3;
+    border-color: #faf2cc;
+    color: #8a6d3b;
+}
+.path-local-mxschool .generaltable td.red {
+    background-color: #f2dede;
+    border-color: #ebcccc;
+    color: #a94442;
+}
+/* Legend Styling. */
+.path-local-mxschool .legend-table .generaltable {
+    width: auto;
+}
+.path-local-mxschool .legend-table .legend-left {
+    text-align: center;
 }
 
 /**

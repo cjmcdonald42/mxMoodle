@@ -107,13 +107,25 @@ class renderer extends plugin_renderer_base {
     /**
      * Renders a email button according to the template.
      *
-     * @param emailbutton $button.
+     * @param email_button $button.
      *
      * @return string html for the button.
      */
-    public function render_emailbutton($button) {
+    public function render_email_button($button) {
         $data = $button->export_for_template($this);
         return parent::render_from_template('local_mxschool/email_button', $data);
+    }
+
+    /**
+     * Renders a table which serves as a legend according to the template.
+     *
+     * @param legend_table $legend
+     *
+     * @return string html for the table.
+     */
+    public function render_legend_table($legend) {
+        $data = $legend->export_for_template($this);
+        return parent::render_from_template('local_mxschool/legend_table', $data);
     }
 
 }

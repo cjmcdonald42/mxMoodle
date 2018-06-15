@@ -25,7 +25,14 @@
 </div>
 
 {{# js }}
+    {{# headers }}
     require(['local_mxschool/prepend_table_header'], prepend_table_header => {
         prepend_table_header.prepend({{{ headers }}});
     });
+    {{/ headers }}
+    {{# highlight }}
+    require(['local_mxschool/highlight_cells'], highlight_cells => {
+        highlight_cells.highlight({{ highlight.formatcolumn }}, {{ highlight.referencecolumn }});
+    });
+    {{/ highlight }}
 {{/ js }}

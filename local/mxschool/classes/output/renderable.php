@@ -98,12 +98,14 @@ class report_page implements renderable, templatable {
      * @param bool $printbutton Whether to display a print button.
      * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
+     * @param stdClass|bool $highlight Object with formatcolumn and referencecolumn properties or false.
      */
     public function __construct(
-        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false
+        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false,
+        $highlight = false
     ) {
         $this->id = $id;
-        $this->table = new report_table($table, $size, $headers);
+        $this->table = new report_table($table, $size, $headers, $highlight);
         $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton);
     }
 
@@ -139,16 +141,20 @@ class report_table implements renderable, templatable {
     private $size;
     /** @var array|bool $headers Array of headers as ['text', 'length'] to prepend or false.*/
     private $headers;
+    /** @var @param stdClass|bool $highlight Object with formatcolumn and referencecolumn properties or false.*/
+    private $highlight;
 
     /**
      * @param mx_table $table The table object to output to the template
      * @param int $size The number of rows to output.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
+     * @param stdClass|bool $highlight Object with formatcolumn and referencecolumn properties or false.
      */
-    public function __construct($table, $size, $headers) {
+    public function __construct($table, $size, $headers, $highlight) {
         $this->table = $table;
         $this->size = $size;
         $this->headers = $headers;
+        $this->highlight = $highlight;
     }
 
     /**
@@ -162,6 +168,7 @@ class report_table implements renderable, templatable {
         $this->table->out($this->size, true);
         $data->table = ob_get_clean();
         $data->headers = json_encode($this->headers);
+        $data->highlight = $this->highlight;
         return $data;
     }
 
@@ -329,7 +336,7 @@ class checkbox implements renderable, templatable {
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class emailbutton implements renderable, templatable {
+class email_button implements renderable, templatable {
 
     /** @var int The value attribute of the button.*/
     private $value;
@@ -354,6 +361,40 @@ class emailbutton implements renderable, templatable {
         $data = new stdClass();
         $data->value = $this->value;
         $data->emailclass = $this->emailclass;
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for tables which serve as legends.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class legend_table implements renderable, templatable {
+
+    /** @var array $rows $rows The rows of the table as arrays with keys leftclass, lefttext, rightclass, and righttext.*/
+    private $rows;
+
+    /**
+     * @param array $rows The rows of the table as arrays with keys leftclass, lefttext, rightclass, and righttext.
+     */
+    public function __construct($rows) {
+        $this->rows = $rows;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties value and emailclass.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->rows = $this->rows;
         return $data;
     }
 

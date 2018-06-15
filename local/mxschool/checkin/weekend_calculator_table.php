@@ -31,7 +31,7 @@ require_once(__DIR__.'/../classes/mx_table.php');
 class weekend_calculator_table extends local_mxschool_table {
 
     const WEEKENDS_ALLOWED = array(
-        '9_1' => 1, '9_2' => 2, '10_1' => 3, '10_2' => 4, '11_1' => 5, '11_2' => 6, '12_1' => 7, '12_2' => 8 // Placeholders.
+        '9_1' => 4, '9_2' => 4, '10_1' => 4, '10_2' => 5, '11_1' => 6, '11_2' => 6, '12_1' => 6, '12_2' => 'ALL'
     );
 
     private $semester;
@@ -41,10 +41,11 @@ class weekend_calculator_table extends local_mxschool_table {
      *
      * @param string $uniqueid A unique identifier for the table.
      * @param stdClass $filter Any filtering for the table - could include a dorm or semester filter.
+     * @param array $weekends The records of the weekends to include in the table.
      * @param bool $isstudent Whether the user is a student and only their record should be displayed.
      */
-    public function __construct($uniqueid, $filter, $isstudent) {
-        global $DB, $USER;
+    public function __construct($uniqueid, $filter, $weekends, $isstudent) {
+        global $USER;
         $this->semester = $filter->semester;
         $columns1 = array('student', 'grade');
         $headers1 = array();
@@ -60,15 +61,9 @@ class weekend_calculator_table extends local_mxschool_table {
             's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade', "'' AS total",
             "'' AS allowed"
         );
-        $startdate = $filter->semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
-                                            : get_config('local_mxschool', 'second_semester_start_date');
-        $enddate = $filter->semester == 1 ? get_config('local_mxschool', 'second_semester_start_date')
-                                          : get_config('local_mxschool', 'dorms_close_date');
-        $weekends = $DB->get_records_sql(
-            "SELECT id, sunday_time FROM {local_mxschool_weekend}
-             WHERE sunday_time >= ? AND sunday_time < ? AND type <> 'Vacation' ORDER BY sunday_time",
-            array($startdate, $enddate)
-        );
+        $offcampus = get_string('weekend_report_abbreviation_offcampus', 'local_mxschool');
+        $free = get_string('weekend_report_abbreviation_free', 'local_mxschool');
+        $closed = get_string('weekend_report_abbreviation_closed', 'local_mxschool');
         foreach ($weekends as $weekend) {
             $columns1[] = "weekend_$weekend->id";
             $date = new DateTime('now', core_date::get_server_timezone_object());
@@ -76,10 +71,10 @@ class weekend_calculator_table extends local_mxschool_table {
             $date->modify("-1 day");
             $headers1[] = $date->format('m/d');
             $fields[] = "CASE
-                WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'free' THEN 'free'
+                WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'free' THEN '$free'
                 WHEN (SELECT COUNT(id) FROM {local_mxschool_weekend_form} WHERE weekendid = $weekend->id AND userid = s.userid
-                                                                                AND active = 1) = 1 THEN '&emsp;X&emsp;'
-                WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'closed' THEN 'camp'
+                                                                                AND active = 1) = 1 THEN '$offcampus'
+                WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'closed' THEN '$closed'
                 ELSE ''
             END AS weekend_$weekend->id";
         }

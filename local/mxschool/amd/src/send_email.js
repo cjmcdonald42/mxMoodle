@@ -29,7 +29,7 @@ define(['jquery', 'core/ajax', 'core/notification'], ($, ajax, notification) => 
         send_email: (email_class, value) => {
             let element = $('.mx-emailbutton[value="' + value + '"]');
             element.click(() => {
-                console.log('send email of class ' + email_class + ' for weekend form with id ' + value);
+                console.log('request to send email of class ' + email_class + ' for weekend form with id ' + value);
             });
         }
     };
