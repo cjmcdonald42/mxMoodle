@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Form for dorm faculty to add comments to a weekend report for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,10 +26,23 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018061435;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+require_once(__DIR__.'/../classes/mx_form.php');
+
+class weekend_comment_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $id = $this->_customdata['id'];
+
+        $fields = array('' => array(
+            'id' => parent::ELEMENT_HIDDEN_INT,
+            'weekend' => parent::ELEMENT_HIDDEN_INT,
+            'dorm' => parent::ELEMENT_HIDDEN_INT,
+            'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 4, 'cols' => 100))
+        ));
+        parent::set_fields($fields, 'weekend_comment_form', false);
+    }
+
+}

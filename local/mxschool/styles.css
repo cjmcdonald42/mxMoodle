@@ -33,7 +33,8 @@
     .path-local-mxschool .noprint,
     .path-local-mxschool header,
     .path-local-mxschool footer,
-    .path-local-mxschool .mx-table nav {
+    .path-local-mxschool .mx-table nav,
+    .path-local-mxschool .mx-form div[data-groupname='buttonar'] {
         display: none;
     }
 

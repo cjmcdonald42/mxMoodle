@@ -204,5 +204,31 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061202, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061429) {
+
+        // Define table local_mxschool_comment to be created.
+        $table = new xmldb_table('local_mxschool_comment');
+
+        // Adding fields to table local_mxschool_comment.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('weekendid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dormid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('comment', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_comment.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
+        $table->add_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+
+        // Conditionally launch create table for local_mxschool_comment.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061429, 'local', 'mxschool');
+    }
+
+
     return true;
 }

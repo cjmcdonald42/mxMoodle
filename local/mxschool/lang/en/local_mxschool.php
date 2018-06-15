@@ -67,6 +67,7 @@ $string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 $string['weekend_form_success'] = 'Weekend Form Submitted Successfully';
+$string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
@@ -275,6 +276,8 @@ $string['weekend_report_header_destination'] = 'Destination';
 $string['weekend_report_header_transportation'] = 'Transportation';
 $string['weekend_report_header_phone'] = 'Phone #';
 $string['weekend_report_header_departurereturn'] = 'Departure Time<br>Return Time';
+
+$string['weekend_comment_form_comment'] = 'Comments';
 
 // Weekend Calculator.
 $string['weekend_calculator_report_title'] = 'Weekend Calculator{$a}';

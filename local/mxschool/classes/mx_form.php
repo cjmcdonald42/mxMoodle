@@ -155,10 +155,13 @@ abstract class local_mxschool_form extends moodleform {
      * Uses the server's HTTP_REFERER if it is set, otherwise uses the fallback provided.
      *
      * @param moodle_url $fallback The url to use if no referer is set.
+     * @param bool $override If true, the provided url will always be used.
      */
-    public function set_redirect($fallback) {
+    public function set_redirect($fallback, $override = false) {
         if (!$this->is_submitted()) {
-            $this->_form->setDefault('redirect', isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback->out());
+            $this->_form->setDefault(
+                'redirect', !$override && isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback->out()
+            );
         }
     }
 
