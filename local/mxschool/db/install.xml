@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180614" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180615" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -47,6 +47,18 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty"/>
         <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the faculty's dorm, if the faculty is a dorm faculty"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_notification" COMMENT="mxschool email notification table - stores information about different types of email notifications">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="class" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The string identifier for the notification type."/>
+        <FIELD NAME="subject" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The subject line for the email."/>
+        <FIELD NAME="body_html" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The full html for the body of the email with styling inline."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="class" TYPE="unique" FIELDS="class" COMMENT="The string identifier for the notification type."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_parent" COMMENT="mxschool parent table">

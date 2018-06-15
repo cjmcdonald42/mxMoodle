@@ -229,6 +229,29 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061429, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061504) {
+
+        // Define table local_mxschool_notification to be created.
+        $table = new xmldb_table('local_mxschool_notification');
+
+        // Adding fields to table local_mxschool_notification.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('class', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('subject', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('body_html', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_notification.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('class', XMLDB_KEY_UNIQUE, array('class'));
+
+        // Conditionally launch create table for local_mxschool_notification.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061504, 'local', 'mxschool');
+    }
 
     return true;
 }
