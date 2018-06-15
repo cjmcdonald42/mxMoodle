@@ -26,6 +26,7 @@
 
 require(__DIR__.'/../../../config.php');
 require_once('weekend_form.php');
+require_once(__DIR__.'/../classes/mx_notifications.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
@@ -118,7 +119,7 @@ if ($form->is_cancelled()) {
         $oldrecord->active = 0; // Each student can have only one active record for a given weekend.
         $DB->update_record('local_mxschool_weekend_form', $oldrecord);
     }
-    // TODO: email notification.
+    mx_notifications::send_email('weekend_form_submitted', array('id' => $data->student));
     redirect(
         $form->get_redirect(), get_string('weekend_form_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
     );

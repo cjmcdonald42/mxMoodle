@@ -45,4 +45,13 @@ $functions = array(
         'ajax' => 'true',
         'capabilities' => 'local/mxschool:manage_weekend'
     ),
+    'local_mxschool_send_email' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'send_email',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Sends an email to users based on predefined a email class.',
+        'type' => 'read',
+        'ajax' => 'true',
+        'capabilities' => 'local/mxschool:manage_weekend'
+    )
 );

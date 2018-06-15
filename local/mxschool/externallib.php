@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
 require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/classes/mx_notifications.php');
 
 class local_mxschool_external extends external_api {
 
@@ -92,7 +93,7 @@ class local_mxschool_external extends external_api {
      * @param string $field The field to update.
      * @param int $id The id of the record to update.
      * @param bool $value The value to set.
-     * @return bool True if successful, false otherwise.
+     * @return bool True if the operation is succesful, false otherwise.
      */
     public static function set_boolean_field($table, $field, $id, $value) {
         external_api::validate_context(context_system::instance());
@@ -117,7 +118,47 @@ class local_mxschool_external extends external_api {
      * @return external_value Object describing the return value.
      */
     public static function set_boolean_field_returns() {
-        return new external_value(PARAM_BOOL, 'True if the operation was succesful, false otherwise.');
+        return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
+    }
+
+    /**
+     * Returns descriptions of the send_email() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the send_email() function.
+     */
+    public static function send_email_parameters() {
+        return new external_function_parameters(array(
+            'emailclass' => new external_value(PARAM_TEXT, 'The class of the email to send.'),
+            'emailparams' => new external_single_structure(array(
+                'id' => new external_value(PARAM_INT, 'The id of a record to read from.')
+            ))
+        ));
+    }
+
+    /**
+     * Sends an email to users based on predefined a email class.
+     *
+     * @param string $emailclass The class of the email to send.
+     * @param array $emailparams Parameters for the email.
+     * @return bool True if the email is successfully sent, false otherwise.
+     */
+    public static function send_email($emailclass, $emailparams) {
+        external_api::validate_context(context_system::instance());
+        // This may need to change in the future to make this function more reusable.
+        require_capability('local/mxschool:manage_weekend', context_system::instance());
+        $params = self::validate_parameters(self::send_email_parameters(), array(
+            'emailclass' => $emailclass, 'emailparams' => $emailparams
+        ));
+        return mx_notifications::send_email($params['emailclass'], $params['emailparams']);
+    }
+
+    /**
+     * Returns a description of the send_email() function's return value.
+     *
+     * @return external_value Object describing the return value.
+     */
+    public static function send_email_returns() {
+        return new external_value(PARAM_BOOL, 'True if the email is successfully sent, false otherwise.');
     }
 
 }

@@ -29,16 +29,26 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], ($, str, ajax, 
         send_email: (emailClass, value) => {
             let element = $('.mx-email-button[value="' + value + '"]');
             element.click(() => {
-                console.log('request to send email of class ' + emailClass + ' for weekend form with id ' + value);
-                // TODO: email notification.
-                $.when(str.get_string('email_button_sent', 'local_mxschool')).done(sentString => {
-                    element.text(sentString);
-                    setTimeout(() => {
-                        element.hide('slow', () => {
-                            element.text('');
-                        });
-                    }, 400);
-                });
+                let promises = ajax.call([{
+                    methodname: 'local_mxschool_send_email',
+                    args: {
+                        emailclass: emailClass,
+                        emailparams: {
+                            id: value
+                        }
+                    }
+                }]);
+                promises[0].done(data => {
+                    console.log(data);
+                    $.when(str.get_string('email_button_sent', 'local_mxschool')).done(sentString => {
+                        element.text(sentString);
+                        setTimeout(() => {
+                            element.hide('slow', () => {
+                                element.text('');
+                            });
+                        }, 400);
+                    });
+                }).fail(notification.exception);
             });
         }
     };
