@@ -20,8 +20,8 @@
     The purpose of this template is to render a table which serves as a legend.
 }}
 
-<div class="legend-table">
-    <table class="generaltable mx-table">
+<div class="legend-table mx-table">
+    <table class="generaltable">
         <thead>
             <tr>
                 <th class="header" colspan="2">{{# str }} legend_header, local_mxschool {{/ str }}</th>
@@ -30,8 +30,8 @@
         <tbody>
             {{# rows }}
                 <tr>
-                    <td class="cell legend-left{{# leftclass }} {{ leftclass }}{{/ leftclass }}">{{{ lefttext }}}</td>
-                    <td class="cell legend-right{{# rightclass }} {{ rightclass }}{{/ rightclass }}">{{{ righttext }}}</td>
+                    <td class="cell centered{{# leftclass }} {{ leftclass }}{{/ leftclass }}">{{{ lefttext }}}</td>
+                    <td class="cell{{# rightclass }} {{ rightclass }}{{/ rightclass }}">{{{ righttext }}}</td>
                 </tr>
             {{/ rows }}
         </tbody>

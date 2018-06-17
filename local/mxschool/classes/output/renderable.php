@@ -167,7 +167,7 @@ class report_table implements renderable, templatable {
         ob_start();
         $this->table->out($this->size, true);
         $data->table = ob_get_clean();
-        $data->headers = json_encode($this->headers);
+        $data->headers = $this->headers ? json_encode($this->headers) : $this->headers;
         $data->highlight = $this->highlight;
         return $data;
     }

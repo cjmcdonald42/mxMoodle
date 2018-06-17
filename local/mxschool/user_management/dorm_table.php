@@ -50,11 +50,12 @@ class dorm_table extends local_mxschool_table {
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('d.deleted = 0', 'u.deleted = 0');
-        $searchable = array('d.name', 'd.abbreviation', 'u.lastname', 'u.firstname');
         $sortable = array('name', 'type', 'gender');
         $urlparams = array('search' => $search);
+        $centered = array('abbreviation', 'type', 'gender', 'available');
+        $searchable = array('d.name', 'd.abbreviation', 'u.lastname', 'u.firstname');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $search, $searchable
+            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $search, $searchable
         );
     }
 

@@ -34,6 +34,7 @@ class weekend_calculator_table extends local_mxschool_table {
         '9_1' => 4, '9_2' => 4, '10_1' => 4, '10_2' => 5, '11_1' => 6, '11_2' => 6, '12_1' => 6, '12_2' => 'ALL'
     );
 
+    /** @var int The semester being displayed on the table. */
     private $semester;
 
     /**
@@ -61,11 +62,12 @@ class weekend_calculator_table extends local_mxschool_table {
             's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade', "'' AS total",
             "'' AS allowed"
         );
+        $centered = array('grade', 'total', 'allowed');
         $offcampus = get_string('weekend_report_abbreviation_offcampus', 'local_mxschool');
         $free = get_string('weekend_report_abbreviation_free', 'local_mxschool');
         $closed = get_string('weekend_report_abbreviation_closed', 'local_mxschool');
         foreach ($weekends as $weekend) {
-            $columns1[] = "weekend_$weekend->id";
+            $columns1[] = $centered[] = "weekend_$weekend->id";
             $date = new DateTime('now', core_date::get_server_timezone_object());
             $date->setTimestamp($weekend->sunday_time);
             $date->modify("-1 day");
@@ -87,15 +89,7 @@ class weekend_calculator_table extends local_mxschool_table {
         $where[] = $isstudent ? "s.userid = $USER->id" : ($filter->dorm ? "s.dormid = $filter->dorm" : '');
         $sortable = array('student', 'grade');
         $urlparams = array('dorm' => $filter->dorm, 'semester' => $filter->semester);
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams);
-    }
-
-    /**
-     * Formats the student column to "last, first (alternate)" or "last, first".
-     */
-    protected function col_student($values) {
-        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
-        return $values->student . $alternatename;
+        parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered);
     }
 
     /**

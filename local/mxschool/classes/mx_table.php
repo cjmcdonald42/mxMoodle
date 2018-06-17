@@ -42,13 +42,14 @@ abstract class local_mxschool_table extends table_sql {
      * @param array $from The database tables to query.
      * @param array $where The constaints on the query.
      * @param array $urlparams The parameters for the baseurl.
+     * @param array $centered The columns whose text should be centered.
      * @param string $search The string to search for as a constraint, null indicates no search option.
      * @param array $searchable The database fields to search.
      * @param array $noprint The columns which should not be displayed if the page is printing.
      */
     public function __construct(
         $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $urlparams,
-        $search = null, $searchable = array(), $noprint = array()
+        $centered = array(), $search = null, $searchable = array(), $noprint = array()
     ) {
         global $PAGE;
 
@@ -57,12 +58,22 @@ abstract class local_mxschool_table extends table_sql {
         $this->define_columns($columns);
         $this->define_headers($headers);
         $this->sortable(true, $defaultsort);
+        if (in_array('actions', $columns)) {
+            $centered[] = $noprint[] = 'actions';
+        }
         foreach ($columns as $column) {
             if (!in_array($column, $sortable)) {
                 $this->no_sorting($column);
             }
+            $columnclasses = array();
             if (in_array($column, $noprint)) {
-                $this->column_class($column, 'noprint');
+                $columnclasses[] = 'noprint';
+            }
+            if (in_array($column, $centered)) {
+                $columnclasses[] = 'centered';
+            }
+            if (count($columnclasses)) {
+                $this->column_class($column, implode(' ', $columnclasses));
             }
         }
 
@@ -74,6 +85,14 @@ abstract class local_mxschool_table extends table_sql {
 
         $this->define_baseurl(new moodle_url($PAGE->url, $urlparams));
         $this->collapsible(false);
+    }
+
+    /**
+     * Formats the student column to "last, first (alternate)" or "last, first".
+     */
+    protected function col_student($values) {
+        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
+        return $values->student . $alternatename;
     }
 
     /**

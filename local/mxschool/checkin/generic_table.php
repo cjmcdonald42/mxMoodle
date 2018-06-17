@@ -44,23 +44,14 @@ class generic_table extends local_mxschool_table {
         }
         $fields = array(
             's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room', 's.grade',
-            "'&emsp;' AS checkin"
+            "'' AS checkin"
         );
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $dorm ? "d.id = $dorm" : '');
         $sortable = array('student', 'room', 'grade');
         $urlparams = array('dorm' => $dorm);
-        parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams
-        );
-    }
-
-    /**
-     * Formats the student column to "last, first (alternate)" or "last, first".
-     */
-    protected function col_student($values) {
-        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
-        return $values->student . $alternatename;
+        $centered = array('room', 'grade');
+        parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered);
     }
 
 }

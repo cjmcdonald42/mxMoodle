@@ -48,26 +48,17 @@ class weekday_table extends local_mxschool_table {
         for ($i = 1; $i <= 5; $i++) {
             $columns[] = "early_$i";
             $headers[] = get_string('weekday_report_header_early', 'local_mxschool');
-            $fields[] = "'&emsp;' AS early_$i";
+            $fields[] = "'' AS early_$i";
             $columns[] = "late_$i";
             $headers[] = get_string('weekday_report_header_late', 'local_mxschool');
-            $fields[] = "'&emsp;' AS late_$i";
+            $fields[] = "'' AS late_$i";
         }
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id');
         $where = array('u.deleted = 0', $dorm ? "s.dormid = $dorm" : '');
         $sortable = array('student', 'room', 'grade');
         $urlparams = array('dorm' => $dorm);
-        parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams
-        );
-    }
-
-    /**
-     * Formats the student column to "last, first (alternate)" or "last, first".
-     */
-    protected function col_student($values) {
-        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
-        return $values->student . $alternatename;
+        $centered = array('room', 'grade');
+        parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered);
     }
 
 }

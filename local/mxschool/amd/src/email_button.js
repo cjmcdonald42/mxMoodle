@@ -46,7 +46,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], ($, str, ajax, 
                             element.hide('slow', () => {
                                 element.text('');
                             });
-                        }, 400);
+                        }, 1000);
                     });
                 }).fail(notification.exception);
             });

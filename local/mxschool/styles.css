@@ -11,12 +11,31 @@
 /**
  * Default Table Styling.
  */
-/* All table cells */
-.path-local-mxschool .mx-table th, .path-local-mxschool .mx-table td {
-    padding: 0.25rem;
+/* Small margin above tables. */
+.path-local-mxschool .mx-table {
+    margin-top: 1rem;
+    --mx-table-border: 1px solid #999;
 }
-/* Table Header Cells. */
+/* Border around entire table */
+.path-local-mxschool .mx-table table {
+    border: var(--mx-table-border);
+}
+/* Reduced padding and vertical borders for all table cells. */
+.path-local-mxschool .mx-table th,
+.path-local-mxschool .mx-table td {
+    padding: 0.25rem;
+    border-right: var(--mx-table-border);
+    border-left: var(--mx-table-border);
+}
+/* All header cells fully centered and bordered. */
 .path-local-mxschool .mx-table th {
+    text-align: center;
+    vertical-align: middle;
+    border-top: var(--mx-table-border);
+    border-bottom: var(--mx-table-border);
+}
+/* Centered cells. */
+.path-local-mxschool td.centered {
     text-align: center;
 }
 /* All filtering and buttons on one line. */
@@ -28,34 +47,25 @@
 /**
  * Custom Table Styling.
  */
-/* Cell Highlighting. */
+/* Cell highlighting. */
 .path-local-mxschool .generaltable td.green {
     background-color: #dff0d8;
-    border-color: #d0e9c6;
-    color: #3c763d;
 }
 .path-local-mxschool .generaltable td.yellow {
     background-color: #fcf8e3;
-    border-color: #faf2cc;
-    color: #8a6d3b;
 }
 .path-local-mxschool .generaltable td.red {
     background-color: #f2dede;
-    border-color: #ebcccc;
-    color: #a94442;
 }
-/* Legend Styling. */
-.path-local-mxschool .legend-table .generaltable {
+/* Legends don't take up the full page width. */
+.path-local-mxschool .legend-table table.generaltable {
     width: auto;
-}
-.path-local-mxschool .legend-table .legend-left {
-    text-align: center;
 }
 
 /**
  * Custom Element Styling.
  */
-/* Email Button Styling. */
+/* Email buttons default to hidden. */
 .path-local-mxschool .mx-email-button {
     display: none;
 }
@@ -72,12 +82,12 @@
         display: none;
     }
 
-    /* Remove Border Around Reports. */
+    /* Remove border around reports. */
     .path-local-mxschool .card {
         border: 0;
     }
 
-    /* Smaller Font Size when Printing Reports. */
+    /* Smaller font size when printing reports. */
     .path-local-mxschool h2 {
         font-size: 1.5rem;
     }

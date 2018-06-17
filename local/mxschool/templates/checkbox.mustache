@@ -23,7 +23,7 @@
 <input type="checkbox" class="mx-checkbox" name="{{ name }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
 
 {{# js }}
-    require(['local_mxschool/set_boolean_field'], (set_boolean_field) => {
-        set_boolean_field.update_field('{{ table }}', '{{ name }}', {{ value }});
-    });
+require(['local_mxschool/set_boolean_field'], (set_boolean_field) => {
+    set_boolean_field.update_field('{{ table }}', '{{ name }}', {{ value }});
+});
 {{/ js }}

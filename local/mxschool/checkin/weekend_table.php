@@ -52,10 +52,11 @@ class weekend_table extends local_mxschool_table {
         }
         $fields = array(
             's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
-            's.grade', "'&emsp;' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
+            's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
             'wf.phone_number AS phone', "'' AS departurereturn", 'wf.departure_date_time AS departuretime',
             'wf.return_date_time AS returntime'
         );
+        $centered = array('room', 'grade', 'parent', 'invite', 'approved');
         $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
         $startday = date('w', $weekendrecord->start_time) - 7;
         $endday = date('w', $weekendrecord->end_time);
@@ -64,13 +65,12 @@ class weekend_table extends local_mxschool_table {
         for ($i = 1; $i <= $endday - $startday + 1; $i++) {
             $date->modify('+1 day');
             $sql = "IF(
-                wf.departure_date_time < {$date->getTimestamp()} AND wf.return_date_time > {$date->getTimestamp()},
-                '&ensp;X&ensp;', ''
+                wf.departure_date_time < {$date->getTimestamp()} AND wf.return_date_time > {$date->getTimestamp()}, 'X', ''
             )";
-            $columns1[] = "early_$i";
+            $columns1[] = $centered[] = "early_$i";
             $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
             $fields[] = "$sql AS early_$i";
-            $columns1[] = "late_$i";
+            $columns1[] = $centered[] = "late_$i";
             $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
             $fields[] = "$sql AS late_$i";
         }
@@ -94,19 +94,10 @@ class weekend_table extends local_mxschool_table {
             'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
         );
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'wf.destination', 'wf.transportation');
-        $noprint = array('actions');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $filter->search, $searchable,
-            $noprint
+            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $filter->search,
+            $searchable
         );
-    }
-
-    /**
-     * Formats the student column to "last, first (alternate)" or "last, first".
-     */
-    protected function col_student($values) {
-        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
-        return $values->student . $alternatename;
     }
 
     /**

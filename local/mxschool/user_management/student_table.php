@@ -46,6 +46,7 @@ class student_table extends local_mxschool_table {
         $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
+        $centered = array();
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         switch($type) {
             case 'students':
@@ -55,6 +56,7 @@ class student_table extends local_mxschool_table {
                     's.phone_number AS phone', 's.birthday')
                 );
                 $from[] = '{user} a ON s.advisorid = a.id';
+                $centered = array('grade', 'room', 'birthday');
                 $searchable = array_merge($searchable, array('a.firstname', 'a.lastname'));
                 break;
 
@@ -69,6 +71,9 @@ class student_table extends local_mxschool_table {
                     'p.swim_competent AS swimcompetent', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
                 ));
                 $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';
+                $centered = array(
+                    'overnight', 'rideshare', 'boston', 'town', 'passengers', 'swimcompetent', 'swimallowed', 'boatallowed'
+                );
                 break;
 
             case 'parents':
@@ -81,6 +86,7 @@ class student_table extends local_mxschool_table {
                 ));
                 $from[] = '{local_mxschool_parent} p ON u.id = p.userid';
                 $where = array_merge($where, array('p.deleted = 0'));
+                $centered = array('primaryparent');
                 $searchable[] = 'p.parent_name';
                 break;
         }
@@ -93,19 +99,10 @@ class student_table extends local_mxschool_table {
 
         $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'parent');
         $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
-        $noprint = array('actions');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $filter->search, $searchable,
-            $noprint
+            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $filter->search,
+            $searchable
         );
-    }
-
-    /**
-     * Formats the student column to "last, first (alternate)" or "last, first".
-     */
-    protected function col_student($values) {
-        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
-        return $values->student . $alternatename;
     }
 
     /**

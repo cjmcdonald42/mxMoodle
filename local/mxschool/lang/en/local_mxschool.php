@@ -287,7 +287,7 @@ $string['weekend_calculator_report_header_student'] = 'Name';
 $string['weekend_calculator_report_header_grade'] = 'Grade';
 $string['weekend_calculator_report_header_total'] = 'Total';
 $string['weekend_calculator_report_header_allowed'] = 'Allowed';
-$string['weekend_report_abbreviation_offcampus'] = '&emsp;X&emsp;';
+$string['weekend_report_abbreviation_offcampus'] = 'X';
 $string['weekend_report_abbreviation_free'] = 'free';
 $string['weekend_report_abbreviation_closed'] = 'camp';
 

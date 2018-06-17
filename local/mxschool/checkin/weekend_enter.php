@@ -79,11 +79,16 @@ if ($id) {
              WHERE s.userid = ?", array($USER->id)
         );
         $data->dorm = $record->dorm;
+    } else {
+        $dorm = $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id));
+        if ($dorm) {
+            $data->dorm = $dorm;
+        }
     }
 }
 $data->isstudent = $isstudent;
 $dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorms_list();
-$students = get_student_list();
+$students = isset($data->dorm) ? get_students_in_dorm_list($data->dorm) : get_student_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
