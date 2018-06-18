@@ -309,4 +309,4 @@ $string['weekend_report_legend_closed'] = 'Campus weekend';
 
 /* Driving */
 $string['driving'] = 'Driving and eSignout';
-$string['vehicles_report'] = 'Registered Student Vehicles Report';
+$string['vehicle_report'] = 'Registered Student Vehicles Report';

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180615" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180618" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -121,6 +121,21 @@
         <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the student's dorm"/>
         <KEY NAME="advisor" TYPE="foreign" FIELDS="advisorid" REFTABLE="local_mxschool_faculty" REFFIELDS="id" COMMENT="The faculty record of the student's advisor"/>
         <KEY NAME="permissions" TYPE="foreign-unique" FIELDS="permissionsid" REFTABLE="local_mxschool_permissions" REFFIELDS="id" COMMENT="The permissions record of the student"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_vehicle" COMMENT="mxschool student vehicle table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record"/>
+        <FIELD NAME="license_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The date of the license of the student associated with the record"/>
+        <FIELD NAME="make" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The make of the vehicle"/>
+        <FIELD NAME="model" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The model of the vehicle"/>
+        <FIELD NAME="color" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The color of the vehicle"/>
+        <FIELD NAME="registration" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The registration of the vehicle"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="student" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_weekend" COMMENT="mxschool weekend table - used for check-in reports">

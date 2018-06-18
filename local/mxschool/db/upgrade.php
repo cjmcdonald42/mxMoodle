@@ -253,5 +253,32 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061504, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061806) {
+
+        // Define table local_mxschool_vehicles to be created.
+        $table = new xmldb_table('local_mxschool_vehicle');
+
+        // Adding fields to table local_mxschool_vehicles.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('license_date', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('make', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('model', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('color', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('registration', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_vehicles.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_vehicles.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061806, 'local', 'mxschool');
+    }
+
     return true;
 }
