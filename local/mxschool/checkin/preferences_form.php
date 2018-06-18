@@ -76,8 +76,23 @@ class preferences_form extends local_mxschool_form {
                 'dormsopen' => array('element' => 'date_selector', 'options' => $datetimeoptions),
                 'secondsemester' => array('element' => 'date_selector', 'options' => $datetimeoptions),
                 'dormsclose' => array('element' => 'date_selector', 'options' => $datetimeoptions)
-            ),
-            'weekends' => $weekendfields
+            ), 'weekends' => $weekendfields,
+            'notifications' => array(
+                'submittedsubject' => array(
+                    'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
+                ),
+                'submittedbody' => array(
+                    'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 8, 'cols' => 100),
+                    'rules' => array('required')
+                ),
+                'approvedsubject' => array(
+                    'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
+                ),
+                'approvedbody' => array(
+                    'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 8, 'cols' => 100),
+                    'rules' => array('required')
+                )
+            )
         );
         parent::set_fields($fields, 'checkin_preferences');
     }

@@ -222,10 +222,15 @@ $string['weekend_calculator'] = 'Weekend Calculator';
 // Check-in Preferences.
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
 $string['checkin_preferences_header_weekends'] = 'Weekend Types';
+$string['checkin_preferences_header_notifications'] = 'Weekend Form Email Notifications';
 $string['checkin_preferences_dates_dormsopen'] = 'Dorms Open On: ';
 $string['checkin_preferences_dates_secondsemester'] = 'Second Semester Starts On: ';
 $string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
 $string['checkin_preferences_weekends_label'] = 'Saturday {$a}';
+$string['checkin_preferences_notifications_submittedsubject'] = 'Subject for Weekend Form Submitted Email';
+$string['checkin_preferences_notifications_submittedbody'] = 'Body for Weekend Form Submitted Email';
+$string['checkin_preferences_notifications_approvedsubject'] = 'Subject for Weekend Form Approved Email';
+$string['checkin_preferences_notifications_approvedbody'] = 'Body for Weekend Form Approved Email';
 
 // Generic Check-in Sheet.
 $string['generic_report_title'] = '{$a}Check-In Sheet for __________';
@@ -290,6 +295,7 @@ $string['weekend_calculator_report_header_allowed'] = 'Allowed';
 $string['weekend_report_abbreviation_offcampus'] = 'X';
 $string['weekend_report_abbreviation_free'] = 'free';
 $string['weekend_report_abbreviation_closed'] = 'camp';
+$string['weekend_report_abbreviation_unlimited'] = 'ALL';
 
 $string['weekend_report_legend_0_left'] = 'No weekends left';
 $string['weekend_report_legend_1_left'] = '1 weekend left';

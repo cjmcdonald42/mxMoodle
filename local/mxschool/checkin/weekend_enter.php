@@ -124,7 +124,7 @@ if ($form->is_cancelled()) {
         $oldrecord->active = 0; // Each student can have only one active record for a given weekend.
         $DB->update_record('local_mxschool_weekend_form', $oldrecord);
     }
-    mx_notifications::send_email('weekend_form_submitted', array('id' => $data->student));
+    $result = mx_notifications::send_email('weekend_form_submitted', array('id' => $id));
     redirect(
         $form->get_redirect(), get_string('weekend_form_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
     );

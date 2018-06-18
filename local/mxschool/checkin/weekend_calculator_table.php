@@ -30,10 +30,6 @@ require_once(__DIR__.'/../classes/mx_table.php');
 
 class weekend_calculator_table extends local_mxschool_table {
 
-    const WEEKENDS_ALLOWED = array(
-        '9_1' => 4, '9_2' => 4, '10_1' => 4, '10_2' => 5, '11_1' => 6, '11_2' => 6, '12_1' => 6, '12_2' => 'ALL'
-    );
-
     /** @var int The semester being displayed on the table. */
     private $semester;
 
@@ -59,8 +55,8 @@ class weekend_calculator_table extends local_mxschool_table {
             $headers2[] = get_string("weekend_calculator_report_header_{$column}", 'local_mxschool');
         }
         $fields = array(
-            's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade', "'' AS total",
-            "'' AS allowed"
+            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
+            "'' AS total", "'' AS allowed"
         );
         $centered = array('grade', 'total', 'allowed');
         $offcampus = get_string('weekend_report_abbreviation_offcampus', 'local_mxschool');
@@ -96,14 +92,15 @@ class weekend_calculator_table extends local_mxschool_table {
      * Formats the total column to indicate the number of weekends each student has used.
      */
     protected function col_total($values) {
-        return calculate_weekends_used($values->id, $this->semester);
+        return calculate_weekends_used($values->userid, $this->semester);
     }
 
     /**
      * Formats the allowed column to indicate the number of weekends each student is allowed.
      */
     protected function col_allowed($values) {
-        return self::WEEKENDS_ALLOWED["{$values->grade}_{$this->semester}"];
+        return calculate_weekends_allowed($values->userid, $this->semester)
+        ?: get_string('weekend_report_abbreviation_unlimited', 'local_mxschool');
     }
 
 }

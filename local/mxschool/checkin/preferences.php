@@ -55,6 +55,16 @@ if ($data->dormsopen && $data->dormsclose) {
         $data->{"{$identifier}_endtime"} = $weekend->end_time;
     }
 }
+$submitednotification = $DB->get_record('local_mxschool_notification', array('class' => 'weekend_form_submitted'));
+if ($submitednotification) {
+    $data->submittedsubject = $submitednotification->subject;
+    $data->submittedbody = $submitednotification->body_html;
+}
+$approvednotification = $DB->get_record('local_mxschool_notification', array('class' => 'weekend_form_approved'));
+if ($approvednotification) {
+    $data->approvedsubject = $approvednotification->subject;
+    $data->approvedbody = $approvednotification->body_html;
+}
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -86,6 +96,8 @@ if ($form->is_cancelled()) {
         $weekend->end_time = $data->{"{$identifier}_endtime"};
         $DB->update_record('local_mxschool_weekend', $weekend);
     }
+    update_notification('weekend_form_submitted', $data->submittedsubject, $data->submittedbody);
+    update_notification('weekend_form_approved', $data->approvedsubject, $data->approvedbody);
     redirect(
         $form->get_redirect(), get_string('checkin_preferences_edit_success', 'local_mxschool'), null,
         \core\output\notification::NOTIFY_SUCCESS

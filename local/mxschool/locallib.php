@@ -86,6 +86,28 @@ function update_record($queryfields, $data) {
 }
 
 /**
+ * Updates a notification record in the database or inserts it if it doesn't already exist.
+ *
+ * @param string $class The class identifier of the notification.
+ * @param string $subject The new subject for the notification.
+ * @param string $body The new body for the notification.
+ */
+function update_notification($class, $subject, $body) {
+    global $DB;
+    $record = new stdClass();
+    $record->class = $class;
+    $record->subject = $subject;
+    $record->body_html = $body;
+    $id = $DB->get_field('local_mxschool_notification', 'id', array('class' => $class));
+    if ($id) {
+        $record->id = $id;
+        $DB->update_record('local_mxschool_notification', $record);
+    } else {
+        $DB->insert_record('local_mxschool_notification', $record);
+    }
+}
+
+/**
  * Adds default weekend records for all Sundays between two timestamps.
  *
  * @param int $starttime The timestamp for the beginning of the range.
@@ -332,10 +354,17 @@ function get_param_current_weekend() {
  * @return string The semester, as specified.
  */
 function get_param_current_semester() {
-    global $DB;
-    if (isset($_GET['semester']) && ($_GET['semester'] === '1' || $_GET['semester'] === '2')) {
-        return $_GET['semester'];
-    }
+    return isset($_GET['semester']) && ($_GET['semester'] === '1' || $_GET['semester'] === '2') ? $_GET['semester']
+    : get_current_semester();
+}
+
+/**
+ * Determines the current semester ('1' or '2').
+ * This is determined to be the '1' if the current date is before the start date of the second semester and '2' if it is after.
+ *
+ * @return string The semester, as specified.
+ */
+function get_current_semester() {
     $semesterdate = get_config('local_mxschool', 'second_semester_start_date');
     $date = new DateTime('now', core_date::get_server_timezone_object());
     return $date->getTimestamp() < $semesterdate ? '1' : '2';
@@ -346,11 +375,11 @@ function get_param_current_semester() {
  * This number is determined by the number of active weekend forms for the student
  * on open or closed weekends in the specified semester.
  *
- * @param int $studentid The id of the student to query for.
+ * @param int $userid The userid of the student to query for.
  * @param int $semester The semester to query for.
  * @return int The count of the applicable records.
  */
-function calculate_weekends_used($studentid, $semester) {
+function calculate_weekends_used($userid, $semester) {
     global $DB;
     $startdate = $semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
                                         : get_config('local_mxschool', 'second_semester_start_date');
@@ -360,7 +389,25 @@ function calculate_weekends_used($studentid, $semester) {
         "SELECT COUNT(wf.id) FROM {local_mxschool_student} s
          LEFT JOIN {local_mxschool_weekend_form} wf ON s.userid = wf.userid
          LEFT JOIN {local_mxschool_weekend} w ON wf.weekendid = w.id
-         WHERE s.id = ? AND sunday_time >= ? AND sunday_time < ? AND wf.active = 1 AND (w.type = 'open' OR w.type = 'closed')",
-        array($studentid, $startdate, $enddate)
+         WHERE s.userid = ? AND sunday_time >= ? AND sunday_time < ? AND wf.active = 1 AND (w.type = 'open' OR w.type = 'closed')",
+        array($userid, $startdate, $enddate)
     );
+}
+
+/**
+ * Calculates the number of weekends which a student is allowed for a semester.
+ * This number is determined from a lookup table.
+ *
+ * @param int $userid The userid of the student to query for.
+ * @param int $semester The semester to query for.
+ * @return int The the number of allowed weekends or 0 if allowed unlimited weekends.
+ */
+function calculate_weekends_allowed($userid, $semester) {
+    global $DB;
+    $weekendsallowed = array(
+        '9' => array('1' => 4, '2' => 4), '10' => array('1' => 4, '2' => 5),
+        '11' => array('1' => 6, '2' => 6), '12' => array('1' => 6, '2' => 0)
+    );
+    $grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $userid));
+    return $weekendsallowed[$grade][$semester];
 }
