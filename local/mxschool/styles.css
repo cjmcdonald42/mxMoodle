@@ -98,7 +98,7 @@
 
     /** Remove excess empty space. */
     .path-local-mxschool #page-wrapper,
-    .path-local-mxschool div #page  {
+    .path-local-mxschool div #page {
         margin: 0;
         padding: 0;
     }

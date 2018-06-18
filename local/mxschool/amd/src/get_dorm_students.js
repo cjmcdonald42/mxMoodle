@@ -24,20 +24,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], ($, ajax, notification) => {
+define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
     return  {
-        update_students: () => {
-            $('.mx-form #id_dorm').change(() => {
-                let promises = ajax.call([{
+        update_students: function() {
+            $('.mx-form #id_dorm').change(function() {
+                var promises = ajax.call([{
                     methodname: 'local_mxschool_get_dorm_students',
                     args: {
                         dorm: $('.mx-form #id_dorm > option:selected')[0].value
                     }
                 }]);
-                promises[0].done(data => {
-                    $('.mx-form #id_student').empty();
-                    $.each(data, (index, student) => {
-                        $('.mx-form #id_student').append($('<option></option>').attr('value', student.userid).text(student.name));
+                promises[0].done(function(data) {
+                    var studentSelect = $('.mx-form #id_student');
+                    studentSelect.empty();
+                    $.each(data, function(index, student) {
+                        studentSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
                     });
                 }).fail(notification.exception);
             });

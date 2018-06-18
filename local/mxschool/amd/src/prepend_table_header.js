@@ -24,18 +24,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery'], $ => {
+define(['jquery'], function($) {
     return  {
-        prepend: headers => {
-            $(window).ready(() => {
-                $('.mx-table thead').prepend(() => {
-                    let row = $('<tr></tr>');
-                    let count = 0;
-                    $.each(headers, (index, header) => {
-                        row.append($('<th></th>').attr('class', () => {
-                            let result = 'header';
-                            for (let c = count; c < count + header.length; c++)
+        prepend: function(headers) {
+            $(window).ready(function() {
+                $('.mx-table thead').prepend(function() {
+                    var row = $('<tr></tr>');
+                    var count = 0;
+                    $.each(headers, function(index, header) {
+                        row.append($('<th></th>').attr('class', function() {
+                            var result = 'header';
+                            for (var c = count; c < count + header.length; c++) {
                                 result += ' c' + c;
+                            }
                             count += header.length;
                             return result;
                         }).attr('colspan', header.length).attr('scope', 'col').text(header.text));

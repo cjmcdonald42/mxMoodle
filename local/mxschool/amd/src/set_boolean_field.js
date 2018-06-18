@@ -24,35 +24,35 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/str', 'core/ajax', 'core/notification'], ($, str, ajax, notification) => {
+define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
     return  {
-        update_field: (table, name, value) => {
-            let element = $('.mx-checkbox[name="' + name + '"][value="' + value + '"]');
-            element.change(() => {
-                let promises = ajax.call([{
+        update_field: function(table, name, value) {
+            var element = $('.mx-checkbox[name="' + name + '"][value="' + value + '"]');
+            element.change(function() {
+                var promises = ajax.call([{
                     methodname: 'local_mxschool_set_boolean_field',
                     args: {
-                        table,
+                        table: table,
                         field: name,
                         id: value,
                         value: element.prop("checked")
                     }
                 }]);
-                promises[0].done(data => {
-                    let saved = $('<span></span>').text(' saved').attr('class', 'green')
+                promises[0].done(function() {
+                    var saved = $('<span></span>').text(' saved').attr('class', 'green');
                     $(element).after(saved);
-                    setTimeout(() => {
-                        saved.fadeOut('slow', () => {
+                    setTimeout(function() {
+                        saved.fadeOut('slow', function() {
                             saved.remove();
-                            let button = element.parent().children('button');
+                            var button = element.parent().children('button');
                             if(button) {
                                 if(element.prop('checked')) {
-                                    $.when(str.get_string('email_button_default', 'local_mxschool')).done(defaultString => {
+                                    $.when(str.get_string('email_button_default', 'local_mxschool')).done(function(defaultString) {
                                         button.text(defaultString);
                                         button.show('slow');
                                     });
                                 } else {
-                                    button.hide('slow', () => {
+                                    button.hide('slow', function() {
                                         button.text('');
                                     });
                                 }

@@ -25,21 +25,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery'], $ => {
+define(['jquery'], function($) {
     return  {
-        highlight: (col_format, col_reference) => {
-            $(window).ready(() => {
-                $('.mx-table tbody > tr').each((index, element) => {
-                    let formatCell = $($(element)[0].cells[col_format]);
-                    let referenceCell = $($(element)[0].cells[col_reference]);
+        highlight: function(col_format, col_reference) {
+            $(window).ready(function() {
+                $('.mx-table tbody > tr').each(function(index, element) {
+                    var formatCell = $($(element)[0].cells[col_format]);
+                    var referenceCell = $($(element)[0].cells[col_reference]);
                     if (formatCell && referenceCell) {
-                        let difference = referenceCell.text() - formatCell.text();
-                        if (difference === 2)
+                        var difference = referenceCell.text() - formatCell.text();
+                        if (difference === 2) {
                             formatCell.addClass('green');
-                        else if (difference === 1)
+                        } else if (difference === 1) {
                             formatCell.addClass('yellow');
-                        else if (difference <= 0)
+                        } else if (difference <= 0) {
                             formatCell.addClass('red');
+                        }
                     }
                 });
             });

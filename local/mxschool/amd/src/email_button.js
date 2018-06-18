@@ -24,12 +24,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/str', 'core/ajax', 'core/notification'], ($, str, ajax, notification) => {
+define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
     return  {
-        send_email: (emailClass, value) => {
-            let element = $('.mx-email-button[value="' + value + '"]');
-            element.click(() => {
-                let promises = ajax.call([{
+        send_email: function(emailClass, value) {
+            var element = $('.mx-email-button[value="' + value + '"]');
+            element.click(function() {
+                var promises = ajax.call([{
                     methodname: 'local_mxschool_send_email',
                     args: {
                         emailclass: emailClass,
@@ -38,12 +38,11 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], ($, str, ajax, 
                         }
                     }
                 }]);
-                promises[0].done(data => {
-                    console.log(data);
-                    $.when(str.get_string('email_button_sent', 'local_mxschool')).done(sentString => {
+                promises[0].done(function() {
+                    $.when(str.get_string('email_button_sent', 'local_mxschool')).done(function(sentString) {
                         element.text(sentString);
-                        setTimeout(() => {
-                            element.hide('slow', () => {
+                        setTimeout(function() {
+                            element.hide('slow', function() {
                                 element.text('');
                             });
                         }, 1000);
