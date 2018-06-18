@@ -48,5 +48,10 @@ if ($hassiteconfig) {
         new lang_string('checkin_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/checkin/index.php")
     );
+    $ADMIN->add('indexes', new admin_externalpage(
+        'driving_index',
+        new lang_string('driving_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/driving/index.php")
+    );
 
 }

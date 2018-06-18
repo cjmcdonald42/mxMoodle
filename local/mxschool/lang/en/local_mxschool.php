@@ -57,7 +57,8 @@ $string['mxschool_category'] = 'Middlesex School';
 $string['indexes'] = 'Index Pages';
 $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
-$string['checkin_index'] = 'Checkin Sheets Index';
+$string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
+$string['driving_index'] = 'Driving and eSignout Index';
 
 // Events.
 $string['event_page_visited'] = 'page visited event';
@@ -210,7 +211,7 @@ $string['dorm_edit_dorm_gender'] = 'Gender';
 $string['dorm_edit_dorm_available'] = 'Available';
 
 
-/* Check-in Sheets. */
+/* Check-In Sheets. */
 $string['checkin'] = 'Check-In Sheets and Weekend Forms';
 $string['checkin_preferences'] = 'Check-In Sheets Preferences';
 $string['generic_report'] = 'Check-In Sheet';
@@ -304,3 +305,8 @@ $string['weekend_report_legend_3_left'] = '3+ weekends left';
 $string['weekend_report_legend_offcampus'] = 'Student Off Campus';
 $string['weekend_report_legend_free'] = 'Free weekend';
 $string['weekend_report_legend_closed'] = 'Campus weekend';
+
+
+/* Driving */
+$string['driving'] = 'Driving and eSignout';
+$string['vehicles_report'] = 'Registered Student Vehicles Report';
