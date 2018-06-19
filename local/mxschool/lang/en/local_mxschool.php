@@ -328,11 +328,12 @@ $string['vehicle_report_header_color'] = 'Vehicle Color';
 $string['vehicle_report_header_registration'] = 'Vehicle Registration';
 
 // Vehicle Edit.
+$string['vehicle_edit_header_student'] = 'Student Information';
 $string['vehicle_edit_header_vehicle'] = 'Vehicle Information';
 
-$string['vehicle_edit_vehicle_student'] = 'Student';
-$string['vehicle_edit_vehicle_license'] = 'Issue Date of License';
+$string['vehicle_edit_student_name'] = 'Student';
+$string['vehicle_edit_student_license'] = 'Issue Date of License';
 $string['vehicle_edit_vehicle_make'] = 'Make';
 $string['vehicle_edit_vehicle_model'] = 'Model';
 $string['vehicle_edit_vehicle_color'] = 'Color';
-$string['vehicle_edit_vehicle_registration'] = 'License Plate';
+$string['vehicle_edit_vehicle_registration'] = 'Vehicle Registration';

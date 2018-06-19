@@ -45,9 +45,10 @@ class vehicle_edit_form extends local_mxschool_form {
 
         $fields = array(
             '' => array('id' => parent::ELEMENT_HIDDEN_INT),
-            'vehicle' => array(
-                'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
-                'license' => array('element' => 'date_selector', 'options' => $dateoptions, 'rules' => array('required')),
+            'student' => array(
+                'name' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
+                'license' => array('element' => 'date_selector', 'options' => $dateoptions, 'rules' => array('required'))
+            ), 'vehicle' => array(
                 'make' => parent::ELEMENT_TEXT_REQUIRED,
                 'model' => parent::ELEMENT_TEXT_REQUIRED,
                 'color' => parent::ELEMENT_TEXT_REQUIRED,

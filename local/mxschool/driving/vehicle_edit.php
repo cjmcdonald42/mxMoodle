@@ -43,7 +43,7 @@ $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/driving/vehicle_edit.php';
 $title = get_string('vehicle_edit', 'local_mxschool');
 $queryfields = array('local_mxschool_vehicle' => array('abbreviation' => 'v', 'fields' => array(
-    'id', 'userid' => 'student', 'license_date' => 'license', 'make', 'model', 'color', 'registration'
+    'id', 'userid' => 'name', 'license_date' => 'license', 'make', 'model', 'color', 'registration'
 )));
 
 if ($id && !$DB->record_exists('local_mxschool_vehicle', array('id' => $id))) {

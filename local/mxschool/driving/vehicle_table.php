@@ -52,7 +52,7 @@ class vehicle_table extends local_mxschool_table {
             '{local_mxschool_vehicle} v', '{user} u ON v.userid = u.id', '{local_mxschool_student} s ON v.userid = s.userid'
         );
         $where = array('v.deleted = 0', 'u.deleted = 0');
-        $sortable = array('student', 'license', 'make', 'color');
+        $sortable = array('student', 'license', 'make', 'model', 'color', 'registration');
         $urlparams = array('search' => $search);
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'v.make', 'v.model', 'v.color', 'v.registration');
         parent::__construct(
