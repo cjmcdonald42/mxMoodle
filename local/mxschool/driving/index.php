@@ -40,7 +40,8 @@ $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index_page(array(
-    'vehicle_report' => '/local/mxschool/driving/vehicle_report.php'
+    'vehicle_report' => '/local/mxschool/driving/vehicle_report.php',
+    'esignout' => '/local/mxschool/driving/esignout_enter.php'
 ));
 
 echo $output->header();

@@ -48,14 +48,21 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM
     ),
     'local/mxschool:manage_checkin' => array(
+        'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
     'local/mxschool:manage_weekend' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
     'local/mxschool:manage_vehicles' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:manage_esignout' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM

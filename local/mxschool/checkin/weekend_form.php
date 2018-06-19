@@ -38,7 +38,6 @@ class weekend_form extends local_mxschool_form {
         $dorms = $this->_customdata['dorms'];
         $students = $this->_customdata['students'];
 
-        strftime('%Y', get_config('local_mxschool', 'dorms_open_date'));
         $datetimeoptions = array(
             'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
             'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
@@ -69,8 +68,8 @@ class weekend_form extends local_mxschool_form {
 
         $mform = $this->_form;
         $mform->hideIf('dorm', 'isstudent', 'eq');
-        $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('dorm', 'id', 'neq', '0');
+        $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
     }
 

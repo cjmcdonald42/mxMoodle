@@ -289,6 +289,28 @@ function get_advisor_list() {
 }
 
 /**
+ * Queries the database to create a list of all faculty who are able to approve eSignout.
+ *
+ * @return array The faculty who are able to approve eSignout as userid => name, ordered alphabetically by faculty name.
+ */
+function get_may_approve_faculty_list() {
+    global $DB;
+    $list = array();
+    $allfaculty = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
+         WHERE u.deleted = 0 and f.may_approve_signout = 'Yes'
+         ORDER BY name"
+    );
+    if ($allfaculty) {
+        foreach ($allfaculty as $faculty) {
+            $list[$faculty->id] = $faculty->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the weekends between the dorms open date and the dorms close date.
  *
  * @return array The weekends within the specified bounds as id => date (mm/dd/yy), ordered by date.

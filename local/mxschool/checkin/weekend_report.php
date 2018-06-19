@@ -33,7 +33,7 @@ require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:view_checkin', context_system::instance());
+require_capability('local/mxschool:manage_weekend', context_system::instance());
 
 $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm();

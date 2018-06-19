@@ -287,5 +287,18 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061906, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061907) {
+
+        // Define key approver (foreign) to be added to local_mxschool_esignout.
+        $table = new xmldb_table('local_mxschool_esignout');
+        $key = new xmldb_key('approver', XMLDB_KEY_FOREIGN, array('permission_from'), 'user', array('id'));
+
+        // Launch add key approver.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061907, 'local', 'mxschool');
+    }
+
     return true;
 }

@@ -51,6 +51,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
         <KEY NAME="driver" TYPE="foreign" FIELDS="driverid" REFTABLE="local_mxschool_esignout" REFFIELDS="id" COMMENT="The esignout record of the driver associated with the record."/>
+        <KEY NAME="approver" TYPE="foreign" FIELDS="permission_from" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved this record."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_faculty" COMMENT="mxschool faculty table">

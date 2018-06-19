@@ -52,8 +52,8 @@ class student_edit_form extends local_mxschool_form {
                 'phonenumber' => parent::ELEMENT_TEXT_REQUIRED,
                 'birthday' => parent::ELEMENT_TEXT_REQUIRED,
                 'admissionyear' => parent::ELEMENT_TEXT_REQUIRED,
-                'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'required' => true),
-                'gender' => array('element' => 'radio', 'options' => array('M', 'F')),
+                'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
+                'gender' => array('element' => 'radio', 'options' => array('M', 'F'), 'rules' => array('required')),
                 'advisor' => array('element' => 'select', 'options' => $advisors, 'rules' => array('required')),
                 'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
                 'isboardernextyear' => array(
