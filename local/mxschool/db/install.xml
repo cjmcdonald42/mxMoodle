@@ -21,7 +21,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="hohid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the dorm's head of house"/>
-        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the dorm has been deleted and shouldn't be displayed"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the dorm record has been deleted and shouldn't be displayed"/>
         <FIELD NAME="name" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the dorm"/>
         <FIELD NAME="abbreviation" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The abbreviation for the dorm"/>
         <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boarding dorm or a day house {&quot;Boarding&quot;, &quot;Day&quot;, &quot;All&quot;}"/>
@@ -127,6 +127,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the vehicle record has been deleted and shouldn't be displayed"/>
         <FIELD NAME="license_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The date of the license of the student associated with the record"/>
         <FIELD NAME="make" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The make of the vehicle"/>
         <FIELD NAME="model" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The model of the vehicle"/>

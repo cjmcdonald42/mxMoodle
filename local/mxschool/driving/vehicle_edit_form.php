@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing parent data for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing vehicle data for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,11 +24,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../classes/mx_form.php');
 
-class parent_edit_form extends local_mxschool_form {
+class vehicle_edit_form extends local_mxschool_form {
 
     /**
      * Form definition.
@@ -37,20 +38,22 @@ class parent_edit_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
 
+        $dateoptions = array(
+            'startyear' => 1970, 'stopyear' => (new DateTime('now', core_date::get_server_timezone_object()))->format('Y'),
+            'timezone'  => core_date::get_server_timezone_object()
+        );
+
         $fields = array(
             '' => array('id' => parent::ELEMENT_HIDDEN_INT),
-            'parent' => array(
+            'vehicle' => array(
                 'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
-                'name' => parent::ELEMENT_TEXT_REQUIRED,
-                'isprimary' => parent::ELEMENT_YES_NO_REQUIRED,
-                'relationship' => parent::ELEMENT_TEXT_REQUIRED,
-                'homephone' => parent::ELEMENT_TEXT,
-                'cellphone' => parent::ELEMENT_TEXT,
-                'workphone' => parent::ELEMENT_TEXT,
-                'email' => parent::ELEMENT_EMAIL_REQUIRED
+                'license' => array('element' => 'date_selector', 'options' => $dateoptions, 'rules' => array('required')),
+                'make' => parent::ELEMENT_TEXT_REQUIRED,
+                'model' => parent::ELEMENT_TEXT_REQUIRED,
+                'color' => parent::ELEMENT_TEXT_REQUIRED,
+                'registration' => parent::ELEMENT_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'parent_edit');
+        parent::set_fields($fields, 'vehicle_edit');
     }
-
 }

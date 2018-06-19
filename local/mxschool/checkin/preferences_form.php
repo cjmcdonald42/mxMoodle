@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editting checkin preferences for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing checkin preferences for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -65,7 +65,7 @@ class preferences_form extends local_mxschool_form {
             );
         }
 
-        $datetimeoptions = array(
+        $dateoptions = array(
             'startyear' => (new DateTime('-1 year', core_date::get_server_timezone_object()))->format('Y'),
             'stopyear' => (new DateTime('+1 year', core_date::get_server_timezone_object()))->format('Y'),
             'timezone' => core_date::get_server_timezone_object()
@@ -73,9 +73,9 @@ class preferences_form extends local_mxschool_form {
 
         $fields = array(
             'dates' => array(
-                'dormsopen' => array('element' => 'date_selector', 'options' => $datetimeoptions),
-                'secondsemester' => array('element' => 'date_selector', 'options' => $datetimeoptions),
-                'dormsclose' => array('element' => 'date_selector', 'options' => $datetimeoptions)
+                'dormsopen' => array('element' => 'date_selector', 'options' => $dateoptions),
+                'secondsemester' => array('element' => 'date_selector', 'options' => $dateoptions),
+                'dormsclose' => array('element' => 'date_selector', 'options' => $dateoptions)
             ), 'weekends' => $weekendfields,
             'notifications' => array(
                 'submittedsubject' => array(

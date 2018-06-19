@@ -54,8 +54,8 @@ function get_record($queryfields, $where, $params = array()) {
             $fromarray[] = "LEFT JOIN {{$table}} {$abbreviation} ON {$join}";
         }
     }
-    $select = implode($selectarray, ', ');
-    $from = implode($fromarray, ' ');
+    $select = implode(', ', $selectarray);
+    $from = implode(' ', $fromarray);
     return $DB->get_record_sql("SELECT $select FROM $from WHERE $where", $params);
 }
 
@@ -202,6 +202,38 @@ function get_students_in_dorm_list($dorm) {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.dormid = $dorm
+         ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the students which match a filter.
+ *
+ * @param int $isboarder 1 to query for boarders, 0 to query for day students, -1 to query for all.
+ * @param array $grades The grades to query for.
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_with_filer_list($isboarder = -1, $grades = array(9, 10, 11, 12)) {
+    global $DB;
+    $list = array();
+    $gradestrings = array();
+    foreach ($grades as $grade) {
+        $gradestrings[] = "s.grade = {$grade}";
+    }
+    $borderstring = $isboarder === 1 ? "s.boarding_status = 'Boarding'" : $isboarder === 0 ? "s.boarding_status = 'Day'" : '';
+    $gradestring = implode(" OR ", $gradestrings);
+    $wherestrings = array("u.deleted = 0", $gradestring ? "({$gradestring})" : $gradestring, $borderstring);
+    $where = implode(" AND ", array_filter($wherestrings));
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE $where
          ORDER BY name"
     );
     if ($students) {

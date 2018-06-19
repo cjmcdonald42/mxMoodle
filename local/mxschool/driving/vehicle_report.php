@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm management report for Middlesex School's Dorm and Student functions plugin.
+ * Student registered vehicles report for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,13 +24,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- require(__DIR__.'/../../../config.php');
- require_once('dorm_table.php');
- require_once(__DIR__.'/../classes/output/renderable.php');
- require_once(__DIR__.'/../classes/events/page_visited.php');
+require(__DIR__.'/../../../config.php');
+require_once('vehicle_table.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/events/page_visited.php');
 
 require_login();
-require_capability('local/mxschool:manage_dorms', context_system::instance());
+require_capability('local/mxschool:manage_vehicles', context_system::instance());
 
 $search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
@@ -38,23 +38,23 @@ $id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
+    get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php'
 );
-$url = '/local/mxschool/user_management/dorm_report.php';
-$title = get_string('dorm_report', 'local_mxschool');
+$url = '/local/mxschool/driving/vehicle_report.php';
+$title = get_string('vehicle_report', 'local_mxschool');
 
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_mxschool_dorm', array('id' => $id));
+    $record = $DB->get_record('local_mxschool_vehicle', array('id' => $id));
     if ($record) {
         $record->deleted = 1;
-        $DB->update_record('local_mxschool_dorm', $record);
+        $DB->update_record('local_mxschool_vehicle', $record);
         redirect(
-            new moodle_url($url, array('search' => $search)), get_string('dorm_delete_success', 'local_mxschool'), null,
+            new moodle_url($url, array('search' => $search)), get_string('vehicle_delete_success', 'local_mxschool'), null,
             \core\output\notification::NOTIFY_SUCCESS
         );
     } else {
         redirect(
-            new moodle_url($url, array('search' => $search)), get_string('dorm_delete_failure', 'local_mxschool'), null,
+            new moodle_url($url, array('search' => $search)), get_string('vehicle_delete_failure', 'local_mxschool'), null,
             \core\output\notification::NOTIFY_WARNING
         );
     }
@@ -68,19 +68,19 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $parenturl) {
-    $PAGE->navbar->add($display, new moodle_url($parenturl));
+foreach ($parents as $display => $url) {
+    $PAGE->navbar->add($display, new moodle_url($url));
 }
 $PAGE->navbar->add($title);
 
-$table = new dorm_table('dorm_table', $search);
+$table = new vehicle_table('vehicle_table', $search);
 
 $addbutton = new stdClass();
-$addbutton->text = get_string('dorm_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/user_management/dorm_edit.php');
+$addbutton->text = get_string('vehicle_report_add', 'local_mxschool');
+$addbutton->url = new moodle_url('/local/mxschool/driving/vehicle_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('dorm-report', $table, 50, $search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\report_page('vehicle-report', $table, 50, $search, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

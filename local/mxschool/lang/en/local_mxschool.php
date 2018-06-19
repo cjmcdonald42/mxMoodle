@@ -51,6 +51,7 @@ $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data'
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
 $string['mxschool:manage_checkin'] = 'Middlesex School: Manage checkin preferences';
 $string['mxschool:manage_weekend'] = 'Middlesex School: Manage weekend forms';
+$string['mxschool:manage_vehicles'] = 'Middlesex School: Manage student vehicle registration';
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
@@ -71,6 +72,7 @@ $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 $string['weekend_form_success'] = 'Weekend Form Submitted Successfully';
 $string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
+$string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
@@ -78,6 +80,8 @@ $string['dorm_delete_success'] = 'Dorm Record Deleted Successfully';
 $string['dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
 $string['weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
 $string['weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
+$string['vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
+$string['vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
 
 
 /* User Management. */
@@ -310,3 +314,25 @@ $string['weekend_report_legend_closed'] = 'Campus weekend';
 /* Driving */
 $string['driving'] = 'Driving and eSignout';
 $string['vehicle_report'] = 'Registered Student Vehicles Report';
+$string['vehicle_edit'] = 'Edit Student Vehicle Record';
+
+// Vehicle Report.
+$string['vehicle_report_add'] = 'Register a Vehicle';
+
+$string['vehicle_report_header_student'] = 'Student Name';
+$string['vehicle_report_header_phone'] = 'Student Phone Number';
+$string['vehicle_report_header_license'] = 'Issue Date of License';
+$string['vehicle_report_header_make'] = 'Vehicle Make';
+$string['vehicle_report_header_model'] = 'Vehicle Model';
+$string['vehicle_report_header_color'] = 'Vehicle Color';
+$string['vehicle_report_header_registration'] = 'Vehicle Registration';
+
+// Vehicle Edit.
+$string['vehicle_edit_header_vehicle'] = 'Vehicle Information';
+
+$string['vehicle_edit_vehicle_student'] = 'Student';
+$string['vehicle_edit_vehicle_license'] = 'Issue Date of License';
+$string['vehicle_edit_vehicle_make'] = 'Make';
+$string['vehicle_edit_vehicle_model'] = 'Model';
+$string['vehicle_edit_vehicle_color'] = 'Color';
+$string['vehicle_edit_vehicle_registration'] = 'License Plate';
