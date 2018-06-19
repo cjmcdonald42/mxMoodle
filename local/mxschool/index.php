@@ -41,7 +41,7 @@ $PAGE->set_heading($title);
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index_page(array(
     'user_management' => '/local/mxschool/user_management/index.php',
-    'checkin' => '/local/mxschool/checkin/index.php'
+    'checkin' => '/local/mxschool/checkin/index.php',
     'driving' => '/local/mxschool/driving/index.php'
 ));
 
