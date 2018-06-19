@@ -37,7 +37,7 @@ class faculty_table extends local_mxschool_table {
      * @param stdClass $filter any filtering for the table - could include dorm or search.
      */
     public function __construct($uniqueid, $filter) {
-        $columns = array('name', 'dorm', 'advisoryavailable', 'advisoryclosing');
+        $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("faculty_report_header_{$column}", 'local_mxschool');
@@ -45,13 +45,13 @@ class faculty_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'd.name AS dorm', 'f.advisory_available AS advisoryavailable',
-            'f.advisory_closing AS advisoryclosing'
+            'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'd.name AS dorm', 'f.may_approve_signout AS approvesignout',
+            'f.advisory_available AS advisoryavailable', 'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
-        $sortable = array('name', 'dorm', 'advisoryavailable', 'advisoryclosing');
-        $centered = array('advisoryavailable', 'advisoryclosing');
+        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
         $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
         $searchable = array('u.firstname', 'u.lastname');
         parent::__construct(

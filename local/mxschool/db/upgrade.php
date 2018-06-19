@@ -295,5 +295,79 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061807, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018061904) {
+
+        // Define key student (foreign) to be dropped form local_mxschool_vehicle.
+        $table = new xmldb_table('local_mxschool_vehicle');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch drop key student.
+        $dbman->drop_key($table, $key);
+
+        // Define key student (foreign) to be added to local_mxschool_vehicle.
+        $table = new xmldb_table('local_mxschool_vehicle');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch add key student.
+        $dbman->add_key($table, $key);
+
+        // Define field may_approve_signout to be added to local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('may_approve_signout', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null, 'faculty_code');
+
+        // Conditionally launch add field may_approve_signout.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define table local_mxschool_esignout to be created.
+        $table = new xmldb_table('local_mxschool_esignout');
+
+        // Adding fields to table local_mxschool_esignout.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('departure_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('return_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('permission_from', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('sign_in_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table local_mxschool_esignout.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_esignout.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Define table local_mxschool_passenger to be created.
+        $table = new xmldb_table('local_mxschool_passenger');
+
+        // Adding fields to table local_mxschool_passenger.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('driverid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('permission_from', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('sign_in_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table local_mxschool_passenger.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+        $table->add_key('driver', XMLDB_KEY_FOREIGN, array('driverid'), 'local_mxschool_esignout', array('id'));
+
+        // Conditionally launch create table for local_mxschool_passenger.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061904, 'local', 'mxschool');
+    }
+
     return true;
 }

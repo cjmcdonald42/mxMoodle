@@ -133,8 +133,9 @@ $string['parent_report_add'] = 'New Parent';
 // Faculty Report.
 $string['faculty_report_header_name'] = 'Name';
 $string['faculty_report_header_dorm'] = 'Dorm';
-$string['faculty_report_header_advisoryavailable'] = 'Advisory Available';
-$string['faculty_report_header_advisoryclosing'] = 'Advisory Closing';
+$string['faculty_report_header_approvesignout'] = 'May Approve eSignout?';
+$string['faculty_report_header_advisoryavailable'] = 'Advisory Available?';
+$string['faculty_report_header_advisoryclosing'] = 'Advisory Closing?';
 
 // Dorm Report.
 $string['dorm_report_add'] = 'New Dorm';
@@ -200,6 +201,7 @@ $string['faculty_edit_faculty_alternatename'] = 'Alternate Name';
 $string['faculty_edit_faculty_email'] = 'Email';
 $string['faculty_edit_faculty_facultycode'] = 'Faculty Code';
 $string['faculty_edit_faculty_dorm'] = 'Dorm';
+$string['faculty_edit_faculty_approvesignout'] = 'May Approve eSignout';
 $string['faculty_edit_faculty_advisoryavailable'] = 'Advisory Available';
 $string['faculty_edit_faculty_advisoryclosing'] = 'Advisory Closing';
 

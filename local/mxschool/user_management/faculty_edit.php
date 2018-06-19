@@ -44,8 +44,8 @@ $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/user_management/faculty_edit.php';
 $title = get_string('faculty_edit', 'local_mxschool');
 $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'fields' => array(
-    'id', 'dormid' => 'dorm', 'faculty_code' => 'facultycode', 'advisory_available' => 'advisoryavailable',
-    'advisory_closing' => 'advisoryclosing'
+    'id', 'dormid' => 'dorm', 'faculty_code' => 'facultycode', 'may_approve_signout' => 'approvesignout',
+    'advisory_available' => 'advisoryavailable', 'advisory_closing' => 'advisoryclosing'
 )), 'user' => array('abbreviation' => 'u', 'join' => 'f.userid = u.id', 'fields' => array(
     'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
 )));
