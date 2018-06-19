@@ -30,71 +30,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2018060802) {
-
-        // Define table local_mxschool_weekend_form to be created.
-        $table = new xmldb_table('local_mxschool_weekend_form');
-
-        // Adding fields to table local_mxschool_weekend_form.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('weekendid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('departure_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('return_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('destination', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('transportation', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-
-        // Adding keys to table local_mxschool_weekend_form.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
-        $table->add_key('weekend', XMLDB_KEY_FOREIGN_UNIQUE, array('weekendid'), 'local_mxschool_weekend', array('id'));
-
-        // Conditionally launch create table for local_mxschool_weekend_form.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018060802, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018060808) {
-
-        // Define key user (foreign) to be dropped form local_mxschool_weekend_form.
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
-
-        // Launch drop key user.
-        $dbman->drop_key($table, $key);
-
-        // Define key weekend (foreign) to be dropped form local_mxschool_weekend_form.
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN_UNIQUE, array('weekendid'), 'local_mxschool_weekend', array('id'));
-
-        // Launch drop key weekend.
-        $dbman->drop_key($table, $key);
-
-        // Define key user (foreign) to be added to local_mxschool_weekend_form.
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
-
-        // Launch add key user.
-        $dbman->add_key($table, $key);
-
-        // Define key weekend (foreign) to be added to local_mxschool_weekend_form.
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
-
-        // Launch add key weekend.
-        $dbman->add_key($table, $key);
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018060808, 'local', 'mxschool');
-    }
-
     if ($oldversion < 2018061003) {
 
         // Define table local_mxschool_weekend to be dropped.
@@ -142,62 +77,43 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061105, 'local', 'mxschool');
     }
 
-    if ($oldversion < 2018061110) {
-
-        // Changing precision of field destination on table local_mxschool_weekend_form to (100).
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $field = new xmldb_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'return_date_time');
-
-        // Launch change of precision for field destination.
-        $dbman->change_field_precision($table, $field);
-
-        // Changing precision of field transportation on table local_mxschool_weekend_form to (100).
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $field = new xmldb_field('transportation', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'destination');
-
-        // Launch change of precision for field transportation.
-        $dbman->change_field_precision($table, $field);
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018061110, 'local', 'mxschool');
-    }
-
     if ($oldversion < 2018061202) {
 
-        // Define field active to be added to local_mxschool_weekend_form.
+        // Define table local_mxschool_weekend_form to be dropped.
         $table = new xmldb_table('local_mxschool_weekend_form');
-        $field = new xmldb_field('active', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'phone_number');
 
-        // Conditionally launch add field active.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
+        // Conditionally launch drop table for local_mxschool_weekend_form.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
         }
 
-        // Define field parent to be added to local_mxschool_weekend_form.
+        // Define table local_mxschool_weekend_form to be created.
         $table = new xmldb_table('local_mxschool_weekend_form');
-        $field = new xmldb_field('parent', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'active');
 
-        // Conditionally launch add field parent.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
+        // Adding fields to table local_mxschool_weekend_form.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('weekendid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('departure_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('return_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('transportation', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('active', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
+        $table->add_field('parent', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('invite', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('approved', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
-        // Define field invite to be added to local_mxschool_weekend_form.
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $field = new xmldb_field('invite', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'parent');
+        // Adding keys to table local_mxschool_weekend_form.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('user', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+        $table->add_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
 
-        // Conditionally launch add field invite.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define field approved to be added to local_mxschool_weekend_form.
-        $table = new xmldb_table('local_mxschool_weekend_form');
-        $field = new xmldb_field('approved', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'invite');
-
-        // Conditionally launch add field approved.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
+        // Conditionally launch create table for local_mxschool_weekend_form.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
         }
 
         // Mxschool savepoint reached.
@@ -320,15 +236,38 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018061904, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018061906) {
+
+        // Define table local_mxschool_passenger to be dropped.
+        $table = new xmldb_table('local_mxschool_passenger');
+
+        // Conditionally launch drop table for local_mxschool_passenger.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_esignout to be dropped.
+        $table = new xmldb_table('local_mxschool_esignout');
+
+        // Conditionally launch drop table for local_mxschool_esignout.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
         // Define table local_mxschool_esignout to be created.
         $table = new xmldb_table('local_mxschool_esignout');
 
         // Adding fields to table local_mxschool_esignout.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('departure_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('return_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('driverid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, null, null, null);
+        $table->add_field('departure_date_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('return_date_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
         $table->add_field('permission_from', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
@@ -337,36 +276,15 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         // Adding keys to table local_mxschool_esignout.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+        $table->add_key('driver', XMLDB_KEY_FOREIGN, array('driverid'), 'local_mxschool_esignout', array('id'));
 
         // Conditionally launch create table for local_mxschool_esignout.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
 
-        // Define table local_mxschool_passenger to be created.
-        $table = new xmldb_table('local_mxschool_passenger');
-
-        // Adding fields to table local_mxschool_passenger.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('driverid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('permission_from', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('sign_in_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-
-        // Adding keys to table local_mxschool_passenger.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
-        $table->add_key('driver', XMLDB_KEY_FOREIGN, array('driverid'), 'local_mxschool_esignout', array('id'));
-
-        // Conditionally launch create table for local_mxschool_passenger.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018061904, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2018061906, 'local', 'mxschool');
     }
 
     return true;
