@@ -79,4 +79,6 @@ class esignout_form extends local_mxschool_form {
         $mform->disabledIf('returntime', 'type', 'eq', 'Passenger');
     }
 
+    // TODO: Validation.
+
 }

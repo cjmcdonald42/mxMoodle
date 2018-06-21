@@ -360,8 +360,8 @@ $string['esignout_form_details_facultypermission'] = 'Face-to-Face Permission Gr
 
 // Report for eSignout.
 $string['esignout_report_select_type_all'] = 'All';
-$string['esignout_report_select_type_driver'] = 'Drivers';
-$string['esignout_report_select_type_passenger'] = 'Passengers';
+$string['esignout_report_select_type_driver'] = 'Driver';
+$string['esignout_report_select_type_passenger'] = 'Passenger';
 $string['esignout_report_select_date_all'] = 'All Dates';
 $string['esignout_report_add'] = 'New eSignout Record';
 
