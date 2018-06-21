@@ -53,7 +53,7 @@ class esignout_form extends local_mxschool_form {
             ), 'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'type' => array('element' => 'radio', 'options' => array('Driver', 'Passenger'), 'rules' => array('required')),
-                'driver' => array('element' => 'select', 'options' => $drivers),
+                'driver' => array('element' => 'select', 'options' => $drivers), // TODO: ajax function to fetch driver info.
             ), 'details' => array(
                 'destination' => array(
                     'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')
@@ -64,7 +64,7 @@ class esignout_form extends local_mxschool_form {
                 'returntime' => array(
                     'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
                 ),
-                'facultypermission' => array('element' => 'select', 'options' => $faculty)
+                'facultypermission' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required'))
             )
         );
         parent::set_fields($fields, 'esignout_form');
@@ -72,9 +72,11 @@ class esignout_form extends local_mxschool_form {
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
+        $mform->disabledIf('type', 'id', 'neq', '0');
         $mform->hideIf('driver', 'type', 'neq', 'Passenger');
         $mform->disabledIf('destination', 'type', 'eq', 'Passenger');
         $mform->disabledIf('departuretime', 'type', 'eq', 'Passenger');
         $mform->disabledIf('returntime', 'type', 'eq', 'Passenger');
     }
+
 }

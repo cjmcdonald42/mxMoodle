@@ -84,6 +84,8 @@ $string['weekend_form_delete_success'] = 'Weekend Form Record Deleted Successful
 $string['weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
 $string['vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
 $string['vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
+$string['esignout_delete_success'] = 'eSignout Record Deleted Successfully';
+$string['esignout_delete_failure'] = 'eSignout Record Not Found for Deletion';
 
 
 /* User Management. */
@@ -320,6 +322,7 @@ $string['driving'] = 'Driving and eSignout';
 $string['vehicle_report'] = 'Registered Student Vehicles Report';
 $string['vehicle_edit'] = 'Edit Student Vehicle Record';
 $string['esignout'] = 'eSignout';
+$string['esignout_report'] = 'eSignout Report';
 
 // Vehicle Report.
 $string['vehicle_report_add'] = 'Register a Vehicle';
@@ -354,3 +357,19 @@ $string['esignout_form_details_destination'] = 'Your Destination';
 $string['esignout_form_details_departuretime'] = 'Departure Time';
 $string['esignout_form_details_returntime'] = 'Estimated Return Time';
 $string['esignout_form_details_facultypermission'] = 'Face-to-Face Permission Granted by';
+
+// Report for eSignout.
+$string['esignout_report_select_type_all'] = 'All';
+$string['esignout_report_select_type_driver'] = 'Drivers';
+$string['esignout_report_select_type_passenger'] = 'Passengers';
+$string['esignout_report_select_date_all'] = 'All Dates';
+$string['esignout_report_add'] = 'New eSignout Record';
+
+$string['esignout_report_header_student'] = 'Student';
+$string['esignout_report_header_type'] = 'Type';
+$string['esignout_report_header_driver'] = 'Driver';
+$string['esignout_report_header_passengers'] = 'Passenger Count';
+$string['esignout_report_header_destination'] = 'Destination';
+$string['esignout_report_header_date'] = 'Date';
+$string['esignout_report_header_departurereturn'] = 'Departure Time - Estimated Return Time';
+$string['esignout_report_header_permissionfrom'] = 'Permission From';

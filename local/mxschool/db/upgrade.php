@@ -300,5 +300,21 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061907, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018062002) {
+
+        // Define field deleted to be added to local_mxschool_esignout.
+        $table = new xmldb_table('local_mxschool_esignout');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'driverid');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062002, 'local', 'mxschool');
+    }
+
+
     return true;
 }

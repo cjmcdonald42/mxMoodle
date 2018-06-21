@@ -58,7 +58,10 @@ if ($id) {
     } else {
         if ($DB->record_exists('local_mxschool_esignout', array('id' => $id))) {
             $data = get_record($queryfields, "es.id = ?", array($id));
-            if ($data->id !== $data->driver) { // Existing passenger records should add any inherited values to the data object.
+            if ($data->id === $data->driver) { // Existing passenger records should add any inherited values to the data object.
+                $data->type = 'Driver';
+            } else {
+                $data->type = 'Passenger';
                 $driver = get_record($queryfields, "es.id = ?", array($data->driver));
                 if (!isset($data->destination)) {
                     $data->destination = $driver->destination;
@@ -78,6 +81,7 @@ if ($id) {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
+    $data->type = 'Driver';
     if ($isstudent) {
         $data->student = $USER->id;
     }
