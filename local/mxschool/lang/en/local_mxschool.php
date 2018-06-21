@@ -355,8 +355,7 @@ $string['esignout_form_info_type'] = 'Type';
 $string['esignout_form_info_driver'] = 'Your driver';
 $string['esignout_form_details_destination'] = 'Your Destination';
 $string['esignout_form_details_departuretime'] = 'Departure Time';
-$string['esignout_form_details_returntime'] = 'Estimated Return Time';
-$string['esignout_form_details_facultypermission'] = 'Face-to-Face Permission Granted by';
+$string['esignout_form_details_approver'] = 'Face-to-Face Permission Granted by';
 
 // Report for eSignout.
 $string['esignout_report_select_type_all'] = 'All';
@@ -371,5 +370,6 @@ $string['esignout_report_header_driver'] = 'Driver';
 $string['esignout_report_header_passengers'] = 'Passenger Count';
 $string['esignout_report_header_destination'] = 'Destination';
 $string['esignout_report_header_date'] = 'Date';
-$string['esignout_report_header_departurereturn'] = 'Departure Time - Estimated Return Time';
-$string['esignout_report_header_permissionfrom'] = 'Permission From';
+$string['esignout_report_header_departure'] = 'Departure Time';
+$string['esignout_report_header_approver'] = 'Permission From';
+$string['esignout_report_header_signin'] = 'Sign In Time';

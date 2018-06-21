@@ -293,7 +293,7 @@ function get_advisor_list() {
  *
  * @return array The faculty who are able to approve eSignout as userid => name, ordered alphabetically by faculty name.
  */
-function get_may_approve_faculty_list() {
+function get_approver_list() {
     global $DB;
     $list = array();
     $allfaculty = $DB->get_records_sql(

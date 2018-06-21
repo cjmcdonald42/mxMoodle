@@ -240,7 +240,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018061904, 'local', 'mxschool');
     }
 
-    if ($oldversion < 2018061906) {
+    if ($oldversion < 2018062101) {
 
         // Define table local_mxschool_passenger to be dropped.
         $table = new xmldb_table('local_mxschool_passenger');
@@ -265,18 +265,19 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
         $table->add_field('driverid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('approverid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
         $table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, null, null, null);
-        $table->add_field('departure_date_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
-        $table->add_field('return_date_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
-        $table->add_field('permission_from', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('departure_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('sign_in_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
         $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('sign_in_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
 
         // Adding keys to table local_mxschool_esignout.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
         $table->add_key('driver', XMLDB_KEY_FOREIGN, array('driverid'), 'local_mxschool_esignout', array('id'));
+        $table->add_key('approver', XMLDB_KEY_FOREIGN, array('approverid'), 'user', array('id'));
 
         // Conditionally launch create table for local_mxschool_esignout.
         if (!$dbman->table_exists($table)) {
@@ -284,37 +285,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018061906, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2018062101, 'local', 'mxschool');
     }
-
-    if ($oldversion < 2018061907) {
-
-        // Define key approver (foreign) to be added to local_mxschool_esignout.
-        $table = new xmldb_table('local_mxschool_esignout');
-        $key = new xmldb_key('approver', XMLDB_KEY_FOREIGN, array('permission_from'), 'user', array('id'));
-
-        // Launch add key approver.
-        $dbman->add_key($table, $key);
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018061907, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018062002) {
-
-        // Define field deleted to be added to local_mxschool_esignout.
-        $table = new xmldb_table('local_mxschool_esignout');
-        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'driverid');
-
-        // Conditionally launch add field deleted.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018062002, 'local', 'mxschool');
-    }
-
 
     return true;
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180620" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180621" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -39,20 +39,19 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
         <FIELD NAME="driverid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The esignout id of driver record associated with the record - an equal id value and driverid value indicate that this record is a driver record."/>
+        <FIELD NAME="approverid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the record."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the esignout record has been deleted and shouldn't be displayed."/>
-        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The student's destination - null indicates a passenger inheriting the value from the driver."/>
-        <FIELD NAME="departure_date_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for departure date and time - null indicates a passenger inheriting the value from the driver."/>
-        <FIELD NAME="return_date_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for return date and time - null indicates a passenger inheriting the value from the driver."/>
-        <FIELD NAME="permission_from" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the sign out."/>
+        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The student's destination - NULL indicates a passenger inheriting the value from the driver."/>
+        <FIELD NAME="departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for departure date and time - NULL indicates a passenger inheriting the value from the driver."/>
+        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signs in - NULL indicates that the student has not signed in."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
         <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
-        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The timestamp for when the students signs in - 0 indicates not signed in."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
         <KEY NAME="driver" TYPE="foreign" FIELDS="driverid" REFTABLE="local_mxschool_esignout" REFFIELDS="id" COMMENT="The esignout record of the driver associated with the record."/>
-        <KEY NAME="approver" TYPE="foreign" FIELDS="permission_from" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved this record."/>
+        <KEY NAME="approver" TYPE="foreign" FIELDS="approverid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved the record."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_faculty" COMMENT="mxschool faculty table">

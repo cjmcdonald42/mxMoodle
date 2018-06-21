@@ -44,7 +44,7 @@ class esignout_table extends local_mxschool_table {
         if ($filter->type !== 'passenger') {
             $columns[] = 'passengers';
         }
-        $columns = array_merge($columns, array('destination', 'date', 'departurereturn', 'permissionfrom'));
+        $columns = array_merge($columns, array('destination', 'date', 'departure', 'approver', 'signin'));
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("esignout_report_header_{$column}", 'local_mxschool');
@@ -58,14 +58,13 @@ class esignout_table extends local_mxschool_table {
             "IF(es.id = d.id, '$drivertext', '$passengertext') AS type",
             "IF(es.id = d.id, '-', CONCAT(du.lastname, ', ', du.firstname)) AS driver",
             "du.firstname AS driverfirstname", "du.alternatename AS driveralternatename", "IF(es.id = d.id, (
-                SELECT COUNT(driverid) FROM {local_mxschool_esignout} WHERE driverid = es.id AND deleted = 0), '-'
-            ) AS passengers", 'd.destination', 'd.departure_date_time AS date', "'' AS departurereturn",
-            'd.departure_date_time AS departuretime', 'd.return_date_time AS returntime',
-            "CONCAT(f.lastname, ', ', f.firstname) AS permissionfrom"
+                SELECT COUNT(driverid) - 1 FROM {local_mxschool_esignout} WHERE driverid = es.id AND deleted = 0), '-'
+            ) AS passengers", 'd.destination', 'd.departure_time AS date', 'd.departure_time AS departure',
+            "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'd.sign_in_time AS signin'
         );
         $from = array(
             '{local_mxschool_esignout} es', '{user} u ON es.userid = u.id', '{local_mxschool_esignout} d ON es.driverid = d.id',
-            '{user} du ON d.userid = du.id', '{user} f ON es.permission_from = f.id'
+            '{user} du ON d.userid = du.id', '{user} a ON es.approverid = a.id'
         );
         if ($filter->date) {
             $starttime = new DateTime('now', core_date::get_server_timezone_object());
@@ -79,9 +78,9 @@ class esignout_table extends local_mxschool_table {
             $filter->date ? "es.departure_date_time > {$starttime->getTimestamp()}" : '',
             $filter->date ? "es.departure_date_time < {$endtime->getTimestamp()}" : ''
         );
-        $sortable = array('student', 'driver', 'date', 'permissionfrom');
+        $sortable = array('student', 'driver', 'date', 'approver');
         $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
-        $centered = array('type', 'driver', 'passengers', 'date', 'departurereturn');
+        $centered = array('type', 'driver', 'passengers', 'date', 'departure', 'signin');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'd.destination');
         parent::__construct(
             $uniqueid, $columns, $headers, $sortable, 'date', $fields, $from, $where, $urlparams, $centered,
@@ -107,10 +106,17 @@ class esignout_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the departure time and return time column to 'g:i A - g:i A'.
+     * Formats the departure time column to 'g:i A'.
      */
-    protected function col_departurereturn($values) {
-        return date('g:i A', $values->departuretime).' - '.date('g:i A', $values->returntime);
+    protected function col_departure($values) {
+        return date('g:i A', $values->departure);
+    }
+
+    /**
+     * Formats the sign-in time column to 'g:i A'.
+     */
+    protected function col_signin($values) {
+        return date('g:i A', $values->signin);
     }
 
     /**

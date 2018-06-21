@@ -47,9 +47,8 @@ $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/driving/esignout_enter.php';
 $title = get_string('esignout', 'local_mxschool');
 $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 'fields' => array(
-    'id', 'userid' => 'student', 'driverid' => 'driver', 'destination', 'departure_date_time' => 'departuretime',
-    'return_date_time' => 'returntime', 'permission_from' => 'facultypermission', 'time_modified' => 'timemodified',
-    'time_created' => 'timecreated'
+    'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'destination',
+    'departure_time' => 'departuretime', 'time_modified' => 'timemodified', 'time_created' => 'timecreated'
 )));
 
 if ($id) {
@@ -69,9 +68,6 @@ if ($id) {
                 if (!isset($data->departuretime)) {
                     $data->departuretime = $driver->departuretime;
                 }
-                if (!isset($data->returntime)) {
-                    $data->returntime = $driver->returntime;
-                }
             }
         } else {
             redirect($redirect);
@@ -89,7 +85,7 @@ if ($id) {
 $data->isstudent = $isstudent;
 $students = get_student_list();
 $drivers = array(); // TODO: generate drivers list.
-$faculty = get_may_approve_faculty_list();
+$approvers = get_approver_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -104,7 +100,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new esignout_form(null, array('id' => $id, 'students' => $students, 'drivers' => $drivers, 'faculty' => $faculty));
+$form = new esignout_form(null, array('id' => $id, 'students' => $students, 'drivers' => $drivers, 'approvers' => $approvers));
 $form->set_redirect($redirect);
 $form->set_data($data);
 
@@ -118,7 +114,6 @@ if ($form->is_cancelled()) {
     if ($data->type === 'Passenger') { // For a passenger record, the destination, departure, and return fields are inherited.
         $data->destination = null;
         $data->departuretime = null;
-        $data->returntime = null;
     }
     $id = update_record($queryfields, $data);
     if ($data->type === 'Driver') { // For a driver record, the id and driverid should be the same.

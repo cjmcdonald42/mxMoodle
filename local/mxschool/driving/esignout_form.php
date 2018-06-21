@@ -37,7 +37,7 @@ class esignout_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
         $drivers = $this->_customdata['drivers'];
-        $faculty = $this->_customdata['faculty'];
+        $approvers = $this->_customdata['approvers'];
 
         $datetimeoptions = array( // TODO: Better date/time selection process.
             'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
@@ -57,17 +57,12 @@ class esignout_form extends local_mxschool_form {
             ), 'details' => array(
                 'destination' => array(
                     'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')
-                ),
-                'departuretime' => array(
+                ), 'departuretime' => array(
                     'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
-                ),
-                'returntime' => array(
-                    'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
-                ),
-                'facultypermission' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required'))
+                ), 'approver' => array('element' => 'select', 'options' => $approvers, 'rules' => array('required'))
             )
         );
-        parent::set_fields($fields, 'esignout_form');
+        parent::set_fields($fields, 'esignout_form', false);
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
@@ -76,7 +71,6 @@ class esignout_form extends local_mxschool_form {
         $mform->hideIf('driver', 'type', 'neq', 'Passenger');
         $mform->disabledIf('destination', 'type', 'eq', 'Passenger');
         $mform->disabledIf('departuretime', 'type', 'eq', 'Passenger');
-        $mform->disabledIf('returntime', 'type', 'eq', 'Passenger');
     }
 
     // TODO: Validation.
