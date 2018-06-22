@@ -15,7 +15,7 @@
 
 /**
  * Highlighs table cells for Middlesex School's Dorm and Student functions plugin.
- * This module is currently only intended to be used for the weekend calculator and is very non-reusable.
+ * This module is currently only intended to be used for the weekend calculator and is currently very non-reusable.
  *
  * @module     local_mxschool/highlight_cells
  * @package    local_mxschool
@@ -30,8 +30,8 @@ define(['jquery'], function($) {
         highlight: function(col_format, col_reference) {
             $(window).ready(function() {
                 $('.mx-table tbody > tr').each(function(index, element) {
-                    var formatCell = $($(element)[0].cells[col_format]);
-                    var referenceCell = $($(element)[0].cells[col_reference]);
+                    var formatCell = $($(element).children[col_format]);
+                    var referenceCell = $($(element).children[col_reference]);
                     if (formatCell && referenceCell) {
                         var difference = referenceCell.text() - formatCell.text();
                         if (difference === 2) {

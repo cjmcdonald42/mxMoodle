@@ -14,9 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates a select element with students from a specified dorm for Middlesex School's Dorm and Student functions plugin.
+ * Updates the destination and departure fields of the eSignout form for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_dorm_students
+ * @module     local_mxschool/get_esignout_driver
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -26,20 +26,17 @@
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
     return  {
-        updateStudents: function() {
-            $('.mx-form #id_dorm').change(function() {
+        updateDriverFields: function() {
+            $('.mx-form #id_driver').change(function() {
                 var promises = ajax.call([{
-                    methodname: 'local_mxschool_get_dorm_students',
+                    methodname: 'local_mxschool_get_esignout_driver',
                     args: {
-                        dorm: $('.mx-form #id_dorm > option:selected').val()
+                        esignoutid: $('.mx-form #id_driver > option:selected').val()
                     }
                 }]);
                 promises[0].done(function(data) {
-                    var studentSelect = $('.mx-form #id_student');
-                    studentSelect.empty();
-                    $.each(data, function(index, student) {
-                        studentSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
-                    });
+                    // console.log(data);
+                    $('.mx-form #id_destination').val(data.destination);
                 }).fail(notification.exception);
             });
         }

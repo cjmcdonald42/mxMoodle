@@ -84,7 +84,7 @@ if ($id) {
 }
 $data->isstudent = $isstudent;
 $students = get_student_list();
-$drivers = array(); // TODO: generate drivers list.
+$drivers = get_current_drivers_list();
 $approvers = get_approver_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

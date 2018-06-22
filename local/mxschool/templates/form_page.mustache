@@ -35,7 +35,10 @@
 </div>
 
 {{# js }}
-require(['local_mxschool/get_dorm_students'], (get_dorm_students) => {
-    get_dorm_students.update_students();
+require(['local_mxschool/get_dorm_students'], function(getDormStudents) {
+    getDormStudents.updateStudents();
+});
+require(['local_mxschool/get_esignout_driver'], function(getESignoutDriver) {
+    getESignoutDriver.updateDriverFields();
 });
 {{/ js }}

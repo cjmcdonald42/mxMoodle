@@ -53,5 +53,13 @@ $functions = array(
         'type' => 'read',
         'ajax' => 'true',
         'capabilities' => 'local/mxschool:manage_weekend'
-    )
+    ),
+    'local_mxschool_get_esignout_driver' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'get_esignout_driver',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Queries the database to find the destination and departure time of an esignout driver record.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ),
 );

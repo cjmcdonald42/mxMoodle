@@ -16,7 +16,7 @@
 /**
  * Sets a boolean field in the database for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_dorm_students
+ * @module     local_mxschool/set_boolean_field
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -26,7 +26,7 @@
 
 define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
     return  {
-        update_field: function(table, name, value) {
+        updateField: function(table, name, value) {
             var element = $('.mx-checkbox[name="' + name + '"][value="' + value + '"]');
             element.change(function() {
                 var promises = ajax.call([{

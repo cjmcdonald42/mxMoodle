@@ -69,14 +69,14 @@ class esignout_table extends local_mxschool_table {
         if ($filter->date) {
             $starttime = new DateTime('now', core_date::get_server_timezone_object());
             $starttime->setTimestamp($filter->date);
-            $endtime = clone $starttime();
+            $endtime = clone $starttime;
             $endtime->modify('+1 day');
         }
         $where = array(
             'es.deleted = 0', 'u.deleted = 0',
             $filter->type === 'driver' ? 'es.id = d.id' : ($filter->type === 'passenger' ? 'es.id <> d.id' : ''),
-            $filter->date ? "es.departure_date_time > {$starttime->getTimestamp()}" : '',
-            $filter->date ? "es.departure_date_time < {$endtime->getTimestamp()}" : ''
+            $filter->date ? "es.departure_time > {$starttime->getTimestamp()}" : '',
+            $filter->date ? "es.departure_time < {$endtime->getTimestamp()}" : ''
         );
         $sortable = array('student', 'driver', 'date', 'approver');
         $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
@@ -116,7 +116,10 @@ class esignout_table extends local_mxschool_table {
      * Formats the sign-in time column to 'g:i A'.
      */
     protected function col_signin($values) {
-        return date('g:i A', $values->signin);
+        return $values->signin ? (
+            date('n/j/y', $values->date) === date('n/j/y', $values->signin)
+            ? date('g:i A', $values->signin) : date('n/j/y g:i A', $values->signin)
+        ) : '-';
     }
 
     /**

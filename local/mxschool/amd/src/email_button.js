@@ -26,7 +26,7 @@
 
 define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
     return  {
-        send_email: function(emailClass, value) {
+        sendEmail: function(emailClass, value) {
             var element = $('.mx-email-button[value="' + value + '"]');
             element.click(function() {
                 var promises = ajax.call([{

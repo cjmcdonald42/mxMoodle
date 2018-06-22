@@ -161,4 +161,38 @@ class local_mxschool_external extends external_api {
         return new external_value(PARAM_BOOL, 'True if the email is successfully sent, false otherwise.');
     }
 
+    /**
+     * Returns descriptions of the get_esignout_driver() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_esignout_driver() function.
+     */
+    public static function get_esignout_driver_parameters() {
+        return new external_function_parameters(array('esignoutid' => new external_value(PARAM_INT, 'The id of driver record.')));
+    }
+
+    /**
+     * Queries the database to find the destination and departure time of an esignout driver record.
+     *
+     * @param int $esignoutid The id of driver record.
+     * @return stdClass With properties destination and departure.
+     */
+    public static function get_esignout_driver($esignoutid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_esignout_driver_parameters(), array('esignoutid' => $esignoutid));
+
+        return get_driver_inheritable_fields($params['esignoutid']);
+    }
+
+    /**
+     * Returns a description of the get_esignout_driver() function's return values.
+     *
+     * @return external_multiple_structure Object describing the return values.
+     */
+    public static function get_esignout_driver_returns() {
+        return new external_single_structure(array(
+                'destination' => new external_value(PARAM_TEXT, 'the driver\'s destination'),
+                'departure' => new external_value(PARAM_INT, 'the timestamp of the driver\'s departure time')
+        ));
+    }
+
 }

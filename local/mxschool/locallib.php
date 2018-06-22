@@ -173,9 +173,7 @@ function get_student_list() {
     $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0
-         ORDER BY name"
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 ORDER BY name"
     );
     if ($students) {
         foreach ($students as $student) {
@@ -199,10 +197,8 @@ function get_students_in_dorm_list($dorm) {
     global $DB;
     $list = array();
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND s.dormid = $dorm
-         ORDER BY name"
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
+         LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
     );
     if ($students) {
         foreach ($students as $student) {
@@ -232,9 +228,7 @@ function get_student_with_filer_list($isboarder = -1, $grades = array(9, 10, 11,
     $where = implode(" AND ", array_filter($wherestrings));
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE $where
-         ORDER BY name"
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE $where ORDER BY name"
     );
     if ($students) {
         foreach ($students as $student) {
@@ -254,9 +248,7 @@ function get_faculty_list() {
     $list = array();
     $allfaculty = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
-         WHERE u.deleted = 0
-         ORDER BY name"
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 ORDER BY name"
     );
     if ($allfaculty) {
         foreach ($allfaculty as $faculty) {
@@ -277,8 +269,7 @@ function get_advisor_list() {
     $advisors = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
-         WHERE u.deleted = 0 and f.advisory_available = 'Yes' and f.advisory_closing = 'No'
-         ORDER BY name"
+         WHERE u.deleted = 0 and f.advisory_available = 'Yes' and f.advisory_closing = 'No' ORDER BY name"
     );
     if ($advisors) {
         foreach ($advisors as $advisor) {
@@ -297,10 +288,8 @@ function get_approver_list() {
     global $DB;
     $list = array();
     $allfaculty = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
-         WHERE u.deleted = 0 and f.may_approve_signout = 'Yes'
-         ORDER BY name"
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
+         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 'Yes' ORDER BY name"
     );
     if ($allfaculty) {
         foreach ($allfaculty as $faculty) {
@@ -333,6 +322,75 @@ function get_weekend_list() {
         }
     }
     return $list;
+}
+
+/**
+ * Queries the database to create a list of all the dates for which there are eSignout records.
+ *
+ * @return array The dates for which there are eSignout records as timestamp => date (mm/dd/yy), in descending order by date.
+ */
+function get_esignout_dates_list() {
+    global $DB;
+    $list = array();
+    $records = $DB->get_records_sql(
+        "SELECT es.departure_time FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.id = es.driverid ORDER BY departure_time DESC"
+    );
+    if ($records) {
+        foreach ($records as $record) {
+            $date = new DateTime('now', core_date::get_server_timezone_object());
+            $date->setTimestamp($record->departure_time);
+            $date->modify('midnight');
+            if (!array_key_exists($date->getTimestamp(), $list)) {
+                $list[$date->getTimestamp()] = $date->format('m/d/y');
+            }
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of currently available drivers.
+ * Drivers are defined as available if today is their departure day and they have not signed in.
+ *
+ * @return array The drivers as esignoutid => name, ordered alphabetically by name.
+ */
+function get_current_drivers_list() {
+    global $DB;
+    $list = array();
+    $today = new DateTime('midnight', core_date::get_server_timezone_object());
+    $drivers = $DB->get_records_sql(
+        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.departure_time > ? AND es.sign_in_time IS NULL
+         ORDER BY name", array($today->getTimestamp())
+    );
+    var_dump($drivers);
+    if ($drivers) {
+        foreach ($drivers as $driver) {
+            $list[$driver->id] = $driver->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Retrieves the destination and departure time fields from a esignout driver record.
+ *
+ * @param int $esignoutid The id of the driver's record.
+ * @return stdClass Object with properties destination and departure.
+ * @throws coding_exception If the esignout record is not a driver record.
+ */
+function get_driver_inheritable_fields($esignoutid) {
+    global $DB;
+    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
+    if (!$record || $record->id !== $record->driverid) {
+        throw new coding_exception('eSignout record not a driver');
+    }
+    $result = new stdClass();
+    $result->destination = $record->destination;
+    $result->departure = $record->departure_time;
+    return $result;
 }
 
 /**
