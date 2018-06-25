@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
+define(['jquery', 'core/ajax'], function($, ajax) {
     return  {
         updateDriverFields: function() {
             $('.mx-form #id_driver').change(function() {
@@ -35,9 +35,22 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                     }
                 }]);
                 promises[0].done(function(data) {
-                    // console.log(data);
                     $('.mx-form #id_destination').val(data.destination);
-                }).fail(notification.exception);
+                    $('.mx-form #id_departuretime_hour > option[value=' + data.departurehour + ']').prop('selected', true);
+                    $('.mx-form #id_departuretime_minute > option[value=' + data.departureminute + ']').prop('selected', true);
+                    $('.mx-form #id_departuretime_ampm > option[value=' + data.departureampm + ']').prop('selected', true);
+                }).fail(function() {
+                    $('.mx-form #id_destination').val('');
+                    $('.mx-form #id_departuretime_hour > option').prop('selected', function() {
+                        return this.defaultSelected;
+                    });
+                    $('.mx-form #id_departuretime_minute > option').prop('selected', function() {
+                        return this.defaultSelected;
+                    });
+                    $('.mx-form #id_departuretime_ampm > option').prop('selected', function() {
+                        return this.defaultSelected;
+                    });
+                });
             });
         }
     };

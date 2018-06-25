@@ -117,7 +117,7 @@ function update_notification($class, $subject, $body) {
 function generate_weekend_records($starttime, $endtime) {
     global $DB;
     $weekends = $DB->get_records_sql(
-        "SELECT sunday_time FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ?", array($starttime, $endtime)
+        "SELECT sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ?", array($starttime, $endtime)
     );
     $sorted = array();
     foreach ($weekends as $weekend) {
@@ -141,7 +141,7 @@ function generate_weekend_records($starttime, $endtime) {
         $date->modify('+1 week');
     }
     return $DB->get_records_sql(
-        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ? ORDER BY sunday_time",
+        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
         array($starttime, $endtime)
     );
 }
@@ -310,7 +310,7 @@ function get_weekend_list() {
     $endtime = get_config('local_mxschool', 'dorms_close_date');
     $list = array();
     $weekends = $DB->get_records_sql(
-        "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time > ? AND sunday_time < ? ORDER BY sunday_time",
+        "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
         array($starttime, $endtime)
     );
     if ($weekends) {
@@ -333,7 +333,7 @@ function get_esignout_dates_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT es.departure_time FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+        "SELECT es.id, es.departure_time FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
          WHERE es.deleted = 0 AND u.deleted = 0 AND es.id = es.driverid ORDER BY departure_time DESC"
     );
     if ($records) {
@@ -362,7 +362,7 @@ function get_current_drivers_list() {
     $drivers = $DB->get_records_sql(
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.departure_time > ? AND es.sign_in_time IS NULL
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.departure_time >= ? AND es.sign_in_time IS NULL
          ORDER BY name", array($today->getTimestamp())
     );
     if ($drivers) {
@@ -377,7 +377,7 @@ function get_current_drivers_list() {
  * Retrieves the destination and departure time fields from a esignout driver record.
  *
  * @param int $esignoutid The id of the driver's record.
- * @return stdClass Object with properties destination and departure.
+ * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
  * @throws coding_exception If the esignout record is not a driver record.
  */
 function get_driver_inheritable_fields($esignoutid) {
@@ -388,7 +388,13 @@ function get_driver_inheritable_fields($esignoutid) {
     }
     $result = new stdClass();
     $result->destination = $record->destination;
-    $result->departure = $record->departure_time;
+    $departuretime = new DateTime('now', core_date::get_server_timezone_object());
+    $departuretime->setTimestamp($record->departure_time);
+    $result->departurehour = $departuretime->format('g');
+    $minute = $departuretime->format('i');
+    $minute -= $minute % 15;
+    $result->departureminute = "{$minute}";
+    $result->departureampm = $departuretime->format('A') === 'PM';
     return $result;
 }
 
@@ -418,6 +424,19 @@ function get_param_faculty_dorm() {
 }
 
 /**
+ * Determines the date to be selected.
+ * The priorities of this function are as follows:
+ * 1) An id specified as a 'date' GET parameter.
+ * 2) The current or date.
+ *
+ * @return string The timestamp of the midnight on the desired date.
+ */
+function get_param_current_date() {
+    return isset($_GET['date']) ? $_GET['date']
+    : (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp();
+}
+
+/**
  * Determines the weekend id to be selected.
  * The priorities of this function are as follows:
  * 1) An id specified as a 'weekend' GET parameter.
@@ -438,7 +457,7 @@ function get_param_current_weekend() {
     $date->modify('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
     $date->modify('Sunday this week');
     $timestamp = $date->getTimestamp();
-    if ($timestamp > $starttime && $timestamp < $endtime) {
+    if ($timestamp >= $starttime && $timestamp < $endtime) {
         $weekend = $DB->get_field('local_mxschool_weekend', 'id', array('sunday_time' => $timestamp));
         if ($weekend) {
             return $weekend;
@@ -446,7 +465,7 @@ function get_param_current_weekend() {
     }
     $weekend = $DB->get_field_sql(
         "SELECT id FROM {local_mxschool_weekend}
-         WHERE sunday_time > ? AND sunday_time > ? AND sunday_time < ? ORDER BY sunday_time",
+         WHERE sunday_time >= ? AND sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
         array($timestamp, $starttime, $endtime), IGNORE_MULTIPLE
     );
     if ($weekend) {

@@ -174,7 +174,7 @@ class local_mxschool_external extends external_api {
      * Queries the database to find the destination and departure time of an esignout driver record.
      *
      * @param int $esignoutid The id of driver record.
-     * @return stdClass With properties destination and departure.
+     * @return stdClass With properties destination, departurehour, departureminutes, and departureampm.
      */
     public static function get_esignout_driver($esignoutid) {
         external_api::validate_context(context_system::instance());
@@ -191,7 +191,9 @@ class local_mxschool_external extends external_api {
     public static function get_esignout_driver_returns() {
         return new external_single_structure(array(
                 'destination' => new external_value(PARAM_TEXT, 'the driver\'s destination'),
-                'departure' => new external_value(PARAM_INT, 'the timestamp of the driver\'s departure time')
+                'departurehour' => new external_value(PARAM_TEXT, 'the hour of the driver\'s departure time'),
+                'departureminute' => new external_value(PARAM_TEXT, 'the minute of the driver\'s departure time'),
+                'departureampm' => new external_value(PARAM_BOOL, 'whether the driver\'s departure time is am (0) or pm (1)')
         ));
     }
 

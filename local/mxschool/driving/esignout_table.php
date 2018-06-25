@@ -30,13 +30,17 @@ require_once(__DIR__.'/../classes/mx_table.php');
 
 class esignout_table extends local_mxschool_table {
 
+    /** @var bool Whether the user is a student and only their records should be displayed. */
+    private $isstudent;
+
     /**
      * Creates a new esignout_table.
      *
      * @param string $uniqueid a unique identifier for the table.
      * @param stdClass $filter any filtering for the table - could include type, date, and search.
+     * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
-    public function __construct($uniqueid, $filter) {
+    public function __construct($uniqueid, $filter, $isstudent) {
         $columns = array('student', 'type');
         if ($filter->type !== 'driver') {
             $columns[] = 'driver';
@@ -60,7 +64,7 @@ class esignout_table extends local_mxschool_table {
             "du.firstname AS driverfirstname", "du.alternatename AS driveralternatename", "IF(es.id = d.id, (
                 SELECT COUNT(driverid) - 1 FROM {local_mxschool_esignout} WHERE driverid = es.id AND deleted = 0), '-'
             ) AS passengers", 'd.destination', 'd.departure_time AS date', 'd.departure_time AS departure',
-            "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'd.sign_in_time AS signin'
+            "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'd.sign_in_time AS signin, es.time_created AS timecreated'
         );
         $from = array(
             '{local_mxschool_esignout} es', '{user} u ON es.userid = u.id', '{local_mxschool_esignout} d ON es.driverid = d.id',
@@ -75,7 +79,7 @@ class esignout_table extends local_mxschool_table {
         $where = array(
             'es.deleted = 0', 'u.deleted = 0',
             $filter->type === 'driver' ? 'es.id = d.id' : ($filter->type === 'passenger' ? 'es.id <> d.id' : ''),
-            $filter->date ? "es.departure_time > {$starttime->getTimestamp()}" : '',
+            $filter->date ? "es.departure_time >= {$starttime->getTimestamp()}" : '',
             $filter->date ? "es.departure_time < {$endtime->getTimestamp()}" : ''
         );
         $sortable = array('student', 'driver', 'date', 'approver');
@@ -84,7 +88,7 @@ class esignout_table extends local_mxschool_table {
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'd.destination');
         parent::__construct(
             $uniqueid, $columns, $headers, $sortable, 'date', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            $filter->search, $searchable, array(), false
         );
     }
 
@@ -126,7 +130,16 @@ class esignout_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id).$this->delete_icon($values->id);
+        if (!$this->isstudent) {
+            return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id).$this->delete_icon($values->id);
+        }
+        $editwindow = new DateTime('now', core_date::get_server_timezone_object());
+        $editwindow->setTimestamp($values->timecreated);
+        $editwindow->modify('+60 minutes');
+        $now = new DateTime('now', core_date::get_server_timezone_object());
+        return $now->getTimestamp() < $editwindow->getTimestamp()
+            ? $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id)
+            : ''; // TODO: sign in button.
     }
 
 }

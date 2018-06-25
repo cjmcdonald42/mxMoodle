@@ -46,10 +46,11 @@ abstract class local_mxschool_table extends table_sql {
      * @param string $search The string to search for as a constraint, null indicates no search option.
      * @param array $searchable The database fields to search.
      * @param array $noprint The columns which should not be displayed if the page is printing.
+     * @param bool $ascending Whether the default sort should be in ascending or descending order.
      */
     public function __construct(
         $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $urlparams,
-        $centered = array(), $search = null, $searchable = array(), $noprint = array()
+        $centered = array(), $search = null, $searchable = array(), $noprint = array(), $ascending = true
     ) {
         global $PAGE;
 
@@ -57,7 +58,7 @@ abstract class local_mxschool_table extends table_sql {
 
         $this->define_columns($columns);
         $this->define_headers($headers);
-        $this->sortable(true, $defaultsort);
+        $this->sortable(true, $defaultsort, $ascending ? SORT_ASC : SORT_DESC);
         if (in_array('actions', $columns)) {
             $centered[] = $noprint[] = 'actions';
         }

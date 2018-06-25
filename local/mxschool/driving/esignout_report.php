@@ -32,11 +32,14 @@ require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_esignout', context_system::instance());
+$isstudent = user_is_student();
+if (!$isstudent) {
+    require_capability('local/mxschool:manage_esignout', context_system::instance());
+}
 
 $filter = new stdClass();
 $filter->type = optional_param('type', '', PARAM_RAW);
-$filter->date = optional_param('date', 0, PARAM_INT);
+$filter->date = get_param_current_date();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
@@ -88,7 +91,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$table = new esignout_table('esignout_table', $filter);
+$table = new esignout_table('esignout_table', $filter, $isstudent);
 
 $dropdowns = array(
     new local_mxschool_dropdown('type', $types, $filter->type, get_string('esignout_report_select_type_all', 'local_mxschool')),

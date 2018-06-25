@@ -92,8 +92,8 @@ $departuretime->setTime(0, 0);
 $data->date = $departuretime->getTimestamp();
 $data->isstudent = $isstudent;
 $students = get_student_list();
-$drivers = get_current_drivers_list();
-$approvers = get_approver_list();
+$drivers = array(0 => get_string('esignout_form_driver_default', 'local_mxschool')) + get_current_drivers_list();
+$approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
