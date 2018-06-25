@@ -20,17 +20,17 @@
 .path-local-mxschool .mx-table table {
     border: var(--mx-table-border);
 }
-/* Reduced padding and vertical borders for all table cells. */
+/* Middle vertical align, reduced padding, and vertical borders for all table cells. */
 .path-local-mxschool .mx-table th,
 .path-local-mxschool .mx-table td {
+    vertical-align: middle;
     padding: 0.25rem;
     border-right: var(--mx-table-border);
     border-left: var(--mx-table-border);
 }
-/* All header cells fully centered and bordered. */
+/* All header cells centered and bordered. */
 .path-local-mxschool .mx-table th {
     text-align: center;
-    vertical-align: middle;
     border-top: var(--mx-table-border);
     border-bottom: var(--mx-table-border);
 }

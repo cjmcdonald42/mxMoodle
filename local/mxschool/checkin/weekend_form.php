@@ -38,7 +38,7 @@ class weekend_form extends local_mxschool_form {
         $dorms = $this->_customdata['dorms'];
         $students = $this->_customdata['students'];
 
-        $datetimeoptions = array(
+        $datetimeparameters = array(
             'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
             'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
             'timezone'  => core_date::get_server_timezone_object(), 'step' => 15
@@ -51,10 +51,10 @@ class weekend_form extends local_mxschool_form {
             'dorm' => array('element' => 'select', 'options' => $dorms),
             'student' => array('element' => 'select', 'options' => $students),
             'departuretime' => array(
-                'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
+                'element' => 'date_time_selector', 'parameters' => $datetimeparameters, 'rules' => array('required')
             ),
             'returntime' => array(
-                'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
+                'element' => 'date_time_selector', 'parameters' => $datetimeparameters, 'rules' => array('required')
             ),
             'destination' => array(
                 'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')

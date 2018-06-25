@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180621" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180625" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -41,6 +41,8 @@
         <FIELD NAME="driverid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The esignout id of driver record associated with the record - an equal id value and driverid value indicate that this record is a driver record."/>
         <FIELD NAME="approverid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the record."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the esignout record has been deleted and shouldn't be displayed."/>
+        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the esignout record. {&quot;Driver&quot;, &quot;Passenger&quot;, &quot;Parent&quot;, entered string}"/>
+        <FIELD NAME="passengers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON formatted list of passengers for a driver record - NULL if not a driver."/>
         <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The student's destination - NULL indicates a passenger inheriting the value from the driver."/>
         <FIELD NAME="departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for departure date and time - NULL indicates a passenger inheriting the value from the driver."/>
         <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signs in - NULL indicates that the student has not signed in."/>

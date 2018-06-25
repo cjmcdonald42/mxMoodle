@@ -334,7 +334,7 @@ function get_esignout_dates_list() {
     $list = array();
     $records = $DB->get_records_sql(
         "SELECT es.id, es.departure_time FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.id = es.driverid ORDER BY departure_time DESC"
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type <> 'Passenger' ORDER BY departure_time DESC"
     );
     if ($records) {
         foreach ($records as $record) {
@@ -362,7 +362,7 @@ function get_current_drivers_list() {
     $drivers = $DB->get_records_sql(
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.departure_time >= ? AND es.sign_in_time IS NULL
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.departure_time >= ? AND es.sign_in_time IS NULL
          ORDER BY name", array($today->getTimestamp())
     );
     if ($drivers) {
@@ -383,7 +383,7 @@ function get_current_drivers_list() {
 function get_driver_inheritable_fields($esignoutid) {
     global $DB;
     $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
-    if (!$record || $record->id !== $record->driverid) {
+    if (!$record || $record->type !== 'Driver') {
         throw new coding_exception('eSignout record not a driver');
     }
     $result = new stdClass();

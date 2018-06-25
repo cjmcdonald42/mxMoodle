@@ -79,7 +79,7 @@ abstract class local_mxschool_table extends table_sql {
         }
 
         $where[] = $search ? '(' . implode(' OR ', array_map(function($field) use($search) {
-            return "$field LIKE '%$search%'";
+            return "{$field} LIKE '%{$search}%'";
         }, $searchable)) . ')' : '';
 
         $this->set_sql(implode(', ', $fields), implode(' LEFT JOIN ', $from), implode(' AND ', array_filter($where)));

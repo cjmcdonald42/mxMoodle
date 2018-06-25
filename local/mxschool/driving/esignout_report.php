@@ -51,8 +51,10 @@ $parents = array(
 $url = '/local/mxschool/driving/esignout_report.php';
 $title = get_string('esignout_report', 'local_mxschool');
 $types = array(
-    'driver' => get_string('esignout_report_select_type_driver', 'local_mxschool'),
-    'passenger' => get_string('esignout_report_select_type_passenger', 'local_mxschool')
+    'Driver' => get_string('esignout_report_select_type_driver', 'local_mxschool'),
+    'Passenger' => get_string('esignout_report_select_type_passenger', 'local_mxschool'),
+    'Parent' => get_string('esignout_report_select_type_parent', 'local_mxschool'),
+    'Other' => get_string('esignout_report_select_type_other', 'local_mxschool')
 );
 
 if ($filter->type && !isset($types[$filter->type])) {

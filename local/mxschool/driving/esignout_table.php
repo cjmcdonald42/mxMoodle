@@ -41,12 +41,14 @@ class esignout_table extends local_mxschool_table {
      * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
     public function __construct($uniqueid, $filter, $isstudent) {
+        $this->isstudent = $isstudent;
         $columns = array('student', 'type');
-        if ($filter->type !== 'driver') {
-            $columns[] = 'driver';
-        }
-        if ($filter->type !== 'passenger') {
+        if (!$filter->type || $filter->type === 'Driver') {
             $columns[] = 'passengers';
+            $columns[] = 'passengercount';
+        }
+        if (!$filter->type || $filter->type === 'Passenger') {
+            $columns[] = 'driver';
         }
         $columns = array_merge($columns, array('destination', 'date', 'departure', 'approver', 'signin'));
         $headers = array();
@@ -55,15 +57,12 @@ class esignout_table extends local_mxschool_table {
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $drivertext = get_string('esignout_report_select_type_driver', 'local_mxschool');
-        $passengertext = get_string('esignout_report_select_type_passenger', 'local_mxschool');
         $fields = array(
-            'es.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
-            "IF(es.id = d.id, '$drivertext', '$passengertext') AS type",
-            "IF(es.id = d.id, '-', CONCAT(du.lastname, ', ', du.firstname)) AS driver",
-            "du.firstname AS driverfirstname", "du.alternatename AS driveralternatename", "IF(es.id = d.id, (
+            'es.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'es.type',
+            'es.passengers', "du.firstname AS driverfirstname", "du.alternatename AS driveralternatename", "IF(es.type = 'Driver', (
                 SELECT COUNT(driverid) - 1 FROM {local_mxschool_esignout} WHERE driverid = es.id AND deleted = 0), '-'
-            ) AS passengers", 'd.destination', 'd.departure_time AS date', 'd.departure_time AS departure',
+            ) AS passengercount", "IF(es.type = 'Passenger', CONCAT(du.lastname, ', ', du.firstname), '-') AS driver",
+            'd.destination', 'd.departure_time AS date', 'd.departure_time AS departure',
             "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'd.sign_in_time AS signin, es.time_created AS timecreated'
         );
         $from = array(
@@ -76,20 +75,59 @@ class esignout_table extends local_mxschool_table {
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
         }
+        $types = array('Driver', 'Passenger', 'Parent');
+        $otherstring = implode(' AND ', array_map(function($type) {
+            return "es.type <> '{$type}'";
+        }, $types));
         $where = array(
             'es.deleted = 0', 'u.deleted = 0',
-            $filter->type === 'driver' ? 'es.id = d.id' : ($filter->type === 'passenger' ? 'es.id <> d.id' : ''),
-            $filter->date ? "es.departure_time >= {$starttime->getTimestamp()}" : '',
-            $filter->date ? "es.departure_time < {$endtime->getTimestamp()}" : ''
+            $filter->type ? (in_array($filter->type, $types) ? "es.type = '{$filter->type}'" : $otherstring) : '',
+            $filter->date ? "d.departure_time >= {$starttime->getTimestamp()}" : '',
+            $filter->date ? "d.departure_time < {$endtime->getTimestamp()}" : ''
         );
         $sortable = array('student', 'driver', 'date', 'approver');
         $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
-        $centered = array('type', 'driver', 'passengers', 'date', 'departure', 'signin');
+        $centered = array('type', 'driver', 'passengers', 'passengercount', 'date', 'departure', 'signin');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'd.destination');
         parent::__construct(
             $uniqueid, $columns, $headers, $sortable, 'date', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable, array(), false
         );
+    }
+
+    /**
+     * Formats the passengers column.
+     */
+    protected function col_passengers($values) {
+        global $DB;
+        if (!isset($values->passengers)) { // Not a driver.
+            return '-';
+        }
+        if ($values->passengers === 'null') { // Driver with no passengers.
+            return get_string('esignout_report_nopassengers', 'local_mxschool');
+        }
+        $passengers = json_decode($values->passengers);
+        $passengernames = array();
+        foreach ($passengers as $passenger) {
+            $student = $DB->get_record(
+                'user', array('id' => $passenger), "CONCAT(lastname, ', ', firstname) AS student, firstname, alternatename"
+            );
+            $passengernames[] = $student->student.(
+                $student->alternatename && $student->alternatename !== $student->firstname ? " ($student->alternatename)" : ''
+            );
+        }
+        return implode('<br>', $passengernames);
+    }
+
+    /**
+     * Formats the passenger count column.
+     */
+    protected function col_passengercount($values) {
+        if ($values->passengercount === '-') {
+            return '-';
+        }
+        $count = $values->passengers === 'null' ? 0 : count(json_decode($values->passengers));
+        return "{$values->passengercount} / {$count}";
     }
 
     /**

@@ -65,7 +65,7 @@ class preferences_form extends local_mxschool_form {
             );
         }
 
-        $dateoptions = array(
+        $dateparameters = array(
             'startyear' => (new DateTime('-1 year', core_date::get_server_timezone_object()))->format('Y'),
             'stopyear' => (new DateTime('+1 year', core_date::get_server_timezone_object()))->format('Y'),
             'timezone' => core_date::get_server_timezone_object()
@@ -73,9 +73,9 @@ class preferences_form extends local_mxschool_form {
 
         $fields = array(
             'dates' => array(
-                'dormsopen' => array('element' => 'date_selector', 'options' => $dateoptions),
-                'secondsemester' => array('element' => 'date_selector', 'options' => $dateoptions),
-                'dormsclose' => array('element' => 'date_selector', 'options' => $dateoptions)
+                'dormsopen' => array('element' => 'date_selector', 'parameters' => $dateparameters),
+                'secondsemester' => array('element' => 'date_selector', 'parameters' => $dateparameters),
+                'dormsclose' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             ), 'weekends' => $weekendfields,
             'notifications' => array(
                 'submittedsubject' => array(

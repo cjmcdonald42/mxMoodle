@@ -288,5 +288,35 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018062101, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018062506) {
+
+        // Define field passengers to be added to local_mxschool_esignout.
+        $table = new xmldb_table('local_mxschool_esignout');
+        $field = new xmldb_field('passengers', XMLDB_TYPE_TEXT, null, null, null, null, null, 'deleted');
+
+        // Conditionally launch add field passengers.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062506, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018062510) {
+
+        // Define field type to be added to local_mxschool_esignout.
+        $table = new xmldb_table('local_mxschool_esignout');
+        $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null, 'deleted');
+
+        // Conditionally launch add field type.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062510, 'local', 'mxschool');
+    }
+
     return true;
 }

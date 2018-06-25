@@ -36,8 +36,14 @@ class esignout_form extends local_mxschool_form {
     protected function definition() {
         $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
+        $passengers = $this->_customdata['passengers'];
         $drivers = $this->_customdata['drivers'];
         $approvers = $this->_customdata['approvers'];
+
+        $passengerparameters = array(
+            'multiple' => true, 'noselectionstring' => get_string('esignout_form_passengers_noselection', 'local_mxschool'),
+            'placeholder' => get_string('esignout_form_passengers_placeholder', 'local_mxschool')
+        );
 
         $fields = array(
             '' => array(
@@ -47,8 +53,12 @@ class esignout_form extends local_mxschool_form {
                 'isstudent' => parent::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
-                'type' => array('element' => 'radio', 'options' => array('Driver', 'Passenger')),
-                'driver' => array('element' => 'select', 'options' => $drivers)
+                'type' => array('element' => 'group', 'children' => array(
+                    'select' => array('element' => 'radio', 'options' => array('Driver', 'Passenger', 'Parent', 'Other')),
+                    'other' => parent::ELEMENT_TEXT
+                )), 'passengers' => array(
+                    'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
+                ), 'driver' => array('element' => 'select', 'options' => $drivers)
             ), 'details' => array(
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
                 'departuretime' => parent::time_selector(15),
@@ -61,9 +71,11 @@ class esignout_form extends local_mxschool_form {
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
         $mform->disabledIf('type', 'id', 'neq', '0');
-        $mform->hideIf('driver', 'type', 'neq', 'Passenger');
-        $mform->disabledIf('destination', 'type', 'eq', 'Passenger');
-        $mform->disabledIf('departuretime', 'type', 'eq', 'Passenger');
+        $mform->hideIf('passengers', 'type_select', 'neq', 'Driver');
+        $mform->hideIf('driver', 'type_select', 'neq', 'Passenger');
+        $mform->hideIf('type_other', 'type_select', 'neq', 'Other');
+        $mform->disabledIf('destination', 'type_select', 'eq', 'Passenger');
+        $mform->disabledIf('departuretime', 'type_select', 'eq', 'Passenger');
     }
 
     // TODO: Validation.

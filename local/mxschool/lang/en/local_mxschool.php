@@ -354,11 +354,14 @@ $string['esignout_form_header_details'] = 'Details';
 
 $string['esignout_form_info_student'] = 'Student';
 $string['esignout_form_info_type'] = 'Type';
-$string['esignout_form_info_driver'] = 'Your driver';
+$string['esignout_form_info_passengers'] = 'Your Passengers';
+$string['esignout_form_info_driver'] = 'Your Driver';
 $string['esignout_form_details_destination'] = 'Your Destination';
 $string['esignout_form_details_departuretime'] = 'Departure Time';
 $string['esignout_form_details_approver'] = 'Face-to-Face Permission Granted by';
 
+$string['esignout_form_passengers_noselection'] = 'No Passengers Selected';
+$string['esignout_form_passengers_placeholder'] = 'Search Passengers';
 $string['esignout_form_driver_default'] = 'Select';
 $string['esignout_form_approver_default'] = 'Select';
 
@@ -366,15 +369,20 @@ $string['esignout_form_approver_default'] = 'Select';
 $string['esignout_report_select_type_all'] = 'All Types';
 $string['esignout_report_select_type_driver'] = 'Driver';
 $string['esignout_report_select_type_passenger'] = 'Passenger';
+$string['esignout_report_select_type_parent'] = 'Parent';
+$string['esignout_report_select_type_other'] = 'Other';
 $string['esignout_report_select_date_all'] = 'All Dates';
 $string['esignout_report_add'] = 'New eSignout Record';
 
 $string['esignout_report_header_student'] = 'Student';
 $string['esignout_report_header_type'] = 'Type';
 $string['esignout_report_header_driver'] = 'Driver';
-$string['esignout_report_header_passengers'] = 'Passenger Count';
+$string['esignout_report_header_passengers'] = 'Passengers';
+$string['esignout_report_header_passengercount'] = 'Passengers Submitted';
 $string['esignout_report_header_destination'] = 'Destination';
 $string['esignout_report_header_date'] = 'Date';
 $string['esignout_report_header_departure'] = 'Departure Time';
 $string['esignout_report_header_approver'] = 'Permission From';
 $string['esignout_report_header_signin'] = 'Sign In Time';
+
+$string['esignout_report_nopassengers'] = 'None';

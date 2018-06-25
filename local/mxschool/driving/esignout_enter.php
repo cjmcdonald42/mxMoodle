@@ -47,39 +47,50 @@ $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/driving/esignout_enter.php';
 $title = get_string('esignout', 'local_mxschool');
 $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 'fields' => array(
-    'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'destination',
-    'departure_time' => 'departuretime', 'time_modified' => 'timemodified', 'time_created' => 'timecreated'
+    'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
+    'destination', 'departure_time' => 'departuretime', 'time_modified' => 'timemodified', 'time_created' => 'timecreated'
 )));
 
 $departuretime = new DateTime('now', core_date::get_server_timezone_object());
 if ($id) {
-    if ($isstudent) { // Students cannot edit existing esignout records.
-        redirect(new moodle_url($url));
-    } else {
-        if ($DB->record_exists('local_mxschool_esignout', array('id' => $id))) {
-            $data = get_record($queryfields, "es.id = ?", array($id));
-            if ($data->id === $data->driver) { // Existing passenger records should add any inherited values to the data object.
-                $data->type = 'Driver';
-            } else {
-                $data->type = 'Passenger';
-                $driver = get_record($queryfields, "es.id = ?", array($data->driver));
-                if (!isset($data->destination)) {
-                    $data->destination = $driver->destination;
-                }
-                if (!isset($data->departuretime)) {
-                    $data->departuretime = $driver->departuretime;
-                }
-            }
-            $departuretime->setTimestamp($data->departuretime);
-        } else {
-            redirect($redirect);
+    if (!$DB->record_exists('local_mxschool_esignout', array('id' => $id))) {
+        redirect($redirect);
+    }
+    $data = get_record($queryfields, "es.id = ?", array($id));
+    if ($isstudent) { // Students cannot edit existing esignout records beyond the edit window.
+        $editwindow = new DateTime('now', core_date::get_server_timezone_object());
+        $editwindow->setTimestamp($data->timecreated);
+        $editwindow->modify('+60 minutes');
+        $now = new DateTime('now', core_date::get_server_timezone_object());
+        if ($now->getTimestamp() > $editwindow->getTimestamp() || $data->student != $USER->id) {
+            redirect(new moodle_url($url));
         }
     }
+    switch ($data->type_select) {
+        case 'Driver':
+            $data->passengers = json_decode($data->passengers);
+            break;
+        case 'Passenger':
+            $driver = get_record($queryfields, "es.id = ?", array($data->driver));
+            if (!isset($data->destination)) {
+                $data->destination = $driver->destination;
+            }
+            if (!isset($data->departuretime)) {
+                $data->departuretime = $driver->departuretime;
+            }
+            break;
+        case 'Parent':
+            break;
+        default:
+            $data->type_other = $data->type_select;
+            $data->type_select = 'Other';
+    }
+    $departuretime->setTimestamp($data->departuretime);
 } else {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
-    $data->type = 'Driver';
+    $data->type_select = 'Driver';
     if ($isstudent) {
         $data->student = $USER->id;
     }
@@ -91,7 +102,11 @@ $data->departuretime_ampm = $departuretime->format('A') === 'PM';
 $departuretime->setTime(0, 0);
 $data->date = $departuretime->getTimestamp();
 $data->isstudent = $isstudent;
+if ($isstudent) {
+    $record = $DB->get_record('user', array('id' => $USER->id), "CONCAT(firstname, ' ', lastname) AS student");
+}
 $students = get_student_list();
+$passengers = $students; // TODO function to generate passengers list.
 $drivers = array(0 => get_string('esignout_form_driver_default', 'local_mxschool')) + get_current_drivers_list();
 $approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
 
@@ -108,7 +123,9 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new esignout_form(null, array('id' => $id, 'students' => $students, 'drivers' => $drivers, 'approvers' => $approvers));
+$form = new esignout_form(null, array(
+    'id' => $id, 'students' => $students, 'passengers' => $passengers, 'drivers' => $drivers, 'approvers' => $approvers)
+);
 $form->set_redirect($redirect);
 $form->set_data($data);
 
@@ -116,19 +133,25 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    if ($data->type === 'Driver') {
-        $data->driver = 0;
-        $departuretime = new DateTime('now', core_date::get_server_timezone_object());
-        $departuretime->setTimestamp($data->date);
-        $departuretime->setTime(($data->departuretime_hour % 12) + ($data->departuretime_ampm * 12), $data->departuretime_minute);
-        $data->departuretime = $departuretime->getTimestamp();
+    switch($data->type_select) {
+        case 'Passenger': // For a passenger record, the destination and departure fields are inherited.
+            $data->destination = null;
+            $data->departuretime = null;
+            break;
+        case 'Other':
+            $data->type_select = $data->type_other;
+        default: // Driver, Parent, and Other will all save their data on their own record.
+            $data->driver = 0;
+            $departuretime = new DateTime('now', core_date::get_server_timezone_object());
+            $departuretime->setTimestamp($data->date);
+            $departuretime->setTime(
+                ($data->departuretime_hour % 12) + ($data->departuretime_ampm * 12), $data->departuretime_minute
+            );
+            $data->departuretime = $departuretime->getTimestamp();
     }
-    if ($data->type === 'Passenger') { // For a passenger record, the destination, departure, and return fields are inherited.
-        $data->destination = null;
-        $data->departuretime = null;
-    }
+    $data->passengers = $data->type_select === 'Driver' ? json_encode($data->passengers) : null;
     $id = update_record($queryfields, $data);
-    if ($data->type === 'Driver') { // For a driver record, the id and driverid should be the same.
+    if ($data->type_select !== 'Passenger') { // For a driver, parent, or other record, the id and driverid should be the same.
         $data->id = $data->driver = $id;
         $id = update_record($queryfields, $data);
     }
@@ -141,6 +164,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form_page($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
 echo $output->render($renderable);
 echo $output->footer();

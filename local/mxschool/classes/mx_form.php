@@ -110,6 +110,13 @@ abstract class local_mxschool_form extends moodleform {
                 if (isset($properties['type'])) {
                     $mform->setType($name, $properties['type']);
                 }
+                if ($properties['element'] === 'group') {
+                    foreach ($properties['children'] as $childname => $childproperties) {
+                        if (isset($childproperties['type'])) {
+                            $mform->setType("{$name}_{$childname}", $childproperties['type']);
+                        }
+                    }
+                }
                 if (isset($properties['rules'])) {
                     if (in_array('required', $properties['rules'])) {
                         $mform->addRule($name, null, 'required', null, 'client');
@@ -154,8 +161,17 @@ abstract class local_mxschool_form extends moodleform {
                 break;
             case 'date_selector':
             case 'date_time_selector':
+                $result = $mform->createElement(
+                    $properties['element'], $name, $displayname, $properties['parameters'], $attributes
+                );
+                break;
             case 'select':
                 $result = $mform->createElement($properties['element'], $name, $displayname, $properties['options'], $attributes);
+                break;
+            case 'autocomplete':
+                $result = $mform->createElement(
+                    $properties['element'], $name, $displayname, $properties['options'], $properties['parameters']
+                );
                 break;
             case 'radio':
                 $buttons = array();
