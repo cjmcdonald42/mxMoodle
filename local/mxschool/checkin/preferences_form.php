@@ -56,11 +56,11 @@ class preferences_form extends local_mxschool_form {
             $labeltime->modify("-1 day");
             $weekendfields["weekend_$weekend->id"] = array(
                 'element' => 'group', 'name' => 'label', 'nameparam' => $labeltime->format('m/d/y'), 'children' => array(
-                    'type' => array('element' => 'radio', 'name' => null, 'options' => array(
+                    'type' => array('element' => 'radio', 'options' => array(
                         'Open', 'Closed', 'Free', 'Vacation'
                     )),
-                    'starttime' => array('element' => 'select', 'name' => null, 'options' => $startoptions),
-                    'endtime' => array('element' => 'select', 'name' => null, 'options' => $endoptions)
+                    'starttime' => array('element' => 'select', 'options' => $startoptions),
+                    'endtime' => array('element' => 'select', 'options' => $endoptions)
                 )
             );
         }

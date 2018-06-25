@@ -39,27 +39,20 @@ class esignout_form extends local_mxschool_form {
         $drivers = $this->_customdata['drivers'];
         $approvers = $this->_customdata['approvers'];
 
-        $datetimeoptions = array( // TODO: Better date/time selection process.
-            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
-            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
-            'timezone'  => core_date::get_server_timezone_object(), 'step' => 15
-        );
-
         $fields = array(
             '' => array(
                 'id' => parent::ELEMENT_HIDDEN_INT,
                 'timecreated' => parent::ELEMENT_HIDDEN_INT,
+                'date' => parent::ELEMENT_HIDDEN_INT,
                 'isstudent' => parent::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
-                'type' => array('element' => 'radio', 'options' => array('Driver', 'Passenger'), 'rules' => array('required')),
-                'driver' => array('element' => 'select', 'options' => $drivers), // TODO: ajax function to fetch driver info.
+                'type' => array('element' => 'radio', 'options' => array('Driver', 'Passenger')),
+                'driver' => array('element' => 'select', 'options' => $drivers)
             ), 'details' => array(
-                'destination' => array(
-                    'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')
-                ), 'departuretime' => array(
-                    'element' => 'date_time_selector', 'options' => $datetimeoptions, 'rules' => array('required')
-                ), 'approver' => array('element' => 'select', 'options' => $approvers, 'rules' => array('required'))
+                'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
+                'departuretime' => parent::time_selector(15),
+                'approver' => array('element' => 'select', 'options' => $approvers)
             )
         );
         parent::set_fields($fields, 'esignout_form', false);

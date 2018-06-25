@@ -60,6 +60,32 @@ abstract class local_mxschool_form extends moodleform {
     );
 
     /**
+     * Forms the field array for a time selector with a particular minute step.
+     *
+     * @param int $step The number of minutes between options.
+     * @return array The array to be used as a field code.
+     */
+    public static function time_selector($step) {
+        if ($step < 1 || $step > 60) {
+            $step = 1;
+        }
+        $hours = array();
+        for ($i = 1; $i <= 12; $i++) {
+            $hours[$i] = $i;
+        }
+        $minutes = array();
+        for ($i = 0; $i < 60; $i += $step) {
+            $minutes[$i] = sprintf("%02d", $i);
+        }
+        $ampm = array(get_string('am', 'local_mxschool'), get_string('pm', 'local_mxschool'));
+        return array('element' => 'group', 'children' => array(
+            'hour' => array('element' => 'select', 'options' => $hours),
+            'minute' => array('element' => 'select', 'options' => $minutes),
+            'ampm' => array('element' => 'select', 'options' => $ampm)
+        ));
+    }
+
+    /**
      * Sets all the fields for the form.
      *
      * @param array $fields Array of fields as category => [name => [properties]].
@@ -141,7 +167,9 @@ abstract class local_mxschool_form extends moodleform {
             case 'group':
                 $childelements = array();
                 foreach ($properties['children'] as $childname => $childproperties) {
-                    $childelements[] = $this->create_element("{$name}_{$childname}", $childproperties, $stringprefix);
+                    $childelements[] = $this->create_element(
+                        "{$name}_{$childname}", array_merge($childproperties, array('name' => null)), $stringprefix
+                    );
                 }
                 $result = $mform->createElement('group', $name, $displayname, $childelements, '&emsp;', false);
                 break;

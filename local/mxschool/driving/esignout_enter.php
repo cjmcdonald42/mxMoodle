@@ -51,6 +51,7 @@ $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 
     'departure_time' => 'departuretime', 'time_modified' => 'timemodified', 'time_created' => 'timecreated'
 )));
 
+$departuretime = new DateTime('now', core_date::get_server_timezone_object());
 if ($id) {
     if ($isstudent) { // Students cannot edit existing esignout records.
         redirect(new moodle_url($url));
@@ -69,6 +70,7 @@ if ($id) {
                     $data->departuretime = $driver->departuretime;
                 }
             }
+            $departuretime->setTimestamp($data->departuretime);
         } else {
             redirect($redirect);
         }
@@ -82,6 +84,12 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
+$data->departuretime_hour = $departuretime->format('g');
+$minute = $departuretime->format('i');
+$data->departuretime_minute = $minute - $minute % 15;
+$data->departuretime_ampm = $departuretime->format('A') === 'PM';
+$departuretime->setTime(0, 0);
+$data->date = $departuretime->getTimestamp();
 $data->isstudent = $isstudent;
 $students = get_student_list();
 $drivers = get_current_drivers_list();
@@ -110,6 +118,10 @@ if ($form->is_cancelled()) {
     $data->timemodified = time();
     if ($data->type === 'Driver') {
         $data->driver = 0;
+        $departuretime = new DateTime('now', core_date::get_server_timezone_object());
+        $departuretime->setTimestamp($data->date);
+        $departuretime->setTime(($data->departuretime_hour % 12) + ($data->departuretime_ampm * 12), $data->departuretime_minute);
+        $data->departuretime = $departuretime->getTimestamp();
     }
     if ($data->type === 'Passenger') { // For a passenger record, the destination, departure, and return fields are inherited.
         $data->destination = null;

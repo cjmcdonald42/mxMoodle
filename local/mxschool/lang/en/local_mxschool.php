@@ -41,6 +41,8 @@ $string['day_3'] = 'Wednesday';
 $string['day_4'] = 'Thursday';
 $string['day_5'] = 'Friday';
 $string['day_6'] = 'Saturday';
+$string['am'] = 'AM';
+$string['pm'] = 'PM';
 $string['first_semester'] = 'First Semester';
 $string['second_semester'] = 'Second Semester';
 

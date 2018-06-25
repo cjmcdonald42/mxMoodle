@@ -365,7 +365,6 @@ function get_current_drivers_list() {
          WHERE es.deleted = 0 AND u.deleted = 0 AND es.departure_time > ? AND es.sign_in_time IS NULL
          ORDER BY name", array($today->getTimestamp())
     );
-    var_dump($drivers);
     if ($drivers) {
         foreach ($drivers as $driver) {
             $list[$driver->id] = $driver->name;
