@@ -39,7 +39,7 @@ if (!$isstudent) {
 
 $filter = new stdClass();
 $filter->type = optional_param('type', '', PARAM_RAW);
-$filter->date = get_param_current_date();
+$filter->date = get_param_current_date_esignout();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);

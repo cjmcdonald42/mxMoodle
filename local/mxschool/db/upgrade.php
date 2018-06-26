@@ -318,5 +318,35 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018062510, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018062600) {
+
+        // Define field license_date to be added to local_mxschool_permissions.
+        $table = new xmldb_table('local_mxschool_permissions');
+        $field = new xmldb_field('license_date', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'overnight');
+
+        // Conditionally launch add field license_date.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062600, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018062602) {
+
+        // Define field license_date to be dropped from local_mxschool_vehicle.
+        $table = new xmldb_table('local_mxschool_vehicle');
+        $field = new xmldb_field('license_date');
+
+        // Conditionally launch drop field license_date.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062602, 'local', 'mxschool');
+    }
+
     return true;
 }

@@ -37,7 +37,7 @@ class vehicle_table extends local_mxschool_table {
      * @param string $search The search for the table.
      */
     public function __construct($uniqueid, $search) {
-        $columns = array('student', 'phone', 'license', 'make', 'model', 'color', 'registration');
+        $columns = array('student', 'grade', 'phone', 'license', 'make', 'model', 'color', 'registration');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("vehicle_report_header_{$column}", 'local_mxschool');
@@ -45,18 +45,20 @@ class vehicle_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'v.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.phone_number AS phone',
-            'v.license_date AS license', 'v.make', 'v.model', 'v.color', 'v.registration'
+            'v.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
+            's.phone_number AS phone', 'p.license_date AS license', 'v.make', 'v.model', 'v.color', 'v.registration'
         );
         $from = array(
-            '{local_mxschool_vehicle} v', '{user} u ON v.userid = u.id', '{local_mxschool_student} s ON v.userid = s.userid'
+            '{local_mxschool_vehicle} v', '{user} u ON v.userid = u.id', '{local_mxschool_student} s ON v.userid = s.userid',
+            '{local_mxschool_permissions} p ON v.userid = p.userid'
         );
         $where = array('v.deleted = 0', 'u.deleted = 0');
-        $sortable = array('student', 'license', 'make', 'model', 'color', 'registration');
+        $sortable = array('student', 'grade', 'license', 'make', 'model', 'color');
         $urlparams = array('search' => $search);
+        $centered = array('grade', 'license');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'v.make', 'v.model', 'v.color', 'v.registration');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, array(), $search,
+            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $search,
             $searchable
         );
     }

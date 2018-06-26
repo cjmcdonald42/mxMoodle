@@ -27,15 +27,15 @@
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
     return  {
         updateStudents: function() {
-            $('.mx-form #id_dorm').change(function() {
+            $('.mx-form select#id_dorm').change(function() {
                 var promises = ajax.call([{
                     methodname: 'local_mxschool_get_dorm_students',
                     args: {
-                        dorm: $('.mx-form #id_dorm > option:selected').val()
+                        dorm: $('.mx-form select#id_dorm > option:selected').val()
                     }
                 }]);
                 promises[0].done(function(data) {
-                    var studentSelect = $('.mx-form #id_student');
+                    var studentSelect = $('.mx-form select#id_student');
                     studentSelect.empty();
                     $.each(data, function(index, student) {
                         studentSelect.append($('<option></option>').attr('value', student.userid).text(student.name));

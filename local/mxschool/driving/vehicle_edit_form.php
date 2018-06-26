@@ -36,25 +36,16 @@ class vehicle_edit_form extends local_mxschool_form {
      */
     protected function definition() {
         $id = $this->_customdata['id'];
-        $students = $this->_customdata['students'];
+        $drivers = $this->_customdata['drivers'];
 
-        $dateoptions = array(
-            'startyear' => 1970, 'stopyear' => (new DateTime('now', core_date::get_server_timezone_object()))->format('Y'),
-            'timezone'  => core_date::get_server_timezone_object()
-        );
-
-        $fields = array(
-            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
-            'student' => array(
-                'name' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
-                'license' => array('element' => 'date_selector', 'options' => $dateoptions, 'rules' => array('required'))
-            ), 'vehicle' => array(
-                'make' => parent::ELEMENT_TEXT_REQUIRED,
-                'model' => parent::ELEMENT_TEXT_REQUIRED,
-                'color' => parent::ELEMENT_TEXT_REQUIRED,
-                'registration' => parent::ELEMENT_TEXT_REQUIRED
-            )
-        );
+        $fields = array('' => array(
+            'id' => parent::ELEMENT_HIDDEN_INT,
+            'student' => array('element' => 'select', 'options' => $drivers, 'rules' => array('required')),
+            'make' => parent::ELEMENT_TEXT_REQUIRED,
+            'model' => parent::ELEMENT_TEXT_REQUIRED,
+            'color' => parent::ELEMENT_TEXT_REQUIRED,
+            'registration' => parent::ELEMENT_TEXT_REQUIRED
+        ));
         parent::set_fields($fields, 'vehicle_edit');
     }
 }

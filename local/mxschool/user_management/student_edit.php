@@ -50,17 +50,21 @@ $queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'f
 )), 'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
     'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
 )), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.permissionsid = p.id', 'fields' => array(
-    'id' => 'permissionsid', 'overnight', 'may_ride_with' => 'riding', 'ride_permission_details' => 'comment',
-    'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'may_drive_to_town' => 'town',
-    'may_drive_passengers' => 'passengers', 'swim_competent' => 'swimcompetent', 'swim_allowed' => 'swimallowed',
-    'boat_allowed' => 'boatallowed'
+    'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
+    'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
+    'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
+    'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
 )));
 
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
     redirect($redirect);
 }
 
+$ridingencode = array(
+    'Parent Permission' => 'parent', 'Over 21' => '21', 'Any Driver' => 'any', 'Specific Drivers' => 'specific'
+);
 $data = get_record($queryfields, "s.id = ?", array($id));
+$data->riding = $ridingencode["{$data->riding}"];
 $dorms = get_dorms_list();
 $advisors = get_advisor_list();
 
@@ -84,9 +88,19 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+    $ridingdecode = array(
+        'parent' => 'Parent Permission', '21' => 'Over 21', 'any' => 'Any Driver', 'specific' => 'Specific Drivers'
+    );
     if (!$data->room) {
         $data->room = null;
     }
+    if (!$data->license) {
+        $data->license = null;
+    }
+    if ($data->riding !== 'specific') {
+        $data->ridingcomment = null;
+    }
+    $data->riding = $ridingdecode["{$data->riding}"];
     update_record($queryfields, $data);
     redirect(
         $form->get_redirect(), get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS

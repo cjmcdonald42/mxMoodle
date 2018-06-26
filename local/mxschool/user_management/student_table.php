@@ -46,7 +46,6 @@ class student_table extends local_mxschool_table {
         $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
-        $centered = array();
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         switch($type) {
             case 'students':
@@ -56,26 +55,22 @@ class student_table extends local_mxschool_table {
                     's.phone_number AS phone', 's.birthday')
                 );
                 $from[] = '{user} a ON s.advisorid = a.id';
-                $centered = array('grade', 'room', 'birthday');
                 $searchable = array_merge($searchable, array('a.firstname', 'a.lastname'));
                 break;
-
             case 'permissions':
                 $columns = array_merge($columns, array(
-                    'overnight', 'riding', 'comment', 'rideshare', 'boston', 'town', 'passengers',
-                    'swimcompetent', 'swimallowed', 'boatallowed')
-                );
+                    'overnight', 'license', 'driving', 'passengers', 'riding', 'ridingcomment', 'rideshare', 'boston',
+                    'swimcompetent', 'swimallowed', 'boatallowed'
+                ));
                 $fields = array_merge(array('p.id'), $fields, array(
-                    'p.overnight', 'p.may_ride_with AS riding', 'p.ride_permission_details AS comment', 'p.ride_share AS rideshare',
-                    'p.may_drive_to_boston AS boston', 'p.may_drive_to_town AS town', 'p.may_drive_passengers AS passengers',
-                    'p.swim_competent AS swimcompetent', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
+                    'p.overnight', 'p.license_date AS license', 'p.may_drive_to_town AS driving',
+                    'p.may_drive_passengers AS passengers', 'p.may_ride_with AS riding',
+                    'p.ride_permission_details AS ridingcomment', 'p.ride_share AS rideshare',
+                    'p.may_drive_to_boston AS boston', 'p.swim_competent AS swimcompetent', 'p.swim_allowed AS swimallowed',
+                    'p.boat_allowed AS boatallowed'
                 ));
                 $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';
-                $centered = array(
-                    'overnight', 'rideshare', 'boston', 'town', 'passengers', 'swimcompetent', 'swimallowed', 'boatallowed'
-                );
                 break;
-
             case 'parents':
                 $columns = array_merge($columns, array(
                     'parent', 'primaryparent', 'relationship', 'homephone', 'cellphone', 'workphone', 'email'
@@ -86,7 +81,6 @@ class student_table extends local_mxschool_table {
                 ));
                 $from[] = '{local_mxschool_parent} p ON u.id = p.userid';
                 $where = array_merge($where, array('p.deleted = 0'));
-                $centered = array('primaryparent');
                 $searchable[] = 'p.parent_name';
                 break;
         }
@@ -99,10 +93,21 @@ class student_table extends local_mxschool_table {
 
         $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'parent');
         $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
+        $centered = array(
+            'grade', 'room', 'birthday', 'overnight', 'license', 'driving', 'passengers', 'rideshare', 'boston', 'swimcompetent',
+            'swimallowed', 'boatallowed', 'primaryparent'
+        );
         parent::__construct(
             $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $filter->search,
             $searchable
         );
+    }
+
+    /**
+     * Formats the license column to 'n/j/y'.
+     */
+    protected function col_license($values) {
+        return $values->license ? date('n/j/y', $values->license) : '';
     }
 
     /**

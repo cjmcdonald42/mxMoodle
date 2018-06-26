@@ -64,10 +64,12 @@ function get_record($queryfields, $where, $params = array()) {
  *
  * @param array $queryfields The fields to query - must be organized as [table => [abbreviation, join, fields => [header => name]]].
  * @param stdClass $data The new data to update the database with.
- * @return int The id of the updated or inserted record,
+ * @return int|array The id of the updated or inserted record
+ *                   - if more than one record is updated all the affected ids will be returned in the provided order.
  */
 function update_record($queryfields, $data) {
     global $DB;
+    $ids = array();
     foreach ($queryfields as $table => $tablefields) {
         $record = new stdClass();
         foreach ($tablefields['fields'] as $header => $name) {
@@ -78,11 +80,12 @@ function update_record($queryfields, $data) {
         }
         if ($record->id) {
             $DB->update_record($table, $record);
-            return $record->id;
+            $ids[] = $record->id;
         } else {
-            return $DB->insert_record($table, $record);
+            $ids[] = $DB->insert_record($table, $record);
         }
     }
+    return count($ids) === 1 ? $ids[0] : $ids;
 }
 
 /**
@@ -209,26 +212,19 @@ function get_students_in_dorm_list($dorm) {
 }
 
 /**
- * Queries the database to create a list of all the students which match a filter.
+ * Queries the database to create a list of all the students which have a registered license.
+ * This should only find day students.
  *
- * @param int $isboarder 1 to query for boarders, 0 to query for day students, -1 to query for all.
- * @param array $grades The grades to query for.
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
-function get_student_with_filer_list($isboarder = -1, $grades = array(9, 10, 11, 12)) {
+function get_licensed_student_list() {
     global $DB;
     $list = array();
-    $gradestrings = array();
-    foreach ($grades as $grade) {
-        $gradestrings[] = "s.grade = {$grade}";
-    }
-    $borderstring = $isboarder === 1 ? "s.boarding_status = 'Boarding'" : $isboarder === 0 ? "s.boarding_status = 'Day'" : '';
-    $gradestring = implode(" OR ", $gradestrings);
-    $wherestrings = array("u.deleted = 0", $gradestring ? "({$gradestring})" : $gradestring, $borderstring);
-    $where = implode(" AND ", array_filter($wherestrings));
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE $where ORDER BY name"
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
+         WHERE u.deleted = 0 AND p.license_date IS NOT NULL ORDER BY name"
     );
     if ($students) {
         foreach ($students as $student) {
@@ -434,6 +430,28 @@ function get_param_faculty_dorm() {
 function get_param_current_date() {
     return isset($_GET['date']) ? $_GET['date']
     : (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp();
+}
+
+/**
+ * Determines the date to be selected which corresponds to an existing eSignout record.
+ * The priorities of this function are as follows:
+ * 1) An id specified as a 'date' GET parameter.
+ * 2) The current or date.
+ * If there is not an eSignout record asseociated with the selected date, an empty string will be returned.
+ *
+ * @return string The timestamp of the midnight on the desired date.
+ */
+function get_param_current_date_esignout() {
+    global $DB;
+    $timestamp = get_param_current_date();
+    $startdate = new DateTime('now', core_date::get_server_timezone_object());
+    $startdate->setTimestamp($timestamp);
+    $enddate = clone $startdate;
+    $enddate->modify('+1 day');
+    return $DB->record_exists_sql(
+        "SELECT * FROM {local_mxschool_esignout} WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
+        array($startdate->getTimestamp(), $enddate->getTimestamp())
+    ) ? $timestamp : '';
 }
 
 /**

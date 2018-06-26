@@ -38,6 +38,13 @@ class student_edit_form extends local_mxschool_form {
         $dorms = $this->_customdata['dorms'];
         $advisors = $this->_customdata['advisors'];
 
+        $dateparameters = array(
+            'startyear' => 2000, // Completely arbitrary.
+            'stopyear' => (new DateTime('now', core_date::get_server_timezone_object()))->format('Y'),
+            'timezone'  => core_date::get_server_timezone_object(),
+            'optional' => true
+        );
+
         $fields = array(
             '' => array(
                 'id' => parent::ELEMENT_HIDDEN_INT,
@@ -62,19 +69,22 @@ class student_edit_form extends local_mxschool_form {
                 'room' => parent::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
-                'riding' => array(
-                    'element' => 'radio', 'options' => array('Parent Permission', 'Over 21', 'Any Driver', 'Specific Drivers')
-                ), 'comment' => parent::ELEMENT_TEXT_AREA,
+                'license' => array('element' => 'date_selector', 'parameters' => $dateparameters),
+                'driving' => parent::ELEMENT_YES_NO,
+                'passengers' => parent::ELEMENT_YES_NO,
+                'riding' => array('element' => 'radio', 'options' => array('parent', '21', 'any', 'specific')),
+                'ridingcomment' => parent::ELEMENT_TEXT_AREA,
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
-                'town' => parent::ELEMENT_YES_NO,
-                'passengers' => parent::ELEMENT_YES_NO,
                 'swimcompetent' => parent::ELEMENT_YES_NO,
                 'swimallowed' => parent::ELEMENT_YES_NO,
                 'boatallowed' => parent::ELEMENT_YES_NO
             )
         );
         parent::set_fields($fields, 'student_edit');
+
+        $mform = $this->_form;
+        $mform->hideIf('ridingcomment', 'riding', 'neq', 'specific');
     }
 
 }
