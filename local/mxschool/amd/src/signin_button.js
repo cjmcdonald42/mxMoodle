@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm and Student functions plugin for Middlesex School.
+ * Signs in an eSignout record for Middlesex School's Dorm and Student functions plugin.
  *
+ * @module     local_mxschool/signin_button
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,12 +24,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018062706;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
+    return  {
+        signIn: function(id) {
+            var element = $('.mx-signin-button[value="' + id + '"]');
+            element.click(function() {
+                var promises = ajax.call([{
+                    methodname: 'local_mxschool_sign_in',
+                    args: {
+                        esignoutid: id
+                    }
+                }]);
+                promises[0].done(function(data) {
+                    element.hide('slow', function() {
+                        element.parent().html('&#x2705;');
+                    });
+                    element.parent().parent().find('td.sign-in').text(data);
+                }).fail(notification.exception);
+            });
+        }
+    };
+});

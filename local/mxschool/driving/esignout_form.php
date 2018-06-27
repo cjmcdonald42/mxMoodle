@@ -36,6 +36,7 @@ class esignout_form extends local_mxschool_form {
     protected function definition() {
         $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
+        $types = $this->_customdata['types'];
         $passengers = $this->_customdata['passengers'];
         $drivers = $this->_customdata['drivers'];
         $approvers = $this->_customdata['approvers'];
@@ -50,11 +51,12 @@ class esignout_form extends local_mxschool_form {
                 'id' => parent::ELEMENT_HIDDEN_INT,
                 'timecreated' => parent::ELEMENT_HIDDEN_INT,
                 'date' => parent::ELEMENT_HIDDEN_INT,
-                'isstudent' => parent::ELEMENT_HIDDEN_INT
+                'isstudent' => parent::ELEMENT_HIDDEN_INT,
+                'maydrivepassengers' => parent::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'type' => array('element' => 'group', 'children' => array(
-                    'select' => array('element' => 'radio', 'options' => array('Driver', 'Passenger', 'Parent', 'Other')),
+                    'select' => array('element' => 'radio', 'options' => $types),
                     'other' => parent::ELEMENT_TEXT
                 )), 'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
@@ -68,16 +70,53 @@ class esignout_form extends local_mxschool_form {
         parent::set_fields($fields, 'esignout_form', false);
 
         $mform = $this->_form;
+        $mform->addElement('static', 'parentwarning', '', get_string('esignout_form_parent_warning', 'local_mxschool'));
+        $mform->addElement('static', 'specificwarning', '', get_string('esignout_form_specific_warning', 'local_mxschool'));
+        $buttonarray = array(
+            $mform->createElement(
+                'submit', 'permissionssubmityes', get_string('esignout_form_permissions_submit_yes', 'local_mxschool')
+            ), $mform->createElement(
+                'cancel', 'permissionssubmitno', get_string('esignout_form_permissions_submit_no', 'local_mxschool')
+            )
+        );
+        $mform->addGroup(
+            $buttonarray, 'buttonar', get_string('esignout_form_permissions_submit', 'local_mxschool'), array(' '), false
+        );
+
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
         $mform->disabledIf('type', 'id', 'neq', '0');
-        $mform->hideIf('passengers', 'type_select', 'neq', 'Driver');
-        $mform->hideIf('driver', 'type_select', 'neq', 'Passenger');
         $mform->hideIf('type_other', 'type_select', 'neq', 'Other');
+        $mform->hideIf('passengers', 'type_select', 'neq', 'Driver');
+        $mform->hideIf('passengers', 'maydrivepassengers', 'eq', '0');
+        $mform->hideIf('driver', 'type_select', 'neq', 'Passenger');
         $mform->disabledIf('destination', 'type_select', 'eq', 'Passenger');
         $mform->disabledIf('departuretime', 'type_select', 'eq', 'Passenger');
     }
 
-    // TODO: Validation.
+    /**
+     * Validates the weekend form before it can be submitted.
+     * The checks performed are...
+     *
+     * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
+     */
+    public function validation($data, $files) {
+        global $DB;
+        $errors = parent::validation($data, $files);
+        if (!isset($data['type_select'])) {
+            $errors['type'] = get_string('esignout_form_error_notype', 'local_mxschool');
+        } else if ($data['type_select'] === 'Other' && $data['type_other'] === '') {
+            $errors['type'] = get_string('esignout_form_error_notype', 'local_mxschool');
+        } else if ($data['type_select'] === 'Passenger' && !$data['driver']) {
+            $errors['driver'] = get_string('esignout_form_error_nodriver', 'local_mxschool');
+        }
+        if ($data['destination'] === '') {
+            $errors['destination'] = get_string('esignout_form_error_nodestination', 'local_mxschool');
+        }
+        if (!$data['approver']) {
+            $errors['approver'] = get_string('esignout_form_error_noapprover', 'local_mxschool');
+        }
+        return $errors;
+    }
 
 }

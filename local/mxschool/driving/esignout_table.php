@@ -41,6 +41,7 @@ class esignout_table extends local_mxschool_table {
      * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
     public function __construct($uniqueid, $filter, $isstudent) {
+        global $USER;
         $this->isstudent = $isstudent;
         $columns = array('student', 'type');
         if (!$filter->type || $filter->type === 'Driver') {
@@ -58,12 +59,12 @@ class esignout_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'es.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'es.type',
+            'es.id', 'es.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'es.type',
             'es.passengers', "du.firstname AS driverfirstname", "du.alternatename AS driveralternatename", "IF(es.type = 'Driver', (
                 SELECT COUNT(driverid) - 1 FROM {local_mxschool_esignout} WHERE driverid = es.id AND deleted = 0), '-'
             ) AS passengercount", "IF(es.type = 'Passenger', CONCAT(du.lastname, ', ', du.firstname), '-') AS driver",
             'd.destination', 'd.departure_time AS date', 'd.departure_time AS departure',
-            "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'd.sign_in_time AS signin, es.time_created AS timecreated'
+            "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'es.sign_in_time AS signin, es.time_created AS timecreated'
         );
         $from = array(
             '{local_mxschool_esignout} es', '{user} u ON es.userid = u.id', '{local_mxschool_esignout} d ON es.driverid = d.id',
@@ -75,16 +76,27 @@ class esignout_table extends local_mxschool_table {
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
         }
-        $types = array('Driver', 'Passenger', 'Parent');
-        $otherstring = implode(' AND ', array_map(function($type) {
-            return "es.type <> '{$type}'";
-        }, $types));
         $where = array(
             'es.deleted = 0', 'u.deleted = 0',
-            $filter->type ? (in_array($filter->type, $types) ? "es.type = '{$filter->type}'" : $otherstring) : '',
             $filter->date ? "d.departure_time >= {$starttime->getTimestamp()}" : '',
             $filter->date ? "d.departure_time < {$endtime->getTimestamp()}" : ''
         );
+        if ($filter->type) {
+            $types = array('Driver', 'Passenger', 'Parent');
+            $otherstring = implode(' AND ', array_map(function($type) {
+                return "es.type <> '{$type}'";
+            }, $types));
+            $where[] = in_array($filter->type, $types) ? "es.type = '{$filter->type}'" : $otherstring;
+        }
+        if ($isstudent) {
+            $include = array(
+                "(es.userid = {$USER->id}", "d.userid = {$USER->id}",
+                "(SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = {$USER->id}) > 0)"
+            );
+            $where[] = implode(' OR ', $include);
+            $starttime = new DateTime('midnight', core_date::get_server_timezone_object());
+            $where[] = "d.departure_time >= {$starttime->getTimestamp()}";
+        }
         $sortable = array('student', 'driver', 'date', 'approver');
         $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
         $centered = array('type', 'driver', 'passengers', 'passengercount', 'date', 'departure', 'signin');
@@ -93,6 +105,7 @@ class esignout_table extends local_mxschool_table {
             $uniqueid, $columns, $headers, $sortable, 'date', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable, array(), false
         );
+        $this->column_class('signin', "{$this->column_class['signin']} sign-in");
     }
 
     /**
@@ -103,10 +116,10 @@ class esignout_table extends local_mxschool_table {
         if (!isset($values->passengers)) { // Not a driver.
             return '-';
         }
-        if ($values->passengers === 'null') { // Driver with no passengers.
+        $passengers = json_decode($values->passengers);
+        if (!count($passengers)) { // Driver with no passengers.
             return get_string('esignout_report_nopassengers', 'local_mxschool');
         }
-        $passengers = json_decode($values->passengers);
         $passengernames = array();
         foreach ($passengers as $passenger) {
             $student = $DB->get_record(
@@ -126,7 +139,7 @@ class esignout_table extends local_mxschool_table {
         if ($values->passengercount === '-') {
             return '-';
         }
-        $count = $values->passengers === 'null' ? 0 : count(json_decode($values->passengers));
+        $count = count(json_decode($values->passengers));
         return "{$values->passengercount} / {$count}";
     }
 
@@ -168,16 +181,26 @@ class esignout_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
+        global $USER, $PAGE;
         if (!$this->isstudent) {
             return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id).$this->delete_icon($values->id);
         }
+        if ($values->userid !== $USER->id) {
+            return '';
+        }
+        if ($values->signin) {
+            return '&#x2705;';
+        }
         $editwindow = new DateTime('now', core_date::get_server_timezone_object());
         $editwindow->setTimestamp($values->timecreated);
-        $editwindow->modify('+60 minutes');
+        $editwindow->modify('+30 minutes');
         $now = new DateTime('now', core_date::get_server_timezone_object());
-        return $now->getTimestamp() < $editwindow->getTimestamp()
-            ? $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id)
-            : ''; // TODO: sign in button.
+        if ($now->getTimestamp() < $editwindow->getTimestamp()) {
+            return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id);
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\signin_button($values->id);
+        return $output->render($renderable);
     }
 
 }

@@ -144,7 +144,7 @@ abstract class local_mxschool_form extends moodleform {
         $mform = $this->_form;
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
         $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
-        $displayname = !$ingroup && $tag ? get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param) : '';
+        $displayname = !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param) : '';
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
 
         $result = null;

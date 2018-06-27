@@ -64,7 +64,7 @@ $ridingencode = array(
     'Parent Permission' => 'parent', 'Over 21' => '21', 'Any Driver' => 'any', 'Specific Drivers' => 'specific'
 );
 $data = get_record($queryfields, "s.id = ?", array($id));
-$data->riding = $ridingencode["{$data->riding}"];
+$data->riding = $ridingencode[$data->riding];
 $dorms = get_dorms_list();
 $advisors = get_advisor_list();
 
@@ -100,7 +100,7 @@ if ($form->is_cancelled()) {
     if ($data->riding !== 'specific') {
         $data->ridingcomment = null;
     }
-    $data->riding = $ridingdecode["{$data->riding}"];
+    $data->riding = $ridingdecode[$data->riding];
     update_record($queryfields, $data);
     redirect(
         $form->get_redirect(), get_string('student_edit_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS

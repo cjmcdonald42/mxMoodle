@@ -60,7 +60,7 @@ if ($id) {
     if ($isstudent) { // Students cannot edit existing esignout records beyond the edit window.
         $editwindow = new DateTime('now', core_date::get_server_timezone_object());
         $editwindow->setTimestamp($data->timecreated);
-        $editwindow->modify('+60 minutes');
+        $editwindow->modify('+30 minutes');
         $now = new DateTime('now', core_date::get_server_timezone_object());
         if ($now->getTimestamp() > $editwindow->getTimestamp() || $data->student != $USER->id) {
             redirect(new moodle_url($url));
@@ -90,7 +90,6 @@ if ($id) {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
-    $data->type_select = 'Driver';
     if ($isstudent) {
         $data->student = $USER->id;
     }
@@ -102,12 +101,23 @@ $data->departuretime_ampm = $departuretime->format('A') === 'PM';
 $departuretime->setTime(0, 0);
 $data->date = $departuretime->getTimestamp();
 $data->isstudent = $isstudent;
-if ($isstudent) {
-    $record = $DB->get_record('user', array('id' => $USER->id), "CONCAT(firstname, ' ', lastname) AS student");
-}
 $students = get_student_list();
-$passengers = $students; // TODO function to generate passengers list.
-$drivers = array(0 => get_string('esignout_form_driver_default', 'local_mxschool')) + get_current_drivers_list();
+$userid = $isstudent ? $USER->id : (count($students) ? array_keys($students)[0] : 0);
+if ($isstudent) {
+    $record = $DB->get_record_sql(
+        "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, p.may_drive_passengers AS maydrivepassengers
+         FROM {user} u LEFT JOIN {local_mxschool_permissions} p ON u.id = p.userid WHERE u.id = ?", array($userid)
+    );
+    $data->maydrivepassengers = $record->maydrivepassengers === 'Yes' ? '1' : '0';
+} else {
+    $data->maydrivepassengers = '2'; // This is a work-around in order to have the value not be filled to '0' if validation fails.
+}
+$types = get_allowed_esignout_types_list($isstudent ? $USER->id : 0);
+if (!isset($data->type_select)) {
+    $data->type_select = $types[0];
+}
+$passengers = get_passengers_list($userid);
+$drivers = array(0 => get_string('esignout_form_driver_default', 'local_mxschool')) + get_current_drivers_list($userid);
 $approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
@@ -124,8 +134,9 @@ foreach ($parents as $display => $url) {
 $PAGE->navbar->add($title);
 
 $form = new esignout_form(null, array(
-    'id' => $id, 'students' => $students, 'passengers' => $passengers, 'drivers' => $drivers, 'approvers' => $approvers)
-);
+    'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,
+    'approvers' => $approvers
+));
 $form->set_redirect($redirect);
 $form->set_data($data);
 
@@ -149,7 +160,9 @@ if ($form->is_cancelled()) {
             );
             $data->departuretime = $departuretime->getTimestamp();
     }
-    $data->passengers = $data->type_select === 'Driver' ? json_encode($data->passengers) : null;
+    $data->passengers = $data->type_select === 'Driver' ? json_encode(
+        isset($data->passengers) ? $data->passengers : array()
+    ) : null;
     $id = update_record($queryfields, $data);
     if ($data->type_select !== 'Passenger') { // For a driver, parent, or other record, the id and driverid should be the same.
         $data->id = $data->driver = $id;

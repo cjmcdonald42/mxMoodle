@@ -63,13 +63,15 @@ class local_mxschool_external extends external_api {
     /**
      * Returns a description of the get_dorm_students() function's return values.
      *
-     * @return external_multiple_structure Object describing the return values.
+     * @return external_multiple_structure Object describing the return values of the get_dorm_students() function.
      */
     public static function get_dorm_students_returns() {
-        return new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'id of the student'),
+        return new external_multiple_structure(
+            new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'user id of the student'),
                 'name' => new external_value(PARAM_TEXT, 'name of the student')
-        )));
+            ))
+        );
     }
 
     /**
@@ -115,7 +117,7 @@ class local_mxschool_external extends external_api {
     /**
      * Returns a description of the set_boolean_field() function's return value.
      *
-     * @return external_value Object describing the return value.
+     * @return external_value Object describing the return value of the set_boolean_field() function.
      */
     public static function set_boolean_field_returns() {
         return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
@@ -155,18 +157,82 @@ class local_mxschool_external extends external_api {
     /**
      * Returns a description of the send_email() function's return value.
      *
-     * @return external_value Object describing the return value.
+     * @return external_value Object describing the return value of the send_email() function.
      */
     public static function send_email_returns() {
         return new external_value(PARAM_BOOL, 'True if the email is successfully sent, false otherwise.');
     }
 
     /**
-     * Returns descriptions of the get_esignout_driver() function's parameters.
+     * Returns descriptions of the get_esignout_student_options() function's parameters.
      *
-     * @return external_function_parameters Object holding array of parameters for the get_esignout_driver() function.
+     * @return external_function_parameters Object holding array of parameters for the get_esignout_student_options() function.
      */
-    public static function get_esignout_driver_parameters() {
+    public static function get_esignout_student_options_parameters() {
+        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
+    }
+
+    /**
+     * Queries the database to determine the type options, ability to drive passengers, passenger list,
+     * and driver list for a selected student.
+     *
+     * @param int $userid The user id of the student.
+     * @return stdClass With properties types, maydrivepassengers, passengers.
+     */
+    public static function get_esignout_student_options($userid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_esignout_student_options_parameters(), array('userid' => $userid));
+
+        global $DB;
+        $result = new stdClass();
+        $result->types = get_allowed_esignout_types_list($params['userid']);
+        $result->maydrivepassengers = $DB->get_field(
+            'local_mxschool_permissions', 'may_drive_passengers', array('userid' => $userid)
+        ) === 'Yes' ? '1' : '0';
+        $list = get_passengers_list($params['userid']);
+        $result->passengers = array();
+        foreach ($list as $userid => $name) {
+            $result->passengers[] = array('userid' => $userid, 'name' => $name);
+        }
+        $list = get_current_drivers_list($params['userid']);
+        $result->drivers = array();
+        foreach ($list as $esignoutid => $name) {
+            $result->drivers[] = array('esignoutid' => $esignoutid, 'name' => $name);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_esignout_student_options() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_esignout_student_options() function.
+     */
+    public static function get_esignout_student_options_returns() {
+        return new external_single_structure(array(
+                'types' => new external_multiple_structure(
+                    new external_value(PARAM_TEXT, 'the identifier of the type')
+                ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
+                'passengers' => new external_multiple_structure(
+                    new external_single_structure(array(
+                        'userid' => new external_value(PARAM_INT, 'user id of the student'),
+                        'name' => new external_value(PARAM_TEXT, 'name of the student')
+                    ))
+                ),
+                'drivers' => new external_multiple_structure(
+                    new external_single_structure(array(
+                        'esignoutid' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
+                        'name' => new external_value(PARAM_TEXT, 'name of the driver')
+                    ))
+                )
+        ));
+    }
+
+    /**
+     * Returns descriptions of the get_esignout_driver_details() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_esignout_driver_details() function.
+     */
+    public static function get_esignout_driver_details_parameters() {
         return new external_function_parameters(array('esignoutid' => new external_value(PARAM_INT, 'The id of driver record.')));
     }
 
@@ -175,26 +241,61 @@ class local_mxschool_external extends external_api {
      *
      * @param int $esignoutid The id of driver record.
      * @return stdClass With properties destination, departurehour, departureminutes, and departureampm.
+     * @throws coding_exception If the esignout record is not a driver record.
      */
-    public static function get_esignout_driver($esignoutid) {
+    public static function get_esignout_driver_details($esignoutid) {
         external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_esignout_driver_parameters(), array('esignoutid' => $esignoutid));
+        $params = self::validate_parameters(self::get_esignout_driver_details_parameters(), array('esignoutid' => $esignoutid));
 
         return get_driver_inheritable_fields($params['esignoutid']);
     }
 
     /**
-     * Returns a description of the get_esignout_driver() function's return values.
+     * Returns a description of the get_esignout_driver_details() function's return values.
      *
-     * @return external_multiple_structure Object describing the return values.
+     * @return external_single_structure Object describing the return values of the get_esignout_driver_details() function.
      */
-    public static function get_esignout_driver_returns() {
+    public static function get_esignout_driver_details_returns() {
         return new external_single_structure(array(
                 'destination' => new external_value(PARAM_TEXT, 'the driver\'s destination'),
                 'departurehour' => new external_value(PARAM_TEXT, 'the hour of the driver\'s departure time'),
                 'departureminute' => new external_value(PARAM_TEXT, 'the minute of the driver\'s departure time'),
                 'departureampm' => new external_value(PARAM_BOOL, 'whether the driver\'s departure time is am (0) or pm (1)')
         ));
+    }
+
+    /**
+     * Returns descriptions of the sign_in() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the sign_in() function.
+     */
+    public static function sign_in_parameters() {
+        return new external_function_parameters(array(
+            'esignoutid' => new external_value(PARAM_INT, 'The id of ther record to sign in.'),
+        ));
+    }
+
+    /**
+     * Signs in an eSignout record and records the timestamp.
+     *
+     * @param int $esignoutid The id of the record to sign in.
+     * @return string The text to display for the sign in time.
+     * @throws coding_exception If the esignout record does not exist or is already signed in.
+     */
+    public static function sign_in($esignoutid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::sign_in_parameters(), array('esignoutid' => $esignoutid));
+
+        return sign_in_esignout($params['esignoutid']);
+    }
+
+    /**
+     * Returns a description of the sign_in() function's return value.
+     *
+     * @return external_value Object describing the return value of the sign_in() function.
+     */
+    public static function sign_in_returns() {
+        return new external_value(PARAM_TEXT, 'The text to display for the sign in time.');
     }
 
 }

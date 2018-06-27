@@ -96,9 +96,13 @@ $PAGE->navbar->add($title);
 $table = new esignout_table('esignout_table', $filter, $isstudent);
 
 $dropdowns = array(
-    new local_mxschool_dropdown('type', $types, $filter->type, get_string('esignout_report_select_type_all', 'local_mxschool')),
-    new local_mxschool_dropdown('date', $dates, $filter->date, get_string('esignout_report_select_date_all', 'local_mxschool'))
+    new local_mxschool_dropdown('type', $types, $filter->type, get_string('esignout_report_select_type_all', 'local_mxschool'))
 );
+if (!$isstudent) {
+    $dropdowns[] = new local_mxschool_dropdown(
+        'date', $dates, $filter->date, get_string('esignout_report_select_date_all', 'local_mxschool')
+    );
+}
 $addbutton = new stdClass();
 $addbutton->text = get_string('esignout_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/driving/esignout_enter.php');

@@ -266,7 +266,6 @@ $string['checkin_preferences_dates_dormsopen'] = 'Dorms Open On: ';
 $string['checkin_preferences_dates_secondsemester'] = 'Second Semester Starts On: ';
 $string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
 $string['checkin_preferences_weekends_label'] = 'Saturday {$a}';
-$string['checkin_preferences_weekends_type'] = '';
 $string['checkin_preferences_weekends_type_Open'] = 'Open';
 $string['checkin_preferences_weekends_type_Closed'] = 'Closed';
 $string['checkin_preferences_weekends_type_Free'] = 'Free';
@@ -382,7 +381,6 @@ $string['esignout_form_header_details'] = 'Details';
 
 $string['esignout_form_info_student'] = 'Student';
 $string['esignout_form_info_type'] = 'Driver Type';
-$string['esignout_form_info_type_select'] = '';
 $string['esignout_form_info_type_select_Driver'] = 'Yourself';
 $string['esignout_form_info_type_select_Passenger'] = 'Another Student';
 $string['esignout_form_info_type_select_Parent'] = 'Your Parent';
@@ -397,6 +395,17 @@ $string['esignout_form_passengers_noselection'] = 'No Passengers Selected';
 $string['esignout_form_passengers_placeholder'] = 'Search Passengers';
 $string['esignout_form_driver_default'] = 'Select';
 $string['esignout_form_approver_default'] = 'Select';
+
+$string['esignout_form_parent_warning'] = 'Your permissions indicate that you need a call from your parent.';
+$string['esignout_form_specific_warning'] = 'Your permissions indicate that you may only be the passenger of the following drivers:';
+$string['esignout_form_permissions_submit'] = 'Have you recieved the required permissions?';
+$string['esignout_form_permissions_submit_yes'] = 'Yes';
+$string['esignout_form_permissions_submit_no'] = 'No';
+
+$string['esignout_form_error_notype'] = 'You must specify a driver type.';
+$string['esignout_form_error_nodriver'] = 'You must specify a driver.';
+$string['esignout_form_error_nodestination'] = 'You must specify a destination.';
+$string['esignout_form_error_noapprover'] = 'You must specify who approved your signout.';
 
 // Report for eSignout.
 $string['esignout_report_select_type_all'] = 'All Types';
@@ -419,3 +428,4 @@ $string['esignout_report_header_approver'] = 'Permission From';
 $string['esignout_report_header_signin'] = 'Sign In Time';
 
 $string['esignout_report_nopassengers'] = 'None';
+$string['sign_in_button'] = 'Sign In';

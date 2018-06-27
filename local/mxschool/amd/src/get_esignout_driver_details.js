@@ -16,7 +16,7 @@
 /**
  * Updates the destination and departure fields of the eSignout form for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_esignout_driver
+ * @module     local_mxschool/get_esignout_driver_details
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -27,11 +27,11 @@
 define(['jquery', 'core/ajax'], function($, ajax) {
     return  {
         updateDriverFields: function() {
-            $('.mx-form #id_driver').change(function() {
+            $('.mx-form select#id_driver').change(function() {
                 var promises = ajax.call([{
-                    methodname: 'local_mxschool_get_esignout_driver',
+                    methodname: 'local_mxschool_get_esignout_driver_details',
                     args: {
-                        esignoutid: $('.mx-form #id_driver > option:selected').val()
+                        esignoutid: $('.mx-form select#id_driver > option:selected').val()
                     }
                 }]);
                 promises[0].done(function(data) {

@@ -187,7 +187,7 @@ function get_student_list() {
 }
 
 /**
- * Queries the database to create a list of all the students in a specified dorm.
+ * Queries the database to create a list of all the students who are in a specified dorm.
  *
  * @param int $dorm the id of the desired dorm.
  * @return array The students as userid => name, ordered alphabetically by student name.
@@ -212,8 +212,8 @@ function get_students_in_dorm_list($dorm) {
 }
 
 /**
- * Queries the database to create a list of all the students which have a registered license.
- * This should only find day students.
+ * Queries the database to create a list of all the students who have a registered license.
+ * Only day students should fit this criterium.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
@@ -225,6 +225,30 @@ function get_licensed_student_list() {
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
          WHERE u.deleted = 0 AND p.license_date IS NOT NULL ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the students who have sufficient permissions to be another student's passenger.
+ *
+ * @param int $ignore The user id of a student to ignore (intended to be used to ignore the current student).
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_passengers_list($ignore = 0) {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
+         WHERE u.deleted = 0 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21' AND u.id <> ? ORDER BY name",
+         array($ignore)
     );
     if ($students) {
         foreach ($students as $student) {
@@ -346,20 +370,43 @@ function get_esignout_dates_list() {
 }
 
 /**
+ * Creates a list of the types of eSignout which a specified student has the permissions to perform.
+ *
+ * @param int $userid The user id of the student.
+ * @return array The types of eSignout which the student is allowed to perform.
+ */
+function get_allowed_esignout_types_list($userid) {
+    global $DB;
+    $types = array('Driver', 'Passenger', 'Parent', 'Other');
+    $permissionsrecord = $DB->get_record('local_mxschool_permissions', array('userid' => $userid));
+    if ($permissionsrecord) {
+        if ($permissionsrecord->may_drive_to_town === 'No') {
+            unset($types[array_search('Driver', $types)]);
+        }
+        if ($permissionsrecord->may_ride_with === null || $permissionsrecord->may_ride_with === 'Over 21') {
+            unset($types[array_search('Passenger', $types)]);
+        }
+        $types = array_values($types); // Reset the keys so that [0] can be the default option.
+    }
+    return $types;
+}
+
+/**
  * Queries the database to create a list of currently available drivers.
  * Drivers are defined as available if today is their departure day and they have not signed in.
  *
+ * @param int $ignore The user id of a student to ignore (intended to be used to ignore the current student).
  * @return array The drivers as esignoutid => name, ordered alphabetically by name.
  */
-function get_current_drivers_list() {
+function get_current_drivers_list($ignore = 0) {
     global $DB;
     $list = array();
     $today = new DateTime('midnight', core_date::get_server_timezone_object());
     $drivers = $DB->get_records_sql(
-        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_esignout} es
+         LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
          WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.departure_time >= ? AND es.sign_in_time IS NULL
-         ORDER BY name", array($today->getTimestamp())
+         AND p.may_drive_passengers = 'Yes' AND u.id <> ? ORDER BY name", array($today->getTimestamp(), $ignore)
     );
     if ($drivers) {
         foreach ($drivers as $driver) {
@@ -380,7 +427,7 @@ function get_driver_inheritable_fields($esignoutid) {
     global $DB;
     $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
     if (!$record || $record->type !== 'Driver') {
-        throw new coding_exception('eSignout record not a driver');
+        throw new coding_exception('eSignout record is not a driver');
     }
     $result = new stdClass();
     $result->destination = $record->destination;
@@ -392,6 +439,24 @@ function get_driver_inheritable_fields($esignoutid) {
     $result->departureminute = "{$minute}";
     $result->departureampm = $departuretime->format('A') === 'PM';
     return $result;
+}
+
+/**
+ * Signs in an eSignout record and records the timestamp.
+ *
+ * @param int $esignoutid The id of the record to sign in.
+ * @return string The text to display for the sign in time.
+ * @throws coding_exception If the esignout record does not exist or is already signed in.
+ */
+function sign_in_esignout($esignoutid) {
+    global $DB;
+    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
+    if (!$record || $record->sign_in_time) {
+        throw new coding_exception('eSignout record doesn\'t exist or is already signed in');
+    }
+    $record->sign_in_time = time();
+    $DB->update_record('local_mxschool_esignout', $record);
+    return date('g:i A', $record->sign_in_time);
 }
 
 /**
