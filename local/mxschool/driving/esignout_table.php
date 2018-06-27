@@ -90,10 +90,11 @@ class esignout_table extends local_mxschool_table {
         }
         if ($isstudent) {
             $include = array(
-                "(es.userid = {$USER->id}", "d.userid = {$USER->id}",
-                "(SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = {$USER->id}) > 0)"
+                "es.userid = {$USER->id}", "d.userid = {$USER->id}",
+                "(SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = {$USER->id})",
+                "(SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = d.id AND userid = {$USER->id})"
             );
-            $where[] = implode(' OR ', $include);
+            $where[] = '('.implode(' OR ', $include).')';
             $starttime = new DateTime('midnight', core_date::get_server_timezone_object());
             $where[] = "d.departure_time >= {$starttime->getTimestamp()}";
         }
