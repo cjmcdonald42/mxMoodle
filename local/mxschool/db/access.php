@@ -32,38 +32,35 @@ $capabilities = array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:manage_faculty' => array(
+    ), 'local/mxschool:manage_faculty' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:manage_dorms' => array(
+    ), 'local/mxschool:manage_dorms' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:view_checkin' => array(
+    ), 'local/mxschool:view_checkin' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:manage_checkin' => array(
+    ), 'local/mxschool:manage_checkin_preferences' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:manage_weekend' => array(
+    ), 'local/mxschool:manage_weekend' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:manage_vehicles' => array(
+    ), 'local/mxschool:manage_vehicles' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:manage_esignout' => array(
+    ), 'local/mxschool:manage_esignout' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ), 'local/mxschool:manage_esignout_preferences' => array(
+        'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     )

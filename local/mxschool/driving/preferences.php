@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Checkin preferences page for Middlesex School's Dorm and Student functions plugin.
+ * eSignout preferences page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -31,39 +31,22 @@ require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_checkin_preferences', context_system::instance());
+require_capability('local/mxschool:manage_esignout_preferences', context_system::instance());
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
+    get_string('checkin', 'local_mxschool') => '/local/mxschool/driving/index.php'
 );
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
-$url = '/local/mxschool/checkin/preferences.php';
+$url = '/local/mxschool/driving/preferences.php';
 $title = get_string('checkin_preferences', 'local_mxschool');
 
 $data = new stdClass();
-$data->dormsopen = get_config('local_mxschool', 'dorms_open_date');
-$data->secondsemester = get_config('local_mxschool', 'second_semester_start_date');
-$data->dormsclose = get_config('local_mxschool', 'dorms_close_date');
-$weekends = array();
-if ($data->dormsopen && $data->dormsclose) {
-    $weekends = generate_weekend_records($data->dormsopen, $data->dormsclose);
-    foreach ($weekends as $weekend) {
-        $identifier = "weekend_$weekend->id";
-        $data->{"{$identifier}_type"} = $weekend->type;
-        $data->{"{$identifier}_starttime"} = $weekend->start_time;
-        $data->{"{$identifier}_endtime"} = $weekend->end_time;
-    }
-}
-$submitednotification = $DB->get_record('local_mxschool_notification', array('class' => 'weekend_form_submitted'));
-if ($submitednotification) {
-    $data->submittedsubject = $submitednotification->subject;
-    $data->submittedbody = $submitednotification->body_html;
-}
-$approvednotification = $DB->get_record('local_mxschool_notification', array('class' => 'weekend_form_approved'));
-if ($approvednotification) {
-    $data->approvedsubject = $approvednotification->subject;
-    $data->approvedbody = $approvednotification->body_html;
+$data->editwindow = get_config('local_mxschool', 'esignout_edit_window');
+$notification = $DB->get_record('local_mxschool_notification', array('class' => 'esignout_submitted'));
+if ($notification) {
+    $data->subject = $notification->subject;
+    $data->body = $notification->body_html;
 }
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
@@ -79,27 +62,17 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$form = new preferences_form(null, array('weekends' => $weekends));
+$form = new preferences_form(null, array());
 $form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    set_config('dorms_open_date', $data->dormsopen, 'local_mxschool');
-    set_config('second_semester_start_date', $data->secondsemester, 'local_mxschool');
-    set_config('dorms_close_date', $data->dormsclose, 'local_mxschool');
-    foreach ($weekends as $weekend) {
-        $identifier = "weekend_$weekend->id";
-        $weekend->type = $data->{"{$identifier}_type"};
-        $weekend->start_time = $data->{"{$identifier}_starttime"};
-        $weekend->end_time = $data->{"{$identifier}_endtime"};
-        $DB->update_record('local_mxschool_weekend', $weekend);
-    }
-    update_notification('weekend_form_submitted', $data->submittedsubject, $data->submittedbody);
-    update_notification('weekend_form_approved', $data->approvedsubject, $data->approvedbody);
+    set_config('esignout_edit_window', $data->editwindow, 'local_mxschool');
+    update_notification('esignout_submitted', $data->subject, $data->body);
     redirect(
-        $form->get_redirect(), get_string('checkin_preferences_edit_success', 'local_mxschool'), null,
+        $form->get_redirect(), get_string('esignout_preferences_edit_success', 'local_mxschool'), null,
         \core\output\notification::NOTIFY_SUCCESS
     );
 }

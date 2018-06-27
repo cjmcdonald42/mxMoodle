@@ -192,11 +192,12 @@ class esignout_table extends local_mxschool_table {
         if ($values->signin) {
             return '&#x2705;';
         }
-        $editwindow = new DateTime('now', core_date::get_server_timezone_object());
-        $editwindow->setTimestamp($values->timecreated);
-        $editwindow->modify('+30 minutes');
+        $editwindow = get_config('local_mxschool', 'esignout_edit_window');
+        $editcutoff = new DateTime('now', core_date::get_server_timezone_object());
+        $editcutoff->setTimestamp($values->timecreated);
+        $editcutoff->modify("+{$editwindow} minutes");
         $now = new DateTime('now', core_date::get_server_timezone_object());
-        if ($now->getTimestamp() < $editwindow->getTimestamp()) {
+        if ($now->getTimestamp() < $editcutoff->getTimestamp()) {
             return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id);
         }
         $output = $PAGE->get_renderer('local_mxschool');

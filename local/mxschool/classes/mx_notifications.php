@@ -73,6 +73,12 @@ class mx_notifications {
                 $body = self::replace($notification->body_html, $record);
                 return email_to_user($studentemail, $supportuser, $subject, '', $body)
                     && email_to_user($hohemail, $supportuser, $subject, '', $body);
+            case 'esignout_submitted':
+                if (!isset($params['id'])) {
+                    return false;
+                }
+                // TODO esignout email handler.
+                return false;
             default:
                 return false;
         }

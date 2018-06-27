@@ -58,11 +58,12 @@ if ($id) {
     }
     $data = get_record($queryfields, "es.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing esignout records beyond the edit window.
-        $editwindow = new DateTime('now', core_date::get_server_timezone_object());
-        $editwindow->setTimestamp($data->timecreated);
-        $editwindow->modify('+30 minutes');
+        $editwindow = get_config('local_mxschool', 'esignout_edit_window');
+        $editcutoff = new DateTime('now', core_date::get_server_timezone_object());
+        $editcutoff->setTimestamp($data->timecreated);
+        $editcutoff->modify("+{$editwindow} minutes");
         $now = new DateTime('now', core_date::get_server_timezone_object());
-        if ($now->getTimestamp() > $editwindow->getTimestamp() || $data->student != $USER->id) {
+        if ($now->getTimestamp() > $editcutoff->getTimestamp() || $data->student != $USER->id) {
             redirect(new moodle_url($url));
         }
     }
@@ -168,6 +169,7 @@ if ($form->is_cancelled()) {
         $data->id = $data->driver = $id;
         $id = update_record($queryfields, $data);
     }
+    $result = mx_notifications::send_email('esignout_submitted', array('id' => $id));
     redirect(
         $form->get_redirect(), get_string('esignout_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
     );

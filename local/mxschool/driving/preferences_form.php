@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Driving index page for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing checkin preferences for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,29 +24,28 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(__DIR__.'/../../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
+defined('MOODLE_INTERNAL') || die();
 
-admin_externalpage_setup('driving_index');
+require_once(__DIR__.'/../classes/mx_form.php');
 
-$url = '/local/mxschool/driving/index.php';
-$title = get_string('driving', 'local_mxschool');
+class preferences_form extends local_mxschool_form {
 
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $fields = array(
+            'config' => array('editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required'))),
+            'notifications' => array(
+                'subject' => array(
+                    'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
+                ), 'body' => array(
+                    'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 8, 'cols' => 100),
+                    'rules' => array('required')
+                )
+            )
+        );
+        parent::set_fields($fields, 'esignout_preferences');
+    }
 
-$output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index_page(array(
-    'esignout_preferences' => '/local/mxschool/driving/preferences.php',
-    'vehicle_report' => '/local/mxschool/driving/vehicle_report.php',
-    'esignout' => '/local/mxschool/driving/esignout_enter.php',
-    'esignout_report' => '/local/mxschool/driving/esignout_report.php'
-));
-
-echo $output->header();
-echo $output->heading($title);
-echo $output->render($renderable);
-echo $output->footer();
+}

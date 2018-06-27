@@ -51,10 +51,11 @@ $string['mxschool:manage_students'] = 'Middlesex School: View and manage student
 $string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty data';
 $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
-$string['mxschool:manage_checkin'] = 'Middlesex School: View and manage checkin preferences';
+$string['mxschool:manage_checkin_preferences'] = 'Middlesex School: View and manage checkin preferences';
 $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend forms';
 $string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
-$string['mxschool:manage_esignout'] = 'Middlesex School: View and manage student esignout records';
+$string['mxschool:manage_esignout'] = 'Middlesex School: View and manage student eSignout records';
+$string['mxschool:manage_esignout_preferences'] = 'Middlesex School: View and manage eSignout preferences';
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
@@ -77,6 +78,7 @@ $string['weekend_form_success'] = 'Weekend Form Submitted Successfully';
 $string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
 $string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
+$string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
@@ -351,10 +353,18 @@ $string['weekend_report_legend_closed'] = 'Campus weekend';
 
 /* Driving */
 $string['driving'] = 'Driving and eSignout';
+$string['esignout_preferences'] = 'eSignout Preferences';
 $string['vehicle_report'] = 'Registered Student Vehicles Report';
 $string['vehicle_edit'] = 'Edit Student Vehicle Record';
 $string['esignout'] = 'eSignout';
 $string['esignout_report'] = 'eSignout Report';
+
+// Preferences for eSignout.
+$string['esignout_preferences_header_config'] = 'Config';
+$string['esignout_preferences_header_notifications'] = 'eSignout Email Notifications';
+$string['esignout_preferences_config_editwindow'] = 'Window for Students to Edit eSignout Forms';
+$string['esignout_preferences_notifications_subject'] = 'Subject for eSignout Form Submitted Email';
+$string['esignout_preferences_notifications_body'] = 'Body for eSignout Form Submitted Email';
 
 // Vehicle Report.
 $string['vehicle_report_add'] = 'Register a Vehicle';
@@ -378,7 +388,6 @@ $string['vehicle_edit_registration'] = 'Vehicle Registration';
 // Form for eSignout.
 $string['esignout_form_header_info'] = 'General Information';
 $string['esignout_form_header_details'] = 'Details';
-
 $string['esignout_form_info_student'] = 'Student';
 $string['esignout_form_info_type'] = 'Driver Type';
 $string['esignout_form_info_type_select_Driver'] = 'Yourself';
