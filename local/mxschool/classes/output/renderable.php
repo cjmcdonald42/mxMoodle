@@ -45,11 +45,11 @@ use html_writer;
  */
 class index_page implements renderable, templatable {
 
-    /** @var array $links array of links [unlocalizedtext => url] to be passed to the template.*/
+    /** @var array $links array of links [displaytext => url] to be passed to the template.*/
     private $links;
 
     /**
-     * @param array $links array of links [unlocalizedtext => url] to be passed to the template.
+     * @param array $links array of links [displaytext => url] to be passed to the template.
      */
     public function __construct($links) {
         $this->links = $links;
@@ -65,7 +65,7 @@ class index_page implements renderable, templatable {
         $data = new stdClass();
         $data->links = array();
         foreach ($this->links as $text => $url) {
-            $data->links[] = array('text' => get_string($text, 'local_mxschool'), 'url' => $CFG->wwwroot.$url);
+            $data->links[] = array('text' => $text, 'url' => $CFG->wwwroot.$url);
         }
         return $data;
     }

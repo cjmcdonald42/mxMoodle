@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm and Student Functions Plugin.
+ * Peer Tutoring index page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,12 +24,26 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+ require(__DIR__.'/../../config.php');
+ require_once($CFG->libdir.'/adminlib.php');
+ require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018062802;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+admin_externalpage_setup('peertutoring_index');
+
+$url = '/local/mxschool/peertutoring/index.php';
+$title = get_string('peertutoring', 'local_peertutoring');
+
+$PAGE->set_url(new moodle_url($url));
+$PAGE->set_context(context_system::instance());
+$PAGE->set_title($title);
+$PAGE->set_heading($title);
+
+$output = $PAGE->get_renderer('local_mxschool');
+$renderable = new \local_mxschool\output\index_page(array(
+
+));
+
+echo $output->header();
+echo $output->heading($title);
+echo $output->render($renderable);
+echo $output->footer();

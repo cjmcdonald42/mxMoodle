@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm and Student Functions Plugin.
+ * Admin settings for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,10 +26,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018062802;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+if ($hassiteconfig) {
+
+    $ADMIN->add('indexes', new admin_externalpage(
+        'peertutoring_index',
+        new lang_string('peertutoring_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/peertutoring/index.php")
+    );
+
+}

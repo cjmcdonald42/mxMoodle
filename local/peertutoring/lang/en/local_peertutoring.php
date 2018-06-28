@@ -15,21 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm and Student Functions Plugin.
+ * English Language file for Middlesex School's Peer Tutoring Subplugin.
  *
- * @package    local_mxschool
+ * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Middlesex School Peer Tutoring';
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018062802;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+/* General */
+
+// Capabilities.
+
+
+// Settings Pages.
+$string['peertutoring_index'] = 'Peer Tutoring Index';
+
+
+/* Peer Tutoring */
+$string['peertutoring'] = 'Peer Tutoring';

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/peertutoring/db" VERSION="20180628" COMMENT="XMLDB file for Moodle local/peertutoring"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_peertutoring_course" COMMENT="mxschool peer tutoring course table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="departmentid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the course's department."/>
+        <FIELD NAME="name" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the course."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="department" TYPE="foreign" FIELDS="departmentid" REFTABLE="local_mxschool_department" REFFIELDS="id" COMMENT="The the course's department record."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_peertutoring_dept" COMMENT="mxschool peer tutoring department table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the department"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_peertutoring_rating" COMMENT="mxschool peer tutoring ratings table - holds options for the effectiveness of a peer tutoring session">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="displaytext" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The text for the rating option."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_peertutoring_session" COMMENT="mxschool peer tutoring session table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="tutorid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the tutor."/>
+        <FIELD NAME="studentid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student being tutored."/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the course tutored. Department is infered from this field."/>
+        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the type of help requested during the tutoring session."/>
+        <FIELD NAME="ratingid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the effectiveness rating of the tutoring session."/>
+        <FIELD NAME="date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of the date of the tutoring session."/>
+        <FIELD NAME="topic" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The topic of the tutoring session."/>
+        <FIELD NAME="notes" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Any notes which the tutor has regarding the tutoring session."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="tutor" TYPE="foreign" FIELDS="tutorid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the tutor."/>
+        <KEY NAME="student" TYPE="foreign" FIELDS="studentid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student being tutored."/>
+        <KEY NAME="course" TYPE="foreign" FIELDS="courseid" REFTABLE="local_peertutoring_course" REFFIELDS="id" COMMENT="The record of the course tutored."/>
+        <KEY NAME="type" TYPE="foreign" FIELDS="typeid" REFTABLE="local_peertutoring_type" REFFIELDS="id" COMMENT="The record for the type of help requested during the tutoring session."/>
+        <KEY NAME="rating" TYPE="foreign" FIELDS="ratingid" REFTABLE="local_peertutoring_rating" REFFIELDS="id" COMMENT="The record for the effectiveness rating of the tutoring session."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_peertutoring_tutor" COMMENT="mxschool peer tutoring tutor table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the peer tutor."/>
+        <FIELD NAME="departments" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON formatted list of departments the tutor is approved for."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the peer tutor."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_peertutoring_type" COMMENT="mxschool peer tutoring type table - holds options for the type of a peer tutoring session">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="displaytext" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The text for the type option."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

@@ -40,10 +40,10 @@ $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index_page(array(
-    'esignout_preferences' => '/local/mxschool/driving/preferences.php',
-    'vehicle_report' => '/local/mxschool/driving/vehicle_report.php',
-    'esignout' => '/local/mxschool/driving/esignout_enter.php',
-    'esignout_report' => '/local/mxschool/driving/esignout_report.php'
+    get_string('esignout_preferences', 'local_mxschool') => '/local/mxschool/driving/preferences.php',
+    get_string('vehicle_report', 'local_mxschool') => '/local/mxschool/driving/vehicle_report.php',
+    get_string('esignout', 'local_mxschool') => '/local/mxschool/driving/esignout_enter.php',
+    get_string('esignout_report', 'local_mxschool') => '/local/mxschool/driving/esignout_report.php'
 ));
 
 echo $output->header();

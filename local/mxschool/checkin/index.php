@@ -40,12 +40,12 @@ $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index_page(array(
-    'checkin_preferences' => '/local/mxschool/checkin/preferences.php',
-    'generic_report' => '/local/mxschool/checkin/generic_report.php',
-    'weekday_report' => '/local/mxschool/checkin/weekday_report.php',
-    'weekend_form' => '/local/mxschool/checkin/weekend_enter.php',
-    'weekend_report' => '/local/mxschool/checkin/weekend_report.php',
-    'weekend_calculator' => '/local/mxschool/checkin/weekend_calculator.php'
+    get_string('checkin_preferences', 'local_mxschool') => '/local/mxschool/checkin/preferences.php',
+    get_string('generic_report', 'local_mxschool') => '/local/mxschool/checkin/generic_report.php',
+    get_string('weekday_report', 'local_mxschool') => '/local/mxschool/checkin/weekday_report.php',
+    get_string('weekend_form', 'local_mxschool') => '/local/mxschool/checkin/weekend_enter.php',
+    get_string('weekend_report', 'local_mxschool') => '/local/mxschool/checkin/weekend_report.php',
+    get_string('weekend_calculator', 'local_mxschool') => '/local/mxschool/checkin/weekend_calculator.php'
 ));
 
 echo $output->header();
