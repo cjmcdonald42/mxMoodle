@@ -348,5 +348,25 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018062602, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018062812) {
+
+        // Define key advisor (foreign) to be dropped form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('advisor', XMLDB_KEY_FOREIGN, array('advisorid'), 'local_mxschool_faculty', array('id'));
+
+        // Launch drop key advisor.
+        $dbman->drop_key($table, $key);
+
+        // Define key advisor (foreign) to be added to local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('advisor', XMLDB_KEY_FOREIGN, array('advisorid'), 'user', array('id'));
+
+        // Launch add key advisor.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062812, 'local', 'mxschool');
+    }
+
     return true;
 }

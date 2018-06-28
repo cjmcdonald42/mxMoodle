@@ -13,7 +13,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="department" TYPE="foreign" FIELDS="departmentid" REFTABLE="local_mxschool_department" REFFIELDS="id" COMMENT="The the course's department record."/>
+        <KEY NAME="department" TYPE="foreign" FIELDS="departmentid" REFTABLE="local_peertutoring_dept" REFFIELDS="id" COMMENT="The the course's department record."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_peertutoring_dept" COMMENT="mxschool peer tutoring department table">
@@ -46,6 +46,7 @@
         <FIELD NAME="ratingid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the effectiveness rating of the tutoring session."/>
         <FIELD NAME="date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of the date of the tutoring session."/>
         <FIELD NAME="topic" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The topic of the tutoring session."/>
+        <FIELD NAME="other" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="Text as an 'other' option for the type of help requested during the tutoring session."/>
         <FIELD NAME="notes" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Any notes which the tutor has regarding the tutoring session."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
         <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>

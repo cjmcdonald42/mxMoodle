@@ -72,5 +72,34 @@ function xmldb_local_peertutoring_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018062806, 'local', 'peertutoring');
     }
 
+    if ($oldversion < 2018062817) {
+
+        // Define key department (foreign) to be dropped form local_peertutoring_course.
+        $table = new xmldb_table('local_peertutoring_course');
+        $key = new xmldb_key('department', XMLDB_KEY_FOREIGN, array('departmentid'), 'local_mxschool_department', array('id'));
+
+        // Launch drop key department.
+        $dbman->drop_key($table, $key);
+
+        // Define key department (foreign) to be added to local_peertutoring_course.
+        $table = new xmldb_table('local_peertutoring_course');
+        $key = new xmldb_key('department', XMLDB_KEY_FOREIGN, array('departmentid'), 'local_peertutoring_dept', array('id'));
+
+        // Launch add key department.
+        $dbman->add_key($table, $key);
+
+        // Define field other to be added to local_peertutoring_session.
+        $table = new xmldb_table('local_peertutoring_session');
+        $field = new xmldb_field('other', XMLDB_TYPE_CHAR, '50', null, null, null, null, 'topic');
+
+        // Conditionally launch add field other.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062817, 'local', 'peertutoring');
+    }
+
     return true;
 }
