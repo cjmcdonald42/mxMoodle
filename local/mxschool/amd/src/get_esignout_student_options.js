@@ -92,11 +92,9 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             });
         }).fail(notification.exception);
     }
-    return  {
-        updateWithPermissions: function() {
-            $(document).ready(update);
-            $('.mx-form div[data-groupname="type_select"]').change(update);
-            $('.mx-form select#id_student').change(update);
-        }
+    return function() {
+        $(document).ready(update);
+        $('.mx-form div[data-groupname="type_select"]').change(update);
+        $('.mx-form select#id_student').change(update);
     };
 });

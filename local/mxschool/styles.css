@@ -49,17 +49,17 @@ div.mx-filter input {
  * Custom Table Styling.
  */
 /* Cell highlighting. */
-div.path-local-mxschool table.generaltable td.green {
+div.mx-table table.generaltable td.mx-green {
     background-color: #dff0d8;
 }
-div.path-local-mxschool table.generaltable td.yellow {
+div.mx-table table.generaltable td.mx-yellow {
     background-color: #fcf8e3;
 }
-div.path-local-mxschool table.generaltable td.red {
+div.mx-table table.generaltable td.mx-red {
     background-color: #f2dede;
 }
 /* Legends don't take up the full page width. */
-div.path-local-mxschool div.legend-table table.generaltable {
+div.legend-table table.generaltable {
     width: auto;
 }
 

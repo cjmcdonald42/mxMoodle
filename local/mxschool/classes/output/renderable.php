@@ -98,14 +98,12 @@ class report_page implements renderable, templatable {
      * @param bool $printbutton Whether to display a print button.
      * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
-     * @param stdClass|bool $highlight Object with formatcolumn and referencecolumn properties or false.
      */
     public function __construct(
-        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false,
-        $highlight = false
+        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false
     ) {
         $this->id = $id;
-        $this->table = new report_table($table, $size, $headers, $highlight);
+        $this->table = new report_table($table, $size, $headers);
         $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton);
     }
 
@@ -141,26 +139,22 @@ class report_table implements renderable, templatable {
     private $size;
     /** @var array|bool $headers Array of headers as ['text', 'length'] to prepend or false.*/
     private $headers;
-    /** @var @param stdClass|bool $highlight Object with formatcolumn and referencecolumn properties or false.*/
-    private $highlight;
 
     /**
      * @param mx_table $table The table object to output to the template
      * @param int $size The number of rows to output.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
-     * @param stdClass|bool $highlight Object with formatcolumn and referencecolumn properties or false.
      */
-    public function __construct($table, $size, $headers, $highlight) {
+    public function __construct($table, $size, $headers) {
         $this->table = $table;
         $this->size = $size;
         $this->headers = $headers;
-        $this->highlight = $highlight;
     }
 
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with property table.
+     * @return stdClass Object with properties table and headers.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
@@ -168,7 +162,6 @@ class report_table implements renderable, templatable {
         $this->table->out($this->size, true);
         $data->table = ob_get_clean();
         $data->headers = $this->headers ? json_encode($this->headers) : $this->headers;
-        $data->highlight = $this->highlight;
         return $data;
     }
 
@@ -280,6 +273,40 @@ class form_page implements renderable, templatable {
 }
 
 /**
+ * Renderable class for amd modules.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class js_module implements renderable, templatable {
+
+    /** @var string $module The name of the amd module.*/
+    private $module;
+
+    /**
+     * @param string $module The name of the amd module.
+     */
+    public function __construct($module) {
+        $this->module = $module;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with property name.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->module = $this->module;
+        return $data;
+    }
+
+}
+
+/**
  * Renderable class for checkboxes.
  *
  * @package    local_mxschool
@@ -315,7 +342,7 @@ class checkbox implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with properties value, name, and checked.
+     * @return stdClass Object with properties value, name, checked, and table.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();

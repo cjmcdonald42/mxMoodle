@@ -8,33 +8,33 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- /**
-  * Print Styling.
-  */
- @media print {
-     div.path-local-peertutoring .noprint,
-     div.path-local-peertutoring header,
-     div.path-local-peertutoring footer {
-         display: none;
-     }
+/**
+ * Print Styling.
+ */
+@media print {
+    div.path-local-peertutoring .noprint,
+    div.path-local-peertutoring header,
+    div.path-local-peertutoring footer {
+        display: none;
+    }
 
-     /* Remove border around reports. */
-     div.path-local-peertutoring div.card {
-         border: 0;
-     }
+    /* Remove border around reports. */
+    div.path-local-peertutoring div.card {
+        border: 0;
+    }
 
-     /* Smaller font size when printing reports. */
-     div.path-local-peertutoring h2 {
-         font-size: 1.5rem;
-     }
+    /* Smaller font size when printing reports. */
+    div.path-local-peertutoring h2 {
+        font-size: 1.5rem;
+    }
 
-     /** Remove excess empty space. */
-     div.path-local-peertutoring #page-wrapper,
-     div.path-local-peertutoring #page {
-         margin: 0;
-         padding: 0;
-     }
-     div.path-local-peertutoring #page-wrapper::after {
-         content: none;
-     }
- }
+    /** Remove excess empty space. */
+    div.path-local-peertutoring #page-wrapper,
+    div.path-local-peertutoring #page {
+        margin: 0;
+        padding: 0;
+    }
+    div.path-local-peertutoring #page-wrapper::after {
+        content: none;
+    }
+}

@@ -93,6 +93,18 @@ class renderer extends plugin_renderer_base {
     }
 
     /**
+     * Renders an amd module according to the template.
+     *
+     * @param js_module $module.
+     *
+     * @return string html for the script.
+     */
+    public function render_js_module($module) {
+        $data = $module->export_for_template($this);
+        return parent::render_from_template('local_mxschool/js_module', $data);
+    }
+
+    /**
      * Renders a checkbox according to the template.
      *
      * @param checkbox $checkbox.

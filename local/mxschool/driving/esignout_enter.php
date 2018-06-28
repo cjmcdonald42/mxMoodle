@@ -170,9 +170,13 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form_page($form);
+$formrenderable = new \local_mxschool\output\form_page($form);
+$jsrenderable1 = new \local_mxschool\output\js_module('local_mxschool/get_esignout_student_options');
+$jsrenderable2 = new \local_mxschool\output\js_module('local_mxschool/get_esignout_driver_details');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
-echo $output->render($renderable);
+echo $output->render($formrenderable);
+echo $output->render($jsrenderable1);
+echo $output->render($jsrenderable2);
 echo $output->footer();

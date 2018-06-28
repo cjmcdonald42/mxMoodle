@@ -33,15 +33,3 @@
         </p>
     {{/ bottomdescription }}
 </div>
-
-{{# js }}
-require(['local_mxschool/get_dorm_students'], function(getDormStudents) {
-    getDormStudents.updateStudents();
-});
-require(['local_mxschool/get_esignout_student_options'], function(getESignoutStudentOptions) {
-    getESignoutStudentOptions.updateWithPermissions();
-});
-require(['local_mxschool/get_esignout_driver_details'], function(getESignoutDriverDetails) {
-    getESignoutDriverDetails.updateDriverFields();
-});
-{{/ js }}

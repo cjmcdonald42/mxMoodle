@@ -86,6 +86,8 @@ class weekend_calculator_table extends local_mxschool_table {
         $sortable = array('student', 'grade');
         $urlparams = array('dorm' => $filter->dorm, 'semester' => $filter->semester);
         parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered);
+        $this->column_class('total', "{$this->column_class['total']} highlight-format");
+        $this->column_class('allowed', "{$this->column_class['allowed']} highlight-reference");
     }
 
     /**

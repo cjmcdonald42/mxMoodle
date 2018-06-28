@@ -15,19 +15,13 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/report_table
+    @template local_mxschool/js_module
 
-    The purpose of this template is to render a mx table.
+    The purpose of this template is add the script for an amd module to the page.
 }}
 
-<div class="mx-table">
-    {{{ table }}}
-</div>
-
 {{# js }}
-{{# headers }}
-require(['local_mxschool/prepend_table_header'], function(prependTableHeader) {
-    prependTableHeader.prepend({{{ headers }}});
+require(['{{ module }}'], function(setup) {
+    setup();
 });
-{{/ headers }}
 {{/ js }}

@@ -25,33 +25,31 @@
  */
 
 define(['jquery', 'core/ajax'], function($, ajax) {
-    return  {
-        updateDriverFields: function() {
-            $('.mx-form select#id_driver').change(function() {
-                var promises = ajax.call([{
-                    methodname: 'local_mxschool_get_esignout_driver_details',
-                    args: {
-                        esignoutid: $('.mx-form select#id_driver > option:selected').val()
-                    }
-                }]);
-                promises[0].done(function(data) {
-                    $('.mx-form #id_destination').val(data.destination);
-                    $('.mx-form #id_departuretime_hour > option[value=' + data.departurehour + ']').prop('selected', true);
-                    $('.mx-form #id_departuretime_minute > option[value=' + data.departureminute + ']').prop('selected', true);
-                    $('.mx-form #id_departuretime_ampm > option[value=' + data.departureampm + ']').prop('selected', true);
-                }).fail(function() {
-                    $('.mx-form #id_destination').val('');
-                    $('.mx-form #id_departuretime_hour > option').prop('selected', function() {
-                        return this.defaultSelected;
-                    });
-                    $('.mx-form #id_departuretime_minute > option').prop('selected', function() {
-                        return this.defaultSelected;
-                    });
-                    $('.mx-form #id_departuretime_ampm > option').prop('selected', function() {
-                        return this.defaultSelected;
-                    });
+    return function() {
+        $('.mx-form select#id_driver').change(function() {
+            var promises = ajax.call([{
+                methodname: 'local_mxschool_get_esignout_driver_details',
+                args: {
+                    esignoutid: $('.mx-form select#id_driver > option:selected').val()
+                }
+            }]);
+            promises[0].done(function(data) {
+                $('.mx-form #id_destination').val(data.destination);
+                $('.mx-form #id_departuretime_hour > option[value=' + data.departurehour + ']').prop('selected', true);
+                $('.mx-form #id_departuretime_minute > option[value=' + data.departureminute + ']').prop('selected', true);
+                $('.mx-form #id_departuretime_ampm > option[value=' + data.departureampm + ']').prop('selected', true);
+            }).fail(function() {
+                $('.mx-form #id_destination').val('');
+                $('.mx-form #id_departuretime_hour > option').prop('selected', function() {
+                    return this.defaultSelected;
+                });
+                $('.mx-form #id_departuretime_minute > option').prop('selected', function() {
+                    return this.defaultSelected;
+                });
+                $('.mx-form #id_departuretime_ampm > option').prop('selected', function() {
+                    return this.defaultSelected;
                 });
             });
-        }
+        });
     };
 });

@@ -131,7 +131,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form_page(
+$formrenderable = new \local_mxschool\output\form_page(
     $form, get_string('weekend_form_topdescription', 'local_mxschool'),
     get_string(
         'weekend_form_bottomdescription', 'local_mxschool', $isstudent
@@ -139,8 +139,10 @@ $renderable = new \local_mxschool\output\form_page(
         : array('hoh' => 'your head of house', 'permissionsline' => 'the house permissions line')
     )
 );
+$jsrenderable = new \local_mxschool\output\js_module('local_mxschool/get_dorm_students');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student} ({$dorms[$record->dorm]})" : ''));
-echo $output->render($renderable);
+echo $output->render($formrenderable);
+echo $output->render($jsrenderable);
 echo $output->footer();

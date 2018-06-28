@@ -78,17 +78,14 @@ $dropdowns = $isstudent ? array() : array(
     new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'))
 );
 $dropdowns[] = new local_mxschool_dropdown('semester', $semesters, $filter->semester);
-$highlight = new stdClass();
-$highlight->formatcolumn = 2 + count($weekends);
-$highlight->referencecolumn = 3 + count($weekends);
 $rows = array(
     array(
         'lefttext' => get_string('weekend_report_abbreviation_offcampus', 'local_mxschool'),
         'righttext' => get_string('weekend_report_legend_offcampus', 'local_mxschool')
     ), array('righttext' => get_string('weekend_report_legend_3_left', 'local_mxschool')),
-    array('leftclass' => 'green', 'righttext' => get_string('weekend_report_legend_2_left', 'local_mxschool')),
-    array('leftclass' => 'yellow', 'righttext' => get_string('weekend_report_legend_1_left', 'local_mxschool')),
-    array('leftclass' => 'red', 'righttext' => get_string('weekend_report_legend_0_left', 'local_mxschool')),
+    array('leftclass' => 'mx-green', 'righttext' => get_string('weekend_report_legend_2_left', 'local_mxschool')),
+    array('leftclass' => 'mx-yellow', 'righttext' => get_string('weekend_report_legend_1_left', 'local_mxschool')),
+    array('leftclass' => 'mx-red', 'righttext' => get_string('weekend_report_legend_0_left', 'local_mxschool')),
     array(
         'lefttext' => get_string('weekend_report_abbreviation_free', 'local_mxschool'),
         'righttext' => get_string('weekend_report_legend_free', 'local_mxschool')
@@ -99,10 +96,9 @@ $rows = array(
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report_page(
-    'weekend-calculator', $table, 50, null, $dropdowns, true, false, false, $highlight
-);
+$reportrenderable = new \local_mxschool\output\report_page('weekend-calculator', $table, 50, null, $dropdowns, true);
 $legendrenderable = new \local_mxschool\output\legend_table($rows);
+$jsrenderable = new \local_mxschool\output\js_module('local_mxschool/highlight_cells');
 
 echo $output->header();
 echo $output->heading(
@@ -110,4 +106,5 @@ echo $output->heading(
 );
 echo $output->render($reportrenderable);
 echo $output->render($legendrenderable);
+echo $output->render($jsrenderable);
 echo $output->footer();

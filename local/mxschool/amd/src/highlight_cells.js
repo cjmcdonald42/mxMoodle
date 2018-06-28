@@ -26,24 +26,22 @@
  */
 
 define(['jquery'], function($) {
-    return  {
-        highlight: function(col_format, col_reference) {
-            $(window).ready(function() {
-                $('.mx-table tbody > tr').each(function(index, element) {
-                    var formatCell = $($(element).children[col_format]);
-                    var referenceCell = $($(element).children[col_reference]);
-                    if (formatCell && referenceCell) {
-                        var difference = referenceCell.text() - formatCell.text();
-                        if (difference === 2) {
-                            formatCell.addClass('green');
-                        } else if (difference === 1) {
-                            formatCell.addClass('yellow');
-                        } else if (difference <= 0) {
-                            formatCell.addClass('red');
-                        }
+    return function() {
+        $(window).ready(function() {
+            $('.mx-table tbody > tr').each(function(index, element) {
+                var formatCell = $(element).children('.highlight-format');
+                var referenceCell = $(element).children('.highlight-reference');
+                if (formatCell && referenceCell) {
+                    var difference = referenceCell.text() - formatCell.text();
+                    if (difference === 2) {
+                        formatCell.addClass('mx-green');
+                    } else if (difference === 1) {
+                        formatCell.addClass('mx-yellow');
+                    } else if (difference <= 0) {
+                        formatCell.addClass('mx-red');
                     }
-                });
+                }
             });
-        }
+        });
     };
 });
