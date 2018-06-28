@@ -11,36 +11,37 @@
 /**
  * Default Table Styling.
  */
-/* Small margin above tables. */
-.path-local-mxschool .mx-table {
+/* Small margin above and below tables. */
+div.mx-table {
     margin-top: 1rem;
+    margin-bottom: 1rem;
     --mx-table-border: 1px solid #999;
 }
 /* Border around entire table */
-.path-local-mxschool .mx-table table {
+div.mx-table table.generaltable {
     border: var(--mx-table-border);
 }
 /* Middle vertical align, reduced padding, and vertical borders for all table cells. */
-.path-local-mxschool .mx-table th,
-.path-local-mxschool .mx-table td {
+div.mx-table table.generaltable th,
+div.mx-table table.generaltable td {
     vertical-align: middle;
     padding: 0.25rem;
     border-right: var(--mx-table-border);
     border-left: var(--mx-table-border);
 }
 /* All header cells centered and bordered. */
-.path-local-mxschool .mx-table th {
+div.mx-table table.generaltable th {
     text-align: center;
     border-top: var(--mx-table-border);
     border-bottom: var(--mx-table-border);
 }
 /* Centered cells. */
-.path-local-mxschool td.centered {
+div.mx-table table.generaltable td.centered {
     text-align: center;
 }
 /* All filtering and buttons on one line. */
-.path-local-mxschool .mx-filter form,
-.path-local-mxschool .mx-filter input {
+div.mx-filter form,
+div.mx-filter input {
     display: inline;
 }
 
@@ -48,17 +49,17 @@
  * Custom Table Styling.
  */
 /* Cell highlighting. */
-.path-local-mxschool .generaltable td.green {
+div.path-local-mxschool table.generaltable td.green {
     background-color: #dff0d8;
 }
-.path-local-mxschool .generaltable td.yellow {
+div.path-local-mxschool table.generaltable td.yellow {
     background-color: #fcf8e3;
 }
-.path-local-mxschool .generaltable td.red {
+div.path-local-mxschool table.generaltable td.red {
     background-color: #f2dede;
 }
 /* Legends don't take up the full page width. */
-.path-local-mxschool .legend-table table.generaltable {
+div.path-local-mxschool div.legend-table table.generaltable {
     width: auto;
 }
 
@@ -66,7 +67,7 @@
  * Custom Element Styling.
  */
 /* Email buttons default to hidden. */
-.path-local-mxschool .mx-email-button {
+button.mx-email-button {
     display: none;
 }
 
@@ -74,35 +75,35 @@
  * Print Styling.
  */
 @media print {
-    .path-local-mxschool .noprint,
-    .path-local-mxschool header,
-    .path-local-mxschool footer,
-    .path-local-mxschool .mx-table nav,
-    .path-local-mxschool .mx-form div[data-groupname='buttonar'] {
+    div.path-local-mxschool .noprint,
+    div.path-local-mxschool header,
+    div.path-local-mxschool footer,
+    div.mx-table nav,
+    div.mx-form div[data-groupname='buttonar'] {
         display: none;
     }
 
     /* Remove border around reports. */
-    .path-local-mxschool .card {
+    div.path-local-mxschool div.card {
         border: 0;
     }
 
     /* Smaller font size when printing reports. */
-    .path-local-mxschool h2 {
+    div.path-local-mxschool h2 {
         font-size: 1.5rem;
     }
-    .path-local-mxschool .mx-table th,
-    .path-local-mxschool .mx-table td {
+    div.mx-table table.generaltable th,
+    div.mx-table table.generaltable td {
         font-size: 0.75rem;
     }
 
     /** Remove excess empty space. */
-    .path-local-mxschool #page-wrapper,
-    .path-local-mxschool div #page {
+    div.path-local-mxschool #page-wrapper,
+    div.path-local-mxschool #page {
         margin: 0;
         padding: 0;
     }
-    .path-local-mxschool #page-wrapper::after {
+    div.path-local-mxschool #page-wrapper::after {
         content: none;
     }
 }

@@ -222,6 +222,7 @@ class report_filter implements renderable, templatable {
         }
         $data->searchable = $this->search !== null;
         $data->search = $this->search;
+        $data->filterable = $data->searchable || count($data->dropdowns);
         $data->printable = $this->printbutton;
         if ($this->addbutton) {
             $data->addbutton = new stdClass();

@@ -114,14 +114,19 @@ abstract class local_mxschool_table extends table_sql {
     /**
      * Creates a delete icon for the actions column of a table.
      *
-     * @param int $id the id of the record to delete.
-     * @return string the html for the delete icon.
+     * @param int $id The id of the record to delete.
+     * @param string $table The table to delete from or null if it can be implied.
+     * @return string The html for the delete icon.
      */
-    protected function delete_icon($id) {
+    protected function delete_icon($id, $table = null) {
         global $OUTPUT;
         $warning = get_string('report_delete_warning', 'local_mxschool');
+        $urlparams = array('action' => 'delete', 'id' => $id);
+        if (isset($table)) {
+            $urlparams['table'] = $table;
+        }
         return $OUTPUT->action_icon(
-            new moodle_url($this->baseurl, array('action' => 'delete', 'id' => $id)),
+            new moodle_url($this->baseurl, $urlparams),
             new pix_icon('t/delete', get_string('delete'), 'core', array('class' => 'iconsmall')),
             null, array('onclick' => "return window.confirm(\"$warning\")")
         );

@@ -40,7 +40,7 @@ $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index_page(array(
-
+    get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php'
 ));
 
 echo $output->header();

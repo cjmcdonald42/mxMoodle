@@ -26,9 +26,51 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_local_mxschool_upgrade($oldversion) {
+function xmldb_local_peertutoring_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
+
+    if ($oldversion < 2018062806) {
+
+        // Define field deleted to be added to local_peertutoring_course.
+        $table = new xmldb_table('local_peertutoring_course');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'departmentid');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field deleted to be added to local_peertutoring_dept.
+        $table = new xmldb_table('local_peertutoring_dept');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'id');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field deleted to be added to local_peertutoring_rating.
+        $table = new xmldb_table('local_peertutoring_rating');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'id');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field deleted to be added to local_peertutoring_type.
+        $table = new xmldb_table('local_peertutoring_type');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'id');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062806, 'local', 'peertutoring');
+    }
 
     return true;
 }

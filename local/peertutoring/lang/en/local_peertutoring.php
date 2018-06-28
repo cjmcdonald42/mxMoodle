@@ -29,11 +29,43 @@ $string['pluginname'] = 'Middlesex School Peer Tutoring';
 /* General */
 
 // Capabilities.
-
+$string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
 
 // Settings Pages.
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
+// Notifications.
+$string['table_delete_failure'] = 'Table Not Found for Record Deletion';
+$string['department_delete_success'] = 'Department Record Deleted Successfully';
+$string['department_delete_failure'] = 'Department Record Not Found for Deletion';
+$string['course_delete_success'] = 'Course Record Deleted Successfully';
+$string['course_delete_failure'] = 'Course Record Not Found for Deletion';
+$string['type_delete_success'] = 'Type Record Deleted Successfully';
+$string['type_delete_failure'] = 'Type Record Not Found for Deletion';
+$string['rating_delete_success'] = 'Effectiveness Rating Record Deleted Successfully';
+$string['rating_delete_failure'] = 'Effectiveness Rating Record Not Found for Deletion';
 
 /* Peer Tutoring */
 $string['peertutoring'] = 'Peer Tutoring';
+$string['preferences'] = 'Peer Tutoring Preferences';
+$string['department_report'] = 'Departments';
+$string['course_report'] = 'Courses';
+$string['type_report'] = 'Types';
+$string['rating_report'] = 'Effectiveness Ratings';
+
+// Department Report.
+$string['department_report_header_name'] = 'Name';
+$string['department_report_add'] = 'Add a Department';
+
+// Course Report.
+$string['course_report_header_department'] = 'Department';
+$string['course_report_header_name'] = 'Name';
+$string['course_report_add'] = 'Add a Course';
+
+// Type Report.
+$string['type_report_header_displaytext'] = 'Text';
+$string['type_report_add'] = 'Add a Type';
+
+// Rating Report.
+$string['rating_report_header_displaytext'] = 'Text';
+$string['rating_report_add'] = 'Add an Effectiveness Rating';

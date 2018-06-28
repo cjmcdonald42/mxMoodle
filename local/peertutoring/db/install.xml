@@ -8,6 +8,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="departmentid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the course's department."/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the course record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="name" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the course."/>
       </FIELDS>
       <KEYS>
@@ -18,6 +19,7 @@
     <TABLE NAME="local_peertutoring_dept" COMMENT="mxschool peer tutoring department table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the department record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="name" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the department"/>
       </FIELDS>
       <KEYS>
@@ -27,6 +29,7 @@
     <TABLE NAME="local_peertutoring_rating" COMMENT="mxschool peer tutoring ratings table - holds options for the effectiveness of a peer tutoring session">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the rating record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="displaytext" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The text for the rating option."/>
       </FIELDS>
       <KEYS>
@@ -70,6 +73,7 @@
     <TABLE NAME="local_peertutoring_type" COMMENT="mxschool peer tutoring type table - holds options for the type of a peer tutoring session">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the type record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="displaytext" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The text for the type option."/>
       </FIELDS>
       <KEYS>
