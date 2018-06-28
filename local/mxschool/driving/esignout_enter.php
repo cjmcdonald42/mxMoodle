@@ -104,21 +104,15 @@ $data->date = $departuretime->getTimestamp();
 $data->isstudent = $isstudent;
 $students = get_student_list();
 $userid = $isstudent ? $USER->id : (count($students) ? array_keys($students)[0] : 0);
-if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, p.may_drive_passengers AS maydrivepassengers
-         FROM {user} u LEFT JOIN {local_mxschool_permissions} p ON u.id = p.userid WHERE u.id = ?", array($userid)
-    );
-    $data->maydrivepassengers = $record->maydrivepassengers === 'Yes' ? '1' : '0';
-} else {
-    $data->maydrivepassengers = '2'; // This is a work-around in order to have the value not be filled to '0' if validation fails.
-}
+$record = $DB->get_record_sql(
+    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student FROM {user} u WHERE u.id = ?", array($userid)
+);
 $types = get_allowed_esignout_types_list($isstudent ? $USER->id : 0);
 if (!isset($data->type_select)) {
     $data->type_select = $types[0];
 }
-$passengers = get_passengers_list($userid);
-$drivers = array(0 => get_string('esignout_form_driver_default', 'local_mxschool')) + get_current_drivers_list($userid);
+$passengers = get_passengers_list($isstudent ? $USER->id : 0);
+$drivers = get_current_drivers_list($userid);
 $approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

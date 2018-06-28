@@ -51,8 +51,7 @@ class esignout_form extends local_mxschool_form {
                 'id' => parent::ELEMENT_HIDDEN_INT,
                 'timecreated' => parent::ELEMENT_HIDDEN_INT,
                 'date' => parent::ELEMENT_HIDDEN_INT,
-                'isstudent' => parent::ELEMENT_HIDDEN_INT,
-                'maydrivepassengers' => parent::ELEMENT_HIDDEN_INT
+                'isstudent' => parent::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'type' => array('element' => 'group', 'children' => array(
@@ -60,6 +59,9 @@ class esignout_form extends local_mxschool_form {
                     'other' => parent::ELEMENT_TEXT
                 )), 'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
+                ), 'passengerswarning' => array(
+                    'element' => 'static', 'name' => 'passengers',
+                    'text' => get_string('esignout_form_passengers_warning', 'local_mxschool')
                 ), 'driver' => array('element' => 'select', 'options' => $drivers)
             ), 'details' => array(
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
@@ -70,6 +72,8 @@ class esignout_form extends local_mxschool_form {
         parent::set_fields($fields, 'esignout_form', false);
 
         $mform = $this->_form;
+        $mform->addElement('header', 'permissions', get_string('esignout_form_header_permissions', 'local_mxschool'));
+        $mform->setExpanded('permissions');
         $mform->addElement('static', 'parentwarning', '', get_string('esignout_form_parent_warning', 'local_mxschool'));
         $mform->addElement('static', 'specificwarning', '', get_string('esignout_form_specific_warning', 'local_mxschool'));
         $buttonarray = array(
@@ -80,16 +84,12 @@ class esignout_form extends local_mxschool_form {
             )
         );
         $mform->addGroup(
-            $buttonarray, 'buttonar', get_string('esignout_form_permissions_submit', 'local_mxschool'), array(' '), false
+            $buttonarray, 'permissionssubmitbuttons', get_string('esignout_form_permissions_submit', 'local_mxschool'), ' ', false
         );
 
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
         $mform->disabledIf('type', 'id', 'neq', '0');
-        $mform->hideIf('type_other', 'type_select', 'neq', 'Other');
-        $mform->hideIf('passengers', 'type_select', 'neq', 'Driver');
-        $mform->hideIf('passengers', 'maydrivepassengers', 'eq', '0');
-        $mform->hideIf('driver', 'type_select', 'neq', 'Passenger');
         $mform->disabledIf('destination', 'type_select', 'eq', 'Passenger');
         $mform->disabledIf('departuretime', 'type_select', 'eq', 'Passenger');
     }

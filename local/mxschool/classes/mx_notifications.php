@@ -38,7 +38,7 @@ class mx_notifications {
      * @return bool True if email send successfully, false otherwise.
      */
     public static function send_email($emailclass, $params = array()) {
-        global $DB;
+        global $DB, $CFG;
         $notification = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
         $supportuser = core_user::get_support_user();
         if (!$notification) {
@@ -77,8 +77,79 @@ class mx_notifications {
                 if (!isset($params['id'])) {
                     return false;
                 }
-                // TODO esignout email handler.
-                return false;
+                $record = $DB->get_record_sql(
+                    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, es.type, es.passengers,
+                     CONCAT(du.firstname, ' ', du.lastname) AS driver, d.destination, d.departure_time AS departuretime,
+                     CONCAT(a.firstname, ' ', a.lastname) AS approver, es.time_modified AS submittime,
+                     p.may_ride_with AS passengerpermission, p.ride_permission_details AS specificdrivers
+                     FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+                     LEFT JOIN {local_mxschool_esignout} d ON es.driverid = d.id LEFT JOIN {user} du ON d.userid = du.id
+                     LEFT JOIN {user} a ON es.approverid = a.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
+                     WHERE es.id = ?", array($params['id'])
+                );
+                if (isset($record->passengers)) {
+                    $passengers = json_decode($record->passengers);
+                    if (!count($passengers)) { // Driver with no passengers.
+                        $record->passengers = get_string('esignout_report_nopassengers', 'local_mxschool');
+                    }
+                    $passengernames = array();
+                    foreach ($passengers as $passenger) {
+                        $passengernames[] = $DB->get_field('user', "CONCAT(firstname, ' ', lastname)", array('id' => $passenger));
+                    }
+                    $record->passengers = implode(', ', $passengernames);
+                } else {
+                    $record->passengers = '';
+                }
+                $record->date = date('n/j/y', $record->departuretime);
+                $record->departuretime = date('g:i A', $record->departuretime);
+                $record->submittime = date('g:i A', $record->submittime);
+                $emaildeans = false;
+                if ($record->type !== 'Driver') {
+                    if ($record->passengerpermission === 'Any Driver') {
+                        $record->permissionswarning = get_string(
+                            'esignout_notification_warning_anydriver', 'local_mxschool'
+                        );
+                    } else if ($record->passengerpermission === 'Parent Permission') {
+                        $record->permissionswarning = get_string(
+                            'esignout_notification_warning_parentpermission', 'local_mxschool'
+                        );
+                    } else if ($record->passengerpermission === 'Specific Drivers') {
+                        $record->permissionswarning = get_string(
+                            'esignout_notification_warning_specificdrivers', 'local_mxschool'
+                        ).$record->specificdrivers;
+                        $emaildeans = true;
+                    } else {
+                        $record->permissionswarning = get_string(
+                            'esignout_notification_warning_over21', 'local_mxschool'
+                        );
+                        $emaildeans = true;
+                    }
+                } else {
+                    $record->permissionswarning = get_string('esignout_notification_warning_driver', 'local_mxschool');
+                }
+
+                $subject = self::replace($notification->subject, $record);
+                $body = self::replace($notification->body_html, $record);
+                $users = $DB->get_record_sql(
+                    "SELECT es.approverid AS approver, d.hohid AS hoh
+                     FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+                     LEFT JOIN {local_mxschool_student} s ON es.userid = s.userid
+                     LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+                     WHERE es.id = ?", array($params['id'])
+                );
+                $emailto = array(
+                    $DB->get_record('user', array('id' => $users->approver)), $DB->get_record('user', array('id' => $users->hoh))
+                );
+                if ($emaildeans) {
+                    $deans = clone $supportuser;
+                    $deans->email = $CFG->local_mxschool_email_deans;
+                    $emailto[] = $deans;
+                }
+                $result = true;
+                foreach ($emailto as $recipient) {
+                    // $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
+                }
+                return $result;
             default:
                 return false;
         }

@@ -24,34 +24,79 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
+define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, ajax, str, notification) {
+    function update() {
+        var passengersDiv = $('.mx-form select#id_passengers').parent().parent();
+        var driverDiv = $('.mx-form select#id_driver').parent().parent();
+        var otherDiv = $('.mx-form input#id_type_other').parent().parent();
+        var permissionsFieldset = $('.mx-form fieldset#id_permissions');
+        if (!$('.mx-form input#id_type_select_Driver').prop('checked')) {
+            passengersDiv.hide();
+            passengersDiv.next().hide();
+        }
+        if ($('.mx-form input#id_type_select_Passenger').prop('checked')) {
+            driverDiv.show();
+        } else {
+            driverDiv.hide();
+        }
+        if ($('.mx-form input#id_type_select_Other').prop('checked')) {
+            otherDiv.show();
+        } else {
+            otherDiv.hide();
+        }
+        var promises = ajax.call([{
+            methodname: 'local_mxschool_get_esignout_student_options',
+            args: {
+                userid: $('.mx-form select#id_student > option:selected').val()
+            }
+        }]);
+        promises[0].done(function(data) {
+            // console.log(data);
+            if ($('.mx-form input#id_type_select_Driver').prop('checked')) {
+                if(data.maydrivepassengers) {
+                    passengersDiv.show();
+                    passengersDiv.next().hide();
+                } else {
+                    passengersDiv.hide();
+                    passengersDiv.next().show();
+                }
+            }
+            if ($('.mx-form input#id_type_select_Passenger').prop('checked') && data.mayridewith !== 'Any Driver') {
+                permissionsFieldset.prev().hide();
+                permissionsFieldset.show();
+                var parentPermissionDiv = permissionsFieldset.children().eq(1).children().eq(0);
+                var specificDriversDiv = permissionsFieldset.children().eq(1).children().eq(1);
+                if (data.mayridewith === 'Parent Permission') {
+                    parentPermissionDiv.show();
+                    specificDriversDiv.hide();
+                } else if (data.mayridewith === 'Specific Drivers') {
+                    parentPermissionDiv.hide();
+                    $.when(str.get_string('esignout_form_specific_warning', 'local_mxschool')).done(function(text) {
+                        specificDriversDiv.children().eq(1).children().eq(0).text(text + ' ' + data.specificdrivers + '.');
+                        specificDriversDiv.show();
+                    });
+                }
+            } else {
+                permissionsFieldset.prev().show();
+                permissionsFieldset.hide();
+            }
+            // var passengersSelect = $('.mx-form select#id_passengers');
+            // passengersSelect.empty();
+            // $.each(data.passengers, function(index, student) {
+            //     passengersSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
+            // });
+            var driverSelect = $('.mx-form select#id_driver');
+            driverSelect.empty();
+            $.each(data.drivers, function(index, student) {
+                driverSelect.append($('<option></option>').attr('value', student.esignoutid).text(student.name));
+            });
+        }).fail(notification.exception);
+    }
     return  {
         updateWithPermissions: function() {
-            $('.mx-form select#id_student').change(function() {
-                var promises = ajax.call([{
-                    methodname: 'local_mxschool_get_esignout_student_options',
-                    args: {
-                        userid: $('.mx-form select#id_student > option:selected').val()
-                    }
-                }]);
-                promises[0].done(function(data) {
-                    $('.mx-form input[name="maydrivepassengers"]').val(data.maydrivepassengers ? '1' : '0');
-                    // console.log(data);
-                    // var passengersSelect = $('.mx-form select#id_passengers');
-                    // passengersSelect.empty();
-                    // $.each(data.passengers, function(index, student) {
-                    //     passengersSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
-                    // });
-                    var driverSelect = $('.mx-form select#id_driver');
-                    driverSelect.empty();
-                    $.when(str.get_string('esignout_form_driver_default', 'local_mxschool')).done(function(text) {
-                        driverSelect.append($('<option></option>').attr('value', 0).text(text));
-                        $.each(data.drivers, function(index, student) {
-                            driverSelect.append($('<option></option>').attr('value', student.esignoutid).text(student.name));
-                        });
-                    });
-                }).fail(notification.exception);
-            });
+            $(document).ready(update);
+            $('.mx-form div[data-groupname="type_select"]').change(update);
+            $('.mx-form select#id_student').change(update);
         }
     };
 });

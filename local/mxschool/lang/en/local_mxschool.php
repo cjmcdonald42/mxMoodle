@@ -59,6 +59,9 @@ $string['mxschool:manage_esignout_preferences'] = 'Middlesex School: View and ma
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
+$string['email_settings'] = 'Email Settings';
+$string['deans_email'] = 'Deans Email';
+$string['deans_email_description'] = 'The email address to send notifications to the deans.';
 $string['indexes'] = 'Index Pages';
 $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
@@ -388,6 +391,7 @@ $string['vehicle_edit_registration'] = 'Vehicle Registration';
 // Form for eSignout.
 $string['esignout_form_header_info'] = 'General Information';
 $string['esignout_form_header_details'] = 'Details';
+$string['esignout_form_header_permissions'] = 'Permissions Check';
 $string['esignout_form_info_student'] = 'Student';
 $string['esignout_form_info_type'] = 'Driver Type';
 $string['esignout_form_info_type_select_Driver'] = 'Yourself';
@@ -405,6 +409,7 @@ $string['esignout_form_passengers_placeholder'] = 'Search Passengers';
 $string['esignout_form_driver_default'] = 'Select';
 $string['esignout_form_approver_default'] = 'Select';
 
+$string['esignout_form_passengers_warning'] = 'Your permissions indicate that you may not drive passengers.';
 $string['esignout_form_parent_warning'] = 'Your permissions indicate that you need a call from your parent.';
 $string['esignout_form_specific_warning'] = 'Your permissions indicate that you may only be the passenger of the following drivers:';
 $string['esignout_form_permissions_submit'] = 'Have you recieved the required permissions?';
@@ -415,6 +420,12 @@ $string['esignout_form_error_notype'] = 'You must specify a driver type.';
 $string['esignout_form_error_nodriver'] = 'You must specify a driver.';
 $string['esignout_form_error_nodestination'] = 'You must specify a destination.';
 $string['esignout_form_error_noapprover'] = 'You must specify who approved your signout.';
+
+$string['esignout_notification_warning_driver'] = 'None.';
+$string['esignout_notification_warning_anydriver'] = 'None.';
+$string['esignout_notification_warning_parentpermission'] = 'This student requires parent permission to be the passenger of another student.';
+$string['esignout_notification_warning_specificdrivers'] = 'This student only has permission to the be the passenger of the following drivers: ';
+$string['esignout_notification_warning_over21'] = 'This student does NOT have permission to be the passenger of anyone under 21.';
 
 // Report for eSignout.
 $string['esignout_report_select_type_all'] = 'All Types';

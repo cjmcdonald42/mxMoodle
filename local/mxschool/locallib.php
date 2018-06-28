@@ -400,13 +400,15 @@ function get_allowed_esignout_types_list($userid) {
  */
 function get_current_drivers_list($ignore = 0) {
     global $DB;
-    $list = array();
+    $list = array(0 => get_string('esignout_form_driver_default', 'local_mxschool'));
     $today = new DateTime('midnight', core_date::get_server_timezone_object());
     $drivers = $DB->get_records_sql(
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_esignout} es
          LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
          WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.departure_time >= ? AND es.sign_in_time IS NULL
-         AND p.may_drive_passengers = 'Yes' AND u.id <> ? ORDER BY name", array($today->getTimestamp(), $ignore)
+         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND (
+             SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
+         ) = 0 ORDER BY name", array($today->getTimestamp(), $ignore, $ignore)
     );
     if ($drivers) {
         foreach ($drivers as $driver) {

@@ -30,7 +30,14 @@ if ($hassiteconfig) {
 
     $ADMIN->add('root', new admin_category('mxschool', new lang_string('mxschool_category', 'local_mxschool')));
 
-    // $ADMIN->add('mxschool', new admin_settingpage('user_management', new lang_string('user_management', 'local_mxschool')));
+    $emailpage = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
+    $emailpage->add(new admin_setting_configtext(
+        'local_mxschool_email_deans',
+        get_string('deans_email', 'local_mxschool'),
+        get_string('deans_email_description', 'local_mxschool'),
+        'deans@mxschool.edu'
+    ));
+    $ADMIN->add('mxschool', $emailpage);
 
     $ADMIN->add('mxschool', new admin_category('indexes', new lang_string('indexes', 'local_mxschool')));
     $ADMIN->add('indexes', new admin_externalpage(

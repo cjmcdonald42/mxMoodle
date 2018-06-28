@@ -55,8 +55,8 @@ $functions = array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_esignout_student_options',
         'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to determine the type options, ability to drive passengers, passenger list,
-                          and driver list for a selected student.',
+        'description' => 'Queries the database to determine the type options, passenger list, driver list,
+                          and permissions for a selected student.',
         'type' => 'read',
         'ajax' => 'true'
     ), 'local_mxschool_get_esignout_driver_details' => array(

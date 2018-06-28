@@ -173,11 +173,11 @@ class local_mxschool_external extends external_api {
     }
 
     /**
-     * Queries the database to determine the type options, ability to drive passengers, passenger list,
-     * and driver list for a selected student.
+     * Queries the database to determine the type options, passenger list, driver list,
+     * and permissions for a selected student.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass With properties types, maydrivepassengers, passengers.
+     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
      */
     public static function get_esignout_student_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -186,9 +186,6 @@ class local_mxschool_external extends external_api {
         global $DB;
         $result = new stdClass();
         $result->types = get_allowed_esignout_types_list($params['userid']);
-        $result->maydrivepassengers = $DB->get_field(
-            'local_mxschool_permissions', 'may_drive_passengers', array('userid' => $userid)
-        ) === 'Yes' ? '1' : '0';
         $list = get_passengers_list($params['userid']);
         $result->passengers = array();
         foreach ($list as $userid => $name) {
@@ -199,6 +196,13 @@ class local_mxschool_external extends external_api {
         foreach ($list as $esignoutid => $name) {
             $result->drivers[] = array('esignoutid' => $esignoutid, 'name' => $name);
         }
+        $result->maydrivepassengers = $DB->get_field(
+            'local_mxschool_permissions', 'may_drive_passengers', array('userid' => $params['userid'])
+        ) === 'Yes';
+        $result->mayridewith = $DB->get_field('local_mxschool_permissions', 'may_ride_with', array('userid' => $params['userid']));
+        $result->specificdrivers = $DB->get_field(
+            'local_mxschool_permissions', 'ride_permission_details', array('userid' => $params['userid'])
+        ) ?: '';
         return $result;
     }
 
@@ -211,19 +215,19 @@ class local_mxschool_external extends external_api {
         return new external_single_structure(array(
                 'types' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the identifier of the type')
-                ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
-                'passengers' => new external_multiple_structure(
+                ), 'passengers' => new external_multiple_structure(
                     new external_single_structure(array(
                         'userid' => new external_value(PARAM_INT, 'user id of the student'),
                         'name' => new external_value(PARAM_TEXT, 'name of the student')
                     ))
-                ),
-                'drivers' => new external_multiple_structure(
+                ), 'drivers' => new external_multiple_structure(
                     new external_single_structure(array(
                         'esignoutid' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
                         'name' => new external_value(PARAM_TEXT, 'name of the driver')
                     ))
-                )
+                ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
+                'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
+                'specificdrivers' => new external_value(PARAM_TEXT, 'the comment for the student\'s riding permission')
         ));
     }
 
