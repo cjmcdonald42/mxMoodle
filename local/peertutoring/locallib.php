@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Peer Tutoring Subplugin.
+ * Local functions for Middlesex School's Peer Tutoring Subplugin.
  *
- * @package    local_peertutoring
+ * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,10 +26,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2018062815;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array('local_mxschool' => 2018062804);
+/**
+ * Queries the database to create a list of all the peer tutoring departments.
+ *
+ * @return array The departments as id => name, ordered alphabetically by department name.
+ */
+function get_department_list() {
+    global $DB;
+    $list = array();
+    $departments = $DB->get_records_sql("SELECT id, name FROM {local_peertutoring_dept} WHERE deleted = 0 ORDER BY name");
+    if ($departments) {
+        foreach ($departments as $department) {
+            $list[$department->id] = $department->name;
+        }
+    }
+    return $list;
+}

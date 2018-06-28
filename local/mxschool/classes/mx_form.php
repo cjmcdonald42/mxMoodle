@@ -91,8 +91,9 @@ abstract class local_mxschool_form extends moodleform {
      * @param array $fields Array of fields as category => [name => [properties]].
      * @param string $stringprefix A prefix for any necessary language strings.
      * @param bool $actionstop Whether the submit and cancel buttons should appear at the top of the form as well as at the bottom.
+     * @param string $component The component to get language strings from.
      */
-    protected function set_fields($fields, $stringprefix, $actionstop = true) {
+    protected function set_fields($fields, $stringprefix, $actionstop = true, $component = 'local_mxschool') {
         if ($actionstop) {
             $this->add_action_buttons();
         }
@@ -101,12 +102,12 @@ abstract class local_mxschool_form extends moodleform {
         $mform->setType('redirect', PARAM_TEXT);
         foreach ($fields as $category => $categoryfields) {
             if ($category) {
-                $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", 'local_mxschool'));
+                $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", $component));
                 $mform->setExpanded($category);
                 $category = "_{$category}";
             }
             foreach ($categoryfields as $name => $properties) {
-                $mform->addElement($this->create_element($name, $properties, $stringprefix.$category));
+                $mform->addElement($this->create_element($name, $properties, $stringprefix.$category, $component));
                 if (isset($properties['type'])) {
                     $mform->setType($name, $properties['type']);
                 }
@@ -138,13 +139,14 @@ abstract class local_mxschool_form extends moodleform {
      * @param array $properties Variable properties depeding upon element type.
      *        Must include an 'element' key and may optionsally include 'name', 'nameparam', 'options', 'text', and 'children' keys.
      * @param string $stringprefix A prefix for the language string.
+     * @param string $component The component to get language strings from.
      * @return HTML_QuickForm_element The newly created element.
      */
-    private function create_element($name, $properties, $stringprefix) {
+    private function create_element($name, $properties, $stringprefix, $component) {
         $mform = $this->_form;
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
         $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
-        $displayname = !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", 'local_mxschool', $param) : '';
+        $displayname = !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : '';
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
 
         $result = null;
@@ -178,7 +180,7 @@ abstract class local_mxschool_form extends moodleform {
                 foreach ($properties['options'] as $option) {
                     $radiodisplay = $option === 'Yes' ? get_string('yes') : (
                                     $option === 'No' ? get_string('no') : (
-                                    $tag ? get_string("{$stringprefix}_{$tag}_{$option}", 'local_mxschool', $param) : ''
+                                    $tag ? get_string("{$stringprefix}_{$tag}_{$option}", $component, $param) : ''
                     ));
                     $buttons[] = $mform->createElement($properties['element'], $name, '', $radiodisplay, $option, $attributes);
                 }

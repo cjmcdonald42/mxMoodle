@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Peer Tutoring Subplugin.
+ * Edit form for department records for Middlesex School's Peer Tutoring Subplugin.
  *
- * @package    local_peertutoring
+ * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,10 +26,20 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2018062815;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111302; // Moodle 3.4.2+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array('local_mxschool' => 2018062804);
+require_once(__DIR__.'/../mxschool/classes/mx_form.php');
+
+class department_edit_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $id = $this->_customdata['id'];
+
+        $fields = array(
+            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
+            'department' => array('name' => parent::ELEMENT_TEXT_REQUIRED)
+        );
+        parent::set_fields($fields, 'department_edit', true, 'local_peertutoring');
+    }
+}

@@ -35,6 +35,11 @@ $string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: Vi
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Notifications.
+$string['department_edit_success'] = 'Department Record Updated Successfully';
+$string['course_edit_success'] = 'Course Record Updated Successfully';
+$string['type_edit_success'] = 'Type Record Updated Successfully';
+$string['rating_edit_success'] = 'Effectiveness Rating Record Updated Successfully';
+
 $string['table_delete_failure'] = 'Table Not Found for Record Deletion';
 $string['department_delete_success'] = 'Department Record Deleted Successfully';
 $string['department_delete_failure'] = 'Department Record Not Found for Deletion';
@@ -48,10 +53,14 @@ $string['rating_delete_failure'] = 'Effectiveness Rating Record Not Found for De
 /* Peer Tutoring */
 $string['peertutoring'] = 'Peer Tutoring';
 $string['preferences'] = 'Peer Tutoring Preferences';
-$string['department_report'] = 'Departments';
-$string['course_report'] = 'Courses';
-$string['type_report'] = 'Types';
-$string['rating_report'] = 'Effectiveness Ratings';
+$string['department_report'] = 'Department Report';
+$string['course_report'] = 'Course Report';
+$string['type_report'] = 'Type Report';
+$string['rating_report'] = 'Effectiveness Rating Report';
+$string['department_edit'] = 'Edit Department Record';
+$string['course_edit'] = 'Edit Course Record';
+$string['type_edit'] = 'Edit Type Record';
+$string['rating_edit'] = 'Edit Effectiveness Rating Record';
 
 // Department Report.
 $string['department_report_header_name'] = 'Name';
@@ -69,3 +78,20 @@ $string['type_report_add'] = 'Add a Type';
 // Rating Report.
 $string['rating_report_header_displaytext'] = 'Text';
 $string['rating_report_add'] = 'Add an Effectiveness Rating';
+
+// Department Edit.
+$string['department_edit_header_department'] = 'Department Information';
+$string['department_edit_department_name'] = 'Department Name';
+
+// Course Edit.
+$string['course_edit_header_course'] = 'Course Information';
+$string['course_edit_course_department'] = 'Department';
+$string['course_edit_course_name'] = 'Course Name';
+
+// Type Edit.
+$string['type_edit_header_type'] = 'Type Information';
+$string['type_edit_type_displaytext'] = 'Text';
+
+// Rating Edit.
+$string['rating_edit_header_rating'] = 'Effectiveness Rating Information';
+$string['rating_edit_rating_displaytext'] = 'Text';

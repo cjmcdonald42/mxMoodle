@@ -157,7 +157,9 @@ function generate_weekend_records($starttime, $endtime) {
 function get_dorms_list() {
     global $DB;
     $list = array();
-    $dorms = $DB->get_records_sql("SELECT id, name FROM {local_mxschool_dorm} WHERE available = 'Yes' ORDER BY name");
+    $dorms = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' ORDER BY name"
+    );
     if ($dorms) {
         foreach ($dorms as $dorm) {
             $list[$dorm->id] = $dorm->name;

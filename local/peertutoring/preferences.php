@@ -31,7 +31,6 @@ require_once('type_table.php');
 require_once('rating_table.php');
 require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../mxschool/classes/events/page_visited.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
@@ -71,6 +70,13 @@ if ($action === 'delete' && $id && $table) {
     if ($record) {
         $record->deleted = 1;
         $DB->update_record($dbtable, $record);
+        if ($table === 'department') { // If a department is deleted, all courses within the department should also be deleted.
+            $courses = $DB->get_records('local_peertutoring_course', array('departmentid' => $record->id));
+            foreach ($courses as $course) {
+                $course->deleted = 1;
+                $DB->update_record('local_peertutoring_course', $course);
+            }
+        }
         redirect(
             new moodle_url($url, array('search' => $search)), get_string("{$table}_delete_success", 'local_peertutoring'), null,
             \core\output\notification::NOTIFY_SUCCESS
