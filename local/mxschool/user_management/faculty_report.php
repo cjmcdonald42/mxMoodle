@@ -35,7 +35,7 @@ require_login();
 require_capability('local/mxschool:manage_faculty', context_system::instance());
 
 $filter = new stdClass();
-$filter->dorm = optional_param('dorm', '', PARAM_RAW);
+$filter->dorm = get_param_faculty_dorm();
 $filter->search = optional_param('search', '', PARAM_RAW);
 
 $parents = array(
@@ -60,12 +60,12 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$table = new faculty_table('faculty_table', $filter);
+$table = new faculty_table($filter);
 
 $dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool')));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('faculty-report', $table, 50, $filter->search, $dropdowns);
+$renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, $dropdowns);
 
 echo $output->header();
 echo $output->heading($title);

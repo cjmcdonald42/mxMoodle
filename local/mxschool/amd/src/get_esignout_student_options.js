@@ -93,8 +93,8 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             });
             if (passengersReselect.length) {
                 passengersSelect.val(passengersReselect);
-                passengersSelect.change();
             }
+            passengersSelect.change();
             var driverSelect = $('.mx-form select#id_driver');
             var driverSelected = driverSelect.val();
             driverSelect.empty();
@@ -103,8 +103,8 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             });
             if ($('.mx-form select#id_driver > option[value=' + driverSelected + ']').length) {
                 driverSelect.val(driverSelected);
-                driverSelect.change();
             }
+            driverSelect.change();
         }).fail(notification.exception);
     }
     return function() {

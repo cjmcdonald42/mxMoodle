@@ -33,10 +33,9 @@ class dorm_table extends local_mxschool_table {
     /**
      * Creates a new dorm_table.
      *
-     * @param string $uniqueid a unique identifier for the table.
      * @param string $search the search for the table.
      */
-    public function __construct($uniqueid, $search) {
+    public function __construct($search) {
         $columns = array('name', 'abbreviation', 'hoh', 'permissionsline', 'type', 'gender', 'available');
         $headers = array();
         foreach ($columns as $column) {
@@ -55,7 +54,7 @@ class dorm_table extends local_mxschool_table {
         $centered = array('abbreviation', 'type', 'gender', 'available');
         $searchable = array('d.name', 'd.abbreviation', 'u.lastname', 'u.firstname');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $search, $searchable
+            'dorm_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $search, $searchable
         );
     }
 

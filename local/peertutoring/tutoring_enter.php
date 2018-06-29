@@ -72,6 +72,7 @@ if ($id) {
         $data->tutor = $USER->id;
     }
 }
+$data->istutor = $istutor;
 $tutors = get_tutor_list();
 $userid = $istutor ? $USER->id : (count($tutors) ? array_keys($tutors)[0] : 0);
 $record = $DB->get_record_sql(
@@ -96,7 +97,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new tutoring_form(null, array(
+$form = new tutoring_form(array(
     'id' => $id, 'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses,
     'types' => $types, 'ratings' => $ratings
 ));

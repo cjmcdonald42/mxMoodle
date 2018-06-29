@@ -169,6 +169,25 @@ function get_dorms_list() {
 }
 
 /**
+ * Queries the database to create a list of all the available boarding dorms.
+ *
+ * @return array The available boarding dorms as id => name, ordered alphabetically by dorm name.
+ */
+function get_boarding_dorms_list() {
+    global $DB;
+    $list = array();
+    $dorms = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' AND type = 'Boarding' ORDER BY name"
+    );
+    if ($dorms) {
+        foreach ($dorms as $dorm) {
+            $list[$dorm->id] = $dorm->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the students.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.

@@ -79,7 +79,7 @@ if (!$data) {
     $data->dorm = $filter->dorm;
 }
 
-$dorms = get_dorms_list();
+$dorms = get_boarding_dorms_list();
 $weekends = get_weekend_list();
 $submittedoptions = array(
     '1' => get_string('weekend_report_select_submitted_true', 'local_mxschool'),
@@ -102,9 +102,9 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$table = new weekend_table('weekend_table', $filter);
+$table = new weekend_table($filter);
 
-$form = new weekend_comment_form(null, array('id' => $id));
+$form = new weekend_comment_form(array('id' => $id));
 $form->set_redirect(new moodle_url($url, array(
     'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
 )), true);
@@ -121,7 +121,7 @@ if ($form->is_cancelled()) {
 }
 
 $dropdowns = array(
-    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool')),
+    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool')),
     new local_mxschool_dropdown('weekend', $weekends, $filter->weekend),
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('weekend_report_select_submitted_all', 'local_mxschool')
@@ -130,7 +130,11 @@ $dropdowns = array(
 $addbutton = new stdClass();
 $addbutton->text = get_string('weekend_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/checkin/weekend_enter.php');
-$headers = array(array('text' => '', 'length' => 3));
+$headers = array(array(
+    'text' => '', 'length' => $filter->dorm ? (
+        $DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)
+    ) === 'Day' ? 2 : 3) : 4
+));
 for ($i = $startday; $i <= $endday; $i++) {
     $day = ($i + 7) % 7;
     $headers[] = array('text' => get_string("day_$day", 'local_mxschool'), 'length' => 2);
@@ -138,9 +142,7 @@ for ($i = $startday; $i <= $endday; $i++) {
 $headers[] = array('text' => '', 'length' => 9);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$tablerenderable = new \local_mxschool\output\report_page(
-    'checkin-weekend-report', $table, 50, $filter->search, $dropdowns, true, $addbutton, $headers
-);
+$tablerenderable = new \local_mxschool\output\report_page($table, 50, $filter->search, $dropdowns, true, $addbutton, $headers);
 $formrenderable = new \local_mxschool\output\form_page($form);
 
 echo $output->header();

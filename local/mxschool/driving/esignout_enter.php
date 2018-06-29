@@ -128,7 +128,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new esignout_form(null, array(
+$form = new esignout_form(array(
     'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,
     'approvers' => $approvers
 ));

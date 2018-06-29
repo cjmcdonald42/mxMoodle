@@ -48,7 +48,7 @@ $parents = array(
 $url = '/local/mxschool/checkin/weekend_calculator.php';
 $title = get_string('weekend_calculator', 'local_mxschool');
 
-$dorms = get_dorms_list();
+$dorms = get_boarding_dorms_list();
 $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));
 $startdate = $filter->semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
                                     : get_config('local_mxschool', 'second_semester_start_date');
@@ -72,10 +72,10 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$table = new weekend_calculator_table('weekend_calculator_table', $filter, $weekends, $isstudent);
+$table = new weekend_calculator_table($filter, $weekends, $isstudent);
 
 $dropdowns = $isstudent ? array() : array(
-    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'))
+    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool'))
 );
 $dropdowns[] = new local_mxschool_dropdown('semester', $semesters, $filter->semester);
 $rows = array(
@@ -96,7 +96,7 @@ $rows = array(
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report_page('weekend-calculator', $table, 50, null, $dropdowns, true);
+$reportrenderable = new \local_mxschool\output\report_page($table, 50, null, $dropdowns, true);
 $legendrenderable = new \local_mxschool\output\legend_table($rows);
 $jsrenderable = new \local_mxschool\output\js_module('local_mxschool/highlight_cells');
 

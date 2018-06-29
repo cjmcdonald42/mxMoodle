@@ -32,10 +32,8 @@ class course_table extends local_mxschool_table {
 
     /**
      * Creates a new course_table.
-     *
-     * @param string $uniqueid a unique identifier for the table.
      */
-    public function __construct($uniqueid) {
+    public function __construct() {
         $columns = array('name', 'department');
         $headers = array();
         foreach ($columns as $column) {
@@ -49,7 +47,7 @@ class course_table extends local_mxschool_table {
         $sortable = array('name', 'department');
         $urlparams = array();
         $centered = array('name', 'department');
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('course_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
     }
 
     /**

@@ -62,7 +62,7 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$form = new preferences_form(null, array());
+$form = new preferences_form(array());
 $form->set_redirect($redirect);
 $form->set_data($data);
 

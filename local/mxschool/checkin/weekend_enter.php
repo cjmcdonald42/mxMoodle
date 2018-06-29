@@ -103,7 +103,7 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$form = new weekend_form(null, array('id' => $id, 'dorms' => $dorms, 'students' => $students));
+$form = new weekend_form(array('id' => $id, 'dorms' => $dorms, 'students' => $students));
 $form->set_redirect($redirect);
 $form->set_data($data);
 

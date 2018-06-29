@@ -34,6 +34,7 @@ $string['legend_header'] = 'Legend';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
 $string['report_select_dorm'] = 'All Houses';
+$string['report_select_boarding_dorm'] = 'All Dorms';
 $string['day_0'] = 'Sunday';
 $string['day_1'] = 'Monday';
 $string['day_2'] = 'Tuesday';
@@ -115,7 +116,7 @@ $string['student_report_students_header_student'] = 'Name';
 $string['student_report_students_header_grade'] = 'Grade';
 $string['student_report_students_header_advisor'] = 'Advisor';
 $string['student_report_students_header_dorm'] = 'Dorm';
-$string['student_report_students_header_room'] = 'Room';
+$string['student_report_students_header_room'] = 'Room #';
 $string['student_report_students_header_phone'] = 'Phone Number';
 $string['student_report_students_header_birthday'] = 'Birthday';
 
@@ -284,6 +285,7 @@ $string['checkin_preferences_notifications_approvedbody'] = 'Body for Weekend Fo
 // Generic Check-in Sheet.
 $string['generic_report_title'] = '{$a}Check-In Sheet for __________';
 $string['generic_report_header_student'] = 'Name';
+$string['generic_report_header_dorm'] = 'Dorm';
 $string['generic_report_header_room'] = 'Room #';
 $string['generic_report_header_grade'] = 'Grade';
 $string['generic_report_header_checkin'] = '&emsp;&emsp;';
@@ -291,6 +293,7 @@ $string['generic_report_header_checkin'] = '&emsp;&emsp;';
 // Weekday Check-in Sheet.
 $string['weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
 $string['weekday_report_header_student'] = 'Name';
+$string['weekday_report_header_dorm'] = 'Dorm';
 $string['weekday_report_header_room'] = 'Room #';
 $string['weekday_report_header_grade'] = 'Grade';
 $string['weekday_report_header_early'] = 'Early';
@@ -320,6 +323,7 @@ $string['weekend_report_select_submitted_false'] = 'No Weekend Form';
 $string['weekend_report_add'] = 'New Weekend Form';
 
 $string['weekend_report_header_student'] = 'Name';
+$string['weekend_report_header_dorm'] = 'Dorm';
 $string['weekend_report_header_room'] = 'Room #';
 $string['weekend_report_header_grade'] = 'Grade';
 $string['weekend_report_header_early'] = 'Early';

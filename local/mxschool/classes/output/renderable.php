@@ -82,15 +82,12 @@ class index_page implements renderable, templatable {
  */
 class report_page implements renderable, templatable {
 
-    /** @var string $id An id to tag this report for custom formatting.*/
-    private $id;
     /** @var report_table $table The table for the report.*/
     private $table;
     /** @var report_filter $filter The filter for the report.*/
     private $filter;
 
     /**
-     * @param string $id An id to tag this report for custom formatting.
      * @param mx_table $table The table object to output to the template
      * @param int $size The number of rows to output.
      * @param string $search Default search text, null if there is no search option.
@@ -100,9 +97,8 @@ class report_page implements renderable, templatable {
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
     public function __construct(
-        $id, $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false
+        $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false
     ) {
-        $this->id = $id;
         $this->table = new report_table($table, $size, $headers);
         $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton);
     }
@@ -110,11 +106,10 @@ class report_page implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with properties id, filter, and table.
+     * @return stdClass Object with properties filter and table.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
-        $data->id = $this->id;
         $data->filter = $output->render($this->filter);
         $data->table = $output->render($this->table);
         return $data;

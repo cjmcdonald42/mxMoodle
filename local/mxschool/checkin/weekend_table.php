@@ -33,12 +33,17 @@ class weekend_table extends local_mxschool_table {
     /**
      * Creates a new weekend_table.
      *
-     * @param string $uniqueid A unique identifier for the table.
      * @param stdClass $filter Any filtering for the table - could include dorm, weekend, submitted, and search keys.
      */
-    public function __construct($uniqueid, $filter) {
+    public function __construct($filter) {
         global $DB;
-        $columns1 = array('student', 'room', 'grade');
+        $columns1 = array('student', 'dorm', 'room', 'grade');
+        if ($filter->dorm) {
+            unset($columns1[array_search('dorm', $columns1)]);
+            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
+                unset($columns1[array_search('room', $columns1)]);
+            }
+        }
         $headers1 = array();
         foreach ($columns1 as $column) {
             $headers1[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
@@ -51,10 +56,10 @@ class weekend_table extends local_mxschool_table {
             $headers2[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
         }
         $fields = array(
-            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room',
-            's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
-            'wf.phone_number AS phone', "'' AS departurereturn", 'wf.departure_date_time AS departuretime',
-            'wf.return_date_time AS returntime'
+            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
+            'd.name AS dorm', 's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved',
+            'wf.destination', 'wf.transportation', 'wf.phone_number AS phone', "'' AS departurereturn",
+            'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
         );
         $centered = array('room', 'grade', 'parent', 'invite', 'approved');
         $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
@@ -79,7 +84,7 @@ class weekend_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $from = array(
-            '{local_mxschool_student} s', '{user} u ON s.userid = u.id',
+            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
             "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = $filter->weekend AND wf.active = 1"
         );
         $where = array(
@@ -87,16 +92,16 @@ class weekend_table extends local_mxschool_table {
                 SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
             )" : '', $filter->submitted === '0' ? "NOT EXISTS (
                 SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
-            )" : ''
+            )" : '', "d.type = 'Boarding'"
         );
-        $sortable = array('student', 'room', 'grade', 'destination', 'transportation');
+        $sortable = array('student', 'dorm', 'room', 'grade', 'destination', 'transportation');
         $urlparams = array(
             'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
         );
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'wf.destination', 'wf.transportation');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $filter->search,
-            $searchable
+            'weekend_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
+            $filter->search, $searchable
         );
     }
 

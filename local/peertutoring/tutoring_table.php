@@ -33,11 +33,10 @@ class tutoring_table extends local_mxschool_table {
     /**
      * Creates a new tutoring_table.
      *
-     * @param string $uniqueid A unique identifier for the table.
      * @param stdClass $filter Any filtering for the table - may include tutor, department, type, date, search.
      * @param string $download Indicates whether the table is downloading.
      */
-    public function __construct($uniqueid, $filter, $download) {
+    public function __construct($filter, $download) {
         $this->is_downloading($download, 'Peer Tutoring Records', 'peertutoring');
         $columns = array('tutor', 'tutoringdate', 'student', 'department', 'course', 'topic', 'type', 'rating', 'notes');
         $headers = array();
@@ -82,7 +81,7 @@ class tutoring_table extends local_mxschool_table {
             'c.name', 's.topic', 't.displaytext', 's.other', 'r.displaytext'
         );
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'tutoringdate', $fields, $from, $where, $urlparams, $centered,
+            'tutoring_table', $columns, $headers, $sortable, 'tutoringdate', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable, array(), false
         );
     }

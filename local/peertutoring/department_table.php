@@ -32,10 +32,8 @@ class department_table extends local_mxschool_table {
 
     /**
      * Creates a new department_table.
-     *
-     * @param string $uniqueid a unique identifier for the table.
      */
-    public function __construct($uniqueid) {
+    public function __construct() {
         $columns = array('name');
         $headers = array();
         foreach ($columns as $column) {
@@ -49,7 +47,9 @@ class department_table extends local_mxschool_table {
         $sortable = array('name');
         $urlparams = array();
         $centered = array('name');
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct(
+            'department_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered
+        );
     }
 
     /**

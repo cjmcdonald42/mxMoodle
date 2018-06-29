@@ -33,10 +33,9 @@ class vehicle_table extends local_mxschool_table {
     /**
      * Creates a new vehicle_table.
      *
-     * @param string $uniqueid A unique identifier for the table.
      * @param string $search The search for the table.
      */
-    public function __construct($uniqueid, $search) {
+    public function __construct($search) {
         $columns = array('student', 'grade', 'phone', 'license', 'make', 'model', 'color', 'registration');
         $headers = array();
         foreach ($columns as $column) {
@@ -58,7 +57,7 @@ class vehicle_table extends local_mxschool_table {
         $centered = array('grade', 'license');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'v.make', 'v.model', 'v.color', 'v.registration');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $search,
+            'vehicle_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $search,
             $searchable
         );
     }

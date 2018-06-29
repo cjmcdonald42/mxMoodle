@@ -36,11 +36,11 @@ class student_table extends local_mxschool_table {
     /**
      * Creates a new student_table.
      *
-     * @param string $uniqueid a unique identifier for the table.
      * @param string $type the type of report - either 'students', 'permissions', or 'parents'.
      * @param stdClass $filter any filtering for the table - could include dorm or search.
      */
-    public function __construct($uniqueid, $type, $filter) {
+    public function __construct($type, $filter) {
+        global $DB;
         $this->type = $type;
         $columns = array('student');
         $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename');
@@ -50,6 +50,12 @@ class student_table extends local_mxschool_table {
         switch($type) {
             case 'students':
                 $columns = array_merge($columns, array('grade', 'advisor', 'dorm', 'room', 'phone', 'birthday'));
+                if ($filter->dorm) {
+                    unset($columns[array_search('dorm', $columns)]);
+                    if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
+                        unset($columns[array_search('room', $columns)]);
+                    }
+                }
                 $fields = array_merge(array('s.id'), $fields, array(
                     's.grade', "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 'd.name AS dorm', 's.room',
                     's.phone_number AS phone', 's.birthday')
@@ -98,8 +104,8 @@ class student_table extends local_mxschool_table {
             'swimallowed', 'boatallowed', 'primaryparent'
         );
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $filter->search,
-            $searchable
+            'student_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
+            $filter->search, $searchable
         );
     }
 
@@ -108,6 +114,14 @@ class student_table extends local_mxschool_table {
      */
     protected function col_license($values) {
         return $values->license ? date('n/j/y', $values->license) : '';
+    }
+
+    /**
+     * Formats the birthday column to 'n/j'.
+     */
+    protected function col_birthday($values) {
+        $birthday = new DateTime($values->birthday);
+        return $birthday->format('n/j');
     }
 
     /**

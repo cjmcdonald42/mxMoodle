@@ -43,7 +43,7 @@ $parents = array(
 $url = '/local/mxschool/checkin/weekday_report.php';
 $title = get_string('weekday_report', 'local_mxschool');
 
-$dorms = get_dorms_list();
+$dorms = get_boarding_dorms_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -58,16 +58,18 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$table = new weekday_table('weekday_table', $dorm);
+$table = new weekday_table($dorm);
 
-$dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool')));
-$headers = array(array('text' => '', 'length' => 3));
+$dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_boarding_dorm', 'local_mxschool')));
+$headers = array(array(
+    'text' => '', 'length' => $dorm ? ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $dorm)) === 'Day' ? 2 : 3) : 4
+));
 for ($i = 1; $i <= 5; $i++) {
     $headers[] = array('text' => get_string("day_$i", 'local_mxschool'), 'length' => 2);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('checkin-weekday-report', $table, 50, null, $dropdowns, true, false, $headers);
+$renderable = new \local_mxschool\output\report_page($table, 50, null, $dropdowns, true, false, $headers);
 
 echo $output->header();
 echo $output->heading(get_string('weekday_report_title', 'local_mxschool', $dorm ? "{$dorms[$dorm]} " : ''));

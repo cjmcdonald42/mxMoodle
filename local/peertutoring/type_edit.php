@@ -64,7 +64,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new type_edit_form(null, array('id' => $id));
+$form = new type_edit_form(array('id' => $id));
 $form->set_redirect($redirect);
 $form->set_data($data);
 

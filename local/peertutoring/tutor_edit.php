@@ -74,7 +74,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new tutor_edit_form(null, array('id' => $id, 'students' => $students, 'departments' => $departments));
+$form = new tutor_edit_form(array('id' => $id, 'students' => $students, 'departments' => $departments));
 $form->set_redirect($redirect);
 $form->set_data($data);
 

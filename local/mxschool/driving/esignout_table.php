@@ -36,11 +36,10 @@ class esignout_table extends local_mxschool_table {
     /**
      * Creates a new esignout_table.
      *
-     * @param string $uniqueid a unique identifier for the table.
      * @param stdClass $filter any filtering for the table - could include type, date, and search.
      * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
-    public function __construct($uniqueid, $filter, $isstudent) {
+    public function __construct($filter, $isstudent) {
         global $USER;
         $this->isstudent = $isstudent;
         $columns = array('student', 'type');
@@ -103,7 +102,7 @@ class esignout_table extends local_mxschool_table {
         $centered = array('type', 'driver', 'passengers', 'passengercount', 'date', 'departure', 'signin');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'd.destination');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'date', $fields, $from, $where, $urlparams, $centered,
+            'esignout_table', $columns, $headers, $sortable, 'date', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable, array(), false
         );
         $this->column_class('signin', "{$this->column_class['signin']} sign-in");

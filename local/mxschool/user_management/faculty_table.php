@@ -33,10 +33,9 @@ class faculty_table extends local_mxschool_table {
     /**
      * Creates a new faculty_table.
      *
-     * @param string $uniqueid a unique identifier for the table.
      * @param stdClass $filter any filtering for the table - could include dorm or search.
      */
-    public function __construct($uniqueid, $filter) {
+    public function __construct($filter) {
         $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
         $headers = array();
         foreach ($columns as $column) {
@@ -55,7 +54,7 @@ class faculty_table extends local_mxschool_table {
         $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
         $searchable = array('u.firstname', 'u.lastname');
         parent::__construct(
-            $uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $filter->search,
+            'faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $filter->search,
             $searchable
         );
     }

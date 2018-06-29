@@ -93,7 +93,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$table = new esignout_table('esignout_table', $filter, $isstudent);
+$table = new esignout_table($filter, $isstudent);
 
 $dropdowns = array(
     new local_mxschool_dropdown('type', $types, $filter->type, get_string('esignout_report_select_type_all', 'local_mxschool'))
@@ -108,7 +108,7 @@ $addbutton->text = get_string('esignout_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/driving/esignout_enter.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('esignout-table', $table, 50, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

@@ -97,11 +97,11 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$tutortable = new tutor_table('tutor_table');
-$departmenttable = new department_table('department_table');
-$coursetable = new course_table('course_table');
-$typetable = new type_table('type_table');
-$ratingtable = new rating_table('rating_table');
+$tutortable = new tutor_table();
+$departmenttable = new department_table();
+$coursetable = new course_table();
+$typetable = new type_table();
+$ratingtable = new rating_table();
 
 $tutoradd = new stdClass();
 $tutoradd->text = get_string('tutor_report_add', 'local_peertutoring');
@@ -120,21 +120,11 @@ $ratingadd->text = get_string('rating_report_add', 'local_peertutoring');
 $ratingadd->url = new moodle_url('/local/peertutoring/rating_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$tutorrenderable = new \local_mxschool\output\report_page(
-    'department-table', $tutortable, 50, null, array(), false, $tutoradd
-);
-$departmentrenderable = new \local_mxschool\output\report_page(
-    'department-table', $departmenttable, 50, null, array(), false, $departmentadd
-);
-$courserenderable = new \local_mxschool\output\report_page(
-    'course-table', $coursetable, 50, null, array(), false, $courseadd
-);
-$typerenderable = new \local_mxschool\output\report_page(
-    'type-table', $typetable, 50, null, array(), false, $typeadd
-);
-$ratingrenderable = new \local_mxschool\output\report_page(
-    'rating-table', $ratingtable, 50, null, array(), false, $ratingadd
-);
+$tutorrenderable = new \local_mxschool\output\report_page($tutortable, 50, null, array(), false, $tutoradd);
+$departmentrenderable = new \local_mxschool\output\report_page($departmenttable, 50, null, array(), false, $departmentadd);
+$courserenderable = new \local_mxschool\output\report_page($coursetable, 50, null, array(), false, $courseadd);
+$typerenderable = new \local_mxschool\output\report_page($typetable, 50, null, array(), false, $typeadd);
+$ratingrenderable = new \local_mxschool\output\report_page($ratingtable, 50, null, array(), false, $ratingadd);
 
 echo $output->header();
 echo $output->heading(get_string('tutor_report', 'local_peertutoring'));

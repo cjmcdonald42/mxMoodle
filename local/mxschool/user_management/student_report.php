@@ -36,7 +36,7 @@ require_capability('local/mxschool:manage_students', context_system::instance())
 
 $type = optional_param('type', 'students', PARAM_RAW);
 $filter = new stdClass();
-$filter->dorm = optional_param('dorm', '', PARAM_RAW);
+$filter->dorm = get_param_faculty_dorm();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
@@ -99,7 +99,7 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$table = new student_table('student_table', $type, $filter);
+$table = new student_table($type, $filter);
 
 $dropdowns = array(
     new local_mxschool_dropdown('type', $types, $type),
@@ -113,7 +113,7 @@ if ($type === 'parents') {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report_page(
-    'student-report', $table, 50, $filter->search, $dropdowns, $type !== 'parents', isset($addbutton) ? $addbutton : false
+    $table, 50, $filter->search, $dropdowns, $type !== 'parents', isset($addbutton) ? $addbutton : false
 );
 
 echo $output->header();

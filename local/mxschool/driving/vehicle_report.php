@@ -73,14 +73,14 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$table = new vehicle_table('vehicle_table', $search);
+$table = new vehicle_table($search);
 
 $addbutton = new stdClass();
 $addbutton->text = get_string('vehicle_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/driving/vehicle_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('vehicle-report', $table, 50, $search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\report_page($table, 50, $search, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

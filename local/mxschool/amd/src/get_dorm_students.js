@@ -30,15 +30,20 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             var promises = ajax.call([{
                 methodname: 'local_mxschool_get_dorm_students',
                 args: {
-                    dorm: $('.mx-form select#id_dorm > option:selected').val()
+                    dorm: $('.mx-form select#id_dorm').val()
                 }
             }]);
             promises[0].done(function(data) {
                 var studentSelect = $('.mx-form select#id_student');
+                var studentSelected = studentSelect.val();
                 studentSelect.empty();
                 $.each(data, function(index, student) {
                     studentSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
                 });
+                if ($('.mx-form select#id_student > option[value=' + studentSelected + ']').length) {
+                    studentSelect.val(studentSelected);
+                }
+                studentSelect.change();
             }).fail(notification.exception);
         });
     };

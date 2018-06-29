@@ -32,10 +32,8 @@ class rating_table extends local_mxschool_table {
 
     /**
      * Creates a new rating_table.
-     *
-     * @param string $uniqueid a unique identifier for the table.
      */
-    public function __construct($uniqueid) {
+    public function __construct() {
         $columns = array('displaytext');
         $headers = array();
         foreach ($columns as $column) {
@@ -49,7 +47,9 @@ class rating_table extends local_mxschool_table {
         $sortable = array('displaytext');
         $urlparams = array();
         $centered = array('displaytext');
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct(
+            'rating_table', $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, $urlparams, $centered
+        );
     }
 
     /**

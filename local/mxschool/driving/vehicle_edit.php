@@ -66,7 +66,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$form = new vehicle_edit_form(null, array('id' => $id, 'drivers' => $drivers));
+$form = new vehicle_edit_form(array('id' => $id, 'drivers' => $drivers));
 $form->set_redirect($redirect);
 $form->set_data($data);
 

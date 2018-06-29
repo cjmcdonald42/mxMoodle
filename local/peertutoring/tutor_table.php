@@ -32,10 +32,8 @@ class tutor_table extends local_mxschool_table {
 
     /**
      * Creates a new tutor_table.
-     *
-     * @param string $uniqueid a unique identifier for the table.
      */
-    public function __construct($uniqueid) {
+    public function __construct() {
         $departments = get_department_list();
         $columns = array('tutor');
         $headers = array();
@@ -56,7 +54,7 @@ class tutor_table extends local_mxschool_table {
         $where = array('u.deleted = 0');
         $sortable = array('tutor');
         $urlparams = array();
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('tutor_table', $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
     }
 
     /**

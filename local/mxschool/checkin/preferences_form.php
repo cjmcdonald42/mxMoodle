@@ -94,7 +94,7 @@ class preferences_form extends local_mxschool_form {
                 )
             )
         );
-        parent::set_fields($fields, 'checkin_preferences');
+        parent::set_fields($fields, 'checkin_preferences', true);
     }
 
 }

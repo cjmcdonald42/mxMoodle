@@ -79,7 +79,7 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$form = new preferences_form(null, array('weekends' => $weekends));
+$form = new preferences_form(array('weekends' => $weekends));
 $form->set_redirect($redirect);
 $form->set_data($data);
 

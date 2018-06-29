@@ -33,17 +33,24 @@ class weekday_table extends local_mxschool_table {
     /**
      * Creates a new weekday_table.
      *
-     * @param string $uniqueid a unique identifier for the table.
      * @param string $dorm the id of the currently selected dorm or '' for all dorms.
      */
-    public function __construct($uniqueid, $dorm) {
-        $columns = array('student', 'room', 'grade');
+    public function __construct($dorm) {
+        global $DB;
+        $columns = array('student', 'dorm', 'room', 'grade');
+        if ($dorm) {
+            unset($columns[array_search('dorm', $columns)]);
+            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $dorm)) === 'Day') {
+                unset($columns[array_search('room', $columns)]);
+            }
+        }
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("weekday_report_header_{$column}", 'local_mxschool');
         }
         $fields = array(
-            's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.room', 's.grade'
+            's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'd.name AS dorm',
+            's.room', 's.grade'
         );
         for ($i = 1; $i <= 5; $i++) {
             $columns[] = "early_$i";
@@ -53,12 +60,14 @@ class weekday_table extends local_mxschool_table {
             $headers[] = get_string('weekday_report_header_late', 'local_mxschool');
             $fields[] = "'' AS late_$i";
         }
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id');
-        $where = array('u.deleted = 0', $dorm ? "s.dormid = $dorm" : '');
-        $sortable = array('student', 'room', 'grade');
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
+        $where = array('u.deleted = 0', $dorm ? "s.dormid = $dorm" : '', "d.type = 'Boarding'");
+        $sortable = array('student', 'dorm', 'room', 'grade');
         $urlparams = array('dorm' => $dorm);
         $centered = array('room', 'grade');
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct(
+            'weekday_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
+        );
     }
 
 }

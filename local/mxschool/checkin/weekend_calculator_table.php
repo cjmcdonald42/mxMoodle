@@ -36,12 +36,11 @@ class weekend_calculator_table extends local_mxschool_table {
     /**
      * Creates a new weekend_calculator_table.
      *
-     * @param string $uniqueid A unique identifier for the table.
      * @param stdClass $filter Any filtering for the table - could include a dorm or semester filter.
      * @param array $weekends The records of the weekends to include in the table.
      * @param bool $isstudent Whether the user is a student and only their record should be displayed.
      */
-    public function __construct($uniqueid, $filter, $weekends, $isstudent) {
+    public function __construct($filter, $weekends, $isstudent) {
         global $USER;
         $this->semester = $filter->semester;
         $columns1 = array('student', 'grade');
@@ -79,13 +78,18 @@ class weekend_calculator_table extends local_mxschool_table {
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
         $from = array(
-            '{local_mxschool_student} s', '{user} u ON s.userid = u.id'
+            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id'
         );
-        $where = array('u.deleted = 0');
-        $where[] = $isstudent ? "s.userid = $USER->id" : ($filter->dorm ? "s.dormid = $filter->dorm" : '');
+        $where = array(
+            'u.deleted = 0', $isstudent ? "s.userid = $USER->id" : ($filter->dorm ? "s.dormid = $filter->dorm" : ''),
+            "d.type = 'Boarding'"
+        );
         $sortable = array('student', 'grade');
         $urlparams = array('dorm' => $filter->dorm, 'semester' => $filter->semester);
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct(
+            'weekend_calculator_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
+        );
+
         $this->column_class('total', "{$this->column_class['total']} highlight-format");
         $this->column_class('allowed', "{$this->column_class['allowed']} highlight-reference");
     }

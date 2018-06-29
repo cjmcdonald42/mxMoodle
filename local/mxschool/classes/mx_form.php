@@ -86,6 +86,13 @@ abstract class local_mxschool_form extends moodleform {
     }
 
     /**
+     * Creates a new moodleform with custom data.
+     */
+    public function __construct($customdata = null) {
+        parent::__construct(null, $customdata);
+    }
+
+    /**
      * Sets all the fields for the form.
      *
      * @param array $fields Array of fields as category => [name => [properties]].
@@ -93,7 +100,7 @@ abstract class local_mxschool_form extends moodleform {
      * @param bool $actionstop Whether the submit and cancel buttons should appear at the top of the form as well as at the bottom.
      * @param string $component The component to get language strings from.
      */
-    protected function set_fields($fields, $stringprefix, $actionstop = true, $component = 'local_mxschool') {
+    protected function set_fields($fields, $stringprefix, $actionstop = false, $component = 'local_mxschool') {
         if ($actionstop) {
             $this->add_action_buttons();
         }

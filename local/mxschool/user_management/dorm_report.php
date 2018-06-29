@@ -73,14 +73,14 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$table = new dorm_table('dorm_table', $search);
+$table = new dorm_table($search);
 
 $addbutton = new stdClass();
 $addbutton->text = get_string('dorm_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/user_management/dorm_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page('dorm-report', $table, 50, $search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\report_page($table, 50, $search, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

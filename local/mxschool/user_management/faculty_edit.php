@@ -70,7 +70,7 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$form = new faculty_edit_form(null, array('id' => $id, 'dorms' => $dorms));
+$form = new faculty_edit_form(array('id' => $id, 'dorms' => $dorms));
 $form->set_redirect($redirect);
 $form->set_data($data);
 
