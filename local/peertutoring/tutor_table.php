@@ -42,18 +42,20 @@ class tutor_table extends local_mxschool_table {
         foreach ($columns as $column) {
             $headers[] = get_string("tutor_report_header_{$column}", 'local_peertutoring');
         }
+        $centered = array();
         foreach ($departments as $id => $name) {
-            $columns[] = "department_{$id}";
+            $columns[] = $centered[] = $id;
             $headers[] = $name;
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $fields = array('t.id', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 'u.firstname', 'u.alternatename');
+        $fields = array(
+            't.id', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 'u.firstname', 'u.alternatename', 't.departments'
+        );
         $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
         $where = array('u.deleted = 0');
         $sortable = array('tutor');
         $urlparams = array();
-        $centered = array();
         parent::__construct($uniqueid, $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
     }
 
@@ -64,6 +66,15 @@ class tutor_table extends local_mxschool_table {
         return $values->tutor.(
             $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : ''
         );
+    }
+
+    /**
+     * Formats the department columns
+     */
+    public function other_cols($column, $row) {
+        if (is_int($column)) {
+            return in_array($column, json_decode($row->departments)) ? '&#10003;' : '';
+        }
     }
 
     /**

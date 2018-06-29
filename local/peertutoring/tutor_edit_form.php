@@ -53,6 +53,6 @@ class tutor_edit_form extends local_mxschool_form {
         parent::set_fields($fields, 'tutor_edit', true, 'local_peertutoring');
 
         $mform = $this->_form;
-        $mform->disabledIf('student', 'id', 'neq', '0');
+        $mform->disabledIf('tutor', 'id', 'neq', '0');
     }
 }
