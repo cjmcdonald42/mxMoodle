@@ -75,21 +75,22 @@ button.mx-email-button {
  * Print Styling.
  */
 @media print {
-    div.path-local-mxschool .noprint,
-    div.path-local-mxschool header,
-    div.path-local-mxschool footer,
+    body.path-local-mxschool .noprint,
+    body.path-local-mxschool header,
+    body.path-local-mxschool footer,
     div.mx-table nav,
+    div.mx-table form.dataformatselector,
     div.mx-form div[data-groupname='buttonar'] {
         display: none;
     }
 
     /* Remove border around reports. */
-    div.path-local-mxschool div.card {
+    body.path-local-mxschool div.card {
         border: 0;
     }
 
     /* Smaller font size when printing reports. */
-    div.path-local-mxschool h2 {
+    body.path-local-mxschool h2 {
         font-size: 1.5rem;
     }
     div.mx-table table.generaltable th,
@@ -98,12 +99,12 @@ button.mx-email-button {
     }
 
     /** Remove excess empty space. */
-    div.path-local-mxschool #page-wrapper,
-    div.path-local-mxschool #page {
+    body.path-local-mxschool #page-wrapper,
+    body.path-local-mxschool #page {
         margin: 0;
         padding: 0;
     }
-    div.path-local-mxschool #page-wrapper::after {
+    body.path-local-mxschool #page-wrapper::after {
         content: none;
     }
 }

@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
-require_once('/locallib.php');
-require_once('/classes/mx_notifications.php');
+require_once('locallib.php');
+require_once('classes/mx_notifications.php');
 
 class local_mxschool_external extends external_api {
 
@@ -186,10 +186,12 @@ class local_mxschool_external extends external_api {
         global $DB;
         $result = new stdClass();
         $result->types = get_allowed_esignout_types_list($params['userid']);
-        $list = get_passengers_list($params['userid']);
+        $list = get_passengers_list();
         $result->passengers = array();
         foreach ($list as $userid => $name) {
-            $result->passengers[] = array('userid' => $userid, 'name' => $name);
+            if ($userid !== $params['userid']) {
+                $result->passengers[] = array('userid' => $userid, 'name' => $name);
+            }
         }
         $list = get_current_drivers_list($params['userid']);
         $result->drivers = array();

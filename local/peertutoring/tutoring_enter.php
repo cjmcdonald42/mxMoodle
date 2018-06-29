@@ -63,6 +63,7 @@ if ($id) {
         redirect(new moodle_url($url));
     }
     $data = get_record($queryfields, "s.id = ?", array($id));
+    $data->department = $DB->get_field('local_peertutoring_course', 'departmentid', array('id' => $data->course));
 } else {
     $data = new stdClass();
     $data->id = $id;
@@ -73,6 +74,9 @@ if ($id) {
 }
 $tutors = get_tutor_list();
 $userid = $istutor ? $USER->id : (count($tutors) ? array_keys($tutors)[0] : 0);
+$record = $DB->get_record_sql(
+    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS tutor FROM {user} u WHERE u.id = ?", array($userid)
+);
 $students = get_student_list();
 $departments = array(0 => get_string('tutoring_form_department_default', 'local_peertutoring')) + get_department_list();
 $courses = array(0 => get_string('tutoring_form_course_default', 'local_peertutoring')) + get_course_list();
@@ -119,7 +123,7 @@ $jsrenderable1 = new \local_mxschool\output\js_module('local_peertutoring/get_tu
 $jsrenderable2 = new \local_mxschool\output\js_module('local_peertutoring/get_department_courses');
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($title.($istutor ? " for {$record->tutor}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable1);
 echo $output->render($jsrenderable2);

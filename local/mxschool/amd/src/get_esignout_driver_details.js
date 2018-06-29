@@ -30,25 +30,19 @@ define(['jquery', 'core/ajax'], function($, ajax) {
             var promises = ajax.call([{
                 methodname: 'local_mxschool_get_esignout_driver_details',
                 args: {
-                    esignoutid: $('.mx-form select#id_driver > option:selected').val()
+                    esignoutid: $('.mx-form select#id_driver').val()
                 }
             }]);
             promises[0].done(function(data) {
                 $('.mx-form #id_destination').val(data.destination);
-                $('.mx-form #id_departuretime_hour > option[value=' + data.departurehour + ']').prop('selected', true);
-                $('.mx-form #id_departuretime_minute > option[value=' + data.departureminute + ']').prop('selected', true);
-                $('.mx-form #id_departuretime_ampm > option[value=' + data.departureampm + ']').prop('selected', true);
+                $('.mx-form #id_departuretime_hour').val(data.departurehour);
+                $('.mx-form #id_departuretime_minute').val(data.departureminute);
+                $('.mx-form #id_departuretime_ampm').val(data.departureampm ? 1 : 0);
             }).fail(function() {
                 $('.mx-form #id_destination').val('');
-                $('.mx-form #id_departuretime_hour > option').prop('selected', function() {
-                    return this.defaultSelected;
-                });
-                $('.mx-form #id_departuretime_minute > option').prop('selected', function() {
-                    return this.defaultSelected;
-                });
-                $('.mx-form #id_departuretime_ampm > option').prop('selected', function() {
-                    return this.defaultSelected;
-                });
+                $('.mx-form #id_departuretime_hour > option').prop('selected', function() {return this.defaultSelected;});
+                $('.mx-form #id_departuretime_minute > option').prop('selected', function() {return this.defaultSelected;});
+                $('.mx-form #id_departuretime_ampm > option').prop('selected', function() {return this.defaultSelected;});
             });
         });
     };

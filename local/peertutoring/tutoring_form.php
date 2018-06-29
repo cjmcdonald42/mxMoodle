@@ -68,7 +68,7 @@ class tutoring_form extends local_mxschool_form {
                 'notes' => parent::ELEMENT_TEXT_AREA
             )
         );
-        parent::set_fields($fields, 'tutoring_form', true, 'local_peertutoring');
+        parent::set_fields($fields, 'tutoring_form', false, 'local_peertutoring');
 
         $mform = $this->_form;
         $mform->hideIf('tutor', 'istutor', 'eq');

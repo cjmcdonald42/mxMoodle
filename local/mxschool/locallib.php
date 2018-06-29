@@ -239,18 +239,16 @@ function get_licensed_student_list() {
 /**
  * Queries the database to create a list of all the students who have sufficient permissions to be another student's passenger.
  *
- * @param int $ignore The user id of a student to ignore (intended to be used to ignore the current student).
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
-function get_passengers_list($ignore = 0) {
+function get_passengers_list() {
     global $DB;
     $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21' AND u.id <> ? ORDER BY name",
-         array($ignore)
+         WHERE u.deleted = 0 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21' ORDER BY name"
     );
     if ($students) {
         foreach ($students as $student) {

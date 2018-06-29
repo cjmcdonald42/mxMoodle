@@ -44,6 +44,6 @@ class course_edit_form extends local_mxschool_form {
                 'name' => parent::ELEMENT_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'course_edit', true, 'local_peertutoring');
+        parent::set_fields($fields, 'course_edit', false, 'local_peertutoring');
     }
 }

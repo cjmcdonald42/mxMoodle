@@ -47,11 +47,10 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
         var promises = ajax.call([{
             methodname: 'local_mxschool_get_esignout_student_options',
             args: {
-                userid: $('.mx-form select#id_student > option:selected').val()
+                userid: $('.mx-form select#id_student').val()
             }
         }]);
         promises[0].done(function(data) {
-            // console.log(data);
             if ($('.mx-form input#id_type_select_Driver').prop('checked')) {
                 if(data.maydrivepassengers) {
                     passengersDiv.show();
@@ -80,16 +79,32 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                 permissionsFieldset.prev().show();
                 permissionsFieldset.hide();
             }
-            // var passengersSelect = $('.mx-form select#id_passengers');
-            // passengersSelect.empty();
-            // $.each(data.passengers, function(index, student) {
-            //     passengersSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
-            // });
+            var passengersSelect = $('.mx-form select#id_passengers');
+            var passengersSelected = passengersSelect.val();
+            passengersSelect.empty();
+            $.each(data.passengers, function(index, student) {
+                passengersSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
+            });
+            var passengersReselect = [];
+            $.each(passengersSelected, function(index, passengerSelected) {
+                if ($('.mx-form select#id_passengers > option[value=' + passengerSelected + ']').length) {
+                    passengersReselect.push(passengerSelected);
+                }
+            });
+            if (passengersReselect.length) {
+                passengersSelect.val(passengersReselect);
+                passengersSelect.change();
+            }
             var driverSelect = $('.mx-form select#id_driver');
+            var driverSelected = driverSelect.val();
             driverSelect.empty();
             $.each(data.drivers, function(index, student) {
                 driverSelect.append($('<option></option>').attr('value', student.esignoutid).text(student.name));
             });
+            if ($('.mx-form select#id_driver > option[value=' + driverSelected + ']').length) {
+                driverSelect.val(driverSelected);
+                driverSelect.change();
+            }
         }).fail(notification.exception);
     }
     return function() {

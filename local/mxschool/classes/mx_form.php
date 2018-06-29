@@ -103,7 +103,6 @@ abstract class local_mxschool_form extends moodleform {
         foreach ($fields as $category => $categoryfields) {
             if ($category) {
                 $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", $component));
-                debugging(get_string("{$stringprefix}_header_{$category}", $component));
                 $mform->setExpanded($category);
                 $category = "_{$category}";
             }

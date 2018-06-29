@@ -40,6 +40,6 @@ class type_edit_form extends local_mxschool_form {
             '' => array('id' => parent::ELEMENT_HIDDEN_INT),
             'type' => array('displaytext' => parent::ELEMENT_TEXT_REQUIRED)
         );
-        parent::set_fields($fields, 'type_edit', true, 'local_peertutoring');
+        parent::set_fields($fields, 'type_edit', false, 'local_peertutoring');
     }
 }

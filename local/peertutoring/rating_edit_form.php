@@ -42,6 +42,6 @@ class rating_edit_form extends local_mxschool_form {
                 'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 60), 'rules' => array('required')
             ))
         );
-        parent::set_fields($fields, 'rating_edit', true, 'local_peertutoring');
+        parent::set_fields($fields, 'rating_edit', false, 'local_peertutoring');
     }
 }

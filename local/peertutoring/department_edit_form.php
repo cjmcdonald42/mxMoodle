@@ -40,6 +40,6 @@ class department_edit_form extends local_mxschool_form {
             '' => array('id' => parent::ELEMENT_HIDDEN_INT),
             'department' => array('name' => parent::ELEMENT_TEXT_REQUIRED)
         );
-        parent::set_fields($fields, 'department_edit', true, 'local_peertutoring');
+        parent::set_fields($fields, 'department_edit', false, 'local_peertutoring');
     }
 }

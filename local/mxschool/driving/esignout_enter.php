@@ -111,8 +111,8 @@ $types = get_allowed_esignout_types_list($isstudent ? $USER->id : 0);
 if (!isset($data->type_select)) {
     $data->type_select = $types[0];
 }
-$passengers = get_passengers_list($isstudent ? $USER->id : 0);
-$drivers = get_current_drivers_list($userid);
+$passengers = get_passengers_list();
+$drivers = get_current_drivers_list();
 $approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

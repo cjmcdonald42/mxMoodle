@@ -12,29 +12,29 @@
  * Print Styling.
  */
 @media print {
-    div.path-local-peertutoring .noprint,
-    div.path-local-peertutoring header,
-    div.path-local-peertutoring footer {
+    body.path-local-peertutoring .noprint,
+    body.path-local-peertutoring header,
+    body.path-local-peertutoring footer {
         display: none;
     }
 
     /* Remove border around reports. */
-    div.path-local-peertutoring div.card {
+    body.path-local-peertutoring div.card {
         border: 0;
     }
 
     /* Smaller font size when printing reports. */
-    div.path-local-peertutoring h2 {
+    body.path-local-peertutoring h2 {
         font-size: 1.5rem;
     }
 
     /** Remove excess empty space. */
-    div.path-local-peertutoring #page-wrapper,
-    div.path-local-peertutoring #page {
+    body.path-local-peertutoring #page-wrapper,
+    body.path-local-peertutoring #page {
         margin: 0;
         padding: 0;
     }
-    div.path-local-peertutoring #page-wrapper::after {
+    body.path-local-peertutoring #page-wrapper::after {
         content: none;
     }
 }

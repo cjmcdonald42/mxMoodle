@@ -45,7 +45,7 @@ $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/peertutoring/tutor_edit.php';
 $title = get_string('tutor_edit', 'local_peertutoring');
 $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 'fields' => array(
-    'id', 'userid' => 'tutor', 'departments' => 'tutordepartments'
+    'id', 'userid' => 'student', 'departments'
 )));
 
 if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id))) {
@@ -53,10 +53,7 @@ if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id))) {
 }
 
 $data = get_record($queryfields, "t.id = ?", array($id));
-$tutordepartments = json_decode($data->tutordepartments);
-foreach ($tutordepartments as $department) {
-    $data->{"department_{$department}"} = 1;
-}
+$data->departments = json_decode($data->departments);
 if (!isset($data->id)) {
     $data->id = $id;
 }
@@ -84,13 +81,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $tutordepartments = array();
-    foreach ($data as $field => $value) {
-        if (substr($field, 0, 10) === 'department' && $value) {
-            $tutordepartments[] = substr($field, 11);
-        }
-    }
-    $data->tutordepartments = json_encode($tutordepartments);
+    $data->departments = json_encode($data->departments);
     update_record($queryfields, $data);
     redirect(
         $form->get_redirect(), get_string('tutor_edit_success', 'local_peertutoring'), null,

@@ -27,6 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
+require_once(__DIR__.'/../mxschool/locallib.php');
 require_once('locallib.php');
 
 class local_peertutoring_external extends external_api {
@@ -85,10 +86,10 @@ class local_peertutoring_external extends external_api {
     }
 
     /**
-     * Queries the database to determine the approved departments for a specified tutor.
+     * Queries the database to determine the approved departments and possible students to tutor for a specified tutor.
      *
      * @param int $userid The user id of the student.
-     * @return array The approved departments as {id, name}.
+     * @return stdClass Object with properties departments and students.
      */
     public static function get_tutor_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -96,12 +97,20 @@ class local_peertutoring_external extends external_api {
         $params = self::validate_parameters(self::get_tutor_options_parameters(), array('userid' => $userid));
 
         global $DB;
+        $result = new stdClass();
         $list = get_tutor_department_list($params['userid']);
-        $departments = array();
+        $result->departments = array();
         foreach ($list as $id => $name) {
-            $departments[] = array('id' => $id, 'name' => $name);
+            $result->departments[] = array('id' => $id, 'name' => $name);
         }
-        return $departments;
+        $list = get_student_list();
+        $result->students = array();
+        foreach ($list as $userid => $name) {
+            if ($userid !== $params['userid']) {
+                $result->students[] = array('userid' => $userid, 'name' => $name);
+            }
+        }
+        return $result;
     }
 
     /**
@@ -110,10 +119,15 @@ class local_peertutoring_external extends external_api {
      * @return external_multiple_structure Object describing the return values of the get_tutor_options() function.
      */
     public static function get_tutor_options_returns() {
-        return new external_multiple_structure(new external_single_structure(array(
+        return new external_single_structure(array(
+        'departments' => new external_multiple_structure(new external_single_structure(array(
             'id' => new external_value(PARAM_INT, 'id of the department'),
             'name' => new external_value(PARAM_TEXT, 'name of the department')
-        )));
+        ))),
+        'students' => new external_multiple_structure(new external_single_structure(array(
+            'userid' => new external_value(PARAM_INT, 'userid of the student'),
+            'name' => new external_value(PARAM_TEXT, 'name of the student')
+        )))));
     }
 
 }

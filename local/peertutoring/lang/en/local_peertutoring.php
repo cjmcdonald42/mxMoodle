@@ -94,10 +94,12 @@ $string['rating_report_add'] = 'Add an Effectiveness Rating';
 $string['rating_report_header_displaytext'] = 'Text';
 
 // Tutor Edit.
-$string['tutor_edit_header_student'] = 'Student';
-$string['tutor_edit_header_departments'] = 'Approved Departments';
-$string['tutor_edit_student_tutor'] = 'Tutor';
-$string['tutor_edit_departments_label'] = '{$a}';
+$string['tutor_edit_header_tutor'] = 'Tutor Information';
+$string['tutor_edit_tutor_student'] = 'Student';
+$string['tutor_edit_tutor_departments'] = 'Approved Departments';
+
+$string['tutor_edit_form_departments_noselection'] = 'No Departments Selected';
+$string['tutor_edit_form_departments_placeholder'] = 'Search Departments';
 
 // Department Edit.
 $string['department_edit_header_department'] = 'Department Information';

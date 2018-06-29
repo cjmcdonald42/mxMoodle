@@ -29,15 +29,30 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         var promises = ajax.call([{
             methodname: 'local_peertutoring_get_tutor_options',
             args: {
-                userid: $('.mx-form select#id_tutor > option:selected').val()
+                userid: $('.mx-form select#id_tutor').val()
             }
         }]);
         promises[0].done(function(data) {
+            var studentSelect = $('.mx-form select#id_student');
+            var studentSelected = studentSelect.val();
+            studentSelect.empty();
+            $.each(data.students, function(index, student) {
+                studentSelect.append($('<option></option>').attr('value', student.userid).text(student.name));
+            });
+            if ($('.mx-form select#id_student > option[value=' + studentSelected + ']').length) {
+                studentSelect.val(studentSelected);
+                studentSelect.change();
+            }
             var departmentSelect = $('.mx-form select#id_department');
+            var departmentSelected = departmentSelect.val();
             departmentSelect.empty();
-            $.each(data, function(index, department) {
+            $.each(data.departments, function(index, department) {
                 departmentSelect.append($('<option></option>').attr('value', department.id).text(department.name));
             });
+            if ($('.mx-form select#id_department > option[value=' + departmentSelected + ']').length) {
+                departmentSelect.val(departmentSelected);
+                departmentSelect.change();
+            }
         }).fail(notification.exception);
     }
     return function() {

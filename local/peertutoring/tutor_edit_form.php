@@ -38,21 +38,23 @@ class tutor_edit_form extends local_mxschool_form {
         $students = $this->_customdata['students'];
         $departments = $this->_customdata['departments'];
 
-        $departmentfields = array();
-        foreach ($departments as $id => $name) {
-            $departmentfields["department_{$id}"] = array(
-                'element' => 'checkbox', 'name' => 'label', 'nameparam' => $name
-            );
-        }
+        $departmentsparameters = array(
+            'multiple' => true, 'noselectionstring' => get_string('tutor_edit_form_departments_noselection', 'local_peertutoring'),
+            'placeholder' => get_string('tutor_edit_form_departments_placeholder', 'local_peertutoring')
+        );
 
         $fields = array(
             '' => array('id' => parent::ELEMENT_HIDDEN_INT),
-            'student' => array('tutor' => array('element' => 'select', 'options' => $students)),
-            'departments' => $departmentfields
+            'tutor' => array(
+                'student' => array('element' => 'select', 'options' => $students),
+                'departments' => array(
+                    'element' => 'autocomplete', 'options' => $departments, 'parameters' => $departmentsparameters
+                )
+            )
         );
-        parent::set_fields($fields, 'tutor_edit', true, 'local_peertutoring');
+        parent::set_fields($fields, 'tutor_edit', false, 'local_peertutoring');
 
         $mform = $this->_form;
-        $mform->disabledIf('tutor', 'id', 'neq', '0');
+        $mform->disabledIf('student', 'id', 'neq', '0');
     }
 }
