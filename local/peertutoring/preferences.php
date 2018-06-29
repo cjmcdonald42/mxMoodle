@@ -25,12 +25,14 @@
  */
 
 require(__DIR__.'/../../config.php');
+require_once('tutor_table.php');
 require_once('department_table.php');
 require_once('course_table.php');
 require_once('type_table.php');
 require_once('rating_table.php');
 require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../mxschool/classes/events/page_visited.php');
+require_once('locallib.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
@@ -95,11 +97,15 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
+$tutortable = new tutor_table('tutor_table');
 $departmenttable = new department_table('department_table');
 $coursetable = new course_table('course_table');
 $typetable = new type_table('type_table');
 $ratingtable = new rating_table('rating_table');
 
+$tutoradd = new stdClass();
+$tutoradd->text = get_string('tutor_report_add', 'local_peertutoring');
+$tutoradd->url = new moodle_url('/local/peertutoring/tutor_edit.php');
 $departmentadd = new stdClass();
 $departmentadd->text = get_string('department_report_add', 'local_peertutoring');
 $departmentadd->url = new moodle_url('/local/peertutoring/department_edit.php');
@@ -114,6 +120,9 @@ $ratingadd->text = get_string('rating_report_add', 'local_peertutoring');
 $ratingadd->url = new moodle_url('/local/peertutoring/rating_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
+$tutorrenderable = new \local_mxschool\output\report_page(
+    'department-table', $tutortable, 50, null, array(), false, $tutoradd
+);
 $departmentrenderable = new \local_mxschool\output\report_page(
     'department-table', $departmenttable, 50, null, array(), false, $departmentadd
 );
@@ -128,6 +137,8 @@ $ratingrenderable = new \local_mxschool\output\report_page(
 );
 
 echo $output->header();
+echo $output->heading(get_string('tutor_report', 'local_peertutoring'));
+echo $output->render($tutorrenderable);
 echo $output->heading(get_string('department_report', 'local_peertutoring'));
 echo $output->render($departmentrenderable);
 echo $output->heading(get_string('course_report', 'local_peertutoring'));

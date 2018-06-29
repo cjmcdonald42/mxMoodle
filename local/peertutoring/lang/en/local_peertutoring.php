@@ -37,6 +37,7 @@ $string['peertutoring:enter_tutoring'] = 'Middlesex School Peer Tutoring: Create
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Notifications.
+$string['tutor_edit_success'] = 'Tutor Record Updated Successfully';
 $string['department_edit_success'] = 'Department Record Updated Successfully';
 $string['course_edit_success'] = 'Course Record Updated Successfully';
 $string['type_edit_success'] = 'Type Record Updated Successfully';
@@ -58,16 +59,22 @@ $string['session_delete_failure'] = 'Peer Tutoring Session Record Not Found for 
 /* Peer Tutoring */
 $string['peertutoring'] = 'Peer Tutoring';
 $string['preferences'] = 'Peer Tutoring Preferences';
+$string['tutor_report'] = 'Tutor Report';
 $string['department_report'] = 'Department Report';
 $string['course_report'] = 'Course Report';
 $string['type_report'] = 'Type Report';
 $string['rating_report'] = 'Effectiveness Rating Report';
+$string['tutor_edit'] = 'Edit Tutor Record';
 $string['department_edit'] = 'Edit Department Record';
 $string['course_edit'] = 'Edit Course Record';
 $string['type_edit'] = 'Edit Type Record';
 $string['rating_edit'] = 'Edit Effectiveness Rating Record';
 $string['tutoring_form'] = 'Peer Tutoring Form';
 $string['tutoring_report'] = 'Peer Tutoring Report';
+
+// Tutor Report.
+$string['tutor_report_add'] = 'Add a Tutor';
+$string['tutor_report_header_tutor'] = 'Name';
 
 // Department Report.
 $string['department_report_add'] = 'Add a Department';
@@ -85,6 +92,12 @@ $string['type_report_header_displaytext'] = 'Text';
 // Rating Report.
 $string['rating_report_add'] = 'Add an Effectiveness Rating';
 $string['rating_report_header_displaytext'] = 'Text';
+
+// Tutor Edit.
+$string['tutor_edit_header_student'] = 'Student';
+$string['tutor_edit_header_departments'] = 'Approved Departments';
+$string['tutor_edit_student_tutor'] = 'Tutor';
+$string['tutor_edit_departments_label'] = '{$a}';
 
 // Department Edit.
 $string['department_edit_header_department'] = 'Department Information';

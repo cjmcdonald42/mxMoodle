@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Department table for Middlesex School's Peer Tutoring Subplugin.
+ * Tutor table for Middlesex School's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -28,36 +28,49 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../mxschool/classes/mx_table.php');
 
-class department_table extends local_mxschool_table {
+class tutor_table extends local_mxschool_table {
 
     /**
-     * Creates a new department_table.
+     * Creates a new tutor_table.
      *
      * @param string $uniqueid a unique identifier for the table.
      */
     public function __construct($uniqueid) {
-        $columns = array('name');
+        $departments = get_department_list();
+        $columns = array('tutor');
         $headers = array();
         foreach ($columns as $column) {
-            $headers[] = get_string("department_report_header_{$column}", 'local_peertutoring');
+            $headers[] = get_string("tutor_report_header_{$column}", 'local_peertutoring');
+        }
+        foreach ($departments as $id => $name) {
+            $columns[] = "department_{$id}";
+            $headers[] = $name;
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $fields = array('d.id', 'd.name');
-        $from = array('{local_peertutoring_dept} d');
-        $where = array('d.deleted = 0');
-        $sortable = array('name');
+        $fields = array('t.id', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 'u.firstname', 'u.alternatename');
+        $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
+        $where = array('u.deleted = 0');
+        $sortable = array('tutor');
         $urlparams = array();
-        $centered = array('name');
-        parent::__construct($uniqueid, $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        $centered = array();
+        parent::__construct($uniqueid, $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
+    }
+
+    /**
+     * Formats the tutor column to "last, first (alternate)" or "last, first".
+     */
+    protected function col_tutor($values) {
+        return $values->tutor.(
+            $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : ''
+        );
     }
 
     /**
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/peertutoring/department_edit.php', $values->id)
-               .$this->delete_icon($values->id, 'department');
+        return $this->edit_icon('/local/peertutoring/tutor_edit.php', $values->id);
     }
 
 }
