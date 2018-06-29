@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/peertutoring/db" VERSION="20180628" COMMENT="XMLDB file for Moodle local/peertutoring"
+<XMLDB PATH="local/peertutoring/db" VERSION="20180629" COMMENT="XMLDB file for Moodle local/peertutoring"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -44,7 +44,8 @@
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the course tutored. Department is infered from this field."/>
         <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the type of help requested during the tutoring session."/>
         <FIELD NAME="ratingid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the effectiveness rating of the tutoring session."/>
-        <FIELD NAME="date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of the date of the tutoring session."/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the session record has been deleted and shouldn't be displayed."/>
+        <FIELD NAME="tutoring_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of the date of the tutoring session."/>
         <FIELD NAME="topic" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The topic of the tutoring session."/>
         <FIELD NAME="other" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="Text as an 'other' option for the type of help requested during the tutoring session."/>
         <FIELD NAME="notes" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Any notes which the tutor has regarding the tutoring session."/>

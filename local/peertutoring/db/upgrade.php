@@ -101,5 +101,33 @@ function xmldb_local_peertutoring_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018062817, 'local', 'peertutoring');
     }
 
+    if ($oldversion < 2018062818) {
+
+        // Rename field date on table local_peertutoring_session to NEWNAMEGOESHERE.
+        $table = new xmldb_table('local_peertutoring_session');
+        $field = new xmldb_field('date', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'ratingid');
+
+        // Launch rename field date.
+        $dbman->rename_field($table, $field, 'tutoring_date');
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062818, 'local', 'peertutoring');
+    }
+
+    if ($oldversion < 2018062828) {
+
+        // Define field deleted to be added to local_peertutoring_session.
+        $table = new xmldb_table('local_peertutoring_session');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'ratingid');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2018062828, 'local', 'peertutoring');
+    }
+
     return true;
 }

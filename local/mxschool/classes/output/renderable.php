@@ -145,7 +145,7 @@ class report_table implements renderable, templatable {
      * @param int $size The number of rows to output.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
-    public function __construct($table, $size, $headers) {
+    public function __construct($table, $size, $headers = false) {
         $this->table = $table;
         $this->size = $size;
         $this->headers = $headers;

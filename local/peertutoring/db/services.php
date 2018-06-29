@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilites for Middlesex School's Dorm and Student functions plugin.
+ * Services for Middlesex School's Peer Tutoring Subplugin.
  *
- * @package    local_mxschool
+ * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,17 +26,22 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
-    'local/peertutoring:manage_preferences' => array(
-        'riskbitmask' => RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/peertutoring:manage_tutoring' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/peertutoring:enter_tutoring' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
+$functions = array(
+    'local_peertutoring_get_department_courses' => array(
+        'classname' => 'local_peertutoring_external',
+        'methodname' => 'get_department_courses',
+        'classpath' => 'local/peertutoring/externallib.php',
+        'description' => 'Queries the database to find all courses in a specified department.',
+        'type' => 'read',
+        'ajax' => 'true',
+        'capabilities' => 'local/peertutoring:enter_tutoring'
+    ), 'local_peertutoring_get_tutor_options' => array(
+        'classname' => 'local_peertutoring_external',
+        'methodname' => 'get_tutor_options',
+        'classpath' => 'local/peertutoring/externallib.php',
+        'description' => 'Queries the database to determine the approved departments for a specified tutor',
+        'type' => 'read',
+        'ajax' => 'true',
+        'capabilities' => 'local/peertutoring:enter_tutoring'
     )
 );

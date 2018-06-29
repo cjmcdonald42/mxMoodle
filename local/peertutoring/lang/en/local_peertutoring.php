@@ -30,6 +30,8 @@ $string['pluginname'] = 'Middlesex School Peer Tutoring';
 
 // Capabilities.
 $string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
+$string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View and manage tutoring records';
+$string['peertutoring:enter_tutoring'] = 'Middlesex School Peer Tutoring: Create tutoring records';
 
 // Settings Pages.
 $string['peertutoring_index'] = 'Peer Tutoring Index';
@@ -39,6 +41,7 @@ $string['department_edit_success'] = 'Department Record Updated Successfully';
 $string['course_edit_success'] = 'Course Record Updated Successfully';
 $string['type_edit_success'] = 'Type Record Updated Successfully';
 $string['rating_edit_success'] = 'Effectiveness Rating Record Updated Successfully';
+$string['tutoring_form_success'] = 'Tutoring Form Updated Successfully';
 
 $string['table_delete_failure'] = 'Table Not Found for Record Deletion';
 $string['department_delete_success'] = 'Department Record Deleted Successfully';
@@ -49,6 +52,8 @@ $string['type_delete_success'] = 'Type Record Deleted Successfully';
 $string['type_delete_failure'] = 'Type Record Not Found for Deletion';
 $string['rating_delete_success'] = 'Effectiveness Rating Record Deleted Successfully';
 $string['rating_delete_failure'] = 'Effectiveness Rating Record Not Found for Deletion';
+$string['session_delete_success'] = 'Peer Tutoring Session Record Deleted Successfully';
+$string['session_delete_failure'] = 'Peer Tutoring Session Record Not Found for Deletion';
 
 /* Peer Tutoring */
 $string['peertutoring'] = 'Peer Tutoring';
@@ -61,23 +66,25 @@ $string['department_edit'] = 'Edit Department Record';
 $string['course_edit'] = 'Edit Course Record';
 $string['type_edit'] = 'Edit Type Record';
 $string['rating_edit'] = 'Edit Effectiveness Rating Record';
+$string['tutoring_form'] = 'Peer Tutoring Form';
+$string['tutoring_report'] = 'Peer Tutoring Report';
 
 // Department Report.
-$string['department_report_header_name'] = 'Name';
 $string['department_report_add'] = 'Add a Department';
+$string['department_report_header_name'] = 'Name';
 
 // Course Report.
+$string['course_report_add'] = 'Add a Course';
 $string['course_report_header_department'] = 'Department';
 $string['course_report_header_name'] = 'Name';
-$string['course_report_add'] = 'Add a Course';
 
 // Type Report.
-$string['type_report_header_displaytext'] = 'Text';
 $string['type_report_add'] = 'Add a Type';
+$string['type_report_header_displaytext'] = 'Text';
 
 // Rating Report.
-$string['rating_report_header_displaytext'] = 'Text';
 $string['rating_report_add'] = 'Add an Effectiveness Rating';
+$string['rating_report_header_displaytext'] = 'Text';
 
 // Department Edit.
 $string['department_edit_header_department'] = 'Department Information';
@@ -95,3 +102,44 @@ $string['type_edit_type_displaytext'] = 'Text';
 // Rating Edit.
 $string['rating_edit_header_rating'] = 'Effectiveness Rating Information';
 $string['rating_edit_rating_displaytext'] = 'Text';
+
+// Tutoring Form.
+$string['tutoring_form_header_info'] = 'General Information';
+$string['tutoring_form_header_details'] = 'Details';
+$string['tutoring_form_info_tutor'] = 'Tutor';
+$string['tutoring_form_info_tutoringdate'] = 'Date';
+$string['tutoring_form_info_student'] = 'Student Tutored';
+$string['tutoring_form_details_department'] = 'Subject Tutored';
+$string['tutoring_form_details_course'] = 'Course Tutored';
+$string['tutoring_form_details_topic'] = 'Topic of Tutoring Session';
+$string['tutoring_form_details_type'] = 'Type of Help Requested';
+$string['tutoring_form_details_rating'] = 'Effectiveness of Session';
+$string['tutoring_form_details_notes'] = 'Notes';
+
+$string['tutoring_form_department_default'] = 'Select';
+$string['tutoring_form_course_default'] = 'Select';
+$string['tutoring_form_type_default'] = 'Select';
+$string['tutoring_form_rating_default'] = 'Select';
+
+$string['tutoring_form_error_nodepartment'] = 'You must specify a subject.';
+$string['tutoring_form_error_nocourse'] = 'You must specify a course.';
+$string['tutoring_form_error_notopic'] = 'You must specify a topic.';
+$string['tutoring_form_error_notype'] = 'You must specify a type.';
+$string['tutoring_form_error_norating'] = 'You must specify a rating.';
+
+// Tutoring Report.
+$string['tutoring_report_select_tutor_all'] = 'All Tutors';
+$string['tutoring_report_select_department_all'] = 'All Departments';
+$string['tutoring_report_select_type_all'] = 'All Types';
+$string['tutoring_report_select_date_all'] = 'All Dates';
+$string['tutoring_report_add'] = 'New Peer Tutoring Record';
+
+$string['tutoring_report_header_tutor'] = 'Tutor';
+$string['tutoring_report_header_tutoringdate'] = 'Date';
+$string['tutoring_report_header_student'] = 'Student';
+$string['tutoring_report_header_department'] = 'Department';
+$string['tutoring_report_header_course'] = 'Course';
+$string['tutoring_report_header_topic'] = 'Topic';
+$string['tutoring_report_header_type'] = 'Type';
+$string['tutoring_report_header_rating'] = 'Effectiveness Rating';
+$string['tutoring_report_header_notes'] = 'Notes';

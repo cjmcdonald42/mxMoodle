@@ -24,9 +24,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- require(__DIR__.'/../../config.php');
- require_once($CFG->libdir.'/adminlib.php');
- require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
+require(__DIR__.'/../../config.php');
+require_once($CFG->libdir.'/adminlib.php');
+require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 
 admin_externalpage_setup('peertutoring_index');
 
@@ -40,7 +40,9 @@ $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index_page(array(
-    get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php'
+    get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php',
+    get_string('tutoring_form', 'local_peertutoring') => '/local/peertutoring/tutoring_enter.php',
+    get_string('tutoring_report', 'local_peertutoring') => '/local/peertutoring/tutoring_report.php'
 ));
 
 echo $output->header();

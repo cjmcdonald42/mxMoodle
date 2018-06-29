@@ -27,9 +27,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_peertutoring';
-$plugin->version = 2018062817;
+$plugin->version = 2018062831;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111302; // Moodle 3.4.2+.
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->cron = 0;
-$plugin->dependencies = array('local_mxschool' => 2018062804);
+$plugin->dependencies = array('local_mxschool' => 2018062813);

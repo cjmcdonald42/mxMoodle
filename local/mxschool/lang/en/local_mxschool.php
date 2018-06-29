@@ -450,7 +450,3 @@ $string['esignout_report_header_signin'] = 'Sign In Time';
 
 $string['esignout_report_nopassengers'] = 'None';
 $string['sign_in_button'] = 'Sign In';
-
-
-/* Peer Tutoring */
-$string['peertutoring'] = 'Peer Tutoring';

@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
-require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/classes/mx_notifications.php');
+require_once('/locallib.php');
+require_once('/classes/mx_notifications.php');
 
 class local_mxschool_external extends external_api {
 
@@ -45,7 +45,7 @@ class local_mxschool_external extends external_api {
      * Queries the database to find all students in a specified dorm.
      *
      * @param int $dorm The id of the dorm to query for.
-     * @return array The students in that dorm as [userid, name].
+     * @return array The students in that dorm as {userid, name}.
      */
     public static function get_dorm_students($dorm) {
         external_api::validate_context(context_system::instance());

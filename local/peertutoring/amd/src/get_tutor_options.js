@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilites for Middlesex School's Dorm and Student functions plugin.
+ * Updates the deparment field of the peer tutoring form for Middlesex School's Dorm and Student functions plugin.
  *
+ * @module     local_mxschool/get_esignout_driver_details
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,19 +24,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$capabilities = array(
-    'local/peertutoring:manage_preferences' => array(
-        'riskbitmask' => RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/peertutoring:manage_tutoring' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/peertutoring:enter_tutoring' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    )
-);
+define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
+    function update() {
+        var promises = ajax.call([{
+            methodname: 'local_peertutoring_get_tutor_options',
+            args: {
+                userid: $('.mx-form select#id_tutor > option:selected').val()
+            }
+        }]);
+        promises[0].done(function(data) {
+            var departmentSelect = $('.mx-form select#id_department');
+            departmentSelect.empty();
+            $.each(data, function(index, department) {
+                departmentSelect.append($('<option></option>').attr('value', department.id).text(department.name));
+            });
+        }).fail(notification.exception);
+    }
+    return function() {
+        $(document).ready(update);
+        $('.mx-form select#id_tutor').change(update);
+    };
+});

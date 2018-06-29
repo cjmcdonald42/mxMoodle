@@ -95,8 +95,9 @@ class esignout_form extends local_mxschool_form {
     }
 
     /**
-     * Validates the weekend form before it can be submitted.
-     * The checks performed are...
+     * Validates the eSignout form before it can be submitted.
+     * The checks performed are to ensure that all required fields are filled out.
+     * Permissions checks are done in JavaScript.
      *
      * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
      */
