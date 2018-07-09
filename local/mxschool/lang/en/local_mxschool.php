@@ -68,6 +68,7 @@ $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
 $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
 $string['driving_index'] = 'Driving and eSignout Index';
+$string['advisor_selection_index'] = 'Advisor Selection Index';
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Events.
@@ -454,3 +455,9 @@ $string['esignout_report_header_signin'] = 'Sign In Time';
 
 $string['esignout_report_nopassengers'] = 'None';
 $string['sign_in_button'] = 'Sign In';
+
+/* Adviosr Selection. */
+$string['advisor_selection'] = 'Advisor Selection';
+$string['advisor_selection_preferences'] = 'Advisor Selection Preferences';
+$string['advisor_selection_form'] = 'Advisor Selection Form';
+$string['advisor_selection_report'] = 'Advisor Selection Report';
