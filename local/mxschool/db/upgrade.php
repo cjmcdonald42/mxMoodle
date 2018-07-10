@@ -368,5 +368,65 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018062812, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018071001) {
+
+        // Define field may_approve_signout to be dropped from local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('may_approve_signout');
+
+        // Conditionally launch drop field may_approve_signout.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Define field advisory_available to be dropped from local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('advisory_available');
+
+        // Conditionally launch drop field advisory_available.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Define field advisory_closing to be dropped from local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('advisory_closing');
+
+        // Conditionally launch drop field advisory_closing.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Define field may_approve_signout to be added to local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('may_approve_signout', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'faculty_code');
+
+        // Conditionally launch add field may_approve_signout.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field advisory_available to be added to local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('advisory_available', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'may_approve_signout');
+
+        // Conditionally launch add field advisory_available.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field advisory_closing to be added to local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('advisory_closing', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'advisory_available');
+
+        // Conditionally launch add field advisory_closing.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018071001, 'local', 'mxschool');
+    }
+
     return true;
 }

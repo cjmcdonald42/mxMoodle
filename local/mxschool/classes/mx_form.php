@@ -30,21 +30,15 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
-    const ELEMENT_HIDDEN_INT = array(
-        'element' => 'hidden', 'name' => null, 'type' => PARAM_INT
-    );
-    const ELEMENT_TEXT = array(
-        'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20)
-    );
+    const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
+    const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
     const ELEMENT_TEXT_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20), 'rules' => array('required')
     );
-    const ELEMENT_YES_NO = array(
-        'element' => 'radio', 'options' => array('Yes', 'No')
-    );
-    const ELEMENT_YES_NO_REQUIRED = array(
-        'element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required')
-    );
+    const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
+    const ELEMENT_YES_NO_REQUIRED = array('element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required'));
+    const ELEMENT_BOOLEAN = array('element' => 'radio', 'options' => array(1, 0));
+    const ELEMENT_BOOLEAN_REQUIRED = array('element' => 'radio', 'options' => array(1, 0), 'rules' => array('required'));
     const ELEMENT_EMAIL = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email')
     );
@@ -188,8 +182,8 @@ abstract class local_mxschool_form extends moodleform {
             case 'radio':
                 $buttons = array();
                 foreach ($properties['options'] as $option) {
-                    $radiodisplay = $option === 'Yes' ? get_string('yes') : (
-                                    $option === 'No' ? get_string('no') : (
+                    $radiodisplay = $option === 'Yes' || $option === 1 ? get_string('yes') : (
+                                    $option === 'No' || $option === 0 ? get_string('no') : (
                                     $tag ? get_string("{$stringprefix}_{$tag}_{$option}", $component, $param) : ''
                     ));
                     $buttons[] = $mform->createElement($properties['element'], $name, '', $radiodisplay, $option, $attributes);
