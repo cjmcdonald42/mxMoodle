@@ -47,7 +47,7 @@ class faculty_edit_form extends local_mxschool_form {
                 'lastname' => parent::ELEMENT_TEXT_REQUIRED,
                 'alternatename' => parent::ELEMENT_TEXT,
                 'email' => parent::ELEMENT_EMAIL_REQUIRED,
-                'facultycode' => parent::ELEMENT_TEXT_REQUIRED,
+                'facultycode' => parent::ELEMENT_TEXT,
                 'dorm' => array('element' => 'select', 'options' => $dorms),
                 'approvesignout' => parent::ELEMENT_YES_NO_REQUIRED,
                 'advisoryavailable' => parent::ELEMENT_YES_NO_REQUIRED,
