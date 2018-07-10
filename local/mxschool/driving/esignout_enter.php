@@ -63,7 +63,7 @@ if ($id) {
         $editcutoff->setTimestamp($data->timecreated);
         $editcutoff->modify("+{$editwindow} minutes");
         $now = new DateTime('now', core_date::get_server_timezone_object());
-        if ($now->getTimestamp() > $editcutoff->getTimestamp() || $data->student != $USER->id) {
+        if ($now->getTimestamp() > $editcutoff->getTimestamp() || $data->student !== $USER->id) {
             redirect(new moodle_url($url));
         }
     }

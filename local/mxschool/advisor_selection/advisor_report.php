@@ -89,6 +89,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
+// TODO: add notifcation buttons.
 $renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();

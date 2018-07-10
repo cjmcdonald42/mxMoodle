@@ -57,6 +57,8 @@ $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend 
 $string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
 $string['mxschool:manage_esignout'] = 'Middlesex School: View and manage student eSignout records';
 $string['mxschool:manage_esignout_preferences'] = 'Middlesex School: View and manage eSignout preferences';
+$string['mxschool:manage_advisor_selection'] = 'Middlesex School: View and manage student advisor selection records';
+$string['mxschool:manage_advisor_selection_preferences'] = 'Middlesex School: View and manage advisor selection preferences';
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
@@ -474,7 +476,7 @@ $string['advisor_form_options_option2'] = 'Second Choice';
 $string['advisor_form_options_option3'] = 'Third Choice';
 $string['advisor_form_options_option4'] = 'Fourth Choice';
 $string['advisor_form_options_option5'] = 'Fifth Choice';
-$string['advisor_form_options_selected'] = 'Selected Choice';
+$string['advisor_form_options_selected'] = 'Chosen Advisor';
 
 $string['advisor_form_faculty_default'] = 'Select';
 

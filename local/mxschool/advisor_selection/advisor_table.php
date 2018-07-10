@@ -93,6 +93,8 @@ class advisor_table extends local_mxschool_table {
         return isset($values->keepcurrent) ? ($values->keepcurrent ? get_string('yes') : get_string('no')) : '';
     }
 
+    // TODO: add buttons with ajax.
+
     /**
      * Formats the actions column.
      */

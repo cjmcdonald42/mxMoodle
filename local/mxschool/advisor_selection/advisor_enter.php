@@ -55,18 +55,19 @@ if ($id) {
     if (!$DB->record_exists('local_mxschool_adv_selection', array('id' => $id))) {
         redirect($redirect);
     }
-    if ($isstudent) { // Students cannot edit existing advisor selection forms.
+    $data = get_record($queryfields, "asf.id = ?", array($id));
+    if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
         redirect(new moodle_url($url));
     }
-    $data = get_record($queryfields, "asf.id = ?", array($id));
 } else {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
     $data->keepcurrent = 1;
     if ($isstudent) {
-        if ($DB->record_exists('local_mxschool_adv_selection', array('userid' => $USER->id))) {
-            redirect($redirect); // There can only be one advisor selection form per student.
+        $existingid = $DB->get_field('local_mxschool_adv_selection', 'id', array('userid' => $USER->id));
+        if ($existingid) { // There can only be one advisor selection form per student.
+            redirect(new moodle_url($url, array('id' => $existingid)));
         }
         $data->student = $USER->id;
         $record = $DB->get_record_sql(
@@ -120,6 +121,9 @@ if ($form->is_cancelled()) {
         for ($i = $discardfrom; $i <= 5; $i++) {
             $data->{"option{$i}"} = 0;
         }
+    }
+    if (!isset($data->selected)) {
+        $data->selected = 0;
     }
     update_record($queryfields, $data);
     redirect(
