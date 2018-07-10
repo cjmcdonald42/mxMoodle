@@ -45,7 +45,7 @@ $parents = array(
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/advisor_selection/advisor_enter.php';
 $title = get_string('advisor_selection_form', 'local_mxschool');
-$queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'a', 'fields' => array(
+$queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'asf', 'fields' => array(
     'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
     'option3id' => 'option3', 'option4id' => 'option4', 'option5id' => 'option5', 'selectedid' => 'selected',
     'time_created' => 'timecreated', 'time_modified' => 'timemodified'
@@ -58,7 +58,7 @@ if ($id) {
     if ($isstudent) { // Students cannot edit existing advisor selection forms.
         redirect(new moodle_url($url));
     }
-    $data = get_record($queryfields, "a.id = ?", array($id));
+    $data = get_record($queryfields, "asf.id = ?", array($id));
 } else {
     $data = new stdClass();
     $data->id = $id;
@@ -82,7 +82,7 @@ $data->current = isset($data->student) ? $DB->get_field_sql(
      WHERE s.userid = ?", array($data->student)
 ) : '';
 
-$students = get_students_without_advisor_form_list();
+$students = get_student_list();
 $faculty = array(0 => get_string('advisor_form_faculty_default', 'local_mxschool')) + get_faculty_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

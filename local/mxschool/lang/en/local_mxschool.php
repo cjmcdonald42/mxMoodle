@@ -479,3 +479,22 @@ $string['advisor_form_options_selected'] = 'Selected Choice';
 $string['advisor_form_faculty_default'] = 'Select';
 
 $string['advisor_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';
+
+// Advisor Selection Report.
+$string['advisor_selection_report_select_submitted_all'] = 'All';
+$string['advisor_selection_report_select_submitted_true'] = 'Submitted';
+$string['advisor_selection_report_select_submitted_false'] = 'Not Submitted';
+$string['advisor_selection_report_select_keepcurrent_all'] = 'All';
+$string['advisor_selection_report_select_keepcurrent_true'] = 'Keeping Current Advisor';
+$string['advisor_selection_report_select_keepcurrent_false'] = 'Changing Advisor';
+$string['advisor_selection_report_add'] = 'New Advisor Selection Form';
+
+$string['advisor_report_header_student'] = 'Student';
+$string['advisor_report_header_current'] = 'Current Advisor';
+$string['advisor_report_header_keepcurrent'] = 'Keep Current Advisor?';
+$string['advisor_report_header_option1'] = 'Choice 1';
+$string['advisor_report_header_option2'] = 'Choice 2';
+$string['advisor_report_header_option3'] = 'Choice 3';
+$string['advisor_report_header_option4'] = 'Choice 4';
+$string['advisor_report_header_option5'] = 'Choice 5';
+$string['advisor_report_header_selected'] = 'Chosen Advisor';
