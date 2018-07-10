@@ -85,6 +85,7 @@ $string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully'
 $string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
 $string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
+$string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
@@ -456,8 +457,25 @@ $string['esignout_report_header_signin'] = 'Sign In Time';
 $string['esignout_report_nopassengers'] = 'None';
 $string['sign_in_button'] = 'Sign In';
 
-/* Adviosr Selection. */
+/* Advisor Selection. */
 $string['advisor_selection'] = 'Advisor Selection';
 $string['advisor_selection_preferences'] = 'Advisor Selection Preferences';
 $string['advisor_selection_form'] = 'Advisor Selection Form';
 $string['advisor_selection_report'] = 'Advisor Selection Report';
+
+// Advisor Selection Form.
+$string['advisor_form_header_info'] = 'General Information';
+$string['advisor_form_header_options'] = 'Choices';
+$string['advisor_form_info_student'] = 'Student';
+$string['advisor_form_info_current'] = 'Current Advisor';
+$string['advisor_form_info_keepcurrent'] = 'Keep Current Advisor';
+$string['advisor_form_options_option1'] = 'First Choice';
+$string['advisor_form_options_option2'] = 'Second Choice';
+$string['advisor_form_options_option3'] = 'Third Choice';
+$string['advisor_form_options_option4'] = 'Fourth Choice';
+$string['advisor_form_options_option5'] = 'Fifth Choice';
+$string['advisor_form_options_selected'] = 'Selected Choice';
+
+$string['advisor_form_faculty_default'] = 'Select';
+
+$string['advisor_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';

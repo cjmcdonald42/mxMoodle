@@ -4,6 +4,31 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
+    <TABLE NAME="local_mxschool_adv_selection" COMMENT="mxschool advisor selection form table - stores the forms which students submit for advisor selection">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student."/>
+        <FIELD NAME="keep_current" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the student selects to keep their current advisor."/>
+        <FIELD NAME="option1id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's first selection."/>
+        <FIELD NAME="option2id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's second selection."/>
+        <FIELD NAME="option3id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's third selection."/>
+        <FIELD NAME="option4id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's fourth selection."/>
+        <FIELD NAME="option5id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's fifth selection."/>
+        <FIELD NAME="selectedid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the advisor selected for the student."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+        <KEY NAME="option1" TYPE="foreign" FIELDS="option1id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's first selection."/>
+        <KEY NAME="option2" TYPE="foreign" FIELDS="option2id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's second selection."/>
+        <KEY NAME="option3" TYPE="foreign" FIELDS="option3id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's third selection."/>
+        <KEY NAME="option4" TYPE="foreign" FIELDS="option4id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's fourth selection."/>
+        <KEY NAME="option5" TYPE="foreign" FIELDS="option5id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's fifth selection."/>
+        <KEY NAME="selected" TYPE="foreign" FIELDS="selectedid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the advisor selected for the student."/>
+      </KEYS>
+    </TABLE>
     <TABLE NAME="local_mxschool_comment" COMMENT="mxschool weekend comment table - used for dorm faculty to add comments to weekend reports">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>

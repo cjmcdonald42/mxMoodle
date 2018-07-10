@@ -428,5 +428,42 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018071001, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018071010) {
+
+        // Define table local_mxschool_adv_selection to be created.
+        $table = new xmldb_table('local_mxschool_adv_selection');
+
+        // Adding fields to table local_mxschool_adv_selection.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('keep_current', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
+        $table->add_field('option1id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('option2id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('option3id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('option4id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('option5id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('selectedid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_adv_selection.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+        $table->add_key('option1', XMLDB_KEY_FOREIGN, array('option1id'), 'user', array('id'));
+        $table->add_key('option2', XMLDB_KEY_FOREIGN, array('option2id'), 'user', array('id'));
+        $table->add_key('option3', XMLDB_KEY_FOREIGN, array('option3id'), 'user', array('id'));
+        $table->add_key('option4', XMLDB_KEY_FOREIGN, array('option4id'), 'user', array('id'));
+        $table->add_key('option5', XMLDB_KEY_FOREIGN, array('option5id'), 'user', array('id'));
+        $table->add_key('selected', XMLDB_KEY_FOREIGN, array('selectedid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_adv_selection.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018071010, 'local', 'mxschool');
+    }
+
     return true;
 }

@@ -48,7 +48,7 @@ $url = '/local/mxschool/driving/esignout_enter.php';
 $title = get_string('esignout', 'local_mxschool');
 $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
-    'destination', 'departure_time' => 'departuretime', 'time_modified' => 'timemodified', 'time_created' => 'timecreated'
+    'destination', 'departure_time' => 'departuretime', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
 $departuretime = new DateTime('now', core_date::get_server_timezone_object());

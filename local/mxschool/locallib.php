@@ -278,6 +278,27 @@ function get_passengers_list() {
 }
 
 /**
+ * Queries the database to create a list of all the students who have not filled out an advisor selection form.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_students_without_advisor_form_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the faculty.
  *
  * @return array The faculty as userid => name, ordered alphabetically by faculty name.

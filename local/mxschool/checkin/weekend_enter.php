@@ -49,20 +49,18 @@ $title = get_string('weekend_form', 'local_mxschool');
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departuretime',
     'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone',
-    'time_modified' => 'timemodified', 'time_created' => 'timecreated'
+    'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
 if ($id) {
+    if (!$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
+        redirect($redirect);
+    }
     if ($isstudent) { // Students cannot edit existing weekend forms.
         redirect(new moodle_url($url));
-    } else {
-        if ($DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
-            $data = get_record($queryfields, "wf.id = ?", array($id));
-            $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
-        } else {
-            redirect($redirect);
-        }
     }
+    $data = get_record($queryfields, "wf.id = ?", array($id));
+    $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
 } else {
     $data = new stdClass();
     $data->id = $id;

@@ -149,6 +149,7 @@ abstract class local_mxschool_form extends moodleform {
         $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
         $displayname = !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : '';
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
+        $text = isset($properties['text']) ? $properties['text'] : '';
 
         $result = null;
         switch($properties['element']) {
@@ -160,7 +161,7 @@ abstract class local_mxschool_form extends moodleform {
                 $result = $mform->createElement($properties['element'], $name, $displayname, $attributes);
                 break;
             case 'static':
-                $result = $mform->createElement($properties['element'], $name, $displayname, $properties['text']);
+                $result = $mform->createElement($properties['element'], $name, $displayname, $text);
                 break;
             case 'checkbox':
                 $result = $mform->createElement($properties['element'], $name, $displayname, '', $attributes);
