@@ -41,8 +41,7 @@ $functions = array(
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Sets a boolean field in the database.',
         'type' => 'write',
-        'ajax' => 'true',
-        'capabilities' => 'local/mxschool:manage_weekend'
+        'ajax' => 'true'
     ), 'local_mxschool_send_email' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'send_email',
@@ -81,5 +80,13 @@ $functions = array(
                           for a particular student as well as a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
-    ),
+    ), 'local_mxschool_select_advisor' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'select_advisor',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Selects the advisor for a student.',
+        'type' => 'write',
+        'ajax' => 'true',
+        'capabilities' => 'local/mxschool:manage_advisor_selection'
+    )
 );

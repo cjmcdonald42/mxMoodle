@@ -117,18 +117,6 @@ class renderer extends plugin_renderer_base {
     }
 
     /**
-     * Renders a email button according to the template.
-     *
-     * @param email_button $button.
-     *
-     * @return string html for the button.
-     */
-    public function render_email_button($button) {
-        $data = $button->export_for_template($this);
-        return parent::render_from_template('local_mxschool/email_button', $data);
-    }
-
-    /**
      * Renders a table which serves as a legend according to the template.
      *
      * @param legend_table $legend
@@ -141,6 +129,18 @@ class renderer extends plugin_renderer_base {
     }
 
     /**
+     * Renders am email button according to the template.
+     *
+     * @param email_button $button.
+     *
+     * @return string html for the button.
+     */
+    public function render_email_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template('local_mxschool/email_button', $data);
+    }
+
+    /**
      * Renders a sign in button according to the template.
      *
      * @param signin_button $button.
@@ -150,6 +150,18 @@ class renderer extends plugin_renderer_base {
     public function render_signin_button($button) {
         $data = $button->export_for_template($this);
         return parent::render_from_template('local_mxschool/signin_button', $data);
+    }
+
+    /**
+     * Renders a selection button according to the template.
+     *
+     * @param selection_button $button.
+     *
+     * @return string html for the button.
+     */
+    public function render_selection_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template('local_mxschool/selection_button', $data);
     }
 
 }

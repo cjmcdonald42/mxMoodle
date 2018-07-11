@@ -99,11 +99,19 @@ class local_mxschool_external extends external_api {
      */
     public static function set_boolean_field($table, $field, $id, $value) {
         external_api::validate_context(context_system::instance());
-        // This may need to change in the future to make this function more reusable.
-        require_capability('local/mxschool:manage_weekend', context_system::instance());
         $params = self::validate_parameters(self::set_boolean_field_parameters(), array(
             'table' => $table, 'field' => $field, 'id' => $id, 'value' => $value)
         );
+        switch ($params['table']) {
+            case 'local_mxschool_weekend_form':
+                require_capability('local/mxschool:manage_weekend', context_system::instance());
+                break;
+            case 'local_mxschool_faculty':
+                require_capability('local/mxschool:manage_faculty', context_system::instance());
+                break;
+            default:
+                throw new moodle_exception('Invalid table.');
+        }
 
         global $DB;
         $record = $DB->get_record($params['table'], array('id' => $params['id']));
@@ -368,6 +376,50 @@ class local_mxschool_external extends external_api {
                 'name' => new external_value(PARAM_TEXT, 'the name of the available faculty')
             )))
         ));
+    }
+
+    /**
+     * Returns descriptions of the select_advisor() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the select_advisor() function.
+     */
+    public static function select_advisor_parameters() {
+        return new external_function_parameters(array(
+            'student' => new external_value(PARAM_INT, 'The user id of the associated student.'),
+            'choice' => new external_value(PARAM_INT, 'The user id of the chosen advisor.')
+        ));
+    }
+
+    /**
+     * Selects the advisor for a student.
+     *
+     * @param int $student The user id of the associated student.
+     * @param int $choice The user id of the chosen advisor.
+     * @return bool True if the operation is succesful, false otherwise.
+     */
+    public static function select_advisor($student, $choice) {
+        external_api::validate_context(context_system::instance());
+        require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
+        $params = self::validate_parameters(self::select_advisor_parameters(), array(
+            'student' => $student, 'choice' => $choice
+        ));
+
+        global $DB;
+        $record = $DB->get_record('local_mxschool_adv_selection', array('userid' => $params['student']));
+        if (!$record) {
+            return false;
+        }
+        $record->selectedid = $params['choice'];
+        return $DB->update_record('local_mxschool_adv_selection', $record);
+    }
+
+    /**
+     * Returns a description of the select_advisor() function's return value.
+     *
+     * @return external_value Object describing the return value of the select_advisor() function.
+     */
+    public static function select_advisor_returns() {
+        return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
     }
 
 }

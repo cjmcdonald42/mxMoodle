@@ -54,10 +54,14 @@ class advisor_table extends local_mxschool_table {
         }
         $fields = array(
             's.id', 'u.id AS userid', 'asf.id AS asfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
-            'u.alternatename', "CONCAT(ca.lastname, ', ', ca.firstname) AS current", 'asf.keep_current AS keepcurrent',
-            "CONCAT(o1a.lastname, ', ', o1a.firstname) AS option1", "CONCAT(o2a.lastname, ', ', o2a.firstname) AS option2",
-            "CONCAT(o3a.lastname, ', ', o3a.firstname) AS option3", "CONCAT(o4a.lastname, ', ', o4a.firstname) AS option4",
-            "CONCAT(o5a.lastname, ', ', o5a.firstname) AS option5", "CONCAT(sa.lastname, ', ', sa.firstname) AS selected"
+            'u.alternatename', 'asf.keep_current AS keepcurrent',
+            "CONCAT(ca.lastname, ', ', ca.firstname) AS current", 'ca.id AS cid',
+            "CONCAT(o1a.lastname, ', ', o1a.firstname) AS option1", 'o1a.id AS o1id',
+            "CONCAT(o2a.lastname, ', ', o2a.firstname) AS option2", 'o2a.id AS o2id',
+            "CONCAT(o3a.lastname, ', ', o3a.firstname) AS option3", 'o3a.id AS o3id',
+            "CONCAT(o4a.lastname, ', ', o4a.firstname) AS option4", 'o4a.id AS o4id',
+            "CONCAT(o5a.lastname, ', ', o5a.firstname) AS option5", 'o5a.id AS o5id',
+            "CONCAT(sa.lastname, ', ', sa.firstname) AS selected", 'sa.id AS sid',
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{user} ca ON s.advisorid = ca.id',
@@ -74,7 +78,7 @@ class advisor_table extends local_mxschool_table {
         );
         $sortable = array('student', 'current', 'keepcurrent');
         $urlparams = array('submitted' => $filter->submitted, 'keepcurrent' => $filter->keepcurrent, 'search' => $filter->search);
-        $centered = array('keepcurrent');
+        $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'ca.firstname', 'ca.lastname', 'o1a.firstname', 'o1a.lastname',
             'o2a.firstname', 'o2a.lastname', 'o3a.firstname', 'o3a.lastname', 'o4a.firstname', 'o4a.lastname', 'o5a.firstname',
@@ -84,6 +88,8 @@ class advisor_table extends local_mxschool_table {
             'advisor_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable
         );
+
+        $this->column_class('selected', "{$this->column_class['selected']} selection-selected");
     }
 
     /**
@@ -93,7 +99,101 @@ class advisor_table extends local_mxschool_table {
         return isset($values->keepcurrent) ? ($values->keepcurrent ? get_string('yes') : get_string('no')) : '';
     }
 
-    // TODO: add buttons with ajax.
+    /**
+     * Formats the current column to a selection button.
+     */
+    protected function col_current($values) {
+        global $PAGE;
+        if (!isset($values->cid)) {
+            return '';
+        }
+        if ($this->is_downloading()) {
+            return $values->current;
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->cid, $values->current);
+        return $output->render($renderable);
+    }
+
+    /**
+     * Formats the option 1 column to a selection button.
+     */
+    protected function col_option1($values) {
+        global $PAGE;
+        if (!isset($values->o1id)) {
+            return '';
+        }
+        if ($this->is_downloading()) {
+            return $values->option1;
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o1id, $values->option1);
+        return $output->render($renderable);
+    }
+
+    /**
+     * Formats the option 2 column to a selection button.
+     */
+    protected function col_option2($values) {
+        global $PAGE;
+        if (!isset($values->o2id)) {
+            return '';
+        }
+        if ($this->is_downloading()) {
+            return $values->option2;
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o2id, $values->option2);
+        return $output->render($renderable);
+    }
+
+    /**
+     * Formats the option 3 column to a selection button.
+     */
+    protected function col_option3($values) {
+        global $PAGE;
+        if (!isset($values->o3id)) {
+            return '';
+        }
+        if ($this->is_downloading()) {
+            return $values->option3;
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o3id, $values->option3);
+        return $output->render($renderable);
+    }
+
+    /**
+     * Formats the option 4 column to a selection button.
+     */
+    protected function col_option4($values) {
+        global $PAGE;
+        if (!isset($values->o4id)) {
+            return '';
+        }
+        if ($this->is_downloading()) {
+            return $values->option4;
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o4id, $values->option4);
+        return $output->render($renderable);
+    }
+
+    /**
+     * Formats the option 5 column to a selection button.
+     */
+    protected function col_option5($values) {
+        global $PAGE;
+        if (!isset($values->o5id)) {
+            return '';
+        }
+        if ($this->is_downloading()) {
+            return $values->option5;
+        }
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o5id, $values->option5);
+        return $output->render($renderable);
+    }
 
     /**
      * Formats the actions column.
