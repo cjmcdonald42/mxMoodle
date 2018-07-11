@@ -62,5 +62,13 @@ $capabilities = array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
+    ), 'local/mxschool:manage_advisor_selection' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ), 'local/mxschool:manage_advisor_selection_preferences' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
     )
 );

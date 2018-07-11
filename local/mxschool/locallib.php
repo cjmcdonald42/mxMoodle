@@ -278,6 +278,27 @@ function get_passengers_list() {
 }
 
 /**
+ * Queries the database to create a list of all the students who have not filled out an advisor selection form.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_without_advisor_form_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the faculty.
  *
  * @return array The faculty as userid => name, ordered alphabetically by faculty name.
@@ -302,13 +323,13 @@ function get_faculty_list() {
  *
  * @return array The available advisors as userid => name, ordered alphabetically by advisor name.
  */
-function get_advisor_list() {
+function get_available_advisor_list() {
     global $DB;
     $list = array();
     $advisors = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
-         WHERE u.deleted = 0 and f.advisory_available = 'Yes' and f.advisory_closing = 'No' ORDER BY name"
+         WHERE u.deleted = 0 and f.advisory_available = 1 and f.advisory_closing = 0 ORDER BY name"
     );
     if ($advisors) {
         foreach ($advisors as $advisor) {
@@ -328,7 +349,7 @@ function get_approver_list() {
     $list = array();
     $allfaculty = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
-         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 'Yes' ORDER BY name"
+         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
     );
     if ($allfaculty) {
         foreach ($allfaculty as $faculty) {

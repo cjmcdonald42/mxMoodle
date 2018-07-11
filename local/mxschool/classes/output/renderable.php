@@ -351,6 +351,40 @@ class checkbox implements renderable, templatable {
 }
 
 /**
+ * Renderable class for tables which serve as legends.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class legend_table implements renderable, templatable {
+
+    /** @var array $rows $rows The rows of the table as arrays with keys leftclass, lefttext, rightclass, and righttext.*/
+    private $rows;
+
+    /**
+     * @param array $rows The rows of the table as arrays with keys leftclass, lefttext, rightclass, and righttext.
+     */
+    public function __construct($rows) {
+        $this->rows = $rows;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties value and emailclass.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->rows = $this->rows;
+        return $data;
+    }
+
+}
+
+/**
  * Renderable class for email buttons.
  *
  * @package    local_mxschool
@@ -390,40 +424,6 @@ class email_button implements renderable, templatable {
 }
 
 /**
- * Renderable class for tables which serve as legends.
- *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class legend_table implements renderable, templatable {
-
-    /** @var array $rows $rows The rows of the table as arrays with keys leftclass, lefttext, rightclass, and righttext.*/
-    private $rows;
-
-    /**
-     * @param array $rows The rows of the table as arrays with keys leftclass, lefttext, rightclass, and righttext.
-     */
-    public function __construct($rows) {
-        $this->rows = $rows;
-    }
-
-    /**
-     * Exports this data so it can be used as the context for a mustache template.
-     *
-     * @return stdClass Object with properties value and emailclass.
-     */
-    public function export_for_template(renderer_base $output) {
-        $data = new stdClass();
-        $data->rows = $this->rows;
-        return $data;
-    }
-
-}
-
-/**
  * Renderable class for sign in buttons.
  *
  * @package    local_mxschool
@@ -452,6 +452,52 @@ class signin_button implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         $data->value = $this->value;
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for selection buttons.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class selection_button implements renderable, templatable {
+
+    /** @var int $student The user id of the affected student.*/
+    private $student;
+    /** @var int $option The user id of the selected option.*/
+    private $option;
+    /** @var string $displaytext The text to display on the button.*/
+    private $displaytext;
+
+    /**
+     * @param int $student The user id of the affected student.
+     * @param int $option The user id of the selected option.
+     * @param string $displaytext The text to display on the button.
+     */
+    public function __construct($student, $option, $displaytext) {
+        $this->student = $student;
+        $this->option = $option;
+        $this->displaytext = $displaytext;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties value and display text.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $value = new stdClass();
+        $value->student = $this->student;
+        $value->choice = $this->option;
+        $data->value = json_encode($value);
+        $data->displaytext = $this->displaytext;
         return $data;
     }
 

@@ -70,14 +70,13 @@ if ($id) {
     $data->timecreated = time();
     if ($istutor) {
         $data->tutor = $USER->id;
+        $record = $DB->get_record_sql(
+            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS tutor FROM {user} u WHERE u.id = ?", array($USER->id)
+        );
     }
 }
 $data->istutor = $istutor;
 $tutors = get_tutor_list();
-$userid = $istutor ? $USER->id : (count($tutors) ? array_keys($tutors)[0] : 0);
-$record = $DB->get_record_sql(
-    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS tutor FROM {user} u WHERE u.id = ?", array($userid)
-);
 $students = get_student_list();
 $departments = array(0 => get_string('tutoring_form_department_default', 'local_peertutoring')) + get_department_list();
 $courses = array(0 => get_string('tutoring_form_course_default', 'local_peertutoring')) + get_course_list();

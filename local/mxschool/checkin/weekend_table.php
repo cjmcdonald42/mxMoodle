@@ -132,7 +132,7 @@ class weekend_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the approved column to a checkbox.
+     * Formats the approved column to a checkbox and an email button.
      */
     protected function col_approved($values) {
         global $PAGE;

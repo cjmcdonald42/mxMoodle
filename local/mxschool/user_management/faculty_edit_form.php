@@ -49,9 +49,9 @@ class faculty_edit_form extends local_mxschool_form {
                 'email' => parent::ELEMENT_EMAIL_REQUIRED,
                 'facultycode' => parent::ELEMENT_TEXT,
                 'dorm' => array('element' => 'select', 'options' => $dorms),
-                'approvesignout' => parent::ELEMENT_YES_NO_REQUIRED,
-                'advisoryavailable' => parent::ELEMENT_YES_NO_REQUIRED,
-                'advisoryclosing' => parent::ELEMENT_YES_NO_REQUIRED
+                'approvesignout' => parent::ELEMENT_BOOLEAN_REQUIRED,
+                'advisoryavailable' => parent::ELEMENT_BOOLEAN_REQUIRED,
+                'advisoryclosing' => parent::ELEMENT_BOOLEAN_REQUIRED
             )
         );
         parent::set_fields($fields, 'faculty_edit');

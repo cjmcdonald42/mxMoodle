@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180628" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180710" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
+    <TABLE NAME="local_mxschool_adv_selection" COMMENT="mxschool advisor selection form table - stores the forms which students submit for advisor selection">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student."/>
+        <FIELD NAME="keep_current" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the student selects to keep their current advisor."/>
+        <FIELD NAME="option1id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's first selection."/>
+        <FIELD NAME="option2id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's second selection."/>
+        <FIELD NAME="option3id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's third selection."/>
+        <FIELD NAME="option4id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's fourth selection."/>
+        <FIELD NAME="option5id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's fifth selection."/>
+        <FIELD NAME="selectedid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the advisor selected for the student."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+        <KEY NAME="option1" TYPE="foreign" FIELDS="option1id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's first selection."/>
+        <KEY NAME="option2" TYPE="foreign" FIELDS="option2id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's second selection."/>
+        <KEY NAME="option3" TYPE="foreign" FIELDS="option3id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's third selection."/>
+        <KEY NAME="option4" TYPE="foreign" FIELDS="option4id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's fourth selection."/>
+        <KEY NAME="option5" TYPE="foreign" FIELDS="option5id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's fifth selection."/>
+        <KEY NAME="selected" TYPE="foreign" FIELDS="selectedid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the advisor selected for the student."/>
+      </KEYS>
+    </TABLE>
     <TABLE NAME="local_mxschool_comment" COMMENT="mxschool weekend comment table - used for dorm faculty to add comments to weekend reports">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
@@ -62,9 +87,9 @@
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the faculty."/>
         <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the faculty's dorm, if the faculty is a dorm faculty."/>
         <FIELD NAME="faculty_code" TYPE="char" LENGTH="5" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty's 5 character code from Senior Systems."/>
-        <FIELD NAME="may_approve_signout" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty may approve student sign out {&quot;Yes&quot;, &quot;No&quot;}."/>
-        <FIELD NAME="advisory_available" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty's advisory is accepting new advisees {&quot;Yes&quot;, &quot;No&quot;}."/>
-        <FIELD NAME="advisory_closing" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the faculty's advisory is going to close and all students must switch out of it {&quot;Yes&quot;, &quot;No&quot;}."/>
+        <FIELD NAME="may_approve_signout" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty may approve student sign out {1, 0}."/>
+        <FIELD NAME="advisory_available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the faculty's advisory is accepting new advisees {1, 0}."/>
+        <FIELD NAME="advisory_closing" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty's advisory is going to close and all students must switch out of it {1, 0}."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

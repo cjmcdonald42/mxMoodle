@@ -99,11 +99,19 @@ class local_mxschool_external extends external_api {
      */
     public static function set_boolean_field($table, $field, $id, $value) {
         external_api::validate_context(context_system::instance());
-        // This may need to change in the future to make this function more reusable.
-        require_capability('local/mxschool:manage_weekend', context_system::instance());
         $params = self::validate_parameters(self::set_boolean_field_parameters(), array(
             'table' => $table, 'field' => $field, 'id' => $id, 'value' => $value)
         );
+        switch ($params['table']) {
+            case 'local_mxschool_weekend_form':
+                require_capability('local/mxschool:manage_weekend', context_system::instance());
+                break;
+            case 'local_mxschool_faculty':
+                require_capability('local/mxschool:manage_faculty', context_system::instance());
+                break;
+            default:
+                throw new moodle_exception('Invalid table.');
+        }
 
         global $DB;
         $record = $DB->get_record($params['table'], array('id' => $params['id']));
@@ -215,21 +223,21 @@ class local_mxschool_external extends external_api {
      */
     public static function get_esignout_student_options_returns() {
         return new external_single_structure(array(
-                'types' => new external_multiple_structure(
-                    new external_value(PARAM_TEXT, 'the identifier of the type')
-                ), 'passengers' => new external_multiple_structure(
-                    new external_single_structure(array(
-                        'userid' => new external_value(PARAM_INT, 'user id of the student'),
-                        'name' => new external_value(PARAM_TEXT, 'name of the student')
-                    ))
-                ), 'drivers' => new external_multiple_structure(
-                    new external_single_structure(array(
-                        'esignoutid' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
-                        'name' => new external_value(PARAM_TEXT, 'name of the driver')
-                    ))
-                ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
-                'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
-                'specificdrivers' => new external_value(PARAM_TEXT, 'the comment for the student\'s riding permission')
+            'types' => new external_multiple_structure(
+                new external_value(PARAM_TEXT, 'the identifier of the type')
+            ), 'passengers' => new external_multiple_structure(
+                new external_single_structure(array(
+                    'userid' => new external_value(PARAM_INT, 'user id of the student'),
+                    'name' => new external_value(PARAM_TEXT, 'name of the student')
+                ))
+            ), 'drivers' => new external_multiple_structure(
+                new external_single_structure(array(
+                    'esignoutid' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
+                    'name' => new external_value(PARAM_TEXT, 'name of the driver')
+                ))
+            ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
+            'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
+            'specificdrivers' => new external_value(PARAM_TEXT, 'the comment for the student\'s riding permission')
         ));
     }
 
@@ -263,10 +271,10 @@ class local_mxschool_external extends external_api {
      */
     public static function get_esignout_driver_details_returns() {
         return new external_single_structure(array(
-                'destination' => new external_value(PARAM_TEXT, 'the driver\'s destination'),
-                'departurehour' => new external_value(PARAM_TEXT, 'the hour of the driver\'s departure time'),
-                'departureminute' => new external_value(PARAM_TEXT, 'the minute of the driver\'s departure time'),
-                'departureampm' => new external_value(PARAM_BOOL, 'whether the driver\'s departure time is am (0) or pm (1)')
+            'destination' => new external_value(PARAM_TEXT, 'the driver\'s destination'),
+            'departurehour' => new external_value(PARAM_TEXT, 'the hour of the driver\'s departure time'),
+            'departureminute' => new external_value(PARAM_TEXT, 'the minute of the driver\'s departure time'),
+            'departureampm' => new external_value(PARAM_BOOL, 'whether the driver\'s departure time is am (0) or pm (1)')
         ));
     }
 
@@ -302,6 +310,116 @@ class local_mxschool_external extends external_api {
      */
     public static function sign_in_returns() {
         return new external_value(PARAM_TEXT, 'The text to display for the sign in time.');
+    }
+
+    /**
+     * Returns descriptions of the get_advisor_selection_student_options() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_advisor_selection_student_options() function.
+     */
+    public static function get_advisor_selection_student_options_parameters() {
+        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
+    }
+
+    /**
+     * Queries the database to determine the current advisor, advisory status, and list of possible advisors
+     * for a particular student as well as a list of students who have not completed the form.
+     *
+     * @param int $userid The user id of the student.
+     * @return stdClass With properties students, current, closing, and available.
+     */
+    public static function get_advisor_selection_student_options($userid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_advisor_selection_student_options_parameters(), array('userid' => $userid));
+
+        global $DB;
+        $result = new stdClass();
+        $list = get_student_without_advisor_form_list();
+        $result->students = array();
+        foreach ($list as $userid => $name) {
+            $result->students[] = array('userid' => $userid, 'name' => $name);
+        }
+        $result->current = $DB->get_record_sql(
+            "SELECT u.id AS userid, CONCAT(u.lastname, ', ', u.firstname) AS name
+             FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.advisorid = u.id
+             WHERE s.userid = ?", array($params['userid'])
+        );
+        $result->closing = $DB->get_field_sql(
+            "SELECT f.advisory_closing
+             FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_faculty} f ON s.advisorid = f.userid
+             WHERE s.userid = ?", array($params['userid'])
+        );
+        $list = get_available_advisor_list();
+        $result->available = array();
+        foreach ($list as $userid => $name) {
+            $result->available[] = array('userid' => $userid, 'name' => $name);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_advisor_selection_student_options() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_advisor_selection_student_options() function.
+     */
+    public static function get_advisor_selection_student_options_returns() {
+        return new external_single_structure(array(
+            'students' => new external_multiple_structure(new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'the user id of the student who has not completed an advisor selection form'),
+                'name' => new external_value(PARAM_TEXT, 'the name of the student who has not completed an advisor selection form')
+            ))), 'current' => new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'the user id of the student\' current advisor'),
+                'name' => new external_value(PARAM_TEXT, 'the name of the student\' current advisor')
+            )), 'closing' => new external_value(PARAM_BOOL, 'whether the student\'s advisory is closing'),
+            'available' => new external_multiple_structure(new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'the user id of the available faculty'),
+                'name' => new external_value(PARAM_TEXT, 'the name of the available faculty')
+            )))
+        ));
+    }
+
+    /**
+     * Returns descriptions of the select_advisor() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the select_advisor() function.
+     */
+    public static function select_advisor_parameters() {
+        return new external_function_parameters(array(
+            'student' => new external_value(PARAM_INT, 'The user id of the associated student.'),
+            'choice' => new external_value(PARAM_INT, 'The user id of the chosen advisor.')
+        ));
+    }
+
+    /**
+     * Selects the advisor for a student.
+     *
+     * @param int $student The user id of the associated student.
+     * @param int $choice The user id of the chosen advisor.
+     * @return bool True if the operation is succesful, false otherwise.
+     */
+    public static function select_advisor($student, $choice) {
+        external_api::validate_context(context_system::instance());
+        require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
+        $params = self::validate_parameters(self::select_advisor_parameters(), array(
+            'student' => $student, 'choice' => $choice
+        ));
+
+        global $DB;
+        $record = $DB->get_record('local_mxschool_adv_selection', array('userid' => $params['student']));
+        if (!$record) {
+            return false;
+        }
+        $record->selectedid = $params['choice'];
+        return $DB->update_record('local_mxschool_adv_selection', $record);
+    }
+
+    /**
+     * Returns a description of the select_advisor() function's return value.
+     *
+     * @return external_value Object describing the return value of the select_advisor() function.
+     */
+    public static function select_advisor_returns() {
+        return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
     }
 
 }

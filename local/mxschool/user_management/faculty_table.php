@@ -50,13 +50,34 @@ class faculty_table extends local_mxschool_table {
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
         $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
-        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
         $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
+        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
         $searchable = array('u.firstname', 'u.lastname');
         parent::__construct(
             'faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $filter->search,
             $searchable
         );
+    }
+
+    /**
+     * Formats the approve signout column.
+     */
+    protected function col_approvesignout($values) {
+        return $values->approvesignout ? get_string('yes') : get_string('no');
+    }
+
+    /**
+     * Formats the advisory available column.
+     */
+    protected function col_advisoryavailable($values) {
+        return $values->advisoryavailable ? get_string('yes') : get_string('no');
+    }
+
+    /**
+     * Formats the advisory closing column.
+     */
+    protected function col_advisoryclosing($values) {
+        return $values->advisoryclosing ? get_string('yes') : get_string('no');
     }
 
     /**

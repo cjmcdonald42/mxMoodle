@@ -37,7 +37,7 @@ class tutoring_table extends local_mxschool_table {
      * @param string $download Indicates whether the table is downloading.
      */
     public function __construct($filter, $download) {
-        $this->is_downloading($download, 'Peer Tutoring Records', 'peertutoring');
+        $this->is_downloading($download, 'Peer Tutoring Records', 'Peer Tutoring Record');
         $columns = array('tutor', 'tutoringdate', 'student', 'department', 'course', 'topic', 'type', 'rating', 'notes');
         $headers = array();
         foreach ($columns as $column) {

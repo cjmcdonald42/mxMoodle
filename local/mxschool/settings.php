@@ -60,5 +60,10 @@ if ($hassiteconfig) {
         new lang_string('driving_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/driving/index.php")
     );
+    $ADMIN->add('indexes', new admin_externalpage(
+        'advisor_selection_index',
+        new lang_string('advisor_selection_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/advisor_selection/index.php")
+    );
 
 }

@@ -57,6 +57,8 @@ $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend 
 $string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
 $string['mxschool:manage_esignout'] = 'Middlesex School: View and manage student eSignout records';
 $string['mxschool:manage_esignout_preferences'] = 'Middlesex School: View and manage eSignout preferences';
+$string['mxschool:manage_advisor_selection'] = 'Middlesex School: View and manage student advisor selection records';
+$string['mxschool:manage_advisor_selection_preferences'] = 'Middlesex School: View and manage advisor selection preferences';
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
@@ -68,6 +70,7 @@ $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
 $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
 $string['driving_index'] = 'Driving and eSignout Index';
+$string['advisor_selection_index'] = 'Advisor Selection Index';
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Events.
@@ -84,6 +87,7 @@ $string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully'
 $string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
 $string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
+$string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
@@ -300,8 +304,8 @@ $string['weekday_report_header_early'] = 'Early';
 $string['weekday_report_header_late'] = 'Late';
 
 // Weekend Form.
-$string['weekend_form_topdescription'] = 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.';
-$string['weekend_form_bottomdescription'] = 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{$a->hoh}</b> @ <b>{$a->permissionsline}</b>.<br>If your plans change, you must get permission from <b>{$a->hoh}</b>. <b>Remember to sign out.</b>';
+$string['weekend_form_topdescription'] = 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.'; // TODO: MOVE TO CONFIG.
+$string['weekend_form_bottomdescription'] = 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{$a->hoh}</b> @ <b>{$a->permissionsline}</b>.<br>If your plans change, you must get permission from <b>{$a->hoh}</b>. <b>Remember to sign out.</b>'; // TODO: MOVE TO CONFIG.
 
 $string['weekend_form_dorm'] = 'Dorm';
 $string['weekend_form_student'] = 'Student';
@@ -414,10 +418,10 @@ $string['esignout_form_passengers_placeholder'] = 'Search Passengers';
 $string['esignout_form_driver_default'] = 'Select';
 $string['esignout_form_approver_default'] = 'Select';
 
-$string['esignout_form_passengers_warning'] = 'Your permissions indicate that you may not drive passengers.';
-$string['esignout_form_parent_warning'] = 'Your permissions indicate that you need a call from your parent.';
-$string['esignout_form_specific_warning'] = 'Your permissions indicate that you may only be the passenger of the following drivers:';
-$string['esignout_form_permissions_submit'] = 'Have you recieved the required permissions?';
+$string['esignout_form_passengers_warning'] = 'Your permissions indicate that you may not drive passengers.'; // TODO: MOVE TO CONFIG.
+$string['esignout_form_parent_warning'] = 'Your permissions indicate that you need a call from your parent.'; // TODO: MOVE TO CONFIG.
+$string['esignout_form_specific_warning'] = 'Your permissions indicate that you may only be the passenger of the following drivers:'; // TODO: MOVE TO CONFIG.
+$string['esignout_form_permissions_submit'] = 'Have you recieved the required permissions?'; // TODO: MOVE TO CONFIG.
 $string['esignout_form_permissions_submit_yes'] = 'Yes';
 $string['esignout_form_permissions_submit_no'] = 'No';
 
@@ -426,11 +430,11 @@ $string['esignout_form_error_nodriver'] = 'You must specify a driver.';
 $string['esignout_form_error_nodestination'] = 'You must specify a destination.';
 $string['esignout_form_error_noapprover'] = 'You must specify who approved your signout.';
 
-$string['esignout_notification_warning_driver'] = 'None.';
-$string['esignout_notification_warning_anydriver'] = 'None.';
-$string['esignout_notification_warning_parentpermission'] = 'This student requires parent permission to be the passenger of another student.';
-$string['esignout_notification_warning_specificdrivers'] = 'This student only has permission to the be the passenger of the following drivers: ';
-$string['esignout_notification_warning_over21'] = 'This student does NOT have permission to be the passenger of anyone under 21.';
+$string['esignout_notification_warning_driver'] = 'None.'; // TODO: MOVE TO CONFIG.
+$string['esignout_notification_warning_anydriver'] = 'None.'; // TODO: MOVE TO CONFIG.
+$string['esignout_notification_warning_parentpermission'] = 'This student requires parent permission to be the passenger of another student.'; // TODO: MOVE TO CONFIG.
+$string['esignout_notification_warning_specificdrivers'] = 'This student only has permission to the be the passenger of the following drivers: '; // TODO: MOVE TO CONFIG.
+$string['esignout_notification_warning_over21'] = 'This student does NOT have permission to be the passenger of anyone under 21.'; // TODO: MOVE TO CONFIG.
 
 // Report for eSignout.
 $string['esignout_report_select_type_all'] = 'All Types';
@@ -454,3 +458,49 @@ $string['esignout_report_header_signin'] = 'Sign In Time';
 
 $string['esignout_report_nopassengers'] = 'None';
 $string['sign_in_button'] = 'Sign In';
+
+/* Advisor Selection. */
+$string['advisor_selection'] = 'Advisor Selection';
+$string['advisor_selection_preferences'] = 'Advisor Selection Preferences';
+$string['advisor_selection_form'] = 'Advisor Selection Form';
+$string['advisor_selection_report'] = 'Advisor Selection Report';
+
+// Advisor Selection Form.
+$string['advisor_form_header_info'] = 'General Information';
+$string['advisor_form_header_options'] = 'Choices';
+$string['advisor_form_header_deans'] = 'Deans\' Selection';
+$string['advisor_form_info_student'] = 'Student';
+$string['advisor_form_info_current'] = 'Current Advisor';
+$string['advisor_form_info_keepcurrent'] = 'Keep Current Advisor';
+$string['advisor_form_options_option1'] = 'First Choice';
+$string['advisor_form_options_option2'] = 'Second Choice';
+$string['advisor_form_options_option3'] = 'Third Choice';
+$string['advisor_form_options_option4'] = 'Fourth Choice';
+$string['advisor_form_options_option5'] = 'Fifth Choice';
+$string['advisor_form_deans_selected'] = 'Chosen Advisor';
+
+$string['advisor_form_info_warning'] = 'Your current advisor\'s advisory is closing, so you must provide choices for a new advisor.'; // TODO: MOVE TO CONFIG.
+$string['advisor_form_options_instructions'] = 'Please rank you top five advisor choices in descending order. You may rank less than five if your final choice is your current advisor.'; // TODO: MOVE TO CONFIG.
+$string['advisor_form_faculty_default'] = 'Select';
+
+$string['advisor_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';
+$string['advisor_form_error_incomplete'] = 'You must either select five choices, or you current advisor must be your final choice.';
+
+// Advisor Selection Report.
+$string['advisor_selection_report_select_submitted_all'] = 'All';
+$string['advisor_selection_report_select_submitted_true'] = 'Submitted';
+$string['advisor_selection_report_select_submitted_false'] = 'Not Submitted';
+$string['advisor_selection_report_select_keepcurrent_all'] = 'All';
+$string['advisor_selection_report_select_keepcurrent_true'] = 'Keeping Current Advisor';
+$string['advisor_selection_report_select_keepcurrent_false'] = 'Changing Advisor';
+$string['advisor_selection_report_add'] = 'New Advisor Selection Form';
+
+$string['advisor_report_header_student'] = 'Student';
+$string['advisor_report_header_current'] = 'Current Advisor';
+$string['advisor_report_header_keepcurrent'] = 'Keep Current Advisor?';
+$string['advisor_report_header_option1'] = 'Choice 1';
+$string['advisor_report_header_option2'] = 'Choice 2';
+$string['advisor_report_header_option3'] = 'Choice 3';
+$string['advisor_report_header_option4'] = 'Choice 4';
+$string['advisor_report_header_option5'] = 'Choice 5';
+$string['advisor_report_header_selected'] = 'Chosen Advisor';

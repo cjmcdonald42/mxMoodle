@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Main index page for Middlesex School's Dorm and Student functions plugin.
+ * Advisor selection preferences page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,28 +24,41 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(__DIR__.'/../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
-require_once(__DIR__.'/classes/output/renderable.php');
+require(__DIR__.'/../../../config.php');
+require_once('faculty_table.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/events/page_visited.php');
+require_once(__DIR__.'/../locallib.php');
 
-admin_externalpage_setup('main_index');
+require_login();
+require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());
 
-$url = '/local/mxschool/index.php';
-$title = get_string('pluginname', 'local_mxschool');
+$search = optional_param('search', '', PARAM_RAW);
+
+$parents = array(
+    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
+    get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
+);
+$url = '/local/mxschool/advisor_selection/preferences.php';
+$title = get_string('advisor_selection_preferences', 'local_mxschool');
+
+$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
+$event->trigger();
 
 $PAGE->set_url(new moodle_url($url));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
+$PAGE->set_pagelayout('incourse');
+foreach ($parents as $display => $url) {
+    $PAGE->navbar->add($display, new moodle_url($url));
+}
+$PAGE->navbar->add($title);
+
+$table = new faculty_table($search);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index_page(array(
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php',
-    get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php',
-    get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php',
-    get_string('peertutoring', 'local_peertutoring') => '/local/peertutoring/index.php',
-));
+$renderable = new \local_mxschool\output\report_page($table, 50, $search);
 
 echo $output->header();
 echo $output->heading($title);

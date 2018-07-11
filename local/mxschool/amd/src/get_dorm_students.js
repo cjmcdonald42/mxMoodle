@@ -42,8 +42,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                 });
                 if ($('.mx-form select#id_student > option[value=' + studentSelected + ']').length) {
                     studentSelect.val(studentSelected);
+                } else {
+                    studentSelect.change();
                 }
-                studentSelect.change();
             }).fail(notification.exception);
         });
     };
