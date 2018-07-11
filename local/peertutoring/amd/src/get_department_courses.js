@@ -42,8 +42,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                 });
                 if ($('.mx-form select#id_course > option[value=' + courseSelected + ']').length) {
                     courseSelect.val(courseSelected);
+                } else {
+                    courseSelect.change();
                 }
-                courseSelect.change();
             }).fail(notification.exception);
         });
     };

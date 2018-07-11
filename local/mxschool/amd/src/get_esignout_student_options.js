@@ -14,9 +14,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the types and passengers fields of the eSignout form for Middlesex School's Dorm and Student functions plugin.
+ * Updates the options of the eSignout form and displays permissions warnings
+ * for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_esignout_driver_details
+ * @module     local_mxschool/get_esignout_student_options
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -94,7 +95,9 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             if (passengersReselect.length) {
                 passengersSelect.val(passengersReselect);
             }
-            passengersSelect.change();
+            if (passengersSelected.toString() !== passengersReselect.toString()) {
+                passengersSelect.change();
+            }
             var driverSelect = $('.mx-form select#id_driver');
             var driverSelected = driverSelect.val();
             driverSelect.empty();
@@ -103,13 +106,14 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             });
             if ($('.mx-form select#id_driver > option[value=' + driverSelected + ']').length) {
                 driverSelect.val(driverSelected);
+            } else {
+                driverSelect.change();
             }
-            driverSelect.change();
         }).fail(notification.exception);
     }
     return function() {
         $(document).ready(update);
-        $('.mx-form div[data-groupname="type_select"]').change(update);
         $('.mx-form select#id_student').change(update);
+        $('.mx-form div[data-groupname="type_select"]').change(update);
     };
 });

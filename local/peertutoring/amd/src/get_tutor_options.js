@@ -41,8 +41,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             });
             if ($('.mx-form select#id_student > option[value=' + studentSelected + ']').length) {
                 studentSelect.val(studentSelected);
+            } else {
+                studentSelect.change();
             }
-            studentSelect.change();
             var departmentSelect = $('.mx-form select#id_department');
             var departmentSelected = departmentSelect.val();
             departmentSelect.empty();
@@ -51,8 +52,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             });
             if ($('.mx-form select#id_department > option[value=' + departmentSelected + ']').length) {
                 departmentSelect.val(departmentSelected);
+            } else {
+                departmentSelect.change();
             }
-            departmentSelect.change();
         }).fail(notification.exception);
     }
     return function() {

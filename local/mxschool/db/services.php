@@ -73,5 +73,13 @@ $functions = array(
         'description' => 'Signs in an eSignout record and records the timestamp.',
         'type' => 'write',
         'ajax' => 'true'
-    )
+    ), 'local_mxschool_get_advisor_selection_student_options' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'get_advisor_selection_student_options',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Queries the database to determine the current advisor, advisory status, and list of possible advisors
+                          for a particular student as well as a list of students who have not completed the form.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ),
 );

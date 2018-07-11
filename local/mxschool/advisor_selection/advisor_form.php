@@ -45,13 +45,19 @@ class advisor_form extends local_mxschool_form {
         ), 'info' => array(
             'student' => array('element' => 'select', 'options' => $students),
             'current' => array('element' => 'static'),
-            'keepcurrent' => parent::ELEMENT_BOOLEAN
+            'keepcurrent' => parent::ELEMENT_BOOLEAN,
+            'warning' => array(
+                'element' => 'static', 'name' => null, 'text' => get_string('advisor_form_info_warning', 'local_mxschool')
+            )
         ), 'options' => array(
-            'option1' => array('element' => 'select', 'options' => $faculty),
+            'instructions' => array(
+                'element' => 'static', 'name' => null, 'text' => get_string('advisor_form_options_instructions', 'local_mxschool')
+            ), 'option1' => array('element' => 'select', 'options' => $faculty),
             'option2' => array('element' => 'select', 'options' => $faculty),
             'option3' => array('element' => 'select', 'options' => $faculty),
             'option4' => array('element' => 'select', 'options' => $faculty),
-            'option5' => array('element' => 'select', 'options' => $faculty),
+            'option5' => array('element' => 'select', 'options' => $faculty)
+        ), 'deans' => array(
             'selected' => array('element' => 'select', 'options' => $faculty),
         ));
         parent::set_fields($fields, 'advisor_form');
@@ -59,7 +65,6 @@ class advisor_form extends local_mxschool_form {
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
-        $mform->hideIf('selected', 'isstudent', 'eq');
     }
 
     /**
@@ -74,7 +79,18 @@ class advisor_form extends local_mxschool_form {
         if ($data['keepcurrent'] === '') {
             $errors['keepcurrent'] = get_string('advisor_form_error_nokeepcurrent', 'local_mxschool');
         }
-        // TODO: More Validation.
+        if ($data['keepcurrent'] === '0') {
+            $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data['student']));
+            for ($i = 1; $i <= 5; $i++) {
+                if (!$data["option{$i}"]) {
+                    $errors["option{$i}"] = get_string('advisor_form_error_incomplete', 'local_mxschool');
+                    break;
+                }
+                if ($data["option{$i}"] === $current) {
+                    break;
+                }
+            }
+        }
         return $errors;
     }
 }

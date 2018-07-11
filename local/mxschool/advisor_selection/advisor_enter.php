@@ -70,12 +70,14 @@ if ($id) {
             redirect(new moodle_url($url, array('id' => $existingid)));
         }
         $data->student = $USER->id;
-        $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student FROM {user} u WHERE u.id = ?", array($USER->id)
-        );
     }
 }
-$data->isstudent = $isstudent;
+if ($isstudent) {
+    $record = $DB->get_record_sql(
+        "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student FROM {user} u WHERE u.id = ?", array($USER->id)
+    );
+}
+$data->isstudent = $isstudent ? '1' : '0';
 $data->current = isset($data->student) ? $DB->get_field_sql(
     "SELECT CONCAT(u.lastname, ', ', u.firstname)
      FROM {local_mxschool_student} s
@@ -106,6 +108,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+    $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data->student));
     $data->timemodified = time();
     if ($data->keepcurrent) {
         $discardfrom = 1;
@@ -113,6 +116,10 @@ if ($form->is_cancelled()) {
         for ($i = 1; $i <= 5; $i++) {
             if (!$data->{"option{$i}"}) {
                 $discardfrom = $i;
+                break;
+            }
+            if ($data->{"option{$i}"} === $current) {
+                $discardfrom = $i + 1;
                 break;
             }
         }
@@ -133,11 +140,11 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form_page($form);
-
-// TODO add ajax.
+$formrenderable = new \local_mxschool\output\form_page($form);
+$jsrenderable = new \local_mxschool\output\js_module('local_mxschool/get_advisor_selection_student_options');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
-echo $output->render($renderable);
+echo $output->render($formrenderable);
+echo $output->render($jsrenderable);
 echo $output->footer();
