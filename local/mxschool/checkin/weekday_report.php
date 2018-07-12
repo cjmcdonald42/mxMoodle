@@ -43,7 +43,7 @@ $parents = array(
 $url = '/local/mxschool/checkin/weekday_report.php';
 $title = get_string('weekday_report', 'local_mxschool');
 
-$dorms = get_boarding_dorms_list();
+$dorms = get_boarding_dorm_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

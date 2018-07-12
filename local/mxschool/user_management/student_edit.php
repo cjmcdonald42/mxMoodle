@@ -65,7 +65,7 @@ $ridingencode = array(
 );
 $data = get_record($queryfields, "s.id = ?", array($id));
 $data->riding = $ridingencode[$data->riding];
-$dorms = get_dorms_list();
+$dorms = get_dorm_list();
 $advisors = get_available_advisor_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

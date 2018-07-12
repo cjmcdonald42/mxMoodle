@@ -59,28 +59,32 @@ class mx_notifications {
                      LEFT JOIN {user} u ON s.userid = u.id LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
                      LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE wf.id = ?", array($params['id'])
                 );
+                $record->departuretime = date('n/j/y g:i A', $record->departuretime);
+                $record->returntime = date('n/j/y g:i A', $record->returntime);
+                $record->timesubmitted = date('n/j/y g:i A', $record->timesubmitted);
                 $weekendsused = calculate_weekends_used($record->student, get_current_semester());
                 $record->weekendnum = (new NumberFormatter('en_us', NumberFormatter::ORDINAL))->format($weekendsused);
                 $record->weekendtotal = calculate_weekends_allowed($record->student, get_current_semester());
-                $record->instructions = get_string(
-                    'weekend_form_bottomdescription', 'local_mxschool', array(
-                        'hoh' => $record->hohname, 'permissionsline' => $record->permissionsline
-                    )
-                );
-                $studentemail = $DB->get_record('user', array('id' => $record->student));
-                $hohemail = $DB->get_record('user', array('id' => $record->hoh));
+                $instructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
+                $replacements = new stdClass();
+                $replacements->hoh = $record->hohname;
+                $replacements->permissionsline = $record->permissionsline;
+                $record->instructions = self::replace($instructions, $replacements);
+
                 $subject = self::replace($notification->subject, $record);
                 $body = self::replace($notification->body_html, $record);
-                return email_to_user($studentemail, $supportuser, $subject, '', $body)
-                    && email_to_user($hohemail, $supportuser, $subject, '', $body);
+                $emailto = array(
+                    $DB->get_record('user', array('id' => $record->student)), $DB->get_record('user', array('id' => $record->hoh))
+                );
+                break;
             case 'esignout_submitted':
                 if (!isset($params['id'])) {
                     return false;
                 }
                 $record = $DB->get_record_sql(
-                    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, es.type, es.passengers,
+                    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS studentname, es.type, es.passengers,
                      CONCAT(du.firstname, ' ', du.lastname) AS driver, d.destination, d.departure_time AS departuretime,
-                     CONCAT(a.firstname, ' ', a.lastname) AS approver, es.time_modified AS submittime,
+                     CONCAT(a.firstname, ' ', a.lastname) AS approver, es.time_modified AS timesubmitted,
                      p.may_ride_with AS passengerpermission, p.ride_permission_details AS specificdrivers
                      FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
                      LEFT JOIN {local_mxschool_esignout} d ON es.driverid = d.id LEFT JOIN {user} du ON d.userid = du.id
@@ -102,7 +106,7 @@ class mx_notifications {
                 }
                 $record->date = date('n/j/y', $record->departuretime);
                 $record->departuretime = date('g:i A', $record->departuretime);
-                $record->submittime = date('g:i A', $record->submittime);
+                $record->timesubmitted = date('g:i A', $record->timesubmitted);
                 $emaildeans = false;
                 if ($record->type !== 'Driver') {
                     if ($record->passengerpermission === 'Any Driver') {
@@ -145,14 +149,11 @@ class mx_notifications {
                     $deans->email = $CFG->local_mxschool_email_deans;
                     $emailto[] = $deans;
                 }
-                $result = true;
-                foreach ($emailto as $recipient) {
-                    // $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
-                }
-                return $result;
+                break;
             default:
                 return false;
         }
+        return self::email_all($emailto, $subject, $body);
     }
 
     /**
@@ -168,6 +169,22 @@ class mx_notifications {
             $string = str_replace("{{$placeholder}}", $value, $string);
         }
         return $string;
+    }
+
+    /**
+     * Emails a list of users.
+     *
+     * @param array $emailto The users to send the email to.
+     * @param string $subject The subject line of the email.
+     * @param string $body The body html of the email.
+     */
+    private static function email_all($emailto, $subject, $body) {
+        $supportuser = core_user::get_support_user();
+        $result = true;
+        foreach ($emailto as $recipient) {
+            // $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
+        }
+        return $result;
     }
 
 }

@@ -78,7 +78,7 @@ if ($action === 'delete' && $id) {
     }
 }
 
-$dates = get_esignout_dates_list();
+$dates = get_esignout_date_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

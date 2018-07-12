@@ -52,7 +52,7 @@ class local_mxschool_external extends external_api {
         require_capability('local/mxschool:manage_weekend', context_system::instance());
         $params = self::validate_parameters(self::get_dorm_students_parameters(), array('dorm' => $dorm));
 
-        $list = get_students_in_dorm_list($params['dorm']);
+        $list = get_dorm_student_list($params['dorm']);
         $result = array();
         foreach ($list as $userid => $name) {
             $result[] = array('userid' => $userid, 'name' => $name);
@@ -193,15 +193,15 @@ class local_mxschool_external extends external_api {
 
         global $DB;
         $result = new stdClass();
-        $result->types = get_allowed_esignout_types_list($params['userid']);
-        $list = get_passengers_list();
+        $result->types = get_esignout_type_list($params['userid']);
+        $list = get_passenger_list();
         $result->passengers = array();
         foreach ($list as $userid => $name) {
             if ($userid !== $params['userid']) {
                 $result->passengers[] = array('userid' => $userid, 'name' => $name);
             }
         }
-        $list = get_current_drivers_list($params['userid']);
+        $list = get_current_driver_list($params['userid']);
         $result->drivers = array();
         foreach ($list as $esignoutid => $name) {
             $result->drivers[] = array('esignoutid' => $esignoutid, 'name' => $name);

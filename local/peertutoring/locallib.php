@@ -27,6 +27,16 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Determines whether the user has a record in the tutor table of the database.
+ *
+ * @return bool Whether the user is a tutor.
+ */
+function user_is_tutor() {
+    global $USER, $DB;
+    return $DB->record_exists('local_peertutoring_tutor', array('userid' => $USER->id));
+}
+
+/**
  * Queries the database to create a list of all the peer tutoring departments.
  *
  * @return array The departments as id => name, ordered alphabetically by department name.
@@ -171,7 +181,7 @@ function get_tutor_list() {
  *
  * @return array The dates for which there are tutoring records as timestamp => date (mm/dd/yy), in descending order by date.
  */
-function get_tutoring_dates_list() {
+function get_tutoring_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
@@ -190,14 +200,4 @@ function get_tutoring_dates_list() {
         }
     }
     return $list;
-}
-
-/**
- * Determines whether the user has a record in the tutor table of the database.
- *
- * @return bool Whether the user is a tutor.
- */
-function user_is_tutor() {
-    global $USER, $DB;
-    return $DB->record_exists('local_peertutoring_tutor', array('userid' => $USER->id));
 }

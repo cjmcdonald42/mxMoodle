@@ -100,7 +100,7 @@ function update_notification($class, $subject, $body) {
     $record = new stdClass();
     $record->class = $class;
     $record->subject = $subject;
-    $record->body_html = $body;
+    $record->body_html = $body['text'];
     $id = $DB->get_field('local_mxschool_notification', 'id', array('class' => $class));
     if ($id) {
         $record->id = $id;
@@ -110,396 +110,7 @@ function update_notification($class, $subject, $body) {
     }
 }
 
-/**
- * Adds default weekend records for all Sundays between two timestamps.
- *
- * @param int $starttime The timestamp for the beginning of the range.
- * @param int $endtime The timestamp for the end of the range.
- * @return array The fully populated list of weekend records occuring between the two timestamps, ordered by date.
- */
-function generate_weekend_records($starttime, $endtime) {
-    global $DB;
-    $weekends = $DB->get_records_sql(
-        "SELECT sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ?", array($starttime, $endtime)
-    );
-    $sorted = array();
-    foreach ($weekends as $weekend) {
-        $sorted[$weekend->sunday_time] = $weekend;
-    }
-    $date = new DateTime('now', core_date::get_server_timezone_object());
-    $date->setTimestamp($starttime);
-    $date->modify('Sunday this week');
-    while ($date->getTimestamp() < $endtime) {
-        if (!isset($sorted[$date->getTimestamp()])) {
-            $startdate = clone $date;
-            $startdate->modify('-1 day');
-            $enddate = clone $date;
-            $enddate->modify('+1 day -1 second');
-            $newweekend = new stdClass();
-            $newweekend->sunday_time = $date->getTimestamp();
-            $newweekend->start_time = $startdate->getTimestamp();
-            $newweekend->end_time = $enddate->getTimestamp();
-            $DB->insert_record('local_mxschool_weekend', $newweekend);
-        }
-        $date->modify('+1 week');
-    }
-    return $DB->get_records_sql(
-        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
-        array($starttime, $endtime)
-    );
-}
 
-/**
- * Queries the database to create a list of all the available dorms.
- *
- * @return array The available dorms as id => name, ordered alphabetically by dorm name.
- */
-function get_dorms_list() {
-    global $DB;
-    $list = array();
-    $dorms = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' ORDER BY name"
-    );
-    if ($dorms) {
-        foreach ($dorms as $dorm) {
-            $list[$dorm->id] = $dorm->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the available boarding dorms.
- *
- * @return array The available boarding dorms as id => name, ordered alphabetically by dorm name.
- */
-function get_boarding_dorms_list() {
-    global $DB;
-    $list = array();
-    $dorms = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' AND type = 'Boarding' ORDER BY name"
-    );
-    if ($dorms) {
-        foreach ($dorms as $dorm) {
-            $list[$dorm->id] = $dorm->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the students.
- *
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_student_list() {
-    global $DB;
-    $list = array();
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 ORDER BY name"
-    );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the students who are in a specified dorm.
- *
- * @param int $dorm the id of the desired dorm.
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_students_in_dorm_list($dorm) {
-    if (!$dorm) {
-        return get_student_list();
-    }
-
-    global $DB;
-    $list = array();
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
-         LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
-    );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the students who have a registered license.
- * Only day students should fit this criterium.
- *
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_licensed_student_list() {
-    global $DB;
-    $list = array();
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND p.license_date IS NOT NULL ORDER BY name"
-    );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the students who have sufficient permissions to be another student's passenger.
- *
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_passengers_list() {
-    global $DB;
-    $list = array();
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21' ORDER BY name"
-    );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the students who have not filled out an advisor selection form.
- *
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_student_without_advisor_form_list() {
-    global $DB;
-    $list = array();
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 ORDER BY name"
-    );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the faculty.
- *
- * @return array The faculty as userid => name, ordered alphabetically by faculty name.
- */
-function get_faculty_list() {
-    global $DB;
-    $list = array();
-    $allfaculty = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 ORDER BY name"
-    );
-    if ($allfaculty) {
-        foreach ($allfaculty as $faculty) {
-            $list[$faculty->id] = $faculty->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the available advisors.
- *
- * @return array The available advisors as userid => name, ordered alphabetically by advisor name.
- */
-function get_available_advisor_list() {
-    global $DB;
-    $list = array();
-    $advisors = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
-         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
-         WHERE u.deleted = 0 and f.advisory_available = 1 and f.advisory_closing = 0 ORDER BY name"
-    );
-    if ($advisors) {
-        foreach ($advisors as $advisor) {
-            $list[$advisor->id] = $advisor->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all faculty who are able to approve eSignout.
- *
- * @return array The faculty who are able to approve eSignout as userid => name, ordered alphabetically by faculty name.
- */
-function get_approver_list() {
-    global $DB;
-    $list = array();
-    $allfaculty = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
-         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
-    );
-    if ($allfaculty) {
-        foreach ($allfaculty as $faculty) {
-            $list[$faculty->id] = $faculty->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the weekends between the dorms open date and the dorms close date.
- *
- * @return array The weekends within the specified bounds as id => date (mm/dd/yy), ordered by date.
- */
-function get_weekend_list() {
-    global $DB;
-    $starttime = get_config('local_mxschool', 'dorms_open_date');
-    $endtime = get_config('local_mxschool', 'dorms_close_date');
-    $list = array();
-    $weekends = $DB->get_records_sql(
-        "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
-        array($starttime, $endtime)
-    );
-    if ($weekends) {
-        foreach ($weekends as $weekend) {
-            $time = new DateTime('now', core_date::get_server_timezone_object());
-            $time->setTimestamp($weekend->sunday_time);
-            $time->modify("-1 day");
-            $list[$weekend->id] = $time->format('m/d/y');
-        }
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the dates for which there are eSignout records.
- *
- * @return array The dates for which there are eSignout records as timestamp => date (mm/dd/yy), in descending order by date.
- */
-function get_esignout_dates_list() {
-    global $DB;
-    $list = array();
-    $records = $DB->get_records_sql(
-        "SELECT es.id, es.departure_time FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type <> 'Passenger' ORDER BY departure_time DESC"
-    );
-    if ($records) {
-        foreach ($records as $record) {
-            $date = new DateTime('now', core_date::get_server_timezone_object());
-            $date->setTimestamp($record->departure_time);
-            $date->modify('midnight');
-            if (!array_key_exists($date->getTimestamp(), $list)) {
-                $list[$date->getTimestamp()] = $date->format('m/d/y');
-            }
-        }
-    }
-    return $list;
-}
-
-/**
- * Creates a list of the types of eSignout which a specified student has the permissions to perform.
- *
- * @param int $userid The user id of the student.
- * @return array The types of eSignout which the student is allowed to perform.
- */
-function get_allowed_esignout_types_list($userid) {
-    global $DB;
-    $types = array('Driver', 'Passenger', 'Parent', 'Other');
-    $permissionsrecord = $DB->get_record('local_mxschool_permissions', array('userid' => $userid));
-    if ($permissionsrecord) {
-        if ($permissionsrecord->may_drive_to_town === 'No') {
-            unset($types[array_search('Driver', $types)]);
-        }
-        if ($permissionsrecord->may_ride_with === null || $permissionsrecord->may_ride_with === 'Over 21') {
-            unset($types[array_search('Passenger', $types)]);
-        }
-        $types = array_values($types); // Reset the keys so that [0] can be the default option.
-    }
-    return $types;
-}
-
-/**
- * Queries the database to create a list of currently available drivers.
- * Drivers are defined as available if today is their departure day and they have not signed in.
- *
- * @param int $ignore The user id of a student to ignore (intended to be used to ignore the current student).
- * @return array The drivers as esignoutid => name, ordered alphabetically by name.
- */
-function get_current_drivers_list($ignore = 0) {
-    global $DB;
-    $list = array(0 => get_string('esignout_form_driver_default', 'local_mxschool'));
-    $today = new DateTime('midnight', core_date::get_server_timezone_object());
-    $drivers = $DB->get_records_sql(
-        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_esignout} es
-         LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.departure_time >= ? AND es.sign_in_time IS NULL
-         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND (
-             SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
-         ) = 0 ORDER BY name", array($today->getTimestamp(), $ignore, $ignore)
-    );
-    if ($drivers) {
-        foreach ($drivers as $driver) {
-            $list[$driver->id] = $driver->name;
-        }
-    }
-    return $list;
-}
-
-/**
- * Retrieves the destination and departure time fields from a esignout driver record.
- *
- * @param int $esignoutid The id of the driver's record.
- * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
- * @throws coding_exception If the esignout record is not a driver record.
- */
-function get_driver_inheritable_fields($esignoutid) {
-    global $DB;
-    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
-    if (!$record || $record->type !== 'Driver') {
-        throw new coding_exception('eSignout record is not a driver');
-    }
-    $result = new stdClass();
-    $result->destination = $record->destination;
-    $departuretime = new DateTime('now', core_date::get_server_timezone_object());
-    $departuretime->setTimestamp($record->departure_time);
-    $result->departurehour = $departuretime->format('g');
-    $minute = $departuretime->format('i');
-    $minute -= $minute % 15;
-    $result->departureminute = "{$minute}";
-    $result->departureampm = $departuretime->format('A') === 'PM';
-    return $result;
-}
-
-/**
- * Signs in an eSignout record and records the timestamp.
- *
- * @param int $esignoutid The id of the record to sign in.
- * @return string The text to display for the sign in time.
- * @throws coding_exception If the esignout record does not exist or is already signed in.
- */
-function sign_in_esignout($esignoutid) {
-    global $DB;
-    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
-    if (!$record || $record->sign_in_time) {
-        throw new coding_exception('eSignout record doesn\'t exist or is already signed in');
-    }
-    $record->sign_in_time = time();
-    $DB->update_record('local_mxschool_esignout', $record);
-    return date('g:i A', $record->sign_in_time);
-}
 
 /**
  * Determines whether the user has a record in the student table of the database.
@@ -626,6 +237,332 @@ function get_current_semester() {
 }
 
 /**
+ * Queries the database to create a list of all the students.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the students who are in a specified dorm.
+ *
+ * @param int $dorm the id of the desired dorm.
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_dorm_student_list($dorm) {
+    if (!$dorm) {
+        return get_student_list();
+    }
+
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
+         LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the students who have a registered license.
+ * Only day students should fit this criterium.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_licensed_student_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
+         WHERE u.deleted = 0 AND p.license_date IS NOT NULL ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the students who have sufficient permissions to be another student's passenger.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_passenger_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
+         WHERE u.deleted = 0 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21' ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of currently available drivers.
+ * Drivers are defined as available if today is their departure day and they have not signed in.
+ *
+ * @param int $ignore The user id of a student to ignore (intended to be used to ignore the current student).
+ * @return array The drivers as esignoutid => name, ordered alphabetically by name.
+ */
+function get_current_driver_list($ignore = 0) {
+    global $DB;
+    $list = array(0 => get_string('esignout_form_driver_default', 'local_mxschool'));
+    $today = new DateTime('midnight', core_date::get_server_timezone_object());
+    $drivers = $DB->get_records_sql(
+        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_esignout} es
+         LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.departure_time >= ? AND es.sign_in_time IS NULL
+         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND (
+             SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
+         ) = 0 ORDER BY name", array($today->getTimestamp(), $ignore, $ignore)
+    );
+    if ($drivers) {
+        foreach ($drivers as $driver) {
+            $list[$driver->id] = $driver->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the students who have not filled out an advisor selection form.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_without_advisor_form_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the faculty.
+ *
+ * @return array The faculty as userid => name, ordered alphabetically by faculty name.
+ */
+function get_faculty_list() {
+    global $DB;
+    $list = array();
+    $allfaculty = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 ORDER BY name"
+    );
+    if ($allfaculty) {
+        foreach ($allfaculty as $faculty) {
+            $list[$faculty->id] = $faculty->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the available advisors.
+ *
+ * @return array The available advisors as userid => name, ordered alphabetically by advisor name.
+ */
+function get_available_advisor_list() {
+    global $DB;
+    $list = array();
+    $advisors = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
+         WHERE u.deleted = 0 and f.advisory_available = 1 and f.advisory_closing = 0 ORDER BY name"
+    );
+    if ($advisors) {
+        foreach ($advisors as $advisor) {
+            $list[$advisor->id] = $advisor->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all faculty who are able to approve eSignout.
+ *
+ * @return array The faculty who are able to approve eSignout as userid => name, ordered alphabetically by faculty name.
+ */
+function get_approver_list() {
+    global $DB;
+    $list = array();
+    $allfaculty = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
+         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
+    );
+    if ($allfaculty) {
+        foreach ($allfaculty as $faculty) {
+            $list[$faculty->id] = $faculty->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the available dorms.
+ *
+ * @return array The available dorms as id => name, ordered alphabetically by dorm name.
+ */
+function get_dorm_list() {
+    global $DB;
+    $list = array();
+    $dorms = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' ORDER BY name"
+    );
+    if ($dorms) {
+        foreach ($dorms as $dorm) {
+            $list[$dorm->id] = $dorm->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the available boarding dorms.
+ *
+ * @return array The available boarding dorms as id => name, ordered alphabetically by dorm name.
+ */
+function get_boarding_dorm_list() {
+    global $DB;
+    $list = array();
+    $dorms = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' AND type = 'Boarding' ORDER BY name"
+    );
+    if ($dorms) {
+        foreach ($dorms as $dorm) {
+            $list[$dorm->id] = $dorm->name;
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the weekends between the dorms open date and the dorms close date.
+ *
+ * @return array The weekends within the specified bounds as id => date (mm/dd/yy), ordered by date.
+ */
+function get_weekend_list() {
+    global $DB;
+    $starttime = get_config('local_mxschool', 'dorms_open_date');
+    $endtime = get_config('local_mxschool', 'dorms_close_date');
+    $list = array();
+    $weekends = $DB->get_records_sql(
+        "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
+        array($starttime, $endtime)
+    );
+    if ($weekends) {
+        foreach ($weekends as $weekend) {
+            $time = new DateTime('now', core_date::get_server_timezone_object());
+            $time->setTimestamp($weekend->sunday_time);
+            $time->modify("-1 day");
+            $list[$weekend->id] = $time->format('m/d/y');
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the dates for which there are eSignout records.
+ *
+ * @return array The dates for which there are eSignout records as timestamp => date (mm/dd/yy), in descending order by date.
+ */
+function get_esignout_date_list() {
+    global $DB;
+    $list = array();
+    $records = $DB->get_records_sql(
+        "SELECT es.id, es.departure_time FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type <> 'Passenger' ORDER BY departure_time DESC"
+    );
+    if ($records) {
+        foreach ($records as $record) {
+            $date = new DateTime('now', core_date::get_server_timezone_object());
+            $date->setTimestamp($record->departure_time);
+            $date->modify('midnight');
+            if (!array_key_exists($date->getTimestamp(), $list)) {
+                $list[$date->getTimestamp()] = $date->format('m/d/y');
+            }
+        }
+    }
+    return $list;
+}
+
+/**
+ * Adds default weekend records for all Sundays between two timestamps.
+ *
+ * @param int $starttime The timestamp for the beginning of the range.
+ * @param int $endtime The timestamp for the end of the range.
+ * @return array The fully populated list of weekend records occuring between the two timestamps, ordered by date.
+ */
+function generate_weekend_records($starttime, $endtime) {
+    global $DB;
+    $weekends = $DB->get_records_sql(
+        "SELECT sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ?", array($starttime, $endtime)
+    );
+    $sorted = array();
+    foreach ($weekends as $weekend) {
+        $sorted[$weekend->sunday_time] = $weekend;
+    }
+    $date = new DateTime('now', core_date::get_server_timezone_object());
+    $date->setTimestamp($starttime);
+    $date->modify('Sunday this week');
+    while ($date->getTimestamp() < $endtime) {
+        if (!isset($sorted[$date->getTimestamp()])) {
+            $startdate = clone $date;
+            $startdate->modify('-1 day');
+            $enddate = clone $date;
+            $enddate->modify('+1 day -1 second');
+            $newweekend = new stdClass();
+            $newweekend->sunday_time = $date->getTimestamp();
+            $newweekend->start_time = $startdate->getTimestamp();
+            $newweekend->end_time = $enddate->getTimestamp();
+            $DB->insert_record('local_mxschool_weekend', $newweekend);
+        }
+        $date->modify('+1 week');
+    }
+    return $DB->get_records_sql(
+        "SELECT * FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
+        array($starttime, $endtime)
+    );
+}
+
+/**
  * Calculates the number of weekends which a student has used.
  * This number is determined by the number of active weekend forms for the student
  * on open or closed weekends in the specified semester.
@@ -665,4 +602,69 @@ function calculate_weekends_allowed($userid, $semester) {
     );
     $grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $userid));
     return $weekendsallowed[$grade][$semester];
+}
+
+/**
+ * Creates a list of the types of eSignout which a specified student has the permissions to perform.
+ *
+ * @param int $userid The user id of the student.
+ * @return array The types of eSignout which the student is allowed to perform.
+ */
+function get_esignout_type_list($userid) {
+    global $DB;
+    $types = array('Driver', 'Passenger', 'Parent', 'Other');
+    $permissionsrecord = $DB->get_record('local_mxschool_permissions', array('userid' => $userid));
+    if ($permissionsrecord) {
+        if ($permissionsrecord->may_drive_to_town === 'No') {
+            unset($types[array_search('Driver', $types)]);
+        }
+        if ($permissionsrecord->may_ride_with === null || $permissionsrecord->may_ride_with === 'Over 21') {
+            unset($types[array_search('Passenger', $types)]);
+        }
+        $types = array_values($types); // Reset the keys so that [0] can be the default option.
+    }
+    return $types;
+}
+
+/**
+ * Retrieves the destination and departure time fields from a esignout driver record.
+ *
+ * @param int $esignoutid The id of the driver's record.
+ * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
+ * @throws coding_exception If the esignout record is not a driver record.
+ */
+function get_driver_inheritable_fields($esignoutid) {
+    global $DB;
+    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
+    if (!$record || $record->type !== 'Driver') {
+        throw new coding_exception('eSignout record is not a driver');
+    }
+    $result = new stdClass();
+    $result->destination = $record->destination;
+    $departuretime = new DateTime('now', core_date::get_server_timezone_object());
+    $departuretime->setTimestamp($record->departure_time);
+    $result->departurehour = $departuretime->format('g');
+    $minute = $departuretime->format('i');
+    $minute -= $minute % 15;
+    $result->departureminute = "{$minute}";
+    $result->departureampm = $departuretime->format('A') === 'PM';
+    return $result;
+}
+
+/**
+ * Signs in an eSignout record and records the timestamp.
+ *
+ * @param int $esignoutid The id of the record to sign in.
+ * @return string The text to display for the sign in time.
+ * @throws coding_exception If the esignout record does not exist or is already signed in.
+ */
+function sign_in_esignout($esignoutid) {
+    global $DB;
+    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
+    if (!$record || $record->sign_in_time) {
+        throw new coding_exception('eSignout record doesn\'t exist or is already signed in');
+    }
+    $record->sign_in_time = time();
+    $DB->update_record('local_mxschool_esignout', $record);
+    return date('g:i A', $record->sign_in_time);
 }

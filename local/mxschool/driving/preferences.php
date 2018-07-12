@@ -46,7 +46,7 @@ $data->editwindow = get_config('local_mxschool', 'esignout_edit_window');
 $notification = $DB->get_record('local_mxschool_notification', array('class' => 'esignout_submitted'));
 if ($notification) {
     $data->subject = $notification->subject;
-    $data->body = $notification->body_html;
+    $data->body['text'] = $notification->body_html;
 }
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

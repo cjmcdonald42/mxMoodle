@@ -55,7 +55,7 @@ if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
 }
 
 $data = get_record($queryfields, "f.id = ?", array($id));
-$dorms = array(null => '') + get_dorms_list();
+$dorms = array(null => '') + get_dorm_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

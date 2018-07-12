@@ -84,9 +84,9 @@ if ($id) {
         }
     }
 }
-$data->isstudent = $isstudent;
-$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorms_list();
-$students = isset($data->dorm) ? get_students_in_dorm_list($data->dorm) : get_student_list();
+$data->isstudent = $isstudent ? '1' : '0';
+$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list();
+$students = get_student_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -129,13 +129,19 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
+$bottominstructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
+$bottominstructions = str_replace(
+    '{hoh}', $isstudent ? $record->hoh : get_string(
+        'weekend_form_instructions_placeholder_hoh', 'local_mxschool'
+    ), $bottominstructions
+);
+$bottominstructions = str_replace(
+    '{permissionsline}', $isstudent ? $record->permissionsline : get_string(
+        'weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'
+    ), $bottominstructions
+);
 $formrenderable = new \local_mxschool\output\form_page(
-    $form, get_string('weekend_form_topdescription', 'local_mxschool'),
-    get_string(
-        'weekend_form_bottomdescription', 'local_mxschool', $isstudent
-        ? array('hoh' => $record->hoh, 'permissionsline' => $record->permissionsline)
-        : array('hoh' => 'your head of house', 'permissionsline' => 'the house permissions line')
-    )
+    $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
 $jsrenderable = new \local_mxschool\output\js_module('local_mxschool/get_dorm_students');
 

@@ -45,7 +45,7 @@ $parents = array(
 $url = '/local/mxschool/user_management/faculty_report.php';
 $title = get_string('faculty_report', 'local_mxschool');
 
-$dorms = get_dorms_list();
+$dorms = get_dorm_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

@@ -84,6 +84,8 @@ $data->current = isset($data->student) ? $DB->get_field_sql(
      LEFT JOIN {user} u ON s.advisorid = u.id
      WHERE s.userid = ?", array($data->student)
 ) : '';
+$data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
+$data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
 
 $students = get_student_list();
 $faculty = array(0 => get_string('advisor_form_faculty_default', 'local_mxschool')) + get_faculty_list();

@@ -75,7 +75,7 @@ if ($action === 'delete' && $id) {
 $tutors = get_tutor_list();
 $departments = get_department_list();
 $types = get_type_list();
-$dates = get_tutoring_dates_list();
+$dates = get_tutoring_date_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();

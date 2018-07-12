@@ -35,6 +35,10 @@ abstract class local_mxschool_form extends moodleform {
     const ELEMENT_TEXT_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20), 'rules' => array('required')
     );
+    const ELEMENT_LONG_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100));
+    const ELEMENT_LONG_TEXT_REQUIRED = array(
+        'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
+    );
     const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
     const ELEMENT_YES_NO_REQUIRED = array('element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required'));
     const ELEMENT_BOOLEAN = array('element' => 'radio', 'options' => array(1, 0));
@@ -52,6 +56,8 @@ abstract class local_mxschool_form extends moodleform {
         'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40),
         'rules' => array('required')
     );
+    const ELEMENT_FORMATED_TEXT = array('element' => 'editor');
+    const ELEMENT_FORMATED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
 
     /**
      * Forms the field array for a time selector with a particular minute step.
@@ -155,6 +161,9 @@ abstract class local_mxschool_form extends moodleform {
         switch($properties['element']) {
             case 'hidden':
                 $result = $mform->createElement($properties['element'], $name, null);
+                break;
+            case 'editor':
+                $result = $mform->createElement($properties['element'], $name, $displayname);
                 break;
             case 'text':
             case 'textarea':

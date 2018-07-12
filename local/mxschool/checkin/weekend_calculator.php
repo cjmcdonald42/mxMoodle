@@ -48,7 +48,7 @@ $parents = array(
 $url = '/local/mxschool/checkin/weekend_calculator.php';
 $title = get_string('weekend_calculator', 'local_mxschool');
 
-$dorms = get_boarding_dorms_list();
+$dorms = get_boarding_dorm_list();
 $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));
 $startdate = $filter->semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
                                     : get_config('local_mxschool', 'second_semester_start_date');

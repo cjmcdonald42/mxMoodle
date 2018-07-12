@@ -26,6 +26,7 @@
 
 require(__DIR__.'/../../../config.php');
 require_once('faculty_table.php');
+require_once('preferences_form.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
@@ -39,8 +40,13 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
 );
+$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/advisor_selection/preferences.php';
 $title = get_string('advisor_selection_preferences', 'local_mxschool');
+
+$data = new stdClass();
+$data->closing_warning['text'] = get_config('local_mxschool', 'advisor_form_closing_warning');
+$data->instructions['text'] = get_config('local_mxschool', 'advisor_form_instructions');
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -57,10 +63,27 @@ $PAGE->navbar->add($title);
 
 $table = new faculty_table($search);
 
+$form = new preferences_form(array());
+$form->set_redirect($redirect);
+$form->set_data($data);
+
+if ($form->is_cancelled()) {
+    redirect($form->get_redirect());
+} else if ($data = $form->get_data()) {
+    set_config('advisor_form_closing_warning', $data->closing_warning['text'], 'local_mxschool');
+    set_config('advisor_form_instructions', $data->instructions['text'], 'local_mxschool');
+    redirect(
+        $form->get_redirect(), get_string('advisor_selection_preferences_edit_success', 'local_mxschool'), null,
+        \core\output\notification::NOTIFY_SUCCESS
+    );
+}
+
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page($table, 50, $search);
+$tablerenderable = new \local_mxschool\output\report_page($table, 50, $search);
+$formrenderable = new \local_mxschool\output\form_page($form);
 
 echo $output->header();
 echo $output->heading($title);
-echo $output->render($renderable);
+echo $output->render($tablerenderable);
+echo $output->render($formrenderable);
 echo $output->footer();

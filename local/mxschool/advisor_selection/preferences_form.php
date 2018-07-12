@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm and Student Functions Plugin.
+ * Form for editing advisor selection preferences for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,10 +26,21 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018071110;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+require_once(__DIR__.'/../classes/mx_form.php');
+
+class preferences_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $fields = array(
+            'displaytext' => array(
+                'closing_warning' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'instructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+            )
+        );
+        parent::set_fields($fields, 'advisor_selection_preferences');
+    }
+
+}

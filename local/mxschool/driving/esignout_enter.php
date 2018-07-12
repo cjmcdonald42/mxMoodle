@@ -101,18 +101,18 @@ $data->departuretime_minute = $minute - $minute % 15;
 $data->departuretime_ampm = $departuretime->format('A') === 'PM';
 $departuretime->setTime(0, 0);
 $data->date = $departuretime->getTimestamp();
-$data->isstudent = $isstudent;
+$data->isstudent = $isstudent ? '1' : '0';
 $students = get_student_list();
 $userid = $isstudent ? $USER->id : (count($students) ? array_keys($students)[0] : 0);
 $record = $DB->get_record_sql(
     "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student FROM {user} u WHERE u.id = ?", array($userid)
 );
-$types = get_allowed_esignout_types_list($isstudent ? $USER->id : 0);
+$types = get_esignout_type_list($isstudent ? $USER->id : 0);
 if (!isset($data->type_select)) {
     $data->type_select = $types[0];
 }
-$passengers = get_passengers_list();
-$drivers = get_current_drivers_list();
+$passengers = get_passenger_list();
+$drivers = get_current_driver_list();
 $approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));

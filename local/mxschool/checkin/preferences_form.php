@@ -70,6 +70,10 @@ class preferences_form extends local_mxschool_form {
             'stopyear' => (new DateTime('+1 year', core_date::get_server_timezone_object()))->format('Y'),
             'timezone' => core_date::get_server_timezone_object()
         );
+        $emailtags = array(
+            'studentname', 'departuretime', 'returntime', 'destination', 'transportation', 'phone', 'timesubmitted', 'weekendnum',
+            'weekendtotal', 'instructions', 'hohname', 'permissionsline'
+        );
 
         $fields = array(
             'dates' => array(
@@ -77,21 +81,17 @@ class preferences_form extends local_mxschool_form {
                 'secondsemester' => array('element' => 'date_selector', 'parameters' => $dateparameters),
                 'dormsclose' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             ), 'weekends' => $weekendfields,
-            'notifications' => array(
-                'submittedsubject' => array(
-                    'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
-                ),
-                'submittedbody' => array(
-                    'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 8, 'cols' => 100),
-                    'rules' => array('required')
-                ),
-                'approvedsubject' => array(
-                    'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
-                ),
-                'approvedbody' => array(
-                    'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 8, 'cols' => 100),
-                    'rules' => array('required')
-                )
+            'displaytext' => array(
+                'topinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'bottominstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+            ), 'notifications' => array(
+                'available' => array('element' => 'static', 'text' => implode(', ', array_map(function($tag) {
+                    return "{{$tag}}";
+                }, $emailtags))),
+                'submittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'submittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'approvedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'approvedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
         parent::set_fields($fields, 'checkin_preferences', true);

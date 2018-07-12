@@ -84,9 +84,10 @@ $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 $string['weekend_form_success'] = 'Weekend Form Submitted Successfully';
 $string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
+$string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
 $string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
-$string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
+$string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Preferences Saved Successfully';
 $string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
@@ -272,6 +273,7 @@ $string['weekend_calculator'] = 'Weekend Calculator';
 // Check-in Preferences.
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
 $string['checkin_preferences_header_weekends'] = 'Weekend Types';
+$string['checkin_preferences_header_displaytext'] = 'Weekend Form Instructions';
 $string['checkin_preferences_header_notifications'] = 'Weekend Form Email Notifications';
 $string['checkin_preferences_dates_dormsopen'] = 'Dorms Open On: ';
 $string['checkin_preferences_dates_secondsemester'] = 'Second Semester Starts On: ';
@@ -281,6 +283,9 @@ $string['checkin_preferences_weekends_type_Open'] = 'Open';
 $string['checkin_preferences_weekends_type_Closed'] = 'Closed';
 $string['checkin_preferences_weekends_type_Free'] = 'Free';
 $string['checkin_preferences_weekends_type_Vacation'] = 'Vacation';
+$string['checkin_preferences_displaytext_topinstructions'] = 'Top instucrtions';
+$string['checkin_preferences_displaytext_bottominstructions'] = 'Bottom instucrtions';
+$string['checkin_preferences_notifications_available'] = 'Available tags';
 $string['checkin_preferences_notifications_submittedsubject'] = 'Subject for Weekend Form Submitted Email';
 $string['checkin_preferences_notifications_submittedbody'] = 'Body for Weekend Form Submitted Email';
 $string['checkin_preferences_notifications_approvedsubject'] = 'Subject for Weekend Form Approved Email';
@@ -304,9 +309,6 @@ $string['weekday_report_header_early'] = 'Early';
 $string['weekday_report_header_late'] = 'Late';
 
 // Weekend Form.
-$string['weekend_form_topdescription'] = 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.'; // TODO: MOVE TO CONFIG.
-$string['weekend_form_bottomdescription'] = 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{$a->hoh}</b> @ <b>{$a->permissionsline}</b>.<br>If your plans change, you must get permission from <b>{$a->hoh}</b>. <b>Remember to sign out.</b>'; // TODO: MOVE TO CONFIG.
-
 $string['weekend_form_dorm'] = 'Dorm';
 $string['weekend_form_student'] = 'Student';
 $string['weekend_form_departuretime'] = 'Departure Date and Time';
@@ -315,12 +317,15 @@ $string['weekend_form_destination'] = 'Your Destination';
 $string['weekend_form_transportation'] = 'Transportation by';
 $string['weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
 
+$string['weekend_form_instructions_placeholder_hoh'] = 'your head of house';
+$string['weekend_form_instructions_placeholder_permissionsline'] = 'the house permissions line';
+
 $string['weekend_form_error_outoforder'] = 'You must select a return date and time after your departure date and time.';
 $string['weekend_form_error_notinweekend'] = 'You must select a departure date within a valid weekend.';
 $string['weekend_form_error_indifferentweekends'] = 'You must select a return date in the same weekend as your departure date.';
 
 // Weekend Check-in Sheet.
-$string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend}';
+$string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend} ({$a->type})';
 $string['weekend_report_select_submitted_all'] = 'All';
 $string['weekend_report_select_submitted_true'] = 'Weekend Form';
 $string['weekend_report_select_submitted_false'] = 'No Weekend Form';
@@ -375,6 +380,7 @@ $string['esignout_report'] = 'eSignout Report';
 $string['esignout_preferences_header_config'] = 'Config';
 $string['esignout_preferences_header_notifications'] = 'eSignout Email Notifications';
 $string['esignout_preferences_config_editwindow'] = 'Window for Students to Edit eSignout Forms';
+$string['esignout_preferences_notifications_available'] = 'Available tags';
 $string['esignout_preferences_notifications_subject'] = 'Subject for eSignout Form Submitted Email';
 $string['esignout_preferences_notifications_body'] = 'Body for eSignout Form Submitted Email';
 
@@ -418,10 +424,10 @@ $string['esignout_form_passengers_placeholder'] = 'Search Passengers';
 $string['esignout_form_driver_default'] = 'Select';
 $string['esignout_form_approver_default'] = 'Select';
 
-$string['esignout_form_passengers_warning'] = 'Your permissions indicate that you may not drive passengers.'; // TODO: MOVE TO CONFIG.
-$string['esignout_form_parent_warning'] = 'Your permissions indicate that you need a call from your parent.'; // TODO: MOVE TO CONFIG.
-$string['esignout_form_specific_warning'] = 'Your permissions indicate that you may only be the passenger of the following drivers:'; // TODO: MOVE TO CONFIG.
-$string['esignout_form_permissions_submit'] = 'Have you recieved the required permissions?'; // TODO: MOVE TO CONFIG.
+$string['esignout_form_passengers_warning'] = 'Your permissions indicate that you may not drive passengers.'; // TODO: MOVE TO CONFIG?
+$string['esignout_form_parent_warning'] = 'Your permissions indicate that you need a call from your parent.'; // TODO: MOVE TO CONFIG?
+$string['esignout_form_specific_warning'] = 'Your permissions indicate that you may only be the passenger of the following drivers:'; // TODO: MOVE TO CONFIG?
+$string['esignout_form_permissions_submit'] = 'Have you recieved the required permissions?'; // TODO: MOVE TO CONFIG?
 $string['esignout_form_permissions_submit_yes'] = 'Yes';
 $string['esignout_form_permissions_submit_no'] = 'No';
 
@@ -430,11 +436,11 @@ $string['esignout_form_error_nodriver'] = 'You must specify a driver.';
 $string['esignout_form_error_nodestination'] = 'You must specify a destination.';
 $string['esignout_form_error_noapprover'] = 'You must specify who approved your signout.';
 
-$string['esignout_notification_warning_driver'] = 'None.'; // TODO: MOVE TO CONFIG.
-$string['esignout_notification_warning_anydriver'] = 'None.'; // TODO: MOVE TO CONFIG.
-$string['esignout_notification_warning_parentpermission'] = 'This student requires parent permission to be the passenger of another student.'; // TODO: MOVE TO CONFIG.
-$string['esignout_notification_warning_specificdrivers'] = 'This student only has permission to the be the passenger of the following drivers: '; // TODO: MOVE TO CONFIG.
-$string['esignout_notification_warning_over21'] = 'This student does NOT have permission to be the passenger of anyone under 21.'; // TODO: MOVE TO CONFIG.
+$string['esignout_notification_warning_driver'] = 'None.'; // TODO: MOVE TO CONFIG?
+$string['esignout_notification_warning_anydriver'] = 'None.'; // TODO: MOVE TO CONFIG?
+$string['esignout_notification_warning_parentpermission'] = 'This student requires parent permission to be the passenger of another student.'; // TODO: MOVE TO CONFIG?
+$string['esignout_notification_warning_specificdrivers'] = 'This student only has permission to the be the passenger of the following drivers: '; // TODO: MOVE TO CONFIG?
+$string['esignout_notification_warning_over21'] = 'This student does NOT have permission to be the passenger of anyone under 21.'; // TODO: MOVE TO CONFIG?
 
 // Report for eSignout.
 $string['esignout_report_select_type_all'] = 'All Types';
@@ -459,11 +465,17 @@ $string['esignout_report_header_signin'] = 'Sign In Time';
 $string['esignout_report_nopassengers'] = 'None';
 $string['sign_in_button'] = 'Sign In';
 
+
 /* Advisor Selection. */
 $string['advisor_selection'] = 'Advisor Selection';
 $string['advisor_selection_preferences'] = 'Advisor Selection Preferences';
 $string['advisor_selection_form'] = 'Advisor Selection Form';
 $string['advisor_selection_report'] = 'Advisor Selection Report';
+
+// Advisor Selection Preferences.
+$string['advisor_selection_preferences_header_displaytext'] = 'Advisor Selection Form Instructions';
+$string['advisor_selection_preferences_displaytext_closing_warning'] = 'Warning for closing advisory';
+$string['advisor_selection_preferences_displaytext_instructions'] = 'Advisor selection instructions';
 
 // Advisor Selection Form.
 $string['advisor_form_header_info'] = 'General Information';
@@ -479,8 +491,6 @@ $string['advisor_form_options_option4'] = 'Fourth Choice';
 $string['advisor_form_options_option5'] = 'Fifth Choice';
 $string['advisor_form_deans_selected'] = 'Chosen Advisor';
 
-$string['advisor_form_info_warning'] = 'Your current advisor\'s advisory is closing, so you must provide choices for a new advisor.'; // TODO: MOVE TO CONFIG.
-$string['advisor_form_options_instructions'] = 'Please rank you top five advisor choices in descending order. You may rank less than five if your final choice is your current advisor.'; // TODO: MOVE TO CONFIG.
 $string['advisor_form_faculty_default'] = 'Select';
 
 $string['advisor_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';

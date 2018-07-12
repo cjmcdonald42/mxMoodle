@@ -75,7 +75,7 @@ if ($id) {
         );
     }
 }
-$data->istutor = $istutor;
+$data->istutor = $istutor ? '1' : '0';
 $tutors = get_tutor_list();
 $students = get_student_list();
 $departments = array(0 => get_string('tutoring_form_department_default', 'local_peertutoring')) + get_department_list();

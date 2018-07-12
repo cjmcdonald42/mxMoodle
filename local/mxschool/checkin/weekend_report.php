@@ -79,13 +79,13 @@ if (!$data) {
     $data->dorm = $filter->dorm;
 }
 
-$dorms = get_boarding_dorms_list();
+$dorms = get_boarding_dorm_list();
 $weekends = get_weekend_list();
 $submittedoptions = array(
     '1' => get_string('weekend_report_select_submitted_true', 'local_mxschool'),
     '0' => get_string('weekend_report_select_submitted_false', 'local_mxschool')
 );
-$weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
+$weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend));
 $startday = date('w', $weekendrecord->start_time) - 7;
 $endday = date('w', $weekendrecord->end_time);
 
@@ -147,7 +147,8 @@ $formrenderable = new \local_mxschool\output\form_page($form);
 
 echo $output->header();
 echo $output->heading(get_string('weekend_report_title', 'local_mxschool', array(
-    'dorm' => $filter->dorm ? "{$dorms[$filter->dorm]} " : '', 'weekend' => $weekends[$filter->weekend]
+    'dorm' => $filter->dorm ? "{$dorms[$filter->dorm]} " : '', 'weekend' => $weekends[$filter->weekend],
+    'type' => $weekendrecord->type
 )));
 echo $output->render($tablerenderable);
 echo $output->render($formrenderable);

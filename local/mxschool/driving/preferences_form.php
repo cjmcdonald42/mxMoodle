@@ -34,15 +34,19 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
+        $emailtags = array(
+            'studentname', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'timesubmitted', 'approver',
+            'passengerwarning'
+        );
+
         $fields = array(
             'config' => array('editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required'))),
             'notifications' => array(
-                'subject' => array(
-                    'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
-                ), 'body' => array(
-                    'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 8, 'cols' => 100),
-                    'rules' => array('required')
-                )
+                'available' => array('element' => 'static', 'text' => implode(', ', array_map(function($tag) {
+                    return "{{$tag}}";
+                }, $emailtags))),
+                'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
         parent::set_fields($fields, 'esignout_preferences');

@@ -84,7 +84,7 @@ if ($type === 'parents' && $action === 'delete' && $id) {
     }
 }
 
-$dorms = get_dorms_list();
+$dorms = get_dorm_list();
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
