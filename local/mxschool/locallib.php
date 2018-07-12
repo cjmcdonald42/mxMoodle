@@ -610,7 +610,7 @@ function calculate_weekends_allowed($userid, $semester) {
  * @param int $userid The user id of the student.
  * @return array The types of eSignout which the student is allowed to perform.
  */
-function get_esignout_type_list($userid) {
+function get_esignout_type_list($userid = 0) {
     global $DB;
     $types = array('Driver', 'Passenger', 'Parent', 'Other');
     $permissionsrecord = $DB->get_record('local_mxschool_permissions', array('userid' => $userid));

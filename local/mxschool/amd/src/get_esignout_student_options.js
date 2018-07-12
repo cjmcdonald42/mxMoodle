@@ -52,6 +52,22 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             }
         }]);
         promises[0].done(function(data) {
+            var types = $('.mx-form div[data-groupname="type_select"] input');
+            types.each(function() {
+                var typeInput = $(this);
+                var spanContents = typeInput.parent().parent().contents();
+                if (data.types.includes(typeInput.val())) {
+                    typeInput.parent().show();
+                    spanContents.eq(spanContents.index(typeInput.parent()) + 3).get(0).nodeValue = '\u2003';
+                } else {
+                    if (typeInput.prop('checked')) {
+                        typeInput.prop('checked', false);
+                        typeInput.change();
+                    }
+                    typeInput.parent().hide();
+                    spanContents.eq(spanContents.index(typeInput.parent()) + 3).get(0).nodeValue = '';
+                }
+            });
             if ($('.mx-form input#id_type_select_Driver').prop('checked')) {
                 if(data.maydrivepassengers) {
                     passengersDiv.show();
@@ -109,6 +125,11 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             } else {
                 driverSelect.change();
             }
+            var isPassengerType = $('.mx-form input#id_type_select_Passenger').prop('checked');
+            $('.mx-form input#id_destination').prop('disabled', isPassengerType);
+            $('.mx-form select#id_departuretime_hour').prop('disabled', isPassengerType);
+            $('.mx-form select#id_departuretime_minute').prop('disabled', isPassengerType);
+            $('.mx-form select#id_departuretime_ampm').prop('disabled', isPassengerType);
         }).fail(notification.exception);
     }
     return function() {

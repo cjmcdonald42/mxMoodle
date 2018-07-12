@@ -107,10 +107,7 @@ $userid = $isstudent ? $USER->id : (count($students) ? array_keys($students)[0] 
 $record = $DB->get_record_sql(
     "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student FROM {user} u WHERE u.id = ?", array($userid)
 );
-$types = get_esignout_type_list($isstudent ? $USER->id : 0);
-if (!isset($data->type_select)) {
-    $data->type_select = $types[0];
-}
+$types = get_esignout_type_list();
 $passengers = get_passenger_list();
 $drivers = get_current_driver_list();
 $approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();

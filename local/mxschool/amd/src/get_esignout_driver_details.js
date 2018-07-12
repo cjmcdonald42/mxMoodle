@@ -33,16 +33,17 @@ define(['jquery', 'core/ajax'], function($, ajax) {
                     esignoutid: $('.mx-form select#id_driver').val()
                 }
             }]);
+            var destinationInput = $('.mx-form input#id_destination');
             promises[0].done(function(data) {
-                $('.mx-form #id_destination').val(data.destination);
-                $('.mx-form #id_departuretime_hour').val(data.departurehour);
-                $('.mx-form #id_departuretime_minute').val(data.departureminute);
-                $('.mx-form #id_departuretime_ampm').val(data.departureampm ? 1 : 0);
+                destinationInput.val(data.destination);
+                $('.mx-form select#id_departuretime_hour').val(data.departurehour);
+                $('.mx-form select#id_departuretime_minute').val(data.departureminute);
+                $('.mx-form select#id_departuretime_ampm').val(data.departureampm ? 1 : 0);
             }).fail(function() {
-                $('.mx-form #id_destination').val('');
-                $('.mx-form #id_departuretime_hour > option').prop('selected', function() {return this.defaultSelected;});
-                $('.mx-form #id_departuretime_minute > option').prop('selected', function() {return this.defaultSelected;});
-                $('.mx-form #id_departuretime_ampm > option').prop('selected', function() {return this.defaultSelected;});
+                destinationInput.val('');
+                $('.mx-form select#id_departuretime_hour > option').prop('selected', function() {return this.defaultSelected;});
+                $('.mx-form select#id_departuretime_minute > option').prop('selected', function() {return this.defaultSelected;});
+                $('.mx-form select#id_departuretime_ampm > option').prop('selected', function() {return this.defaultSelected;});
             });
         });
     };

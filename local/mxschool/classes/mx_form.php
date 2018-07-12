@@ -78,7 +78,7 @@ abstract class local_mxschool_form extends moodleform {
             $minutes[$i] = sprintf("%02d", $i);
         }
         $ampm = array(get_string('am', 'local_mxschool'), get_string('pm', 'local_mxschool'));
-        return array('element' => 'group', 'children' => array(
+        return array('element' => 'group', 'separator' => '', 'children' => array(
             'hour' => array('element' => 'select', 'options' => $hours),
             'minute' => array('element' => 'select', 'options' => $minutes),
             'ampm' => array('element' => 'select', 'options' => $ampm)
@@ -156,6 +156,7 @@ abstract class local_mxschool_form extends moodleform {
         $displayname = !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : '';
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
         $text = isset($properties['text']) ? $properties['text'] : '';
+        $groupseparator = isset($properties['separator']) ? $properties['separator'] : '&emsp;';
 
         $result = null;
         switch($properties['element']) {
@@ -198,7 +199,7 @@ abstract class local_mxschool_form extends moodleform {
                     ));
                     $buttons[] = $mform->createElement($properties['element'], $name, '', $radiodisplay, $option, $attributes);
                 }
-                $result = $mform->createElement('group', $name, $displayname, $buttons, '&emsp;', false);
+                $result = $mform->createElement('group', $name, $displayname, $buttons, $groupseparator, false);
                 break;
             case 'group':
                 $childelements = array();
@@ -207,7 +208,7 @@ abstract class local_mxschool_form extends moodleform {
                         "{$name}_{$childname}", array_merge($childproperties, array('ingroup' => true)), $stringprefix, $component
                     );
                 }
-                $result = $mform->createElement('group', $name, $displayname, $childelements, '&emsp;', false);
+                $result = $mform->createElement('group', $name, $displayname, $childelements, $groupseparator, false);
                 break;
             default:
                 debugging("unsupported element type: {$properties['element']}");
