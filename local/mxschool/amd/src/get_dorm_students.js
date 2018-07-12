@@ -49,5 +49,5 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
     return function() {
         $(document).ready(update);
         $('.mx-form select#id_dorm').change(update);
-    }
+    };
 });
