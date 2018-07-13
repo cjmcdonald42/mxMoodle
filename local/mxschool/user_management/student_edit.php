@@ -49,7 +49,7 @@ $queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'f
     'dormid' => 'dorm', 'room'
 )), 'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
     'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
-)), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.permissionsid = p.id', 'fields' => array(
+)), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.userid = p.userid', 'fields' => array(
     'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
     'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
     'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',

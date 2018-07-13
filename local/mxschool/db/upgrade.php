@@ -495,5 +495,27 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018071110, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018071301) {
+
+        // Define key permissions (foreign-unique) to be dropped form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('permissions', XMLDB_KEY_FOREIGN_UNIQUE, array('permissionsid'), 'local_mxschool_permissions', array('id'));
+
+        // Launch drop key permissions.
+        $dbman->drop_key($table, $key);
+
+        // Define field permissionsid to be dropped from local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('permissionsid');
+
+        // Conditionally launch drop field permissionsid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018071301, 'local', 'mxschool');
+    }
+
     return true;
 }
