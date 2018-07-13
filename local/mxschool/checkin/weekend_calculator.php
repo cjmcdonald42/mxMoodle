@@ -96,9 +96,9 @@ $rows = array(
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report_page($table, 50, null, $dropdowns, true);
+$reportrenderable = new \local_mxschool\output\report($table, 50, null, $dropdowns, true);
 $legendrenderable = new \local_mxschool\output\legend_table($rows);
-$jsrenderable = new \local_mxschool\output\js_module('local_mxschool/highlight_cells');
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 
 echo $output->header();
 echo $output->heading(

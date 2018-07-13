@@ -80,7 +80,7 @@ $addbutton->text = get_string('dorm_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/user_management/dorm_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report_page($table, 50, $search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, 50, $search, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

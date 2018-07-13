@@ -167,9 +167,9 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form_page($form);
-$jsrenderable1 = new \local_mxschool\output\js_module('local_mxschool/get_esignout_student_options');
-$jsrenderable2 = new \local_mxschool\output\js_module('local_mxschool/get_esignout_driver_details');
+$formrenderable = new \local_mxschool\output\form($form);
+$jsrenderable1 = new \local_mxschool\output\amd_module('local_mxschool/get_esignout_student_options');
+$jsrenderable2 = new \local_mxschool\output\amd_module('local_mxschool/get_esignout_driver_details');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));

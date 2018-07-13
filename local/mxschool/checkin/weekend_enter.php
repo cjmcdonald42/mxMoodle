@@ -140,10 +140,10 @@ $bottominstructions = str_replace(
         'weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'
     ), $bottominstructions
 );
-$formrenderable = new \local_mxschool\output\form_page(
+$formrenderable = new \local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
-$jsrenderable = new \local_mxschool\output\js_module('local_mxschool/get_dorm_students');
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/get_dorm_students');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student} ({$dorms[$record->dorm]})" : ''));

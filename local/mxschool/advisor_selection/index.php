@@ -39,7 +39,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index_page(array(
+$renderable = new \local_mxschool\output\index(array(
     get_string('advisor_selection_preferences', 'local_mxschool') => '/local/mxschool/advisor_selection/preferences.php',
     get_string('advisor_selection_form', 'local_mxschool') => '/local/mxschool/advisor_selection/advisor_enter.php',
     get_string('advisor_selection_report', 'local_mxschool') => '/local/mxschool/advisor_selection/advisor_report.php'

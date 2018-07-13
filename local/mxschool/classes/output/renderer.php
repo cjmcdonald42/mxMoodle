@@ -33,27 +33,27 @@ use plugin_renderer_base;
 class renderer extends plugin_renderer_base {
 
     /**
-     * Renders an index page according to the template.
+     * Renders an index according to the template.
      *
-     * @param index_page $page.
+     * @param index $index.
      *
-     * @return string html for the page.
+     * @return string html for the index.
      */
-    public function render_index_page($page) {
-        $data = $page->export_for_template($this);
-        return parent::render_from_template('local_mxschool/index_page', $data);
+    public function render_index($index) {
+        $data = $index->export_for_template($this);
+        return parent::render_from_template('local_mxschool/index', $data);
     }
 
     /**
-     * Renders a report page according to the template.
+     * Renders a report according to the template.
      *
-     * @param report_page $page.
+     * @param report $report.
      *
-     * @return string html for the page.
+     * @return string html for the report.
      */
-    public function render_report_page($page) {
-        $data = $page->export_for_template($this);
-        return parent::render_from_template('local_mxschool/report_page', $data);
+    public function render_report($report) {
+        $data = $report->export_for_template($this);
+        return parent::render_from_template('local_mxschool/report', $data);
     }
 
     /**
@@ -81,27 +81,27 @@ class renderer extends plugin_renderer_base {
     }
 
     /**
-     * Renders a form page according to the template.
+     * Renders a form according to the template.
      *
-     * @param form_page $page.
+     * @param form $form.
      *
      * @return string html for the page.
      */
-    public function render_form_page($page) {
-        $data = $page->export_for_template($this);
-        return parent::render_from_template('local_mxschool/form_page', $data);
+    public function render_form($form) {
+        $data = $form->export_for_template($this);
+        return parent::render_from_template('local_mxschool/form', $data);
     }
 
     /**
      * Renders an amd module according to the template.
      *
-     * @param js_module $module.
+     * @param amd_module $module.
      *
      * @return string html for the script.
      */
-    public function render_js_module($module) {
+    public function render_amd_module($module) {
         $data = $module->export_for_template($this);
-        return parent::render_from_template('local_mxschool/js_module', $data);
+        return parent::render_from_template('local_mxschool/amd_module', $data);
     }
 
     /**

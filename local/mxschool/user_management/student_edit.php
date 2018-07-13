@@ -108,7 +108,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form_page($form);
+$renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($title);

@@ -39,7 +39,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index_page(array(
+$renderable = new \local_mxschool\output\index(array(
     get_string('esignout_preferences', 'local_mxschool') => '/local/mxschool/driving/preferences.php',
     get_string('vehicle_report', 'local_mxschool') => '/local/mxschool/driving/vehicle_report.php',
     get_string('esignout', 'local_mxschool') => '/local/mxschool/driving/esignout_enter.php',

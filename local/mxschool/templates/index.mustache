@@ -15,12 +15,15 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/report_page
+    @template local_mxschool/index
 
-    The purpose of this template is to render a report with a table and filtering options.
+    The purpose of this template is to render an index of links in an unordered list.
 }}
 
-<div class="mx-report">
-    {{{ filter }}}
-    {{{ table }}}
+<div class="mx-index">
+    <ul>
+    {{# links }}
+        <li><a href="{{ url }}">{{ text }}</a></li>
+    {{/ links }}
+    </ul>
 </div>

@@ -35,7 +35,7 @@ use stdClass;
 use html_writer;
 
 /**
- * Renderable class for index pages.
+ * Renderable class for indexes.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -43,7 +43,7 @@ use html_writer;
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class index_page implements renderable, templatable {
+class index implements renderable, templatable {
 
     /** @var array $links array of links [displaytext => url] to be passed to the template.*/
     private $links;
@@ -72,7 +72,7 @@ class index_page implements renderable, templatable {
 }
 
 /**
- * Renderable class for report pages.
+ * Renderable class for reports.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -80,7 +80,7 @@ class index_page implements renderable, templatable {
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report_page implements renderable, templatable {
+class report implements renderable, templatable {
 
     /** @var report_table $table The table for the report.*/
     private $table;
@@ -88,7 +88,7 @@ class report_page implements renderable, templatable {
     private $filter;
 
     /**
-     * @param mx_table $table The table object to output to the template
+     * @param local_mxschool_table $table The table object to output to the template
      * @param int $size The number of rows to output.
      * @param string $search Default search text, null if there is no search option.
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
@@ -128,7 +128,7 @@ class report_page implements renderable, templatable {
  */
 class report_table implements renderable, templatable {
 
-    /** @var mx_table $table The table object to output to the template.*/
+    /** @var local_mxschool_table $table The table object to output to the template.*/
     private $table;
     /** @var int $size The number of rows to output.*/
     private $size;
@@ -136,7 +136,7 @@ class report_table implements renderable, templatable {
     private $headers;
 
     /**
-     * @param mx_table $table The table object to output to the template
+     * @param local_mxschool_table $table The table object to output to the template
      * @param int $size The number of rows to output.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
@@ -223,7 +223,7 @@ class report_filter implements renderable, templatable {
 }
 
 /**
- * Renderable class for form pages.
+ * Renderable class for moodle forms.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -231,9 +231,9 @@ class report_filter implements renderable, templatable {
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class form_page implements renderable, templatable {
+class form implements renderable, templatable {
 
-    /** @var moodleform $form The form object to render.*/
+    /** @var local_mxschool_form $form The form object to render.*/
     private $form;
     /** @var string|bool $topdescription A description for the top of the form or false.*/
     private $descrption;
@@ -241,7 +241,7 @@ class form_page implements renderable, templatable {
     private $bottomdescription;
 
     /**
-     * @param moodleform $form The form object to render.
+     * @param local_mxschool_form $form The form object to render.
      * @param string|bool $topdescription A description for the top of the form or false.
      * @param string|bool $bottomdescription A description for the bottom of the form or false.
      */
@@ -276,7 +276,7 @@ class form_page implements renderable, templatable {
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class js_module implements renderable, templatable {
+class amd_module implements renderable, templatable {
 
     /** @var string $module The name of the amd module.*/
     private $module;

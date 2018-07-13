@@ -79,11 +79,11 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$tablerenderable = new \local_mxschool\output\report_page($table, 50, $search);
-$formrenderable = new \local_mxschool\output\form_page($form);
+$reportrenderable = new \local_mxschool\output\report($table, 50, $search);
+$formrenderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($title);
-echo $output->render($tablerenderable);
+echo $output->render($reportrenderable);
 echo $output->render($formrenderable);
 echo $output->footer();

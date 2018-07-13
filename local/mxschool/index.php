@@ -39,7 +39,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index_page(array(
+$renderable = new \local_mxschool\output\index(array(
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
     get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php',
     get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php',

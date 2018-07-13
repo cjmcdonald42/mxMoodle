@@ -15,21 +15,13 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/form_page
+    @template local_mxschool/amd_module
 
-    The purpose of this template is to render a moodle form.
+    The purpose of this template is add the script for an amd module to the page.
 }}
 
-<div class="mx-form">
-    {{# topdescription }}
-        <p class="topdescription">
-            {{{ topdescription }}}
-        </p>
-    {{/ topdescription }}
-    {{{ form }}}
-    {{# bottomdescription }}
-        <p class="bottomdescription">
-            {{{ bottomdescription }}}
-        </p>
-    {{/ bottomdescription }}
-</div>
+{{# js }}
+require(['{{ module }}'], function(setup) {
+    setup();
+});
+{{/ js }}

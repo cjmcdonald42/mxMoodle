@@ -39,7 +39,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index_page(array(
+$renderable = new \local_mxschool\output\index(array(
     get_string('checkin_preferences', 'local_mxschool') => '/local/mxschool/checkin/preferences.php',
     get_string('generic_report', 'local_mxschool') => '/local/mxschool/checkin/generic_report.php',
     get_string('weekday_report', 'local_mxschool') => '/local/mxschool/checkin/weekday_report.php',

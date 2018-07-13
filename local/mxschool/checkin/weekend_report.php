@@ -142,14 +142,14 @@ for ($i = $startday; $i <= $endday; $i++) {
 $headers[] = array('text' => '', 'length' => 9);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$tablerenderable = new \local_mxschool\output\report_page($table, 50, $filter->search, $dropdowns, true, $addbutton, $headers);
-$formrenderable = new \local_mxschool\output\form_page($form);
+$reportrenderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, true, $addbutton, $headers);
+$formrenderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(get_string('weekend_report_title', 'local_mxschool', array(
     'dorm' => $filter->dorm ? "{$dorms[$filter->dorm]} " : '', 'weekend' => $weekends[$filter->weekend],
     'type' => $weekendrecord->type
 )));
-echo $output->render($tablerenderable);
+echo $output->render($reportrenderable);
 echo $output->render($formrenderable);
 echo $output->footer();

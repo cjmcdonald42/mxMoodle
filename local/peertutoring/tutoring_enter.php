@@ -118,9 +118,9 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form_page($form);
-$jsrenderable1 = new \local_mxschool\output\js_module('local_peertutoring/get_tutor_options');
-$jsrenderable2 = new \local_mxschool\output\js_module('local_peertutoring/get_department_courses');
+$formrenderable = new \local_mxschool\output\form($form);
+$jsrenderable1 = new \local_mxschool\output\amd_module('local_peertutoring/get_tutor_options');
+$jsrenderable2 = new \local_mxschool\output\amd_module('local_peertutoring/get_department_courses');
 
 echo $output->header();
 echo $output->heading($title.($istutor ? " for {$record->tutor}" : ''));

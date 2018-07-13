@@ -113,7 +113,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report_page($table, 50, $filter->search, $dropdowns, true, $addbutton);
+$renderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, true, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

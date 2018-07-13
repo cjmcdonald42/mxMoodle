@@ -39,7 +39,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index_page(array(
+$renderable = new \local_mxschool\output\index(array(
     get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php',
     get_string('tutoring_form', 'local_peertutoring') => '/local/peertutoring/tutoring_enter.php',
     get_string('tutoring_report', 'local_peertutoring') => '/local/peertutoring/tutoring_report.php'
