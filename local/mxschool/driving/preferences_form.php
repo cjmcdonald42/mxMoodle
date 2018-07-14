@@ -47,9 +47,20 @@ class preferences_form extends local_mxschool_form {
                 }, $emailtags))),
                 'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+            ), 'text' => array(
+                'nopassengers' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'needparent' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'onlyspecific' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'confirmation' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+            ), 'emailtext' => array(
+                'driver' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'any' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'parent' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'specific' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'over21' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'esignout_preferences');
+        parent::set_fields($fields, 'esignout_preferences', true);
     }
 
 }

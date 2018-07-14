@@ -466,31 +466,15 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018071108) {
-        set_config(
-            'weekend_form_instructions_top',
-            'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.',
-            'local_mxschool'
-        );
-        set_config(
-            'weekend_form_instructions_bottom',
-            'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{hoh}</b> @ <b>{permissionsline}</b>.<br>If your plans change, you must get permission from <b>{hoh}</b>. <b>Remember to sign out.</b>',
-            'local_mxschool'
-        );
+        set_config('weekend_form_instructions_top', 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.', 'local_mxschool');
+        set_config('weekend_form_instructions_bottom', 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{hoh}</b> @ <b>{permissionsline}</b>.<br>If your plans change, you must get permission from <b>{hoh}</b>. <b>Remember to sign out.</b>', 'local_mxschool');
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2018071108, 'local', 'mxschool');
     }
 
     if ($oldversion < 2018071110) {
-        set_config(
-            'advisor_form_closing_warning',
-            'Your current advisor\'s advisory is closing, so you must provide choices for a new advisor.',
-            'local_mxschool'
-        );
-        set_config(
-            'advisor_form_instructions',
-            'Please rank you top five advisor choices in descending order. You may rank less than five if your final choice is your current advisor.',
-            'local_mxschool'
-        );
+        set_config('advisor_form_closing_warning', 'Your current advisor\'s advisory is closing, so you must provide choices for a new advisor.', 'local_mxschool');
+        set_config('advisor_form_instructions', 'Please rank you top five advisor choices in descending order. You may rank less than five if your final choice is your current advisor.', 'local_mxschool');
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2018071110, 'local', 'mxschool');
     }
@@ -515,6 +499,22 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2018071301, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018071304) {
+        set_config('esignout_form_warning_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_mxschool');
+        set_config('esignout_form_warning_needparent', 'Your permissions indicate that you need a call from your parent.', 'local_mxschool');
+        set_config('esignout_form_warning_onlyspecific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_mxschool');
+        set_config('esignout_form_confirmation', 'Have you recieved the required permissions?', 'local_mxschool');
+
+        set_config('esignout_notification_warning_driver', 'None.', 'local_mxschool');
+        set_config('esignout_notification_warning_any', 'None.', 'local_mxschool');
+        set_config('esignout_notification_warning_parent', 'This student requires parent permission to be the passenger of another student.', 'local_mxschool');
+        set_config('esignout_notification_warning_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_mxschool');
+        set_config('esignout_notification_warning_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018071304, 'local', 'mxschool');
     }
 
     return true;

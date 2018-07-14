@@ -78,7 +78,7 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                 }
             }
             if ($('.mx-form input#id_type_select_Passenger').prop('checked') && data.mayridewith !== 'Any Driver') {
-                permissionsFieldset.prev().hide();
+                permissionsFieldset.next().hide();
                 permissionsFieldset.show();
                 var parentPermissionDiv = permissionsFieldset.children().eq(1).children().eq(0);
                 var specificDriversDiv = permissionsFieldset.children().eq(1).children().eq(1);
@@ -87,13 +87,13 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                     specificDriversDiv.hide();
                 } else if (data.mayridewith === 'Specific Drivers') {
                     parentPermissionDiv.hide();
-                    $.when(str.get_string('esignout_form_specific_warning', 'local_mxschool')).done(function(text) {
-                        specificDriversDiv.children().eq(1).children().eq(0).text(text + ' ' + data.specificdrivers + '.');
-                        specificDriversDiv.show();
-                    });
+                    var specificDriversStatic = specificDriversDiv.children().eq(1).children().eq(0);
+                    specificDriversStatic.contents().slice(1).remove();
+                    specificDriversStatic.append(data.specificdrivers);
+                    specificDriversDiv.show();
                 }
             } else {
-                permissionsFieldset.prev().show();
+                permissionsFieldset.next().show();
                 permissionsFieldset.hide();
             }
             var passengersSelect = $('.mx-form select#id_passengers');

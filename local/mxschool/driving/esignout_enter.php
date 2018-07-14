@@ -95,18 +95,22 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
+if ($isstudent) {
+    $record = $DB->get_record_sql(
+        "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student FROM {user} u WHERE u.id = ?", array($USER->id)
+    );
+}
+$data->isstudent = $isstudent ? '1' : '0';
+$data->passengerswarning = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
 $data->departuretime_hour = $departuretime->format('g');
 $minute = $departuretime->format('i');
 $data->departuretime_minute = $minute - $minute % 15;
 $data->departuretime_ampm = $departuretime->format('A') === 'PM';
 $departuretime->setTime(0, 0);
 $data->date = $departuretime->getTimestamp();
-$data->isstudent = $isstudent ? '1' : '0';
+$data->parentwarning = get_config('local_mxschool', 'esignout_form_warning_needparent');
+$data->specificwarning = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
 $students = get_student_list();
-$userid = $isstudent ? $USER->id : (count($students) ? array_keys($students)[0] : 0);
-$record = $DB->get_record_sql(
-    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student FROM {user} u WHERE u.id = ?", array($userid)
-);
 $types = get_esignout_type_list();
 $passengers = get_passenger_list();
 $drivers = get_current_driver_list();

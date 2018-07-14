@@ -108,28 +108,21 @@ class mx_notifications {
                 $record->departuretime = date('g:i A', $record->departuretime);
                 $record->timesubmitted = date('g:i A', $record->timesubmitted);
                 $emaildeans = false;
-                if ($record->type !== 'Driver') {
+                if ($record->type === 'Driver') {
+                    $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_driver');
+                } else {
                     if ($record->passengerpermission === 'Any Driver') {
-                        $record->permissionswarning = get_string(
-                            'esignout_notification_warning_anydriver', 'local_mxschool'
-                        );
+                        $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_any');
                     } else if ($record->passengerpermission === 'Parent Permission') {
-                        $record->permissionswarning = get_string(
-                            'esignout_notification_warning_parentpermission', 'local_mxschool'
-                        );
+                        $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_parent');
                     } else if ($record->passengerpermission === 'Specific Drivers') {
-                        $record->permissionswarning = get_string(
-                            'esignout_notification_warning_specificdrivers', 'local_mxschool'
-                        ).$record->specificdrivers;
+                        $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_specific')
+                                                      .$record->specificdrivers;
                         $emaildeans = true;
                     } else {
-                        $record->permissionswarning = get_string(
-                            'esignout_notification_warning_over21', 'local_mxschool'
-                        );
+                        $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_over21');
                         $emaildeans = true;
                     }
-                } else {
-                    $record->permissionswarning = get_string('esignout_notification_warning_driver', 'local_mxschool');
                 }
 
                 $subject = self::replace($notification->subject, $record);

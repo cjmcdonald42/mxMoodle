@@ -81,10 +81,7 @@ class preferences_form extends local_mxschool_form {
                 'secondsemester' => array('element' => 'date_selector', 'parameters' => $dateparameters),
                 'dormsclose' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             ), 'weekends' => $weekendfields,
-            'displaytext' => array(
-                'topinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'bottominstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
-            ), 'notifications' => array(
+            'notifications' => array(
                 'available' => array('element' => 'static', 'text' => implode(', ', array_map(function($tag) {
                     return "{{$tag}}";
                 }, $emailtags))),
@@ -92,6 +89,9 @@ class preferences_form extends local_mxschool_form {
                 'submittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'approvedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
                 'approvedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+            ), 'text' => array(
+                'topinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'bottominstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
         parent::set_fields($fields, 'checkin_preferences', true);

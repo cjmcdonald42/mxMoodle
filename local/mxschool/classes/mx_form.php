@@ -153,7 +153,9 @@ abstract class local_mxschool_form extends moodleform {
         $mform = $this->_form;
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
         $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
-        $displayname = !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : '';
+        $displayname = isset($properties['displayname']) ? $properties['displayname'] : (
+            !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : ''
+        );
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
         $text = isset($properties['text']) ? $properties['text'] : '';
         $groupseparator = isset($properties['separator']) ? $properties['separator'] : '&emsp;';
@@ -162,6 +164,10 @@ abstract class local_mxschool_form extends moodleform {
         switch($properties['element']) {
             case 'hidden':
                 $result = $mform->createElement($properties['element'], $name, null);
+                break;
+            case 'submit':
+            case 'cancel':
+                $result = $mform->createElement($properties['element'], $name, $text);
                 break;
             case 'editor':
                 $result = $mform->createElement($properties['element'], $name, $displayname);

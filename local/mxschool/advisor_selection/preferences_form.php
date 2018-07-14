@@ -35,7 +35,7 @@ class preferences_form extends local_mxschool_form {
      */
     protected function definition() {
         $fields = array(
-            'displaytext' => array(
+            'text' => array(
                 'closing_warning' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'instructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )

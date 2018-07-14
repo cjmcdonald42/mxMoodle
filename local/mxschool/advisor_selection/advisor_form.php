@@ -46,13 +46,10 @@ class advisor_form extends local_mxschool_form {
             'student' => array('element' => 'select', 'options' => $students),
             'current' => array('element' => 'static'),
             'keepcurrent' => parent::ELEMENT_BOOLEAN,
-            'warning' => array(
-                'element' => 'static', 'name' => null, 'text' => get_string('advisor_form_info_warning', 'local_mxschool')
-            )
+            'warning' => array('element' => 'static', 'name' => null)
         ), 'options' => array(
-            'instructions' => array(
-                'element' => 'static', 'name' => null, 'text' => get_string('advisor_form_options_instructions', 'local_mxschool')
-            ), 'option1' => array('element' => 'select', 'options' => $faculty),
+            'instructions' => array('element' => 'static', 'name' => null),
+            'option1' => array('element' => 'select', 'options' => $faculty),
             'option2' => array('element' => 'select', 'options' => $faculty),
             'option3' => array('element' => 'select', 'options' => $faculty),
             'option4' => array('element' => 'select', 'options' => $faculty),

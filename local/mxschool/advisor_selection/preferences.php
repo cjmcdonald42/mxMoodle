@@ -34,8 +34,6 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());
 
-$search = optional_param('search', '', PARAM_RAW);
-
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
@@ -61,9 +59,7 @@ foreach ($parents as $display => $url) {
 }
 $PAGE->navbar->add($title);
 
-$table = new faculty_table($search);
-
-$form = new preferences_form(array());
+$form = new preferences_form();
 $form->set_redirect($redirect);
 $form->set_data($data);
 
@@ -78,12 +74,14 @@ if ($form->is_cancelled()) {
     );
 }
 
+$table = new faculty_table();
+
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report($table, 50, $search);
 $formrenderable = new \local_mxschool\output\form($form);
+$reportrenderable = new \local_mxschool\output\report($table, 50);
 
 echo $output->header();
 echo $output->heading($title);
-echo $output->render($reportrenderable);
 echo $output->render($formrenderable);
+echo $output->render($reportrenderable);
 echo $output->footer();

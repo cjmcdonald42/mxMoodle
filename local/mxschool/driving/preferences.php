@@ -35,11 +35,11 @@ require_capability('local/mxschool:manage_esignout_preferences', context_system:
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/driving/index.php'
+    get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php'
 );
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/driving/preferences.php';
-$title = get_string('checkin_preferences', 'local_mxschool');
+$title = get_string('esignout_preferences', 'local_mxschool');
 
 $data = new stdClass();
 $data->editwindow = get_config('local_mxschool', 'esignout_edit_window');
@@ -48,6 +48,15 @@ if ($notification) {
     $data->subject = $notification->subject;
     $data->body['text'] = $notification->body_html;
 }
+$data->nopassengers['text'] = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
+$data->needparent['text'] = get_config('local_mxschool', 'esignout_form_warning_needparent');
+$data->onlyspecific['text'] = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
+$data->confirmation['text'] = get_config('local_mxschool', 'esignout_form_confirmation');
+$data->driver['text'] = get_config('local_mxschool', 'esignout_notification_warning_driver');
+$data->any['text'] = get_config('local_mxschool', 'esignout_notification_warning_any');
+$data->parent['text'] = get_config('local_mxschool', 'esignout_notification_warning_parent');
+$data->specific['text'] = get_config('local_mxschool', 'esignout_notification_warning_specific');
+$data->over21['text'] = get_config('local_mxschool', 'esignout_notification_warning_over21');
 
 $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
 $event->trigger();
@@ -62,7 +71,7 @@ foreach ($parents as $display => $parenturl) {
 }
 $PAGE->navbar->add($title);
 
-$form = new preferences_form(array());
+$form = new preferences_form();
 $form->set_redirect($redirect);
 $form->set_data($data);
 
@@ -71,6 +80,15 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('esignout_edit_window', $data->editwindow, 'local_mxschool');
     update_notification('esignout_submitted', $data->subject, $data->body);
+    set_config('esignout_form_warning_nopassengers', $data->nopassengers['text'], 'local_mxschool');
+    set_config('esignout_form_warning_needparent', $data->needparent['text'], 'local_mxschool');
+    set_config('esignout_form_warning_onlyspecific', $data->onlyspecific['text'], 'local_mxschool');
+    set_config('esignout_form_confirmation', $data->confirmation['text'], 'local_mxschool');
+    set_config('esignout_notification_warning_driver', $data->driver['text'], 'local_mxschool');
+    set_config('esignout_notification_warning_any', $data->any['text'], 'local_mxschool');
+    set_config('esignout_notification_warning_parent', $data->parent['text'], 'local_mxschool');
+    set_config('esignout_notification_warning_specific', $data->specific['text'], 'local_mxschool');
+    set_config('esignout_notification_warning_over21', $data->over21['text'], 'local_mxschool');
     redirect(
         $form->get_redirect(), get_string('esignout_preferences_edit_success', 'local_mxschool'), null,
         \core\output\notification::NOTIFY_SUCCESS

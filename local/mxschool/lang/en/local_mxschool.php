@@ -273,8 +273,8 @@ $string['weekend_calculator'] = 'Weekend Calculator';
 // Check-in Preferences.
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
 $string['checkin_preferences_header_weekends'] = 'Weekend Types';
-$string['checkin_preferences_header_displaytext'] = 'Weekend Form Instructions';
 $string['checkin_preferences_header_notifications'] = 'Weekend Form Email Notifications';
+$string['checkin_preferences_header_text'] = 'Weekend Form Instructions';
 $string['checkin_preferences_dates_dormsopen'] = 'Dorms Open On: ';
 $string['checkin_preferences_dates_secondsemester'] = 'Second Semester Starts On: ';
 $string['checkin_preferences_dates_dormsclose'] = 'Dorms Close On: ';
@@ -283,13 +283,13 @@ $string['checkin_preferences_weekends_type_Open'] = 'Open';
 $string['checkin_preferences_weekends_type_Closed'] = 'Closed';
 $string['checkin_preferences_weekends_type_Free'] = 'Free';
 $string['checkin_preferences_weekends_type_Vacation'] = 'Vacation';
-$string['checkin_preferences_displaytext_topinstructions'] = 'Top instucrtions';
-$string['checkin_preferences_displaytext_bottominstructions'] = 'Bottom instucrtions';
 $string['checkin_preferences_notifications_available'] = 'Available tags';
 $string['checkin_preferences_notifications_submittedsubject'] = 'Subject for Weekend Form Submitted Email';
 $string['checkin_preferences_notifications_submittedbody'] = 'Body for Weekend Form Submitted Email';
 $string['checkin_preferences_notifications_approvedsubject'] = 'Subject for Weekend Form Approved Email';
 $string['checkin_preferences_notifications_approvedbody'] = 'Body for Weekend Form Approved Email';
+$string['checkin_preferences_text_topinstructions'] = 'Top instucrtions';
+$string['checkin_preferences_text_bottominstructions'] = 'Bottom instucrtions';
 
 // Generic Check-in Sheet.
 $string['generic_report_title'] = '{$a}Check-In Sheet for __________';
@@ -379,10 +379,21 @@ $string['esignout_report'] = 'eSignout Report';
 // Preferences for eSignout.
 $string['esignout_preferences_header_config'] = 'Config';
 $string['esignout_preferences_header_notifications'] = 'eSignout Email Notifications';
+$string['esignout_preferences_header_text'] = 'eSignout Form Permissions Warnings';
+$string['esignout_preferences_header_emailtext'] = 'eSignout Email Permissions Warnings';
 $string['esignout_preferences_config_editwindow'] = 'Window for Students to Edit eSignout Forms';
 $string['esignout_preferences_notifications_available'] = 'Available tags';
 $string['esignout_preferences_notifications_subject'] = 'Subject for eSignout Form Submitted Email';
 $string['esignout_preferences_notifications_body'] = 'Body for eSignout Form Submitted Email';
+$string['esignout_preferences_text_nopassengers'] = 'Warning for a Student Who May Not Drive Passengers';
+$string['esignout_preferences_text_needparent'] = 'Warning for a Student Who May Only be a Passenger with Parent Permission';
+$string['esignout_preferences_text_onlyspecific'] = 'Warning for a Student Who May Only be the Passenger of Specific Drivers';
+$string['esignout_preferences_text_confirmation'] = 'Confirmation for a Passenger with Warnings';
+$string['esignout_preferences_emailtext_driver'] = 'Warning for a Driver';
+$string['esignout_preferences_emailtext_any'] = 'Warning for a Passenger with Permissions to Ride with Any Driver';
+$string['esignout_preferences_emailtext_parent'] = 'Warning for a Passenger with Permissions to Ride Only with Parent Permission';
+$string['esignout_preferences_emailtext_specific'] = 'Warning for a Passenger with Permissions to Ride Only with Specific Drivers';
+$string['esignout_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
 
 // Vehicle Report.
 $string['vehicle_report_add'] = 'Register a Vehicle';
@@ -424,23 +435,10 @@ $string['esignout_form_passengers_placeholder'] = 'Search Passengers';
 $string['esignout_form_driver_default'] = 'Select';
 $string['esignout_form_approver_default'] = 'Select';
 
-$string['esignout_form_passengers_warning'] = 'Your permissions indicate that you may not drive passengers.'; // TODO: MOVE TO CONFIG?
-$string['esignout_form_parent_warning'] = 'Your permissions indicate that you need a call from your parent.'; // TODO: MOVE TO CONFIG?
-$string['esignout_form_specific_warning'] = 'Your permissions indicate that you may only be the passenger of the following drivers:'; // TODO: MOVE TO CONFIG?
-$string['esignout_form_permissions_submit'] = 'Have you recieved the required permissions?'; // TODO: MOVE TO CONFIG?
-$string['esignout_form_permissions_submit_yes'] = 'Yes';
-$string['esignout_form_permissions_submit_no'] = 'No';
-
 $string['esignout_form_error_notype'] = 'You must specify a driver type.';
 $string['esignout_form_error_nodriver'] = 'You must specify a driver.';
 $string['esignout_form_error_nodestination'] = 'You must specify a destination.';
 $string['esignout_form_error_noapprover'] = 'You must specify who approved your signout.';
-
-$string['esignout_notification_warning_driver'] = 'None.'; // TODO: MOVE TO CONFIG?
-$string['esignout_notification_warning_anydriver'] = 'None.'; // TODO: MOVE TO CONFIG?
-$string['esignout_notification_warning_parentpermission'] = 'This student requires parent permission to be the passenger of another student.'; // TODO: MOVE TO CONFIG?
-$string['esignout_notification_warning_specificdrivers'] = 'This student only has permission to the be the passenger of the following drivers: '; // TODO: MOVE TO CONFIG?
-$string['esignout_notification_warning_over21'] = 'This student does NOT have permission to be the passenger of anyone under 21.'; // TODO: MOVE TO CONFIG?
 
 // Report for eSignout.
 $string['esignout_report_select_type_all'] = 'All Types';
@@ -473,9 +471,9 @@ $string['advisor_selection_form'] = 'Advisor Selection Form';
 $string['advisor_selection_report'] = 'Advisor Selection Report';
 
 // Advisor Selection Preferences.
-$string['advisor_selection_preferences_header_displaytext'] = 'Advisor Selection Form Instructions';
-$string['advisor_selection_preferences_displaytext_closing_warning'] = 'Warning for closing advisory';
-$string['advisor_selection_preferences_displaytext_instructions'] = 'Advisor selection instructions';
+$string['advisor_selection_preferences_header_text'] = 'Advisor Selection Form Instructions';
+$string['advisor_selection_preferences_text_closing_warning'] = 'Warning for closing advisory';
+$string['advisor_selection_preferences_text_instructions'] = 'Advisor selection instructions';
 
 // Advisor Selection Form.
 $string['advisor_form_header_info'] = 'General Information';

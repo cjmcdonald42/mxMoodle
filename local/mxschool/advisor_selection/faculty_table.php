@@ -32,10 +32,8 @@ class faculty_table extends local_mxschool_table {
 
     /**
      * Creates a new faculty_table.
-     *
-     * @param string $search A string to filter by.
      */
-    public function __construct($search) {
+    public function __construct() {
         $columns = array('name', 'advisoryavailable', 'advisoryclosing');
         $headers = array();
         foreach ($columns as $column) {
@@ -48,13 +46,9 @@ class faculty_table extends local_mxschool_table {
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id');
         $where = array('u.deleted = 0');
         $sortable = array('name');
-        $urlparams = array('search' => $search);
+        $urlparams = array();
         $centered = array('advisoryavailable', 'advisoryclosing');
-        $searchable = array('u.firstname', 'u.lastname');
-        parent::__construct(
-            'faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $search,
-            $searchable
-        );
+        parent::__construct('faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
     }
 
     /**
