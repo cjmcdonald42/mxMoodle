@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Main index page for Middlesex School's Dorm and Student functions plugin.
+ * Rooming index page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,26 +24,23 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(__DIR__.'/../../config.php');
+require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once('locallib.php');
-require_once(__DIR__.'/classes/output/renderable.php');
+require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
 
-admin_externalpage_setup('main_index');
+admin_externalpage_setup('rooming_index');
 
-$url = '/local/mxschool/index.php';
-$title = get_string('pluginname', 'local_mxschool');
+$url = '/local/mxschool/rooming/index.php';
+$title = get_string('rooming', 'local_mxschool');
 
 setup_generic_page($url, $title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index(array(
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php',
-    get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php',
-    get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php',
-    get_string('rooming', 'local_mxschool') => '/local/mxschool/rooming/index.php',
-    get_string('peertutoring', 'local_peertutoring') => '/local/peertutoring/index.php',
+    get_string('rooming_preferences', 'local_mxschool') => '/local/mxschool/rooming/preferences.php',
+    get_string('rooming_form', 'local_mxschool') => '/local/mxschool/rooming/rooming_enter.php',
+    get_string('rooming_report', 'local_mxschool') => '/local/mxschool/rooming/rooming_report.php'
 ));
 
 echo $output->header();

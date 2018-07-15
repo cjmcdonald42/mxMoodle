@@ -63,15 +63,18 @@ $string['mxschool:manage_advisor_selection_preferences'] = 'Middlesex School: Vi
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
+
 $string['email_settings'] = 'Email Settings';
 $string['deans_email'] = 'Deans Email';
 $string['deans_email_description'] = 'The email address to send notifications to the deans.';
+
 $string['indexes'] = 'Index Pages';
 $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
 $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
 $string['driving_index'] = 'Driving and eSignout Index';
 $string['advisor_selection_index'] = 'Advisor Selection Index';
+$string['rooming_index'] = 'Rooming Index';
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Events.
@@ -522,3 +525,10 @@ $string['advisor_report_header_option3'] = 'Choice 3';
 $string['advisor_report_header_option4'] = 'Choice 4';
 $string['advisor_report_header_option5'] = 'Choice 5';
 $string['advisor_report_header_selected'] = 'Chosen Advisor';
+
+
+/* Rooming. */
+$string['rooming'] = 'Rooming';
+$string['rooming_preferences'] = 'Rooming Preferences';
+$string['rooming_form'] = 'Rooming Form';
+$string['rooming_report'] = 'Rooming Report';

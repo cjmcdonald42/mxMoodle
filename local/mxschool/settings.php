@@ -65,5 +65,10 @@ if ($hassiteconfig) {
         new lang_string('advisor_selection_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/advisor_selection/index.php")
     );
+    $ADMIN->add('indexes', new admin_externalpage(
+        'rooming_index',
+        new lang_string('rooming_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/rooming/index.php")
+    );
 
 }
