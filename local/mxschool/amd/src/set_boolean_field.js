@@ -25,42 +25,39 @@
  */
 
 define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
-    return  {
-        updateField: function(table, name, value) {
-            var element = $('.mx-checkbox[name="' + name + '"][value="' + value + '"]');
-            element.change(function() {
-                var promises = ajax.call([{
-                    methodname: 'local_mxschool_set_boolean_field',
-                    args: {
-                        table: table,
-                        field: name,
-                        id: value,
-                        value: element.prop("checked")
+    function update() {
+        var element = $(this);
+        var promises = ajax.call([{
+            methodname: 'local_mxschool_set_boolean_field',
+            args: {
+                table: element.attr('name').substring(0, element.attr('name').indexOf(':')),
+                field: element.attr('name').substring(element.attr('name').indexOf(':') + 1),
+                id: element.val(),
+                value: element.prop("checked")
+            }
+        }]);
+        promises[0].done(function() {
+            var saved = element.next();
+            saved.show();
+            setTimeout(function() {
+                saved.hide('slow', function() {
+                    var button = element.parent().children('button.mx-email-button');
+                    if (button) {
+                        if (element.prop('checked')) {
+                            $.when(str.get_string('email_button_default', 'local_mxschool')).done(function(defaultString) {
+                                button.text(defaultString);
+                                button.trigger('showButton');
+                            });
+                        } else {
+                            button.trigger('hideButton');
+                        }
                     }
-                }]);
-                promises[0].done(function() {
-                    var saved = $('<span></span>').text(' saved').attr('class', 'green');
-                    $(element).after(saved);
-                    setTimeout(function() {
-                        saved.fadeOut('slow', function() {
-                            saved.remove();
-                            var button = element.parent().children('button');
-                            if(button) {
-                                if(element.prop('checked')) {
-                                    $.when(str.get_string('email_button_default', 'local_mxschool')).done(function(defaultString) {
-                                        button.text(defaultString);
-                                        button.show('slow');
-                                    });
-                                } else {
-                                    button.hide('slow', function() {
-                                        button.text('');
-                                    });
-                                }
-                            }
-                        });
-                    }, 1000);
-                }).fail(notification.exception);
-            });
-        }
+                });
+            }, 1000);
+        }).fail(notification.exception);
+    }
+    return function(name, value) {
+        var element = $('.mx-checkbox[value="' + value + '"][name="' + name + '"]');
+        element.change(update);
     };
 });

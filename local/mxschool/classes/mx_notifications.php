@@ -143,6 +143,25 @@ class mx_notifications {
                     $emailto[] = $deans;
                 }
                 break;
+            case 'advisor_selection_notify_unsubmitted':
+                $subject = $notification->subject;
+                $body = $notification->body_html;
+                $emailto = array();
+                $list = get_student_without_advisor_form_list();
+                foreach ($list as $userid => $name) {
+                    $emailto[] = $DB->get_record('user', array('id' => $userid));
+                }
+                break;
+            case 'advisor_selection_notify_results':
+                $subject = $notification->subject;
+                $body = $notification->body_html;
+                $emailto = array();
+                $list = get_new_student_advisor_pair_list();
+                foreach ($list as $suserid => $auserid) {
+                    $emailto[] = $DB->get_record('user', array('id' => $suserid));
+                    $emailto[] = $DB->get_record('user', array('id' => $auserid));
+                }
+                break;
             default:
                 return false;
         }
@@ -174,9 +193,12 @@ class mx_notifications {
     private static function email_all($emailto, $subject, $body) {
         $supportuser = core_user::get_support_user();
         $result = true;
+        ob_start();
         foreach ($emailto as $recipient) {
+            echo "\n{$subject}\n{$body}\n{$recipient->lastname}, {$recipient->firstname} ({$recipient->email})\n";
             // $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
         }
+        debugging(ob_get_clean(), DEBUG_DEVELOPER);
         return $result;
     }
 

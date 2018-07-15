@@ -25,23 +25,21 @@
  */
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    return  {
-        signIn: function(id) {
-            var element = $('.mx-signin-button[value="' + id + '"]');
-            element.click(function() {
-                var promises = ajax.call([{
-                    methodname: 'local_mxschool_sign_in',
-                    args: {
-                        esignoutid: id
-                    }
-                }]);
-                promises[0].done(function(data) {
-                    element.hide('slow', function() {
-                        element.parent().html('&#x2705;');
-                    });
-                    element.parent().parent().find('td.sign-in').text(data);
-                }).fail(notification.exception);
-            });
-        }
+    return function(id) {
+        var element = $('.mx-signin-button[value="' + id + '"]');
+        element.click(function() {
+            var promises = ajax.call([{
+                methodname: 'local_mxschool_sign_in',
+                args: {
+                    esignoutid: id
+                }
+            }]);
+            promises[0].done(function(data) {
+                element.hide('slow', function() {
+                    element.parent().html('&#x2705;');
+                });
+                element.parent().parent().find('td.sign-in').text(data);
+            }).fail(notification.exception);
+        });
     };
 });

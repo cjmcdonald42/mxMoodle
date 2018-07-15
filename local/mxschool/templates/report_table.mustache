@@ -24,10 +24,10 @@
     {{{ table }}}
 </div>
 
-{{# js }}
 {{# headers }}
-require(['local_mxschool/prepend_table_header'], function(prependTableHeader) {
-    prependTableHeader.prepend({{{ headers }}});
+{{# js }}
+require(['local_mxschool/prepend_table_header'], function(prepend) {
+    prepend({{{ headers }}});
 });
-{{/ headers }}
 {{/ js }}
+{{/ headers }}

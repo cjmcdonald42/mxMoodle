@@ -58,7 +58,7 @@ class faculty_table extends local_mxschool_table {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\checkbox(
-            $values->id, 'advisory_available', $values->advisoryavailable, 'local_mxschool_faculty'
+            $values->id, 'local_mxschool_faculty', 'advisory_available', $values->advisoryavailable
         );
         return $output->render($renderable);
     }
@@ -70,7 +70,7 @@ class faculty_table extends local_mxschool_table {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\checkbox(
-            $values->id, 'advisory_closing', $values->advisoryclosing, 'local_mxschool_faculty'
+            $values->id, 'local_mxschool_faculty', 'advisory_closing', $values->advisoryclosing
         );
         return $output->render($renderable);
     }

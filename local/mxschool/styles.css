@@ -66,7 +66,11 @@ div.legend-table table.generaltable {
 /**
  * Custom Element Styling.
  */
-/* Email buttons default to hidden. */
+/* Check box 'saved' text and email buttons default to hidden.*/
+span.mx-checkbox-saved {
+    color: #77b300;
+    display: none;
+}
 button.mx-email-button {
     display: none;
 }

@@ -43,6 +43,16 @@ $url = '/local/mxschool/advisor_selection/preferences.php';
 $title = get_string('advisor_selection_preferences', 'local_mxschool');
 
 $data = new stdClass();
+$unsubmitednotification = $DB->get_record('local_mxschool_notification', array('class' => 'advisor_selection_notify_unsubmitted'));
+if ($unsubmitednotification) {
+    $data->unsubmittedsubject = $unsubmitednotification->subject;
+    $data->unsubmittedbody['text'] = $unsubmitednotification->body_html;
+}
+$resultsnotification = $DB->get_record('local_mxschool_notification', array('class' => 'advisor_selection_notify_results'));
+if ($resultsnotification) {
+    $data->resultssubject = $resultsnotification->subject;
+    $data->resultsbody['text'] = $resultsnotification->body_html;
+}
 $data->closing_warning['text'] = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions['text'] = get_config('local_mxschool', 'advisor_form_instructions');
 
@@ -66,6 +76,8 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+    update_notification('advisor_selection_notify_unsubmitted', $data->unsubmittedsubject, $data->unsubmittedbody);
+    update_notification('advisor_selection_notify_results', $data->resultssubject, $data->resultsbody);
     set_config('advisor_form_closing_warning', $data->closing_warning['text'], 'local_mxschool');
     set_config('advisor_form_instructions', $data->instructions['text'], 'local_mxschool');
     redirect(

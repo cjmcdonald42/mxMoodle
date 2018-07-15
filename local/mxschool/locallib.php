@@ -375,6 +375,29 @@ function get_student_without_advisor_form_list() {
 }
 
 /**
+ * Queries the database to create a list of all the new student - advisor pairs.
+ * Any student who selected to changed advisors on their advisor selection form will be included.
+ *
+ * @return array The students and advisors as studentuserid => advisoruserid, ordered alphabetically by student name.
+ */
+function get_new_student_advisor_pair_list() {
+    global $DB;
+    $list = array();
+    $records = $DB->get_records_sql(
+        "SELECT u.id AS suserid, CONCAT(u.lastname, ', ', u.firstname) AS name, asf.selectedid AS auserid
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         LEFT JOIN {local_mxschool_adv_selection} asf ON s.userid = asf.userid
+         WHERE u.deleted = 0 AND asf.keep_current = 0 AND asf.selectedid <> 0 ORDER BY name"
+    );
+    if ($records) {
+        foreach ($records as $record) {
+            $list[$record->suserid] = $record->auserid;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the faculty.
  *
  * @return array The faculty as userid => name, ordered alphabetically by faculty name.

@@ -25,30 +25,42 @@
  */
 
 define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
-    return  {
-        sendEmail: function(emailClass, value) {
-            var element = $('.mx-email-button[value="' + value + '"]');
-            element.click(function() {
-                var promises = ajax.call([{
-                    methodname: 'local_mxschool_send_email',
-                    args: {
-                        emailclass: emailClass,
-                        emailparams: {
-                            id: value
-                        }
-                    }
-                }]);
-                promises[0].done(function() {
-                    $.when(str.get_string('email_button_sent', 'local_mxschool')).done(function(sentString) {
-                        element.text(sentString);
-                        setTimeout(function() {
-                            element.hide('slow', function() {
-                                element.text('');
-                            });
-                        }, 1000);
-                    });
-                }).fail(notification.exception);
+    function sendEmail() {
+        var element = $(this);
+        var promises = ajax.call([{
+            methodname: 'local_mxschool_send_email',
+            args: {
+                emailclass: element.attr('name'),
+                emailparams: {
+                    id: element.val()
+                }
+            }
+        }]);
+        promises[0].done(function() {
+            $.when(str.get_string('email_button_sent', 'local_mxschool')).done(function(sentString) {
+                element.text(sentString);
+                setTimeout(function() {
+                    element.trigger('hideButton');
+                }, 1000);
             });
+        }).fail(notification.exception);
+    }
+    function showButton() {
+        $(this).show('slow');
+        $(this).before($('<span></span>').text('\u2003'));
+    }
+    function hideButton() {
+        $(this).hide('slow');
+        $(this).parent().children('span:contains("\u2003")').remove();
+    }
+    return function(value, name, hidden) {
+        var element = $('button.mx-email-button[value="' + value + '"][name="' + name + '"]');
+        element.click(sendEmail);
+        if (hidden) {
+            element.on('showButton', showButton);
+            element.on('hideButton', hideButton);
+        } else {
+            element.show();
         }
     };
 });

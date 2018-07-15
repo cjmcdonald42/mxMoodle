@@ -69,7 +69,7 @@ for ($i = 1; $i <= 5; $i++) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, 50, null, $dropdowns, true, false, $headers);
+$renderable = new \local_mxschool\output\report($table, 50, null, $dropdowns, true, false, false, $headers);
 
 echo $output->header();
 echo $output->heading(get_string('weekday_report_title', 'local_mxschool', $dorm ? "{$dorms[$dorm]} " : ''));

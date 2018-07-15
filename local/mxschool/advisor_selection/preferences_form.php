@@ -34,13 +34,27 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
+        $unsubmittedtags = array();
+        $resultstags = array('studentname', 'advisorname');
+
         $fields = array(
-            'text' => array(
+            'notifications' => array(
+                'unsubmittedavailable' => array('element' => 'static', 'text' => implode(', ', array_map(function($tag) {
+                    return "{{$tag}}";
+                }, $unsubmittedtags))),
+                'unsubmittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'unsubmittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'resultsavailable' => array('element' => 'static', 'text' => implode(', ', array_map(function($tag) {
+                    return "{{$tag}}";
+                }, $unsubmittedtags))),
+                'resultssubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'resultsbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+            ), 'text' => array(
                 'closing_warning' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'instructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'advisor_selection_preferences');
+        parent::set_fields($fields, 'advisor_selection_preferences', true);
     }
 
 }

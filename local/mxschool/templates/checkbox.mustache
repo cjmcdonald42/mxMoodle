@@ -20,10 +20,11 @@
     The purpose of this template is to render a checkbox with ajax functionality.
 }}
 
-<input type="checkbox" class="mx-checkbox" name="{{ name }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
+<input type="checkbox" class="mx-checkbox" name="{{ table }}:{{ field }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
+<span class="mx-checkbox-saved"> {{# str }} checkbox_saved, local_mxschool {{/ str }}</span>
 
 {{# js }}
-require(['local_mxschool/set_boolean_field'], function(setBooleanField) {
-    setBooleanField.updateField('{{ table }}', '{{ name }}', {{ value }});
+require(['local_mxschool/set_boolean_field'], function(setup) {
+    setup('{{ table }}:{{ field }}', {{ value }});
 });
 {{/ js }}

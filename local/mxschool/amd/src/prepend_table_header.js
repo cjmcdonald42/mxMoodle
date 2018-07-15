@@ -25,25 +25,23 @@
  */
 
 define(['jquery'], function($) {
-    return  {
-        prepend: function(headers) {
-            $(window).ready(function() {
-                $('.mx-table thead').prepend(function() {
-                    var row = $('<tr></tr>');
-                    var count = 0;
-                    $.each(headers, function(index, header) {
-                        row.append($('<th></th>').attr('class', function() {
-                            var result = 'header';
-                            for (var c = count; c < count + header.length; c++) {
-                                result += ' c' + c;
-                            }
-                            count += header.length;
-                            return result;
-                        }).attr('colspan', header.length).attr('scope', 'col').text(header.text));
-                    });
-                    return row;
+    return function(headers) {
+        $(window).ready(function() {
+            $('.mx-table thead').prepend(function() {
+                var row = $('<tr></tr>');
+                var count = 0;
+                $.each(headers, function(index, header) {
+                    row.append($('<th></th>').attr('class', function() {
+                        var result = 'header';
+                        for (var c = count; c < count + header.length; c++) {
+                            result += ' c' + c;
+                        }
+                        count += header.length;
+                        return result;
+                    }).attr('colspan', header.length).attr('scope', 'col').text(header.text));
                 });
+                return row;
             });
-        }
+        });
     };
 });

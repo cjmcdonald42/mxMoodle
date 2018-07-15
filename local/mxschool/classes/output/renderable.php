@@ -94,13 +94,15 @@ class report implements renderable, templatable {
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
      * @param bool $printbutton Whether to display a print button.
      * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
+     * @param array|bool Array of objects with properties text, value, and emailclass or false.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
     public function __construct(
-        $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $headers = false
+        $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $emailbuttons = false,
+        $headers = false
     ) {
         $this->table = new report_table($table, $size, $headers);
-        $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton);
+        $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton, $emailbuttons);
     }
 
     /**
@@ -181,24 +183,35 @@ class report_filter implements renderable, templatable {
     private $printbutton;
     /** @var stdClass|bool $addbutton Object with text and url properties for an add button or false.*/
     private $addbutton;
+    /** @var array $emailbuttons Array of email_button objects.*/
+    private $emailbuttons;
 
     /**
      * @param string $search Default search text, null if there is no search option.
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
      * @param bool $printbutton Whether to display a print button.
      * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
+     * @param array|bool $emailbuttons Array of objects with properties text, value, and emailclass or false.
      */
-    public function __construct($search, $dropdowns, $printbutton, $addbutton) {
+    public function __construct($search, $dropdowns, $printbutton, $addbutton, $emailbuttons) {
         $this->search = $search;
         $this->dropdowns = $dropdowns;
         $this->printbutton = $printbutton;
         $this->addbutton = $addbutton;
+        $this->emailbuttons = array();
+        if ($emailbuttons) {
+            foreach ($emailbuttons as $emailbutton) {
+                $this->emailbuttons[] = new email_button(
+                    $emailbutton->text, isset($emailbutton->value) ? $emailbutton->value : 0, $emailbutton->emailclass
+                );
+            }
+        }
     }
 
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with properties url, dropdowns, searchable, search, printable, and addbutton.
+     * @return stdClass Object with properties url, dropdowns, searchable, search, printable, addbutton, and emailbuttons.
      */
     public function export_for_template(renderer_base $output) {
         global $PAGE;
@@ -216,6 +229,10 @@ class report_filter implements renderable, templatable {
             $data->addbutton = new stdClass();
             $data->addbutton->text = $this->addbutton->text;
             $data->addbutton->url = $this->addbutton->url->out();
+        }
+        $data->emailbuttons = array();
+        foreach ($this->emailbuttons as $emailbutton) {
+            $data->emailbuttons[] = $output->render($emailbutton);
         }
         return $data;
     }
@@ -314,24 +331,24 @@ class checkbox implements renderable, templatable {
 
     /** @var string $value The value attribute of the checkbox.*/
     private $value;
-    /** @var string $name The name attribute of the checkbox.*/
-    private $name;
-    /** @var bool $checked Whether the checkbox should be checked.*/
-    private $checked;
     /** @var string $table The table in the database which the checkbox corresponds to.*/
     private $table;
+    /** @var string $field The field in the database which the checkbox corresponds to.*/
+    private $field;
+    /** @var bool $checked Whether the checkbox should be checked by default.*/
+    private $checked;
 
     /**
      * @param string $value The value attribute of the checkbox.
-     * @param string $name The name attribute of the checkbox.
-     * @param bool $checked Whether the checkbox should be checked.
      * @param string $table The table in the database which the checkbox corresponds to.
+     * @param string $field The field in the database which the checkbox corresponds to.
+     * @param bool $checked Whether the checkbox should be checked by default.
      */
-    public function __construct($value, $name, $checked, $table) {
+    public function __construct($value, $table, $field, $checked) {
         $this->value = $value;
-        $this->name = $name;
-        $this->checked = $checked;
         $this->table = $table;
+        $this->field = $field;
+        $this->checked = $checked;
     }
 
     /**
@@ -342,9 +359,9 @@ class checkbox implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         $data->value = $this->value;
-        $data->name = $this->name;
-        $data->checked = $this->checked;
         $data->table = $this->table;
+        $data->field = $this->field;
+        $data->checked = $this->checked;
         return $data;
     }
 
@@ -395,18 +412,26 @@ class legend_table implements renderable, templatable {
  */
 class email_button implements renderable, templatable {
 
+    /** @var string The text to display on the button.*/
+    private $text;
     /** @var int The value attribute of the button.*/
     private $value;
     /** @var string The string identifier for the email.*/
     private $emailclass;
+    /** @var bool Whether the button should be hidden by default and should have show and hide functionality.*/
+    private $hidden;
 
     /**
+     * @param string $text The text to display on the button.
      * @param int $value The value attribute of the button.
      * @param string $emailclass The string identifier for the email.
+     * @param bool $hidden Whether the button should be hidden by default and should have show and hide functionality.
      */
-    public function __construct($value, $emailclass) {
+    public function __construct($text, $value, $emailclass, $hidden = false) {
+        $this->text = $text;
         $this->value = $value;
         $this->emailclass = $emailclass;
+        $this->hidden = $hidden;
     }
 
     /**
@@ -416,8 +441,10 @@ class email_button implements renderable, templatable {
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
+        $data->text = $this->text;
         $data->value = $this->value;
         $data->emailclass = $this->emailclass;
+        $data->hidden = $this->hidden;
         return $data;
     }
 

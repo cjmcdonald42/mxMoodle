@@ -28,6 +28,7 @@ $string['pluginname'] = 'Middlesex School';
 
 /* General */
 $string['print'] = 'Print';
+$string['checkbox_saved'] = 'saved';
 $string['email_button_default'] = 'Send Email';
 $string['email_button_sent'] = 'Email Sent';
 $string['legend_header'] = 'Legend';
@@ -283,7 +284,7 @@ $string['checkin_preferences_weekends_type_Open'] = 'Open';
 $string['checkin_preferences_weekends_type_Closed'] = 'Closed';
 $string['checkin_preferences_weekends_type_Free'] = 'Free';
 $string['checkin_preferences_weekends_type_Vacation'] = 'Vacation';
-$string['checkin_preferences_notifications_available'] = 'Available tags';
+$string['checkin_preferences_notifications_available'] = 'Available Tags';
 $string['checkin_preferences_notifications_submittedsubject'] = 'Subject for Weekend Form Submitted Email';
 $string['checkin_preferences_notifications_submittedbody'] = 'Body for Weekend Form Submitted Email';
 $string['checkin_preferences_notifications_approvedsubject'] = 'Subject for Weekend Form Approved Email';
@@ -382,7 +383,7 @@ $string['esignout_preferences_header_notifications'] = 'eSignout Email Notificat
 $string['esignout_preferences_header_text'] = 'eSignout Form Permissions Warnings';
 $string['esignout_preferences_header_emailtext'] = 'eSignout Email Permissions Warnings';
 $string['esignout_preferences_config_editwindow'] = 'Window for Students to Edit eSignout Forms';
-$string['esignout_preferences_notifications_available'] = 'Available tags';
+$string['esignout_preferences_notifications_available'] = 'Available Tags';
 $string['esignout_preferences_notifications_subject'] = 'Subject for eSignout Form Submitted Email';
 $string['esignout_preferences_notifications_body'] = 'Body for eSignout Form Submitted Email';
 $string['esignout_preferences_text_nopassengers'] = 'Warning for a Student Who May Not Drive Passengers';
@@ -472,8 +473,15 @@ $string['advisor_selection_report'] = 'Advisor Selection Report';
 
 // Advisor Selection Preferences.
 $string['advisor_selection_preferences_header_text'] = 'Advisor Selection Form Instructions';
-$string['advisor_selection_preferences_text_closing_warning'] = 'Warning for closing advisory';
-$string['advisor_selection_preferences_text_instructions'] = 'Advisor selection instructions';
+$string['advisor_selection_preferences_header_notifications'] = 'Advisor Selection Email Notifications';
+$string['advisor_selection_preferences_notifications_unsubmittedavailable'] = 'Available Tags for Unsubmitted Reminder Email';
+$string['advisor_selection_preferences_notifications_unsubmittedsubject'] = 'Subject for Unsubmitted Reminder Email';
+$string['advisor_selection_preferences_notifications_unsubmittedbody'] = 'Body for Unsubmitted Reminder Email';
+$string['advisor_selection_preferences_notifications_resultsavailable'] = 'Available Tags for Results Email';
+$string['advisor_selection_preferences_notifications_resultssubject'] = 'Subject for Results Email';
+$string['advisor_selection_preferences_notifications_resultsbody'] = 'Body for Results Email';
+$string['advisor_selection_preferences_text_closing_warning'] = 'Warning for Closing Advisory';
+$string['advisor_selection_preferences_text_instructions'] = 'Advisor Selection Instructions';
 
 // Advisor Selection Form.
 $string['advisor_form_header_info'] = 'General Information';
@@ -502,6 +510,8 @@ $string['advisor_selection_report_select_keepcurrent_all'] = 'All';
 $string['advisor_selection_report_select_keepcurrent_true'] = 'Keeping Current Advisor';
 $string['advisor_selection_report_select_keepcurrent_false'] = 'Changing Advisor';
 $string['advisor_selection_report_add'] = 'New Advisor Selection Form';
+$string['advisor_selection_report_remind'] = 'Notify Unsubmitted';
+$string['advisor_selection_report_results'] = 'Notify Students and New Advisors';
 
 $string['advisor_report_header_student'] = 'Student';
 $string['advisor_report_header_current'] = 'Current Advisor';

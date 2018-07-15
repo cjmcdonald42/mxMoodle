@@ -23,7 +23,7 @@
 <button class="mx-signin-button btn btn-secondary noprint" value="{{ value }}">{{# str }} sign_in_button, local_mxschool {{/ str }}</button>
 
 {{# js }}
-require(['local_mxschool/signin_button'], function(signinButton) {
-    signinButton.signIn({{ value }});
+require(['local_mxschool/signin_button'], function(setup) {
+    setup({{ value }});
 });
 {{/ js }}
