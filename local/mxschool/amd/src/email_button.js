@@ -38,15 +38,20 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
         }]);
         promises[0].done(function() {
             $.when(str.get_string('email_button_sent', 'local_mxschool')).done(function(sentString) {
+                var text = element.text();
                 element.text(sentString);
                 setTimeout(function() {
                     element.trigger('hideButton');
+                    setTimeout(function() {
+                        element.text(text);
+                    }, 1000);
                 }, 1000);
             });
         }).fail(notification.exception);
     }
     function showButton() {
         $(this).show('slow');
+        $(this).parent().children('span:contains("\u2003")').remove();
         $(this).before($('<span></span>').text('\u2003'));
     }
     function hideButton() {
@@ -59,6 +64,15 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
         if (hidden) {
             element.on('showButton', showButton);
             element.on('hideButton', hideButton);
+            var checkbox = element.parent().children('input.mx-checkbox');
+            if (checkbox) {
+                checkbox.on('checkboxEnabled', function() {
+                    element.trigger('showButton');
+                });
+                checkbox.on('checkboxDisabled', function() {
+                    element.trigger('hideButton');
+                });
+            }
         } else {
             element.show();
         }

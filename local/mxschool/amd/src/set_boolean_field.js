@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
+define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
     function update() {
         var element = $(this);
         var promises = ajax.call([{
@@ -41,17 +41,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
             saved.show();
             setTimeout(function() {
                 saved.hide('slow', function() {
-                    var button = element.parent().children('button.mx-email-button');
-                    if (button) {
-                        if (element.prop('checked')) {
-                            $.when(str.get_string('email_button_default', 'local_mxschool')).done(function(defaultString) {
-                                button.text(defaultString);
-                                button.trigger('showButton');
-                            });
-                        } else {
-                            button.trigger('hideButton');
-                        }
-                    }
+                    element.trigger(element.prop('checked') ? 'checkboxEnabled' : 'checkboxDisabled');
                 });
             }, 1000);
         }).fail(notification.exception);
