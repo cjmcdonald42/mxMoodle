@@ -25,10 +25,9 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('preferences_form.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once('preferences_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_esignout_preferences', context_system::instance());
@@ -40,6 +39,8 @@ $parents = array(
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/driving/preferences.php';
 $title = get_string('esignout_preferences', 'local_mxschool');
+
+setup_mxschool_page($url, $title, $parents);
 
 $data = new stdClass();
 $data->editwindow = get_config('local_mxschool', 'esignout_edit_window');
@@ -57,19 +58,6 @@ $data->any['text'] = get_config('local_mxschool', 'esignout_notification_warning
 $data->parent['text'] = get_config('local_mxschool', 'esignout_notification_warning_parent');
 $data->specific['text'] = get_config('local_mxschool', 'esignout_notification_warning_specific');
 $data->over21['text'] = get_config('local_mxschool', 'esignout_notification_warning_over21');
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $parenturl) {
-    $PAGE->navbar->add($display, new moodle_url($parenturl));
-}
-$PAGE->navbar->add($title);
 
 $form = new preferences_form();
 $form->set_redirect($redirect);

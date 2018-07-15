@@ -25,12 +25,10 @@
  */
 
 require(__DIR__.'/../../config.php');
-require_once('tutoring_form.php');
-require_once(__DIR__.'/../mxschool/classes/mx_notifications.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../mxschool/classes/events/page_visited.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
+require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once('locallib.php');
+require_once('tutoring_form.php');
 
 require_login();
 $istutor = user_is_tutor();
@@ -49,6 +47,9 @@ $parents = array(
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/peertutoring/tutoring_enter.php';
 $title = get_string('tutoring_form', 'local_peertutoring');
+
+setup_mxschool_page($url, $title, $parents);
+
 $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's', 'fields' => array(
     'id', 'tutorid' => 'tutor', 'tutoring_date' => 'tutoringdate', 'studentid' => 'student', 'courseid' => 'course', 'topic',
     'typeid' => 'type_select', 'other' => 'type_other', 'ratingid' => 'rating', 'notes', 'time_created' => 'timecreated',
@@ -82,19 +83,6 @@ $departments = array(0 => get_string('tutoring_form_department_default', 'local_
 $courses = array(0 => get_string('tutoring_form_course_default', 'local_peertutoring')) + get_course_list();
 $types = array(0 => get_string('tutoring_form_type_default', 'local_peertutoring')) + get_type_list();
 $ratings = array(0 => get_string('tutoring_form_rating_default', 'local_peertutoring')) + get_rating_list();
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
-}
-$PAGE->navbar->add($title);
 
 $form = new tutoring_form(array(
     'id' => $id, 'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses,

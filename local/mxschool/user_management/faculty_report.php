@@ -25,11 +25,10 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('faculty_table.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/mx_dropdown.php');
+require_once('faculty_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_faculty', context_system::instance());
@@ -45,20 +44,9 @@ $parents = array(
 $url = '/local/mxschool/user_management/faculty_report.php';
 $title = get_string('faculty_report', 'local_mxschool');
 
+setup_mxschool_page($url, $title, $parents);
+
 $dorms = get_dorm_list();
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $parenturl) {
-    $PAGE->navbar->add($display, new moodle_url($parenturl));
-}
-$PAGE->navbar->add($title);
 
 $table = new faculty_table($filter);
 

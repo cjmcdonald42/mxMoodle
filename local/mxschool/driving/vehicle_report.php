@@ -25,9 +25,9 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('vehicle_table.php');
+require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
+require_once('vehicle_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vehicles', context_system::instance());
@@ -42,6 +42,8 @@ $parents = array(
 );
 $url = '/local/mxschool/driving/vehicle_report.php';
 $title = get_string('vehicle_report', 'local_mxschool');
+
+setup_mxschool_page($url, $title, $parents);
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_vehicle', array('id' => $id));
@@ -59,19 +61,6 @@ if ($action === 'delete' && $id) {
         );
     }
 }
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
-}
-$PAGE->navbar->add($title);
 
 $table = new vehicle_table($search);
 

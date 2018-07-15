@@ -26,6 +26,42 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/classes/events/page_visited.php');
+
+/**
+ * Sets the url, title, heading, context, layout, and navbar of a page as well as logging that the page was visited.
+ *
+ * @param string $url The url for the page.
+ * @param string $title The title and heading for the page.
+ * @param array $parents Parent pages to be displayed as linkes in the navbar represented as $displaytext => $url.
+ */
+function setup_mxschool_page($url, $title, $parents) {
+    global $PAGE;
+    setup_generic_page($url, $title);
+    $PAGE->set_pagelayout('incourse');
+    foreach ($parents as $display => $parenturl) {
+        $PAGE->navbar->add($display, new moodle_url($parenturl));
+    }
+    $PAGE->navbar->add($title);
+}
+
+/**
+ * Sets the url, title, heading, and context of a page as well as logging that the page was visited.
+ *
+ * @param string $url The url for the page.
+ * @param string $title The title and heading for the page.
+ */
+function setup_generic_page($url, $title) {
+    global $PAGE;
+    $PAGE->set_url(new moodle_url($url));
+    $PAGE->set_context(context_system::instance());
+    $PAGE->set_title($title);
+    $PAGE->set_heading($title);
+
+    $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
+    $event->trigger();
+}
+
 /**
  * Generates and performs an SQL query to retrieve a record from the database.
  *

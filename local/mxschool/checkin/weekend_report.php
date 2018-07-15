@@ -25,12 +25,11 @@
  */
 
 require(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once('weekend_table.php');
 require_once('weekend_comment_form.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
-require_once(__DIR__.'/../locallib.php');
 
 require_login();
 require_capability('local/mxschool:manage_weekend', context_system::instance());
@@ -49,6 +48,9 @@ $parents = array(
 );
 $url = '/local/mxschool/checkin/weekend_report.php';
 $title = get_string('weekend_report', 'local_mxschool');
+
+setup_mxschool_page($url, $title, $parents);
+
 $queryfields = array('local_mxschool_comment' => array('abbreviation' => 'c', 'fields' => array(
     'id', 'weekendid' => 'weekend', 'dormid' => 'dorm', 'comment'
 )));
@@ -88,19 +90,6 @@ $submittedoptions = array(
 $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend));
 $startday = date('w', $weekendrecord->start_time) - 7;
 $endday = date('w', $weekendrecord->end_time);
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $parenturl) {
-    $PAGE->navbar->add($display, new moodle_url($parenturl));
-}
-$PAGE->navbar->add($title);
 
 $table = new weekend_table($filter);
 

@@ -25,11 +25,10 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('esignout_form.php');
-require_once(__DIR__.'/../classes/mx_notifications.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/mx_notifications.php');
+require_once('esignout_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -46,6 +45,9 @@ $parents = array(
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/driving/esignout_enter.php';
 $title = get_string('esignout', 'local_mxschool');
+
+setup_mxschool_page($url, $title, $parents);
+
 $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
     'destination', 'departure_time' => 'departuretime', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
@@ -115,19 +117,6 @@ $types = get_esignout_type_list();
 $passengers = get_passenger_list();
 $drivers = get_current_driver_list();
 $approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
-}
-$PAGE->navbar->add($title);
 
 $form = new esignout_form(array(
     'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,

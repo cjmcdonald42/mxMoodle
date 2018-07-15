@@ -25,10 +25,9 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('faculty_edit_form.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once('faculty_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_faculty', context_system::instance());
@@ -43,6 +42,9 @@ $parents = array(
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/user_management/faculty_edit.php';
 $title = get_string('faculty_edit', 'local_mxschool');
+
+setup_mxschool_page($url, $title, $parents);
+
 $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'fields' => array(
     'id', 'dormid' => 'dorm', 'faculty_code' => 'facultycode', 'may_approve_signout' => 'approvesignout',
     'advisory_available' => 'advisoryavailable', 'advisory_closing' => 'advisoryclosing'
@@ -56,19 +58,6 @@ if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
 
 $data = get_record($queryfields, "f.id = ?", array($id));
 $dorms = array(null => '') + get_dorm_list();
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $parenturl) {
-    $PAGE->navbar->add($display, new moodle_url($parenturl));
-}
-$PAGE->navbar->add($title);
 
 $form = new faculty_edit_form(array('id' => $id, 'dorms' => $dorms));
 $form->set_redirect($redirect);

@@ -25,12 +25,10 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('weekend_calculator_table.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
-
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/mx_dropdown.php');
+require_once('weekend_calculator_table.php');
 require_login();
 $isstudent = user_is_student();
 if (!$isstudent) {
@@ -48,6 +46,8 @@ $parents = array(
 $url = '/local/mxschool/checkin/weekend_calculator.php';
 $title = get_string('weekend_calculator', 'local_mxschool');
 
+setup_mxschool_page($url, $title, $parents);
+
 $dorms = get_boarding_dorm_list();
 $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));
 $startdate = $filter->semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
@@ -58,19 +58,6 @@ $weekends = $DB->get_records_sql(
     "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? AND type <> 'Vacation'
      ORDER BY sunday_time", array($startdate, $enddate)
 );
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $parenturl) {
-    $PAGE->navbar->add($display, new moodle_url($parenturl));
-}
-$PAGE->navbar->add($title);
 
 $table = new weekend_calculator_table($filter, $weekends, $isstudent);
 

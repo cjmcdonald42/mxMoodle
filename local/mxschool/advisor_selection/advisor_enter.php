@@ -25,10 +25,9 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once('advisor_form.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/events/page_visited.php');
 require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once('advisor_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -45,6 +44,9 @@ $parents = array(
 $redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
 $url = '/local/mxschool/advisor_selection/advisor_enter.php';
 $title = get_string('advisor_selection_form', 'local_mxschool');
+
+setup_mxschool_page($url, $title, $parents);
+
 $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'asf', 'fields' => array(
     'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
     'option3id' => 'option3', 'option4id' => 'option4', 'option5id' => 'option5', 'selectedid' => 'selected',
@@ -88,19 +90,6 @@ $data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
 $students = get_student_list();
 $faculty = array(0 => get_string('advisor_form_faculty_default', 'local_mxschool')) + get_faculty_list();
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
-}
-$PAGE->navbar->add($title);
 
 $form = new advisor_form(array('id' => $id, 'students' => $students, 'faculty' => $faculty));
 $form->set_redirect($redirect);

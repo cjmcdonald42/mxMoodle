@@ -26,6 +26,7 @@
 
 require(__DIR__.'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
+require_once('locallib.php');
 require_once(__DIR__.'/classes/output/renderable.php');
 
 admin_externalpage_setup('main_index');
@@ -33,10 +34,7 @@ admin_externalpage_setup('main_index');
 $url = '/local/mxschool/index.php';
 $title = get_string('pluginname', 'local_mxschool');
 
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
+setup_generic_page($url, $title);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index(array(

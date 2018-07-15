@@ -25,11 +25,11 @@
  */
 
 require(__DIR__.'/../../config.php');
-require_once('tutoring_table.php');
-require_once(__DIR__.'/../mxschool/classes/mx_dropdown.php');
+require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../mxschool/classes/events/page_visited.php');
+require_once(__DIR__.'/../mxschool/classes/mx_dropdown.php');
 require_once('locallib.php');
+require_once('tutoring_table.php');
 
 require_login();
 require_capability('local/peertutoring:manage_tutoring', context_system::instance());
@@ -50,6 +50,8 @@ $parents = array(
 );
 $url = '/local/peertutoring/tutoring_report.php';
 $title = get_string('tutoring_report', 'local_peertutoring');
+
+setup_mxschool_page($url, $title, $parents);
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_peertutoring_session', array('id' => $id));
@@ -76,19 +78,6 @@ $tutors = get_tutor_list();
 $departments = get_department_list();
 $types = get_type_list();
 $dates = get_tutoring_date_list();
-
-$event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-$event->trigger();
-
-$PAGE->set_url(new moodle_url($url));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('incourse');
-foreach ($parents as $display => $url) {
-    $PAGE->navbar->add($display, new moodle_url($url));
-}
-$PAGE->navbar->add($title);
 
 $table = new tutoring_table($filter, $download);
 
