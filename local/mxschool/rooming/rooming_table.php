@@ -69,7 +69,7 @@ class rooming_table extends local_mxschool_table {
             '{user} ru ON r.preferred_roommateid = ru.id'
         );
         $where = array(
-            'u.deleted = 0', "s.boarding_status_next_year = 'Boarder'", $filter->submitted === '1'
+            'u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'", $filter->submitted === '1'
             ? "EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)" : (
                 $filter->submitted === '0'
                 ? "NOT EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)" : ''

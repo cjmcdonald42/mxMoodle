@@ -162,6 +162,15 @@ class mx_notifications {
                     $emailto[] = $DB->get_record('user', array('id' => $auserid));
                 }
                 break;
+            case 'rooming_notify_unsubmitted':
+                $subject = $notification->subject;
+                $body = $notification->body_html;
+                $emailto = array();
+                $list = get_student_without_rooming_form_list();
+                foreach ($list as $userid => $name) {
+                    $emailto[] = $DB->get_record('user', array('id' => $userid));
+                }
+                break;
             default:
                 return false;
         }

@@ -434,6 +434,29 @@ function get_new_student_advisor_pair_list() {
 }
 
 /**
+ * Queries the database to create a list of all the students who will be boarders next year and have not filled out a rooming form.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_without_rooming_form_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' AND (
+             SELECT COUNT(id) FROM {local_mxschool_rooming} WHERE userid = s.userid
+         ) = 0 ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the faculty.
  *
  * @return array The faculty as userid => name, ordered alphabetically by faculty name.
