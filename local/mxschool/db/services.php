@@ -54,8 +54,8 @@ $functions = array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_esignout_student_options',
         'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to determine the type options, passenger list, driver list,
-                          and permissions for a selected student.',
+        'description' => 'Queries the database to determine the type options, passenger list, driver list,'
+                         .'and permissions for a selected student.',
         'type' => 'read',
         'ajax' => 'true'
     ), 'local_mxschool_get_esignout_driver_details' => array(
@@ -76,8 +76,8 @@ $functions = array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_advisor_selection_student_options',
         'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to determine the current advisor, advisory status, and list of possible advisors
-                          for a particular student as well as a list of students who have not completed the form.',
+        'description' => 'Queries the database to determine the current advisor, advisory status, and list of possible advisors'
+                         .'for a particular student as well as a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
     ), 'local_mxschool_select_advisor' => array(
@@ -88,5 +88,14 @@ $functions = array(
         'type' => 'write',
         'ajax' => 'true',
         'capabilities' => 'local/mxschool:manage_advisor_selection'
+    ), 'local_mxschool_get_rooming_student_options' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'get_rooming_student_options',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Queries the database to determine the current dorm, list of possible dormmates in the same grade,'
+                         .'and list of possible dormmates in any grade for a particular student'
+                         .'as well as a list of students who have not completed the form.',
+        'type' => 'read',
+        'ajax' => 'true'
     )
 );

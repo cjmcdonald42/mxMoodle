@@ -14,9 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the options of the advisor selection form for Middlesex School's Dorm and Student functions plugin.
+ * Updates the options of the rooming form for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_advisor_selection_student_options
+ * @module     local_mxschool/get_rooming_student_options
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -26,21 +26,8 @@
 
 define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, ajax, str, notification) {
     function update() {
-        var keepcurrent0 = $('.mx-form input#id_keepcurrent_0');
-        var optionsFieldset = $('.mx-form fieldset#id_options');
-        var deansFieldset = $('.mx-form fieldset#id_deans');
-        if (keepcurrent0.prop('checked')) {
-            optionsFieldset.show();
-        } else {
-            optionsFieldset.hide();
-        }
-        if ($('.mx-form input[name="isstudent"]').val() === '0') {
-            deansFieldset.show();
-        } else {
-            deansFieldset.hide();
-        }
         var promises = ajax.call([{
-            methodname: 'local_mxschool_get_advisor_selection_student_options',
+            methodname: 'local_mxschool_get_rooming_student_options',
             args: {
                 userid: $('.mx-form select#id_student').val()
             }
@@ -64,43 +51,28 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                 studentSelect.change();
             }
 
-            $('.mx-form fieldset#id_info div.form-control-static').eq(0).text(data.current.name);
+            $('.mx-form fieldset#id_info div.form-control-static').text(data.dorm);
 
-            var keepcurrentDiv = $('.mx-form div[data-groupname="keepcurrent"]');
-            var warningDiv = $('.mx-form fieldset#id_info div.form-control-static').eq(1).parent().parent();
-            if (data.closing) {
-                keepcurrentDiv.hide();
-                if (!keepcurrent0.prop('checked')) {
-                    keepcurrent0.prop('checked', true);
-                    keepcurrentDiv.change();
-                }
-                warningDiv.show();
-            } else {
-                warningDiv.hide();
-                keepcurrentDiv.show();
-            }
-
-            $.when(str.get_string('advisor_form_faculty_default', 'local_mxschool')).done(function(text) {
-                data.available.splice(data.available.findIndex(function(advisor) {
-                    return advisor.userid === data.current.userid;
-                }), 1);
-                data.available.unshift({
+            $.when(str.get_string('rooming_form_roomable_default', 'local_mxschool')).done(function(text) {
+                var dormmates = [{
                     userid: 0,
                     name: text
-                });
+                }];
+                data.gradedormmates.unshift(dormmates[0]);
+                data.dormmates.unshift(dormmates[0]);
                 var show = true;
-                function appendAdvisor(index, advisor) {
-                    select.append($('<option></option>').attr('value', advisor.userid).text(advisor.name));
+                function append(index, student) {
+                    select.append($('<option></option>').attr('value', student.userid).text(student.name));
                 }
-                function findSelected(advisor) {
-                    return advisor.userid == selected;
+                function findSelected(student) {
+                    return student.userid == selected;
                 }
-                for (var i = 1; i <= 5; i++) {
-                    var select = $('.mx-form select#id_option' + i);
+                for (var i = 1; i <= 6; i++) {
+                    var select = $('.mx-form select#id_dormmate' + i);
                     var selected = select.val();
                     select.empty();
-                    $.each(data.available, appendAdvisor);
-                    if ($('.mx-form select#id_option' + i + ' > option[value=' + selected + ']').length) {
+                    $.each(i <= 3 ? data.gradedormmates : data.dormmates, append);
+                    if ($('.mx-form select#id_dormmate' + i + ' > option[value=' + selected + ']').length) {
                         select.val(selected);
                     } else {
                         select.change();
@@ -114,14 +86,28 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                     if (selected == 0) {
                         show = false;
                     } else {
-                        data.available.splice(data.available.findIndex(findSelected), 1);
-                        if (selected == data.current.userid) {
-                            show = false;
+                        if (data.gradedormmates.findIndex(findSelected) >= 0) {
+                            dormmates.push(data.gradedormmates.splice(data.gradedormmates.findIndex(findSelected), 1)[0]);
                         }
+                        data.dormmates.splice(data.dormmates.findIndex(findSelected), 1);
                     }
-                    if (i === 1 && !data.closing) {
-                        data.available.splice(1, 0, data.current);
-                    }
+                }
+                var select = $('.mx-form select#id_roommate');
+                var selected = select.val();
+                var selectDiv = select.parent().parent();
+                select.empty();
+                $.each(dormmates, append);
+                if ($('.mx-form select#id_roommate > option[value=' + selected + ']').length) {
+                    select.val(selected);
+                } else {
+                    select.change();
+                }
+                if (show) {
+                    selectDiv.prev().show();
+                    selectDiv.show();
+                } else {
+                    selectDiv.prev().hide();
+                    selectDiv.hide();
                 }
             });
         }).fail(notification.exception);
@@ -129,11 +115,11 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
     return function() {
         $(document).ready(update);
         $('.mx-form select#id_student').change(update);
-        $('.mx-form div[data-groupname="keepcurrent"]').change(update);
-        $('.mx-form select#id_option1').change(update);
-        $('.mx-form select#id_option2').change(update);
-        $('.mx-form select#id_option3').change(update);
-        $('.mx-form select#id_option4').change(update);
-        $('.mx-form select#id_option5').change(update);
+        $('.mx-form select#id_dormmate1').change(update);
+        $('.mx-form select#id_dormmate2').change(update);
+        $('.mx-form select#id_dormmate3').change(update);
+        $('.mx-form select#id_dormmate4').change(update);
+        $('.mx-form select#id_dormmate5').change(update);
+        $('.mx-form select#id_dormmate6').change(update);
     };
 });

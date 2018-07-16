@@ -38,6 +38,7 @@ class rooming_form extends local_mxschool_form {
         $students = $this->_customdata['students'];
         $roomable = $this->_customdata['roomable'];
         $roomtypes = array(
+            '' => get_string('rooming_form_roomtype_default', 'local_mxschool'),
             'Single' => get_string('room_type_single', 'local_mxschool'),
             'Double' => get_string('room_type_double', 'local_mxschool'),
             'Triple' => get_string('room_type_triple', 'local_mxschool'),
@@ -67,5 +68,39 @@ class rooming_form extends local_mxschool_form {
             'roommate' => array('element' => 'select', 'options' => $roomable)
         ));
         parent::set_fields($fields, 'rooming_form');
+
+        $mform = $this->_form;
+        $mform->hideIf('student', 'isstudent', 'eq');
+        $mform->disabledIf('student', 'id', 'neq', '0');
     }
+
+    /**
+     * Validates the rooming form before it can be submitted.
+     * The checks performed are to ensure that the student selected a room type,
+     * that the student selected 3 dormmates from the same grade, that the student selected 3 dormmates from any grade,
+     * and that the student selected a roommate.
+     *
+     * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
+     */
+    public function validation($data, $files) {
+        global $DB;
+        $errors = parent::validation($data, $files);
+        if ($data['roomtype'] === '') {
+            $errors['roomtype'] = get_string('rooming_form_error_noroomtype', 'local_mxschool');
+        }
+        for ($i = 1; $i <= 7; $i++) {
+            if ($i <= 3 && !$data["dormmate{$i}"]) {
+                $errors["dormmate{$i}"] = get_string('rooming_form_error_gradedormmates', 'local_mxschool');
+                break;
+            } else if ($i <= 6 && !$data["dormmate{$i}"]) {
+                $errors["dormmate{$i}"] = get_string('rooming_form_error_dormmates', 'local_mxschool');
+                break;
+            } else if ($i === 7 && !$data["roommate"]) {
+                $errors["roommate"] = get_string('rooming_form_error_roommate', 'local_mxschool');
+                break;
+            }
+        }
+        return $errors;
+    }
+
 }

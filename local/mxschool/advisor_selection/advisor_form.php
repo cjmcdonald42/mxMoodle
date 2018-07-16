@@ -66,7 +66,8 @@ class advisor_form extends local_mxschool_form {
 
     /**
      * Validates the advisor selection form before it can be submitted.
-     * The checks performed are to ensure that...
+     * The checks performed are to ensure that the student selected whether to keep the current advisor
+     * and that the student has selected a sufficient number of advisors.
      *
      * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
      */

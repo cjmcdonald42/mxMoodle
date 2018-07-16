@@ -560,7 +560,13 @@ $string['rooming_form_requests_dormmate1'] = 'Requested Dormmates from Your Grad
 $string['rooming_form_requests_dormmate4'] = 'Requested Dormmates from Any Grade';
 $string['rooming_form_requests_roommate'] = 'Preferred Roommate';
 
+$string['rooming_form_roomtype_default'] = 'Select';
 $string['rooming_form_roomable_default'] = 'Select';
+
+$string['rooming_form_error_noroomtype'] = 'You must specify a room type.';
+$string['rooming_form_error_gradedormmates'] = 'You must request three dormmates from your grade.';
+$string['rooming_form_error_dormmates'] = 'You must request three dormmates from any grade.';
+$string['rooming_form_error_roommate'] = 'You must select a preferred roommate.';
 
 // Rooming Report.
 $string['rooming_report_select_submitted_all'] = 'All';

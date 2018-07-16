@@ -422,4 +422,70 @@ class local_mxschool_external extends external_api {
         return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
     }
 
+    /**
+     * Returns descriptions of the get_rooming_student_options() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_rooming_student_options() function.
+     */
+    public static function get_rooming_student_options_parameters() {
+        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
+    }
+
+    /**
+     * Queries the database to determine the current advisor, advisory status, and list of possible advisors
+     * for a particular student as well as a list of students who have not completed the form.
+     *
+     * @param int $userid The user id of the student.
+     * @return stdClass With properties students, dorm, gradedormmates, and dormmates.
+     */
+    public static function get_rooming_student_options($userid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_rooming_student_options_parameters(), array('userid' => $userid));
+
+        global $DB;
+        $result = new stdClass();
+        $list = get_student_without_rooming_form_list();
+        $result->students = array();
+        foreach ($list as $userid => $name) {
+            $result->students[] = array('userid' => $userid, 'name' => $name);
+        }
+        $result->dorm = $DB->get_field_sql(
+            "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
+            array($params['userid'])
+        );
+        $list = get_student_possible_same_grade_dormmate_list($params['userid']);
+        $result->gradedormmates = array();
+        foreach ($list as $userid => $name) {
+            $result->gradedormmates[] = array('userid' => $userid, 'name' => $name);
+        }
+        $list = get_student_possible_dormmate_list($params['userid']);
+        $result->dormmates = array();
+        foreach ($list as $userid => $name) {
+            $result->dormmates[] = array('userid' => $userid, 'name' => $name);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_rooming_student_options() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_rooming_student_options() function.
+     */
+    public static function get_rooming_student_options_returns() {
+        return new external_single_structure(array(
+            'students' => new external_multiple_structure(new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'the user id of the student who has not completed a rooming form'),
+                'name' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a rooming form')
+            ))), 'dorm' => new external_value(PARAM_TEXT, 'the name of the student\'s current dorm'),
+            'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'the user id of the potential dormmate in the same grade'),
+                'name' => new external_value(PARAM_TEXT, 'the name of the potential dormmate in the same grade')
+            ))),
+            'dormmates' => new external_multiple_structure(new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'the user id of the potential dormmate'),
+                'name' => new external_value(PARAM_TEXT, 'the name of the potential dormmate')
+            )))
+        ));
+    }
+
 }
