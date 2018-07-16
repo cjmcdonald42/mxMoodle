@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing advisor selection preferences for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing rooming preferences for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -34,27 +34,19 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
-        $unsubmittedtags = implode(', ', array_map(function($tag) {
+        $emailtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
         }, array('studentname')));
-        $resultstags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array('studentname', 'advisorname')));
 
         $fields = array(
             'notifications' => array(
-                'unsubmittedavailable' => array('element' => 'static', 'text' => $unsubmittedtags),
-                'unsubmittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'unsubmittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'resultsavailable' => array('element' => 'static', 'text' => $resultstags),
-                'resultssubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'resultsbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'available' => array('element' => 'static', 'text' => $emailtags),
+                'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
             ), 'text' => array(
-                'closing_warning' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'instructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'advisor_selection_preferences', true);
+        parent::set_fields($fields, 'rooming_preferences', true);
     }
-
 }

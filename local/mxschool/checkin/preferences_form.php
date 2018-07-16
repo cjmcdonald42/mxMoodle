@@ -70,10 +70,12 @@ class preferences_form extends local_mxschool_form {
             'stopyear' => (new DateTime('+1 year', core_date::get_server_timezone_object()))->format('Y'),
             'timezone' => core_date::get_server_timezone_object()
         );
-        $emailtags = array(
+        $emailtags = implode(', ', array_map(function($tag) {
+            return "{{$tag}}";
+        }, array(
             'studentname', 'departuretime', 'returntime', 'destination', 'transportation', 'phone', 'timesubmitted', 'weekendnum',
             'weekendtotal', 'instructions', 'hohname', 'permissionsline'
-        );
+        )));
 
         $fields = array(
             'dates' => array(
@@ -82,9 +84,7 @@ class preferences_form extends local_mxschool_form {
                 'dormsclose' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             ), 'weekends' => $weekendfields,
             'notifications' => array(
-                'available' => array('element' => 'static', 'text' => implode(', ', array_map(function($tag) {
-                    return "{{$tag}}";
-                }, $emailtags))),
+                'available' => array('element' => 'static', 'text' => $emailtags),
                 'submittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
                 'submittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'approvedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,

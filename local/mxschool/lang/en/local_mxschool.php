@@ -58,8 +58,10 @@ $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend 
 $string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
 $string['mxschool:manage_esignout'] = 'Middlesex School: View and manage student eSignout records';
 $string['mxschool:manage_esignout_preferences'] = 'Middlesex School: View and manage eSignout preferences';
-$string['mxschool:manage_advisor_selection'] = 'Middlesex School: View and manage student advisor selection records';
+$string['mxschool:manage_advisor_selection'] = 'Middlesex School: View and manage students\' advisor selection records';
 $string['mxschool:manage_advisor_selection_preferences'] = 'Middlesex School: View and manage advisor selection preferences';
+$string['mxschool:manage_rooming'] = 'Middlesex School: View and manage students\' rooming request records';
+$string['mxschool:manage_rooming_preferences'] = 'Middlesex School: View and manage rooming preferences';
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
@@ -93,6 +95,8 @@ $string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
 $string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Preferences Saved Successfully';
 $string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
+$string['rooming_preferences_edit_success'] = 'Rooming Preferences Saved Successfully';
+$string['rooming_success'] = 'Rooming Form Submitted Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
@@ -475,8 +479,8 @@ $string['advisor_selection_form'] = 'Advisor Selection Form';
 $string['advisor_selection_report'] = 'Advisor Selection Report';
 
 // Advisor Selection Preferences.
-$string['advisor_selection_preferences_header_text'] = 'Advisor Selection Form Instructions';
 $string['advisor_selection_preferences_header_notifications'] = 'Advisor Selection Email Notifications';
+$string['advisor_selection_preferences_header_text'] = 'Advisor Selection Form Instructions';
 $string['advisor_selection_preferences_notifications_unsubmittedavailable'] = 'Available Tags for Unsubmitted Reminder Email';
 $string['advisor_selection_preferences_notifications_unsubmittedsubject'] = 'Subject for Unsubmitted Reminder Email';
 $string['advisor_selection_preferences_notifications_unsubmittedbody'] = 'Body for Unsubmitted Reminder Email';
@@ -484,7 +488,7 @@ $string['advisor_selection_preferences_notifications_resultsavailable'] = 'Avail
 $string['advisor_selection_preferences_notifications_resultssubject'] = 'Subject for Results Email';
 $string['advisor_selection_preferences_notifications_resultsbody'] = 'Body for Results Email';
 $string['advisor_selection_preferences_text_closing_warning'] = 'Warning for Closing Advisory';
-$string['advisor_selection_preferences_text_instructions'] = 'Advisor Selection Instructions';
+$string['advisor_selection_preferences_text_instructions'] = 'Changing Advisor Instructions';
 
 // Advisor Selection Form.
 $string['advisor_form_header_info'] = 'General Information';
@@ -530,5 +534,13 @@ $string['advisor_report_header_selected'] = 'Chosen Advisor';
 /* Rooming. */
 $string['rooming'] = 'Rooming';
 $string['rooming_preferences'] = 'Rooming Preferences';
-$string['rooming_form'] = 'Rooming Form';
+$string['rooming_form'] = 'Rooming Request Form';
 $string['rooming_report'] = 'Rooming Report';
+
+// Rooming Preferecnes.
+$string['rooming_preferences_header_notifications'] = 'Rooming Email Notifications';
+$string['rooming_preferences_header_text'] = 'Rooming Request Form Instructions';
+$string['rooming_preferences_notifications_available'] = 'Available Tags for Unsubmitted Reminder Email';
+$string['rooming_preferences_notifications_subject'] = 'Subject for Unsubmitted Reminder Email';
+$string['rooming_preferences_notifications_body'] = 'Body for Unsubmitted Reminder Email';
+$string['rooming_preferences_text_instructions'] = 'Instructions Regarding Doubles';
