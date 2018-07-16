@@ -44,7 +44,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
                     element.trigger('hideButton');
                     setTimeout(function() {
                         element.text(text);
-                    }, 1000);
+                    }, 4000);
                 }, 1000);
             });
         }).fail(notification.exception);

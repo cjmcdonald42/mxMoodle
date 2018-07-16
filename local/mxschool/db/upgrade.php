@@ -572,5 +572,18 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018071602, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018071604) {
+
+        // Changing precision of field faculty_code on table local_mxschool_faculty to (10).
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('faculty_code', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null, 'dormid');
+
+        // Launch change of precision for field faculty_code.
+        $dbman->change_field_precision($table, $field);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018071604, 'local', 'mxschool');
+    }
+
     return true;
 }

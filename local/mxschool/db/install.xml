@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180715" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180716" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -86,7 +86,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the faculty."/>
         <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the faculty's dorm, if the faculty is a dorm faculty."/>
-        <FIELD NAME="faculty_code" TYPE="char" LENGTH="5" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty's 5 character code from Senior Systems."/>
+        <FIELD NAME="faculty_code" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty's 5 character code from Senior Systems."/>
         <FIELD NAME="may_approve_signout" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty may approve student sign out {1, 0}."/>
         <FIELD NAME="advisory_available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the faculty's advisory is accepting new advisees {1, 0}."/>
         <FIELD NAME="advisory_closing" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty's advisory is going to close and all students must switch out of it {1, 0}."/>
