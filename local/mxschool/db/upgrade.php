@@ -565,5 +565,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018071514, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018071602) {
+        unset_config('rooming_form_checkbox_instructions', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018071602, 'local', 'mxschool');
+    }
+
     return true;
 }

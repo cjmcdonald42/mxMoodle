@@ -547,7 +547,6 @@ $string['rooming_preferences_header_text'] = 'Rooming Request Form Instructions'
 $string['rooming_preferences_notifications_available'] = 'Available Tags for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_subject'] = 'Subject for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_body'] = 'Body for Unsubmitted Reminder Email';
-$string['rooming_preferences_text_checkboxinstructions'] = 'Instructions for Checkbox';
 $string['rooming_preferences_text_roommateinstructions'] = 'Instructions Regarding Doubles';
 
 // Rooming Form.
@@ -555,14 +554,16 @@ $string['rooming_form_header_info'] = 'General Information';
 $string['rooming_form_header_requests'] = 'Requests';
 $string['rooming_form_info_student'] = 'Student';
 $string['rooming_form_info_dorm'] = 'Current Dorm';
-$string['rooming_form_requests_roomtype'] = 'Requested Room Type';
-$string['rooming_form_requests_dormmate1'] = 'Requested Dormmates from Your Grade';
-$string['rooming_form_requests_dormmate4'] = 'Requested Dormmates from Any Grade';
+$string['rooming_form_info_liveddouble'] = 'Have you previously lived in a one-room double?.';
+$string['rooming_form_requests_roomtype'] = 'Request a Room Type';
+$string['rooming_form_requests_dormmate1'] = 'Request 3 Dormmates from Your Grade';
+$string['rooming_form_requests_dormmate4'] = 'Request 3 Dormmates from Any Grade';
 $string['rooming_form_requests_roommate'] = 'Preferred Roommate';
 
 $string['rooming_form_roomtype_default'] = 'Select';
 $string['rooming_form_roomable_default'] = 'Select';
 
+$string['rooming_form_error_noliveddouble'] = 'You must specify whether you have lived in a double.';
 $string['rooming_form_error_noroomtype'] = 'You must specify a room type.';
 $string['rooming_form_error_gradedormmates'] = 'You must request three dormmates from your grade.';
 $string['rooming_form_error_dormmates'] = 'You must request three dormmates from any grade.';

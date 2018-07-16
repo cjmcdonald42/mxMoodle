@@ -49,7 +49,7 @@ setup_mxschool_page($url, $title, $parents);
 
 $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'fields' => array(
     'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
-    'dormmate3id' => 'dormmate4', 'dormmate4id' => 'dormmate5', 'dormmate5id' => 'dormmate6',
+    'dormmate3id' => 'dormmate3', 'dormmate4id' => 'dormmate4', 'dormmate5id' => 'dormmate5', 'dormmate6id' => 'dormmate6',
     'has_lived_in_double' => 'liveddouble', 'preferred_roommateid' => 'roommate', 'time_created' => 'timecreated',
     'time_modified' => 'timemodified'
 )));

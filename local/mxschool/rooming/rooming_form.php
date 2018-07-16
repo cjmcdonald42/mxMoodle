@@ -52,10 +52,7 @@ class rooming_form extends local_mxschool_form {
         ), 'info' => array(
             'student' => array('element' => 'select', 'options' => $students),
             'dorm' => array('element' => 'static'),
-            'liveddouble' => array(
-                'element' => 'advcheckbox', 'name' => null,
-                'text' => get_config('local_mxschool', 'rooming_form_checkbox_instructions')
-            )
+            'liveddouble' => parent::ELEMENT_BOOLEAN
         ), 'requests' => array(
             'roomtype' => array('element' => 'select', 'options' => $roomtypes),
             'dormmate1' => array('element' => 'select', 'options' => $roomable),
@@ -85,6 +82,9 @@ class rooming_form extends local_mxschool_form {
     public function validation($data, $files) {
         global $DB;
         $errors = parent::validation($data, $files);
+        if (!isset($data['liveddouble'])) {
+            $errors['liveddouble'] = get_string('rooming_form_error_noliveddouble', 'local_mxschool');
+        }
         if ($data['roomtype'] === '') {
             $errors['roomtype'] = get_string('rooming_form_error_noroomtype', 'local_mxschool');
         }

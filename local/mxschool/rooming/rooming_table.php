@@ -39,7 +39,7 @@ class rooming_table extends local_mxschool_table {
      */
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Rooming Requests', 'Rooming Requests');
-        $columns = array('student', 'grade', 'gender', 'dorm', 'roomtype', 'dormmates', 'liveddouble', 'roommate');
+        $columns = array('student', 'grade', 'gender', 'dorm', 'liveddouble', 'roomtype', 'dormmates', 'roommate');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("rooming_report_header_{$column}", 'local_mxschool');
@@ -48,26 +48,29 @@ class rooming_table extends local_mxschool_table {
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
             's.id', 'u.id AS userid', 'r.id AS rid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
-            'u.alternatename', 's.grade', 's.gender', 'd.name AS dorm', 'r.room_type AS roomtype', "'' AS dormmates",
-            "CONCAT(d1.lastname, ', ', d1.firstname) AS d1name", 'd1.firstname AS d1firstname',
-            'd1.alternatename AS d1alternatename', "CONCAT(d2.lastname, ', ', d2.firstname) AS d2name",
-            'd2.firstname AS d2firstname', 'd2.alternatename AS d2alternatename',
-            "CONCAT(d3.lastname, ', ', d3.firstname) AS d3name", 'd3.firstname AS d3firstname',
-            'd3.alternatename AS d3alternatename', "CONCAT(d4.lastname, ', ', d4.firstname) AS d4name",
-            'd4.firstname AS d4firstname', 'd4.alternatename AS d4alternatename',
-            "CONCAT(d5.lastname, ', ', d5.firstname) AS d5name", 'd5.firstname AS d5firstname',
-            'd5.alternatename AS d5alternatename', "CONCAT(d6.lastname, ', ', d6.firstname) AS d6name",
-            'd6.firstname AS d6firstname', 'd6.alternatename AS d6alternatename', 'r.has_lived_in_double AS liveddouble',
-            "'' AS roommate", "CONCAT(ru.lastname, ', ', ru.firstname) AS rname", 'ru.firstname AS rfirstname',
-            'ru.alternatename AS ralternatename'
+            'u.alternatename', 's.grade', 's.gender', 'd.name AS dorm', 'r.has_lived_in_double AS liveddouble',
+            'r.room_type AS roomtype', "'' AS dormmates"
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
-            '{local_mxschool_rooming} r ON s.userid = r.userid', '{user} d1 ON r.dormmate1id = d1.id',
-            '{user} d2 ON r.dormmate2id = d2.id', '{user} d3 ON r.dormmate3id = d3.id', '{user} d4 ON r.dormmate4id = d4.id',
-            '{user} d5 ON r.dormmate5id = d5.id', '{user} d6 ON r.dormmate6id = d6.id',
-            '{user} ru ON r.preferred_roommateid = ru.id'
+            '{local_mxschool_rooming} r ON s.userid = r.userid'
         );
+        for ($i = 1; $i <= 6; $i++) {
+            $fields = array_merge($fields, array(
+                "CONCAT(d{$i}u.lastname, ', ', d{$i}u.firstname) AS d{$i}name", "d{$i}u.firstname AS d{$i}firstname",
+                "d{$i}u.alternatename AS d{$i}alternatename", "d{$i}s.grade AS d{$i}grade"
+            ));
+            $from = array_merge($from, array(
+                "{user} d{$i}u ON r.dormmate{$i}id = d{$i}u.id",
+                "{local_mxschool_student} d{$i}s ON r.dormmate{$i}id = d{$i}s.userid"
+            ));
+        }
+        $fields = array_merge($fields, array(
+            "CONCAT(ru.lastname, ', ', ru.firstname) AS rname", 'ru.firstname AS rfirstname', 'ru.alternatename AS ralternatename'
+        ));
+        $from = array_merge($from, array(
+            '{user} ru ON r.preferred_roommateid = ru.id'
+        ));
         $where = array(
             'u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'", $filter->submitted === '1'
             ? "EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)" : (
@@ -82,7 +85,7 @@ class rooming_table extends local_mxschool_table {
             'submitted' => $filter->submitted, 'gender' => $filter->gender, 'roomtype' => $filter->roomtype,
             'double' => $filter->double, 'search' => $filter->search
         );
-        $centered = array('grade', 'gender', 'roomtype', 'liveddouble');
+        $centered = array('grade', 'gender', 'liveddouble', 'roomtype');
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'd1.firstname', 'd1.lastname', 'd1.alternatename', 'd2.firstname',
             'd2.lastname', 'd2.alternatename', 'd3.firstname', 'd3.lastname', 'd3.alternatename', 'd4.firstname', 'd4.lastname',
@@ -96,24 +99,26 @@ class rooming_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the lived double column to "Yes" / "No".
+     */
+    protected function col_liveddouble($values) {
+        return isset($values->liveddouble) ? ($values->liveddouble ? get_string('yes') : get_string('no')) : '';
+    }
+
+    /**
      * Formats the dormmates column to a list of "last, first (alternate)" or "last, first".
      */
     protected function col_dormmates($values) {
         $dormmates = array();
         for ($i = 1; $i <= 6; $i++) {
-            $dormmates[] = $values->{"d{$i}name"}.(
-                $values->{"d{$i}alternatename"} && $values->{"d{$i}alternatename"} !== $values->{"d{$i}firstname"}
-                ? " ({$values->{"d{$i}alternatename"}})" : ''
-            );
+            $dormmates[] = isset($values->{"d{$i}name"}) ? (
+                $values->{"d{$i}name"}.(
+                    $values->{"d{$i}alternatename"} && $values->{"d{$i}alternatename"} !== $values->{"d{$i}firstname"}
+                    ? " ({$values->{"d{$i}alternatename"}})" : ''
+                )." ({$values->{"d{$i}grade"}})"
+            ) : '';
         }
         return implode('<br>', $dormmates);
-    }
-
-    /**
-     * Formats the lived double column to "Yes" / "No".
-     */
-    protected function col_liveddouble($values) {
-        return isset($values->liveddouble) ? ($values->liveddouble ? get_string('yes') : get_string('no')) : '';
     }
 
     /**

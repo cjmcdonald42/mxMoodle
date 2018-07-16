@@ -44,7 +44,6 @@ class preferences_form extends local_mxschool_form {
                 'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
             ), 'text' => array(
-                'checkboxinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'roommateinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );

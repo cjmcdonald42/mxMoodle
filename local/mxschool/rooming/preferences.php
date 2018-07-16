@@ -48,7 +48,6 @@ if ($notification) {
     $data->subject = $notification->subject;
     $data->body['text'] = $notification->body_html;
 }
-$data->checkboxinstructions['text'] = get_config('local_mxschool', 'rooming_form_checkbox_instructions');
 $data->roommateinstructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 
 $form = new preferences_form();
@@ -59,7 +58,6 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_notification('rooming_notify_unsubmitted', $data->subject, $data->body);
-    set_config('rooming_form_checkbox_instructions', $data->checkboxinstructions['text'], 'local_mxschool');
     set_config('rooming_form_roommate_instructions', $data->roommateinstructions['text'], 'local_mxschool');
     redirect(
         $form->get_redirect(), get_string('rooming_preferences_edit_success', 'local_mxschool'), null,
