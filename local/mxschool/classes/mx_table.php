@@ -92,8 +92,9 @@ abstract class local_mxschool_table extends table_sql {
      * Formats the student column to "last, first (alternate)" or "last, first".
      */
     protected function col_student($values) {
-        $alternatename = $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : '';
-        return $values->student . $alternatename;
+        return $values->student.(
+            $values->alternatename && $values->alternatename !== $values->firstname ? " ({$values->alternatename})" : ''
+        );
     }
 
     /**

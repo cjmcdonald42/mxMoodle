@@ -70,11 +70,11 @@ class advisor_table extends local_mxschool_table {
             '{user} o5a ON asf.option5id = o5a.id', '{user} sa ON asf.selectedid = sa.id'
         );
         $where = array(
-            'u.deleted = 0', $filter->submitted === '1' ? "EXISTS (
-                SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id
-            )" : '', $filter->submitted === '0' ? "NOT EXISTS (
-                SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id
-            )" : '', $filter->keepcurrent !== '' ? "asf.keep_current = {$filter->keepcurrent}" : ''
+            'u.deleted = 0', $filter->submitted === '1'
+            ? "EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)" : (
+                $filter->submitted === '0'
+                ? "NOT EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)" : ''
+            ), $filter->keepcurrent !== '' ? "asf.keep_current = {$filter->keepcurrent}" : ''
         );
         $sortable = array('student', 'current', 'keepcurrent');
         $urlparams = array('submitted' => $filter->submitted, 'keepcurrent' => $filter->keepcurrent, 'search' => $filter->search);

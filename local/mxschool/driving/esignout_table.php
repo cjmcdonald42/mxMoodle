@@ -126,7 +126,7 @@ class esignout_table extends local_mxschool_table {
                 'user', array('id' => $passenger), "CONCAT(lastname, ', ', firstname) AS student, firstname, alternatename"
             );
             $passengernames[] = $student->student.(
-                $student->alternatename && $student->alternatename !== $student->firstname ? " ($student->alternatename)" : ''
+                $student->alternatename && $student->alternatename !== $student->firstname ? " ({$student->alternatename})" : ''
             );
         }
         return implode('<br>', $passengernames);

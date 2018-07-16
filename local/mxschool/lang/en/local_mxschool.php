@@ -535,7 +535,7 @@ $string['advisor_report_header_selected'] = 'Chosen Advisor';
 $string['rooming'] = 'Rooming';
 $string['rooming_preferences'] = 'Rooming Preferences';
 $string['rooming_form'] = 'Rooming Request Form';
-$string['rooming_report'] = 'Rooming Report';
+$string['rooming_report'] = 'Rooming Request Report';
 
 // Rooming Preferecnes.
 $string['rooming_preferences_header_notifications'] = 'Rooming Email Notifications';
@@ -544,3 +544,32 @@ $string['rooming_preferences_notifications_available'] = 'Available Tags for Uns
 $string['rooming_preferences_notifications_subject'] = 'Subject for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_body'] = 'Body for Unsubmitted Reminder Email';
 $string['rooming_preferences_text_instructions'] = 'Instructions Regarding Doubles';
+
+// Rooming Form.
+
+// Rooming Report.
+$string['rooming_report_select_submitted_all'] = 'All';
+$string['rooming_report_select_submitted_true'] = 'Submitted';
+$string['rooming_report_select_submitted_false'] = 'Not Submitted';
+$string['rooming_report_select_gender_all'] = 'All';
+$string['rooming_report_select_gender_m'] = 'Boys';
+$string['rooming_report_select_gender_f'] = 'Girls';
+$string['rooming_report_select_roomtype_all'] = 'All';
+$string['rooming_report_select_roomtype_single'] = 'Single';
+$string['rooming_report_select_roomtype_double'] = 'Double';
+$string['rooming_report_select_roomtype_triple'] = 'Triple';
+$string['rooming_report_select_roomtype_quad'] = 'Quad';
+$string['rooming_report_select_double_all'] = 'All';
+$string['rooming_report_select_double_true'] = 'Has Lived in Double';
+$string['rooming_report_select_double_false'] = 'Has Not Lived in Double';
+$string['rooming_report_add'] = 'New Rooming Request Form';
+$string['rooming_report_remind'] = 'Notify Unsubmitted';
+
+$string['rooming_report_header_student'] = 'Student';
+$string['rooming_report_header_grade'] = 'Grade';
+$string['rooming_report_header_gender'] = 'Gender';
+$string['rooming_report_header_dorm'] = 'Current Dorm';
+$string['rooming_report_header_roomtype'] = 'Requested Room Type';
+$string['rooming_report_header_dormmates'] = 'Requested Dormmates';
+$string['rooming_report_header_liveddouble'] = 'Has Lived in a Double';
+$string['rooming_report_header_roommate'] = 'Preferred Roommate';
