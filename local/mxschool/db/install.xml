@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180713" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180715" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_mxschool_adv_selection" COMMENT="mxschool advisor selection form table - stores the forms which students submit for advisor selection">
+    <TABLE NAME="local_mxschool_adv_selection" COMMENT="mxschool advisor selection form table - stores the data from the forms which students submit for advisor selection.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student."/>
@@ -29,7 +29,7 @@
         <KEY NAME="selected" TYPE="foreign" FIELDS="selectedid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the advisor selected for the student."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_comment" COMMENT="mxschool weekend comment table - used for dorm faculty to add comments to weekend reports">
+    <TABLE NAME="local_mxschool_comment" COMMENT="mxschool weekend comment table - stores comments which dorm faculty add to weekend check-in reports.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="weekendid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the weekend associated with the record."/>
@@ -42,7 +42,7 @@
         <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record associated with the record."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_dorm" COMMENT="mxschool dorm table">
+    <TABLE NAME="local_mxschool_dorm" COMMENT="mxschool dorm table - stores the data associated with each dorm and day house.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="hohid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the dorm's head of house."/>
@@ -59,7 +59,7 @@
         <KEY NAME="hoh" TYPE="foreign-unique" FIELDS="hohid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the dorm's head of house."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_esignout" COMMENT="mxschool esignout table for both drivers and passengers">
+    <TABLE NAME="local_mxschool_esignout" COMMENT="mxschool esignout table - stores the data from eSignout forms.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
@@ -81,7 +81,7 @@
         <KEY NAME="approver" TYPE="foreign" FIELDS="approverid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved the record."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_faculty" COMMENT="mxschool faculty table">
+    <TABLE NAME="local_mxschool_faculty" COMMENT="mxschool faculty table - stores the data associated with each faculty.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the faculty."/>
@@ -97,7 +97,7 @@
         <KEY NAME="dorm" TYPE="foreign" FIELDS="dormid" REFTABLE="local_mxschool_dorm" REFFIELDS="id" COMMENT="The dorm record of the faculty's dorm, if the faculty is a dorm faculty."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_notification" COMMENT="mxschool email notification table - stores information about different types of email notifications">
+    <TABLE NAME="local_mxschool_notification" COMMENT="mxschool email notification table - stores data associated with different types of email notifications.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="class" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The string identifier for the notification type."/>
@@ -109,7 +109,7 @@
         <KEY NAME="class" TYPE="unique" FIELDS="class" COMMENT="The string identifier for the notification type."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_parent" COMMENT="mxschool parent table">
+    <TABLE NAME="local_mxschool_parent" COMMENT="mxschool parent table - stores the data associated with students' parents.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the parent's student."/>
@@ -127,7 +127,7 @@
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the parent's student."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_permissions" COMMENT="mxschool student permissions table">
+    <TABLE NAME="local_mxschool_permissions" COMMENT="mxschool student permissions table - stores the data assocaited with students' permissions.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
@@ -148,7 +148,35 @@
         <KEY NAME="student" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_student" COMMENT="mxschool student table">
+    <TABLE NAME="local_mxschool_rooming" COMMENT="mxschool rooming request form table - stores the data from the forms which students submit to request rooming.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student."/>
+        <FIELD NAME="room_type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The requested room type."/>
+        <FIELD NAME="dormmate1id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's first dormmate request."/>
+        <FIELD NAME="dormmate2id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's second dormmate request."/>
+        <FIELD NAME="dormmate3id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's third dormmate request."/>
+        <FIELD NAME="dormmate4id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's fourth dormmate request."/>
+        <FIELD NAME="dormmate5id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's fifth dormmate request."/>
+        <FIELD NAME="dormmate6id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's sixth dormmate request."/>
+        <FIELD NAME="has_lived_in_double" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student has lived in a one-room double in the past."/>
+        <FIELD NAME="preferred_roommateid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's preferred roommate."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+        <KEY NAME="dormmate1" TYPE="foreign" FIELDS="dormmate1id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's first dormmate request."/>
+        <KEY NAME="dormmate2" TYPE="foreign" FIELDS="dormmate2id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's second dormmate request."/>
+        <KEY NAME="dormmate3" TYPE="foreign" FIELDS="dormmate3id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's third dormmate request."/>
+        <KEY NAME="dormmate4" TYPE="foreign" FIELDS="dormmate4id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's fourth dormmate request."/>
+        <KEY NAME="dormmate5" TYPE="foreign" FIELDS="dormmate5id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's fifth dormmate request."/>
+        <KEY NAME="dormmate6" TYPE="foreign" FIELDS="dormmate6id" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's sixth dormmate request."/>
+        <KEY NAME="preferred_roommate" TYPE="foreign" FIELDS="preferred_roommateid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's preferred roommate."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_student" COMMENT="mxschool student table - stores the data assocaited with each student.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student."/>
@@ -170,7 +198,7 @@
         <KEY NAME="advisor" TYPE="foreign" FIELDS="advisorid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's advisor."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_vehicle" COMMENT="mxschool student vehicle table">
+    <TABLE NAME="local_mxschool_vehicle" COMMENT="mxschool student vehicle table - stores the data of all registered day student vehicles.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
@@ -185,7 +213,7 @@
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_weekend" COMMENT="mxschool weekend table - used for check-in reports">
+    <TABLE NAME="local_mxschool_weekend" COMMENT="mxschool weekend table - stores data associated with each weekend for use wuth weekend check-in reports and weekend forms.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="sunday_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp (server time) for the Sunday of the weekend."/>
@@ -197,7 +225,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_mxschool_weekend_form" COMMENT="mxschool weekend form table - stores the forms which students submit for weekend permissions">
+    <TABLE NAME="local_mxschool_weekend_form" COMMENT="mxschool weekend form table - stores the data from the forms which students submit for weekend permissions.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student who submitted the form."/>

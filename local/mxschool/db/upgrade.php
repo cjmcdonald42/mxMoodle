@@ -517,5 +517,45 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018071304, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018071504) {
+
+        // Define table local_mxschool_rooming to be created.
+        $table = new xmldb_table('local_mxschool_rooming');
+
+        // Adding fields to table local_mxschool_rooming.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('room_type', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('dormmate1id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dormmate2id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dormmate3id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dormmate4id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dormmate5id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dormmate6id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('has_lived_in_double', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('preferred_roommateid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_rooming.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+        $table->add_key('dormmate1', XMLDB_KEY_FOREIGN, array('dormmate1id'), 'user', array('id'));
+        $table->add_key('dormmate2', XMLDB_KEY_FOREIGN, array('dormmate2id'), 'user', array('id'));
+        $table->add_key('dormmate3', XMLDB_KEY_FOREIGN, array('dormmate3id'), 'user', array('id'));
+        $table->add_key('dormmate4', XMLDB_KEY_FOREIGN, array('dormmate4id'), 'user', array('id'));
+        $table->add_key('dormmate5', XMLDB_KEY_FOREIGN, array('dormmate5id'), 'user', array('id'));
+        $table->add_key('dormmate6', XMLDB_KEY_FOREIGN, array('dormmate6id'), 'user', array('id'));
+        $table->add_key('preferred_roommate', XMLDB_KEY_FOREIGN, array('preferred_roommateid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_mxschool_rooming.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018071504, 'local', 'mxschool');
+    }
+
     return true;
 }
