@@ -318,6 +318,27 @@ function get_dorm_student_list($dorm) {
 }
 
 /**
+ * Queries the database to create a list of all the students who will be boarders next year.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_boarding_next_year_student_list() {
+    global $DB;
+    $list = array();
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' ORDER BY name"
+    );
+    if ($students) {
+        foreach ($students as $student) {
+            $list[$student->id] = $student->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the students who have a registered license.
  * Only day students should fit this criterium.
  *

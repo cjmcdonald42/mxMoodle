@@ -47,6 +47,10 @@ $string['am'] = 'AM';
 $string['pm'] = 'PM';
 $string['first_semester'] = 'First Semester';
 $string['second_semester'] = 'Second Semester';
+$string['room_type_single'] = 'Single';
+$string['room_type_double'] = 'Double';
+$string['room_type_triple'] = 'Triple';
+$string['room_type_quad'] = 'Quad';
 
 // Capabilities.
 $string['mxschool:manage_students'] = 'Middlesex School: View and manage student data';
@@ -543,9 +547,20 @@ $string['rooming_preferences_header_text'] = 'Rooming Request Form Instructions'
 $string['rooming_preferences_notifications_available'] = 'Available Tags for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_subject'] = 'Subject for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_body'] = 'Body for Unsubmitted Reminder Email';
-$string['rooming_preferences_text_instructions'] = 'Instructions Regarding Doubles';
+$string['rooming_preferences_text_checkboxinstructions'] = 'Instructions for Checkbox';
+$string['rooming_preferences_text_roommateinstructions'] = 'Instructions Regarding Doubles';
 
 // Rooming Form.
+$string['rooming_form_header_info'] = 'General Information';
+$string['rooming_form_header_requests'] = 'Requests';
+$string['rooming_form_info_student'] = 'Student';
+$string['rooming_form_info_dorm'] = 'Current Dorm';
+$string['rooming_form_requests_roomtype'] = 'Requested Room Type';
+$string['rooming_form_requests_dormmate1'] = 'Requested Dormmates from Your Grade';
+$string['rooming_form_requests_dormmate4'] = 'Requested Dormmates from Any Grade';
+$string['rooming_form_requests_roommate'] = 'Preferred Roommate';
+
+$string['rooming_form_roomable_default'] = 'Select';
 
 // Rooming Report.
 $string['rooming_report_select_submitted_all'] = 'All';
@@ -555,10 +570,6 @@ $string['rooming_report_select_gender_all'] = 'All';
 $string['rooming_report_select_gender_m'] = 'Boys';
 $string['rooming_report_select_gender_f'] = 'Girls';
 $string['rooming_report_select_roomtype_all'] = 'All';
-$string['rooming_report_select_roomtype_single'] = 'Single';
-$string['rooming_report_select_roomtype_double'] = 'Double';
-$string['rooming_report_select_roomtype_triple'] = 'Triple';
-$string['rooming_report_select_roomtype_quad'] = 'Quad';
 $string['rooming_report_select_double_all'] = 'All';
 $string['rooming_report_select_double_true'] = 'Has Lived in Double';
 $string['rooming_report_select_double_false'] = 'Has Not Lived in Double';

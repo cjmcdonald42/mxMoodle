@@ -557,11 +557,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018071504, 'local', 'mxschool');
     }
 
-    if ($oldversion < 2018071506) {
-        set_config('rooming_form_instructions', 'Because there are several one-room doubles on campus, there are years when students who prefer to be in a single must live in a double. If you have not lived in a one-room double before, please indicate with whom you would want to live if placed in one.', 'local_mxschool');
+    if ($oldversion < 2018071514) {
+        set_config('rooming_form_checkbox_instructions', 'Check if you have lived in a one-room double in the past.', 'local_mxschool');
+        set_config('rooming_form_roommate_instructions', 'Because there are several one-room doubles on campus, there are years when students who prefer to be in a single must live in a double. If you have not lived in a one-room double before, please indicate with whom you would want to live if placed in one.', 'local_mxschool');
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018071506, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2018071514, 'local', 'mxschool');
     }
 
     return true;

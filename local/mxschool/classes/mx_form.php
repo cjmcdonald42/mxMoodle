@@ -180,7 +180,8 @@ abstract class local_mxschool_form extends moodleform {
                 $result = $mform->createElement($properties['element'], $name, $displayname, $text);
                 break;
             case 'checkbox':
-                $result = $mform->createElement($properties['element'], $name, $displayname, '', $attributes);
+            case 'advcheckbox':
+                $result = $mform->createElement($properties['element'], $name, $displayname, $text, $attributes);
                 break;
             case 'date_selector':
             case 'date_time_selector':
