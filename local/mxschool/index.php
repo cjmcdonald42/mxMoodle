@@ -43,7 +43,7 @@ $renderable = new \local_mxschool\output\index(array(
     get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php',
     get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php',
     get_string('rooming', 'local_mxschool') => '/local/mxschool/rooming/index.php',
-    get_string('peertutoring', 'local_peertutoring') => '/local/peertutoring/index.php',
+    get_string('peertutoring', 'local_peertutoring') => '/local/peertutoring/index.php'
 ));
 
 echo $output->header();

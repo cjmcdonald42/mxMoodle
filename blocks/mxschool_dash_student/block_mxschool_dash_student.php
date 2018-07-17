@@ -23,29 +23,31 @@
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
- class block_mxschool_dash_student extends block_list {
-    
-    function init() {
+
+defined('MOODLE_INTERNAL') || die();
+
+class block_mxschool_dash_student extends block_list {
+
+    public function init() {
         $this->title = get_string('blockname', 'block_mxschool_dash_student');
     }
-    
-    function get_content() {
-        global $CFG, $USER, $OUTPUT, $DB, $PAGE;
-    
-        if ($this->content !== null) {
+
+    public function get_content() {
+        global $PAGE;
+        if (isset($this->content)) {
             return $this->content;
         }
- 
-        $this->content         =  new stdClass;
-        $this->content->text = '';
-        $this->content->items  = array();
-        $this->content->icons  = array();
-        $this->content->footer = 'Footer goes here...';
- 
-    $this->content->items[] = html_writer::tag('a','Advisor Selection Form',array('href' => 'http://moodledev.mxschool.edu/moodle/local/mxschool/advisor_selection/index.php'));
-    
-    return $this->content;
-    }
- }
 
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\index(array( // Put any links in this array as displaytext => relative url.
+            get_string('advisor_selection', 'block_mxschool_dash_student') => '/local/mxschool/advisor_selection/advisor_enter.php'
+            get_string('rooming', 'block_mxschool_dash_student') => '/local/mxschool/rooming/rooming_enter.php'
+        ));
+
+        $this->content = new stdClass();
+        $this->content->text = $output->render($renderable);;
+        $this->content->footer = ''; // Add a footer here if desired.
+
+        return $this->content;
+    }
+}

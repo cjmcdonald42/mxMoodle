@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English Language file for Middlesex School's Dorm and Student functions plugin.
+ * English language strings for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -539,12 +539,12 @@ $string['advisor_report_header_selected'] = 'Chosen Advisor';
 /* Rooming. */
 $string['rooming'] = 'Rooming';
 $string['rooming_preferences'] = 'Rooming Preferences';
-$string['rooming_form'] = 'Rooming Request Form';
-$string['rooming_report'] = 'Rooming Request Report';
+$string['rooming_form'] = 'Rooming Requests Form';
+$string['rooming_report'] = 'Rooming Requests Report';
 
 // Rooming Preferecnes.
 $string['rooming_preferences_header_notifications'] = 'Rooming Email Notifications';
-$string['rooming_preferences_header_text'] = 'Rooming Request Form Instructions';
+$string['rooming_preferences_header_text'] = 'Rooming Requests Form Instructions';
 $string['rooming_preferences_notifications_available'] = 'Available Tags for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_subject'] = 'Subject for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_body'] = 'Body for Unsubmitted Reminder Email';
@@ -581,7 +581,7 @@ $string['rooming_report_select_roomtype_all'] = 'All';
 $string['rooming_report_select_double_all'] = 'All';
 $string['rooming_report_select_double_true'] = 'Has Lived in Double';
 $string['rooming_report_select_double_false'] = 'Has Not Lived in Double';
-$string['rooming_report_add'] = 'New Rooming Request Form';
+$string['rooming_report_add'] = 'New Rooming Requests Form';
 $string['rooming_report_remind'] = 'Notify Unsubmitted';
 
 $string['rooming_report_header_student'] = 'Student';
