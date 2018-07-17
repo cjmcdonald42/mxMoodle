@@ -159,8 +159,6 @@ function update_notification($class, $subject, $body) {
     }
 }
 
-
-
 /**
  * Determines whether the user has a record in the student table of the database.
  *
@@ -286,23 +284,33 @@ function get_current_semester() {
 }
 
 /**
+ * Converts an array of objects with properties id and name to an array with form id => name.
+ *
+ * @param array $records The record objects to convert.
+ * @return array The same data in the form id => name.
+ */
+function convert_records_to_list($records) {
+    $list = array();
+    if (is_array($records)) {
+        foreach ($records as $record) {
+            $list[$record->id] = $record->name;
+        }
+    }
+    return $list;
+}
+
+/**
  * Queries the database to create a list of all the students.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
 function get_student_list() {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 ORDER BY name"
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -312,22 +320,15 @@ function get_student_list() {
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
 function get_dorm_student_list($dorm) {
+    global $DB;
     if (!$dorm) {
         return get_student_list();
     }
-
-    global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
          LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -337,18 +338,12 @@ function get_dorm_student_list($dorm) {
  */
 function get_boarding_next_year_student_list() {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' ORDER BY name"
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -359,19 +354,13 @@ function get_boarding_next_year_student_list() {
  */
 function get_licensed_student_list() {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
          WHERE u.deleted = 0 AND p.license_date IS NOT NULL ORDER BY name"
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -381,19 +370,13 @@ function get_licensed_student_list() {
  */
 function get_passenger_list() {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
          WHERE u.deleted = 0 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21' ORDER BY name"
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -405,7 +388,6 @@ function get_passenger_list() {
  */
 function get_current_driver_list($ignore = 0) {
     global $DB;
-    $list = array(0 => get_string('form_select_default', 'local_mxschool'));
     $today = new DateTime('midnight', core_date::get_server_timezone_object());
     $drivers = $DB->get_records_sql(
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_esignout} es
@@ -415,12 +397,7 @@ function get_current_driver_list($ignore = 0) {
              SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
          ) = 0 ORDER BY name", array($today->getTimestamp(), $ignore, $ignore)
     );
-    if ($drivers) {
-        foreach ($drivers as $driver) {
-            $list[$driver->id] = $driver->name;
-        }
-    }
-    return $list;
+    return array(0 => get_string('form_select_default', 'local_mxschool')) + convert_records_to_list($drivers);
 }
 
 /**
@@ -430,18 +407,12 @@ function get_current_driver_list($ignore = 0) {
  */
 function get_student_without_advisor_form_list() {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 ORDER BY name"
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -452,19 +423,13 @@ function get_student_without_advisor_form_list() {
  */
 function get_new_student_advisor_pair_list() {
     global $DB;
-    $list = array();
     $records = $DB->get_records_sql(
-        "SELECT u.id AS suserid, CONCAT(u.lastname, ', ', u.firstname) AS name, asf.selectedid AS auserid
+        "SELECT u.id, asf.selectedid AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_adv_selection} asf ON s.userid = asf.userid
          WHERE u.deleted = 0 AND asf.keep_current = 0 AND asf.selectedid <> 0 ORDER BY name"
     );
-    if ($records) {
-        foreach ($records as $record) {
-            $list[$record->suserid] = $record->auserid;
-        }
-    }
-    return $list;
+    return convert_records_to_list($records);
 }
 
 /**
@@ -474,7 +439,6 @@ function get_new_student_advisor_pair_list() {
  */
 function get_student_without_rooming_form_list() {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
@@ -482,12 +446,7 @@ function get_student_without_rooming_form_list() {
              SELECT COUNT(id) FROM {local_mxschool_rooming} WHERE userid = s.userid
          ) = 0 ORDER BY name"
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -498,7 +457,6 @@ function get_student_without_rooming_form_list() {
  */
 function get_student_possible_dormmate_list($userid) {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
@@ -507,12 +465,7 @@ function get_student_possible_dormmate_list($userid) {
          AND s.gender = ss.gender AND s.userid <> ss.userid ORDER BY name",
          array($userid)
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -524,7 +477,6 @@ function get_student_possible_dormmate_list($userid) {
  */
 function get_student_possible_same_grade_dormmate_list($userid) {
     global $DB;
-    $list = array();
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
@@ -533,12 +485,7 @@ function get_student_possible_same_grade_dormmate_list($userid) {
          AND s.grade = ss.grade AND s.gender = ss.gender AND s.userid <> ss.userid ORDER BY name",
          array($userid)
     );
-    if ($students) {
-        foreach ($students as $student) {
-            $list[$student->id] = $student->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($students);
 }
 
 /**
@@ -548,17 +495,11 @@ function get_student_possible_same_grade_dormmate_list($userid) {
  */
 function get_faculty_list() {
     global $DB;
-    $list = array();
-    $allfaculty = $DB->get_records_sql(
+    $faculty = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 ORDER BY name"
     );
-    if ($allfaculty) {
-        foreach ($allfaculty as $faculty) {
-            $list[$faculty->id] = $faculty->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($faculty);
 }
 
 /**
@@ -568,18 +509,12 @@ function get_faculty_list() {
  */
 function get_available_advisor_list() {
     global $DB;
-    $list = array();
     $advisors = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
          WHERE u.deleted = 0 and f.advisory_available = 1 and f.advisory_closing = 0 ORDER BY name"
     );
-    if ($advisors) {
-        foreach ($advisors as $advisor) {
-            $list[$advisor->id] = $advisor->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($advisors);
 }
 
 /**
@@ -589,17 +524,11 @@ function get_available_advisor_list() {
  */
 function get_approver_list() {
     global $DB;
-    $list = array();
-    $allfaculty = $DB->get_records_sql(
+    $faculty = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
          LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
     );
-    if ($allfaculty) {
-        foreach ($allfaculty as $faculty) {
-            $list[$faculty->id] = $faculty->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($faculty);
 }
 
 /**
@@ -609,16 +538,10 @@ function get_approver_list() {
  */
 function get_dorm_list() {
     global $DB;
-    $list = array();
     $dorms = $DB->get_records_sql(
         "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' ORDER BY name"
     );
-    if ($dorms) {
-        foreach ($dorms as $dorm) {
-            $list[$dorm->id] = $dorm->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($dorms);
 }
 
 /**
@@ -628,16 +551,10 @@ function get_dorm_list() {
  */
 function get_boarding_dorm_list() {
     global $DB;
-    $list = array();
     $dorms = $DB->get_records_sql(
         "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' AND type = 'Boarding' ORDER BY name"
     );
-    if ($dorms) {
-        foreach ($dorms as $dorm) {
-            $list[$dorm->id] = $dorm->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($dorms);
 }
 
 /**
@@ -649,7 +566,6 @@ function get_weekend_list() {
     global $DB;
     $starttime = get_config('local_mxschool', 'dorms_open_date');
     $endtime = get_config('local_mxschool', 'dorms_close_date');
-    $list = array();
     $weekends = $DB->get_records_sql(
         "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time",
         array($starttime, $endtime)
@@ -659,10 +575,10 @@ function get_weekend_list() {
             $time = new DateTime('now', core_date::get_server_timezone_object());
             $time->setTimestamp($weekend->sunday_time);
             $time->modify("-1 day");
-            $list[$weekend->id] = $time->format('m/d/y');
+            $weekend->name = $time->format('m/d/y');
         }
     }
-    return $list;
+    return convert_records_to_list($weekends);
 }
 
 /**
