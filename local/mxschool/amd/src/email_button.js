@@ -36,8 +36,9 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
                 }
             }
         }]);
-        promises[0].done(function() {
-            $.when(str.get_string('email_button_sent', 'local_mxschool')).done(function(sentString) {
+        promises[0].done(function(result) {
+            var unlocalized = 'email_button_send_' + (result ? 'success' : 'failure');
+            $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(sentString) {
                 var text = element.text();
                 element.text(sentString);
                 setTimeout(function() {

@@ -149,7 +149,9 @@ class mx_notifications {
                 $emailto = array();
                 $list = get_student_without_advisor_form_list();
                 foreach ($list as $userid => $name) {
-                    $emailto[] = $DB->get_record('user', array('id' => $userid));
+                    $record = $DB->get_record('user', array('id' => $userid));
+                    $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");
+                    $emailto[] = $record;
                 }
                 break;
             case 'advisor_selection_notify_results':
@@ -158,8 +160,14 @@ class mx_notifications {
                 $emailto = array();
                 $list = get_new_student_advisor_pair_list();
                 foreach ($list as $suserid => $auserid) {
-                    $emailto[] = $DB->get_record('user', array('id' => $suserid));
-                    $emailto[] = $DB->get_record('user', array('id' => $auserid));
+                    $student = $DB->get_record('user', array('id' => $suserid));
+                    $advisor = $DB->get_record('user', array('id' => $auserid));
+                    $student->replacements = $advisor->replacements = array(
+                        'studentname' => "{$student->firstname} {$student->lastname}",
+                        'advisorname' => "{$advisor->firstname} {$advisor->lastname}"
+                    );
+                    $emailto[] = $student;
+                    $emailto[] = $advisor;
                 }
                 break;
             case 'rooming_notify_unsubmitted':
@@ -168,7 +176,9 @@ class mx_notifications {
                 $emailto = array();
                 $list = get_student_without_rooming_form_list();
                 foreach ($list as $userid => $name) {
-                    $emailto[] = $DB->get_record('user', array('id' => $userid));
+                    $record = $DB->get_record('user', array('id' => $userid));
+                    $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");
+                    $emailto[] = $record;
                 }
                 break;
             default:
@@ -195,7 +205,7 @@ class mx_notifications {
     /**
      * Emails a list of users.
      *
-     * @param array $emailto The users to send the email to.
+     * @param array $emailto The users to send the email to - a property replacemnents will substitute text for each user.
      * @param string $subject The subject line of the email.
      * @param string $body The body html of the email.
      */
@@ -204,8 +214,10 @@ class mx_notifications {
         $result = true;
         ob_start();
         foreach ($emailto as $recipient) {
-            echo "\n{$subject}\n{$body}\n{$recipient->lastname}, {$recipient->firstname} ({$recipient->email})\n";
-            // $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
+            $emailsubject = isset($recipient->replacements) ? self::replace($subject, $recipient->replacements) : $subject;
+            $emailbody = isset($recipient->replacements) ? self::replace($body, $recipient->replacements) : $body;
+            echo "\n{$emailsubject}\n{$emailbody}\n{$recipient->lastname}, {$recipient->firstname} ({$recipient->email})\n";
+            // $result &= email_to_user($recipient, $supportuser, $emailsubject, '', $emailbody);
         }
         debugging(ob_get_clean(), DEBUG_DEVELOPER);
         return $result;
