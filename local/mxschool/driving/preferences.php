@@ -36,7 +36,7 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php'
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/mxschool/driving/preferences.php';
 $title = get_string('esignout_preferences', 'local_mxschool');
 

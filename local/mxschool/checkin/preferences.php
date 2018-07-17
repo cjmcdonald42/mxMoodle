@@ -36,7 +36,7 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/mxschool/checkin/preferences.php';
 $title = get_string('checkin_preferences', 'local_mxschool');
 

@@ -63,6 +63,19 @@ function setup_generic_page($url, $title) {
 }
 
 /**
+ * Determines the redirect url for a form when there is no referer or the state is invalid.
+ *
+ * @param array $parents Array of parent pages with values which are relative urls.
+ * @return moodle_url The url for the form to redirect to if there is no referer.
+ */
+function get_redirect($parents) {
+    return new moodle_url(
+        has_capability('moodle/site:config', context_system::instance())
+        ? $parents[array_keys($parents)[count($parents) - 1]] : '/my'
+    );
+}
+
+/**
  * Generates and performs an SQL query to retrieve a record from the database.
  *
  * @param array $queryfields The fields to query - must be organized as [table => [abbreviation, join, fields => [header => name]]].

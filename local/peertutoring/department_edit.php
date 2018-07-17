@@ -39,7 +39,7 @@ $parents = array(
     get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php',
     get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php',
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/peertutoring/department_edit.php';
 $title = get_string('department_edit', 'local_peertutoring');
 

@@ -36,7 +36,7 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('rooming', 'local_mxschool') => '/local/mxschool/rooming/index.php'
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/mxschool/rooming/preferences.php';
 $title = get_string('rooming_preferences', 'local_mxschool');
 

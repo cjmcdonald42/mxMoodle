@@ -41,7 +41,7 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('rooming', 'local_mxschool') => '/local/mxschool/rooming/index.php'
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/mxschool/rooming/rooming_enter.php';
 $title = get_string('rooming_form', 'local_mxschool');
 
@@ -66,10 +66,14 @@ if ($id) {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
+    $data->liveddouble = '-1'; // Invalid default to prevent auto selection.
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_rooming', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one rooming form per student.
             redirect(new moodle_url($url, array('id' => $existingid)));
+        }
+        if (!array_key_exists($USER->id, get_boarding_next_year_student_list())) {
+            redirect($redirect);
         }
         $data->student = $USER->id;
     }

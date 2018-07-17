@@ -39,7 +39,7 @@ $parents = array(
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
     get_string('dorm_report', 'local_mxschool') => '/local/mxschool/user_management/dorm_report.php'
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/mxschool/user_management/dorm_edit.php';
 $title = get_string('dorm_edit', 'local_mxschool');
 

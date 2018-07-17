@@ -37,7 +37,7 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/mxschool/advisor_selection/preferences.php';
 $title = get_string('advisor_selection_preferences', 'local_mxschool');
 

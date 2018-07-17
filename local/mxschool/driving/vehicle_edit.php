@@ -38,7 +38,7 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php'
 );
-$redirect = new moodle_url($parents[array_keys($parents)[count($parents) - 1]]);
+$redirect = get_redirect($parents);
 $url = '/local/mxschool/driving/vehicle_edit.php';
 $title = get_string('vehicle_edit', 'local_mxschool');
 
