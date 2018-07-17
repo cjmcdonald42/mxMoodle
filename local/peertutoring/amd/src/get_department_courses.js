@@ -16,7 +16,7 @@
 /**
  * Updates a select element with courses from a specified department for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_department_courses
+ * @module     local_peertutoring/get_department_courses
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>

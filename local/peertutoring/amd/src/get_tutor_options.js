@@ -16,8 +16,8 @@
 /**
  * Updates the deparment field of the peer tutoring form for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_esignout_driver_details
- * @package    local_mxschool
+ * @module     local_peertutoring/get_tutor_options
+ * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
