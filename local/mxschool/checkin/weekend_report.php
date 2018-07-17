@@ -113,7 +113,7 @@ $dropdowns = array(
     new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool')),
     new local_mxschool_dropdown('weekend', $weekends, $filter->weekend),
     new local_mxschool_dropdown(
-        'submitted', $submittedoptions, $filter->submitted, get_string('weekend_report_select_submitted_all', 'local_mxschool')
+        'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
 $addbutton = new stdClass();

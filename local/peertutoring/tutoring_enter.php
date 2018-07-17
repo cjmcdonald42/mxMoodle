@@ -79,10 +79,10 @@ if ($id) {
 $data->istutor = $istutor ? '1' : '0';
 $tutors = get_tutor_list();
 $students = get_student_list();
-$departments = array(0 => get_string('tutoring_form_department_default', 'local_peertutoring')) + get_department_list();
-$courses = array(0 => get_string('tutoring_form_course_default', 'local_peertutoring')) + get_course_list();
-$types = array(0 => get_string('tutoring_form_type_default', 'local_peertutoring')) + get_type_list();
-$ratings = array(0 => get_string('tutoring_form_rating_default', 'local_peertutoring')) + get_rating_list();
+$departments = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_list();
+$courses = array(0 => get_string('form_select_default', 'local_mxschool')) + get_course_list();
+$types = array(0 => get_string('form_select_default', 'local_mxschool')) + get_type_list();
+$ratings = array(0 => get_string('form_select_default', 'local_mxschool')) + get_rating_list();
 
 $form = new tutoring_form(array(
     'id' => $id, 'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses,

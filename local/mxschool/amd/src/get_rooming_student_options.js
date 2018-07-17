@@ -53,7 +53,7 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
 
             $('.mx-form fieldset#id_info div.form-control-static').text(data.dorm);
 
-            $.when(str.get_string('rooming_form_roomable_default', 'local_mxschool')).done(function(text) {
+            $.when(str.get_string('form_select_default', 'local_mxschool')).done(function(text) {
                 var dormmates = [{
                     userid: 0,
                     name: text

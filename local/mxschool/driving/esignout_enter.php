@@ -116,7 +116,7 @@ $students = get_student_list();
 $types = get_esignout_type_list();
 $passengers = get_passenger_list();
 $drivers = get_current_driver_list();
-$approvers = array(0 => get_string('esignout_form_approver_default', 'local_mxschool')) + get_approver_list();
+$approvers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_approver_list();
 
 $form = new esignout_form(array(
     'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,

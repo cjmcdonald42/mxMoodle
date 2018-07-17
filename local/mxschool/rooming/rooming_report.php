@@ -55,8 +55,8 @@ $submittedoptions = array(
     '0' => get_string('rooming_report_select_submitted_false', 'local_mxschool')
 );
 $genderoptions = array(
-    'M' => get_string('rooming_report_select_gender_m', 'local_mxschool'),
-    'F' => get_string('rooming_report_select_gender_f', 'local_mxschool')
+    'M' => get_string('rooming_report_select_gender_M', 'local_mxschool'),
+    'F' => get_string('rooming_report_select_gender_F', 'local_mxschool')
 );
 $roomtypeoptions = array(
     'Single' => get_string('room_type_single', 'local_mxschool'),
@@ -71,20 +71,17 @@ $doubleoptions = array(
 
 $table = new rooming_table($filter, $download);
 
+$default = get_string('report_select_default', 'local_mxschool');
 $dropdowns = array(
     new local_mxschool_dropdown(
-        'submitted', $submittedoptions, $filter->submitted,
-        get_string('rooming_report_select_submitted_all', 'local_mxschool')
+        'submitted', $submittedoptions, $filter->submitted, $default = get_string('report_select_default', 'local_mxschool')
     ), new local_mxschool_dropdown(
-        'gender', $genderoptions, $filter->gender,
-        get_string('rooming_report_select_gender_all', 'local_mxschool')
+        'gender', $genderoptions, $filter->gender, $default = get_string('rooming_report_select_gender_all', 'local_mxschool')
     ), new local_mxschool_dropdown(
         'roomtype', $roomtypeoptions, $filter->roomtype,
-        get_string('rooming_report_select_roomtype_all', 'local_mxschool')
+        $default = get_string('rooming_report_select_roomtype_all', 'local_mxschool')
     ), new local_mxschool_dropdown(
-        'double', $doubleoptions, $filter->double,
-        get_string('rooming_report_select_double_all', 'local_mxschool')
-    )
+        'double', $doubleoptions, $filter->double, $default = get_string('report_select_default', 'local_mxschool'))
 );
 $addbutton = new stdClass();
 $addbutton->text = get_string('rooming_report_add', 'local_mxschool');

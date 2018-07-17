@@ -67,18 +67,18 @@ $dropdowns = $isstudent ? array() : array(
 $dropdowns[] = new local_mxschool_dropdown('semester', $semesters, $filter->semester);
 $rows = array(
     array(
-        'lefttext' => get_string('weekend_report_abbreviation_offcampus', 'local_mxschool'),
-        'righttext' => get_string('weekend_report_legend_offcampus', 'local_mxschool')
-    ), array('righttext' => get_string('weekend_report_legend_3_left', 'local_mxschool')),
-    array('leftclass' => 'mx-green', 'righttext' => get_string('weekend_report_legend_2_left', 'local_mxschool')),
-    array('leftclass' => 'mx-yellow', 'righttext' => get_string('weekend_report_legend_1_left', 'local_mxschool')),
-    array('leftclass' => 'mx-red', 'righttext' => get_string('weekend_report_legend_0_left', 'local_mxschool')),
+        'lefttext' => get_string('weekend_calculator_abbreviation_offcampus', 'local_mxschool'),
+        'righttext' => get_string('weekend_calculator_legend_offcampus', 'local_mxschool')
+    ), array('righttext' => get_string('weekend_calculator_legend_3_left', 'local_mxschool')),
+    array('leftclass' => 'mx-green', 'righttext' => get_string('weekend_calculator_legend_2_left', 'local_mxschool')),
+    array('leftclass' => 'mx-yellow', 'righttext' => get_string('weekend_calculator_legend_1_left', 'local_mxschool')),
+    array('leftclass' => 'mx-red', 'righttext' => get_string('weekend_calculator_legend_0_left', 'local_mxschool')),
     array(
-        'lefttext' => get_string('weekend_report_abbreviation_free', 'local_mxschool'),
-        'righttext' => get_string('weekend_report_legend_free', 'local_mxschool')
+        'lefttext' => get_string('weekend_calculator_abbreviation_free', 'local_mxschool'),
+        'righttext' => get_string('weekend_calculator_legend_free', 'local_mxschool')
     ), array(
-        'lefttext' => get_string('weekend_report_abbreviation_closed', 'local_mxschool'),
-        'righttext' => get_string('weekend_report_legend_closed', 'local_mxschool')
+        'lefttext' => get_string('weekend_calculator_abbreviation_closed', 'local_mxschool'),
+        'righttext' => get_string('weekend_calculator_legend_closed', 'local_mxschool')
     )
 );
 

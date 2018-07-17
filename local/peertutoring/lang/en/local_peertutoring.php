@@ -74,23 +74,28 @@ $string['tutoring_report'] = 'Peer Tutoring Report';
 
 // Tutor Report.
 $string['tutor_report_add'] = 'Add a Tutor';
+
 $string['tutor_report_header_tutor'] = 'Name';
 
 // Department Report.
 $string['department_report_add'] = 'Add a Department';
+
 $string['department_report_header_name'] = 'Name';
 
 // Course Report.
 $string['course_report_add'] = 'Add a Course';
+
 $string['course_report_header_department'] = 'Department';
 $string['course_report_header_name'] = 'Name';
 
 // Type Report.
 $string['type_report_add'] = 'Add a Type';
+
 $string['type_report_header_displaytext'] = 'Text';
 
 // Rating Report.
 $string['rating_report_add'] = 'Add an Effectiveness Rating';
+
 $string['rating_report_header_displaytext'] = 'Text';
 
 // Tutor Edit.

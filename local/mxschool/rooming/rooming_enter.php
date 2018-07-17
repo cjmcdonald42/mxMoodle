@@ -90,7 +90,7 @@ $data->dorm = isset($data->student) ? $DB->get_field_sql(
 ) : '';
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
-$roomable = array(0 => get_string('rooming_form_roomable_default', 'local_mxschool')) + get_boarding_next_year_student_list();
+$roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + get_boarding_next_year_student_list();
 
 $form = new rooming_form(array('id' => $id, 'students' => $students, 'roomable' => $roomable));
 $form->set_redirect($redirect);

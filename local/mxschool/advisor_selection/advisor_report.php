@@ -62,10 +62,10 @@ $table = new advisor_table($filter, $download);
 $dropdowns = array(
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted,
-        get_string('advisor_selection_report_select_submitted_all', 'local_mxschool')
+        get_string('report_select_default', 'local_mxschool')
     ), new local_mxschool_dropdown(
         'keepcurrent', $keepcurrentoptions, $filter->keepcurrent,
-        get_string('advisor_selection_report_select_keepcurrent_all', 'local_mxschool')
+        get_string('report_select_default', 'local_mxschool')
     )
 );
 $addbutton = new stdClass();

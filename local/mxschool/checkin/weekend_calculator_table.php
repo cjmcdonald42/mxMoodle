@@ -58,9 +58,9 @@ class weekend_calculator_table extends local_mxschool_table {
             "'' AS total", "'' AS allowed"
         );
         $centered = array('grade', 'total', 'allowed');
-        $offcampus = get_string('weekend_report_abbreviation_offcampus', 'local_mxschool');
-        $free = get_string('weekend_report_abbreviation_free', 'local_mxschool');
-        $closed = get_string('weekend_report_abbreviation_closed', 'local_mxschool');
+        $offcampus = get_string('weekend_calculator_abbreviation_offcampus', 'local_mxschool');
+        $free = get_string('weekend_calculator_abbreviation_free', 'local_mxschool');
+        $closed = get_string('weekend_calculator_abbreviation_closed', 'local_mxschool');
         foreach ($weekends as $weekend) {
             $columns1[] = $centered[] = "weekend_$weekend->id";
             $date = new DateTime('now', core_date::get_server_timezone_object());
@@ -106,7 +106,7 @@ class weekend_calculator_table extends local_mxschool_table {
      */
     protected function col_allowed($values) {
         return calculate_weekends_allowed($values->userid, $this->semester)
-        ?: get_string('weekend_report_abbreviation_unlimited', 'local_mxschool');
+        ?: get_string('weekend_calculator_abbreviation_unlimited', 'local_mxschool');
     }
 
 }

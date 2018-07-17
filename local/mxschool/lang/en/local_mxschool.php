@@ -32,11 +32,18 @@ $string['checkbox_saved'] = 'saved';
 $string['email_button_default'] = 'Send Email';
 $string['email_button_send_success'] = 'Email Sent';
 $string['email_button_send_failure'] = 'Email Failed to Send';
+$string['sign_in_button'] = 'Sign In';
 $string['legend_header'] = 'Legend';
+
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
+$string['report_select_default'] = 'All';
 $string['report_select_dorm'] = 'All Houses';
 $string['report_select_boarding_dorm'] = 'All Dorms';
+$string['form_select_default'] = 'Select';
+
+$string['first_semester'] = 'First Semester';
+$string['second_semester'] = 'Second Semester';
 $string['day_0'] = 'Sunday';
 $string['day_1'] = 'Monday';
 $string['day_2'] = 'Tuesday';
@@ -46,8 +53,6 @@ $string['day_5'] = 'Friday';
 $string['day_6'] = 'Saturday';
 $string['am'] = 'AM';
 $string['pm'] = 'PM';
-$string['first_semester'] = 'First Semester';
-$string['second_semester'] = 'Second Semester';
 $string['room_type_single'] = 'Single';
 $string['room_type_double'] = 'Double';
 $string['room_type_triple'] = 'Triple';
@@ -129,6 +134,7 @@ $string['dorm_edit'] = 'Edit Dorm Record';
 $string['student_report_type_students'] = 'Student Report';
 $string['student_report_type_permissions'] = 'Permissions Report';
 $string['student_report_type_parents'] = 'Parent Report';
+$string['parent_report_add'] = 'New Parent';
 
 $string['student_report_students_header_student'] = 'Name';
 $string['student_report_students_header_grade'] = 'Grade';
@@ -137,7 +143,6 @@ $string['student_report_students_header_dorm'] = 'Dorm';
 $string['student_report_students_header_room'] = 'Room #';
 $string['student_report_students_header_phone'] = 'Phone Number';
 $string['student_report_students_header_birthday'] = 'Birthday';
-
 $string['student_report_permissions_header_student'] = 'Name';
 $string['student_report_permissions_header_overnight'] = 'Overnight';
 $string['student_report_permissions_header_license'] = 'Issue Date of License';
@@ -150,7 +155,6 @@ $string['student_report_permissions_header_boston'] = 'May Drive to Boston?';
 $string['student_report_permissions_header_swimcompetent'] = 'Competent Swimmer?';
 $string['student_report_permissions_header_swimallowed'] = 'Allowed to Swim?';
 $string['student_report_permissions_header_boatallowed'] = 'Allowed in Boats?';
-
 $string['student_report_parents_header_student'] = 'Student Name';
 $string['student_report_parents_header_parent'] = 'Parent Name';
 $string['student_report_parents_header_primaryparent'] = 'Primary';
@@ -159,8 +163,6 @@ $string['student_report_parents_header_homephone'] = 'Home Phone';
 $string['student_report_parents_header_cellphone'] = 'Cell Phone';
 $string['student_report_parents_header_workphone'] = 'Work Phone';
 $string['student_report_parents_header_email'] = 'Email';
-
-$string['parent_report_add'] = 'New Parent';
 
 // Faculty Report.
 $string['faculty_report_header_name'] = 'Name';
@@ -183,7 +185,6 @@ $string['dorm_report_header_available'] = 'Available';
 // Student Edit.
 $string['student_edit_header_student'] = 'Student Information';
 $string['student_edit_header_permissions'] = 'Student Permissions';
-
 $string['student_edit_student_firstname'] = 'First Name';
 $string['student_edit_student_middlename'] = 'Middle Name';
 $string['student_edit_student_lastname'] = 'Last Name';
@@ -209,7 +210,6 @@ $string['student_edit_student_dorm'] = 'Dorm';
 $string['student_edit_student_room'] = 'Room';
 $string['student_edit_student_phonenumber'] = 'Phone Number';
 $string['student_edit_student_birthday'] = 'Birthday';
-
 $string['student_edit_permissions_overnight'] = 'Overnight';
 $string['student_edit_permissions_overnight_Parent'] = 'Parent';
 $string['student_edit_permissions_overnight_Host'] = 'Host';
@@ -232,7 +232,6 @@ $string['student_edit_permissions_boatallowed'] = 'Allowed in Boats?';
 
 // Parent Edit.
 $string['parent_edit_header_parent'] = 'Parent Information';
-
 $string['parent_edit_parent_student'] = 'Child';
 $string['parent_edit_parent_name'] = 'Parent Name';
 $string['parent_edit_parent_isprimary'] = 'Primary Parent?';
@@ -244,7 +243,6 @@ $string['parent_edit_parent_email'] = 'Parent Email';
 
 // Faculty Edit.
 $string['faculty_edit_header_faculty'] = 'Faculty Information';
-
 $string['faculty_edit_faculty_firstname'] = 'First Name';
 $string['faculty_edit_faculty_middlename'] = 'Middle Name';
 $string['faculty_edit_faculty_lastname'] = 'Last Name';
@@ -258,7 +256,6 @@ $string['faculty_edit_faculty_advisoryclosing'] = 'Advisory Closing';
 
 // Dorm Edit.
 $string['dorm_edit_header_dorm'] = 'Dorm Information';
-
 $string['dorm_edit_dorm_name'] = 'Name';
 $string['dorm_edit_dorm_abbreviation'] = 'Abbreviation';
 $string['dorm_edit_dorm_hoh'] = 'Head of House';
@@ -274,7 +271,7 @@ $string['dorm_edit_dorm_gender_All'] = 'All';
 $string['dorm_edit_dorm_available'] = 'Available';
 
 
-/* Check-In Sheets. */
+/* Check-In Sheets and Weekend Forms. */
 $string['checkin'] = 'Check-In Sheets and Weekend Forms';
 $string['checkin_preferences'] = 'Check-In Sheets Preferences';
 $string['generic_report'] = 'Check-In Sheet';
@@ -306,6 +303,7 @@ $string['checkin_preferences_text_bottominstructions'] = 'Bottom instucrtions';
 
 // Generic Check-in Sheet.
 $string['generic_report_title'] = '{$a}Check-In Sheet for __________';
+
 $string['generic_report_header_student'] = 'Name';
 $string['generic_report_header_dorm'] = 'Dorm';
 $string['generic_report_header_room'] = 'Room #';
@@ -314,6 +312,7 @@ $string['generic_report_header_checkin'] = '&emsp;&emsp;';
 
 // Weekday Check-in Sheet.
 $string['weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
+
 $string['weekday_report_header_student'] = 'Name';
 $string['weekday_report_header_dorm'] = 'Dorm';
 $string['weekday_report_header_room'] = 'Room #';
@@ -339,7 +338,6 @@ $string['weekend_form_error_indifferentweekends'] = 'You must select a return da
 
 // Weekend Check-in Sheet.
 $string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend} ({$a->type})';
-$string['weekend_report_select_submitted_all'] = 'All';
 $string['weekend_report_select_submitted_true'] = 'Weekend Form';
 $string['weekend_report_select_submitted_false'] = 'No Weekend Form';
 $string['weekend_report_add'] = 'New Weekend Form';
@@ -363,25 +361,27 @@ $string['weekend_comment_form_comment'] = 'Comments';
 
 // Weekend Calculator.
 $string['weekend_calculator_report_title'] = 'Weekend Calculator{$a}';
+
 $string['weekend_calculator_report_header_student'] = 'Name';
 $string['weekend_calculator_report_header_grade'] = 'Grade';
 $string['weekend_calculator_report_header_total'] = 'Total';
 $string['weekend_calculator_report_header_allowed'] = 'Allowed';
-$string['weekend_report_abbreviation_offcampus'] = 'X';
-$string['weekend_report_abbreviation_free'] = 'free';
-$string['weekend_report_abbreviation_closed'] = 'camp';
-$string['weekend_report_abbreviation_unlimited'] = 'ALL';
 
-$string['weekend_report_legend_0_left'] = 'No weekends left';
-$string['weekend_report_legend_1_left'] = '1 weekend left';
-$string['weekend_report_legend_2_left'] = '2 weekends left';
-$string['weekend_report_legend_3_left'] = '3+ weekends left';
-$string['weekend_report_legend_offcampus'] = 'Student Off Campus';
-$string['weekend_report_legend_free'] = 'Free weekend';
-$string['weekend_report_legend_closed'] = 'Campus weekend';
+$string['weekend_calculator_abbreviation_offcampus'] = 'X';
+$string['weekend_calculator_abbreviation_free'] = 'free';
+$string['weekend_calculator_abbreviation_closed'] = 'camp';
+$string['weekend_calculator_abbreviation_unlimited'] = 'ALL';
+
+$string['weekend_calculator_legend_0_left'] = 'No weekends left';
+$string['weekend_calculator_legend_1_left'] = '1 weekend left';
+$string['weekend_calculator_legend_2_left'] = '2 weekends left';
+$string['weekend_calculator_legend_3_left'] = '3+ weekends left';
+$string['weekend_calculator_legend_offcampus'] = 'Student Off Campus';
+$string['weekend_calculator_legend_free'] = 'Free weekend';
+$string['weekend_calculator_legend_closed'] = 'Campus weekend';
 
 
-/* Driving */
+/* Driving and eSignout. */
 $string['driving'] = 'Driving and eSignout';
 $string['esignout_preferences'] = 'eSignout Preferences';
 $string['vehicle_report'] = 'Registered Student Vehicles Report';
@@ -445,8 +445,6 @@ $string['esignout_form_details_approver'] = 'Face-to-Face Permission Granted by'
 
 $string['esignout_form_passengers_noselection'] = 'No Passengers Selected';
 $string['esignout_form_passengers_placeholder'] = 'Search Passengers';
-$string['esignout_form_driver_default'] = 'Select';
-$string['esignout_form_approver_default'] = 'Select';
 
 $string['esignout_form_error_notype'] = 'You must specify a driver type.';
 $string['esignout_form_error_nodriver'] = 'You must specify a driver.';
@@ -474,7 +472,6 @@ $string['esignout_report_header_approver'] = 'Permission From';
 $string['esignout_report_header_signin'] = 'Sign In Time';
 
 $string['esignout_report_nopassengers'] = 'None';
-$string['sign_in_button'] = 'Sign In';
 
 
 /* Advisor Selection. */
@@ -509,16 +506,12 @@ $string['advisor_form_options_option4'] = 'Fourth Choice';
 $string['advisor_form_options_option5'] = 'Fifth Choice';
 $string['advisor_form_deans_selected'] = 'Chosen Advisor';
 
-$string['advisor_form_faculty_default'] = 'Select';
-
 $string['advisor_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';
 $string['advisor_form_error_incomplete'] = 'You must either select five choices, or you current advisor must be your final choice.';
 
 // Advisor Selection Report.
-$string['advisor_selection_report_select_submitted_all'] = 'All';
 $string['advisor_selection_report_select_submitted_true'] = 'Submitted';
 $string['advisor_selection_report_select_submitted_false'] = 'Not Submitted';
-$string['advisor_selection_report_select_keepcurrent_all'] = 'All';
 $string['advisor_selection_report_select_keepcurrent_true'] = 'Keeping Current Advisor';
 $string['advisor_selection_report_select_keepcurrent_false'] = 'Changing Advisor';
 $string['advisor_selection_report_add'] = 'New Advisor Selection Form';
@@ -561,9 +554,6 @@ $string['rooming_form_requests_dormmate1'] = 'Request 3 Dormmates from Your Grad
 $string['rooming_form_requests_dormmate4'] = 'Request 3 Dormmates from Any Grade';
 $string['rooming_form_requests_roommate'] = 'Preferred Roommate';
 
-$string['rooming_form_roomtype_default'] = 'Select';
-$string['rooming_form_roomable_default'] = 'Select';
-
 $string['rooming_form_error_noliveddouble'] = 'You must specify whether you have lived in a double.';
 $string['rooming_form_error_noroomtype'] = 'You must specify a room type.';
 $string['rooming_form_error_gradedormmates'] = 'You must request three dormmates from your grade.';
@@ -571,14 +561,12 @@ $string['rooming_form_error_dormmates'] = 'You must request three dormmates from
 $string['rooming_form_error_roommate'] = 'You must select a preferred roommate.';
 
 // Rooming Report.
-$string['rooming_report_select_submitted_all'] = 'All';
 $string['rooming_report_select_submitted_true'] = 'Submitted';
 $string['rooming_report_select_submitted_false'] = 'Not Submitted';
-$string['rooming_report_select_gender_all'] = 'All';
-$string['rooming_report_select_gender_m'] = 'Boys';
-$string['rooming_report_select_gender_f'] = 'Girls';
-$string['rooming_report_select_roomtype_all'] = 'All';
-$string['rooming_report_select_double_all'] = 'All';
+$string['rooming_report_select_gender_all'] = 'All Genders';
+$string['rooming_report_select_gender_M'] = 'Boys';
+$string['rooming_report_select_gender_F'] = 'Girls';
+$string['rooming_report_select_roomtype_all'] = 'All Room Types';
 $string['rooming_report_select_double_true'] = 'Has Lived in Double';
 $string['rooming_report_select_double_false'] = 'Has Not Lived in Double';
 $string['rooming_report_add'] = 'New Rooming Requests Form';

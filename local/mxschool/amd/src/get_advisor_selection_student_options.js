@@ -80,7 +80,7 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                 keepcurrentDiv.show();
             }
 
-            $.when(str.get_string('advisor_form_faculty_default', 'local_mxschool')).done(function(text) {
+            $.when(str.get_string('form_select_default', 'local_mxschool')).done(function(text) {
                 data.available.splice(data.available.findIndex(function(advisor) {
                     return advisor.userid === data.current.userid;
                 }), 1);

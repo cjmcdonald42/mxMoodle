@@ -40,12 +40,23 @@ class rooming_table extends local_mxschool_table {
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Rooming Requests', 'Rooming Requests');
         $columns = array('student', 'grade', 'gender', 'dorm', 'liveddouble', 'roomtype', 'dormmates', 'roommate');
+        if ($filter->gender !== '') {
+            unset($columns[array_search('gender', $columns)]);
+        }
+        if ($filter->roomtype !== '') {
+            unset($columns[array_search('roomtype', $columns)]);
+        }
+        if ($filter->double !== '') {
+            unset($columns[array_search('liveddouble', $columns)]);
+        }
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("rooming_report_header_{$column}", 'local_mxschool');
         }
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        if (!$this->is_downloading()) {
+            $columns[] = 'actions';
+            $headers[] = get_string('report_header_actions', 'local_mxschool');
+        }
         $fields = array(
             's.id', 'u.id AS userid', 'r.id AS rid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
             'u.alternatename', 's.grade', 's.gender', 'd.name AS dorm', 'r.has_lived_in_double AS liveddouble',
@@ -118,7 +129,7 @@ class rooming_table extends local_mxschool_table {
                 )." ({$values->{"d{$i}grade"}})"
             ) : '';
         }
-        return implode('<br>', $dormmates);
+        return implode($this->is_downloading() ? "\n" : '<br>', $dormmates);
     }
 
     /**

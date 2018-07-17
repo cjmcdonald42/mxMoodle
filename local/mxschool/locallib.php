@@ -405,7 +405,7 @@ function get_passenger_list() {
  */
 function get_current_driver_list($ignore = 0) {
     global $DB;
-    $list = array(0 => get_string('esignout_form_driver_default', 'local_mxschool'));
+    $list = array(0 => get_string('form_select_default', 'local_mxschool'));
     $today = new DateTime('midnight', core_date::get_server_timezone_object());
     $drivers = $DB->get_records_sql(
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_esignout} es
