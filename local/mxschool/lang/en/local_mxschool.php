@@ -90,17 +90,23 @@ $string['rooming_index'] = 'Rooming Index';
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Events.
-$string['event_page_visited'] = 'page visited event';
+$string['event_page_viewed'] = 'mxschool page viewed';
+$string['event_record_created'] = 'mxschool record created';
+$string['event_record_updated'] = 'mxschool record updated';
+$string['event_record_deleted'] = 'mxschool record deleted';
+$string['event_email_sent'] = 'mxschool email notification sent';
 
 // Notifications.
 $string['student_edit_success'] = 'Student Record Updated Successfully';
 $string['parent_edit_success'] = 'Parent Record Updated Successfully';
 $string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
+$string['dorm_create_success'] = 'Dorm Record Created Successfully';
 $string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 $string['weekend_form_success'] = 'Weekend Form Submitted Successfully';
 $string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
 $string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
+$string['vehicle_create_success'] = 'Vehicle Record Created Successfully';
 $string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
 $string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Preferences Saved Successfully';

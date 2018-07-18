@@ -91,9 +91,8 @@ if ($form->is_cancelled()) {
     update_notification('weekend_form_approved', $data->approvedsubject, $data->approvedbody);
     set_config('weekend_form_instructions_top', $data->top['text'], 'local_mxschool');
     set_config('weekend_form_instructions_bottom', $data->bottom['text'], 'local_mxschool');
-    redirect(
-        $form->get_redirect(), get_string('checkin_preferences_edit_success', 'local_mxschool'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('checkin_preferences_edit_success', 'local_mxschool'), 'update'
     );
 }
 

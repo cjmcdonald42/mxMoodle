@@ -26,7 +26,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/classes/events/page_visited.php');
+require_once(__DIR__.'/classes/event/page_viewed.php');
+require_once(__DIR__.'/classes/event/record_updated.php');
+require_once(__DIR__.'/classes/event/record_deleted.php');
 
 /**
  * Sets the url, title, heading, context, layout, and navbar of a page as well as logging that the page was visited.
@@ -58,8 +60,36 @@ function setup_generic_page($url, $title) {
     $PAGE->set_title($title);
     $PAGE->set_heading($title);
 
-    $event = \local_mxschool\event\page_visited::create(array('other' => array('page' => $title)));
-    $event->trigger();
+    \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
+}
+
+/**
+ * Redirects the user with a notification and logs the event of the redirect.
+ *
+ * @param moodle_url $url The url to redirect to.
+ * @param string $notification The localized text to display on the notification.
+ * @param string $type The type of the event to be logged - either create, update, or delete.
+ */
+function logged_redirect($url, $notification, $type, $success = true) {
+    global $PAGE;
+    if ($success) {
+        switch($type) {
+            case 'create':
+                \local_mxschool\event\record_created::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                break;
+            case 'update':
+                \local_mxschool\event\record_updated::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                break;
+            case 'delete':
+                \local_mxschool\event\record_deleted::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                break;
+            default:
+                debugging("Invalid event type: {$type}", DEBUG_DEVELOPER);
+        }
+    }
+    redirect(
+        $url, $notification, null, $success ? \core\output\notification::NOTIFY_SUCCESS : \core\output\notification::NOTIFY_WARNING
+    );
 }
 
 /**

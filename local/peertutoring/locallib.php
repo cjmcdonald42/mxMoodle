@@ -26,6 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/../mxschool/locallib.php');
+
 /**
  * Determines whether the user has a record in the tutor table of the database.
  *
@@ -43,14 +45,8 @@ function user_is_tutor() {
  */
 function get_department_list() {
     global $DB;
-    $list = array();
     $departments = $DB->get_records_sql("SELECT id, name FROM {local_peertutoring_dept} WHERE deleted = 0 ORDER BY name");
-    if ($departments) {
-        foreach ($departments as $department) {
-            $list[$department->id] = $department->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($departments);
 }
 
 /**
@@ -72,11 +68,7 @@ function get_tutor_department_list($userid) {
             $departments = $DB->get_records_sql(
                 "SELECT id, name FROM {local_peertutoring_dept} WHERE deleted = 0 AND $wherestring ORDER BY name"
             );
-            if ($departments) {
-                foreach ($departments as $department) {
-                    $list[$department->id] = $department->name;
-                }
-            }
+            $list += convert_records_to_list($departments);
         }
     }
     return $list;
@@ -89,14 +81,8 @@ function get_tutor_department_list($userid) {
  */
 function get_course_list() {
     global $DB;
-    $list = array();
     $courses = $DB->get_records_sql("SELECT id, name FROM {local_peertutoring_course} WHERE deleted = 0 ORDER BY name");
-    if ($courses) {
-        foreach ($courses as $course) {
-            $list[$course->id] = $course->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($courses);
 }
 
 /**
@@ -107,17 +93,11 @@ function get_course_list() {
  */
 function get_department_course_list($departmentid) {
     global $DB;
-    $list = array(0 => get_string('form_select_default', 'local_mxschool'));
     $courses = $DB->get_records_sql(
         "SELECT id, name FROM {local_peertutoring_course} WHERE deleted = 0 AND departmentid = ? ORDER BY name",
         array($departmentid)
     );
-    if ($courses) {
-        foreach ($courses as $course) {
-            $list[$course->id] = $course->name;
-        }
-    }
-    return $list;
+    return array(0 => get_string('form_select_default', 'local_mxschool')) + convert_records_to_list($courses);
 }
 
 /**
@@ -127,14 +107,8 @@ function get_department_course_list($departmentid) {
  */
 function get_type_list() {
     global $DB;
-    $list = array();
-    $types = $DB->get_records_sql("SELECT id, displaytext FROM {local_peertutoring_type} WHERE deleted = 0");
-    if ($types) {
-        foreach ($types as $type) {
-            $list[$type->id] = $type->displaytext;
-        }
-    }
-    return $list;
+    $types = $DB->get_records_sql("SELECT id, displaytext AS name FROM {local_peertutoring_type} WHERE deleted = 0");
+    return convert_records_to_list($types);
 }
 
 /**
@@ -144,16 +118,10 @@ function get_type_list() {
  */
 function get_rating_list() {
     global $DB;
-    $list = array();
     $ratings = $DB->get_records_sql(
-        "SELECT id, displaytext FROM {local_peertutoring_rating} WHERE deleted = 0 ORDER BY displaytext"
+        "SELECT id, displaytext AS name FROM {local_peertutoring_rating} WHERE deleted = 0 ORDER BY displaytext"
     );
-    if ($ratings) {
-        foreach ($ratings as $rating) {
-            $list[$rating->id] = $rating->displaytext;
-        }
-    }
-    return $list;
+    return convert_records_to_list($ratings);
 }
 
 /**
@@ -163,17 +131,11 @@ function get_rating_list() {
  */
 function get_tutor_list() {
     global $DB;
-    $list = array();
     $tutors = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_peertutoring_tutor} t LEFT JOIN {user} u ON t.userid = u.id WHERE u.deleted = 0 ORDER BY name"
     );
-    if ($tutors) {
-        foreach ($tutors as $tutor) {
-            $list[$tutor->id] = $tutor->name;
-        }
-    }
-    return $list;
+    return convert_records_to_list($tutors);
 }
 
 /**

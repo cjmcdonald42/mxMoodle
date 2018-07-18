@@ -39,8 +39,8 @@ class mx_notifications {
      */
     public static function send_email($emailclass, $params = array()) {
         global $DB, $CFG;
-        $notification = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
         $supportuser = core_user::get_support_user();
+        $notification = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
         if (!$notification) {
             return false;
         }
@@ -184,6 +184,7 @@ class mx_notifications {
             default:
                 return false;
         }
+        \local_mxschool\event\email_sent::create(array('other' => array('emailclass' => $emailclass)))->trigger();
         return self::email_all($emailto, $subject, $body);
     }
 

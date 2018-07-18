@@ -61,6 +61,7 @@ if (!isset($types[$type])) {
 }
 if ($type === 'parents' && $action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_parent', array('id' => $id));
+    $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
     if ($record) {
         $record->deleted = 1;
         if ($record->is_primary_parent === 'Yes') { // Each student must have a primary parent.
@@ -75,14 +76,12 @@ if ($type === 'parents' && $action === 'delete' && $id) {
             }
         }
         $DB->update_record('local_mxschool_parent', $record);
-        redirect(
-            new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)),
-            get_string('parent_delete_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('parent_delete_success', 'local_mxschool'), 'delete'
         );
     } else {
-        redirect(
-            new moodle_url($url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search)),
-            get_string('parent_delete_failure', 'local_mxschool'), null, \core\output\notification::NOTIFY_WARNING
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('parent_delete_failure', 'local_mxschool'), 'delete', false
         );
     }
 }

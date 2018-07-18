@@ -124,9 +124,8 @@ if ($form->is_cancelled()) {
         $data->selected = 0;
     }
     update_record($queryfields, $data);
-    redirect(
-        $form->get_redirect(), get_string('advisor_selection_success', 'local_mxschool'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('advisor_selection_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

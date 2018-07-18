@@ -37,10 +37,15 @@ $string['peertutoring:enter_tutoring'] = 'Middlesex School Peer Tutoring: Create
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Notifications.
+$string['tutor_create_success'] = 'Tutor Record Created Successfully';
 $string['tutor_edit_success'] = 'Tutor Record Updated Successfully';
+$string['department_create_success'] = 'Department Record Created Successfully';
 $string['department_edit_success'] = 'Department Record Updated Successfully';
+$string['course_create_success'] = 'Course Record Created Successfully';
 $string['course_edit_success'] = 'Course Record Updated Successfully';
+$string['type_create_success'] = 'Type Record Created Successfully';
 $string['type_edit_success'] = 'Type Record Updated Successfully';
+$string['rating_create_success'] = 'Effectiveness Rating Record Created Successfully';
 $string['rating_edit_success'] = 'Effectiveness Rating Record Updated Successfully';
 $string['tutoring_form_success'] = 'Tutoring Form Updated Successfully';
 

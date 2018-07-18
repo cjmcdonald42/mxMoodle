@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Event for Middlesex School's Dorm and Student functions plugin that is triggered whenever a page is visited.
+ * Event for Middlesex School's Dorm and Student functions plugin that is triggered whenever a record is updated.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,40 +24,40 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool\event;
-
 defined('MOODLE_INTERNAL') || die;
+
+namespace local_mxschool\event;
 
 use \core\event\base;
 use \context_system;
 
-class page_visited extends base {
+class record_updated extends base {
 
     /**
-     * Initializes a page_visited event.
+     * Initializes a record_updated event.
      */
     protected function init() {
-        $this->data['crud'] = 'r';
+        $this->data['crud'] = 'u';
         $this->data['edulevel'] = self::LEVEL_OTHER;
         $this->context = context_system::instance();
     }
 
     /**
-     * Retrieves the localized name of page_visited events.
+     * Retrieves the localized name of record_updated events.
      *
      * @return string the name of the event.
      */
     public static function get_name() {
-        return get_string('event_page_visited', 'local_mxschool');
+        return get_string('event_record_updated', 'local_mxschool');
     }
 
     /**
-     * Retrieves the unlocalized description of this page_visited event.
+     * Retrieves the unlocalized description of the record_updated event.
      *
      * @return string the description of the event.
      */
     public function get_description() {
-        return "The user with id '{$this->userid}' visited page '{$this->other->page}'.";
+        return "The user with id '{$this->userid}' updated a record on the page '{$this->data['other']['page']}'.";
     }
 
 }

@@ -60,9 +60,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_notification('rooming_notify_unsubmitted', $data->subject, $data->body);
     set_config('rooming_form_roommate_instructions', $data->roommateinstructions['text'], 'local_mxschool');
-    redirect(
-        $form->get_redirect(), get_string('rooming_preferences_edit_success', 'local_mxschool'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('rooming_preferences_edit_success', 'local_mxschool'), 'update'
     );
 }
 

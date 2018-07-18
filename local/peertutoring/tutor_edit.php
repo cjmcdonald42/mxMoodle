@@ -55,8 +55,9 @@ if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id))) {
 }
 
 $data = get_record($queryfields, "t.id = ?", array($id));
-$data->departments = json_decode($data->departments);
-if (!isset($data->id)) {
+if (isset($data->id)) {
+    $data->departments = json_decode($data->departments);
+} else {
     $data->id = $id;
 }
 
@@ -72,9 +73,9 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $data->departments = json_encode($data->departments);
     update_record($queryfields, $data);
-    redirect(
-        $form->get_redirect(), get_string('tutor_edit_success', 'local_peertutoring'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), $data->id ? get_string('tutor_edit_success', 'local_peertutoring')
+        : get_string('tutor_create_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
     );
 }
 

@@ -78,9 +78,8 @@ if ($form->is_cancelled()) {
     set_config('esignout_notification_warning_parent', $data->parent['text'], 'local_mxschool');
     set_config('esignout_notification_warning_specific', $data->specific['text'], 'local_mxschool');
     set_config('esignout_notification_warning_over21', $data->over21['text'], 'local_mxschool');
-    redirect(
-        $form->get_redirect(), get_string('esignout_preferences_edit_success', 'local_mxschool'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('esignout_preferences_edit_success', 'local_mxschool'), 'update'
     );
 }
 

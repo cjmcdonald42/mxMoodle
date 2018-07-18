@@ -102,9 +102,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
     update_record($queryfields, $data);
-    redirect(
-        $form->get_redirect(), get_string('rooming_success', 'local_mxschool'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('rooming_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

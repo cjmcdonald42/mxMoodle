@@ -62,14 +62,12 @@ if ($action === 'delete' && $id) {
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_peertutoring_session', $record);
-        redirect(
-            new moodle_url($url, $urlparams), get_string('session_delete_success', 'local_peertutoring'), null,
-            \core\output\notification::NOTIFY_SUCCESS
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('session_delete_success', 'local_peertutoring'), 'delete'
         );
     } else {
-        redirect(
-            new moodle_url($url, $urlparams), get_string('session_delete_failure', 'local_peertutoring'), null,
-            \core\output\notification::NOTIFY_WARNING
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('session_delete_failure', 'local_peertutoring'), 'delete', false
         );
     }
 }

@@ -113,8 +113,8 @@ if ($form->is_cancelled()) {
         $DB->update_record('local_mxschool_weekend_form', $oldrecord);
     }
     $result = mx_notifications::send_email('weekend_form_submitted', array('id' => $id));
-    redirect(
-        $form->get_redirect(), get_string('weekend_form_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('weekend_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

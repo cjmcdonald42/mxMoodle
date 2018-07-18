@@ -61,9 +61,9 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
-    redirect(
-        $form->get_redirect(), get_string('department_edit_success', 'local_peertutoring'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), $data->id ? get_string('department_edit_success', 'local_peertutoring')
+        : get_string('department_create_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
     );
 }
 

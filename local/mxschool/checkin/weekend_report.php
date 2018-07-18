@@ -64,14 +64,12 @@ if ($action === 'delete' && $id) {
     if ($record) {
         $record->active = 0;
         $DB->update_record('local_mxschool_weekend_form', $record);
-        redirect(
-            new moodle_url($url, $urlparams), get_string('weekend_form_delete_success', 'local_mxschool'), null,
-            \core\output\notification::NOTIFY_SUCCESS
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('weekend_form_delete_success', 'local_mxschool'), 'delete'
         );
     } else {
-        redirect(
-            new moodle_url($url, $urlparams), get_string('weekend_form_delete_failure', 'local_mxschool'), null,
-            \core\output\notification::NOTIFY_WARNING
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('weekend_form_delete_failure', 'local_mxschool'), 'delete', false
         );
     }
 }
@@ -104,9 +102,8 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
-    redirect(
-        $form->get_redirect(), get_string('weekend_comment_form_success', 'local_mxschool'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('weekend_comment_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

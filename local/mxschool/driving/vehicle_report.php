@@ -48,17 +48,16 @@ setup_mxschool_page($url, $title, $parents);
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_vehicle', array('id' => $id));
+    $urlparams = array('search' => $search);
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_mxschool_vehicle', $record);
-        redirect(
-            new moodle_url($url, array('search' => $search)), get_string('vehicle_delete_success', 'local_mxschool'), null,
-            \core\output\notification::NOTIFY_SUCCESS
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('vehicle_delete_success', 'local_mxschool'), 'delete'
         );
     } else {
-        redirect(
-            new moodle_url($url, array('search' => $search)), get_string('vehicle_delete_failure', 'local_mxschool'), null,
-            \core\output\notification::NOTIFY_WARNING
+        logged_redirect(
+            new moodle_url($url, $urlparams), get_string('vehicle_delete_failure', 'local_mxschool'), 'delete', false
         );
     }
 }

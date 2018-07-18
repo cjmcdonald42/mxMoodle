@@ -99,9 +99,8 @@ if ($form->is_cancelled()) {
         unset($data->type_other);
     }
     update_record($queryfields, $data);
-    redirect(
-        $form->get_redirect(), get_string('tutoring_form_success', 'local_peertutoring'), null,
-        \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('tutoring_form_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
     );
 }
 

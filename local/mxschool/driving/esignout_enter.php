@@ -151,12 +151,13 @@ if ($form->is_cancelled()) {
     ) : null;
     $id = update_record($queryfields, $data);
     if ($data->type_select !== 'Passenger') { // For a driver, parent, or other record, the id and driverid should be the same.
-        $data->id = $data->driver = $id;
-        $id = update_record($queryfields, $data);
+        $record = $DB->get_record('local_mxschool_esignout', array('id' => $id));
+        $record->driverid = $id;
+        $DB->update_record('local_mxschool_esignout', $record);
     }
     $result = mx_notifications::send_email('esignout_submitted', array('id' => $id));
-    redirect(
-        $form->get_redirect(), get_string('esignout_success', 'local_mxschool'), null, \core\output\notification::NOTIFY_SUCCESS
+    logged_redirect(
+        $form->get_redirect(), get_string('esignout_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
