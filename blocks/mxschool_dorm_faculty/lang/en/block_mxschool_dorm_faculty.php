@@ -17,18 +17,20 @@
 /**
  * English language strings for Middlesex School's Dean's Block for the Student Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_dorm_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['blockname'] = 'Middlesex';
-$string['mxschool:add_deans_block'] = 'Middlesex School: Add Deans Block';
-$string['mxschool:myadd_deans_block'] = 'Middlesex School: Add Deans Block to Dashboard';
+$string['blockname'] = 'Dorm Faculty Menu';
+$string['mxschool:add_dorm_block'] = 'Middlesex School: Add Dorm Faculty Block';
+$string['mxschool:myadd_dorm_block'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';
 
-$string['esignout'] = 'eSignout';
-$string['weekend_signout'] = 'Submit a Weekend Form';
-$string['advisor_selection'] = 'Advisor Selection Form';
-$string['rooming'] = 'Rooming Requests Form';
+$string['manage_student_data'] = 'Student Data Report';
+$string['esignout_report'] = 'eSignout Report';
+$string['checkin_sheet'] = 'Event Check-In Sheet';
+$string['weekly_checkin'] = 'Weekly Check-In Sheet';
+$string['weekend_checkin'] = 'Weekend Check-In Sheet';
+$string['weekend_calculator'] = 'Weekend Calculator';

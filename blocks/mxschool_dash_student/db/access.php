@@ -27,13 +27,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'block/mxschool:myaddinstance' => array(
+    'block/mxschool:add_deans_block' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
-    
-    'block/mxschool:addinstance' => array(
+
+    'block/mxschool:myadd_deans_block' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
