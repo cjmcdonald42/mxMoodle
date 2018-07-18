@@ -87,6 +87,7 @@ $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
 $string['driving_index'] = 'Driving and eSignout Index';
 $string['advisor_selection_index'] = 'Advisor Selection Index';
 $string['rooming_index'] = 'Rooming Index';
+$string['vacation_travel_index'] = 'Vacation Travel Index';
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Events.
@@ -392,7 +393,7 @@ $string['driving'] = 'Driving and eSignout';
 $string['esignout_preferences'] = 'eSignout Preferences';
 $string['vehicle_report'] = 'Registered Student Vehicles Report';
 $string['vehicle_edit'] = 'Edit Student Vehicle Record';
-$string['esignout'] = 'eSignout';
+$string['esignout'] = 'eSignout Form';
 $string['esignout_report'] = 'eSignout Report';
 
 // Preferences for eSignout.
@@ -586,3 +587,11 @@ $string['rooming_report_header_roomtype'] = 'Requested Room Type';
 $string['rooming_report_header_dormmates'] = 'Requested Dormmates';
 $string['rooming_report_header_liveddouble'] = 'Has Lived in a Double';
 $string['rooming_report_header_roommate'] = 'Preferred Roommate';
+
+
+/* Vacation Travel. */
+$string['vacation_travel'] = 'Vacation Travel';
+$string['vacation_travel_preferences'] = 'Vacation Travel Preferences';
+$string['vacation_travel_form'] = 'Vacation Travel Form';
+$string['vacation_travel_report'] = 'Vacation Travel Report';
+$string['vacation_travel_transportation_report'] = 'Vacation Travel Transportation Report';

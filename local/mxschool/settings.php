@@ -70,5 +70,10 @@ if ($hassiteconfig) {
         new lang_string('rooming_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/rooming/index.php")
     );
+    $ADMIN->add('indexes', new admin_externalpage(
+        'vacation_travel_index',
+        new lang_string('vacation_travel_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/vacation_travel/index.php")
+    );
 
 }
