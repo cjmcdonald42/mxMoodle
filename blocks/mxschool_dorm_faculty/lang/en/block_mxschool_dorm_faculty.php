@@ -24,6 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['pluginname'] = 'Dorm Faculty Block';
 $string['blockname'] = 'Dorm Faculty Menu';
 $string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Dorm Faculty Block';
 $string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';

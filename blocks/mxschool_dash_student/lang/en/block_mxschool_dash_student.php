@@ -24,6 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['pluginname'] = 'Student Dashboard Block';
 $string['blockname'] = 'Middlesex';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Deans Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';

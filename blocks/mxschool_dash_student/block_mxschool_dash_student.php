@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 
-class block_mxschool_dash_student extends block_list {
+class block_mxschool_dash_student extends block_base {
 
     public function init() {
         $this->title = get_string('blockname', 'block_mxschool_dash_student');
