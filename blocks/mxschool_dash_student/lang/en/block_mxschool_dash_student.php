@@ -25,8 +25,8 @@
  */
 
 $string['blockname'] = 'Middlesex';
-$string['mxschool:add_deans_block'] = 'Middlesex School: Add Deans Block';
-$string['mxschool:myadd_deans_block'] = 'Middlesex School: Add Deans Block to Dashboard';
+$string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Deans Block';
+$string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';
 
 $string['esignout'] = 'eSignout';
 $string['weekend_signout'] = 'Submit a Weekend Form';

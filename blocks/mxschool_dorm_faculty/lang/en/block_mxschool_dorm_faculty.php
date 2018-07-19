@@ -25,8 +25,8 @@
  */
 
 $string['blockname'] = 'Dorm Faculty Menu';
-$string['mxschool:add_dorm_block'] = 'Middlesex School: Add Dorm Faculty Block';
-$string['mxschool:myadd_dorm_block'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';
+$string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Dorm Faculty Block';
+$string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';
 
 $string['manage_student_data'] = 'Student Data Report';
 $string['esignout_report'] = 'eSignout Report';
