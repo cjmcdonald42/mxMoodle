@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Peer Tutoring';
+$string['pluginname'] = 'Peer Tutor Block';
 $string['blockname'] = 'Peer Tutoring';
 $string['mxschool_peertutoring:addinstance'] = 'Middlesex School: Add Peer Tutoring Menu';
 $string['mxschool_peertutoring:myaddinstance'] = 'Middlesex School: Add Peer Tutoring Menu to Dashboard';
