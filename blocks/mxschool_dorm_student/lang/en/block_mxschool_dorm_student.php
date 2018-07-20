@@ -15,27 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * English language strings for Middlesex School's Dean's Block for the Student Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_dorm_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Student Dorm Block';
+$string['blockname'] = 'Dorm Menu';
+$string['mxschool_dorm_student:addinstance'] = 'Middlesex School: Add Student Dorm Menu';
+$string['mxschool_dorm_student:myaddinstance'] = 'Middlesex School: Add Student Dorm Menu to Dashboard';
 
-$capabilities = array(
-    'block/mxschool_dash_student:addinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ),
-
-    'block/mxschool_dash_student:myaddinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    )
-);
+$string['weekend_submit'] = 'Submit a Weekend Form';
+$string['weekend_calc'] = 'View Weekend Calculator';

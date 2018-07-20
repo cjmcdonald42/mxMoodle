@@ -17,7 +17,7 @@
 /**
  * Middlesex School's Dean's Block for the Student Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_dorm_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -27,13 +27,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'block/mxschool_dash_student:addinstance' => array(
+    'block/mxschool_dorm_student:addinstance' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
 
-    'block/mxschool_dash_student:myaddinstance' => array(
+    'block/mxschool_dorm_student:myaddinstance' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM

@@ -15,27 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * English language strings for Middlesex School's Dorm Faculty Block for the Student Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_dorm_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Dorm Faculty Block';
+$string['blockname'] = 'Dorm Faculty Menu';
+$string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Dorm Faculty Block';
+$string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';
 
-$capabilities = array(
-    'block/mxschool_dash_student:addinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ),
+$string['checkin_sheet'] = 'Event';
+$string['weekday_checkin'] = 'Weekly';
+$string['weekend_checkin'] = 'Weekend';
+$string['weekend_calculator'] = 'Weekend Calculator';
 
-    'block/mxschool_dash_student:myaddinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    )
-);
+
+$string['esignout_report'] = 'eSignout Report';
+$string['vacation_report'] = 'Vacation Travel Report';
+$string['manage_student_data'] = 'Student Data Report';

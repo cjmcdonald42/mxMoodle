@@ -17,7 +17,7 @@
 /**
  * Middlesex School's Dean's Block for the Student Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_dorm_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -28,10 +28,10 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 
-class block_mxschool_dash_student extends block_base {
+class block_mxschool_dorm_student extends block_base {
 
     public function init() {
-        $this->title = get_string('pluginname', 'block_mxschool_dash_student');
+        $this->title = get_string('pluginname', 'block_mxschool_dorm_student');
     }
 
     public function get_content() {
@@ -43,10 +43,8 @@ class block_mxschool_dash_student extends block_base {
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\index(array(
           // Put any links in this array as displaytext => relative url.
-            get_string('esignout', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_enter.php',
-            get_string('advisor_selection', 'block_mxschool_dash_student') => '/local/mxschool/advisor_selection/advisor_enter.php',
-            get_string('rooming', 'block_mxschool_dash_student') => '/local/mxschool/rooming/rooming_enter.php',
-            get_string('vacation', 'block_mxschool_dash_student') => '/local/mxschool/vacation...'
+            get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
+            get_string('weekend_calc', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'
         ));
 
         $this->content = new stdClass();
@@ -57,6 +55,6 @@ class block_mxschool_dash_student extends block_base {
     }
 
     public function specialization() {
-        $this->title = get_string('blockname', 'block_mxschool_dash_student');
+        $this->title = get_string('blockname', 'block_mxschool_dorm_student');
     }
 }

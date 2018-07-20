@@ -15,27 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Middlesex School's Peer Tutoring Manager Block for the Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_manage_tutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Peer Tutoring Manager Block';
+$string['blockname'] = 'Manage Peer Tutoring';
+$string['mxschool_manage_tutoring:addinstance'] = 'Middlesex School: Add Peer Tutoring Manager Menu';
+$string['mxschool_manage_tutoring:myaddinstance'] = 'Middlesex School: Add Peer Tutoring Manager Menu to Dashboard';
 
-$capabilities = array(
-    'block/mxschool_dash_student:addinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ),
-
-    'block/mxschool_dash_student:myaddinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    )
-);
+$string['tutor_manage'] = 'Peer Tutoring Report';

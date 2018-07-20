@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Middlesex School's Peer Tutoring Manager Block for the Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_manage_tutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,16 +26,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
-    'block/mxschool_dash_student:addinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ),
-
-    'block/mxschool_dash_student:myaddinstance' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    )
-);
+$plugin->component = 'block_mxschool_manage_tutoring';
+$plugin->version = 2018072002;
+$plugin->release = 'v3.0';
+$plugin->requires = 2017111300; // Moodle 3.4+.
+$plugin->maturity = MATURITY_ALPHA;
+$plugin->dependencies = array('local_mxschool' => 2018071700); // Mxschool as dependency in order to use renderer.
