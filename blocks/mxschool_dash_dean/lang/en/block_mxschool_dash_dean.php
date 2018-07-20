@@ -15,20 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * English language strings for Middlesex School's Dean's Block for the Student Dashboard.
  *
- * @package    block_mxschool_dash_student
+ * @package    block_mxschool_dash_dean
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Deans Dashboard Block';
+$string['blockname'] = 'Middlesex';
+$string['mxschool_dash_dean:addinstance'] = 'Middlesex School: Add Deans Block';
+$string['mxschool_dash_dean:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';
 
-$plugin->component = 'block_mxschool_dash_student';
-$plugin->version = 2018072001;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->dependencies = array('local_mxschool' => 2018071700); // Mxschool as dependency in order to user renderer.
+$string['users_link'] = 'User Management';
+$string['checkin_link'] = 'Check-In Sheets, Weekend Forms';
+$string['esignout_link'] = 'eSignout System';
+$string['advisor_link'] = 'Advisor Selection Forms';
+$string['rooming_link'] = 'Rooming Forms';
+$string['vacation_link'] = 'Vacation Travel';

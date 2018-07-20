@@ -30,6 +30,6 @@ $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Deans Bloc
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';
 
 $string['esignout'] = 'eSignout';
-$string['weekend_signout'] = 'Submit a Weekend Form';
 $string['advisor_selection'] = 'Advisor Selection Form';
-$string['rooming'] = 'Rooming Requests Form';
+$string['rooming'] = 'Rooming Form';
+$string['vacation'] = 'Vacation Travel Form';

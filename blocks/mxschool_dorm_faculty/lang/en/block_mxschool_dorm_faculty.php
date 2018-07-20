@@ -29,9 +29,12 @@ $string['blockname'] = 'Dorm Faculty Menu';
 $string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Dorm Faculty Block';
 $string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';
 
-$string['manage_student_data'] = 'Student Data Report';
-$string['esignout_report'] = 'eSignout Report';
-$string['checkin_sheet'] = 'Event Check-In Sheet';
-$string['weekly_checkin'] = 'Weekly Check-In Sheet';
-$string['weekend_checkin'] = 'Weekend Check-In Sheet';
+$string['checkin_sheet'] = 'Event';
+$string['weekday_checkin'] = 'Weekly';
+$string['weekend_checkin'] = 'Weekend';
 $string['weekend_calculator'] = 'Weekend Calculator';
+
+
+$string['esignout_report'] = 'eSignout Report';
+$string['vacation_report'] = 'Vacation Travel Report';
+$string['manage_student_data'] = 'Student Data Report';
