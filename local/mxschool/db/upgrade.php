@@ -585,5 +585,78 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018071604, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018072000) {
+
+        // Define table local_mxschool_vt_site to be created.
+        $table = new xmldb_table('local_mxschool_vt_site');
+
+        // Adding fields to table local_mxschool_vt_site.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('name', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('type', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('enabled_departure', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
+        $table->add_field('enabled_return', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
+
+        // Adding keys to table local_mxschool_vt_site.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for local_mxschool_vt_site.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Define table local_mxschool_vt_transport to be created.
+        $table = new xmldb_table('local_mxschool_vt_transport');
+
+        // Adding fields to table local_mxschool_vt_transport.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('campus_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('mx_transportation', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('type', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('siteid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('site_other', XMLDB_TYPE_CHAR, '100', null, null, null, null);
+        $table->add_field('carrier', XMLDB_TYPE_CHAR, '100', null, null, null, null);
+        $table->add_field('transportation_number', XMLDB_TYPE_CHAR, '20', null, null, null, null);
+        $table->add_field('transportation_date_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('international', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
+
+        // Adding keys to table local_mxschool_vt_transport.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('site', XMLDB_KEY_FOREIGN, array('siteid'), 'local_mxschool_vt_site', array('id'));
+
+        // Conditionally launch create table for local_mxschool_vt_transport.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Define table local_mxschool_vt_trip to be created.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+
+        // Adding fields to table local_mxschool_vt_trip.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('departureid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('returnid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_vt_trip.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+        $table->add_key('departure', XMLDB_KEY_FOREIGN_UNIQUE, array('departureid'), 'local_mxschool_vt_transport', array('id'));
+        $table->add_key('return', XMLDB_KEY_FOREIGN_UNIQUE, array('returnid'), 'local_mxschool_vt_transport', array('id'));
+
+        // Conditionally launch create table for local_mxschool_vt_trip.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018072000, 'local', 'mxschool');
+    }
+
     return true;
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180716" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180720" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -211,6 +211,55 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_vt_site" COMMENT="mxschool vacation travel site table - stores the available sites for mx transportation.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the site record has been deleted and shouldn't be displayed."/>
+        <FIELD NAME="name" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the site."/>
+        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the site. {Plane, Train, Bus, NYC Direct Bus}"/>
+        <FIELD NAME="enabled_departure" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for departure transportation."/>
+        <FIELD NAME="enabled_return" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for return transportation."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_vt_transport" COMMENT="mxschool departure / return table - stores data associated with a student's departure or return transportation.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="campus_date_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the student is leaving or returning to campus."/>
+        <FIELD NAME="mx_transportation" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be using Middlesex transportation."/>
+        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of transportation {Car, Plane, Bus, Train, NYC Direct Bus, Non-MX Bus}."/>
+        <FIELD NAME="siteid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the site which the student is traveling to or from - 0 indicates an 'other' option."/>
+        <FIELD NAME="site_other" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text provided as an 'other' option for the site which the student is traveling to or from."/>
+        <FIELD NAME="carrier" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The carrier or company for the transportation."/>
+        <FIELD NAME="transportation_number" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The flight, train, or bus number of the transportation."/>
+        <FIELD NAME="transportation_date_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the transportation is departing or arriving."/>
+        <FIELD NAME="international" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether the departing flight is international or the student is clearing customs in Boston on the return flight."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="site" TYPE="foreign" FIELDS="siteid" REFTABLE="local_mxschool_vt_site" REFFIELDS="id" COMMENT="The site record for the site which the student is traveling to or from."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_vt_trip" COMMENT="mxschool vacation travel trip relational table - stores the data for a student's basic info and links to their departure and return records.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
+        <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the departure record associated with this record - 0 indicates no departure record."/>
+        <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the return record associated with this record - 0 indicates no return record."/>
+        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
+        <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="student" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
+        <KEY NAME="departure" TYPE="foreign-unique" FIELDS="departureid" REFTABLE="local_mxschool_vt_transport" REFFIELDS="id" COMMENT="The departure record associated with this record."/>
+        <KEY NAME="return" TYPE="foreign-unique" FIELDS="returnid" REFTABLE="local_mxschool_vt_transport" REFFIELDS="id" COMMENT="The return record associated with this record."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_weekend" COMMENT="mxschool weekend table - stores data associated with each weekend for use wuth weekend check-in reports and weekend forms.">
