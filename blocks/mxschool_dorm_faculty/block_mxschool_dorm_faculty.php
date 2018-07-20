@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm Faculty Block for the Student Dashboard.
+ * Middlesex School's Dean's Block for the Student Dashboard.
  *
  * @package    block_mxschool_dorm_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -31,7 +31,7 @@ require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 class block_mxschool_dorm_faculty extends block_base {
 
     public function init() {
-        $this->title = get_string('blockname', 'block_mxschool_dorm_faculty');
+        $this->title = get_string('pluginname', 'block_mxschool_dorm_faculty');
     }
 
     public function get_content() {
@@ -61,4 +61,9 @@ class block_mxschool_dorm_faculty extends block_base {
 
         return $this->content;
     }
+
+    public function specialization() {
+        $this->title = get_string('blockname', 'block_mxschool_dorm_faculty');
+    }
+
 }

@@ -31,7 +31,7 @@ require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 class block_mxschool_dorm_student extends block_base {
 
     public function init() {
-        $this->title = get_string('blockname', 'block_mxschool_dorm_student');
+        $this->title = get_string('pluginname', 'block_mxschool_dorm_student');
     }
 
     public function get_content() {
@@ -52,5 +52,9 @@ class block_mxschool_dorm_student extends block_base {
         $this->content->footer = ''; // Add a footer here if desired.
 
         return $this->content;
+    }
+
+    public function specialization() {
+        $this->title = get_string('blockname', 'block_mxschool_dorm_student');
     }
 }

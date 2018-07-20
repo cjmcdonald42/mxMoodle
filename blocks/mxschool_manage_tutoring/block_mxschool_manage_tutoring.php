@@ -31,7 +31,7 @@ require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 class block_mxschool_manage_tutoring extends block_base {
 
     public function init() {
-        $this->title = get_string('blockname', 'block_mxschool_manage_tutoring');
+        $this->title = get_string('pluginname', 'block_mxschool_manage_tutoring');
     }
 
     public function get_content() {
@@ -52,4 +52,9 @@ class block_mxschool_manage_tutoring extends block_base {
 
         return $this->content;
     }
+
+    public function specialization() {
+        $this->title = get_string('blockname', 'block_mxschool_manage_tutoring');
+    }
+
 }

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm Faculty Block for the Student Dashboard.
+ * Middlesex School's Dean's Block for the Student Dashboard.
  *
  * @package    block_mxschool_dorm_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dorm_faculty';
-$plugin->version = 2018072003;
+$plugin->version = 2018072004;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->dependencies = array('local_mxschool' => 2018071700); // Mxschool as dependency in order to user renderer.
+$plugin->dependencies = array('local_mxschool' => 2018071700); // Mxschool as dependency in order to use renderer.

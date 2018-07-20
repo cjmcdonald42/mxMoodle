@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_manage_tutoring';
-$plugin->version = 2018072001;
+$plugin->version = 2018072002;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->dependencies = array('local_mxschool' => 2018071700); // Mxschool as dependency in order to user renderer.
+$plugin->dependencies = array('local_mxschool' => 2018071700); // Mxschool as dependency in order to use renderer.
