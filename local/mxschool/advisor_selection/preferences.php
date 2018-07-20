@@ -83,5 +83,6 @@ $reportrenderable = new \local_mxschool\output\report($table, 50);
 echo $output->header();
 echo $output->heading($title);
 echo $output->render($formrenderable);
+echo $output->heading(get_string('faculty_report', 'local_mxschool'));
 echo $output->render($reportrenderable);
 echo $output->footer();

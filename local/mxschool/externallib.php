@@ -109,6 +109,9 @@ class local_mxschool_external extends external_api {
             case 'local_mxschool_faculty':
                 require_capability('local/mxschool:manage_faculty', context_system::instance());
                 break;
+            case 'local_mxschool_vt_site':
+                require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
+                break;
             default:
                 throw new moodle_exception('Invalid table.');
         }

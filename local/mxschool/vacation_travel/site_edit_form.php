@@ -15,9 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm and Student Functions Plugin.
+ * Form for editing vacation travel site data for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
+ * @subpackage vacation_travel
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,10 +27,27 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2018072005;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+require_once(__DIR__.'/../classes/mx_form.php');
+
+class site_edit_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $id = $this->_customdata['id'];
+
+        $typeoptions = array('Plane' => 'Plane', 'Train' => 'Train', 'Bus' => 'Bus', 'NYC Direct' => 'NYC Direct');
+
+        $fields = array(
+            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
+            'site' => array(
+                'name' => parent::ELEMENT_TEXT_REQUIRED,
+                'type' => array('element' => 'select', 'options' => $typeoptions, 'rules' => array('required')),
+                'departureenabled' => parent::ELEMENT_BOOLEAN_REQUIRED,
+                'returnenabled' => parent::ELEMENT_BOOLEAN_REQUIRED
+            )
+        );
+        parent::set_fields($fields, 'vacation_travel_site_edit');
+    }
+}

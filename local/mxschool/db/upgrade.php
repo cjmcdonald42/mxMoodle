@@ -658,5 +658,23 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018072000, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018072004) {
+        $sites = array(
+            array('name' => 'Logan', 'type' => 'Plane', 'enabled_departure' => 1, 'enabled_return' => 1),
+            array('name' => 'South Station', 'type' => 'Train', 'enabled_departure' => 1, 'enabled_return' => 1),
+            array('name' => '128 Westwood', 'type' => 'Train', 'enabled_departure' => 1, 'enabled_return' => 1),
+            array('name' => 'South Station', 'type' => 'Bus', 'enabled_departure' => 1, 'enabled_return' => 1),
+            array('name' => 'Stamford, CT', 'type' => 'NYC Direct', 'enabled_departure' => 1, 'enabled_return' => 1),
+            array('name' => 'Upper East Side (NYC)', 'type' => 'NYC Direct', 'enabled_departure' => 1, 'enabled_return' => 1),
+            array('name' => 'Penn Station', 'type' => 'NYC Direct', 'enabled_departure' => 1, 'enabled_return' => 1)
+        );
+        foreach ($sites as $site) {
+            $DB->insert_record('local_mxschool_vt_site', (object) $site);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018072004, 'local', 'mxschool');
+    }
+
     return true;
 }

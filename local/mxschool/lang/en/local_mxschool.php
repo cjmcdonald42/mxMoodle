@@ -72,6 +72,10 @@ $string['mxschool:manage_advisor_selection'] = 'Middlesex School: View and manag
 $string['mxschool:manage_advisor_selection_preferences'] = 'Middlesex School: View and manage advisor selection preferences';
 $string['mxschool:manage_rooming'] = 'Middlesex School: View and manage students\' rooming request records';
 $string['mxschool:manage_rooming_preferences'] = 'Middlesex School: View and manage rooming preferences';
+$string['mxschool:manage_vacation_travel'] = 'Middlesex School: View and manage students\' basic vacation travel records';
+$string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
+$string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
+
 
 // Settings Pages.
 $string['mxschool_category'] = 'Middlesex School';
@@ -114,6 +118,8 @@ $string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Prefe
 $string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
 $string['rooming_preferences_edit_success'] = 'Rooming Preferences Saved Successfully';
 $string['rooming_success'] = 'Rooming Form Submitted Successfully';
+$string['vacation_travel_create_success'] = 'Vacation Travel Site Record Created Successfully';
+$string['vacation_travel_edit_success'] = 'Vacation Travel Site Record Updated Successfully';
 
 $string['parent_delete_success'] = 'Parent Record Deleted Successfully';
 $string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
@@ -125,6 +131,8 @@ $string['vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
 $string['vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
 $string['esignout_delete_success'] = 'eSignout Record Deleted Successfully';
 $string['esignout_delete_failure'] = 'eSignout Record Not Found for Deletion';
+$string['vacation_travel_site_delete_success'] = 'Vacation Travel Site Record Deleted Successfully';
+$string['vacation_travel_site_delete_failure'] = 'Vacation Travel Site Record Not Found for Deletion';
 
 
 /* User Management. */
@@ -592,6 +600,25 @@ $string['rooming_report_header_roommate'] = 'Preferred Roommate';
 /* Vacation Travel. */
 $string['vacation_travel'] = 'Vacation Travel';
 $string['vacation_travel_preferences'] = 'Vacation Travel Preferences';
+$string['vacation_travel_site_report'] = 'Site Report';
+$string['vacation_travel_site_edit'] = 'Edit Site Record';
 $string['vacation_travel_form'] = 'Vacation Travel Form';
 $string['vacation_travel_report'] = 'Vacation Travel Report';
 $string['vacation_travel_transportation_report'] = 'Vacation Travel Transportation Report';
+
+// Vacation Travel Preferences.
+
+// Vacation Travel Site Report.
+$string['vacation_travel_site_report_add'] = 'New Site';
+
+$string['vacation_travel_site_report_header_name'] = 'Name';
+$string['vacation_travel_site_report_header_type'] = 'Type';
+$string['vacation_travel_site_report_header_departureenabled'] = 'Available for Departure';
+$string['vacation_travel_site_report_header_returnenabled'] = 'Available for Return';
+
+// Vacation Travel Site Edit.
+$string['vacation_travel_site_edit_header_site'] = 'Site Information';
+$string['vacation_travel_site_edit_site_name'] = 'Name';
+$string['vacation_travel_site_edit_site_type'] = 'Type';
+$string['vacation_travel_site_edit_site_departureenabled'] = 'Available for Departure';
+$string['vacation_travel_site_edit_site_returnenabled'] = 'Available for Return';
