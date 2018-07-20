@@ -213,14 +213,15 @@ class mx_notifications {
     private static function email_all($emailto, $subject, $body) {
         $supportuser = core_user::get_support_user();
         $result = true;
-        ob_start();
+        // ob_start();
         foreach ($emailto as $recipient) {
+            $recipient->email = 'jrdegreeff@mxschool.edu';
             $emailsubject = isset($recipient->replacements) ? self::replace($subject, $recipient->replacements) : $subject;
             $emailbody = isset($recipient->replacements) ? self::replace($body, $recipient->replacements) : $body;
-            echo "\n{$emailsubject}\n{$emailbody}\n{$recipient->lastname}, {$recipient->firstname} ({$recipient->email})\n";
-            // $result &= email_to_user($recipient, $supportuser, $emailsubject, '', $emailbody);
+            // echo "\n{$emailsubject}\n{$emailbody}\n{$recipient->lastname}, {$recipient->firstname} ({$recipient->email})\n";
+            $result &= email_to_user($recipient, $supportuser, $emailsubject, '', $emailbody);
         }
-        debugging(ob_get_clean(), DEBUG_DEVELOPER);
+        // debugging(ob_get_clean(), DEBUG_DEVELOPER);
         return $result;
     }
 
