@@ -67,8 +67,8 @@ if ($approvednotification) {
     $data->approvedsubject = $approvednotification->subject;
     $data->approvedbody['text'] = $approvednotification->body_html;
 }
-$data->top['text'] = get_config('local_mxschool', 'weekend_form_instructions_top');
-$data->bottom['text'] = get_config('local_mxschool', 'weekend_form_instructions_bottom');
+$data->topinstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_top');
+$data->bottominstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 
 $form = new preferences_form(array('weekends' => $weekends));
 $form->set_redirect($redirect);
@@ -89,8 +89,8 @@ if ($form->is_cancelled()) {
     }
     update_notification('weekend_form_submitted', $data->submittedsubject, $data->submittedbody);
     update_notification('weekend_form_approved', $data->approvedsubject, $data->approvedbody);
-    set_config('weekend_form_instructions_top', $data->top['text'], 'local_mxschool');
-    set_config('weekend_form_instructions_bottom', $data->bottom['text'], 'local_mxschool');
+    set_config('weekend_form_instructions_top', $data->topinstructions['text'], 'local_mxschool');
+    set_config('weekend_form_instructions_bottom', $data->bottominstructions['text'], 'local_mxschool');
     logged_redirect(
         $form->get_redirect(), get_string('checkin_preferences_edit_success', 'local_mxschool'), 'update'
     );
