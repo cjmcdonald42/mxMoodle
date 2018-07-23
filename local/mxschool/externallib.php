@@ -49,7 +49,6 @@ class local_mxschool_external extends external_api {
      */
     public static function get_dorm_students($dorm) {
         external_api::validate_context(context_system::instance());
-        require_capability('local/mxschool:manage_weekend', context_system::instance());
         $params = self::validate_parameters(self::get_dorm_students_parameters(), array('dorm' => $dorm));
 
         $list = get_dorm_student_list($params['dorm']);
@@ -157,11 +156,24 @@ class local_mxschool_external extends external_api {
      */
     public static function send_email($emailclass, $emailparams) {
         external_api::validate_context(context_system::instance());
-        // This may need to change in the future to make this function more reusable.
-        require_capability('local/mxschool:manage_weekend', context_system::instance());
         $params = self::validate_parameters(self::send_email_parameters(), array(
             'emailclass' => $emailclass, 'emailparams' => $emailparams
         ));
+        switch ($params['emailclass']) {
+            case 'weekend_form_approved':
+                require_capability('local/mxschool:manage_weekend', context_system::instance());
+                break;
+            case 'advisor_selection_notify_unsubmitted':
+            case 'advisor_selection_notify_results':
+                require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
+                break;
+            case 'rooming_notify_unsubmitted':
+                require_capability('local/mxschool:manage_rooming', context_system::instance());
+                break;
+            default:
+                throw new moodle_exception('Invalid email class.');
+        }
+
         return mx_notifications::send_email($params['emailclass'], $params['emailparams']);
     }
 
