@@ -59,7 +59,7 @@ $table = new vacation_table($filter);
 $dropdowns = array(
     new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool')),
     new local_mxschool_dropdown(
-        'submitted', $submittedoptions, $filter->submitted, $default = get_string('report_select_default', 'local_mxschool')
+        'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
 $addbutton = new stdClass();

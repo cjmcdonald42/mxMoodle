@@ -704,3 +704,44 @@ $string['vacation_travel_report_header_depdatetime'] = 'Departure Date and Time'
 $string['vacation_travel_report_header_deptype'] = 'Departure Type';
 $string['vacation_travel_report_header_retdatetime'] = 'Return Date and Time';
 $string['vacation_travel_report_header_rettype'] = 'Return Type';
+
+// Vacation Travel Transportation Report.
+$string['vacation_travel_transportation_report_view_departure'] = 'Departure';
+$string['vacation_travel_transportation_report_view_return'] = 'Return';
+$string['vacation_travel_transportation_report_select_type_all'] = 'All Types';
+$string['vacation_travel_transportation_report_select_type_Car'] = 'Car';
+$string['vacation_travel_transportation_report_select_type_Plane'] = 'Plane';
+$string['vacation_travel_transportation_report_select_type_Bus'] = 'Bus';
+$string['vacation_travel_transportation_report_select_type_Train'] = 'Train';
+$string['vacation_travel_transportation_report_select_type_NYCDirect'] = 'NYC Direct';
+$string['vacation_travel_transportation_report_select_type_Non-MXBus'] = 'Non-MX Bus';
+$string['vacation_travel_transportation_report_select_mxtransportation_true'] = 'School Transportation';
+$string['vacation_travel_transportation_report_select_mxtransportation_false'] = 'Not School Transportation';
+$string['vacation_travel_transportation_report_add'] = 'New Vacation Travel Form';
+
+$string['vacation_travel_transportation_report_departure_header_student'] = 'Student';
+$string['vacation_travel_transportation_report_departure_header_destination'] = 'Destination';
+$string['vacation_travel_transportation_report_departure_header_phone'] = 'Phone Number';
+$string['vacation_travel_transportation_report_departure_header_mxtransportation'] = 'School Transportation';
+$string['vacation_travel_transportation_report_departure_header_type'] = 'Type';
+$string['vacation_travel_transportation_report_departure_header_site'] = 'Airport / Station / Stop';
+$string['vacation_travel_transportation_report_departure_header_details'] = 'Details';
+$string['vacation_travel_transportation_report_departure_header_transportationdatetime'] = 'Transportation Date and Time';
+$string['vacation_travel_transportation_report_departure_header_carrier'] = 'Carrier / Company';
+$string['vacation_travel_transportation_report_departure_header_number'] = 'Flight / Bus / Train Number';
+$string['vacation_travel_transportation_report_departure_header_international'] = 'International Flight';
+$string['vacation_travel_transportation_report_departure_header_email'] = 'Email';
+$string['vacation_travel_transportation_report_return_header_student'] = 'Student';
+$string['vacation_travel_transportation_report_return_header_destination'] = 'Destination';
+$string['vacation_travel_transportation_report_return_header_phone'] = 'Phone Number';
+$string['vacation_travel_transportation_report_return_header_mxtransportation'] = 'School Transportation';
+$string['vacation_travel_transportation_report_return_header_type'] = 'Type';
+$string['vacation_travel_transportation_report_return_header_site'] = 'Airport / Station / Stop';
+$string['vacation_travel_transportation_report_return_header_details'] = 'Details';
+$string['vacation_travel_transportation_report_return_header_transportationdatetime'] = 'Transportation Date and Time';
+$string['vacation_travel_transportation_report_return_header_carrier'] = 'Carrier / Company';
+$string['vacation_travel_transportation_report_return_header_number'] = 'Transportation Number';
+$string['vacation_travel_transportation_report_return_header_international'] = 'Clearing Customs in Boston';
+$string['vacation_travel_transportation_report_return_header_email'] = 'Email';
+
+$string['vacation_travel_transportation_report_site_other'] = 'Other';

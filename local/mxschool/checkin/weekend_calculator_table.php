@@ -82,7 +82,7 @@ class weekend_calculator_table extends local_mxschool_table {
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id'
         );
         $where = array(
-            'u.deleted = 0', $isstudent ? "s.userid = $USER->id" : ($filter->dorm ? "s.dormid = $filter->dorm" : ''),
+            'u.deleted = 0', $isstudent ? "s.userid = $USER->id" : ($filter->dorm ? "s.dormid = {$filter->dorm}" : ''),
             "d.type = 'Boarding'"
         );
         $sortable = array('student', 'grade');

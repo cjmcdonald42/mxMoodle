@@ -58,11 +58,11 @@ class vacation_table extends local_mxschool_table {
             '{local_mxschool_vt_transport} rt ON t.returnid = rt.id'
         );
         $where = array(
-            'u.deleted = 0', $filter->dorm ? "s.dormid = $filter->dorm" : '', $filter->submitted === '1'
-            ? "EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)" : (
+            'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '',
+            $filter->submitted === '1' ? "EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)" : (
                 $filter->submitted === '0'
                 ? "NOT EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)" : ''
-            ), "s.boarding_status = 'Boarder'"
+            )
         );
         $sortable = array('student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
         $urlparams = array(

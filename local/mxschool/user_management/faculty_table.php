@@ -49,7 +49,7 @@ class faculty_table extends local_mxschool_table {
             'f.advisory_available AS advisoryavailable', 'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
-        $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
+        $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
         $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
         $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
         $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');

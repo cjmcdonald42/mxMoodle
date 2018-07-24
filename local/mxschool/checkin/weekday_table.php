@@ -62,7 +62,7 @@ class weekday_table extends local_mxschool_table {
             $fields[] = "'' AS late_$i";
         }
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $dorm ? "s.dormid = $dorm" : '', "d.type = 'Boarding'");
+        $where = array('u.deleted = 0', $dorm ? "s.dormid = {$dorm}" : '', "d.type = 'Boarding'");
         $sortable = array('student', 'dorm', 'room', 'grade');
         $urlparams = array('dorm' => $dorm);
         $centered = array('room', 'grade');
