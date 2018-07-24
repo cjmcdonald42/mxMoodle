@@ -82,7 +82,8 @@ $dropdowns = array(
         'roomtype', $roomtypeoptions, $filter->roomtype,
         $default = get_string('rooming_report_select_roomtype_all', 'local_mxschool')
     ), new local_mxschool_dropdown(
-        'double', $doubleoptions, $filter->double, $default = get_string('report_select_default', 'local_mxschool'))
+        'double', $doubleoptions, $filter->double, $default = get_string('report_select_default', 'local_mxschool')
+    )
 );
 $addbutton = new stdClass();
 $addbutton->text = get_string('rooming_report_add', 'local_mxschool');

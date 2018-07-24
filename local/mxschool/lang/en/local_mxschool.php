@@ -30,6 +30,7 @@ $string['pluginname'] = 'Middlesex School';
 $string['print'] = 'Print';
 $string['checkbox_saved'] = 'saved';
 $string['email_button_default'] = 'Send Email';
+$string['email_button_sending'] = 'Email Sending...';
 $string['email_button_send_success'] = 'Email Sent';
 $string['email_button_send_failure'] = 'Email Failed to Send';
 $string['sign_in_button'] = 'Sign In';
@@ -374,7 +375,7 @@ $string['weekend_report_header_invite'] = 'Invite?';
 $string['weekend_report_header_approved'] = 'Approved?';
 $string['weekend_report_header_destination'] = 'Destination';
 $string['weekend_report_header_transportation'] = 'Transportation';
-$string['weekend_report_header_phone'] = 'Phone #';
+$string['weekend_report_header_phone'] = 'Phone Number';
 $string['weekend_report_header_departurereturn'] = 'Departure Time<br>Return Time';
 
 $string['weekend_comment_form_comment'] = 'Comments';
@@ -613,9 +614,12 @@ $string['vacation_travel_transportation_report'] = 'Vacation Travel Transportati
 
 // Vacation Travel Preferences.
 $string['vacation_travel_preferences_header_notifications'] = 'Vacation Travel Email Notifications';
-$string['vacation_travel_preferences_notifications_available'] = 'Available Tags';
-$string['vacation_travel_preferences_notifications_subject'] = 'Subject for Vacation Travel Form Submitted Email';
-$string['vacation_travel_preferences_notifications_body'] = 'Body for Vacation Travel Form Submitted Email';
+$string['vacation_travel_preferences_notifications_submittedavailable'] = 'Available Tags for Vacation Travel Form Submitted Email';
+$string['vacation_travel_preferences_notifications_submittedsubject'] = 'Subject for Vacation Travel Form Submitted Email';
+$string['vacation_travel_preferences_notifications_submittedbody'] = 'Body for Vacation Travel Form Submitted Email';
+$string['vacation_travel_preferences_notifications_unsubmittedavailable'] = 'Available Tags for Unsubmitted Reminder Email';
+$string['vacation_travel_preferences_notifications_unsubmittedsubject'] = 'Subject for Unsubmitted Reminder Email';
+$string['vacation_travel_preferences_notifications_unsubmittedbody'] = 'Body for Unsubmitted Reminder Email';
 
 // Vacation Travel Site Report.
 $string['vacation_travel_site_report_add'] = 'New Site';
@@ -654,7 +658,7 @@ $string['vacation_travel_form_departure_dep_carrier'] = 'Carrier';
 $string['vacation_travel_form_departure_dep_number'] = 'Transportation Number';
 $string['vacation_travel_form_departure_dep_transportation'] = 'Date and Time of Transportation';
 $string['vacation_travel_form_departure_dep_international'] = 'Is this an International Flight?';
-$string['vacation_travel_form_return_ret_campus'] = 'Date and Time Leaving Campus';
+$string['vacation_travel_form_return_ret_campus'] = 'Date and Time Arriving at Campus';
 $string['vacation_travel_form_return_ret_mxtransportation'] = 'Do You Need School Transportation?';
 $string['vacation_travel_form_return_ret_type'] = 'Transportation type';
 $string['vacation_travel_form_return_ret_type_Car'] = 'Car';
@@ -685,3 +689,18 @@ $string['vacation_travel_form_error_nonumber_Bus'] = 'You must specify a bus num
 $string['vacation_travel_form_error_nonumber_Train'] = 'You must specify a train number.';
 $string['vacation_travel_form_error_nointernational_dep'] = 'You must specify whether your flight is an international flight.';
 $string['vacation_travel_form_error_nointernational_ret'] = 'You must specify whether you will be clearing customs in Boston.';
+
+// Vacation Travel Report.
+$string['vacation_travel_report_select_submitted_true'] = 'Submitted';
+$string['vacation_travel_report_select_submitted_false'] = 'Not Submitted';
+$string['vacation_travel_report_add'] = 'New Vacation Travel Form';
+$string['vacation_travel_report_remind'] = 'Notify Unsubmitted';
+
+$string['vacation_travel_report_header_student'] = 'Student';
+$string['vacation_travel_report_header_dorm'] = 'Dorm';
+$string['vacation_travel_report_header_destination'] = 'Destination';
+$string['vacation_travel_report_header_phone'] = 'Phone Number';
+$string['vacation_travel_report_header_depdatetime'] = 'Departure Date and Time';
+$string['vacation_travel_report_header_deptype'] = 'Departure Type';
+$string['vacation_travel_report_header_retdatetime'] = 'Return Date and Time';
+$string['vacation_travel_report_header_rettype'] = 'Return Type';

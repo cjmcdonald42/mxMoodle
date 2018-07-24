@@ -63,10 +63,15 @@ if ($action === 'delete' && $id) {
 }
 
 $data = new stdClass();
-$notification = $DB->get_record('local_mxschool_notification', array('class' => 'vacation_travel_submitted'));
-if ($notification) {
-    $data->subject = $notification->subject;
-    $data->body['text'] = $notification->body_html;
+$submittednotification = $DB->get_record('local_mxschool_notification', array('class' => 'vacation_travel_submitted'));
+if ($submittednotification) {
+    $data->submittedsubject = $submittednotification->subject;
+    $data->submittedbody['text'] = $submittednotification->body_html;
+}
+$unsubmittednotification = $DB->get_record('local_mxschool_notification', array('class' => 'vacation_travel_notify_unsubmitted'));
+if ($unsubmittednotification) {
+    $data->unsubmittedsubject = $unsubmittednotification->subject;
+    $data->unsubmittedbody['text'] = $unsubmittednotification->body_html;
 }
 
 $form = new preferences_form();
@@ -76,7 +81,8 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    update_notification('vacation_travel_submitted', $data->subject, $data->body);
+    update_notification('vacation_travel_submitted', $data->submittedsubject, $data->submittedbody);
+    update_notification('vacation_travel_notify_unsubmitted', $data->unsubmittedsubject, $data->unsubmittedbody);
     logged_redirect(
         $form->get_redirect(), get_string('vacation_travel_preferences_edit_success', 'local_mxschool'), 'update'
     );

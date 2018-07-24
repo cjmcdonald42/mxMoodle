@@ -226,6 +226,17 @@ class mx_notifications {
                 $transportationmanager->email = get_config('local_mxschool', 'email_transportationmanager');
                 $emailto = array($transportationmanager);
                 break;
+            case 'vacation_travel_notify_unsubmitted':
+                $subject = $notification->subject;
+                $body = $notification->body_html;
+                $emailto = array();
+                $list = get_student_without_vacation_travel_form_list();
+                foreach ($list as $userid => $name) {
+                    $record = $DB->get_record('user', array('id' => $userid));
+                    $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");
+                    $emailto[] = $record;
+                }
+                break;
             default:
                 return false;
         }

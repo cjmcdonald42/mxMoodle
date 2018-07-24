@@ -35,7 +35,7 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
-        $emailtags = implode(', ', array_map(function($tag) {
+        $submitemailtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
         }, array(
             'studentname', 'destination', 'phonenumber', 'depcampusdatetime', 'depmxtransportation', 'deptype', 'depsite',
@@ -43,12 +43,18 @@ class preferences_form extends local_mxschool_form {
             'retmxtransportation', 'rettype', 'retsite', 'retdetails', 'retcarriercompany', 'retnumber',
             'rettransportationdatetime', 'retinternational', 'timesubmitted'
         )));
+        $unsubmittedtags = implode(', ', array_map(function($tag) {
+            return "{{$tag}}";
+        }, array('studentname')));
 
         $fields = array(
             'notifications' => array(
-                'available' => array('element' => 'static', 'text' => $emailtags),
-                'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'submittedavailable' => array('element' => 'static', 'text' => $submitemailtags),
+                'submittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'submittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'unsubmittedavailable' => array('element' => 'static', 'text' => $unsubmittedtags),
+                'unsubmittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'unsubmittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
         parent::set_fields($fields, 'vacation_travel_preferences', true);

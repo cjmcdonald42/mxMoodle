@@ -75,8 +75,14 @@ if ($id) {
     foreach ($returndata as $key => $value) {
         $data->{"ret_{$key}"} = $value;
     }
+    if (!isset($data->dep_transportation_date)) {
+        $data->dep_transportation_date = time();
+    }
     if (!isset($data->dep_international)) {
         $data->dep_international = '-1'; // Invalid default to prevent auto selection.
+    }
+    if (!isset($data->ret_transportation_date)) {
+        $data->ret_transportation_date = time();
     }
     if (!isset($data->ret_international)) {
         $data->ret_international = '-1'; // Invalid default to prevent auto selection.
@@ -99,6 +105,9 @@ if ($id) {
         $existingid = $DB->get_field('local_mxschool_vt_trip', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one vacation travel form per student.
             redirect(new moodle_url($url, array('id' => $existingid)));
+        }
+        if (!array_key_exists($USER->id, get_boarding_student_list())) {
+            redirect($redirect);
         }
         $data->student = $USER->id;
     }
@@ -130,7 +139,7 @@ $data->ret_transportation_time_hour = $time->format('g');
 $minute = $time->format('i');
 $data->ret_transportation_time_minute = $minute - $minute % 15;
 $data->ret_transportation_time_ampm = $time->format('A') === 'PM';
-$students = get_student_list();
+$students = get_boarding_student_list();
 $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
 
@@ -210,6 +219,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
 echo $output->render($renderable);
 echo $output->footer();

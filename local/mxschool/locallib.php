@@ -362,6 +362,21 @@ function get_dorm_student_list($dorm) {
 }
 
 /**
+ * Queries the database to create a list of all the students who are boarders.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_boarding_student_list() {
+    global $DB;
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
  * Queries the database to create a list of all the students who will be boarders next year.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
@@ -514,6 +529,23 @@ function get_student_possible_same_grade_dormmate_list($userid) {
          WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder'
          AND s.grade = ss.grade AND s.gender = ss.gender AND s.userid <> ss.userid ORDER BY name",
          array($userid)
+    );
+    return convert_records_to_list($students);
+}
+
+/**
+ * Queries the database to create a list of all the students who are boarders and have not filled out a vacation travel form.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_without_vacation_travel_form_list() {
+    global $DB;
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND (
+             SELECT COUNT(id) FROM {local_mxschool_vt_trip} WHERE userid = s.userid
+         ) = 0 ORDER BY name"
     );
     return convert_records_to_list($students);
 }
