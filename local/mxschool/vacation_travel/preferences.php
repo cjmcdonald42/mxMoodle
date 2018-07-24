@@ -28,6 +28,7 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
+require_once('preferences_form.php');
 require_once('site_table.php');
 
 require_login();
@@ -61,6 +62,26 @@ if ($action === 'delete' && $id) {
     }
 }
 
+$data = new stdClass();
+$notification = $DB->get_record('local_mxschool_notification', array('class' => 'vacation_travel_submitted'));
+if ($notification) {
+    $data->subject = $notification->subject;
+    $data->body['text'] = $notification->body_html;
+}
+
+$form = new preferences_form();
+$form->set_redirect($redirect);
+$form->set_data($data);
+
+if ($form->is_cancelled()) {
+    redirect($form->get_redirect());
+} else if ($data = $form->get_data()) {
+    update_notification('vacation_travel_submitted', $data->subject, $data->body);
+    logged_redirect(
+        $form->get_redirect(), get_string('vacation_travel_preferences_edit_success', 'local_mxschool'), 'update'
+    );
+}
+
 $table = new site_table();
 
 $addbutton = new stdClass();
@@ -68,10 +89,12 @@ $addbutton->text = get_string('vacation_travel_site_report_add', 'local_mxschool
 $addbutton->url = new moodle_url('/local/mxschool/vacation_travel/site_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, 50, null, array(), false, $addbutton);
+$formrenderable = new \local_mxschool\output\form($form);
+$reportrenderable = new \local_mxschool\output\report($table, 50, null, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);
+echo $output->render($formrenderable);
 echo $output->heading(get_string('vacation_travel_site_report', 'local_mxschool'));
-echo $output->render($renderable);
+echo $output->render($reportrenderable);
 echo $output->footer();

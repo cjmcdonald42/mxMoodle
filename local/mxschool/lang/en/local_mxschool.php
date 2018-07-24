@@ -83,6 +83,9 @@ $string['mxschool_category'] = 'Middlesex School';
 $string['email_settings'] = 'Email Settings';
 $string['deans_email'] = 'Deans Email';
 $string['deans_email_description'] = 'The email address to send notifications to the deans.';
+$string['transportationmanager_email'] = 'Transportation Manager Email';
+$string['transportationmanager_email_description'] = 'The email address to send notifications to the transportation manager.';
+
 
 $string['indexes'] = 'Index Pages';
 $string['main_index'] = 'Middlesex School Index';
@@ -118,6 +121,7 @@ $string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Prefe
 $string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
 $string['rooming_preferences_edit_success'] = 'Rooming Preferences Saved Successfully';
 $string['rooming_success'] = 'Rooming Form Submitted Successfully';
+$string['vacation_travel_preferences_edit_success'] = 'Vacation Travel Preferences Saved Successfully';
 $string['vacation_travel_site_create_success'] = 'Vacation Travel Site Record Created Successfully';
 $string['vacation_travel_site_edit_success'] = 'Vacation Travel Site Record Updated Successfully';
 $string['vacation_success'] = 'Vacation Travel Form Submitted Successfully';
@@ -608,6 +612,10 @@ $string['vacation_travel_report'] = 'Vacation Travel Report';
 $string['vacation_travel_transportation_report'] = 'Vacation Travel Transportation Report';
 
 // Vacation Travel Preferences.
+$string['vacation_travel_preferences_header_notifications'] = 'Vacation Travel Email Notifications';
+$string['vacation_travel_preferences_notifications_available'] = 'Available Tags';
+$string['vacation_travel_preferences_notifications_subject'] = 'Subject for Vacation Travel Form Submitted Email';
+$string['vacation_travel_preferences_notifications_body'] = 'Body for Vacation Travel Form Submitted Email';
 
 // Vacation Travel Site Report.
 $string['vacation_travel_site_report_add'] = 'New Site';
@@ -629,7 +637,6 @@ $string['vacation_travel_form_header_info'] = 'General Information';
 $string['vacation_travel_form_header_departure'] = 'Departure Information';
 $string['vacation_travel_form_header_return'] = 'Return Information';
 $string['vacation_travel_form_info_student'] = 'Student';
-$string['vacation_travel_form_info_dorm'] = 'Dorm';
 $string['vacation_travel_form_info_destination'] = 'Destination';
 $string['vacation_travel_form_info_phone'] = 'Phone Number';
 $string['vacation_travel_form_departure_dep_campus'] = 'Date and Time Leaving Campus';

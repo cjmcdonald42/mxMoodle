@@ -25,10 +25,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- require(__DIR__.'/../../../config.php');
- require_once(__DIR__.'/../locallib.php');
- require_once(__DIR__.'/../classes/output/renderable.php');
- require_once('vacation_form.php');
+require(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/mx_notifications.php');
+require_once('vacation_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -108,10 +109,6 @@ if ($isstudent) {
     );
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$data->dorm = isset($data->student) ? $DB->get_field_sql(
-    "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
-    array($data->student)
-) : '';
 $time = new DateTime('now', core_date::get_server_timezone_object());
 $time->setTimestamp($data->dep_campus_date);
 $data->dep_campus_time_hour = $time->format('g');
@@ -173,6 +170,7 @@ if ($form->is_cancelled()) {
     if ($departuredata->type !== 'Plane' && $departuredata->type !== 'Train' && $departuredata->type !== 'Bus') {
         $departuredata->carrier = null;
         $departuredata->number = null;
+        $departuredata->transportation_date = null;
     }
     if ($departuredata->type !== 'Plane') {
         $departuredata->international = null;
@@ -194,6 +192,7 @@ if ($form->is_cancelled()) {
     if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {
         $returndata->carrier = null;
         $returndata->number = null;
+        $retrurndata->transportation_date = null;
     }
     if ($returndata->type !== 'Plane') {
         $returndata->international = null;

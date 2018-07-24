@@ -32,10 +32,16 @@ if ($hassiteconfig) {
 
     $emailpage = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
     $emailpage->add(new admin_setting_configtext(
-        'local_mxschool_email_deans',
+        'local_mxschool/email_deans',
         get_string('deans_email', 'local_mxschool'),
         get_string('deans_email_description', 'local_mxschool'),
         'deans@mxschool.edu'
+    ));
+    $emailpage->add(new admin_setting_configtext(
+        'local_mxschool/email_transportationmanager',
+        get_string('transportationmanager_email', 'local_mxschool'),
+        get_string('transportationmanager_email_description', 'local_mxschool'),
+        'ptorres@mxschool.edu'
     ));
     $ADMIN->add('mxschool', $emailpage);
 

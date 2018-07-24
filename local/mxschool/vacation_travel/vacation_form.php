@@ -55,7 +55,6 @@ class vacation_form extends local_mxschool_form {
             'isstudent' => parent::ELEMENT_HIDDEN_INT
         ), 'info' => array(
             'student' => array('element' => 'select', 'options' => $students),
-            'dorm' => array('element' => 'static'),
             'destination' => parent::ELEMENT_TEXT,
             'phone' => parent::ELEMENT_TEXT
         ), 'departure' => array(
