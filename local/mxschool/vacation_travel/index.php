@@ -40,10 +40,10 @@ setup_generic_page($url, $title);
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\index(array(
     get_string('vacation_travel_preferences', 'local_mxschool') => '/local/mxschool/vacation_travel/preferences.php',
-    get_string('vacation_travel_form', 'local_mxschool') => '/local/mxschool/vacation_travel/vacation_travel_enter.php',
-    get_string('vacation_travel_report', 'local_mxschool') => '/local/mxschool/vacation_travel/vacation_travel_report.php',
+    get_string('vacation_travel_form', 'local_mxschool') => '/local/mxschool/vacation_travel/vacation_enter.php',
+    get_string('vacation_travel_report', 'local_mxschool') => '/local/mxschool/vacation_travel/vacation_report.php',
     get_string('vacation_travel_transportation_report', 'local_mxschool') =>
-    '/local/mxschool/vacation_travel/vacation_travel_transportation_report.php'
+    '/local/mxschool/vacation_travel/transportation_report.php'
 ));
 
 echo $output->header();

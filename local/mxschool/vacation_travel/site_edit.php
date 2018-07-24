@@ -65,8 +65,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('vacation_travel_edit_success', 'local_mxschool')
-        : get_string('vacation_travel_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), $data->id ? get_string('vacation_travel_site_edit_success', 'local_mxschool')
+        : get_string('vacation_travel_site_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

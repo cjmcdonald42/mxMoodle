@@ -637,6 +637,36 @@ function get_esignout_date_list() {
 }
 
 /**
+ * Queries the database to create a list of all the vacation travel departure sites of a particular type.
+ *
+ * @param string $type The type to filter by, if no type is provided all will be returned.
+ * @return array The vacation travel departure sites as id => name, ordered alphabetically by site name.
+ */
+function get_vacation_travel_departure_sites_list($type = null) {
+    global $DB;
+    $filter = $type ? "AND type = {$type}" : '';
+    $sites = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_departure = 1 {$filter} ORDER BY name"
+    );
+    return convert_records_to_list($sites) + array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
+}
+
+/**
+ * Queries the database to create a list of all the vacation travel return sites of a particular type.
+ *
+ * @param string $type The type to filter by, if no type is provided all will be returned.
+ * @return array The vacation travel return sites as id => name, ordered alphabetically by site name.
+ */
+function get_vacation_travel_return_sites_list($type = null) {
+    global $DB;
+    $filter = $type ? "AND type = {$type}" : '';
+    $sites = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_return = 1 {$filter} ORDER BY name"
+    );
+    return convert_records_to_list($sites) + array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
+}
+
+/**
  * Adds default weekend records for all Sundays between two timestamps.
  *
  * @param int $starttime The timestamp for the beginning of the range.

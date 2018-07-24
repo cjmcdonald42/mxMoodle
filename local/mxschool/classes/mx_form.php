@@ -78,7 +78,7 @@ abstract class local_mxschool_form extends moodleform {
             $minutes[$i] = sprintf("%02d", $i);
         }
         $ampm = array(get_string('am', 'local_mxschool'), get_string('pm', 'local_mxschool'));
-        return array('element' => 'group', 'separator' => '', 'children' => array(
+        return array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
             'hour' => array('element' => 'select', 'options' => $hours),
             'minute' => array('element' => 'select', 'options' => $minutes),
             'ampm' => array('element' => 'select', 'options' => $ampm)
@@ -159,8 +159,8 @@ abstract class local_mxschool_form extends moodleform {
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
         $text = isset($properties['text']) ? $properties['text'] : '';
         $groupseparator = isset($properties['separator']) ? $properties['separator'] : '&emsp;';
+        $useradioindex = isset($properties['useradioindex']) ? $properties['useradioindex'] : false;
 
-        $result = null;
         switch($properties['element']) {
             case 'hidden':
                 $result = $mform->createElement($properties['element'], $name, null);
@@ -199,12 +199,19 @@ abstract class local_mxschool_form extends moodleform {
                 break;
             case 'radio':
                 $buttons = array();
-                foreach ($properties['options'] as $option) {
-                    $radiodisplay = $option === 'Yes' || $option === 1 ? get_string('yes') : (
-                                    $option === 'No' || $option === 0 ? get_string('no') : (
-                                    $tag ? get_string("{$stringprefix}_{$tag}_{$option}", $component, $param) : ''
-                    ));
-                    $buttons[] = $mform->createElement($properties['element'], $name, '', $radiodisplay, $option, $attributes);
+                foreach ($properties['options'] as $index => $option) {
+                    if ($useradioindex) {
+                        $radiodisplay = $option;
+                    } else {
+                        $optiontext = is_string($option) ? str_replace(' ', '', $option) : '';
+                        $radiodisplay = $optiontext === 'Yes' || $option === 1 ? get_string('yes') : (
+                            $optiontext === 'No' || $option === 0 ? get_string('no') : (
+                            $tag ? get_string("{$stringprefix}_{$tag}_{$optiontext}", $component, $param) : ''
+                        ));
+                    }
+                    $buttons[] = $mform->createElement(
+                        $properties['element'], $name, '', $radiodisplay, $useradioindex ? $index : $option, $attributes
+                    );
                 }
                 $result = $mform->createElement('group', $name, $displayname, $buttons, $groupseparator, false);
                 break;
