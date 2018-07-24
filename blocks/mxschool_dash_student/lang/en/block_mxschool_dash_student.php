@@ -29,7 +29,8 @@ $string['blockname'] = 'Middlesex';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Deans Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';
 
-$string['esignout'] = 'eSignout';
+$string['esignout_form'] = 'eSignout Form';
+$string['esignout_report'] = 'eSignout Report';
 $string['advisor_selection'] = 'Advisor Selection Form';
 $string['rooming'] = 'Rooming Form';
 $string['vacation'] = 'Vacation Travel Form';

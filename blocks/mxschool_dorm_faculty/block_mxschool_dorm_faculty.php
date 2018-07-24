@@ -43,14 +43,14 @@ class block_mxschool_dorm_faculty extends block_base {
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\index(array(
           // Put any links in this array as displaytext => relative url.
-
+          // Event Check-In
             get_string('checkin_sheet', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/generic_report.php',
             get_string('weekday_checkin', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/weekday_report.php',
             get_string('weekend_checkin', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/weekend_report.php',
-            get_string('weekend_calculator', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/weekend_report.php',
-
+            get_string('weekend_calculator', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/weekend_calculator.php',
+          // Other Reports
             get_string('esignout_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/driving/esignout_report.php',
-            get_string('vacation_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/vacation...',
+            get_string('vacation_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/vacation_travel/vacation_report.php',
             get_string('manage_student_data', 'block_mxschool_dorm_faculty') => '/local/mxschool/user_management/student_report.php'
 
         ));
