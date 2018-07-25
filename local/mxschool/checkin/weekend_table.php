@@ -97,6 +97,9 @@ class weekend_table extends local_mxschool_table {
             )" : '')
         );
         $sortable = array('student', 'dorm', 'room', 'grade', 'destination', 'transportation');
+        if (!$filter->dorm) {
+            unset($sortable[array_search('room', $sortable)]);
+        }
         $urlparams = array(
             'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
         );

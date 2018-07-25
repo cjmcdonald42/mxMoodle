@@ -56,6 +56,9 @@ class generic_table extends local_mxschool_table {
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $dorm ? "s.dormid = {$dorm}" : '');
         $sortable = array('student', 'dorm', 'room', 'grade');
+        if (!$dorm) {
+            unset($sortable[array_search('room', $sortable)]);
+        }
         $urlparams = array('dorm' => $dorm);
         $centered = array('room', 'grade');
         parent::__construct(

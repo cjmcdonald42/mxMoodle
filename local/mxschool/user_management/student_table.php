@@ -99,6 +99,9 @@ class student_table extends local_mxschool_table {
         $headers[] = get_string('report_header_actions', 'local_mxschool');
 
         $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'parent');
+        if (!$filter->dorm) {
+            unset($sortable[array_search('room', $sortable)]);
+        }
         $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
         $centered = array(
             'grade', 'room', 'birthday', 'overnight', 'license', 'driving', 'passengers', 'rideshare', 'boston', 'swimcompetent',
