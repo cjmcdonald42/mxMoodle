@@ -34,7 +34,7 @@ class generic_table extends local_mxschool_table {
     /**
      * Creates a new generic_table.
      *
-     * @param string $dorm the id of the currently selected dorm or '' for all dorms.
+     * @param string $dorm The id of the currently selected dorm or '' for all dorms.
      */
     public function __construct($dorm) {
         global $DB;

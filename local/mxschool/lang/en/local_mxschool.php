@@ -344,8 +344,8 @@ $string['weekday_report_header_late'] = 'Late';
 // Weekend Form.
 $string['weekend_form_dorm'] = 'Dorm';
 $string['weekend_form_student'] = 'Student';
-$string['weekend_form_departuretime'] = 'Departure Date and Time';
-$string['weekend_form_returntime'] = 'Return Date and Time';
+$string['weekend_form_departure'] = 'Departure Date and Time';
+$string['weekend_form_return'] = 'Return Date and Time';
 $string['weekend_form_destination'] = 'Your Destination';
 $string['weekend_form_transportation'] = 'Transportation by';
 $string['weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';

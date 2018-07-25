@@ -39,6 +39,15 @@ class tutoring_table extends local_mxschool_table {
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Peer Tutoring Records', 'Peer Tutoring Record');
         $columns = array('tutor', 'tutoringdate', 'student', 'department', 'course', 'topic', 'type', 'rating', 'notes');
+        if ($filter->tutor) {
+            unset($columns[array_search('tutor', $columns)]);
+        }
+        if ($filter->department) {
+            unset($columns[array_search('department', $columns)]);
+        }
+        if ($filter->type) {
+            unset($columns[array_search('type', $columns)]);
+        }
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("tutoring_report_header_{$column}", 'local_peertutoring');

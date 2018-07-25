@@ -37,8 +37,8 @@ class student_table extends local_mxschool_table {
     /**
      * Creates a new student_table.
      *
-     * @param string $type the type of report - either 'students', 'permissions', or 'parents'.
-     * @param stdClass $filter any filtering for the table - could include dorm or search.
+     * @param string $type The type of report - either 'students', 'permissions', or 'parents'.
+     * @param stdClass $filter Any filtering for the table - could include dorm or search.
      */
     public function __construct($type, $filter) {
         global $DB;
@@ -121,7 +121,7 @@ class student_table extends local_mxschool_table {
      * Formats the birthday column to 'n/j'.
      */
     protected function col_birthday($values) {
-        $birthday = new DateTime($values->birthday);
+        $birthday = new DateTime($values->birthday, core_date::get_server_timezone_object());
         return $birthday->format('n/j');
     }
 

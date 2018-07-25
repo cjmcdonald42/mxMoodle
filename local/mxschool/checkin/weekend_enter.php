@@ -50,8 +50,8 @@ $title = get_string('weekend_form', 'local_mxschool');
 setup_mxschool_page($url, $title, $parents);
 
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
-    'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departuretime',
-    'return_date_time' => 'returntime', 'destination', 'transportation', 'phone_number' => 'phone',
+    'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
+    'return_date_time' => 'return_date', 'destination', 'transportation', 'phone_number' => 'phone',
     'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
@@ -68,6 +68,8 @@ if ($id) {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
+    $data->departure_date = time();
+    $data->return_date = time();
     if ($isstudent) {
         $data->student = $USER->id;
         $record = $DB->get_record_sql(
@@ -88,6 +90,17 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
+$time = new DateTime('now', core_date::get_server_timezone_object());
+$time->setTimestamp($data->departure_date);
+$data->departure_time_hour = $time->format('g');
+$minute = $time->format('i');
+$data->departure_time_minute = $minute - $minute % 15;
+$data->departure_time_ampm = $time->format('A') === 'PM';
+$time->setTimestamp($data->return_date);
+$data->return_time_hour = $time->format('g');
+$minute = $time->format('i');
+$data->return_time_minute = $minute - $minute % 15;
+$data->return_time_ampm = $time->format('A') === 'PM';
 $dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list();
 $students = get_student_list();
 
@@ -99,9 +112,20 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
+    $time = new DateTime('now', core_date::get_server_timezone_object());
+    $time->setTimestamp($data->departure_date);
+    $time->setTime(
+        ($data->departure_time_hour % 12) + ($data->departure_time_ampm * 12), $data->departure_time_minute
+    );
+    $data->departure_date = $time->getTimestamp();
+    $time->setTimestamp($data->return_date);
+    $time->setTime(
+        ($data->return_time_hour % 12) + ($data->return_time_ampm * 12), $data->return_time_minute
+    );
+    $data->return_date = $time->getTimestamp();
     $data->weekend = $DB->get_field_sql(
         "SELECT id FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < end_time",
-        array($data->departuretime, $data->departuretime)
+        array($data->departure_date, $data->departure_date)
     );
     $id = update_record($queryfields, $data);
     $oldrecord = $DB->get_record_sql(

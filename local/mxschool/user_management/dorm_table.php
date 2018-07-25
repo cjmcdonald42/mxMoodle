@@ -34,7 +34,7 @@ class dorm_table extends local_mxschool_table {
     /**
      * Creates a new dorm_table.
      *
-     * @param string $search the search for the table.
+     * @param string $search The search for the table.
      */
     public function __construct($search) {
         $columns = array('name', 'abbreviation', 'hoh', 'permissionsline', 'type', 'gender', 'available');

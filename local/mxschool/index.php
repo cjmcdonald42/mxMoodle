@@ -29,6 +29,10 @@ require_once($CFG->libdir.'/adminlib.php');
 require_once('locallib.php');
 require_once(__DIR__.'/classes/output/renderable.php');
 
+if (!has_capability('moodle/site:config', context_system::instance())) {
+    redirect(new moodle_url('/my'));
+}
+
 admin_externalpage_setup('main_index');
 
 $url = '/local/mxschool/index.php';

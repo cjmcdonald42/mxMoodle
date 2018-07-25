@@ -214,14 +214,14 @@ if ($form->is_cancelled()) {
     if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {
         $returndata->carrier = null;
         $returndata->number = null;
-        $retrurndata->transportation_date = null;
+        $returndata->transportation_date = null;
     }
     if ($returndata->type !== 'Plane') {
         $returndata->international = null;
     }
     $data->departureid = update_record($transportqueryfields, $departuredata);
     $data->returnid = update_record($transportqueryfields, $returndata);
-    update_record($tripqueryfields, $data);
+    $id = update_record($tripqueryfields, $data);
     $result = mx_notifications::send_email('vacation_travel_submitted', array('id' => $id));
     logged_redirect(
         $form->get_redirect(), get_string('vacation_success', 'local_mxschool'), $data->id ? 'update' : 'create'

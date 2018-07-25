@@ -43,15 +43,21 @@ class esignout_table extends local_mxschool_table {
     public function __construct($filter, $isstudent) {
         global $USER;
         $this->isstudent = $isstudent;
-        $columns = array('student', 'type');
-        if (!$filter->type || $filter->type === 'Driver') {
-            $columns[] = 'passengers';
-            $columns[] = 'passengercount';
+        $columns = array(
+            'student', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'date', 'departure', 'approver', 'signin'
+        );
+        if ($filter->type) {
+            if ($filter->type === 'Driver' || $filter->type === 'Passenger' || $filter->type === 'Parent') {
+                unset($columns[array_search('type', $columns)]);
+            }
+            if ($filter->type !== 'Driver') {
+                unset($columns[array_search('passengers', $columns)]);
+                unset($columns[array_search('passengercount', $columns)]);
+            }
+            if ($filter->type !== 'Passenger') {
+                unset($columns[array_search('driver', $columns)]);
+            }
         }
-        if (!$filter->type || $filter->type === 'Passenger') {
-            $columns[] = 'driver';
-        }
-        $columns = array_merge($columns, array('destination', 'date', 'departure', 'approver', 'signin'));
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("esignout_report_header_{$column}", 'local_mxschool');

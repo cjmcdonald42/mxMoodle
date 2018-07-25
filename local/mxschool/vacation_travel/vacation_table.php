@@ -34,7 +34,7 @@ class vacation_table extends local_mxschool_table {
     /**
      * Creates a new vacation_table.
      *
-     * @param stdClass $filter any filtering for the table - could include properties dorm, submitted, and search
+     * @param stdClass $filter Any filtering for the table - could include properties dorm, submitted, and search
      */
     public function __construct($filter) {
         $columns = array('student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype', 'retdatetime', 'rettype');

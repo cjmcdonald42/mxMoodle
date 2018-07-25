@@ -34,10 +34,13 @@ class faculty_table extends local_mxschool_table {
     /**
      * Creates a new faculty_table.
      *
-     * @param stdClass $filter any filtering for the table - could include dorm or search.
+     * @param stdClass $filter Any filtering for the table - could include dorm or search.
      */
     public function __construct($filter) {
         $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
+        if ($filter->dorm) {
+            unset($columns[array_search('dorm', $columns)]);
+        }
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("faculty_report_header_{$column}", 'local_mxschool');
