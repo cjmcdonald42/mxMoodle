@@ -50,6 +50,7 @@ if ($notification) {
     $data->subject = $notification->subject;
     $data->body['text'] = $notification->body_html;
 }
+$data->instructions['text'] = get_config('local_mxschool', 'esignout_form_instructions');
 $data->nopassengers['text'] = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
 $data->needparent['text'] = get_config('local_mxschool', 'esignout_form_warning_needparent');
 $data->onlyspecific['text'] = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
@@ -69,6 +70,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('esignout_edit_window', $data->editwindow, 'local_mxschool');
     update_notification('esignout_submitted', $data->subject, $data->body);
+    set_config('esignout_form_instructions', $data->instructions['text'], 'local_mxschool');
     set_config('esignout_form_warning_nopassengers', $data->nopassengers['text'], 'local_mxschool');
     set_config('esignout_form_warning_needparent', $data->needparent['text'], 'local_mxschool');
     set_config('esignout_form_warning_onlyspecific', $data->onlyspecific['text'], 'local_mxschool');

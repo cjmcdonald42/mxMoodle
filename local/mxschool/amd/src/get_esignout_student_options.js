@@ -36,8 +36,10 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             passengersDiv.next().hide();
         }
         if ($('.mx-form input#id_type_select_Passenger').prop('checked')) {
+            driverDiv.prev().show();
             driverDiv.show();
         } else {
+            driverDiv.prev().hide();
             driverDiv.hide();
         }
         if ($('.mx-form input#id_type_select_Other').prop('checked')) {

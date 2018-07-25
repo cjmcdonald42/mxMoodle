@@ -104,6 +104,7 @@ if ($isstudent) {
     );
 }
 $data->isstudent = $isstudent ? '1' : '0';
+$data->instructions = get_config('local_mxschool', 'esignout_form_instructions');
 $data->passengerswarning = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
 $data->departuretime_hour = $departuretime->format('g');
 $minute = $departuretime->format('i');

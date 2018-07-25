@@ -111,6 +111,9 @@ class mx_notifications {
                 if ($record->type === 'Driver') {
                     $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_driver');
                 } else {
+                    if ($record->type !== 'Passenger' || $record->type === 'Parent') {
+                        $emaildeans = true;
+                    }
                     if ($record->passengerpermission === 'Any Driver') {
                         $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_any');
                     } else if ($record->passengerpermission === 'Parent Permission') {

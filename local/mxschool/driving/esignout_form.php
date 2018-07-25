@@ -61,6 +61,7 @@ class esignout_form extends local_mxschool_form {
                 )), 'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
                 ), 'passengerswarning' => array('element' => 'static', 'name' => 'passengers'),
+                'instructions' => array('element' => 'static', 'name' => null),
                 'driver' => array('element' => 'select', 'options' => $drivers)
             ), 'details' => array(
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
