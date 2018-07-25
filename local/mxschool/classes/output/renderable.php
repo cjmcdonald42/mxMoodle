@@ -45,14 +45,18 @@ use html_writer;
  */
 class index implements renderable, templatable {
 
-    /** @var array $links array of links [displaytext => url] to be passed to the template.*/
+    /** @var array $links Array of links [displaytext => url] to be passed to the template.*/
     private $links;
+    /** @var string|bool $heading String to display as a subheading or false. */
+    private $heading;
 
     /**
-     * @param array $links array of links [displaytext => url] to be passed to the template.
+     * @param array $links Array of links [displaytext => url] to be passed to the template.
+     * @param string|bool $heading String to display as a subheading or false.
      */
-    public function __construct($links) {
+    public function __construct($links, $heading = false) {
         $this->links = $links;
+        $this->heading = $heading;
     }
 
     /**
@@ -63,6 +67,7 @@ class index implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         global $CFG;
         $data = new stdClass();
+        $data->heading = $this->heading;
         $data->links = array();
         foreach ($this->links as $text => $url) {
             $data->links[] = array('text' => $text, 'url' => $CFG->wwwroot.$url);
