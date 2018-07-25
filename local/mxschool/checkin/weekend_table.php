@@ -89,11 +89,12 @@ class weekend_table extends local_mxschool_table {
             "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = $filter->weekend AND wf.active = 1"
         );
         $where = array(
-            'u.deleted = 0', $filter->dorm ? "s.dormid = $filter->dorm" : '', $filter->submitted === '1' ? "EXISTS (
+            'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '',
+            $filter->submitted === '1' ? "EXISTS (
                 SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
-            )" : '', $filter->submitted === '0' ? "NOT EXISTS (
+            )" : ($filter->submitted === '0' ? "NOT EXISTS (
                 SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
-            )" : '', "d.type = 'Boarding'"
+            )" : '')
         );
         $sortable = array('student', 'dorm', 'room', 'grade', 'destination', 'transportation');
         $urlparams = array(

@@ -362,6 +362,21 @@ function get_dorm_student_list($dorm) {
 }
 
 /**
+ * Queries the database to create a list of all the students who are boarders.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_boarding_student_list() {
+    global $DB;
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
  * Queries the database to create a list of all the students who will be boarders next year.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
@@ -519,6 +534,23 @@ function get_student_possible_same_grade_dormmate_list($userid) {
 }
 
 /**
+ * Queries the database to create a list of all the students who are boarders and have not filled out a vacation travel form.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_without_vacation_travel_form_list() {
+    global $DB;
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND (
+             SELECT COUNT(id) FROM {local_mxschool_vt_trip} WHERE userid = s.userid
+         ) = 0 ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
  * Queries the database to create a list of all the faculty.
  *
  * @return array The faculty as userid => name, ordered alphabetically by faculty name.
@@ -637,18 +669,34 @@ function get_esignout_date_list() {
 }
 
 /**
+ * Creates a list of all the vacation travel types given a filter.
+ *
+ * @param bool|null $mxtransportation Whether types for mx transportation or non-mx transportaion should be returned.
+ * @return array The vacation travel types in an indexed array.
+ */
+function get_vacation_travel_type_list($mxtransportation = null) {
+    return isset($mxtransportation) ? (
+        $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
+    ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
+}
+
+/**
  * Queries the database to create a list of all the vacation travel departure sites of a particular type.
  *
- * @param string $type The type to filter by, if no type is provided all will be returned.
+ * @param string|null $type The type to filter by, if no type is provided all will be returned.
  * @return array The vacation travel departure sites as id => name, ordered alphabetically by site name.
  */
 function get_vacation_travel_departure_sites_list($type = null) {
     global $DB;
-    $filter = $type ? "AND type = {$type}" : '';
+    $filter = $type ? "AND type = '{$type}'" : '';
     $sites = $DB->get_records_sql(
         "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_departure = 1 {$filter} ORDER BY name"
     );
-    return convert_records_to_list($sites) + array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
+    $list = convert_records_to_list($sites);
+    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
+        $list += array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
+    }
+    return $list;
 }
 
 /**
@@ -659,11 +707,15 @@ function get_vacation_travel_departure_sites_list($type = null) {
  */
 function get_vacation_travel_return_sites_list($type = null) {
     global $DB;
-    $filter = $type ? "AND type = {$type}" : '';
+    $filter = $type ? "AND type = '{$type}'" : '';
     $sites = $DB->get_records_sql(
         "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_return = 1 {$filter} ORDER BY name"
     );
-    return convert_records_to_list($sites) + array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
+    $list = convert_records_to_list($sites);
+    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
+        $list += array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
+    }
+    return $list;
 }
 
 /**

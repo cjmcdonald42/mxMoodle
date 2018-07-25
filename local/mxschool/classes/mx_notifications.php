@@ -38,7 +38,7 @@ class mx_notifications {
      * @return bool True if email send successfully, false otherwise.
      */
     public static function send_email($emailclass, $params = array()) {
-        global $DB, $CFG;
+        global $DB;
         $supportuser = core_user::get_support_user();
         $notification = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
         if (!$notification) {
@@ -139,7 +139,7 @@ class mx_notifications {
                 );
                 if ($emaildeans) {
                     $deans = clone $supportuser;
-                    $deans->email = $CFG->local_mxschool_email_deans;
+                    $deans->email = get_config('local_mxschool', 'email_deans');
                     $emailto[] = $deans;
                 }
                 break;
@@ -175,6 +175,62 @@ class mx_notifications {
                 $body = $notification->body_html;
                 $emailto = array();
                 $list = get_student_without_rooming_form_list();
+                foreach ($list as $userid => $name) {
+                    $record = $DB->get_record('user', array('id' => $userid));
+                    $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");
+                    $emailto[] = $record;
+                }
+                break;
+            case 'vacation_travel_submitted':
+                if (!isset($params['id'])) {
+                    return false;
+                }
+                $record = $DB->get_record_sql(
+                    "SELECT t.id, CONCAT(u.firstname, ' ', u.lastname) AS studentname, t.destination, t.phone_number AS phonenumber,
+                     t.time_modified AS timesubmitted, d.campus_date_time AS depcampus, d.mx_transportation AS depmxtransportation,
+                     d.type AS deptype, ds.name AS depsite, d.details AS depdetails, d.carrier AS depcarriercompany,
+                     d.transportation_number AS depnumber, d.transportation_date_time AS deptransportation,
+                     d.international AS depinternational, r.campus_date_time AS retcampus,
+                     r.mx_transportation AS retmxtransportation, r.type AS rettype, rs.name AS retsite, r.details AS retdetails,
+                     r.carrier AS retcarriercompany, r.transportation_number AS retnumber,
+                     r.transportation_date_time AS rettransportation, r.international AS retinternational
+                     FROM {local_mxschool_vt_trip} t LEFT JOIN {user} u ON t.userid = u.id
+                     LEFT JOIN {local_mxschool_vt_transport} d ON t.departureid = d.id
+                     LEFT JOIN {local_mxschool_vt_site} ds ON d.siteid = ds.id
+                     LEFT JOIN {local_mxschool_vt_transport} r ON t.returnid = r.id
+                     LEFT JOIN {local_mxschool_vt_site} rs ON r.siteid = rs.id
+                     WHERE t.id = ?", array($params['id'])
+                );
+                $record->timesubmitted = date('n/j/y g:i A', $record->timesubmitted);
+                $record->depcampusdatetime = date('n/j/y g:i A', $record->depcampus);
+                $record->depmxtransportation = $record->depmxtransportation ? get_string('yes') : get_string('no');
+                $record->depsite = isset($record->depsite) ? $record->depsite : '-';
+                $record->depdetails = isset($record->depdetails) ? $record->depdetails : '-';
+                $record->depcarriercompany = isset($record->depcarriercompany) ? $record->depcarriercompany : '-';
+                $record->depnumber = isset($record->depnumber) ? $record->depnumber : '-';
+                $record->depinternational = isset($record->depinternational) ? $record->depinternational : '-';
+                $record->deptransportationdatetime = isset($record->deptransportation)
+                    ? date('n/j/y g:i A', $record->deptransportation) : '-';
+                $record->retcampusdatetime = date('n/j/y g:i A', $record->retcampus);
+                $record->retmxtransportation = $record->retmxtransportation ? get_string('yes') : get_string('no');
+                $record->retsite = isset($record->retsite) ? $record->retsite : '-';
+                $record->retdetails = isset($record->retdetails) ? $record->retdetails : '-';
+                $record->retcarriercompany = isset($record->retcarriercompany) ? $record->retcarriercompany : '-';
+                $record->retnumber = isset($record->retnumber) ? $record->retnumber : '-';
+                $record->retinternational = isset($record->retinternational) ? $record->retinternational : '-';
+                $record->rettransportationdatetime = isset($record->rettransportation)
+                    ? date('n/j/y g:i A', $record->rettransportation) : '-';
+                $subject = self::replace($notification->subject, $record);
+                $body = self::replace($notification->body_html, $record);
+                $transportationmanager = clone $supportuser;
+                $transportationmanager->email = get_config('local_mxschool', 'email_transportationmanager');
+                $emailto = array($transportationmanager);
+                break;
+            case 'vacation_travel_notify_unsubmitted':
+                $subject = $notification->subject;
+                $body = $notification->body_html;
+                $emailto = array();
+                $list = get_student_without_vacation_travel_form_list();
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
                     $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");

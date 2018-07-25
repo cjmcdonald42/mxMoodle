@@ -676,5 +676,45 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018072004, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018072418) {
+
+        // Rename field site_other on table local_mxschool_vt_transport to details.
+        $table = new xmldb_table('local_mxschool_vt_transport');
+        $field = new xmldb_field('site_other', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'siteid');
+
+        // Launch rename field details.
+        $dbman->rename_field($table, $field, 'details');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018072418, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018072420) {
+
+        // Define key site (foreign) to be dropped form local_mxschool_vt_transport.
+        $table = new xmldb_table('local_mxschool_vt_transport');
+        $key = new xmldb_key('site', XMLDB_KEY_FOREIGN, array('siteid'), 'local_mxschool_vt_site', array('id'));
+
+        // Launch drop key site.
+        $dbman->drop_key($table, $key);
+
+        // Changing nullability of field siteid on table local_mxschool_vt_transport to null.
+        $table = new xmldb_table('local_mxschool_vt_transport');
+        $field = new xmldb_field('siteid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'type');
+
+        // Launch change of nullability for field siteid.
+        $dbman->change_field_notnull($table, $field);
+
+        // Define key site (foreign) to be added to local_mxschool_vt_transport.
+        $table = new xmldb_table('local_mxschool_vt_transport');
+        $key = new xmldb_key('site', XMLDB_KEY_FOREIGN, array('siteid'), 'local_mxschool_vt_site', array('id'));
+
+        // Launch add key site.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018072420, 'local', 'mxschool');
+    }
+
     return true;
 }

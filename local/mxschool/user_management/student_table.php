@@ -46,7 +46,7 @@ class student_table extends local_mxschool_table {
         $columns = array('student');
         $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $filter->dorm ? "d.id = $filter->dorm" : '');
+        $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         switch($type) {
             case 'students':

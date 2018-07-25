@@ -25,10 +25,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- require(__DIR__.'/../../../config.php');
- require_once(__DIR__.'/../locallib.php');
- require_once(__DIR__.'/../classes/output/renderable.php');
- require_once('vacation_form.php');
+require(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/mx_notifications.php');
+require_once('vacation_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -53,8 +54,8 @@ $tripqueryfields = array('local_mxschool_vt_trip' => array('abbreviation' => 't'
     'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviation' => 'dr', 'fields' => array(
-    'id', 'campus_date_time' => 'campus_date', 'mx_transportation' => 'mxtransportation', 'type', 'siteid' => 'site_radio',
-    'site_other', 'carrier', 'transportation_number' => 'number', 'transportation_date_time' => 'transportation_date',
+    'id', 'campus_date_time' => 'campus_date', 'mx_transportation' => 'mxtransportation', 'type', 'siteid' => 'site',
+    'details', 'carrier', 'transportation_number' => 'number', 'transportation_date_time' => 'transportation_date',
     'international'
 )));
 
@@ -74,8 +75,14 @@ if ($id) {
     foreach ($returndata as $key => $value) {
         $data->{"ret_{$key}"} = $value;
     }
+    if (!isset($data->dep_transportation_date)) {
+        $data->dep_transportation_date = time();
+    }
     if (!isset($data->dep_international)) {
         $data->dep_international = '-1'; // Invalid default to prevent auto selection.
+    }
+    if (!isset($data->ret_transportation_date)) {
+        $data->ret_transportation_date = time();
     }
     if (!isset($data->ret_international)) {
         $data->ret_international = '-1'; // Invalid default to prevent auto selection.
@@ -86,18 +93,21 @@ if ($id) {
     $data->timecreated = time();
     $data->dep_campus_date = time();
     $data->dep_mxtransportation = '-1'; // Invalid default to prevent auto selection.
-    $data->dep_site_radio = '-1'; // Invalid default to prevent auto selection.
+    $data->dep_site = '-1'; // Invalid default to prevent auto selection.
     $data->dep_transportation_date = time();
     $data->dep_international = '-1'; // Invalid default to prevent auto selection.
     $data->ret_campus_date = time();
     $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
-    $data->ret_site_radio = '-1'; // Invalid default to prevent auto selection.
+    $data->ret_site = '-1'; // Invalid default to prevent auto selection.
     $data->ret_transportation_date = time();
     $data->ret_international = '-1'; // Invalid default to prevent auto selection.
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_vt_trip', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one vacation travel form per student.
             redirect(new moodle_url($url, array('id' => $existingid)));
+        }
+        if (!array_key_exists($USER->id, get_boarding_student_list())) {
+            redirect($redirect);
         }
         $data->student = $USER->id;
     }
@@ -108,10 +118,6 @@ if ($isstudent) {
     );
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$data->dorm = isset($data->student) ? $DB->get_field_sql(
-    "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
-    array($data->student)
-) : '';
 $time = new DateTime('now', core_date::get_server_timezone_object());
 $time->setTimestamp($data->dep_campus_date);
 $data->dep_campus_time_hour = $time->format('g');
@@ -133,11 +139,14 @@ $data->ret_transportation_time_hour = $time->format('g');
 $minute = $time->format('i');
 $data->ret_transportation_time_minute = $minute - $minute % 15;
 $data->ret_transportation_time_ampm = $time->format('A') === 'PM';
-$students = get_student_list();
+$students = get_boarding_student_list();
 $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
+$types = get_vacation_travel_type_list();
 
-$form = new vacation_form(array('id' => $id, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites));
+$form = new vacation_form(array(
+    'id' => $id, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites, 'types' => $types
+));
 $form->set_redirect($redirect);
 $form->set_data($data);
 
@@ -167,12 +176,18 @@ if ($form->is_cancelled()) {
         $departuredata->transportation_time_minute
     );
     $departuredata->transportation_date = $time->getTimestamp();
-    if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && $departuredata->site_radio) {
-        $departuredata->site_other = null;
+    if (!$departuredata->mxtransportation) {
+        $departuredata->site = null;
+        $departuredata->transportation_date = null;
+        $departuredata->international = null;
+    }
+    if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && $departuredata->site !== '0') {
+        $departuredata->details = null;
     }
     if ($departuredata->type !== 'Plane' && $departuredata->type !== 'Train' && $departuredata->type !== 'Bus') {
         $departuredata->carrier = null;
         $departuredata->number = null;
+        $departuredata->transportation_date = null;
     }
     if ($departuredata->type !== 'Plane') {
         $departuredata->international = null;
@@ -187,13 +202,19 @@ if ($form->is_cancelled()) {
         ($returndata->transportation_time_hour % 12) + ($returndata->transportation_time_ampm * 12),
         $returndata->transportation_time_minute
     );
-    if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && $returndata->site_radio) {
-        $returndata->site_other = null;
-    }
     $returndata->transportation_date = $time->getTimestamp();
+    if (!$returndata->mxtransportation) {
+        $returndata->site = null;
+        $returndata->transportation_date = null;
+        $returndata->international = null;
+    }
+    if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && $returndata->site !== '0') {
+        $returndata->details = null;
+    }
     if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {
         $returndata->carrier = null;
         $returndata->number = null;
+        $retrurndata->transportation_date = null;
     }
     if ($returndata->type !== 'Plane') {
         $returndata->international = null;
@@ -209,8 +230,10 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/get_vacation_travel_options');
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
 echo $output->render($renderable);
+echo $output->render($jsrenderable);
 echo $output->footer();

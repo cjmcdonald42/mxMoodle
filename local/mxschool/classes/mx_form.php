@@ -203,7 +203,7 @@ abstract class local_mxschool_form extends moodleform {
                     if ($useradioindex) {
                         $radiodisplay = $option;
                     } else {
-                        $optiontext = is_string($option) ? str_replace(' ', '', $option) : '';
+                        $optiontext = is_string($option) ? str_replace(' ', '', $option) : $option;
                         $radiodisplay = $optiontext === 'Yes' || $option === 1 ? get_string('yes') : (
                             $optiontext === 'No' || $option === 0 ? get_string('no') : (
                             $tag ? get_string("{$stringprefix}_{$tag}_{$optiontext}", $component, $param) : ''

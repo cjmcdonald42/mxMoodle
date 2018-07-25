@@ -27,6 +27,10 @@
 define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
     function sendEmail() {
         var element = $(this);
+        var text = element.text();
+        $.when(str.get_string('email_button_sending', 'local_mxschool')).done(function(sendingString) {
+            element.text(sendingString);
+        });
         var promises = ajax.call([{
             methodname: 'local_mxschool_send_email',
             args: {
@@ -39,7 +43,6 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
         promises[0].done(function(result) {
             var unlocalized = 'email_button_send_' + (result ? 'success' : 'failure');
             $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(sentString) {
-                var text = element.text();
                 element.text(sentString);
                 setTimeout(function() {
                     element.trigger('hideButton');
