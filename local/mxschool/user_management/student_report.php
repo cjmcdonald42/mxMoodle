@@ -102,7 +102,7 @@ if ($type === 'parents') {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report(
-    $table, 50, $filter->search, $dropdowns, $type !== 'parents', isset($addbutton) ? $addbutton : false
+    $table, $filter->search, $dropdowns, $type !== 'parents', isset($addbutton) ? $addbutton : false
 );
 
 echo $output->header();

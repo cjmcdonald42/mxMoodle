@@ -71,7 +71,7 @@ $emailbutton->emailclass = 'vacation_travel_notify_unsubmitted';
 $emailbuttons = array($emailbutton);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, true, $addbutton, $emailbuttons);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, true, $addbutton, $emailbuttons);
 
 echo $output->header();
 echo $output->heading($title);

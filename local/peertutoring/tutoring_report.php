@@ -96,11 +96,11 @@ $addbutton->url = new moodle_url('/local/peertutoring/tutoring_enter.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table, $DB->count_records('local_peertutoring_session'));
+    $renderable = new \local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, true, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, true, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

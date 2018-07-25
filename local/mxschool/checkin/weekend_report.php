@@ -129,7 +129,7 @@ for ($i = $startday; $i <= $endday; $i++) {
 $headers[] = array('text' => '', 'length' => 9);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, true, $addbutton, false, $headers);
+$reportrenderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, true, $addbutton, false, $headers);
 $formrenderable = new \local_mxschool\output\form($form);
 
 echo $output->header();

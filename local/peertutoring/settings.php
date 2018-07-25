@@ -29,8 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 if ($hassiteconfig) {
 
     $ADMIN->add('indexes', new admin_externalpage(
-        'peertutoring_index',
-        new lang_string('peertutoring_index', 'local_mxschool'),
+        'peertutoring_index', new lang_string('peertutoring_index', 'local_peertutoring'),
         "$CFG->wwwroot/local/peertutoring/index.php")
     );
 

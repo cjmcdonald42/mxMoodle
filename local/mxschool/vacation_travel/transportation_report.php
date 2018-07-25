@@ -90,11 +90,11 @@ $addbutton->url = new moodle_url('/local/mxschool/vacation_travel/vacation_enter
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table, $DB->count_records('local_mxschool_vt_trip'));
+    $renderable = new \local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

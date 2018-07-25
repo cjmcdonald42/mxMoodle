@@ -88,8 +88,7 @@ class report implements renderable, templatable {
     private $filter;
 
     /**
-     * @param local_mxschool_table $table The table object to output to the template
-     * @param int $size The number of rows to output.
+     * @param local_mxschool_table $table The table object to output to the template.
      * @param string $search Default search text, null if there is no search option.
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
      * @param bool $printbutton Whether to display a print button.
@@ -98,10 +97,10 @@ class report implements renderable, templatable {
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
     public function __construct(
-        $table, $size, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $emailbuttons = false,
+        $table, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $emailbuttons = false,
         $headers = false
     ) {
-        $this->table = new report_table($table, $size, $headers);
+        $this->table = new report_table($table, $headers);
         $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton, $emailbuttons);
     }
 
@@ -132,19 +131,15 @@ class report_table implements renderable, templatable {
 
     /** @var local_mxschool_table $table The table object to output to the template.*/
     private $table;
-    /** @var int $size The number of rows to output.*/
-    private $size;
     /** @var array|bool $headers Array of headers as ['text', 'length'] to prepend or false.*/
     private $headers;
 
     /**
-     * @param local_mxschool_table $table The table object to output to the template
-     * @param int $size The number of rows to output.
+     * @param local_mxschool_table $table The table object to output to the template.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
-    public function __construct($table, $size, $headers = false) {
+    public function __construct($table, $headers = false) {
         $this->table = $table;
-        $this->size = $size;
         $this->headers = $headers;
     }
 
@@ -156,7 +151,7 @@ class report_table implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         ob_start();
-        $this->table->out($this->size, true);
+        $this->table->out(get_config('local_mxschool', 'table_size'), true);
         $data->table = ob_get_clean();
         $data->headers = $this->headers ? json_encode($this->headers) : $this->headers;
         return $data;

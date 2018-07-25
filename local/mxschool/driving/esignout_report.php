@@ -96,7 +96,7 @@ $addbutton->text = get_string('esignout_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/driving/esignout_enter.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

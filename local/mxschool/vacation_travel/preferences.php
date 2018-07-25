@@ -96,7 +96,7 @@ $addbutton->url = new moodle_url('/local/mxschool/vacation_travel/site_edit.php'
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table, 50, null, array(), false, $addbutton);
+$reportrenderable = new \local_mxschool\output\report($table, null, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

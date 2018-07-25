@@ -69,7 +69,7 @@ $addbutton->text = get_string('vehicle_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/driving/vehicle_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, 50, $search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $search, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);

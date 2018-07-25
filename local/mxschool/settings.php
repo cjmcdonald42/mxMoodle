@@ -28,58 +28,57 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
 
-    $ADMIN->add('root', new admin_category('mxschool', new lang_string('mxschool_category', 'local_mxschool')));
+    $mxschool = new admin_category('mxschool', new lang_string('mxschool_category', 'local_mxschool'));
 
-    $emailpage = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
-    $emailpage->add(new admin_setting_configtext(
-        'local_mxschool/email_deans',
-        get_string('deans_email', 'local_mxschool'),
-        get_string('deans_email_description', 'local_mxschool'),
-        'deans@mxschool.edu'
+    $emailsettings = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
+    $emailsettings->add(new admin_setting_configtext(
+        'local_mxschool/email_deans', new lang_string('deans_email', 'local_mxschool'),
+        new lang_string('deans_email_description', 'local_mxschool'), 'deans@mxschool.edu'
     ));
-    $emailpage->add(new admin_setting_configtext(
-        'local_mxschool/email_transportationmanager',
-        get_string('transportationmanager_email', 'local_mxschool'),
-        get_string('transportationmanager_email_description', 'local_mxschool'),
-        'ptorres@mxschool.edu'
+    $emailsettings->add(new admin_setting_configtext(
+        'local_mxschool/email_transportationmanager', new lang_string('transportationmanager_email', 'local_mxschool'),
+        new lang_string('transportationmanager_email_description', 'local_mxschool'), 'ptorres@mxschool.edu'
     ));
-    $ADMIN->add('mxschool', $emailpage);
+    $mxschool->add('mxschool', $emailsettings);
 
-    $ADMIN->add('mxschool', new admin_category('indexes', new lang_string('indexes', 'local_mxschool')));
-    $ADMIN->add('indexes', new admin_externalpage(
-        'main_index',
-        new lang_string('main_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
-        'user_management_index',
-        new lang_string('user_management_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/user_management/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
-        'checkin_index',
-        new lang_string('checkin_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/checkin/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
-        'driving_index',
-        new lang_string('driving_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/driving/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
-        'advisor_selection_index',
-        new lang_string('advisor_selection_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/advisor_selection/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
-        'rooming_index',
-        new lang_string('rooming_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/rooming/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
-        'vacation_travel_index',
-        new lang_string('vacation_travel_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/vacation_travel/index.php")
-    );
+    $othersettings = new admin_settingpage('other_settings', new lang_string('other_settings', 'local_mxschool'));
+    $othersettings->add(new admin_setting_configtext(
+        'local_mxschool/table_size', new lang_string('table_size', 'local_mxschool'),
+        new lang_string('table_size_description', 'local_mxschool'), 50, PARAM_INT
+    ));
+    $mxschool->add('mxschool', $othersettings);
+
+    $indexes = new admin_category('indexes', new lang_string('indexes', 'local_mxschool'));
+    $indexes->add('indexes', new admin_externalpage(
+        'main_index', new lang_string('main_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+        'user_management_index', new lang_string('user_management_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/user_management/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+        'checkin_index', new lang_string('checkin_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/checkin/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+        'driving_index', new lang_string('driving_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/driving/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+        'advisor_selection_index', new lang_string('advisor_selection_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/advisor_selection/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+        'rooming_index', new lang_string('rooming_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/rooming/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+        'vacation_travel_index', new lang_string('vacation_travel_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/vacation_travel/index.php"
+    ));
+    $mxschool->add('mxschool', $indexes);
+
+    $ADMIN->add('root', $mxschool);
 
 }

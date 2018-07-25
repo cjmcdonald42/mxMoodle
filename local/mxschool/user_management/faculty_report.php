@@ -54,7 +54,7 @@ $table = new faculty_table($filter);
 $dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool')));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns);
 
 echo $output->header();
 echo $output->heading($title);

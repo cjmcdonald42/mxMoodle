@@ -106,11 +106,11 @@ $ratingadd->text = get_string('rating_report_add', 'local_peertutoring');
 $ratingadd->url = new moodle_url('/local/peertutoring/rating_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$tutorrenderable = new \local_mxschool\output\report($tutortable, 50, null, array(), false, $tutoradd);
-$departmentrenderable = new \local_mxschool\output\report($departmenttable, 50, null, array(), false, $departmentadd);
-$courserenderable = new \local_mxschool\output\report($coursetable, 50, null, array(), false, $courseadd);
-$typerenderable = new \local_mxschool\output\report($typetable, 50, null, array(), false, $typeadd);
-$ratingrenderable = new \local_mxschool\output\report($ratingtable, 50, null, array(), false, $ratingadd);
+$tutorrenderable = new \local_mxschool\output\report($tutortable, null, array(), false, $tutoradd);
+$departmentrenderable = new \local_mxschool\output\report($departmenttable, null, array(), false, $departmentadd);
+$courserenderable = new \local_mxschool\output\report($coursetable, null, array(), false, $courseadd);
+$typerenderable = new \local_mxschool\output\report($typetable, null, array(), false, $typeadd);
+$ratingrenderable = new \local_mxschool\output\report($ratingtable, null, array(), false, $ratingadd);
 
 echo $output->header();
 echo $output->heading(get_string('tutor_report', 'local_peertutoring'));

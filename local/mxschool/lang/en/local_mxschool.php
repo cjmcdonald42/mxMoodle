@@ -87,6 +87,9 @@ $string['deans_email_description'] = 'The email address to send notifications to
 $string['transportationmanager_email'] = 'Transportation Manager Email';
 $string['transportationmanager_email_description'] = 'The email address to send notifications to the transportation manager.';
 
+$string['other_settings'] = 'Other Settings';
+$string['table_size'] = 'Default Table Length';
+$string['table_size_description'] = 'The number of rows to display when outputting tables.';
 
 $string['indexes'] = 'Index Pages';
 $string['main_index'] = 'Middlesex School Index';
@@ -96,7 +99,6 @@ $string['driving_index'] = 'Driving and eSignout Index';
 $string['advisor_selection_index'] = 'Advisor Selection Index';
 $string['rooming_index'] = 'Rooming Index';
 $string['vacation_travel_index'] = 'Vacation Travel Index';
-$string['peertutoring_index'] = 'Peer Tutoring Index';
 
 // Events.
 $string['event_page_viewed'] = 'mxschool page viewed';

@@ -82,11 +82,11 @@ $emailbuttons = array($emailreminder, $emailresults);
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table, $DB->count_records('local_mxschool_adv_selection'));
+    $renderable = new \local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, 50, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
 
 echo $output->header();
 echo $output->heading($title);
