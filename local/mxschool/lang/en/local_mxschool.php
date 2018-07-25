@@ -356,9 +356,9 @@ $string['weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
 $string['weekend_form_instructions_placeholder_hoh'] = 'your head of house';
 $string['weekend_form_instructions_placeholder_permissionsline'] = 'the house permissions line';
 
-$string['weekend_form_error_outoforder'] = 'You must select a return date and time after your departure date and time.';
-$string['weekend_form_error_notinweekend'] = 'You must select a departure date within a valid weekend.';
-$string['weekend_form_error_indifferentweekends'] = 'You must select a return date in the same weekend as your departure date.';
+$string['weekend_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
+$string['weekend_form_error_notinweekend'] = 'Your departure date must be within a valid weekend.';
+$string['weekend_form_error_indifferentweekends'] = 'Your return date must be in the same weekend as your departure date.';
 
 // Weekend Check-in Sheet.
 $string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend} ({$a->type})';
@@ -721,6 +721,9 @@ $string['vacation_travel_form_error_nonumber_Bus'] = 'You must specify a bus num
 $string['vacation_travel_form_error_nonumber_Train'] = 'You must specify a train number.';
 $string['vacation_travel_form_error_nointernational_dep'] = 'You must specify whether your flight is an international flight.';
 $string['vacation_travel_form_error_nointernational_ret'] = 'You must specify whether you will be clearing customs in Boston.';
+$string['vacation_travel_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
+$string['vacation_travel_form_error_outoforder_dep'] = 'Your departure transportation date and time must be after you are leaving campus.';
+$string['vacation_travel_form_error_outoforder_ret'] = 'Your return transportation date and time must be before you are arriving at campus.';
 
 // Vacation Travel Report.
 $string['vacation_travel_report_select_submitted_true'] = 'Submitted';
