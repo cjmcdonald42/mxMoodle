@@ -188,10 +188,10 @@ class mx_notifications {
                 $record = $DB->get_record_sql(
                     "SELECT t.id, CONCAT(u.firstname, ' ', u.lastname) AS studentname, t.destination, t.phone_number AS phonenumber,
                      t.time_modified AS timesubmitted, d.campus_date_time AS depcampus, d.mx_transportation AS depmxtransportation,
-                     d.type AS deptype, ds.name AS depsite, d.site_other AS depdetails, d.carrier AS depcarriercompany,
+                     d.type AS deptype, ds.name AS depsite, d.details AS depdetails, d.carrier AS depcarriercompany,
                      d.transportation_number AS depnumber, d.transportation_date_time AS deptransportation,
                      d.international AS depinternational, r.campus_date_time AS retcampus,
-                     r.mx_transportation AS retmxtransportation, r.type AS rettype, rs.name AS retsite, r.site_other AS retdetails,
+                     r.mx_transportation AS retmxtransportation, r.type AS rettype, rs.name AS retsite, r.details AS retdetails,
                      r.carrier AS retcarriercompany, r.transportation_number AS retnumber,
                      r.transportation_date_time AS rettransportation, r.international AS retinternational
                      FROM {local_mxschool_vt_trip} t LEFT JOIN {user} u ON t.userid = u.id

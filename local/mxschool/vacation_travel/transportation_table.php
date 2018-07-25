@@ -41,14 +41,33 @@ class transportation_table extends local_mxschool_table {
     public function __construct($view, $filter, $download) {
         $this->is_downloading($download, 'Vacation Travel Transportation', $view);
         $columns = array(
-            'student', 'destination', 'phone', 'mxtransportation', 'type', 'site', 'details', 'transportationdatetime', 'carrier',
-            'number', 'international'
+            'student', 'destination', 'phone', 'mxtransportation', 'type', 'site', 'details', 'carrier', 'number',
+            'transportationdatetime', 'international'
         );
         if ($filter->mxtransportation !== '') {
             unset($columns[array_search('mxtransportation', $columns)]);
+            if (!$filter->mxtransportation) {
+                unset($columns[array_search('site', $columns)]);
+                unset($columns[array_search('transportationdatetime', $columns)]);
+                unset($columns[array_search('international', $columns)]);
+            }
         }
         if ($filter->type !== '') {
             unset($columns[array_search('type', $columns)]);
+            if ($filter->type === 'Car' || $filter->type === 'Non-MX Bus') {
+                unset($columns[array_search('site', $columns)]);
+            }
+            if ($filter->type === 'NYC Direct') {
+                unset($columns[array_search('details', $columns)]);
+            }
+            if ($filter->type !== 'Plane' && $filter->type !== 'Train' && $filter->type !== 'Bus') {
+                unset($columns[array_search('carrier', $columns)]);
+                unset($columns[array_search('number', $columns)]);
+                unset($columns[array_search('transportationdatetime', $columns)]);
+            }
+            if ($filter->type !== 'Plane') {
+                unset($columns[array_search('international', $columns)]);
+            }
         }
         if ($this->is_downloading()) {
             $columns[] = 'email';
@@ -64,9 +83,8 @@ class transportation_table extends local_mxschool_table {
         $fields = array(
             's.id', 'u.id AS userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
             'u.alternatename', 't.destination', 't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation',
-            'dr.type AS type', 'drs.name AS site', 'dr.site_other AS details',
-            'dr.transportation_date_time AS transportationdatetime', 'dr.carrier', 'dr.transportation_number AS number',
-            'dr.international', 'u.email'
+            'dr.type AS type', 'drs.name AS site', 'dr.details', 'dr.carrier', 'dr.transportation_number AS number',
+            'dr.transportation_date_time AS transportationdatetime', 'dr.international', 'u.email'
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_vt_trip} t ON s.userid = t.userid',
@@ -77,13 +95,13 @@ class transportation_table extends local_mxschool_table {
             ? '' : "dr.mx_transportation = {$filter->mxtransportation}", $filter->type ? "dr.type = '{$filter->type}'" : ''
         );
         $sortable = array(
-            'student', 'destination', 'mxtransportation', 'type', 'site', 'transportationdatetime', 'carrier', 'number',
+            'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'transportationdatetime',
             'international'
         );
         $urlparams = array(
             'view' => $view, 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
         );
-        $centered = array('mxtransportation', 'details', 'transportationdatetime', 'carrier', 'number', 'international');
+        $centered = array('mxtransportation', 'site', 'details', 'carrier', 'number', 'transportationdatetime', 'international');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
             'transportation_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
@@ -103,7 +121,9 @@ class transportation_table extends local_mxschool_table {
      */
     protected function col_site($values) {
         return $values->tid ? (
-            $values->site ?: get_string('vacation_travel_transportation_report_site_other', 'local_mxschool')
+            isset($values->site) ? (
+                $values->site ?: get_string('vacation_travel_transportation_report_site_other', 'local_mxschool')
+            ) : '-'
         ) : '';
     }
 
@@ -112,13 +132,6 @@ class transportation_table extends local_mxschool_table {
      */
     protected function col_details($values) {
         return $values->tid ? ($values->details ?: '-') : '';
-    }
-
-    /**
-     * Formats the transportation date and time column to 'n/j/y g:i A'.
-     */
-    protected function col_transportationdatetime($values) {
-        return $values->tid ? ($values->transportationdatetime ? date('n/j/y g:i A', $values->transportationdatetime) : '-') : '';
     }
 
     /**
@@ -133,6 +146,13 @@ class transportation_table extends local_mxschool_table {
      */
     protected function col_number($values) {
         return $values->tid ? ($values->number ?: '-') : '';
+    }
+
+    /**
+     * Formats the transportation date and time column to 'n/j/y g:i A'.
+     */
+    protected function col_transportationdatetime($values) {
+        return $values->tid ? ($values->transportationdatetime ? date('n/j/y g:i A', $values->transportationdatetime) : '-') : '';
     }
 
     /**

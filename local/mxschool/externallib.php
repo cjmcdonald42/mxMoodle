@@ -383,8 +383,11 @@ class local_mxschool_external extends external_api {
     public static function get_advisor_selection_student_options_returns() {
         return new external_single_structure(array(
             'students' => new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'the user id of the student who has not completed an advisor selection form'),
-                'name' => new external_value(PARAM_TEXT, 'the name of the student who has not completed an advisor selection form')
+                'userid' => new external_value(
+                    PARAM_INT, 'the user id of the student who has not completed an advisor selection form'
+                ), 'name' => new external_value(
+                    PARAM_TEXT, 'the name of the student who has not completed an advisor selection form'
+                )
             ))), 'current' => new external_single_structure(array(
                 'userid' => new external_value(PARAM_INT, 'the user id of the student\' current advisor'),
                 'name' => new external_value(PARAM_TEXT, 'the name of the student\' current advisor')
@@ -503,6 +506,92 @@ class local_mxschool_external extends external_api {
                 'userid' => new external_value(PARAM_INT, 'the user id of the potential dormmate'),
                 'name' => new external_value(PARAM_TEXT, 'the name of the potential dormmate')
             )))
+        ));
+    }
+
+    /**
+     * Returns descriptions of the get_vacation_travel_options() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_vacation_travel_options() function.
+     */
+    public static function get_vacation_travel_options_parameters() {
+        return new external_function_parameters(array('departure' => new external_single_structure(array(
+            'mxtransportation' => new external_value(
+                PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
+            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL)
+        )), 'return' => new external_single_structure(array(
+            'mxtransportation' => new external_value(
+                PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
+            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL)
+        ))));
+    }
+
+    /**
+     * Queries the database to determine the available types and sites for a particular selection
+     * as well as a list of students who have not completed the form.
+     *
+     * @param stdClass $departure Object which may have properties mxtransportation and type.
+     * @param stdClass $return Object which may have properties mxtransportation and type.
+     * @return stdClass With properties students, departure, and return.
+     */
+    public static function get_vacation_travel_options($departure, $return) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_vacation_travel_options_parameters(), array(
+            'departure' => $departure, 'return' => $return
+        ));
+
+        global $DB;
+        $result = new stdClass();
+        $list = get_student_without_vacation_travel_form_list();
+        $result->students = array();
+        foreach ($list as $userid => $name) {
+            $result->students[] = array('userid' => $userid, 'name' => $name);
+        }
+        $result->departure = new stdClass();
+        $result->departure->types = get_vacation_travel_type_list(
+            isset($params['departure']['mxtransportation']) ? $params['departure']['mxtransportation'] : null
+        );
+        $list = get_vacation_travel_departure_sites_list(isset($params['departure']['type']) ? $params['departure']['type'] : null);
+        $result->departure->sites = array();
+        foreach ($list as $id => $name) {
+            $result->departure->sites[] = (string)$id;
+        }
+        $result->return = new stdClass();
+        $result->return->types = get_vacation_travel_type_list(
+            isset($params['return']['mxtransportation']) ? $params['return']['mxtransportation'] : null
+        );
+        $list = get_vacation_travel_return_sites_list(isset($params['return']['type']) ? $params['return']['type'] : null);
+        $result->return->sites = array();
+        foreach ($list as $id => $name) {
+            $result->return->sites[] = (string)$id;
+        }
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_vacation_travel_options() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_vacation_travel_options() function.
+     */
+    public static function get_vacation_travel_options_returns() {
+        return new external_single_structure(array(
+            'students' => new external_multiple_structure(new external_single_structure(array(
+                'userid' => new external_value(
+                    PARAM_INT, 'the user id of the student who has not completed a vacation travel form'
+                ), 'name' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a vacation travel form')
+            ))), 'departure' => new external_single_structure(array(
+                'types' => new external_multiple_structure(
+                    new external_value(PARAM_TEXT, 'the type which is available given the filter')
+                ), 'sites' => new external_multiple_structure(
+                    new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
+                )
+            )), 'return' => new external_single_structure(array(
+                'types' => new external_multiple_structure(
+                    new external_value(PARAM_TEXT, 'the type which is available given the filter')
+                ), 'sites' => new external_multiple_structure(
+                    new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
+                )
+            ))
         ));
     }
 
