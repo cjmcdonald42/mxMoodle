@@ -171,7 +171,7 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:manage_rooming', context_system::instance());
                 break;
             case 'vacation_travel_notify_unsubmitted':
-                require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
+                require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 break;
             default:
                 throw new moodle_exception('Invalid email class.');

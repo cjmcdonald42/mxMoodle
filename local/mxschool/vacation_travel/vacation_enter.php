@@ -34,7 +34,7 @@ require_once('vacation_form.php');
 require_login();
 $isstudent = user_is_student();
 if (!$isstudent) {
-    require_capability('local/mxschool:manage_rooming', context_system::instance());
+    require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
 }
 
 $id = optional_param('id', 0, PARAM_INT);

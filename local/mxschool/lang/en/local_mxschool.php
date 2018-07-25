@@ -74,6 +74,7 @@ $string['mxschool:manage_advisor_selection_preferences'] = 'Middlesex School: Vi
 $string['mxschool:manage_rooming'] = 'Middlesex School: View and manage students\' rooming request records';
 $string['mxschool:manage_rooming_preferences'] = 'Middlesex School: View and manage rooming preferences';
 $string['mxschool:manage_vacation_travel'] = 'Middlesex School: View and manage students\' basic vacation travel records';
+$string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students who haven\'t submitted a vacation travel form';
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
 
@@ -761,6 +762,7 @@ $string['vacation_travel_transportation_report_departure_header_carrier'] = 'Air
 $string['vacation_travel_transportation_report_departure_header_number'] = 'Flight / Bus / Train Number';
 $string['vacation_travel_transportation_report_departure_header_transportationdatetime'] = 'Transportation Date and Time';
 $string['vacation_travel_transportation_report_departure_header_international'] = 'International Flight';
+$string['vacation_travel_transportation_report_departure_header_timemodified'] = 'Last Modified';
 $string['vacation_travel_transportation_report_departure_header_email'] = 'Email';
 $string['vacation_travel_transportation_report_return_header_student'] = 'Student';
 $string['vacation_travel_transportation_report_return_header_destination'] = 'Destination';
@@ -773,6 +775,7 @@ $string['vacation_travel_transportation_report_return_header_carrier'] = 'Airlin
 $string['vacation_travel_transportation_report_return_header_number'] = 'Transportation Number';
 $string['vacation_travel_transportation_report_return_header_transportationdatetime'] = 'Transportation Date and Time';
 $string['vacation_travel_transportation_report_return_header_international'] = 'Clearing Customs in Boston';
+$string['vacation_travel_transportation_report_return_header_timemodified'] = 'Last Modified';
 $string['vacation_travel_transportation_report_return_header_email'] = 'Email';
 
 $string['vacation_travel_transportation_report_site_other'] = 'Other';

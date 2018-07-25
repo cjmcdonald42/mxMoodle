@@ -71,7 +71,10 @@ $emailbutton->emailclass = 'vacation_travel_notify_unsubmitted';
 $emailbuttons = array($emailbutton);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, true, $addbutton, $emailbuttons);
+$renderable = new \local_mxschool\output\report(
+    $table, $filter->search, $dropdowns, true, $addbutton,
+    has_capability('local/mxschool:notify_vacation_travel', context_system::instance()) ? $emailbuttons : array()
+);
 
 echo $output->header();
 echo $output->heading($title);

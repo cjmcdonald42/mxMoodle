@@ -69,9 +69,9 @@ $ridingencode = array(
 $data = get_record($queryfields, "s.id = ?", array($id));
 $data->riding = $ridingencode[$data->riding];
 $dorms = get_dorm_list();
-$advisors = get_available_advisor_list();
+$faculty = get_faculty_list();
 
-$form = new student_edit_form(array('id' => $id, 'dorms' => $dorms, 'advisors' => $advisors));
+$form = new student_edit_form(array('id' => $id, 'dorms' => $dorms, 'faculty' => $faculty));
 $form->set_redirect($redirect);
 $form->set_data($data);
 
