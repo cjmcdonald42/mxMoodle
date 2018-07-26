@@ -238,7 +238,7 @@ function get_param_current_date() {
  */
 function get_param_current_date_esignout() {
     global $DB;
-    $timestamp = get_param_current_date();
+    $timestamp = (int)get_param_current_date();
     $startdate = new DateTime('now', core_date::get_server_timezone_object());
     $startdate->setTimestamp($timestamp);
     $enddate = clone $startdate;

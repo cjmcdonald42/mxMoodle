@@ -97,7 +97,7 @@ class transportation_table extends local_mxschool_table {
         );
         $sortable = array(
             'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'transportationdatetime',
-            'international'
+            'international', 'timemodified'
         );
         $urlparams = array(
             'view' => $view, 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
@@ -105,8 +105,8 @@ class transportation_table extends local_mxschool_table {
         $centered = array('mxtransportation', 'site', 'details', 'carrier', 'number', 'transportationdatetime', 'international');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
-            'transportation_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            'transportation_table', $columns, $headers, $sortable, 'timemodified', $fields, $from, $where, $urlparams, $centered,
+            $filter->search, $searchable, array(), false
         );
     }
 
