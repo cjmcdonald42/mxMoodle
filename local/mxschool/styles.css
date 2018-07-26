@@ -79,12 +79,15 @@ button.mx-email-button {
  * Print Styling.
  */
 @media print {
+    body.path-local-mxschool {
+        background-color: #fff;
+    }
+
     body.path-local-mxschool .noprint,
     body.path-local-mxschool header,
     body.path-local-mxschool footer,
     div.mx-table nav,
-    div.mx-table form.dataformatselector,
-    div.mx-form div[data-groupname='buttonar'] {
+    div.mx-table form.dataformatselector {
         display: none;
     }
 
