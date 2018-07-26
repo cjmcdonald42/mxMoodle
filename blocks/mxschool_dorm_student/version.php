@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dorm_student';
-$plugin->version = 2018072500;
+$plugin->version = 2018072600;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_ALPHA;

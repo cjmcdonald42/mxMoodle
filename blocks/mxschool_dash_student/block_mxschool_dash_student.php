@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Middlesex School's Student Menu Block for the Dashboard.
  *
  * @package    block_mxschool_dash_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -41,17 +41,20 @@ class block_mxschool_dash_student extends block_base {
         }
 
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index(array(
+        $esignoutrenderable = new \local_mxschool\output\index(array(
           // Put any links in this array as displaytext => relative url.
             get_string('esignout_form', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_enter.php',
-            get_string('esignout_report', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_report.php',
+            get_string('esignout_report', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_report.php'
+        ), get_string('esignout_heading', 'block_mxschool_dash_student'));
+
+        $deansrenderable = new \local_mxschool\output\index(array(
             get_string('advisor_selection', 'block_mxschool_dash_student') => '/local/mxschool/advisor_selection/advisor_enter.php',
             get_string('rooming', 'block_mxschool_dash_student') => '/local/mxschool/rooming/rooming_enter.php',
             get_string('vacation', 'block_mxschool_dash_student') => '/local/mxschool/vacation_travel/vacation_enter.php'
-        ));
+        ), get_string('deans_heading', 'block_mxschool_dash_student'));
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);;
+        $this->content->text = $output->render($esignoutrenderable).$output->render($deansrenderable);
         $this->content->footer = ''; // Add a footer here if desired.
 
         return $this->content;

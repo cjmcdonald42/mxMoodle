@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex School's Dean's Block for the Student Dashboard.
+ * English language strings for Middlesex School's Student Menu Block for the Dashboard.
  *
  * @package    block_mxschool_dash_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -29,8 +29,10 @@ $string['blockname'] = 'Middlesex';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Deans Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';
 
-$string['esignout_form'] = 'eSignout Form';
-$string['esignout_report'] = 'eSignout Report';
+$string['esignout_heading'] = 'eSignout';
+$string['esignout_form'] = 'Sign Out';
+$string['esignout_report'] = 'Sign In or modify';
+$string['deans_heading'] = 'Dean\'s Office';
 $string['advisor_selection'] = 'Advisor Selection Form';
 $string['rooming'] = 'Rooming Form';
 $string['vacation'] = 'Vacation Travel Form';

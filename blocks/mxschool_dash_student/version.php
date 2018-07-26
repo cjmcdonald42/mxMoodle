@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Middlesex School's Student Menu Block for the Dashboard.
  *
  * @package    block_mxschool_dash_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_student';
-$plugin->version = 2018072500;
+$plugin->version = 2018072600;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_ALPHA;

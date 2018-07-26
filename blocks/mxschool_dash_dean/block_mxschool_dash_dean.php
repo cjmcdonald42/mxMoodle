@@ -48,7 +48,7 @@ class block_mxschool_dash_dean extends block_base {
             get_string('esignout_link', 'block_mxschool_dash_dean') => '/local/mxschool/driving/index.php',
             get_string('advisor_link', 'block_mxschool_dash_dean') => '/local/mxschool/advisor_selection/index.php',
             get_string('rooming_link', 'block_mxschool_dash_dean') => '/local/mxschool/rooming/index.php',
-            get_string('vacation_link', 'block_mxschool_dash_dean') => '/local/mxschool/vacation...'
+            get_string('vacation_link', 'block_mxschool_dash_dean') => '/local/mxschool/vacation_travel/index.php'
         ));
 
         $this->content = new stdClass();

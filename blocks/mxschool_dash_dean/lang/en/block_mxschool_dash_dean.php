@@ -25,13 +25,13 @@
  */
 
 $string['pluginname'] = 'Deans Dashboard Block';
-$string['blockname'] = 'Middlesex';
+$string['blockname'] = 'Middlesex Admin';
 $string['mxschool_dash_dean:addinstance'] = 'Middlesex School: Add Deans Block';
 $string['mxschool_dash_dean:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';
 
 $string['users_link'] = 'User Management';
 $string['checkin_link'] = 'Check-In Sheets, Weekend Forms';
 $string['esignout_link'] = 'eSignout System';
-$string['advisor_link'] = 'Advisor Selection Forms';
-$string['rooming_link'] = 'Rooming Forms';
-$string['vacation_link'] = 'Vacation Travel';
+$string['advisor_link'] = 'Advisor Selection Module';
+$string['rooming_link'] = 'Rooming Module';
+$string['vacation_link'] = 'Vacation Travel Module';
