@@ -152,7 +152,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student."/>
-        <FIELD NAME="room_type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The requested room type."/>
+        <FIELD NAME="room_type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The requested room type {&quot;Single&quot;, &quot;Double&quot;, &quot;Quad&quot;}."/>
         <FIELD NAME="dormmate1id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's first dormmate request."/>
         <FIELD NAME="dormmate2id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's second dormmate request."/>
         <FIELD NAME="dormmate3id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student's third dormmate request."/>

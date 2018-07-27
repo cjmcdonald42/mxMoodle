@@ -62,7 +62,6 @@ $genderoptions = array(
 $roomtypeoptions = array(
     'Single' => get_string('room_type_single', 'local_mxschool'),
     'Double' => get_string('room_type_double', 'local_mxschool'),
-    'Triple' => get_string('room_type_triple', 'local_mxschool'),
     'Quad' => get_string('room_type_quad', 'local_mxschool')
 );
 $doubleoptions = array(

@@ -56,7 +56,6 @@ $string['am'] = 'AM';
 $string['pm'] = 'PM';
 $string['room_type_single'] = 'Single';
 $string['room_type_double'] = 'Double';
-$string['room_type_triple'] = 'Triple';
 $string['room_type_quad'] = 'Quad';
 
 // Capabilities.

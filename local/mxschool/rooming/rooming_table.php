@@ -67,6 +67,7 @@ class rooming_table extends local_mxschool_table {
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
             '{local_mxschool_rooming} r ON s.userid = r.userid'
         );
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         for ($i = 1; $i <= 6; $i++) {
             $fields = array_merge($fields, array(
                 "CONCAT(d{$i}u.lastname, ', ', d{$i}u.firstname) AS d{$i}name", "d{$i}u.firstname AS d{$i}firstname",
@@ -76,13 +77,13 @@ class rooming_table extends local_mxschool_table {
                 "{user} d{$i}u ON r.dormmate{$i}id = d{$i}u.id",
                 "{local_mxschool_student} d{$i}s ON r.dormmate{$i}id = d{$i}s.userid"
             ));
+            $searchable = array_merge($searchable, array("d{$i}u.firstname", "d{$i}u.lastname", "d{$i}u.alternatename"));
         }
         $fields = array_merge($fields, array(
             "CONCAT(ru.lastname, ', ', ru.firstname) AS rname", 'ru.firstname AS rfirstname', 'ru.alternatename AS ralternatename'
         ));
-        $from = array_merge($from, array(
-            '{user} ru ON r.preferred_roommateid = ru.id'
-        ));
+        $from = array_merge($from, array('{user} ru ON r.preferred_roommateid = ru.id'));
+        $searchable = array_merge($searchable, array('ru.firstname', 'ru.lastname', 'ru.alternatename'));
         $where = array(
             'u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'", $filter->submitted === '1'
             ? "EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)" : (
@@ -98,12 +99,6 @@ class rooming_table extends local_mxschool_table {
             'double' => $filter->double, 'search' => $filter->search
         );
         $centered = array('grade', 'gender', 'liveddouble', 'roomtype');
-        $searchable = array(
-            'u.firstname', 'u.lastname', 'u.alternatename', 'd1.firstname', 'd1.lastname', 'd1.alternatename', 'd2.firstname',
-            'd2.lastname', 'd2.alternatename', 'd3.firstname', 'd3.lastname', 'd3.alternatename', 'd4.firstname', 'd4.lastname',
-            'd4.alternatename', 'd5.firstname', 'd5.lastname', 'd5.alternatename', 'd6.firstname', 'd6.lastname',
-            'd6.alternatename', 'ru.firstname', 'ru.lastname', 'ru.alternatename'
-        );
         parent::__construct(
             'rooming_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable

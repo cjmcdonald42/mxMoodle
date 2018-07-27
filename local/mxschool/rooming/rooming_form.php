@@ -38,13 +38,7 @@ class rooming_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
         $roomable = $this->_customdata['roomable'];
-        $roomtypes = array(
-            '' => get_string('form_select_default', 'local_mxschool'),
-            'Single' => get_string('room_type_single', 'local_mxschool'),
-            'Double' => get_string('room_type_double', 'local_mxschool'),
-            'Triple' => get_string('room_type_triple', 'local_mxschool'),
-            'Quad' => get_string('room_type_quad', 'local_mxschool')
-        );
+        $roomtypes = $this->_customdata['roomtypes'];
 
         $fields = array('' => array(
             'id' => parent::ELEMENT_HIDDEN_INT,
