@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Peer Tutoring Subplugin.
+ * Tasks for Middlesex School's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,11 +24,16 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+ defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2018072607;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->dependencies = array('local_mxschool' => 2018072601);
+ $tasks = array(
+     array(
+        'classname' => 'local_peertutoring\task\summary_email',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '20',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+     )
+ );

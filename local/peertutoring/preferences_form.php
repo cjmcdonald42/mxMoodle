@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Peer Tutoring Subplugin.
+ * Form for editing preferences for Middlesex School's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,9 +26,26 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2018072607;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->dependencies = array('local_mxschool' => 2018072601);
+require_once(__DIR__.'/../mxschool/classes/mx_form.php');
+
+class preferences_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $tags = implode(', ', array_map(function($tag) {
+            return "{{$tag}}";
+        }, array('total')));
+
+        $fields = array(
+            'notifications' => array(
+                'available' => array('element' => 'static', 'text' => $tags),
+                'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
+                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+            )
+        );
+        parent::set_fields($fields, 'preferences', false, 'local_peertutoring');
+    }
+
+}

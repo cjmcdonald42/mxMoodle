@@ -31,5 +31,4 @@ $plugin->version = 2018072601;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
 $plugin->dependencies = array();

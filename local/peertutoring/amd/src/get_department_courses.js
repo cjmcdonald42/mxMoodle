@@ -25,27 +25,29 @@
  */
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
+    function update() {
+        var promises = ajax.call([{
+            methodname: 'local_peertutoring_get_department_courses',
+            args: {
+                department: $('.mx-form select#id_department').val()
+            }
+        }]);
+        promises[0].done(function(data) {
+            var courseSelect = $('.mx-form select#id_course');
+            var courseSelected = courseSelect.val();
+            courseSelect.empty();
+            $.each(data, function(index, course) {
+                courseSelect.append($('<option></option>').attr('value', course.id).text(course.name));
+            });
+            if ($('.mx-form select#id_course > option[value=' + courseSelected + ']').length) {
+                courseSelect.val(courseSelected);
+            } else {
+                courseSelect.change();
+            }
+        }).fail(notification.exception);
+    }
     return function() {
-        $('.mx-form select#id_department').change(function() {
-            var promises = ajax.call([{
-                methodname: 'local_peertutoring_get_department_courses',
-                args: {
-                    department: $('.mx-form select#id_department').val()
-                }
-            }]);
-            promises[0].done(function(data) {
-                var courseSelect = $('.mx-form select#id_course');
-                var courseSelected = courseSelect.val();
-                courseSelect.empty();
-                $.each(data, function(index, course) {
-                    courseSelect.append($('<option></option>').attr('value', course.id).text(course.name));
-                });
-                if ($('.mx-form select#id_course > option[value=' + courseSelected + ']').length) {
-                    courseSelect.val(courseSelected);
-                } else {
-                    courseSelect.change();
-                }
-            }).fail(notification.exception);
-        });
+        $(document).ready(update);
+        $('.mx-form select#id_department').change(update);
     };
 });

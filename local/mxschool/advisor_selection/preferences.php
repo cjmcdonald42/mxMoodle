@@ -28,8 +28,8 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once('faculty_table.php');
 require_once('preferences_form.php');
+require_once('faculty_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());

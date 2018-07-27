@@ -26,7 +26,7 @@
 
 define(['jquery'], function($) {
     return function(headers) {
-        $(window).ready(function() {
+        $(document).ready(function() {
             $('.mx-table thead').prepend(function() {
                 var row = $('<tr></tr>');
                 var count = 0;

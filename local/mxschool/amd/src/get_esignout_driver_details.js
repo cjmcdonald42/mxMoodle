@@ -25,25 +25,26 @@
  */
 
 define(['jquery', 'core/ajax'], function($, ajax) {
-    return function() {
-        $('.mx-form select#id_driver').change(function() {
-            var promises = ajax.call([{
-                methodname: 'local_mxschool_get_esignout_driver_details',
-                args: {
-                    esignoutid: $('.mx-form select#id_driver').val()
-                }
-            }]);
-            promises[0].done(function(data) {
-                $('.mx-form input#id_destination').val(data.destination);
-                $('.mx-form select#id_departuretime_hour').val(data.departurehour);
-                $('.mx-form select#id_departuretime_minute').val(data.departureminute);
-                $('.mx-form select#id_departuretime_ampm').val(data.departureampm ? 1 : 0);
-            }).fail(function() {
-                $('.mx-form input#id_destination').val(function() {return this.defaultValue;});
-                $('.mx-form select#id_departuretime_hour > option').prop('selected', function() {return this.defaultSelected;});
-                $('.mx-form select#id_departuretime_minute > option').prop('selected', function() {return this.defaultSelected;});
-                $('.mx-form select#id_departuretime_ampm > option').prop('selected', function() {return this.defaultSelected;});
-            });
+    function update () {
+        var promises = ajax.call([{
+            methodname: 'local_mxschool_get_esignout_driver_details',
+            args: {
+                esignoutid: $('.mx-form select#id_driver').val()
+            }
+        }]);
+        promises[0].done(function(data) {
+            $('.mx-form input#id_destination').val(data.destination);
+            $('.mx-form select#id_departuretime_hour').val(data.departurehour);
+            $('.mx-form select#id_departuretime_minute').val(data.departureminute);
+            $('.mx-form select#id_departuretime_ampm').val(data.departureampm ? 1 : 0);
+        }).fail(function() {
+            $('.mx-form input#id_destination').val(function() {return this.defaultValue;});
+            $('.mx-form select#id_departuretime_hour > option').prop('selected', function() {return this.defaultSelected;});
+            $('.mx-form select#id_departuretime_minute > option').prop('selected', function() {return this.defaultSelected;});
+            $('.mx-form select#id_departuretime_ampm > option').prop('selected', function() {return this.defaultSelected;});
         });
+    }
+    return function() {
+        $('.mx-form select#id_driver').change(update);
     };
 });

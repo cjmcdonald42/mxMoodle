@@ -34,9 +34,17 @@ $string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View 
 $string['peertutoring:enter_tutoring'] = 'Middlesex School Peer Tutoring: Create tutoring records';
 
 // Settings Pages.
+$string['settings'] = 'Peer Tutoring Settings';
+$string['peertutoradmin_email'] = 'Peer Tutor Admin Email';
+$string['peertutoradmin_email_description'] = 'The email address to send summary emails for peer tutoring.';
+
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 
+// Tasks.
+$string['task_summary_email'] = 'Daily summary email to peer tutor admin';
+
 // Notifications.
+$string['preferences_edit_success'] = 'Peer Tutoring Preferences Saved Successfully';
 $string['tutor_create_success'] = 'Tutor Record Created Successfully';
 $string['tutor_edit_success'] = 'Tutor Record Updated Successfully';
 $string['department_create_success'] = 'Department Record Created Successfully';
@@ -76,6 +84,12 @@ $string['type_edit'] = 'Edit Type Record';
 $string['rating_edit'] = 'Edit Effectiveness Rating Record';
 $string['tutoring_form'] = 'Peer Tutoring Form';
 $string['tutoring_report'] = 'Peer Tutoring Report';
+
+// Preferences.
+$string['preferences_header_notifications'] = 'Email Notifications';
+$string['preferences_notifications_available'] = 'Available Tags for Daily Summary Email';
+$string['preferences_notifications_subject'] = 'Subject for Daily Summary Email';
+$string['preferences_notifications_body'] = 'Body for Daily Summary Email';
 
 // Tutor Report.
 $string['tutor_report_add'] = 'Add a Tutor';

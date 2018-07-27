@@ -26,22 +26,23 @@
  */
 
 define(['jquery'], function($) {
-    return function() {
-        $(window).ready(function() {
-            $('.mx-table tbody > tr').each(function(index, element) {
-                var formatCell = $(element).children('.highlight-format');
-                var referenceCell = $(element).children('.highlight-reference');
-                if (formatCell && referenceCell) {
-                    var difference = referenceCell.text() - formatCell.text();
-                    if (difference === 2) {
-                        formatCell.addClass('mx-green');
-                    } else if (difference === 1) {
-                        formatCell.addClass('mx-yellow');
-                    } else if (difference <= 0) {
-                        formatCell.addClass('mx-red');
-                    }
+    function highlight() {
+        $('.mx-table tbody > tr').each(function(index, element) {
+            var formatCell = $(element).children('.highlight-format');
+            var referenceCell = $(element).children('.highlight-reference');
+            if (formatCell && referenceCell) {
+                var difference = referenceCell.text() - formatCell.text();
+                if (difference === 2) {
+                    formatCell.addClass('mx-green');
+                } else if (difference === 1) {
+                    formatCell.addClass('mx-yellow');
+                } else if (difference <= 0) {
+                    formatCell.addClass('mx-red');
                 }
-            });
+            }
         });
+    }
+    return function() {
+        $(document).ready(highlight);
     };
 });

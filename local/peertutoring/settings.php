@@ -28,6 +28,13 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
 
+    $settings = new admin_settingpage('peer_tutoring_settings', new lang_string('settings', 'local_peertutoring'));
+    $settings->add(new admin_setting_configtext(
+        'local_peertutoring/email_peertutoradmin', new lang_string('peertutoradmin_email', 'local_peertutoring'),
+        new lang_string('peertutoradmin_email_description', 'local_peertutoring'), 'kmagee@mxschool.edu'
+    ));
+    $ADMIN->add('mxschool', $settings);
+
     $ADMIN->add('indexes', new admin_externalpage(
         'peertutoring_index', new lang_string('peertutoring_index', 'local_peertutoring'),
         "$CFG->wwwroot/local/peertutoring/index.php")

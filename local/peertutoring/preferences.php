@@ -28,6 +28,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once('locallib.php');
+require_once('preferences_form.php');
 require_once('tutor_table.php');
 require_once('department_table.php');
 require_once('course_table.php');
@@ -45,6 +46,7 @@ $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php'
 );
+$redirect = get_redirect($parents);
 $url = '/local/peertutoring/preferences.php';
 $title = get_string('preferences', 'local_peertutoring');
 
@@ -83,6 +85,26 @@ if ($action === 'delete' && $id && $table) {
     }
 }
 
+$data = new stdClass();
+$notification = $DB->get_record('local_mxschool_notification', array('class' => 'peer_tutor_summary'));
+if ($notification) {
+    $data->subject = $notification->subject;
+    $data->body['text'] = $notification->body_html;
+}
+
+$form = new preferences_form();
+$form->set_redirect($redirect);
+$form->set_data($data);
+
+if ($form->is_cancelled()) {
+    redirect($form->get_redirect());
+} else if ($data = $form->get_data()) {
+    update_notification('peer_tutor_summary', $data->subject, $data->body);
+    logged_redirect(
+        $form->get_redirect(), get_string('preferences_edit_success', 'local_peertutoring'), 'update'
+    );
+}
+
 $tutortable = new tutor_table();
 $departmenttable = new department_table();
 $coursetable = new course_table();
@@ -106,6 +128,7 @@ $ratingadd->text = get_string('rating_report_add', 'local_peertutoring');
 $ratingadd->url = new moodle_url('/local/peertutoring/rating_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
+$formrenderable = new \local_mxschool\output\form($form);
 $tutorrenderable = new \local_mxschool\output\report($tutortable, null, array(), false, $tutoradd);
 $departmentrenderable = new \local_mxschool\output\report($departmenttable, null, array(), false, $departmentadd);
 $courserenderable = new \local_mxschool\output\report($coursetable, null, array(), false, $courseadd);
@@ -113,6 +136,8 @@ $typerenderable = new \local_mxschool\output\report($typetable, null, array(), f
 $ratingrenderable = new \local_mxschool\output\report($ratingtable, null, array(), false, $ratingadd);
 
 echo $output->header();
+echo $output->heading($title);
+echo $output->render($formrenderable);
 echo $output->heading(get_string('tutor_report', 'local_peertutoring'));
 echo $output->render($tutorrenderable);
 echo $output->heading(get_string('department_report', 'local_peertutoring'));

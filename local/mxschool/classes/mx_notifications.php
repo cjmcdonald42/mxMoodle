@@ -241,6 +241,19 @@ class mx_notifications {
                     $emailto[] = $record;
                 }
                 break;
+            case 'peer_tutor_summary':
+                $time = new DateTime('now', core_date::get_server_timezone_object());
+                $time->modify('-1 day');
+                $record = $DB->get_record_sql(
+                    "SELECT COUNT(id) AS total FROM {local_peertutoring_session} WHERE time_modified >= ?",
+                   array($time->getTimestamp())
+                );
+                $subject = self::replace($notification->subject, $record);
+                $body = self::replace($notification->body_html, $record);
+                $peertutoradmin = clone $supportuser;
+                $peertutoradmin->email = get_config('local_peertutoring', 'email_peertutoradmin');
+                $emailto = array($peertutoradmin);
+                break;
             default:
                 return false;
         }
