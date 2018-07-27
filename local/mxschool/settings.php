@@ -46,6 +46,10 @@ if ($hassiteconfig) {
         'local_mxschool/table_size', new lang_string('table_size', 'local_mxschool'),
         new lang_string('table_size_description', 'local_mxschool'), 50, PARAM_INT
     ));
+    $othersettings->add(new admin_setting_configtext(
+        'local_mxschool/school_ip', new lang_string('school_ip', 'local_mxschool'),
+        new lang_string('school_ip_description', 'local_mxschool'), '63.138.153.62'
+    ));
     $mxschool->add('mxschool', $othersettings);
 
     $indexes = new admin_category('indexes', new lang_string('indexes', 'local_mxschool'));

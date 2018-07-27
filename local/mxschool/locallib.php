@@ -200,6 +200,16 @@ function user_is_student() {
 }
 
 /**
+ * Determines whether the user is a student who is permitted to use eSignout.
+ *
+ * @param int $id The user id of the student to check.
+ * @return bool Whether the specified student is allowed to use eSignout.
+ */
+function student_may_use_esignout($userid) {
+    return array_key_exists($userid, get_esignout_student_list());
+}
+
+/**
  * Determines the dorm id to display for a faculty.
  * The priorities of this function are as follows:
  * 1) An id specified as a 'dorm' GET parameter.
@@ -409,6 +419,21 @@ function get_licensed_student_list() {
 }
 
 /**
+ * Queries the database to create a list of all the students who have sufficient permissions to participate in eSignout.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_esignout_student_list() {
+    global $DB;
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
  * Queries the database to create a list of all the students who have sufficient permissions to be another student's passenger.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
@@ -419,7 +444,8 @@ function get_passenger_list() {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21' ORDER BY name"
+         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
+         ORDER BY name"
     );
     return convert_records_to_list($students);
 }
@@ -808,12 +834,16 @@ function calculate_weekends_allowed($userid, $semester) {
 function get_esignout_type_list($userid = 0) {
     global $DB;
     $types = array('Driver', 'Passenger', 'Parent', 'Other');
-    $permissionsrecord = $DB->get_record('local_mxschool_permissions', array('userid' => $userid));
-    if ($permissionsrecord) {
-        if ($permissionsrecord->may_drive_to_town === 'No') {
+    $record = $DB->get_record_sql(
+        "SELECT p.may_drive_to_town AS maydrive, p.may_ride_with AS mayridewith, s.boarding_status AS boardingstatus
+         FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid WHERE s.userid = ?",
+         array('userid' => $userid)
+    );
+    if ($record) {
+        if ($record->maydrive === 'No' || $record->boardingstatus !== 'Day') {
             unset($types[array_search('Driver', $types)]);
         }
-        if ($permissionsrecord->may_ride_with === null || $permissionsrecord->may_ride_with === 'Over 21') {
+        if ($record->mayridewith === null || $record->mayridewith === 'Over 21') {
             unset($types[array_search('Passenger', $types)]);
         }
         $types = array_values($types); // Reset the keys so that [0] can be the default option.

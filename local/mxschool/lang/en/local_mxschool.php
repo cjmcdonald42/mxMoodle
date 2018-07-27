@@ -89,6 +89,8 @@ $string['transportationmanager_email'] = 'Transportation Manager Email';
 $string['transportationmanager_email_description'] = 'The email address to send notifications to the transportation manager.';
 
 $string['other_settings'] = 'Other Settings';
+$string['school_ip'] = 'Middlesex Network IP';
+$string['school_ip_description'] = 'The IP to check against to confirm that someone is on campus.';
 $string['table_size'] = 'Default Table Length';
 $string['table_size_description'] = 'The number of rows to display when outputting tables.';
 
@@ -422,6 +424,8 @@ $string['esignout_preferences_config_editwindow'] = 'Window for Students to Edit
 $string['esignout_preferences_notifications_available'] = 'Available Tags';
 $string['esignout_preferences_notifications_subject'] = 'Subject for eSignout Form Submitted Email';
 $string['esignout_preferences_notifications_body'] = 'Body for eSignout Form Submitted Email';
+$string['esignout_preferences_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
+$string['esignout_preferences_text_iperror'] = 'Text to Display When on the Wrong Network';
 $string['esignout_preferences_text_instructions'] = 'Instructions Regarding Selecting a Driver';
 $string['esignout_preferences_text_nopassengers'] = 'Warning for a Student Who May Not Drive Passengers';
 $string['esignout_preferences_text_needparent'] = 'Warning for a Student Who May Only be a Passenger with Parent Permission';

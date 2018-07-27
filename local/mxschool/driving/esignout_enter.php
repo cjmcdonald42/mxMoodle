@@ -96,6 +96,9 @@ if ($id) {
     $data->timecreated = time();
     if ($isstudent) {
         $data->student = $USER->id;
+        if (!student_may_use_esignout($USER->id)) {
+            redirect($redirect);
+        }
     }
 }
 if ($isstudent) {
@@ -114,7 +117,7 @@ $departuretime->setTime(0, 0);
 $data->date = $departuretime->getTimestamp();
 $data->parentwarning = get_config('local_mxschool', 'esignout_form_warning_needparent');
 $data->specificwarning = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
-$students = get_student_list();
+$students = get_esignout_student_list();
 $types = get_esignout_type_list();
 $passengers = get_passenger_list();
 $drivers = get_current_driver_list();
@@ -168,8 +171,15 @@ $jsrenderable1 = new \local_mxschool\output\amd_module('local_mxschool/get_esign
 $jsrenderable2 = new \local_mxschool\output\amd_module('local_mxschool/get_esignout_driver_details');
 
 echo $output->header();
-echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
-echo $output->render($formrenderable);
-echo $output->render($jsrenderable1);
-echo $output->render($jsrenderable2);
+if (
+    !get_config('local_mxschool', 'esignout_form_ipenabled')
+    || $_SERVER['REMOTE_ADDR'] === get_config('local_mxschool', 'school_ip')
+) {
+    echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
+    echo $output->render($formrenderable);
+    echo $output->render($jsrenderable1);
+    echo $output->render($jsrenderable2);
+} else {
+    echo $output->heading(get_config('local_mxschool', 'esignout_form_iperror'));
+}
 echo $output->footer();

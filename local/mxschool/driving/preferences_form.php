@@ -49,6 +49,13 @@ class preferences_form extends local_mxschool_form {
                 'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
+                'ipenabled' => array(
+                    'element' => 'advcheckbox', 'name' => null, 'text' => get_string(
+                        'esignout_preferences_ipenabled_text', 'local_mxschool',
+                        array('school' => get_config('local_mxschool', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR'])
+                    )
+                ),
+                'iperror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'instructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'nopassengers' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'needparent' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
