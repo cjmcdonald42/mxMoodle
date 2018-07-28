@@ -100,5 +100,8 @@ $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdo
 
 echo $output->header();
 echo $output->heading($title);
+if ($isstudent && get_config('local_mxschool', 'esignout_form_ipenabled') && $_SERVER['REMOTE_ADDR'] !== get_config('local_mxschool', 'school_ip')) {
+    echo $output->heading(get_config('local_mxschool', 'esignout_report_iperror'));
+}
 echo $output->render($renderable);
 echo $output->footer();

@@ -730,5 +730,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018072702, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018072704) {
+        set_config('esignout_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018072704, 'local', 'mxschool');
+    }
+
     return true;
 }

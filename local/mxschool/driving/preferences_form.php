@@ -55,7 +55,8 @@ class preferences_form extends local_mxschool_form {
                         array('school' => get_config('local_mxschool', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR'])
                     )
                 ),
-                'iperror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'ipformerror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'ipreporterror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'instructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'nopassengers' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'needparent' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,

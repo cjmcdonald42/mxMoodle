@@ -193,7 +193,7 @@ class esignout_table extends local_mxschool_table {
             return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id).$this->delete_icon($values->id);
         }
         if ($values->userid !== $USER->id) {
-            return '';
+            return '-';
         }
         if ($values->signin) {
             return '&#x2705;';
@@ -208,7 +208,10 @@ class esignout_table extends local_mxschool_table {
         }
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\signin_button($values->id);
-        return $output->render($renderable);
+        if (!get_config('local_mxschool', 'esignout_form_ipenabled') || $_SERVER['REMOTE_ADDR'] === get_config('local_mxschool', 'school_ip')) {
+            return $output->render($renderable);
+        }
+        return '-';
     }
 
 }
