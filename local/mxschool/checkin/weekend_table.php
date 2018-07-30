@@ -49,6 +49,24 @@ class weekend_table extends local_mxschool_table {
         foreach ($columns1 as $column) {
             $headers1[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
         }
+        $centered = array('room', 'grade', 'parent', 'invite', 'approved');
+        $fields = array(
+            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
+            'd.name AS dorm', 's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved',
+            'wf.destination', 'wf.transportation', 'wf.phone_number AS phone', "'' AS departurereturn",
+            'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
+        );
+        $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
+        $startday = date('w', $weekendrecord->start_time) - 7;
+        $endday = date('w', $weekendrecord->end_time);
+        for ($i = 1; $i <= $endday - $startday + 1; $i++) {
+            $columns1[] = $centered[] = "early_{$i}";
+            $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
+            $fields[] = "'' AS early_{$i}";
+            $columns1[] = $centered[] = "late_{$i}";
+            $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
+            $fields[] = "'' AS late_{$i}";
+        }
         $columns2 = array(
             'clean', 'parent', 'invite', 'approved', 'destination', 'transportation', 'phone', 'departurereturn'
         );
@@ -56,44 +74,20 @@ class weekend_table extends local_mxschool_table {
         foreach ($columns2 as $column) {
             $headers2[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
         }
-        $fields = array(
-            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
-            'd.name AS dorm', 's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved',
-            'wf.destination', 'wf.transportation', 'wf.phone_number AS phone', "'' AS departurereturn",
-            'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
-        );
-        $centered = array('room', 'grade', 'parent', 'invite', 'approved');
-        $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
-        $startday = date('w', $weekendrecord->start_time) - 7;
-        $endday = date('w', $weekendrecord->end_time);
-        $date = new DateTime('now', core_date::get_server_timezone_object());
-        $date->setTimestamp($weekendrecord->start_time);
-        for ($i = 1; $i <= $endday - $startday + 1; $i++) {
-            $date->modify('+1 day');
-            $sql = "IF(
-                wf.departure_date_time < {$date->getTimestamp()} AND wf.return_date_time > {$date->getTimestamp()}, 'X', ''
-            )";
-            $columns1[] = $centered[] = "early_$i";
-            $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
-            $fields[] = "$sql AS early_$i";
-            $columns1[] = $centered[] = "late_$i";
-            $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
-            $fields[] = "$sql AS late_$i";
-        }
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
-            "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = $filter->weekend AND wf.active = 1"
+            "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = {$filter->weekend} AND wf.active = 1"
         );
         $where = array(
             'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '',
             $filter->submitted === '1' ? "EXISTS (
-                SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
+                SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = {$filter->weekend}
             )" : ($filter->submitted === '0' ? "NOT EXISTS (
-                SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = $filter->weekend
+                SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = {$filter->weekend}
             )" : '')
         );
         $sortable = array('student', 'dorm', 'room', 'grade', 'destination', 'transportation');
