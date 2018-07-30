@@ -55,6 +55,9 @@ $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'f
     'time_modified' => 'timemodified'
 )));
 
+if ($isstudent && !student_may_access_rooming($USER->id)) {
+    redirect($redirect);
+}
 if ($id) {
     if (!$DB->record_exists('local_mxschool_rooming', array('id' => $id))) {
         redirect($redirect);
@@ -72,9 +75,6 @@ if ($id) {
         $existingid = $DB->get_field('local_mxschool_rooming', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one rooming form per student.
             redirect(new moodle_url($url, array('id' => $existingid)));
-        }
-        if (!array_key_exists($USER->id, get_boarding_next_year_student_list())) {
-            redirect($redirect);
         }
         $data->student = $USER->id;
     }

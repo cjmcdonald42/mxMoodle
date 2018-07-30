@@ -190,7 +190,8 @@ function update_notification($class, $subject, $body) {
 }
 
 /**
- * Determines whether the user has a record in the student table of the database.
+ * Determines whether the current user is a student.
+ * If this fuction returns true, it is safe to use $USER->id to reference the current student's user id.
  *
  * @return bool Whether the user is a student.
  */
@@ -200,13 +201,53 @@ function user_is_student() {
 }
 
 /**
- * Determines whether the user is a student who is permitted to use eSignout.
+ * Determines whether a specified user is a student who is permitted to access weekend forms.
  *
  * @param int $id The user id of the student to check.
- * @return bool Whether the specified student is allowed to use eSignout.
+ * @return bool Whether the specified student is permitted to access weekend forms.
  */
-function student_may_use_esignout($userid) {
+function student_may_access_weekend($userid) {
+    return array_key_exists($userid, get_boarding_student_list());
+}
+
+/**
+ * Determines whether a specified user is a student who is permitted to access eSignout.
+ *
+ * @param int $id The user id of the student to check.
+ * @return bool Whether the specified student is permitted to access eSignout.
+ */
+function student_may_access_esignout($userid) {
     return array_key_exists($userid, get_esignout_student_list());
+}
+
+/**
+ * Determines whether a specified user is a student who is permitted to access the advisor selectino form.
+ *
+ * @param int $id The user id of the student to check.
+ * @return bool Whether the specified student is permitted to access the advisor selection form.
+ */
+function student_may_access_advisor_selection($userid) {
+    return true;
+}
+
+/**
+ * Determines whether a specified user is a student who is permitted to access the rooming form.
+ *
+ * @param int $id The user id of the student to check.
+ * @return bool Whether the specified student is permitted to access the rooming form.
+ */
+function student_may_access_rooming($userid) {
+    return array_key_exists($userid, get_boarding_next_year_student_list());
+}
+
+/**
+ * Determines whether a specified user is a student who is permitted to access the vacation travel form.
+ *
+ * @param int $id The user id of the student to check.
+ * @return bool Whether the specified student is permitted to access the vacation travel form.
+ */
+function student_may_access_vacation_travel($userid) {
+    return array_key_exists($userid, get_boarding_student_list());
 }
 
 /**
@@ -391,24 +432,6 @@ function get_student_list() {
 }
 
 /**
- * Queries the database to create a list of all the students who are in a specified dorm.
- *
- * @param int $dorm the id of the desired dorm.
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_dorm_student_list($dorm) {
-    global $DB;
-    if (!$dorm) {
-        return get_student_list();
-    }
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
-         LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
-    );
-    return convert_records_to_list($students);
-}
-
-/**
  * Queries the database to create a list of all the students who are boarders.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
@@ -434,6 +457,24 @@ function get_boarding_next_year_student_list() {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
+ * Queries the database to create a list of all the students who are in a specified dorm.
+ *
+ * @param int $dorm the id of the desired dorm.
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_dorm_student_list($dorm) {
+    global $DB;
+    if (!$dorm) {
+        return get_student_list();
+    }
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
+         LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
     );
     return convert_records_to_list($students);
 }

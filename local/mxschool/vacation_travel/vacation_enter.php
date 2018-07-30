@@ -59,6 +59,9 @@ $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviati
     'international'
 )));
 
+if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
+    redirect($redirect);
+}
 if ($id) {
     if (!$DB->record_exists('local_mxschool_vt_trip', array('id' => $id))) {
         redirect($redirect);
@@ -105,9 +108,6 @@ if ($id) {
         $existingid = $DB->get_field('local_mxschool_vt_trip', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one vacation travel form per student.
             redirect(new moodle_url($url, array('id' => $existingid)));
-        }
-        if (!array_key_exists($USER->id, get_boarding_student_list())) {
-            redirect($redirect);
         }
         $data->student = $USER->id;
     }

@@ -51,10 +51,12 @@ setup_mxschool_page($url, $title, $parents);
 
 $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
-    'destination', 'departure_time' => 'departuretime', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+    'destination', 'departure_time' => 'date', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
-$departuretime = time();
+if ($isstudent && !student_may_access_esignout($USER->id)) {
+    redirect($redirect);
+}
 if ($id) {
     if (!$DB->record_exists('local_mxschool_esignout', array('id' => $id))) {
         redirect($redirect);
@@ -79,8 +81,8 @@ if ($id) {
             if (!isset($data->destination)) {
                 $data->destination = $driver->destination;
             }
-            if (!isset($data->departuretime)) {
-                $data->departuretime = $driver->departuretime;
+            if (!isset($data->date)) {
+                $data->date = $driver->date;
             }
             break;
         case 'Parent':
@@ -89,16 +91,13 @@ if ($id) {
             $data->type_other = $data->type_select;
             $data->type_select = 'Other';
     }
-    $departuretime = $data->departuretime;
 } else {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
+    $data->date = time();
     if ($isstudent) {
         $data->student = $USER->id;
-        if (!student_may_use_esignout($USER->id)) {
-            redirect($redirect);
-        }
     }
 }
 if ($isstudent) {
@@ -109,11 +108,7 @@ if ($isstudent) {
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_mxschool', 'esignout_form_instructions');
 $data->passengerswarning = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
-generate_time_selector_fields($data, 'departuretime', $departuretime, 15);
-$date = new DateTime('now', core_date::get_server_timezone_object());
-$date->setTimestamp($departuretime);
-$date->setTime(0, 0);
-$data->date = $date->getTimestamp();
+generate_time_selector_fields($data, 'departuretime', $data->date, 15);
 $data->parentwarning = get_config('local_mxschool', 'esignout_form_warning_needparent');
 $data->specificwarning = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
 $students = get_esignout_student_list();
@@ -136,13 +131,13 @@ if ($form->is_cancelled()) {
     switch($data->type_select) {
         case 'Passenger': // For a passenger record, the destination and departure fields are inherited.
             $data->destination = null;
-            $data->departuretime = null;
+            $data->date = null;
             break;
         case 'Other':
             $data->type_select = $data->type_other;
         default: // Driver, Parent, and Other will all save their data on their own record.
             $data->driver = 0;
-            $data->departuretime = generate_timestamp($data, 'departuretime', $data->date);
+            $data->date = generate_timestamp($data, 'departuretime', $data->date);
     }
     $data->passengers = $data->type_select === 'Driver' ? json_encode(
         isset($data->passengers) ? $data->passengers : array()

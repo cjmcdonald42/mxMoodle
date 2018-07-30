@@ -55,6 +55,9 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
     'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
+if ($isstudent && !student_may_access_weekend($USER->id)) {
+    redirect($redirect);
+}
 if ($id) {
     if (!$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
         redirect($redirect);

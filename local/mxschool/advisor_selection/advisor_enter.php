@@ -54,6 +54,9 @@ $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => '
     'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
+if ($isstudent && !student_may_access_advisor_selection($USER->id)) {
+    redirect($redirect);
+}
 if ($id) {
     if (!$DB->record_exists('local_mxschool_adv_selection', array('id' => $id))) {
         redirect($redirect);
