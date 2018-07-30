@@ -26,13 +26,8 @@
 
 $string['pluginname'] = 'Student Dashboard Block';
 $string['blockname'] = 'Middlesex';
-$string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Deans Block';
-$string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Deans Block to Dashboard';
+$string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Student Block';
+$string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Student Block to Dashboard';
 
-$string['esignout_heading'] = 'eSignout';
 $string['esignout_form'] = 'Sign Out';
-$string['esignout_report'] = 'Sign In or modify';
-$string['deans_heading'] = 'Dean\'s Office';
-$string['advisor_selection'] = 'Advisor Selection Form';
-$string['rooming'] = 'Rooming Form';
-$string['vacation'] = 'Vacation Travel Form';
+$string['esignout_report'] = 'Sign In or Modify';

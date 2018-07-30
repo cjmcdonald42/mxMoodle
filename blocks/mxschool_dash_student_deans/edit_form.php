@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Custom Conficuration Form for Middlesex School's Student Deans Menu Block for the Dashboard.
  *
- * @package    block_mxschool_dorm_faculty
+ * @package    block_mxschool_dash_student_deans
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,9 +26,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_mxschool_dorm_faculty';
-$plugin->version = 2018073000;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array('local_mxschool' => 2018073000); // Mxschool as dependency in order to use renderer.
+class block_mxschool_dash_student_deans_edit_form extends block_edit_form {
+
+    protected function specific_definition($mform) {
+
+        // Section header title according to language file.
+        $mform->addElement('header', 'config_header', get_string('settings', 'block_mxschool_dash_student_deans'));
+
+        // A sample string variable with a default value.
+        $mform->addElement('editor', 'config_description', get_string('description', 'block_mxschool_dash_student_deans'));
+        $mform->setDefault('config_text', '');
+        $mform->setType('config_text', PARAM_RAW);
+
+    }
+
+}

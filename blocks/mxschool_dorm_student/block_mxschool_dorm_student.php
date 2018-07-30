@@ -42,14 +42,13 @@ class block_mxschool_dorm_student extends block_base {
 
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\index(array(
-          // Put any links in this array as displaytext => relative url.
+            // Put any links in this array as displaytext => relative url.
             get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
             get_string('weekend_calc', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'
         ));
 
         $this->content = new stdClass();
         $this->content->text = $output->render($renderable);;
-        $this->content->footer = ''; // Add a footer here if desired.
 
         return $this->content;
     }

@@ -42,13 +42,12 @@ class block_mxschool_peertutoring extends block_base {
 
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\index(array(
-          // Put any links in this array as displaytext => relative url.
+            // Put any links in this array as displaytext => relative url.
             get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'
         ));
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);;
-        $this->content->footer = ''; // Add a footer here if desired.
+        $this->content->text = $output->render($renderable);
 
         return $this->content;
     }

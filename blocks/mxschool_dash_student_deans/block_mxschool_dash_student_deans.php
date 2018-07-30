@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Middlesex School's Student Deans Menu Block for the Dashboard.
  *
- * @package    block_mxschool_dash_dean
+ * @package    block_mxschool_dash_student_deans
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -27,37 +27,45 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
+require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
-class block_mxschool_dash_dean extends block_base {
+class block_mxschool_dash_student_deans extends block_base {
 
     public function init() {
-        $this->title = get_string('pluginname', 'block_mxschool_dash_dean');
+        $this->title = get_string('pluginname', 'block_mxschool_dash_student_deans');
     }
 
     public function get_content() {
-        global $PAGE;
+        global $PAGE, $USER;
         if (isset($this->content)) {
             return $this->content;
         }
 
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index(array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('users_link', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/index.php',
-            get_string('checkin_link', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/index.php',
-            get_string('esignout_link', 'block_mxschool_dash_dean') => '/local/mxschool/driving/index.php',
-            get_string('advisor_link', 'block_mxschool_dash_dean') => '/local/mxschool/advisor_selection/index.php',
-            get_string('rooming_link', 'block_mxschool_dash_dean') => '/local/mxschool/rooming/index.php',
-            get_string('vacation_link', 'block_mxschool_dash_dean') => '/local/mxschool/vacation_travel/index.php'
-        ));
+        $links = array();
+        if (!user_is_student() || student_may_access_advisor_selection($USER->id)) {
+            $links[get_string('advisor_selection', 'block_mxschool_dash_student_deans')]
+            = '/local/mxschool/advisor_selection/advisor_enter.php';
+        }
+        if (!user_is_student() || student_may_access_rooming($USER->id)) {
+            $links[get_string('rooming', 'block_mxschool_dash_student_deans')]
+            = '/local/mxschool/rooming/rooming_enter.php';
+        }
+        if (!user_is_student() || student_may_access_vacation_travel($USER->id)) {
+            $links[get_string('vacation', 'block_mxschool_dash_student_deans')]
+            = '/local/mxschool/vacation_travel/vacation_enter.php';
+        }
+        $renderable = new \local_mxschool\output\index($links);
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);;
-
+        if (count($links)) {
+            $this->content->text = (isset($this->config->description) ? $this->config->description['text'] : '')
+                                   .$output->render($renderable);
+        }
         return $this->content;
     }
 
     public function specialization() {
-        $this->title = get_string('blockname', 'block_mxschool_dash_dean');
+        $this->title = get_string('blockname', 'block_mxschool_dash_student_deans');
     }
 }
