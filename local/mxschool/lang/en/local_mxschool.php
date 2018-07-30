@@ -755,6 +755,8 @@ $string['vacation_travel_report_header_depdatetime'] = 'Departure Date and Time'
 $string['vacation_travel_report_header_deptype'] = 'Departure Type';
 $string['vacation_travel_report_header_retdatetime'] = 'Return Date and Time';
 $string['vacation_travel_report_header_rettype'] = 'Return Type';
+$string['vacation_travel_report_header_retcarrier'] = 'Return Airline / Company';
+$string['vacation_travel_report_header_retnumber'] = 'Return Flight / Bus / Train Number';
 
 // Vacation Travel Transportation Report.
 $string['vacation_travel_transportation_report_view_departure'] = 'Departure';

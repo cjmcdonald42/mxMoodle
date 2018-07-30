@@ -37,7 +37,9 @@ class vacation_table extends local_mxschool_table {
      * @param stdClass $filter Any filtering for the table - could include properties dorm, submitted, and search
      */
     public function __construct($filter) {
-        $columns = array('student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
+        $columns = array(
+            'student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype', 'retdatetime', 'rettype', 'retcarrier', 'retnumber'
+        );
         if ($filter->dorm !== '') {
             unset($columns[array_search('dorm', $columns)]);
         }
@@ -50,7 +52,8 @@ class vacation_table extends local_mxschool_table {
         $fields = array(
             's.id', 'u.id AS userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
             'u.alternatename', 'd.name AS dorm', 't.destination', 't.phone_number AS phone',
-            'dt.campus_date_time AS depdatetime', 'dt.type AS deptype', 'rt.campus_date_time AS retdatetime', 'rt.type AS rettype'
+            'dt.campus_date_time AS depdatetime', 'dt.type AS deptype', 'rt.campus_date_time AS retdatetime', 'rt.type AS rettype',
+            'rt.carrier AS retcarrier', 'rt.transportation_number AS retnumber'
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
@@ -64,11 +67,13 @@ class vacation_table extends local_mxschool_table {
                 ? "NOT EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)" : ''
             )
         );
-        $sortable = array('student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
+        $sortable = array(
+            'student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype', 'retcarrier', 'retnumber'
+        );
         $urlparams = array(
             'dorm' => $filter->dorm, 'submitted' => $filter->submitted, 'search' => $filter->search
         );
-        $centered = array();
+        $centered = array('retcarrier', 'retnumber');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
             'vaction_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
@@ -88,6 +93,20 @@ class vacation_table extends local_mxschool_table {
      */
     protected function col_retdatetime($values) {
         return $values->retdatetime ? date('n/j/y g:i A', $values->retdatetime) : '';
+    }
+
+    /**
+     * Formats the return carrier column.
+     */
+    protected function col_retcarrier($values) {
+        return $values->tid ? ($values->retcarrier ?: '-') : '';
+    }
+
+    /**
+     * Formats the return number column.
+     */
+    protected function col_retnumber($values) {
+        return $values->tid ? ($values->retnumber ?: '-') : '';
     }
 
     /**
