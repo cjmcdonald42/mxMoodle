@@ -476,9 +476,6 @@ function get_boarding_next_year_student_list() {
  */
 function get_dorm_student_list($dorm) {
     global $DB;
-    if (!$dorm) {
-        return get_student_list();
-    }
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
          LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"

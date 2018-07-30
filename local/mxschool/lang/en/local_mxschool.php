@@ -360,6 +360,9 @@ $string['weekend_form_instructions_placeholder_permissionsline'] = 'the house pe
 $string['weekend_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
 $string['weekend_form_error_notinweekend'] = 'Your departure date must be within a valid weekend.';
 $string['weekend_form_error_indifferentweekends'] = 'Your return date must be in the same weekend as your departure date.';
+$string['weekend_form_error_nodestination'] = 'You must specify a destination.';
+$string['weekend_form_error_notransportation'] = 'You must specify who is driving you.';
+$string['weekend_form_error_nophone'] = 'You must specify a phone number.';
 
 // Weekend Check-in Sheet.
 $string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend} ({$a->type})';

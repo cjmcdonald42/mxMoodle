@@ -54,18 +54,12 @@ class weekend_form extends local_mxschool_form {
             'departure' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )),
-            'return' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+            )), 'return' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )),
-            'destination' => array(
-                'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')
-            ),
-            'transportation' => array(
-                'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('required')
-            ),
-            'phone' => parent::ELEMENT_TEXT_REQUIRED
+            )), 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
+            'transportation' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
+            'phone' => parent::ELEMENT_TEXT
         ));
         parent::set_fields($fields, 'weekend_form', false);
 
@@ -99,6 +93,15 @@ class weekend_form extends local_mxschool_form {
         }
         if ($weekend && ($return < $weekend->start_time || $return > $weekend->end_time)) {
             $errors['return'] = get_string('weekend_form_error_indifferentweekends', 'local_mxschool');
+        }
+        if ($data['destination'] === '') {
+            $errors['destination'] = get_string('weekend_form_error_nodestination', 'local_mxschool');
+        }
+        if ($data['transportation'] === '') {
+            $errors['transportation'] = get_string('weekend_form_error_notransportation', 'local_mxschool');
+        }
+        if ($data['phone'] === '') {
+            $errors['phone'] = get_string('weekend_form_error_nophone', 'local_mxschool');
         }
         return $errors;
     }

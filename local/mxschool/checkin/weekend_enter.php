@@ -93,10 +93,10 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
-generate_time_selector_fields($data, 'departure' 15);
+generate_time_selector_fields($data, 'departure', 15);
 generate_time_selector_fields($data, 'return', 15);
 $dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list();
-$students = get_student_list();
+$students = get_boarding_student_list();
 
 $form = new weekend_form(array('id' => $id, 'dorms' => $dorms, 'students' => $students));
 $form->set_redirect($redirect);

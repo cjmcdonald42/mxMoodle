@@ -51,7 +51,7 @@ class local_mxschool_external extends external_api {
         external_api::validate_context(context_system::instance());
         $params = self::validate_parameters(self::get_dorm_students_parameters(), array('dorm' => $dorm));
 
-        $list = get_dorm_student_list($params['dorm']);
+        $list = $params['dorm'] ? get_dorm_student_list($params['dorm']) : get_boarding_student_list();
         $result = array();
         foreach ($list as $userid => $name) {
             $result[] = array('userid' => $userid, 'name' => $name);
