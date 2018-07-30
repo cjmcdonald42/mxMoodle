@@ -30,28 +30,6 @@ if ($hassiteconfig) {
 
     $mxschool = new admin_category('mxschool', new lang_string('mxschool_category', 'local_mxschool'));
 
-    $emailsettings = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
-    $emailsettings->add(new admin_setting_configtext(
-        'local_mxschool/email_deans', new lang_string('deans_email', 'local_mxschool'),
-        new lang_string('deans_email_description', 'local_mxschool'), 'deans@mxschool.edu'
-    ));
-    $emailsettings->add(new admin_setting_configtext(
-        'local_mxschool/email_transportationmanager', new lang_string('transportationmanager_email', 'local_mxschool'),
-        new lang_string('transportationmanager_email_description', 'local_mxschool'), 'ptorres@mxschool.edu'
-    ));
-    $mxschool->add('mxschool', $emailsettings);
-
-    $othersettings = new admin_settingpage('other_settings', new lang_string('other_settings', 'local_mxschool'));
-    $othersettings->add(new admin_setting_configtext(
-        'local_mxschool/table_size', new lang_string('table_size', 'local_mxschool'),
-        new lang_string('table_size_description', 'local_mxschool'), 50, PARAM_INT
-    ));
-    $othersettings->add(new admin_setting_configtext(
-        'local_mxschool/school_ip', new lang_string('school_ip', 'local_mxschool'),
-        new lang_string('school_ip_description', 'local_mxschool'), '63.138.153.62'
-    ));
-    $mxschool->add('mxschool', $othersettings);
-
     $indexes = new admin_category('indexes', new lang_string('indexes', 'local_mxschool'));
     $indexes->add('indexes', new admin_externalpage(
         'main_index', new lang_string('main_index', 'local_mxschool'),
@@ -82,6 +60,28 @@ if ($hassiteconfig) {
         "$CFG->wwwroot/local/mxschool/vacation_travel/index.php"
     ));
     $mxschool->add('mxschool', $indexes);
+
+    $emailsettings = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
+    $emailsettings->add(new admin_setting_configtext(
+        'local_mxschool/email_deans', new lang_string('deans_email', 'local_mxschool'),
+        new lang_string('deans_email_description', 'local_mxschool'), 'deans@mxschool.edu'
+    ));
+    $emailsettings->add(new admin_setting_configtext(
+        'local_mxschool/email_transportationmanager', new lang_string('transportationmanager_email', 'local_mxschool'),
+        new lang_string('transportationmanager_email_description', 'local_mxschool'), 'ptorres@mxschool.edu'
+    ));
+    $mxschool->add('mxschool', $emailsettings);
+
+    $othersettings = new admin_settingpage('other_settings', new lang_string('other_settings', 'local_mxschool'));
+    $othersettings->add(new admin_setting_configtext(
+        'local_mxschool/table_size', new lang_string('table_size', 'local_mxschool'),
+        new lang_string('table_size_description', 'local_mxschool'), 50, PARAM_INT
+    ));
+    $othersettings->add(new admin_setting_configtext(
+        'local_mxschool/school_ip', new lang_string('school_ip', 'local_mxschool'),
+        new lang_string('school_ip_description', 'local_mxschool'), '63.138.153.62'
+    ));
+    $mxschool->add('mxschool', $othersettings);
 
     $ADMIN->add('root', $mxschool);
 
