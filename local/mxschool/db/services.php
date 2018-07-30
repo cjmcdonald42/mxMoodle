@@ -27,14 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = array(
-    'local_mxschool_get_dorm_students' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'get_dorm_students',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to find all students in a specified dorm.',
-        'type' => 'read',
-        'ajax' => 'true'
-    ), 'local_mxschool_set_boolean_field' => array(
+    'local_mxschool_set_boolean_field' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'set_boolean_field',
         'classpath' => 'local/mxschool/externallib.php',
@@ -46,6 +39,20 @@ $functions = array(
         'methodname' => 'send_email',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Sends an email to users based on predefined a email class.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ), 'local_mxschool_get_dorm_students' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'get_dorm_students',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Queries the database to find all students in a specified dorm.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ), 'local_mxschool_get_weekend_type' => array(
+        'classname' => 'local_mxschool_external',
+        'methodname' => 'get_weekend_type',
+        'classpath' => 'local/mxschool/externallib.php',
+        'description' => 'Queries the database to determine the type of a weekend specified by a timestamp.',
         'type' => 'read',
         'ajax' => 'true'
     ), 'local_mxschool_get_esignout_student_options' => array(

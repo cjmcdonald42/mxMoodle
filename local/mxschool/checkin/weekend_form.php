@@ -54,7 +54,8 @@ class weekend_form extends local_mxschool_form {
             'departure' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )), 'return' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+            )), 'warning' => array('element' => 'static', 'name' => null),
+            'return' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )), 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
@@ -84,15 +85,29 @@ class weekend_form extends local_mxschool_form {
         if ($departure >= $return) {
             $errors['return'] = get_string('weekend_form_error_outoforder', 'local_mxschool');
         }
+        $departurestartbound = new DateTime('now', core_date::get_server_timezone_object());
+        $departurestartbound->setTimestamp($departure);
+        $departureendbound = clone $departurestartbound;
+        $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
+        $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
         $weekend = $DB->get_record_sql(
-            "SELECT * FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < end_time",
-            array($departure, $departure)
+            "SELECT * FROM {local_mxschool_weekend} WHERE ? >= sunday_time AND ? < sunday_time",
+            array($departurestartbound->getTimestamp(), $departureendbound->getTimestamp())
         );
-        if (!$weekend) {
+        if ($weekend) {
+            $returnstartbound = new DateTime('now', core_date::get_server_timezone_object());
+            $returnstartbound->setTimestamp($return);
+            $returnendbound = clone $returnstartbound;
+            $returnstartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
+            $returnendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
+            if (
+                $returnstartbound->getTimestamp() < (int)$weekend->sunday_time
+                || $returnendbound->getTimestamp() >= (int)$weekend->sunday_time
+            ) {
+                $errors['return'] = get_string('weekend_form_error_indifferentweekends', 'local_mxschool');
+            }
+        } else {
             $errors['departure'] = get_string('weekend_form_error_notinweekend', 'local_mxschool');
-        }
-        if ($weekend && ($return < $weekend->start_time || $return > $weekend->end_time)) {
-            $errors['return'] = get_string('weekend_form_error_indifferentweekends', 'local_mxschool');
         }
         if ($data['destination'] === '') {
             $errors['destination'] = get_string('weekend_form_error_nodestination', 'local_mxschool');

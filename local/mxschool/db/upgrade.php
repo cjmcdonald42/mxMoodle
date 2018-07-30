@@ -182,5 +182,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018072704, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018073008) {
+        set_config('weekend_form_warning_closed', 'The weekend you have selected is a closed weekend - you will need special permissions from the deans.', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018073008, 'local', 'mxschool');
+    }
+
     return true;
 }

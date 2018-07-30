@@ -92,7 +92,8 @@ class preferences_form extends local_mxschool_form {
                 'approvedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
                 'topinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'bottominstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'bottominstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'closedwarning' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
         parent::set_fields($fields, 'checkin_preferences', true);

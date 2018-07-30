@@ -33,47 +33,6 @@ require_once('classes/mx_notifications.php');
 class local_mxschool_external extends external_api {
 
     /**
-     * Returns descriptions of the get_dorm_students() function's parameters.
-     *
-     * @return external_function_parameters Object holding array of parameters for the get_dorm_students() function.
-     */
-    public static function get_dorm_students_parameters() {
-        return new external_function_parameters(array('dorm' => new external_value(PARAM_INT, 'The id of the dorm to query for.')));
-    }
-
-    /**
-     * Queries the database to find all students in a specified dorm.
-     *
-     * @param int $dorm The id of the dorm to query for.
-     * @return array The students in that dorm as {userid, name}.
-     */
-    public static function get_dorm_students($dorm) {
-        external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_dorm_students_parameters(), array('dorm' => $dorm));
-
-        $list = $params['dorm'] ? get_dorm_student_list($params['dorm']) : get_boarding_student_list();
-        $result = array();
-        foreach ($list as $userid => $name) {
-            $result[] = array('userid' => $userid, 'name' => $name);
-        }
-        return $result;
-    }
-
-    /**
-     * Returns a description of the get_dorm_students() function's return values.
-     *
-     * @return external_multiple_structure Object describing the return values of the get_dorm_students() function.
-     */
-    public static function get_dorm_students_returns() {
-        return new external_multiple_structure(
-            new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'user id of the student'),
-                'name' => new external_value(PARAM_TEXT, 'name of the student')
-            ))
-        );
-    }
-
-    /**
      * Returns descriptions of the set_boolean_field() function's parameters.
      *
      * @return external_function_parameters Object holding array of parameters for the set_boolean_field() function.
@@ -187,6 +146,97 @@ class local_mxschool_external extends external_api {
      */
     public static function send_email_returns() {
         return new external_value(PARAM_BOOL, 'True if the email is successfully sent, false otherwise.');
+    }
+
+    /**
+     * Returns descriptions of the get_dorm_students() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_dorm_students() function.
+     */
+    public static function get_dorm_students_parameters() {
+        return new external_function_parameters(array('dorm' => new external_value(PARAM_INT, 'The id of the dorm to query for.')));
+    }
+
+    /**
+     * Queries the database to find all students in a specified dorm.
+     *
+     * @param int $dorm The id of the dorm to query for.
+     * @return array The students in that dorm as {userid, name}.
+     */
+    public static function get_dorm_students($dorm) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_dorm_students_parameters(), array('dorm' => $dorm));
+
+        $list = $params['dorm'] ? get_dorm_student_list($params['dorm']) : get_boarding_student_list();
+        $result = array();
+        foreach ($list as $userid => $name) {
+            $result[] = array('userid' => $userid, 'name' => $name);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_dorm_students() function's return values.
+     *
+     * @return external_multiple_structure Object describing the return values of the get_dorm_students() function.
+     */
+    public static function get_dorm_students_returns() {
+        return new external_multiple_structure(
+            new external_single_structure(array(
+                'userid' => new external_value(PARAM_INT, 'user id of the student'),
+                'name' => new external_value(PARAM_TEXT, 'name of the student')
+            ))
+        );
+    }
+
+    /**
+     * Returns descriptions of the get_weekend_type() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_weekend_type() function.
+     */
+    public static function get_weekend_type_parameters() {
+        return new external_function_parameters(array(
+            'datetime' => new external_single_structure(array(
+                'hour' => new external_value(PARAM_INT, 'The hour field.'),
+                'minute' => new external_value(PARAM_INT, 'The minute field.'),
+                'ampm' => new external_value(PARAM_BOOL, 'Whether the time is PM.'),
+                'day' => new external_value(PARAM_INT, 'The day field.'),
+                'month' => new external_value(PARAM_INT, 'The month field.'),
+                'year' => new external_value(PARAM_INT, 'The year field.')
+            ))
+        ));
+    }
+
+    /**
+     * Queries the database to determine the type of a weekend specified by a timestamp.
+     *
+     * @param int $datetime An array of time fields indicating the weekend to check.
+     * @return string The type of the weekend.
+     */
+    public static function get_weekend_type($datetime) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_weekend_type_parameters(), array('datetime' => $datetime));
+
+        global $DB;
+        $startbound = new DateTime('now', core_date::get_server_timezone_object());
+        $startbound->setDate($params['datetime']['year'], $params['datetime']['month'], $params['datetime']['day']);
+        $startbound->setTime($params['datetime']['hour'] % 12 + $params['datetime']['ampm'] * 12, $params['datetime']['minute']);
+        $endbound = clone $startbound;
+        $startbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
+        $endbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
+        return $DB->get_field_sql(
+            "SELECT type FROM {local_mxschool_weekend} WHERE ? >= sunday_time AND ? < sunday_time",
+            array($startbound->getTimestamp(), $endbound->getTimestamp())
+        ) ?: '';
+    }
+
+    /**
+     * Returns a description of the get_weekend_type() function's return values.
+     *
+     * @return external_multiple_structure Object describing the return values of the get_weekend_type() function.
+     */
+    public static function get_weekend_type_returns() {
+        return new external_value(PARAM_TEXT, "the type of the weekend, '' if not a valid weekend");
     }
 
     /**

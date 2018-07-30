@@ -96,6 +96,7 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
+$data->warning = get_config('local_mxschool', 'weekend_form_warning_closed');
 generate_time_selector_fields($data, 'departure', 15);
 generate_time_selector_fields($data, 'return', 15);
 $dorms = array('0' => get_string('report_select_boarding_dorm', 'local_mxschool')) + get_boarding_dorm_list();
@@ -145,10 +146,12 @@ $bottominstructions = str_replace(
 $formrenderable = new \local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/get_dorm_students');
+$jsrenderable1 = new \local_mxschool\output\amd_module('local_mxschool/get_dorm_students');
+$jsrenderable2 = new \local_mxschool\output\amd_module('local_mxschool/get_weekend_type');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student} ({$dorms[$record->dorm]})" : ''));
 echo $output->render($formrenderable);
-echo $output->render($jsrenderable);
+echo $output->render($jsrenderable1);
+echo $output->render($jsrenderable2);
 echo $output->footer();

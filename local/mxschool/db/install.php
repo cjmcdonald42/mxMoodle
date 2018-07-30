@@ -31,6 +31,7 @@ function xmldb_local_mxschool_install() {
 
     set_config('weekend_form_instructions_top', 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.', 'local_mxschool');
     set_config('weekend_form_instructions_bottom', 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{hoh}</b> @ <b>{permissionsline}</b>.<br>If your plans change, you must get permission from <b>{hoh}</b>. <b>Remember to sign out.</b>', 'local_mxschool');
+    set_config('weekend_form_warning_closed', 'The weekend you have selected is a closed weekend - you will need special permissions from the deans.', 'local_mxschool');
 
     set_config('esignout_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_mxschool');
     set_config('esignout_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_mxschool');

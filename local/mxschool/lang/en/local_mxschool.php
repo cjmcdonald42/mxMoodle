@@ -323,8 +323,9 @@ $string['checkin_preferences_notifications_submittedsubject'] = 'Subject for Wee
 $string['checkin_preferences_notifications_submittedbody'] = 'Body for Weekend Form Submitted Email';
 $string['checkin_preferences_notifications_approvedsubject'] = 'Subject for Weekend Form Approved Email';
 $string['checkin_preferences_notifications_approvedbody'] = 'Body for Weekend Form Approved Email';
-$string['checkin_preferences_text_topinstructions'] = 'Top instructions';
-$string['checkin_preferences_text_bottominstructions'] = 'Bottom instructions';
+$string['checkin_preferences_text_topinstructions'] = 'Top Instructions';
+$string['checkin_preferences_text_bottominstructions'] = 'Bottom Instructions';
+$string['checkin_preferences_text_closedwarning'] = 'Warning for a Closed Weekend';
 
 // Generic Check-in Sheet.
 $string['generic_report_title'] = '{$a}Check-In Sheet for __________';
