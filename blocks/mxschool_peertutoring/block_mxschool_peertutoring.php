@@ -27,6 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
+require_once(__DIR__.'/../../local/mxschool/locallib.php');
+require_once(__DIR__.'/../../local/peertutoring/locallib.php');
 
 class block_mxschool_peertutoring extends block_base {
 
@@ -40,14 +42,16 @@ class block_mxschool_peertutoring extends block_base {
             return $this->content;
         }
 
+        $links = !user_is_student() || student_may_access_tutoring($USER->id)
+            ? array(get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php')
+            : array();
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index(array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'
-        ));
+        $renderable = new \local_mxschool\output\index($links);
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);
+        if (count($links)) {
+            $this->content->text = $output->render($renderable);
+        }
 
         return $this->content;
     }

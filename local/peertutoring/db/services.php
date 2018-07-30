@@ -33,15 +33,13 @@ $functions = array(
         'classpath' => 'local/peertutoring/externallib.php',
         'description' => 'Queries the database to find all courses in a specified department.',
         'type' => 'read',
-        'ajax' => 'true',
-        'capabilities' => 'local/peertutoring:enter_tutoring'
+        'ajax' => 'true'
     ), 'local_peertutoring_get_tutor_options' => array(
         'classname' => 'local_peertutoring_external',
         'methodname' => 'get_tutor_options',
         'classpath' => 'local/peertutoring/externallib.php',
         'description' => 'Queries the database to determine the approved departments for a specified tutor',
         'type' => 'read',
-        'ajax' => 'true',
-        'capabilities' => 'local/peertutoring:enter_tutoring'
+        'ajax' => 'true'
     )
 );

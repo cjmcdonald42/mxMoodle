@@ -35,8 +35,5 @@ $capabilities = array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/peertutoring:enter_tutoring' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
     )
 );

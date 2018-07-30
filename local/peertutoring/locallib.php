@@ -29,13 +29,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/../mxschool/locallib.php');
 
 /**
- * Determines whether the user has a record in the tutor table of the database.
+ * Determines whether a specified user is a student who is permitted to access the tutoring form.
  *
- * @return bool Whether the user is a tutor.
+ * @param int $id The user id of the student to check.
+ * @return bool Whether the specified student is permitted to access the tutoring form.
  */
-function user_is_tutor() {
-    global $USER, $DB;
-    return $DB->record_exists('local_peertutoring_tutor', array('userid' => $USER->id));
+function student_may_access_tutoring($userid) {
+    return array_key_exists($userid, get_tutor_list());
 }
 
 /**

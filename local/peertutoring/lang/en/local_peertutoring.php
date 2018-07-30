@@ -31,7 +31,6 @@ $string['pluginname'] = 'Middlesex School Peer Tutoring';
 // Capabilities.
 $string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
 $string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View and manage tutoring records';
-$string['peertutoring:enter_tutoring'] = 'Middlesex School Peer Tutoring: Create tutoring records';
 
 // Settings Pages.
 $string['settings'] = 'Peer Tutoring Settings';

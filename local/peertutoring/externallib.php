@@ -51,7 +51,6 @@ class local_peertutoring_external extends external_api {
      */
     public static function get_department_courses($department) {
         external_api::validate_context(context_system::instance());
-        require_capability('local/peertutoring:enter_tutoring', context_system::instance());
         $params = self::validate_parameters(self::get_department_courses_parameters(), array('department' => $department));
 
         $list = get_department_course_list($params['department']);
@@ -93,7 +92,6 @@ class local_peertutoring_external extends external_api {
      */
     public static function get_tutor_options($userid) {
         external_api::validate_context(context_system::instance());
-        require_capability('local/peertutoring:enter_tutoring', context_system::instance());
         $params = self::validate_parameters(self::get_tutor_options_parameters(), array('userid' => $userid));
 
         global $DB;

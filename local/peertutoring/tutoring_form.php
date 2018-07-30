@@ -52,7 +52,7 @@ class tutoring_form extends local_mxschool_form {
             '' => array(
                 'id' => parent::ELEMENT_HIDDEN_INT,
                 'timecreated' => parent::ELEMENT_HIDDEN_INT,
-                'istutor' => parent::ELEMENT_HIDDEN_INT
+                'isstudent' => parent::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'tutor' => array('element' => 'select', 'options' => $tutors),
                 'tutoringdate' => array('element' => 'date_selector', 'parameters' => $dateparameters),
@@ -71,7 +71,7 @@ class tutoring_form extends local_mxschool_form {
         parent::set_fields($fields, 'tutoring_form', false, 'local_peertutoring');
 
         $mform = $this->_form;
-        $mform->hideIf('tutor', 'istutor', 'eq');
+        $mform->hideIf('tutor', 'isstudent', 'eq');
         $mform->hideIf('type_other', 'type_select', 'neq', '5');
     }
 

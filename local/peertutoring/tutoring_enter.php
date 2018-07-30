@@ -31,10 +31,8 @@ require_once('locallib.php');
 require_once('tutoring_form.php');
 
 require_login();
-$istutor = user_is_tutor();
-if ($istutor) {
-    require_capability('local/peertutoring:enter_tutoring', context_system::instance());
-} else {
+$isstudent = user_is_student();
+if (!$isstudent) {
     require_capability('local/peertutoring:manage_tutoring', context_system::instance());
 }
 
@@ -56,11 +54,14 @@ $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's'
     'time_modified' => 'timemodified'
 )));
 
+if ($isstudent && !student_may_access_tutoring($USER->id)) {
+    redirect($redirect);
+}
 if ($id) {
     if (!$DB->record_exists('local_peertutoring_session', array('id' => $id))) {
         redirect($redirect);
     }
-    if ($istutor) { // Tutors cannot edit existing tutoring records.
+    if ($isstudent) { // Students cannot edit existing tutoring records.
         redirect(new moodle_url($url));
     }
     $data = get_record($queryfields, "s.id = ?", array($id));
@@ -69,7 +70,7 @@ if ($id) {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
-    if ($istutor) {
+    if ($isstudent) {
         $data->tutor = $USER->id;
         $record = $DB->get_record_sql(
             "SELECT CONCAT(u.firstname, ' ', u.lastname) AS tutor, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
@@ -80,7 +81,7 @@ if ($id) {
         );
     }
 }
-$data->istutor = $istutor ? '1' : '0';
+$data->isstudent = $isstudent ? '1' : '0';
 $tutors = get_tutor_list();
 $students = get_student_list();
 $departments = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_list();
@@ -114,7 +115,7 @@ $jsrenderable1 = new \local_mxschool\output\amd_module('local_peertutoring/get_t
 $jsrenderable2 = new \local_mxschool\output\amd_module('local_peertutoring/get_department_courses');
 
 echo $output->header();
-echo $output->heading($title.($istutor ? " for {$record->tutor}" : ''));
+echo $output->heading($title.($isstudent ? " for {$record->tutor}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable1);
 echo $output->render($jsrenderable2);
