@@ -52,7 +52,7 @@ class vacation_table extends local_mxschool_table {
         $fields = array(
             's.id', 'u.id AS userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
             'u.alternatename', 'd.name AS dorm', 't.destination', 't.phone_number AS phone',
-            'dt.campus_date_time AS depdatetime', 'dt.type AS deptype', 'rt.campus_date_time AS retdatetime', 'rt.type AS rettype',
+            'dt.date_time AS depdatetime', 'dt.type AS deptype', 'rt.date_time AS retdatetime', 'rt.type AS rettype',
             'rt.carrier AS retcarrier', 'rt.transportation_number AS retnumber'
         );
         $from = array(

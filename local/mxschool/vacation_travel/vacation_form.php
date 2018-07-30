@@ -58,33 +58,25 @@ class vacation_form extends local_mxschool_form {
             'destination' => parent::ELEMENT_TEXT,
             'phone' => parent::ELEMENT_TEXT
         ), 'departure' => array(
-            'dep_campus' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
-                'time' => parent::time_selector(15),
-                'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )),
             'dep_mxtransportation' => parent::ELEMENT_BOOLEAN,
             'dep_type' => array('element' => 'radio', 'options' => $types),
             'dep_site' => array('element' => 'radio', 'options' => $depsites, 'useradioindex' => true),
             'dep_details' => parent::ELEMENT_TEXT,
             'dep_carrier' => parent::ELEMENT_TEXT,
             'dep_number' => parent::ELEMENT_TEXT,
-            'dep_transportation' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+            'dep_variable' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )),
             'dep_international' => parent::ELEMENT_BOOLEAN
         ), 'return' => array(
-            'ret_campus' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
-                'time' => parent::time_selector(15),
-                'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )),
             'ret_mxtransportation' => parent::ELEMENT_BOOLEAN,
             'ret_type' => array('element' => 'radio', 'options' => $types),
             'ret_site' => array('element' => 'radio', 'options' => $retsites, 'useradioindex' => true),
             'ret_details' => parent::ELEMENT_TEXT,
             'ret_carrier' => parent::ELEMENT_TEXT,
             'ret_number' => parent::ELEMENT_TEXT,
-            'ret_transportation' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+            'ret_variable' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )),
@@ -118,11 +110,7 @@ class vacation_form extends local_mxschool_form {
             if (!isset($data['dep_type'])) {
                 $errors['dep_type'] = get_string('vacation_travel_form_error_notype', 'local_mxschool');
             } else {
-                if ($data['dep_mxtransportation'] && (
-                    $data['dep_type'] === 'Plane' || $data['dep_type'] === 'Train' || $data['dep_type'] === 'Bus'
-                )) {
-                    $deptransportation = generate_timestamp($data, 'dep_transportation');
-                }
+                $depdatetime = generate_timestamp($data, 'dep_variable');
                 if ($data['dep_mxtransportation'] && !isset($data['dep_site'])) {
                     if ($data['dep_type'] === 'Plane') {
                         $errors['dep_site'] = get_string('vacation_travel_form_error_noairport', 'local_mxschool');
@@ -163,11 +151,7 @@ class vacation_form extends local_mxschool_form {
             if (!isset($data['ret_type'])) {
                 $errors['ret_type'] = get_string('vacation_travel_form_error_notype', 'local_mxschool');
             } else {
-                if ($data['ret_mxtransportation'] && (
-                    $data['ret_type'] === 'Plane' || $data['ret_type'] === 'Train' || $data['ret_type'] === 'Bus'
-                )) {
-                    $rettransportation = generate_timestamp($data, 'ret_transportation');
-                }
+                $retdatetime = generate_timestamp($data, 'ret_variable');
                 if ($data['ret_mxtransportation'] && !isset($data['ret_site'])) {
                     if ($data['ret_type'] === 'Plane') {
                         $errors['ret_site'] = get_string('vacation_travel_form_error_noairport', 'local_mxschool');
@@ -202,16 +186,8 @@ class vacation_form extends local_mxschool_form {
                 }
             }
         }
-        $depcampus = generate_timestamp($data, 'dep_campus');
-        $retcampus = generate_timestamp($data, 'ret_campus');
-        if ($depcampus >= $retcampus) {
-            $errors['ret_campus'] = get_string('vacation_travel_form_error_outoforder', 'local_mxschool');
-        }
-        if (isset($deptransportation) && $depcampus >= $deptransportation) {
-            $errors['dep_transportation'] = get_string('vacation_travel_form_error_outoforder_dep', 'local_mxschool');
-        }
-        if (isset($rettransportation) && $rettransportation >= $retcampus) {
-            $errors['ret_transportation'] = get_string('vacation_travel_form_error_outoforder_ret', 'local_mxschool');
+        if (isset($depdatetime) && isset($retdatetime) && $depdatetime >= $retdatetime) {
+            $errors['ret_variable'] = get_string('vacation_travel_form_error_outoforder', 'local_mxschool');
         }
         return $errors;
     }

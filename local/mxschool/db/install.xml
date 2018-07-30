@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180724" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180730" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -229,14 +229,13 @@
     <TABLE NAME="local_mxschool_vt_transport" COMMENT="mxschool departure / return table - stores data associated with a student's departure or return transportation.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="campus_date_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the student is leaving or returning to campus."/>
         <FIELD NAME="mx_transportation" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be using Middlesex transportation."/>
         <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of transportation {Car, Plane, Bus, Train, NYC Direct, Non-MX Bus}."/>
         <FIELD NAME="siteid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the site which the student is traveling to or from - 0 indicates an 'other' option - NULL indicates an unspecified site."/>
         <FIELD NAME="details" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text to provide more information for the student's travel"/>
         <FIELD NAME="carrier" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The carrier or company for the transportation."/>
         <FIELD NAME="transportation_number" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The flight, train, or bus number of the transportation."/>
-        <FIELD NAME="transportation_date_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the transportation is departing or arriving."/>
+        <FIELD NAME="date_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the student is leaving or returning to campus."/>
         <FIELD NAME="international" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether the departing flight is international or the student is clearing customs in Boston on the return flight."/>
       </FIELDS>
       <KEYS>

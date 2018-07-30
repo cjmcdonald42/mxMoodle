@@ -190,13 +190,11 @@ class mx_notifications {
                 }
                 $record = $DB->get_record_sql(
                     "SELECT t.id, u.id AS student, CONCAT(u.firstname, ' ', u.lastname) AS studentname, t.destination,
-                     t.phone_number AS phonenumber, t.time_modified AS timesubmitted, d.campus_date_time AS depcampus,
-                     d.mx_transportation AS depmxtransportation, d.type AS deptype, ds.name AS depsite, d.details AS depdetails,
-                     d.carrier AS depcarriercompany, d.transportation_number AS depnumber,
-                     d.transportation_date_time AS deptransportation, d.international AS depinternational,
-                     r.campus_date_time AS retcampus, r.mx_transportation AS retmxtransportation, r.type AS rettype,
-                     rs.name AS retsite, r.details AS retdetails, r.carrier AS retcarriercompany,
-                     r.transportation_number AS retnumber, r.transportation_date_time AS rettransportation,
+                     t.phone_number AS phonenumber, t.time_modified AS timesubmitted, d.mx_transportation AS depmxtransportation,
+                     d.type AS deptype, ds.name AS depsite, d.details AS depdetails, d.carrier AS depcarriercompany,
+                     d.transportation_number AS depnumber, d.date_time AS depvariable, d.international AS depinternational,
+                     r.mx_transportation AS retmxtransportation, r.type AS rettype, rs.name AS retsite, r.details AS retdetails,
+                     r.carrier AS retcarriercompany, r.transportation_number AS retnumber, r.date_time AS retvariable,
                      r.international AS retinternational
                      FROM {local_mxschool_vt_trip} t LEFT JOIN {user} u ON t.userid = u.id
                      LEFT JOIN {local_mxschool_vt_transport} d ON t.departureid = d.id
@@ -206,24 +204,20 @@ class mx_notifications {
                      WHERE t.id = ?", array($params['id'])
                 );
                 $record->timesubmitted = date('n/j/y g:i A', $record->timesubmitted);
-                $record->depcampusdatetime = date('n/j/y g:i A', $record->depcampus);
                 $record->depmxtransportation = $record->depmxtransportation ? get_string('yes') : get_string('no');
                 $record->depsite = isset($record->depsite) ? $record->depsite : '-';
                 $record->depdetails = isset($record->depdetails) ? $record->depdetails : '-';
                 $record->depcarriercompany = isset($record->depcarriercompany) ? $record->depcarriercompany : '-';
                 $record->depnumber = isset($record->depnumber) ? $record->depnumber : '-';
                 $record->depinternational = isset($record->depinternational) ? $record->depinternational : '-';
-                $record->deptransportationdatetime = isset($record->deptransportation)
-                    ? date('n/j/y g:i A', $record->deptransportation) : '-';
-                $record->retcampusdatetime = date('n/j/y g:i A', $record->retcampus);
+                $record->depdatetime = date('n/j/y g:i A', $record->depvariable);
                 $record->retmxtransportation = $record->retmxtransportation ? get_string('yes') : get_string('no');
                 $record->retsite = isset($record->retsite) ? $record->retsite : '-';
                 $record->retdetails = isset($record->retdetails) ? $record->retdetails : '-';
                 $record->retcarriercompany = isset($record->retcarriercompany) ? $record->retcarriercompany : '-';
                 $record->retnumber = isset($record->retnumber) ? $record->retnumber : '-';
                 $record->retinternational = isset($record->retinternational) ? $record->retinternational : '-';
-                $record->rettransportationdatetime = isset($record->rettransportation)
-                    ? date('n/j/y g:i A', $record->rettransportation) : '-';
+                $record->retdatetime = date('n/j/y g:i A', $record->retvariable);
                 $subject = self::replace($notification->subject, $record);
                 $body = self::replace($notification->body_html, $record);
                 $transportationmanager = clone $supportuser;

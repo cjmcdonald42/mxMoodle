@@ -189,5 +189,27 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018073008, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018073010) {
+
+        // Rename field campus_date_time on table local_mxschool_vt_transport to date_time.
+        $table = new xmldb_table('local_mxschool_vt_transport');
+        $field = new xmldb_field('campus_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch rename field campus_date_time.
+        $dbman->rename_field($table, $field, 'date_time');
+
+        // Define field transportation_date_time to be dropped from local_mxschool_vt_transport.
+        $table = new xmldb_table('local_mxschool_vt_transport');
+        $field = new xmldb_field('transportation_date_time');
+
+        // Conditionally launch drop field transportation_date_time.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018073010, 'local', 'mxschool');
+    }
+
     return true;
 }

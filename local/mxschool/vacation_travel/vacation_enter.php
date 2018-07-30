@@ -54,9 +54,8 @@ $tripqueryfields = array('local_mxschool_vt_trip' => array('abbreviation' => 't'
     'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviation' => 'dr', 'fields' => array(
-    'id', 'campus_date_time' => 'campus_date', 'mx_transportation' => 'mxtransportation', 'type', 'siteid' => 'site',
-    'details', 'carrier', 'transportation_number' => 'number', 'transportation_date_time' => 'transportation_date',
-    'international'
+    'id', 'mx_transportation' => 'mxtransportation', 'type', 'siteid' => 'site', 'details', 'carrier',
+    'transportation_number' => 'number', 'date_time' => 'variable_date', 'international'
 )));
 
 if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
@@ -78,14 +77,8 @@ if ($id) {
     foreach ($returndata as $key => $value) {
         $data->{"ret_{$key}"} = $value;
     }
-    if (!isset($data->dep_transportation_date)) {
-        $data->dep_transportation_date = time();
-    }
     if (!isset($data->dep_international)) {
         $data->dep_international = '-1'; // Invalid default to prevent auto selection.
-    }
-    if (!isset($data->ret_transportation_date)) {
-        $data->ret_transportation_date = time();
     }
     if (!isset($data->ret_international)) {
         $data->ret_international = '-1'; // Invalid default to prevent auto selection.
@@ -94,15 +87,13 @@ if ($id) {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
-    $data->dep_campus_date = time();
     $data->dep_mxtransportation = '-1'; // Invalid default to prevent auto selection.
     $data->dep_site = '-1'; // Invalid default to prevent auto selection.
-    $data->dep_transportation_date = time();
+    $data->dep_variable_date = time();
     $data->dep_international = '-1'; // Invalid default to prevent auto selection.
-    $data->ret_campus_date = time();
     $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
     $data->ret_site = '-1'; // Invalid default to prevent auto selection.
-    $data->ret_transportation_date = time();
+    $data->ret_variable_date = time();
     $data->ret_international = '-1'; // Invalid default to prevent auto selection.
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_vt_trip', 'id', array('userid' => $USER->id));
@@ -122,10 +113,8 @@ if ($isstudent) {
     );
 }
 $data->isstudent = $isstudent ? '1' : '0';
-generate_time_selector_fields($data, 'dep_campus', 15);
-generate_time_selector_fields($data, 'dep_transportation', 15);
-generate_time_selector_fields($data, 'ret_campus', 15);
-generate_time_selector_fields($data, 'ret_transportation', 15);
+generate_time_selector_fields($data, 'dep_variable', 15);
+generate_time_selector_fields($data, 'ret_variable', 15);
 $students = get_boarding_student_list();
 $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
@@ -151,11 +140,9 @@ if ($form->is_cancelled()) {
             $returndata->{substr($key, 4)} = $value;
         }
     }
-    $departuredata->campus_date = generate_timestamp($departuredata, 'campus');
-    $departuredata->transportation_date = generate_timestamp($departuredata, 'transportation');
+    $departuredata->variable_date = generate_timestamp($departuredata, 'variable');
     if (!$departuredata->mxtransportation) {
         $departuredata->site = null;
-        $departuredata->transportation_date = null;
         $departuredata->international = null;
     }
     if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && $departuredata->site !== '0') {
@@ -164,16 +151,13 @@ if ($form->is_cancelled()) {
     if ($departuredata->type !== 'Plane' && $departuredata->type !== 'Train' && $departuredata->type !== 'Bus') {
         $departuredata->carrier = null;
         $departuredata->number = null;
-        $departuredata->transportation_date = null;
     }
     if ($departuredata->type !== 'Plane') {
         $departuredata->international = null;
     }
-    $returndata->campus_date = generate_timestamp($returndata, 'campus');
-    $returndata->transportation_date = generate_timestamp($returndata, 'transportation');
+    $returndata->variable_date = generate_timestamp($returndata, 'variable');
     if (!$returndata->mxtransportation) {
         $returndata->site = null;
-        $returndata->transportation_date = null;
         $returndata->international = null;
     }
     if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && $returndata->site !== '0') {
@@ -182,7 +166,6 @@ if ($form->is_cancelled()) {
     if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {
         $returndata->carrier = null;
         $returndata->number = null;
-        $returndata->transportation_date = null;
     }
     if ($returndata->type !== 'Plane') {
         $returndata->international = null;

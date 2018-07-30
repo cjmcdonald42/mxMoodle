@@ -43,10 +43,9 @@ class preferences_form extends local_mxschool_form {
         $submitemailtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
         }, array(
-            'studentname', 'destination', 'phonenumber', 'depcampusdatetime', 'depmxtransportation', 'deptype', 'depsite',
-            'depdetails', 'depcarriercompany', 'depnumber', 'deptransportationdatetime', 'depinternational', 'retcampusdatetime',
-            'retmxtransportation', 'rettype', 'retsite', 'retdetails', 'retcarriercompany', 'retnumber',
-            'rettransportationdatetime', 'retinternational', 'timesubmitted'
+            'studentname', 'destination', 'phonenumber', 'depmxtransportation', 'deptype', 'depsite', 'depdetails',
+            'depcarriercompany', 'depnumber', 'depdatetime', 'depinternational', 'retmxtransportation', 'rettype', 'retsite',
+            'retdetails', 'retcarriercompany', 'retnumber', 'retdatetime', 'retinternational', 'timesubmitted'
         )));
         $unsubmittedtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";

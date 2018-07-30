@@ -87,14 +87,14 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             var depDetailsDiv = $('.mx-form input#id_dep_details').parent().parent();
             var depCarrierDiv = $('.mx-form input#id_dep_carrier').parent().parent();
             var depNumberDiv = $('.mx-form input#id_dep_number').parent().parent();
-            var depTransportationTimeDiv = $('.mx-form div[data-groupname="dep_transportation"]');
+            var depTimeDiv = $('.mx-form div[data-groupname="dep_variable"]');
             var depInternationalDiv = $('.mx-form div[data-groupname="dep_international"]');
             if (!depTypeChecked.length) {
                 depSiteDiv.hide();
                 depDetailsDiv.hide();
                 depCarrierDiv.hide();
                 depNumberDiv.hide();
-                depTransportationTimeDiv.hide();
+                depTimeDiv.hide();
                 depInternationalDiv.hide();
             } else {
                 var depMXTransportation = depMXTransportationChecked.val();
@@ -147,20 +147,17 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                         depNumberDiv.children().eq(0).text(text);
                         depNumberDiv.show();
                     });
-                    if (depMXTransportation === '1') {
-                        $.when(str.get_string('vacation_travel_form_departure_dep_transportation_' + depType, 'local_mxschool'))
-                        .done(function(text) {
-                            depTransportationTimeDiv.children().eq(0).text(text);
-                            depTransportationTimeDiv.show();
-                        });
-                    } else {
-                        depTransportationTimeDiv.hide();
-                    }
                 } else {
                     depCarrierDiv.hide();
                     depNumberDiv.hide();
-                    depTransportationTimeDiv.hide();
                 }
+                var suffix = depMXTransportation === '1' && (depType === 'Plane' || depType === 'Train' || depType === 'Bus')
+                    ? '_' + depType : '';
+                $.when(str.get_string('vacation_travel_form_departure_dep_variable' + suffix, 'local_mxschool'))
+                .done(function(text) {
+                    depTimeDiv.children().eq(0).text(text);
+                    depTimeDiv.show();
+                });
                 if (depType === 'Plane' && depMXTransportation === '1') {
                     depInternationalDiv.show();
                 } else {
@@ -194,14 +191,14 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             var retDetailsDiv = $('.mx-form input#id_ret_details').parent().parent();
             var retCarrierDiv = $('.mx-form input#id_ret_carrier').parent().parent();
             var retNumberDiv = $('.mx-form input#id_ret_number').parent().parent();
-            var retTransportationTimeDiv = $('.mx-form div[data-groupname="ret_transportation"]');
+            var retTimeDiv = $('.mx-form div[data-groupname="ret_variable"]');
             var retInternationalDiv = $('.mx-form div[data-groupname="ret_international"]');
             if (!retTypeChecked.length) {
                 retSiteDiv.hide();
                 retDetailsDiv.hide();
                 retCarrierDiv.hide();
                 retNumberDiv.hide();
-                retTransportationTimeDiv.hide();
+                retTimeDiv.hide();
                 retInternationalDiv.hide();
             } else {
                 var retMXTransportation = retMXTransportationChecked.val();
@@ -254,20 +251,17 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                         retNumberDiv.children().eq(0).text(text);
                         retNumberDiv.show();
                     });
-                    if (retMXTransportation === '1') {
-                        $.when(str.get_string('vacation_travel_form_return_ret_transportation_' + retType, 'local_mxschool'))
-                        .done(function(text) {
-                            retTransportationTimeDiv.children().eq(0).text(text);
-                            retTransportationTimeDiv.show();
-                        });
-                    } else {
-                        retTransportationTimeDiv.hide();
-                    }
                 } else {
                     retCarrierDiv.hide();
                     retNumberDiv.hide();
-                    retTransportationTimeDiv.hide();
                 }
+                var suffix = retMXTransportation === '1' && (retType === 'Plane' || retType === 'Train' || retType === 'Bus')
+                    ? '_' + retType : '';
+                $.when(str.get_string('vacation_travel_form_return_ret_variable' + suffix, 'local_mxschool'))
+                .done(function(text) {
+                    retTimeDiv.children().eq(0).text(text);
+                    retTimeDiv.show();
+                });
                 if (retType === 'Plane' && retMXTransportation === '1') {
                     retInternationalDiv.show();
                 } else {
