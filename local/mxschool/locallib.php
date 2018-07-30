@@ -227,7 +227,9 @@ function student_may_access_esignout($userid) {
  * @return bool Whether the specified student is permitted to access the advisor selection form.
  */
 function student_may_access_advisor_selection($userid) {
-    return true;
+    $start = (int) get_config('local_mxschool', 'advisor_form_start_date');
+    $stop = (int) get_config('local_mxschool', 'advisor_form_stop_date');
+    return $start && $stop && time() > $start && time() < $stop;
 }
 
 /**
@@ -237,7 +239,9 @@ function student_may_access_advisor_selection($userid) {
  * @return bool Whether the specified student is permitted to access the rooming form.
  */
 function student_may_access_rooming($userid) {
-    return array_key_exists($userid, get_boarding_next_year_student_list());
+    $start = (int) get_config('local_mxschool', 'rooming_form_start_date');
+    $stop = (int) get_config('local_mxschool', 'rooming_form_stop_date');
+    return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_next_year_student_list());
 }
 
 /**
@@ -247,7 +251,9 @@ function student_may_access_rooming($userid) {
  * @return bool Whether the specified student is permitted to access the vacation travel form.
  */
 function student_may_access_vacation_travel($userid) {
-    return array_key_exists($userid, get_boarding_student_list());
+    $start = (int) get_config('local_mxschool', 'vacation_form_start_date');
+    $stop = (int) get_config('local_mxschool', 'vacation_form_stop_date');
+    return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_student_list());
 }
 
 /**

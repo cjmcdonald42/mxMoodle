@@ -510,8 +510,11 @@ $string['advisor_selection_form'] = 'Advisor Selection Form';
 $string['advisor_selection_report'] = 'Advisor Selection Report';
 
 // Advisor Selection Preferences.
+$string['advisor_selection_preferences_header_availability'] = 'Availability';
 $string['advisor_selection_preferences_header_notifications'] = 'Advisor Selection Email Notifications';
 $string['advisor_selection_preferences_header_text'] = 'Advisor Selection Form Instructions';
+$string['advisor_selection_preferences_availability_start'] = 'Start Date';
+$string['advisor_selection_preferences_availability_stop'] = 'Stop Date';
 $string['advisor_selection_preferences_notifications_unsubmittedavailable'] = 'Available Tags for Unsubmitted Reminder Email';
 $string['advisor_selection_preferences_notifications_unsubmittedsubject'] = 'Subject for Unsubmitted Reminder Email';
 $string['advisor_selection_preferences_notifications_unsubmittedbody'] = 'Body for Unsubmitted Reminder Email';
@@ -565,7 +568,10 @@ $string['rooming_form'] = 'Rooming Requests Form';
 $string['rooming_report'] = 'Rooming Requests Report';
 
 // Rooming Preferecnes.
+$string['rooming_preferences_header_availability'] = 'Availability';
 $string['rooming_preferences_header_notifications'] = 'Rooming Email Notifications';
+$string['rooming_preferences_availability_start'] = 'Start Date';
+$string['rooming_preferences_availability_stop'] = 'Stop Date';
 $string['rooming_preferences_header_text'] = 'Rooming Requests Form Instructions';
 $string['rooming_preferences_notifications_available'] = 'Available Tags for Unsubmitted Reminder Email';
 $string['rooming_preferences_notifications_subject'] = 'Subject for Unsubmitted Reminder Email';
@@ -621,7 +627,10 @@ $string['vacation_travel_report'] = 'Vacation Travel Report';
 $string['vacation_travel_transportation_report'] = 'Vacation Travel Transportation Report';
 
 // Vacation Travel Preferences.
+$string['vacation_travel_preferences_header_availability'] = 'Availability';
 $string['vacation_travel_preferences_header_notifications'] = 'Vacation Travel Email Notifications';
+$string['vacation_travel_preferences_availability_start'] = 'Start Date';
+$string['vacation_travel_preferences_availability_stop'] = 'Stop Date';
 $string['vacation_travel_preferences_notifications_submittedavailable'] = 'Available Tags for Vacation Travel Form Submitted Email';
 $string['vacation_travel_preferences_notifications_submittedsubject'] = 'Subject for Vacation Travel Form Submitted Email';
 $string['vacation_travel_preferences_notifications_submittedbody'] = 'Body for Vacation Travel Form Submitted Email';

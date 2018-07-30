@@ -35,15 +35,28 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
+        $dateparameters = array(
+            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
+            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
+            'timezone'  => core_date::get_server_timezone_object()
+        );
         $emailtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
         }, array('studentname')));
 
         $fields = array(
-            'notifications' => array(
+            'availability' => array(
+                'start' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+                    'time' => parent::time_selector(1),
+                    'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
+                )), 'stop' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+                    'time' => parent::time_selector(1),
+                    'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
+                ))
+            ), 'notifications' => array(
                 'available' => array('element' => 'static', 'text' => $emailtags),
                 'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
                 'roommateinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             )
