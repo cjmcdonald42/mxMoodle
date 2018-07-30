@@ -165,7 +165,7 @@ $jsrenderable2 = new \local_mxschool\output\amd_module('local_mxschool/get_esign
 
 echo $output->header();
 if (
-    !get_config('local_mxschool', 'esignout_form_ipenabled')
+    !$isstudent || !get_config('local_mxschool', 'esignout_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_mxschool', 'school_ip')
 ) {
     echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
