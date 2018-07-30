@@ -76,13 +76,16 @@ if ($id) {
     if ($isstudent) {
         $data->student = $USER->id;
         $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, d.id AS dorm,
+            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, u.firstname, u.alternatename, d.id AS dorm,
                     CONCAT(hoh.firstname, ' ', hoh.lastname) AS hoh, d.permissions_line AS permissionsline
              FROM {local_mxschool_student} s
              LEFT JOIN {user} u ON s.userid = u.id
              LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
              LEFT JOIN {user} hoh ON d.hohid = hoh.id
              WHERE s.userid = ?", array($USER->id)
+        );
+        $record->student = $record->student.(
+            $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
         );
         $data->dorm = $record->dorm;
     } else {
@@ -95,7 +98,7 @@ if ($id) {
 $data->isstudent = $isstudent ? '1' : '0';
 generate_time_selector_fields($data, 'departure', 15);
 generate_time_selector_fields($data, 'return', 15);
-$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list();
+$dorms = array('0' => get_string('report_select_boarding_dorm', 'local_mxschool')) + get_boarding_dorm_list();
 $students = get_boarding_student_list();
 
 $form = new weekend_form(array('id' => $id, 'dorms' => $dorms, 'students' => $students));

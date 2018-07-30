@@ -72,7 +72,11 @@ if ($id) {
     if ($istutor) {
         $data->tutor = $USER->id;
         $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS tutor FROM {user} u WHERE u.id = ?", array($USER->id)
+            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS tutor, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
+            array($USER->id)
+        );
+        $record->tutor = $record->tutor.(
+            $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
         );
     }
 }

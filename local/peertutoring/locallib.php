@@ -132,7 +132,7 @@ function get_rating_list() {
 function get_tutor_list() {
     global $DB;
     $tutors = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_peertutoring_tutor} t LEFT JOIN {user} u ON t.userid = u.id WHERE u.deleted = 0 ORDER BY name"
     );
     return convert_records_to_list($tutors);

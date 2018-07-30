@@ -418,7 +418,9 @@ function convert_records_to_list($records) {
     $list = array();
     if (is_array($records)) {
         foreach ($records as $record) {
-            $list[$record->id] = $record->name;
+            $list[$record->id] = $record->name.(
+                $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
+            );
         }
     }
     return $list;
@@ -432,7 +434,7 @@ function convert_records_to_list($records) {
 function get_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 ORDER BY name"
     );
     return convert_records_to_list($students);
@@ -446,7 +448,7 @@ function get_student_list() {
 function get_boarding_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' ORDER BY name"
     );
@@ -461,7 +463,7 @@ function get_boarding_student_list() {
 function get_boarding_next_year_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' ORDER BY name"
     );
@@ -477,8 +479,9 @@ function get_boarding_next_year_student_list() {
 function get_dorm_student_list($dorm) {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_student} s
-         LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.dormid = $dorm ORDER BY name"
     );
     return convert_records_to_list($students);
 }
@@ -492,7 +495,7 @@ function get_dorm_student_list($dorm) {
 function get_licensed_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
          WHERE u.deleted = 0 AND p.license_date IS NOT NULL ORDER BY name"
@@ -508,7 +511,7 @@ function get_licensed_student_list() {
 function get_esignout_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
     );
@@ -523,7 +526,7 @@ function get_esignout_student_list() {
 function get_passenger_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
          WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
@@ -543,7 +546,7 @@ function get_current_driver_list($ignore = 0) {
     global $DB;
     $today = new DateTime('midnight', core_date::get_server_timezone_object());
     $drivers = $DB->get_records_sql(
-        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_esignout} es
+        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename FROM {local_mxschool_esignout} es
          LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
          WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.departure_time >= ? AND es.sign_in_time IS NULL
          AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND (
@@ -561,7 +564,7 @@ function get_current_driver_list($ignore = 0) {
 function get_student_without_advisor_form_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 ORDER BY name"
     );
@@ -577,7 +580,7 @@ function get_student_without_advisor_form_list() {
 function get_new_student_advisor_pair_list() {
     global $DB;
     $records = $DB->get_records_sql(
-        "SELECT u.id, asf.selectedid AS name
+        "SELECT u.id, asf.selectedid AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_adv_selection} asf ON s.userid = asf.userid
          WHERE u.deleted = 0 AND asf.keep_current = 0 AND asf.selectedid <> 0 ORDER BY name"
@@ -593,7 +596,7 @@ function get_new_student_advisor_pair_list() {
 function get_student_without_rooming_form_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' AND (
              SELECT COUNT(id) FROM {local_mxschool_rooming} WHERE userid = s.userid
@@ -611,7 +614,7 @@ function get_student_without_rooming_form_list() {
 function get_student_possible_dormmate_list($userid) {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_student} ss ON ss.userid = ?
          WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder'
@@ -631,7 +634,7 @@ function get_student_possible_dormmate_list($userid) {
 function get_student_possible_same_grade_dormmate_list($userid) {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_student} ss ON ss.userid = ?
          WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder'
@@ -649,7 +652,7 @@ function get_student_possible_same_grade_dormmate_list($userid) {
 function get_student_without_vacation_travel_form_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND (
              SELECT COUNT(id) FROM {local_mxschool_vt_trip} WHERE userid = s.userid
