@@ -49,6 +49,7 @@ $data->start_date = get_config('local_mxschool', 'advisor_form_start_date') ?: g
 generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'advisor_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
+$data->who = get_config('local_mxschool', 'advisor_form_enabled_who');
 $unsubmitednotification = $DB->get_record('local_mxschool_notification', array('class' => 'advisor_selection_notify_unsubmitted'));
 if ($unsubmitednotification) {
     $data->unsubmittedsubject = $unsubmitednotification->subject;
@@ -71,6 +72,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('advisor_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
     set_config('advisor_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
+    set_config('advisor_form_enabled_who', $data->who, 'local_mxschool');
     update_notification('advisor_selection_notify_unsubmitted', $data->unsubmittedsubject, $data->unsubmittedbody);
     update_notification('advisor_selection_notify_results', $data->resultssubject, $data->resultsbody);
     set_config('advisor_form_closing_warning', $data->closing_warning['text'], 'local_mxschool');
@@ -84,7 +86,7 @@ $table = new faculty_table();
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table, 50);
+$reportrenderable = new \local_mxschool\output\report($table);
 
 echo $output->header();
 echo $output->heading($title);

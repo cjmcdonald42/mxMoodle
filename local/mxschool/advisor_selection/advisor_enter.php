@@ -96,7 +96,7 @@ $data->current = isset($data->student) ? $DB->get_field_sql(
 ) : '';
 $data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
-$students = get_student_list();
+$students = get_student_with_advisor_form_enabled_list();
 $faculty = array(0 => get_string('form_select_default', 'local_mxschool')) + get_faculty_list();
 
 $form = new advisor_form(array('id' => $id, 'students' => $students, 'faculty' => $faculty));

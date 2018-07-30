@@ -55,7 +55,7 @@ class preferences_form extends local_mxschool_form {
                 )), 'stop' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                     'time' => parent::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                ))
+                )), 'who' => array('element' => 'radio', 'options' => array('new', 'all'), 'rules' => array('required'))
             ), 'notifications' => array(
                 'unsubmittedavailable' => array('element' => 'static', 'text' => $unsubmittedtags),
                 'unsubmittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,

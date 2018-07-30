@@ -227,11 +227,11 @@ function student_may_access_esignout($userid) {
  * @return bool Whether the specified student is permitted to access the advisor selection form.
  */
 function student_may_access_advisor_selection($userid) {
-    $start = (int) get_config('local_mxschool', 'advisor_form_start_date');
-    $stop = (int) get_config('local_mxschool', 'advisor_form_stop_date');
-    return $start && $stop && time() > $start && time() < $stop;
+    $start = (int) get_config('local_mxschool', 'advisor_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
+    $stop = (int) get_config('local_mxschool', 'advisor_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
+    return $start && $stop && time() > $start && time() < $stop
+           && array_key_exists($userid, get_student_with_advisor_form_enabled_list());
 }
-
 /**
  * Determines whether a specified user is a student who is permitted to access the rooming form.
  *
@@ -239,8 +239,8 @@ function student_may_access_advisor_selection($userid) {
  * @return bool Whether the specified student is permitted to access the rooming form.
  */
 function student_may_access_rooming($userid) {
-    $start = (int) get_config('local_mxschool', 'rooming_form_start_date');
-    $stop = (int) get_config('local_mxschool', 'rooming_form_stop_date');
+    $start = (int) get_config('local_mxschool', 'rooming_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
+    $stop = (int) get_config('local_mxschool', 'rooming_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
     return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_next_year_student_list());
 }
 
@@ -251,8 +251,8 @@ function student_may_access_rooming($userid) {
  * @return bool Whether the specified student is permitted to access the vacation travel form.
  */
 function student_may_access_vacation_travel($userid) {
-    $start = (int) get_config('local_mxschool', 'vacation_form_start_date');
-    $stop = (int) get_config('local_mxschool', 'vacation_form_stop_date');
+    $start = (int) get_config('local_mxschool', 'vacation_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
+    $stop = (int) get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
     return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_student_list());
 }
 
@@ -557,16 +557,36 @@ function get_current_driver_list($ignore = 0) {
 }
 
 /**
+ * Queries the database to create a list of all the students who are required to fill out advisor selection form.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_student_with_advisor_form_enabled_list() {
+    global $DB;
+    $year = (int)date('Y') - 1;
+    $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? " s.admission_year = {$year}" : ' s.grade <> 12';
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND$where ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
  * Queries the database to create a list of all the students who have not filled out an advisor selection form.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
 function get_student_without_advisor_form_list() {
     global $DB;
+    $year = (int)date('Y') - 1;
+    $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? " s.admission_year = {$year}" : ' s.grade <> 12';
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 ORDER BY name"
+         WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 AND$where
+         ORDER BY name"
     );
     return convert_records_to_list($students);
 }
@@ -780,23 +800,6 @@ function get_esignout_date_list() {
 }
 
 /**
- * Creates a list of all the room types for a particular gender.
- *
- * @param string $gender The gender to check for - either 'M', 'F', or ''.
- * @return array The room types as internal_name => localized_name, in order by type.
- */
-function get_roomtype_list($gender = '') {
-    $roomtypes = array(
-        'Single' => get_string('room_type_single', 'local_mxschool'),
-        'Double' => get_string('room_type_double', 'local_mxschool')
-    );
-    if ($gender !== 'M') {
-        $roomtypes['Quad'] = get_string('room_type_quad', 'local_mxschool');
-    }
-    return $roomtypes;
-}
-
-/**
  * Creates a list of all the vacation travel types given a filter.
  *
  * @param bool|null $mxtransportation Whether types for mx transportation or non-mx transportaion should be returned.
@@ -994,4 +997,21 @@ function sign_in_esignout($esignoutid) {
     $record->sign_in_time = time();
     $DB->update_record('local_mxschool_esignout', $record);
     return date('g:i A', $record->sign_in_time);
+}
+
+/**
+ * Creates a list of all the room types for a particular gender.
+ *
+ * @param string $gender The gender to check for - either 'M', 'F', or ''.
+ * @return array The room types as internal_name => localized_name, in order by type.
+ */
+function get_roomtype_list($gender = '') {
+    $roomtypes = array(
+        'Single' => get_string('room_type_single', 'local_mxschool'),
+        'Double' => get_string('room_type_double', 'local_mxschool')
+    );
+    if ($gender !== 'M') {
+        $roomtypes['Quad'] = get_string('room_type_quad', 'local_mxschool');
+    }
+    return $roomtypes;
 }
