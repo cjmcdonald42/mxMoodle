@@ -85,8 +85,8 @@ class weekend_form extends local_mxschool_form {
     public function validation($data, $files) {
         global $DB;
         $errors = parent::validation($data, $files);
-        $departure = generate_timestamp($data, 'departure_time', $data['departure_date']);
-        $return = generate_timestamp($data, 'return_time', $data['return_date']);
+        $departure = generate_timestamp($data, 'departure');
+        $return = generate_timestamp($data, 'return');
         if ($departure >= $return) {
             $errors['return'] = get_string('weekend_form_error_outoforder', 'local_mxschool');
         }

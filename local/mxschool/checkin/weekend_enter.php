@@ -93,8 +93,8 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
-generate_time_selector_fields($data, 'departure_time', $data->departure_date, 15);
-generate_time_selector_fields($data, 'return_time', $data->return_date, 15);
+generate_time_selector_fields($data, 'departure' 15);
+generate_time_selector_fields($data, 'return', 15);
 $dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list();
 $students = get_student_list();
 
@@ -106,8 +106,8 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    $data->departure_date = generate_timestamp($data, 'departure_time', $data->departure_date);
-    $data->return_date = generate_timestamp($data, 'return_time', $data->return_date);
+    $data->departure_date = generate_timestamp($data, 'departure');
+    $data->return_date = generate_timestamp($data, 'return');
     $data->weekend = $DB->get_field_sql(
         "SELECT id FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < end_time",
         array($data->departure_date, $data->departure_date)

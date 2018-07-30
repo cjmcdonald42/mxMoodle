@@ -51,7 +51,7 @@ class esignout_form extends local_mxschool_form {
             '' => array(
                 'id' => parent::ELEMENT_HIDDEN_INT,
                 'timecreated' => parent::ELEMENT_HIDDEN_INT,
-                'date' => parent::ELEMENT_HIDDEN_INT,
+                'departure_date' => parent::ELEMENT_HIDDEN_INT,
                 'isstudent' => parent::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
@@ -65,7 +65,7 @@ class esignout_form extends local_mxschool_form {
                 'driver' => array('element' => 'select', 'options' => $drivers)
             ), 'details' => array(
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
-                'departuretime' => parent::time_selector(15),
+                'departure_time' => parent::time_selector(15),
                 'approver' => array('element' => 'select', 'options' => $approvers)
             ), 'permissions' => array(
                 'parentwarning' => array('element' => 'static', 'name' => null),

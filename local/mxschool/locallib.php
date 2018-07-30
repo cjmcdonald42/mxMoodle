@@ -374,36 +374,37 @@ function get_current_semester() {
  * Sets the data for a time selector based on a timstamp and a step.
  *
  * @param stdClass $data The data object.
- * @param string $prefix A prefix for the properties to be set
- *                       - the properties will be "{$prefix}_hour", "{$prefix}_minute", "{$prefix}_ampm".
- * @param int $timestamp The timestamp used to set the properties.
+ * @param string $prefix A prefix for the properties to be set.
+ *                       - The properties set will be "{$prefix}_time_hour", "{$prefix}_time_minute", and "{$prefix}_time_ampm".
+ *                       - The timestamp used will be from "{$prefix}_date".
  * @param int $step An increment indicating the available minute values.
  */
-function generate_time_selector_fields(&$data, $prefix, $timestamp, $step = 1) {
+function generate_time_selector_fields(&$data, $prefix, $step = 1) {
     $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($timestamp);
-    $data->{"{$prefix}_hour"} = $time->format('g');
+    $time->setTimestamp($data->{"{$prefix}_date"});
+    $data->{"{$prefix}_time_hour"} = $time->format('g');
     $minute = $time->format('i');
-    $data->{"{$prefix}_minute"} = $minute - $minute % $step;
-    $data->{"{$prefix}_ampm"} = $time->format('A') === 'PM';
+    $data->{"{$prefix}_time_minute"} = $minute - $minute % $step;
+    $data->{"{$prefix}_time_ampm"} = $time->format('A') === 'PM';
 }
 
 /**
  * Generates a timestamp as the result of a time selector.
  *
  * @param stdClass|array $data The data object.
- * @param string $prefix A prefix for the properties to access
- *                       - the properties will be "{$prefix}_hour", "{$prefix}_minute", "{$prefix}_ampm".
+ * @param string $prefix A prefix for the properties to access.
+ *                       - The properties used will be "{$prefix}_date", "{$prefix}_time_hour", "{$prefix}_time_minute", and
+ *                         "{$prefix}_time_ampm".
  * @param int A timestamp for the current date.
  * @return int The resulting timestamp.
  */
-function generate_timestamp($data, $prefix, $date) {
+function generate_timestamp($data, $prefix) {
     if (is_array($data)) {
         $data = (object) $data;
     }
     $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($date);
-    $time->setTime($data->{"{$prefix}_hour"} % 12 + $data->{"{$prefix}_ampm"} * 12, $data->{"{$prefix}_minute"});
+    $time->setTimestamp($data->{"{$prefix}_date"});
+    $time->setTime($data->{"{$prefix}_time_hour"} % 12 + $data->{"{$prefix}_time_ampm"} * 12, $data->{"{$prefix}_time_minute"});
     return $time->getTimestamp();
 }
 

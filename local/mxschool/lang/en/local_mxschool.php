@@ -469,7 +469,7 @@ $string['esignout_form_info_type_select_Other'] = 'Other Adult (Please Specify)'
 $string['esignout_form_info_passengers'] = 'Your Passengers';
 $string['esignout_form_info_driver'] = 'Your Driver';
 $string['esignout_form_details_destination'] = 'Your Destination';
-$string['esignout_form_details_departuretime'] = 'Departure Time';
+$string['esignout_form_details_departure_time'] = 'Departure Time';
 $string['esignout_form_details_approver'] = 'Face-to-Face Permission Granted by';
 
 $string['esignout_form_passengers_noselection'] = 'No Passengers Selected';

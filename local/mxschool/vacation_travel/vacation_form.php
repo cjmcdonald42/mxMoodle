@@ -121,9 +121,7 @@ class vacation_form extends local_mxschool_form {
                 if ($data['dep_mxtransportation'] && (
                     $data['dep_type'] === 'Plane' || $data['dep_type'] === 'Train' || $data['dep_type'] === 'Bus'
                 )) {
-                    $deptransportation = generate_timestamp(
-                        $data, 'dep_transportation_time', $data['dep_transportation_date']
-                    );
+                    $deptransportation = generate_timestamp($data, 'dep_transportation');
                 }
                 if ($data['dep_mxtransportation'] && !isset($data['dep_site'])) {
                     if ($data['dep_type'] === 'Plane') {
@@ -168,9 +166,7 @@ class vacation_form extends local_mxschool_form {
                 if ($data['ret_mxtransportation'] && (
                     $data['ret_type'] === 'Plane' || $data['ret_type'] === 'Train' || $data['ret_type'] === 'Bus'
                 )) {
-                    $rettransportation = generate_timestamp(
-                        $data, 'ret_transportation_time', $data['ret_transportation_date']
-                    );
+                    $rettransportation = generate_timestamp($data, 'ret_transportation');
                 }
                 if ($data['ret_mxtransportation'] && !isset($data['ret_site'])) {
                     if ($data['ret_type'] === 'Plane') {
@@ -206,8 +202,8 @@ class vacation_form extends local_mxschool_form {
                 }
             }
         }
-        $depcampus = generate_timestamp($data, 'dep_campus_time', $data['dep_campus_date']);
-        $retcampus = generate_timestamp($data, 'ret_campus_time', $data['ret_campus_date']);
+        $depcampus = generate_timestamp($data, 'dep_campus');
+        $retcampus = generate_timestamp($data, 'ret_campus');
         if ($depcampus >= $retcampus) {
             $errors['ret_campus'] = get_string('vacation_travel_form_error_outoforder', 'local_mxschool');
         }

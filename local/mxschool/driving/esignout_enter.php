@@ -51,7 +51,7 @@ setup_mxschool_page($url, $title, $parents);
 
 $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
-    'destination', 'departure_time' => 'date', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+    'destination', 'departure_time' => 'departure_date', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
 if ($isstudent && !student_may_access_esignout($USER->id)) {
@@ -81,8 +81,8 @@ if ($id) {
             if (!isset($data->destination)) {
                 $data->destination = $driver->destination;
             }
-            if (!isset($data->date)) {
-                $data->date = $driver->date;
+            if (!isset($data->departure_date)) {
+                $data->departure_date = $driver->departure_date;
             }
             break;
         case 'Parent':
@@ -95,7 +95,7 @@ if ($id) {
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
-    $data->date = time();
+    $data->departure_date = time();
     if ($isstudent) {
         $data->student = $USER->id;
     }
@@ -108,7 +108,7 @@ if ($isstudent) {
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_mxschool', 'esignout_form_instructions');
 $data->passengerswarning = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
-generate_time_selector_fields($data, 'departuretime', $data->date, 15);
+generate_time_selector_fields($data, 'departure', 15);
 $data->parentwarning = get_config('local_mxschool', 'esignout_form_warning_needparent');
 $data->specificwarning = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
 $students = get_esignout_student_list();
@@ -137,7 +137,7 @@ if ($form->is_cancelled()) {
             $data->type_select = $data->type_other;
         default: // Driver, Parent, and Other will all save their data on their own record.
             $data->driver = 0;
-            $data->date = generate_timestamp($data, 'departuretime', $data->date);
+            $data->departure_date = generate_timestamp($data, 'departure');
     }
     $data->passengers = $data->type_select === 'Driver' ? json_encode(
         isset($data->passengers) ? $data->passengers : array()

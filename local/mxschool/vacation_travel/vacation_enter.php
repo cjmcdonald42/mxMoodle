@@ -118,10 +118,10 @@ if ($isstudent) {
     );
 }
 $data->isstudent = $isstudent ? '1' : '0';
-generate_time_selector_fields($data, 'dep_campus_time', $data->dep_campus_date, 15);
-generate_time_selector_fields($data, 'dep_transportation_time', $data->dep_transportation_date, 15);
-generate_time_selector_fields($data, 'ret_campus_time', $data->ret_campus_date, 15);
-generate_time_selector_fields($data, 'ret_transportation_time', $data->ret_transportation_date, 15);
+generate_time_selector_fields($data, 'dep_campus', 15);
+generate_time_selector_fields($data, 'dep_transportation', 15);
+generate_time_selector_fields($data, 'ret_campus', 15);
+generate_time_selector_fields($data, 'ret_transportation', 15);
 $students = get_boarding_student_list();
 $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
@@ -147,10 +147,8 @@ if ($form->is_cancelled()) {
             $returndata->{substr($key, 4)} = $value;
         }
     }
-    $departuredata->campus_date = generate_timestamp($departuredata, 'campus_time', $departuredata->campus_date);
-    $departuredata->transportation_date = generate_timestamp(
-        $departuredata, 'transportation_time', $departuredata->transportation_date
-    );
+    $departuredata->campus_date = generate_timestamp($departuredata, 'campus');
+    $departuredata->transportation_date = generate_timestamp($departuredata, 'transportation');
     if (!$departuredata->mxtransportation) {
         $departuredata->site = null;
         $departuredata->transportation_date = null;
@@ -167,8 +165,8 @@ if ($form->is_cancelled()) {
     if ($departuredata->type !== 'Plane') {
         $departuredata->international = null;
     }
-    $returndata->campus_date = generate_timestamp($returndata, 'campus_time', $returndata->campus_date);
-    $returndata->transportation_date = generate_timestamp($returndata, 'transportation_time', $returndata->transportation_date);
+    $returndata->campus_date = generate_timestamp($returndata, 'campus');
+    $returndata->transportation_date = generate_timestamp($returndata, 'transportation');
     if (!$returndata->mxtransportation) {
         $returndata->site = null;
         $returndata->transportation_date = null;
