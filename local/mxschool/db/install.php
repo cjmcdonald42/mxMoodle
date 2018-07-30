@@ -34,6 +34,7 @@ function xmldb_local_mxschool_install() {
     set_config('weekend_form_warning_closed', 'The weekend you have selected is a closed weekend - you will need special permissions from the deans.', 'local_mxschool');
 
     set_config('esignout_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_mxschool');
+    set_config('esignout_form_ipenabled', '1', 'local_mxschool');
     set_config('esignout_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_mxschool');
     set_config('esignout_form_instructions', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
     set_config('esignout_form_warning_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_mxschool');
@@ -47,10 +48,13 @@ function xmldb_local_mxschool_install() {
     set_config('esignout_notification_warning_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_mxschool');
     set_config('esignout_notification_warning_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_mxschool');
 
+    set_config('advisor_form_enabled_who', 'all', 'local_mxschool');
     set_config('advisor_form_closing_warning', 'Your current advisor\'s advisory is closing, so you must provide choices for a new advisor.', 'local_mxschool');
     set_config('advisor_form_instructions', 'Please rank you top five advisor choices in descending order. You may rank less than five if your final choice is your current advisor.', 'local_mxschool');
 
     set_config('rooming_form_roommate_instructions', 'Because there are several one-room doubles on campus, there are years when students who prefer to be in a single must live in a double. If you have not lived in a one-room double before, please indicate with whom you would want to live if placed in one.', 'local_mxschool');
+
+    set_config('vacation_form_returnenabled', '1', 'local_mxschool');
 
     $sites = array(
         array('name' => 'Logan', 'type' => 'Plane', 'enabled_departure' => 1, 'enabled_return' => 1),

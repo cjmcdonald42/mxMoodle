@@ -37,9 +37,10 @@ class vacation_table extends local_mxschool_table {
      * @param stdClass $filter Any filtering for the table - could include properties dorm, submitted, and search
      */
     public function __construct($filter) {
-        $columns = array(
-            'student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype', 'retdatetime', 'rettype', 'retcarrier', 'retnumber'
-        );
+        $columns = array('student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype');
+        if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
+            $columns = array_merge($columns, array('retdatetime', 'rettype', 'retcarrier', 'retnumber'));
+        }
         if ($filter->dorm !== '') {
             unset($columns[array_search('dorm', $columns)]);
         }
@@ -73,7 +74,7 @@ class vacation_table extends local_mxschool_table {
         $urlparams = array(
             'dorm' => $filter->dorm, 'submitted' => $filter->submitted, 'search' => $filter->search
         );
-        $centered = array('retcarrier', 'retnumber');
+        $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retcarrier', 'retnumber');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
             'vaction_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
@@ -92,7 +93,14 @@ class vacation_table extends local_mxschool_table {
      * Formats the return date and time column to 'n/j/y g:i A'.
      */
     protected function col_retdatetime($values) {
-        return $values->retdatetime ? date('n/j/y g:i A', $values->retdatetime) : '';
+        return $values->tid ? ($values->retdatetime ? date('n/j/y g:i A', $values->retdatetime) : '-') : '';
+    }
+
+    /**
+     * Formats the return type column.
+     */
+    protected function col_rettype($values) {
+        return $values->tid ? ($values->rettype ?: '-') : '';
     }
 
     /**

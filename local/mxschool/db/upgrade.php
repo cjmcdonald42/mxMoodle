@@ -211,5 +211,14 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018073010, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018073013) {
+        set_config('esignout_form_ipenabled', '1', 'local_mxschool');
+        set_config('advisor_form_enabled_who', 'all', 'local_mxschool');
+        set_config('vacation_form_returnenabled', '1', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018073013, 'local', 'mxschool');
+    }
+
     return true;
 }

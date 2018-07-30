@@ -35,6 +35,9 @@ require_login();
 require_capability('local/mxschool:manage_vacation_travel_transportation', context_system::instance());
 
 $view = optional_param('view', 'departure', PARAM_RAW);
+if (!get_config('local_mxschool', 'vacation_form_returnenabled')) {
+    $view = 'departure';
+}
 $filter = new stdClass();
 $filter->mxtransportation = optional_param('mxtransportation', '', PARAM_RAW);
 $filter->type = optional_param('type', '', PARAM_RAW);
@@ -51,16 +54,14 @@ $title = get_string('vacation_travel_transportation_report', 'local_mxschool');
 setup_mxschool_page($url, $title, $parents);
 
 $views = array(
-    'departure' => get_string('vacation_travel_transportation_report_view_departure', 'local_mxschool'),
-    'return' => get_string('vacation_travel_transportation_report_view_return', 'local_mxschool')
+    'departure' => get_string('vacation_travel_transportation_report_select_view_departure', 'local_mxschool'),
+    'return' => get_string('vacation_travel_transportation_report_select_view_return', 'local_mxschool')
 );
-
 if (!isset($views[$view])) {
     redirect(new moodle_url($url, array(
         'view' => 'departure', 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
     )));
 }
-
 $mxtransportationoptions = array(
     '1' => get_string('vacation_travel_transportation_report_select_mxtransportation_true', 'local_mxschool'),
     '0' => get_string('vacation_travel_transportation_report_select_mxtransportation_false', 'local_mxschool')
@@ -76,12 +77,15 @@ $types = array(
 
 $table = new transportation_table($view, $filter, $download);
 
-$dropdowns = array(
-    new local_mxschool_dropdown('view', $views, $view), new local_mxschool_dropdown(
-        'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
-        get_string('report_select_default', 'local_mxschool')
-    ), new local_mxschool_dropdown(
-        'type', $types, $filter->type, get_string('vacation_travel_transportation_report_select_type_all', 'local_mxschool')
+$dropdowns = array_merge(
+    get_config('local_mxschool', 'vacation_form_returnenabled') ? array(new local_mxschool_dropdown('view', $views, $view))
+    : array(), array(
+        new local_mxschool_dropdown(
+            'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
+            get_string('report_select_default', 'local_mxschool')
+        ), new local_mxschool_dropdown(
+            'type', $types, $filter->type, get_string('vacation_travel_transportation_report_select_type_all', 'local_mxschool')
+        )
     )
 );
 $addbutton = new stdClass();
@@ -97,6 +101,6 @@ if ($table->is_downloading()) {
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading(get_string("vacation_travel_transportation_report_view_{$view}", 'local_mxschool'));
 echo $output->render($renderable);
 echo $output->footer();

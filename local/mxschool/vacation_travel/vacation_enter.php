@@ -37,6 +37,7 @@ if (!$isstudent) {
     require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
 }
 
+$returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
@@ -70,18 +71,23 @@ if ($id) {
         redirect(new moodle_url($url));
     }
     $departuredata = get_record($transportqueryfields, 'dr.id = ?', array($data->departureid));
-    $returndata = get_record($transportqueryfields, 'dr.id = ?', array($data->returnid));
     foreach ($departuredata as $key => $value) {
         $data->{"dep_{$key}"} = $value;
-    }
-    foreach ($returndata as $key => $value) {
-        $data->{"ret_{$key}"} = $value;
     }
     if (!isset($data->dep_international)) {
         $data->dep_international = '-1'; // Invalid default to prevent auto selection.
     }
-    if (!isset($data->ret_international)) {
-        $data->ret_international = '-1'; // Invalid default to prevent auto selection.
+    if ($returnenabled) {
+        $returndata = get_record($transportqueryfields, 'dr.id = ?', array($data->returnid));
+        foreach ($returndata as $key => $value) {
+            $data->{"ret_{$key}"} = $value;
+        }
+        if (!isset($data->ret_mxtransportation)) {
+            $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
+        }
+        if (!isset($data->ret_international)) {
+            $data->ret_international = '-1'; // Invalid default to prevent auto selection.
+        }
     }
 } else {
     $data = new stdClass();
@@ -91,10 +97,12 @@ if ($id) {
     $data->dep_site = '-1'; // Invalid default to prevent auto selection.
     $data->dep_variable_date = time();
     $data->dep_international = '-1'; // Invalid default to prevent auto selection.
-    $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
-    $data->ret_site = '-1'; // Invalid default to prevent auto selection.
-    $data->ret_variable_date = time();
-    $data->ret_international = '-1'; // Invalid default to prevent auto selection.
+    if ($returnenabled) {
+        $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
+        $data->ret_site = '-1'; // Invalid default to prevent auto selection.
+        $data->ret_variable_date = time();
+        $data->ret_international = '-1'; // Invalid default to prevent auto selection.
+    }
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_vt_trip', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one vacation travel form per student.
@@ -114,14 +122,17 @@ if ($isstudent) {
 }
 $data->isstudent = $isstudent ? '1' : '0';
 generate_time_selector_fields($data, 'dep_variable', 15);
-generate_time_selector_fields($data, 'ret_variable', 15);
+if ($returnenabled) {
+    generate_time_selector_fields($data, 'ret_variable', 15);
+}
 $students = get_boarding_student_list();
 $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
 $types = get_vacation_travel_type_list();
 
 $form = new vacation_form(array(
-    'id' => $id, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites, 'types' => $types
+    'id' => $id, 'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites,
+    'types' => $types
 ));
 $form->set_redirect($redirect);
 $form->set_data($data);
@@ -155,23 +166,27 @@ if ($form->is_cancelled()) {
     if ($departuredata->type !== 'Plane') {
         $departuredata->international = null;
     }
-    $returndata->variable_date = generate_timestamp($returndata, 'variable');
-    if (!$returndata->mxtransportation) {
-        $returndata->site = null;
-        $returndata->international = null;
-    }
-    if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && $returndata->site !== '0') {
-        $returndata->details = null;
-    }
-    if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {
-        $returndata->carrier = null;
-        $returndata->number = null;
-    }
-    if ($returndata->type !== 'Plane') {
-        $returndata->international = null;
-    }
     $data->departureid = update_record($transportqueryfields, $departuredata);
-    $data->returnid = update_record($transportqueryfields, $returndata);
+    if ($returnenabled) {
+        $returndata->variable_date = generate_timestamp($returndata, 'variable');
+        if (!$returndata->mxtransportation) {
+            $returndata->site = null;
+            $returndata->international = null;
+        }
+        if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && $returndata->site !== '0') {
+            $returndata->details = null;
+        }
+        if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {
+            $returndata->carrier = null;
+            $returndata->number = null;
+        }
+        if ($returndata->type !== 'Plane') {
+            $returndata->international = null;
+        }
+        $data->returnid = update_record($transportqueryfields, $returndata);
+    } else {
+        $data->returnid = 0;
+    }
     $id = update_record($tripqueryfields, $data);
     $result = mx_notifications::send_email('vacation_travel_submitted', array('id' => $id));
     logged_redirect(

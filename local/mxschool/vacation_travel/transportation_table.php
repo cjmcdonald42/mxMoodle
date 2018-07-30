@@ -99,7 +99,7 @@ class transportation_table extends local_mxschool_table {
         $urlparams = array(
             'view' => $view, 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
         );
-        $centered = array('mxtransportation', 'site', 'details', 'carrier', 'number', 'international');
+        $centered = array('mxtransportation', 'type', 'site', 'details', 'carrier', 'number', 'datetime', 'international');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
             'transportation_table', $columns, $headers, $sortable, 'timemodified', $fields, $from, $where, $urlparams, $centered,
@@ -112,6 +112,13 @@ class transportation_table extends local_mxschool_table {
      */
     protected function col_mxtransportation($values) {
         return $values->tid ? ($values->mxtransportation ? get_string('yes') : get_string('no')) : '';
+    }
+
+    /**
+     * Formats the type column.
+     */
+    protected function col_type($values) {
+        return $values->tid ? ($values->type ?: '-') : '';
     }
 
     /**
@@ -150,7 +157,7 @@ class transportation_table extends local_mxschool_table {
      * Formats the date and time column to 'n/j/y g:i A'.
      */
     protected function col_datetime($values) {
-        return $values->tid ? date('n/j/y g:i A', $values->datetime) : '';
+        return $values->tid ? ($values->datetime ? date('n/j/y g:i A', $values->datetime) : '-') : '';
     }
 
     /**

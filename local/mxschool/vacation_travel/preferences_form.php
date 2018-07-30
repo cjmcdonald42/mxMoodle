@@ -59,7 +59,9 @@ class preferences_form extends local_mxschool_form {
                 )), 'stop' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
                     'time' => parent::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                ))
+                )), 'returnenabled' => array('element' => 'advcheckbox', 'name' => null, 'text' => get_string(
+                        'vacation_travel_preferences_availability_returnenabled_text', 'local_mxschool'
+                    ))
             ), 'notifications' => array(
                 'submittedavailable' => array('element' => 'static', 'text' => $submitemailtags),
                 'submittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,

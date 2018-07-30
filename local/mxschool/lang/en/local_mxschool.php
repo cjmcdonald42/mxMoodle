@@ -630,13 +630,14 @@ $string['vacation_travel_site_report'] = 'Site Report';
 $string['vacation_travel_site_edit'] = 'Edit Site Record';
 $string['vacation_travel_form'] = 'Vacation Travel Form';
 $string['vacation_travel_report'] = 'Vacation Travel Report';
-$string['vacation_travel_transportation_report'] = 'Vacation Travel Transportation Report';
+$string['vacation_travel_transportation_report'] = 'Transportation Report';
 
 // Vacation Travel Preferences.
 $string['vacation_travel_preferences_header_availability'] = 'Availability';
 $string['vacation_travel_preferences_header_notifications'] = 'Vacation Travel Email Notifications';
 $string['vacation_travel_preferences_availability_start'] = 'Start Date';
 $string['vacation_travel_preferences_availability_stop'] = 'Stop Date';
+$string['vacation_travel_preferences_availability_returnenabled_text'] = 'Check to Enable the Return Portion of the Form and Reports.';
 $string['vacation_travel_preferences_notifications_submittedavailable'] = 'Available Tags for Vacation Travel Form Submitted Email';
 $string['vacation_travel_preferences_notifications_submittedsubject'] = 'Subject for Vacation Travel Form Submitted Email';
 $string['vacation_travel_preferences_notifications_submittedbody'] = 'Body for Vacation Travel Form Submitted Email';
@@ -759,8 +760,10 @@ $string['vacation_travel_report_header_retcarrier'] = 'Return Airline / Company'
 $string['vacation_travel_report_header_retnumber'] = 'Return Flight / Bus / Train Number';
 
 // Vacation Travel Transportation Report.
-$string['vacation_travel_transportation_report_view_departure'] = 'Departure';
-$string['vacation_travel_transportation_report_view_return'] = 'Return';
+$string['vacation_travel_transportation_report_view_departure'] = 'Departure Transportation Report';
+$string['vacation_travel_transportation_report_view_return'] = 'Return Transportation Report';
+$string['vacation_travel_transportation_report_select_view_departure'] = 'Departure';
+$string['vacation_travel_transportation_report_select_view_return'] = 'Return';
 $string['vacation_travel_transportation_report_select_type_all'] = 'All Types';
 $string['vacation_travel_transportation_report_select_type_Car'] = 'Car';
 $string['vacation_travel_transportation_report_select_type_Plane'] = 'Plane';

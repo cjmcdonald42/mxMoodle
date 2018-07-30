@@ -26,6 +26,7 @@
 
 define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, ajax, str, notification) {
     function update() {
+        var returnEnabled = $('.mx-form fieldset#id_return').length;
         var depMXTransportationChecked = $('.mx-form div[data-groupname="dep_mxtransportation"] input:checked');
         var depTypeChecked = $('.mx-form div[data-groupname="dep_type"] input:checked');
         var retMXTransportationChecked = $('.mx-form div[data-groupname="ret_mxtransportation"] input:checked');
@@ -37,8 +38,9 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                     mxtransportation: depMXTransportationChecked.length ? depMXTransportationChecked.val() == 1 : undefined,
                     type: depTypeChecked.length ? depTypeChecked.val() : undefined
                 }, return: {
-                    mxtransportation: retMXTransportationChecked.length ? retMXTransportationChecked.val() == 1 : undefined,
-                    type: retTypeChecked.length ? retTypeChecked.val() : undefined
+                    mxtransportation: returnEnabled && retMXTransportationChecked.length
+                        ? retMXTransportationChecked.val() == 1 : undefined,
+                    type: returnEnabled && retTypeChecked.length ? retTypeChecked.val() : undefined
                 }
             }
         }]);
@@ -164,108 +166,109 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                     depInternationalDiv.hide();
                 }
             }
-
-            if (!retMXTransportationChecked.length) {
-                $('.mx-form div[data-groupname="ret_type"]').hide();
-            } else {
-                var types = $('.mx-form div[data-groupname="ret_type"] input');
-                types.each(function() {
-                    var typeInput = $(this);
-                    var spanContents = typeInput.parent().parent().contents();
-                    if (data.return.types.includes(typeInput.val())) {
-                        typeInput.parent().show();
-                        spanContents.eq(spanContents.index(typeInput.parent()) + 3).get(0).nodeValue = '\u2003';
-                    } else {
-                        if (typeInput.prop('checked')) {
-                            typeInput.prop('checked', false);
-                            typeInput.change();
-                        }
-                        typeInput.parent().hide();
-                        spanContents.eq(spanContents.index(typeInput.parent()) + 3).get(0).nodeValue = '';
-                    }
-                });
-                $('.mx-form div[data-groupname="ret_type"]').show();
-            }
-
-            var retSiteDiv = $('.mx-form div[data-groupname="ret_site"]');
-            var retDetailsDiv = $('.mx-form input#id_ret_details').parent().parent();
-            var retCarrierDiv = $('.mx-form input#id_ret_carrier').parent().parent();
-            var retNumberDiv = $('.mx-form input#id_ret_number').parent().parent();
-            var retTimeDiv = $('.mx-form div[data-groupname="ret_variable"]');
-            var retInternationalDiv = $('.mx-form div[data-groupname="ret_international"]');
-            if (!retTypeChecked.length) {
-                retSiteDiv.hide();
-                retDetailsDiv.hide();
-                retCarrierDiv.hide();
-                retNumberDiv.hide();
-                retTimeDiv.hide();
-                retInternationalDiv.hide();
-            } else {
-                var retMXTransportation = retMXTransportationChecked.val();
-                var retType = retTypeChecked.val();
-                if(retMXTransportation === '1') {
-                    var sites = $('.mx-form div[data-groupname="ret_site"] input');
-                    sites.each(function() {
-                        var siteInput = $(this);
-                        var spanContents = siteInput.parent().parent().contents();
-                        if (data.return.sites.includes(siteInput.val())) {
-                            siteInput.parent().show();
-                            spanContents.eq(spanContents.index(siteInput.parent()) + 3).get(0).nodeValue = '\u2003';
+            if (returnEnabled) {
+                if (!retMXTransportationChecked.length) {
+                    $('.mx-form div[data-groupname="ret_type"]').hide();
+                } else {
+                    var types = $('.mx-form div[data-groupname="ret_type"] input');
+                    types.each(function() {
+                        var typeInput = $(this);
+                        var spanContents = typeInput.parent().parent().contents();
+                        if (data.return.types.includes(typeInput.val())) {
+                            typeInput.parent().show();
+                            spanContents.eq(spanContents.index(typeInput.parent()) + 3).get(0).nodeValue = '\u2003';
                         } else {
-                            if (siteInput.prop('checked')) {
-                                siteInput.prop('checked', false);
-                                siteInput.change();
+                            if (typeInput.prop('checked')) {
+                                typeInput.prop('checked', false);
+                                typeInput.change();
                             }
-                            siteInput.parent().hide();
-                            spanContents.eq(spanContents.index(siteInput.parent()) + 3).get(0).nodeValue = '';
+                            typeInput.parent().hide();
+                            spanContents.eq(spanContents.index(typeInput.parent()) + 3).get(0).nodeValue = '';
                         }
                     });
-                    var unlocalized = 'vacation_travel_form_return_ret_site' + (
-                        retType === 'Plane' || retType === 'Train' ? '_' + retType : ''
-                    );
-                    $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(text) {
-                        retSiteDiv.children().eq(0).text(text);
-                        retSiteDiv.show();
-                    });
-                } else {
+                    $('.mx-form div[data-groupname="ret_type"]').show();
+                }
+
+                var retSiteDiv = $('.mx-form div[data-groupname="ret_site"]');
+                var retDetailsDiv = $('.mx-form input#id_ret_details').parent().parent();
+                var retCarrierDiv = $('.mx-form input#id_ret_carrier').parent().parent();
+                var retNumberDiv = $('.mx-form input#id_ret_number').parent().parent();
+                var retTimeDiv = $('.mx-form div[data-groupname="ret_variable"]');
+                var retInternationalDiv = $('.mx-form div[data-groupname="ret_international"]');
+                if (!retTypeChecked.length) {
                     retSiteDiv.hide();
-                }
-                var retSite = $('.mx-form div[data-groupname="ret_site"] input:checked').val();
-                if (retType === 'Car' || retType === 'Non-MX Bus' || (retMXTransportation === '1' && retSite === '0')) {
-                    var unlocalized = 'vacation_travel_form_return_ret_details' + (retType === 'Car' ? '_' + retType : '');
-                    $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(text) {
-                        retDetailsDiv.children().eq(0).text(text);
-                        retDetailsDiv.show();
-                    });
-                } else {
                     retDetailsDiv.hide();
-                }
-                if (retType === 'Plane' || retType === 'Train' || retType === 'Bus') {
-                    $.when(str.get_string('vacation_travel_form_return_ret_carrier_' + retType, 'local_mxschool'))
-                    .done(function(text) {
-                        retCarrierDiv.children().eq(0).text(text);
-                        retCarrierDiv.show();
-                    });
-                    $.when(str.get_string('vacation_travel_form_return_ret_number_' + retType, 'local_mxschool'))
-                    .done(function(text) {
-                        retNumberDiv.children().eq(0).text(text);
-                        retNumberDiv.show();
-                    });
-                } else {
                     retCarrierDiv.hide();
                     retNumberDiv.hide();
-                }
-                var suffix = retMXTransportation === '1' && (retType === 'Plane' || retType === 'Train' || retType === 'Bus')
-                    ? '_' + retType : '';
-                $.when(str.get_string('vacation_travel_form_return_ret_variable' + suffix, 'local_mxschool'))
-                .done(function(text) {
-                    retTimeDiv.children().eq(0).text(text);
-                    retTimeDiv.show();
-                });
-                if (retType === 'Plane' && retMXTransportation === '1') {
-                    retInternationalDiv.show();
-                } else {
+                    retTimeDiv.hide();
                     retInternationalDiv.hide();
+                } else {
+                    var retMXTransportation = retMXTransportationChecked.val();
+                    var retType = retTypeChecked.val();
+                    if(retMXTransportation === '1') {
+                        var sites = $('.mx-form div[data-groupname="ret_site"] input');
+                        sites.each(function() {
+                            var siteInput = $(this);
+                            var spanContents = siteInput.parent().parent().contents();
+                            if (data.return.sites.includes(siteInput.val())) {
+                                siteInput.parent().show();
+                                spanContents.eq(spanContents.index(siteInput.parent()) + 3).get(0).nodeValue = '\u2003';
+                            } else {
+                                if (siteInput.prop('checked')) {
+                                    siteInput.prop('checked', false);
+                                    siteInput.change();
+                                }
+                                siteInput.parent().hide();
+                                spanContents.eq(spanContents.index(siteInput.parent()) + 3).get(0).nodeValue = '';
+                            }
+                        });
+                        var unlocalized = 'vacation_travel_form_return_ret_site' + (
+                            retType === 'Plane' || retType === 'Train' ? '_' + retType : ''
+                        );
+                        $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(text) {
+                            retSiteDiv.children().eq(0).text(text);
+                            retSiteDiv.show();
+                        });
+                    } else {
+                        retSiteDiv.hide();
+                    }
+                    var retSite = $('.mx-form div[data-groupname="ret_site"] input:checked').val();
+                    if (retType === 'Car' || retType === 'Non-MX Bus' || (retMXTransportation === '1' && retSite === '0')) {
+                        var unlocalized = 'vacation_travel_form_return_ret_details' + (retType === 'Car' ? '_' + retType : '');
+                        $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(text) {
+                            retDetailsDiv.children().eq(0).text(text);
+                            retDetailsDiv.show();
+                        });
+                    } else {
+                        retDetailsDiv.hide();
+                    }
+                    if (retType === 'Plane' || retType === 'Train' || retType === 'Bus') {
+                        $.when(str.get_string('vacation_travel_form_return_ret_carrier_' + retType, 'local_mxschool'))
+                        .done(function(text) {
+                            retCarrierDiv.children().eq(0).text(text);
+                            retCarrierDiv.show();
+                        });
+                        $.when(str.get_string('vacation_travel_form_return_ret_number_' + retType, 'local_mxschool'))
+                        .done(function(text) {
+                            retNumberDiv.children().eq(0).text(text);
+                            retNumberDiv.show();
+                        });
+                    } else {
+                        retCarrierDiv.hide();
+                        retNumberDiv.hide();
+                    }
+                    var suffix = retMXTransportation === '1' && (retType === 'Plane' || retType === 'Train' || retType === 'Bus')
+                        ? '_' + retType : '';
+                    $.when(str.get_string('vacation_travel_form_return_ret_variable' + suffix, 'local_mxschool'))
+                    .done(function(text) {
+                        retTimeDiv.children().eq(0).text(text);
+                        retTimeDiv.show();
+                    });
+                    if (retType === 'Plane' && retMXTransportation === '1') {
+                        retInternationalDiv.show();
+                    } else {
+                        retInternationalDiv.hide();
+                    }
                 }
             }
         }).fail(notification.exception);
@@ -275,8 +278,10 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
         $('div[data-groupname="dep_mxtransportation"]').change(update);
         $('div[data-groupname="dep_type"]').change(update);
         $('div[data-groupname="dep_site"]').change(update);
-        $('div[data-groupname="ret_mxtransportation"]').change(update);
-        $('div[data-groupname="ret_type"]').change(update);
-        $('div[data-groupname="ret_site"]').change(update);
+        if ($('.mx-form fieldset#id_return').length) {
+            $('div[data-groupname="ret_mxtransportation"]').change(update);
+            $('div[data-groupname="ret_type"]').change(update);
+            $('div[data-groupname="ret_site"]').change(update);
+        }
     };
 });
