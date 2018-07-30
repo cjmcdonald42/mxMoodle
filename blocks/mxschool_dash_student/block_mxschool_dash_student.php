@@ -27,6 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
+require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
 class block_mxschool_dash_student extends block_base {
 
@@ -35,20 +36,23 @@ class block_mxschool_dash_student extends block_base {
     }
 
     public function get_content() {
-        global $PAGE;
+        global $PAGE, $USER;
         if (isset($this->content)) {
             return $this->content;
         }
 
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index(array(
+        $links = !user_is_student() || student_may_access_esignout($USER->id) ? array(
             // Put any links in this array as displaytext => relative url.
             get_string('esignout_form', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_enter.php',
             get_string('esignout_report', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_report.php'
-        ));
+        ) : array();
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\index($links);
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);
+        if (count($links)) {
+            $this->content->text = $output->render($renderable);
+        }
 
         return $this->content;
     }

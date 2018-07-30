@@ -37,14 +37,15 @@ class block_mxschool_peertutoring extends block_base {
     }
 
     public function get_content() {
-        global $PAGE;
+        global $PAGE, $USER;
         if (isset($this->content)) {
             return $this->content;
         }
 
-        $links = !user_is_student() || student_may_access_tutoring($USER->id)
-            ? array(get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php')
-            : array();
+        $links = !user_is_student() || student_may_access_tutoring($USER->id) ? array(
+            // Put any links in this array as displaytext => relative url.
+            get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'
+        ) : array();
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\index($links);
 
