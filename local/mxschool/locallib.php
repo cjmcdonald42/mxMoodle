@@ -324,6 +324,43 @@ function get_current_semester() {
 }
 
 /**
+ * Sets the data for a time selector based on a timstamp and a step.
+ *
+ * @param stdClass $data The data object.
+ * @param string $prefix A prefix for the properties to be set
+ *                       - the properties will be "{$prefix}_hour", "{$prefix}_minute", "{$prefix}_ampm".
+ * @param int $timestamp The timestamp used to set the properties.
+ * @param int $step An increment indicating the available minute values.
+ */
+function generate_time_selector_fields(&$data, $prefix, $timestamp, $step = 1) {
+    $time = new DateTime('now', core_date::get_server_timezone_object());
+    $time->setTimestamp($timestamp);
+    $data->{"{$prefix}_hour"} = $time->format('g');
+    $minute = $time->format('i');
+    $data->{"{$prefix}_minute"} = $minute - $minute % $step;
+    $data->{"{$prefix}_ampm"} = $time->format('A') === 'PM';
+}
+
+/**
+ * Generates a timestamp as the result of a time selector.
+ *
+ * @param stdClass|array $data The data object.
+ * @param string $prefix A prefix for the properties to access
+ *                       - the properties will be "{$prefix}_hour", "{$prefix}_minute", "{$prefix}_ampm".
+ * @param int A timestamp for the current date.
+ * @return int The resulting timestamp.
+ */
+function generate_timestamp($data, $prefix, $date) {
+    if (is_array($data)) {
+        $data = (object) $data;
+    }
+    $time = new DateTime('now', core_date::get_server_timezone_object());
+    $time->setTimestamp($date);
+    $time->setTime($data->{"{$prefix}_hour"} % 12 + $data->{"{$prefix}_ampm"} * 12, $data->{"{$prefix}_minute"});
+    return $time->getTimestamp();
+}
+
+/**
  * Converts an array of objects with properties id and name to an array with form id => name.
  *
  * @param array $records The record objects to convert.

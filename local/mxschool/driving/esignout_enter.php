@@ -54,7 +54,7 @@ $queryfields = array('local_mxschool_esignout' => array('abbreviation' => 'es', 
     'destination', 'departure_time' => 'departuretime', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
 )));
 
-$departuretime = new DateTime('now', core_date::get_server_timezone_object());
+$departuretime = time();
 if ($id) {
     if (!$DB->record_exists('local_mxschool_esignout', array('id' => $id))) {
         redirect($redirect);
@@ -89,7 +89,7 @@ if ($id) {
             $data->type_other = $data->type_select;
             $data->type_select = 'Other';
     }
-    $departuretime->setTimestamp($data->departuretime);
+    $departuretime = $data->departuretime;
 } else {
     $data = new stdClass();
     $data->id = $id;
@@ -109,12 +109,11 @@ if ($isstudent) {
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_mxschool', 'esignout_form_instructions');
 $data->passengerswarning = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
-$data->departuretime_hour = $departuretime->format('g');
-$minute = $departuretime->format('i');
-$data->departuretime_minute = $minute - $minute % 15;
-$data->departuretime_ampm = $departuretime->format('A') === 'PM';
-$departuretime->setTime(0, 0);
-$data->date = $departuretime->getTimestamp();
+generate_time_selector_fields($data, 'departuretime', $departuretime, 15);
+$date = new DateTime('now', core_date::get_server_timezone_object());
+$date->setTimestamp($departuretime);
+$date->setTime(0, 0);
+$data->date = $date->getTimestamp();
 $data->parentwarning = get_config('local_mxschool', 'esignout_form_warning_needparent');
 $data->specificwarning = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
 $students = get_esignout_student_list();
@@ -143,12 +142,7 @@ if ($form->is_cancelled()) {
             $data->type_select = $data->type_other;
         default: // Driver, Parent, and Other will all save their data on their own record.
             $data->driver = 0;
-            $departuretime = new DateTime('now', core_date::get_server_timezone_object());
-            $departuretime->setTimestamp($data->date);
-            $departuretime->setTime(
-                ($data->departuretime_hour % 12) + ($data->departuretime_ampm * 12), $data->departuretime_minute
-            );
-            $data->departuretime = $departuretime->getTimestamp();
+            $data->departuretime = generate_timestamp($data, 'departuretime', $data->date);
     }
     $data->passengers = $data->type_select === 'Driver' ? json_encode(
         isset($data->passengers) ? $data->passengers : array()

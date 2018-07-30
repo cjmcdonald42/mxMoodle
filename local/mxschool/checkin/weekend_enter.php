@@ -90,17 +90,8 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$time = new DateTime('now', core_date::get_server_timezone_object());
-$time->setTimestamp($data->departure_date);
-$data->departure_time_hour = $time->format('g');
-$minute = $time->format('i');
-$data->departure_time_minute = $minute - $minute % 15;
-$data->departure_time_ampm = $time->format('A') === 'PM';
-$time->setTimestamp($data->return_date);
-$data->return_time_hour = $time->format('g');
-$minute = $time->format('i');
-$data->return_time_minute = $minute - $minute % 15;
-$data->return_time_ampm = $time->format('A') === 'PM';
+generate_time_selector_fields($data, 'departure_time', $data->departure_date, 15);
+generate_time_selector_fields($data, 'return_time', $data->return_date, 15);
 $dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list();
 $students = get_student_list();
 
@@ -112,17 +103,8 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($data->departure_date);
-    $time->setTime(
-        ($data->departure_time_hour % 12) + ($data->departure_time_ampm * 12), $data->departure_time_minute
-    );
-    $data->departure_date = $time->getTimestamp();
-    $time->setTimestamp($data->return_date);
-    $time->setTime(
-        ($data->return_time_hour % 12) + ($data->return_time_ampm * 12), $data->return_time_minute
-    );
-    $data->return_date = $time->getTimestamp();
+    $data->departure_date = generate_timestamp($data, 'departure_time', $data->departure_date);
+    $data->return_date = generate_timestamp($data, 'return_time', $data->return_date);
     $data->weekend = $DB->get_field_sql(
         "SELECT id FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < end_time",
         array($data->departure_date, $data->departure_date)

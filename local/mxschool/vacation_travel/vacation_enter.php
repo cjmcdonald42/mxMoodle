@@ -118,27 +118,10 @@ if ($isstudent) {
     );
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$time = new DateTime('now', core_date::get_server_timezone_object());
-$time->setTimestamp($data->dep_campus_date);
-$data->dep_campus_time_hour = $time->format('g');
-$minute = $time->format('i');
-$data->dep_campus_time_minute = $minute - $minute % 15;
-$data->dep_campus_time_ampm = $time->format('A') === 'PM';
-$time->setTimestamp($data->dep_transportation_date);
-$data->dep_transportation_time_hour = $time->format('g');
-$minute = $time->format('i');
-$data->dep_transportation_time_minute = $minute - $minute % 15;
-$data->dep_transportation_time_ampm = $time->format('A') === 'PM';
-$time->setTimestamp($data->ret_campus_date);
-$data->ret_campus_time_hour = $time->format('g');
-$minute = $time->format('i');
-$data->ret_campus_time_minute = $minute - $minute % 15;
-$data->ret_campus_time_ampm = $time->format('A') === 'PM';
-$time->setTimestamp($data->ret_transportation_date);
-$data->ret_transportation_time_hour = $time->format('g');
-$minute = $time->format('i');
-$data->ret_transportation_time_minute = $minute - $minute % 15;
-$data->ret_transportation_time_ampm = $time->format('A') === 'PM';
+generate_time_selector_fields($data, 'dep_campus_time', $data->dep_campus_date, 15);
+generate_time_selector_fields($data, 'dep_transportation_time', $data->dep_transportation_date, 15);
+generate_time_selector_fields($data, 'ret_campus_time', $data->ret_campus_date, 15);
+generate_time_selector_fields($data, 'ret_transportation_time', $data->ret_transportation_date, 15);
 $students = get_boarding_student_list();
 $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
@@ -164,18 +147,10 @@ if ($form->is_cancelled()) {
             $returndata->{substr($key, 4)} = $value;
         }
     }
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($departuredata->campus_date);
-    $time->setTime(
-        ($departuredata->campus_time_hour % 12) + ($departuredata->campus_time_ampm * 12), $departuredata->campus_time_minute
+    $departuredata->campus_date = generate_timestamp($departuredata, 'campus_time', $departuredata->campus_date);
+    $departuredata->transportation_date = generate_timestamp(
+        $departuredata, 'transportation_time', $departuredata->transportation_date
     );
-    $departuredata->campus_date = $time->getTimestamp();
-    $time->setTimestamp($departuredata->transportation_date);
-    $time->setTime(
-        ($departuredata->transportation_time_hour % 12) + ($departuredata->transportation_time_ampm * 12),
-        $departuredata->transportation_time_minute
-    );
-    $departuredata->transportation_date = $time->getTimestamp();
     if (!$departuredata->mxtransportation) {
         $departuredata->site = null;
         $departuredata->transportation_date = null;
@@ -192,17 +167,8 @@ if ($form->is_cancelled()) {
     if ($departuredata->type !== 'Plane') {
         $departuredata->international = null;
     }
-    $time->setTimestamp($returndata->campus_date);
-    $time->setTime(
-        ($returndata->campus_time_hour % 12) + ($returndata->campus_time_ampm * 12), $returndata->campus_time_minute
-    );
-    $returndata->campus_date = $time->getTimestamp();
-    $time->setTimestamp($returndata->transportation_date);
-    $time->setTime(
-        ($returndata->transportation_time_hour % 12) + ($returndata->transportation_time_ampm * 12),
-        $returndata->transportation_time_minute
-    );
-    $returndata->transportation_date = $time->getTimestamp();
+    $returndata->campus_date = generate_timestamp($returndata, 'campus_time', $returndata->campus_date);
+    $returndata->transportation_date = generate_timestamp($returndata, 'transportation_time', $returndata->transportation_date);
     if (!$returndata->mxtransportation) {
         $returndata->site = null;
         $returndata->transportation_date = null;

@@ -65,7 +65,7 @@ abstract class local_mxschool_form extends moodleform {
      * @param int $step The number of minutes between options.
      * @return array The array to be used as a field code.
      */
-    public static function time_selector($step) {
+    public static function time_selector($step = 1) {
         if ($step < 1 || $step > 60) {
             $step = 1;
         }
