@@ -92,12 +92,7 @@ $data->dorm = isset($data->student) ? $DB->get_field_sql(
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
 $roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + get_boarding_next_year_student_list();
-$roomtypes = array(
-    '' => get_string('form_select_default', 'local_mxschool'),
-    'Single' => get_string('room_type_single', 'local_mxschool'),
-    'Double' => get_string('room_type_double', 'local_mxschool'),
-    'Quad' => get_string('room_type_quad', 'local_mxschool')
-);
+$roomtypes = array(0 => get_string('form_select_default', 'local_mxschool')) + get_roomtype_list();
 
 $form = new rooming_form(array('id' => $id, 'students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
 $form->set_redirect($redirect);

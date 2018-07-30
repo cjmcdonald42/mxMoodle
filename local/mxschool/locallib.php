@@ -777,6 +777,23 @@ function get_esignout_date_list() {
 }
 
 /**
+ * Creates a list of all the room types for a particular gender.
+ *
+ * @param string $gender The gender to check for - either 'M', 'F', or ''.
+ * @return array The room types as internal_name => localized_name, in order by type.
+ */
+function get_roomtype_list($gender = '') {
+    $roomtypes = array(
+        'Single' => get_string('room_type_single', 'local_mxschool'),
+        'Double' => get_string('room_type_double', 'local_mxschool')
+    );
+    if ($gender !== 'M') {
+        $roomtypes['Quad'] = get_string('room_type_quad', 'local_mxschool');
+    }
+    return $roomtypes;
+}
+
+/**
  * Creates a list of all the vacation travel types given a filter.
  *
  * @param bool|null $mxtransportation Whether types for mx transportation or non-mx transportaion should be returned.

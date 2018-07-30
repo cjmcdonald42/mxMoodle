@@ -54,6 +54,21 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             $('.mx-form fieldset#id_info div.form-control-static').text(data.dorm);
 
             $.when(str.get_string('form_select_default', 'local_mxschool')).done(function(text) {
+                data.roomtypes.unshift({
+                    internalname: 0,
+                    localizedname: text
+                });
+                var roomtypeSelect = $('.mx-form select#id_roomtype');
+                var roomtypeSelected = roomtypeSelect.val();
+                roomtypeSelect.empty();
+                $.each(data.roomtypes, function(index, option) {
+                    roomtypeSelect.append($('<option></option>').attr('value', option.internalname).text(option.localizedname));
+                });
+                if ($('.mx-form select#id_roomtype > option[value=' + roomtypeSelected + ']').length) {
+                    roomtypeSelect.val(roomtypeSelected);
+                } else {
+                    roomtypeSelect.change();
+                }
                 var dormmates = [{
                     userid: 0,
                     name: text

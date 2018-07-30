@@ -80,7 +80,7 @@ class rooming_form extends local_mxschool_form {
         if (!isset($data['liveddouble'])) {
             $errors['liveddouble'] = get_string('rooming_form_error_noliveddouble', 'local_mxschool');
         }
-        if ($data['roomtype'] === '') {
+        if (!$data['roomtype']) {
             $errors['roomtype'] = get_string('rooming_form_error_noroomtype', 'local_mxschool');
         }
         for ($i = 1; $i <= 7; $i++) {

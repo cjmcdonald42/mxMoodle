@@ -90,7 +90,8 @@ $functions = array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_rooming_student_options',
         'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to determine the current dorm, list of possible dormmates in the same grade,'
+        'description' => 'Queries the database to determine the current dorm, list of available room types,'
+                         .'list of possible dormmates in the same grade,'
                          .'and list of possible dormmates in any grade for a particular student'
                          .'as well as a list of students who have not completed the form.',
         'type' => 'read',

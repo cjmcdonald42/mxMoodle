@@ -457,7 +457,7 @@ class local_mxschool_external extends external_api {
      * for a particular student as well as a list of students who have not completed the form.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass With properties students, dorm, gradedormmates, and dormmates.
+     * @return stdClass With properties students, dorm, roomtypes, gradedormmates, and dormmates.
      */
     public static function get_rooming_student_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -474,6 +474,12 @@ class local_mxschool_external extends external_api {
             "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
             array($params['userid'])
         );
+        $gender = $DB->get_field('local_mxschool_student', 'gender', array('userid' => $params['userid']));
+        $list = get_roomtype_list($gender);
+        $result->roomtypes = array();
+        foreach ($list as $internalname => $localizedname) {
+            $result->roomtypes[] = array('internalname' => $internalname, 'localizedname' => $localizedname);
+        }
         $list = get_student_possible_same_grade_dormmate_list($params['userid']);
         $result->gradedormmates = array();
         foreach ($list as $userid => $name) {
@@ -498,11 +504,13 @@ class local_mxschool_external extends external_api {
                 'userid' => new external_value(PARAM_INT, 'the user id of the student who has not completed a rooming form'),
                 'name' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a rooming form')
             ))), 'dorm' => new external_value(PARAM_TEXT, 'the name of the student\'s current dorm'),
-            'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
+            'roomtypes' => new external_multiple_structure(new external_single_structure(array(
+                'internalname' => new external_value(PARAM_TEXT, 'the internal name of the available room type'),
+                'localizedname' => new external_value(PARAM_TEXT, 'the localized name of the available room type')
+            ))), 'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
                 'userid' => new external_value(PARAM_INT, 'the user id of the potential dormmate in the same grade'),
                 'name' => new external_value(PARAM_TEXT, 'the name of the potential dormmate in the same grade')
-            ))),
-            'dormmates' => new external_multiple_structure(new external_single_structure(array(
+            ))), 'dormmates' => new external_multiple_structure(new external_single_structure(array(
                 'userid' => new external_value(PARAM_INT, 'the user id of the potential dormmate'),
                 'name' => new external_value(PARAM_TEXT, 'the name of the potential dormmate')
             )))
