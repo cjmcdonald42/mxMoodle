@@ -380,8 +380,7 @@ $string['weekend_report_header_clean'] = 'Room Clean?';
 $string['weekend_report_header_parent'] = 'Parent?';
 $string['weekend_report_header_invite'] = 'Invite?';
 $string['weekend_report_header_approved'] = 'Approved?';
-$string['weekend_report_header_destination'] = 'Destination';
-$string['weekend_report_header_transportation'] = 'Transportation';
+$string['weekend_report_header_destinationtransportation'] = 'Destination<br>Transportation';
 $string['weekend_report_header_phone'] = 'Phone Number';
 $string['weekend_report_header_departurereturn'] = 'Departure Time<br>Return Time';
 

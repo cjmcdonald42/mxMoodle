@@ -53,8 +53,8 @@ class weekend_table extends local_mxschool_table {
         $fields = array(
             's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
             'd.name AS dorm', 's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved',
-            'wf.destination', 'wf.transportation', 'wf.phone_number AS phone', "'' AS departurereturn",
-            'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
+            "'' AS destinationtransportation", 'wf.destination', 'wf.transportation', 'wf.phone_number AS phone',
+            "'' AS departurereturn", 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
         );
         $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
         $startday = date('w', $weekendrecord->start_time) - 7;
@@ -68,7 +68,7 @@ class weekend_table extends local_mxschool_table {
             $fields[] = "'' AS late_{$i}";
         }
         $columns2 = array(
-            'clean', 'parent', 'invite', 'approved', 'destination', 'transportation', 'phone', 'departurereturn'
+            'clean', 'parent', 'invite', 'approved', 'destinationtransportation', 'phone', 'departurereturn'
         );
         $headers2 = array();
         foreach ($columns2 as $column) {
@@ -90,7 +90,7 @@ class weekend_table extends local_mxschool_table {
                 SELECT userid FROM mdl_local_mxschool_weekend_form wf WHERE s.userid = userid AND wf.weekendid = {$filter->weekend}
             )" : '')
         );
-        $sortable = array('student', 'dorm', 'room', 'grade', 'destination', 'transportation');
+        $sortable = array('student', 'dorm', 'room', 'grade');
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
@@ -146,6 +146,13 @@ class weekend_table extends local_mxschool_table {
             get_string('email_button_default', 'local_mxschool'), $values->wfid, 'weekend_form_approved', true
         );
         return "{$output->render($checkboxrenderable)}{$output->render($buttonrenderable)}";
+    }
+
+    /**
+     * Formats the destination and transportation time column to 'destination<br>transportation'.
+     */
+    protected function col_destinationtransportation($values) {
+        return ($values->destination ?: '').'<br>'.($values->transportation ?: '');
     }
 
     /**

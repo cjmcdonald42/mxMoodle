@@ -87,7 +87,8 @@ button.mx-email-button {
     body.path-local-mxschool header,
     body.path-local-mxschool footer,
     div.mx-table nav,
-    div.mx-table form.dataformatselector {
+    div.mx-table form.dataformatselector,
+    div.mx-form div[data-groupname='buttonar'] {
         display: none;
     }
 
