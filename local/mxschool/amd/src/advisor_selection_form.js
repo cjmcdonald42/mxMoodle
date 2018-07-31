@@ -27,6 +27,13 @@
 define(
     ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
         function update() {
+            var keepcurrent0 = $('.mx-form input#id_keepcurrent_0');
+            var optionsFieldset = $('.mx-form fieldset#id_options');
+            if (keepcurrent0.prop('checked')) {
+                optionsFieldset.show();
+            } else {
+                optionsFieldset.hide();
+            }
             var promises = ajax.call([{
                 methodname: 'local_mxschool_get_advisor_selection_student_options',
                 args: {
@@ -98,16 +105,7 @@ define(
                 update();
             });
             $('.mx-form select#id_student').change(update);
-            $('.mx-form div[data-groupname="keepcurrent"]').change(function() {
-                var keepcurrent0 = $('.mx-form input#id_keepcurrent_0');
-                var optionsFieldset = $('.mx-form fieldset#id_options');
-                if (keepcurrent0.prop('checked')) {
-                    optionsFieldset.show();
-                } else {
-                    optionsFieldset.hide();
-                }
-                update();
-            });
+            $('.mx-form div[data-groupname="keepcurrent"]').change(update);
             $('.mx-form select#id_option1').change(update);
             $('.mx-form select#id_option2').change(update);
             $('.mx-form select#id_option3').change(update);

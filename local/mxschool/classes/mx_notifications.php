@@ -40,6 +40,8 @@ class mx_notifications {
     public static function send_email($emailclass, $params = array()) {
         global $DB;
         $supportuser = core_user::get_support_user();
+        $deans = clone $supportuser;
+        $deans->email = get_config('local_mxschool', 'email_deans');
         $notification = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
         if (!$notification) {
             return false;
@@ -160,15 +162,13 @@ class mx_notifications {
                     $DB->get_record('user', array('id' => $users->hoh))
                 );
                 if ($emaildeans) {
-                    $deans = clone $supportuser;
-                    $deans->email = get_config('local_mxschool', 'email_deans');
                     $emailto[] = $deans;
                 }
                 break;
             case 'advisor_selection_notify_unsubmitted':
                 $subject = $notification->subject;
                 $body = $notification->body_html;
-                $emailto = array();
+                $emailto = array($deans);
                 $list = get_student_without_advisor_form_list();
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
@@ -184,7 +184,7 @@ class mx_notifications {
             case 'advisor_selection_notify_results':
                 $subject = $notification->subject;
                 $body = $notification->body_html;
-                $emailto = array();
+                $emailto = array($deans);
                 $list = get_new_student_advisor_pair_list();
                 foreach ($list as $suserid => $auserid) {
                     $student = $DB->get_record('user', array('id' => $suserid));
@@ -203,7 +203,7 @@ class mx_notifications {
             case 'rooming_notify_unsubmitted':
                 $subject = $notification->subject;
                 $body = $notification->body_html;
-                $emailto = array();
+                $emailto = array($deans);
                 $list = get_student_without_rooming_form_list();
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
@@ -262,7 +262,7 @@ class mx_notifications {
             case 'vacation_travel_notify_unsubmitted':
                 $subject = $notification->subject;
                 $body = $notification->body_html;
-                $emailto = array();
+                $emailto = array($deans);
                 $list = get_student_without_vacation_travel_form_list();
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));

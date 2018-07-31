@@ -12,6 +12,10 @@
  * Print Styling.
  */
 @media print {
+    body.path-local-peertutoring {
+        background-color: #fff;
+    }
+
     body.path-local-peertutoring .noprint,
     body.path-local-peertutoring header,
     body.path-local-peertutoring footer {

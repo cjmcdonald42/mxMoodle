@@ -77,6 +77,9 @@ class advisor_table extends local_mxschool_table {
                 ? "NOT EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)" : ''
             ), $filter->keepcurrent !== '' ? "asf.keep_current = {$filter->keepcurrent}" : ''
         );
+        $year = (int)date('Y') - 1;
+        $where[] = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new'
+            ? "s.admission_year = {$year}" : 's.grade <> 12';
         $sortable = array('student', 'current', 'keepcurrent');
         $urlparams = array('submitted' => $filter->submitted, 'keepcurrent' => $filter->keepcurrent, 'search' => $filter->search);
         $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');

@@ -54,7 +54,7 @@ $string['type_create_success'] = 'Type Record Created Successfully';
 $string['type_edit_success'] = 'Type Record Updated Successfully';
 $string['rating_create_success'] = 'Effectiveness Rating Record Created Successfully';
 $string['rating_edit_success'] = 'Effectiveness Rating Record Updated Successfully';
-$string['tutoring_form_success'] = 'Tutoring Form Updated Successfully';
+$string['tutoring_form_success'] = 'Tutoring Form Submitted Successfully';
 
 $string['table_delete_failure'] = 'Table Not Found for Record Deletion';
 $string['department_delete_success'] = 'Department Record Deleted Successfully';
