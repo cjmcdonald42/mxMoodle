@@ -42,10 +42,10 @@ class preferences_form extends local_mxschool_form {
         );
         $unsubmittedtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
-        }, array('studentname')));
+        }, array('studentname', 'salutation')));
         $resultstags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
-        }, array('studentname', 'advisorname')));
+        }, array('studentname', 'salutation', 'advisorname')));
 
         $fields = array(
             'availability' => array(

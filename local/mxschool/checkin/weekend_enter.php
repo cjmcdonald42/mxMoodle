@@ -76,7 +76,7 @@ if ($id) {
     if ($isstudent) {
         $data->student = $USER->id;
         $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, u.firstname, u.alternatename, d.id AS dorm,
+            "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename, d.id AS dorm,
                     CONCAT(hoh.firstname, ' ', hoh.lastname) AS hoh, d.permissions_line AS permissionsline
              FROM {local_mxschool_student} s
              LEFT JOIN {user} u ON s.userid = u.id

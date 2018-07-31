@@ -600,7 +600,7 @@ function get_student_without_advisor_form_list() {
 function get_new_student_advisor_pair_list() {
     global $DB;
     $records = $DB->get_records_sql(
-        "SELECT u.id, asf.selectedid AS name,
+        "SELECT u.id, asf.selectedid AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          LEFT JOIN {local_mxschool_adv_selection} asf ON s.userid = asf.userid
          WHERE u.deleted = 0 AND asf.keep_current = 0 AND asf.selectedid <> 0 ORDER BY name"

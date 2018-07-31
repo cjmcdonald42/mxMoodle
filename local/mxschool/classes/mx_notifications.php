@@ -51,7 +51,7 @@ class mx_notifications {
                     return false;
                 }
                 $record = $DB->get_record_sql(
-                    "SELECT s.userid AS student, CONCAT(u.firstname, ' ', u.lastname) AS studentname,
+                    "SELECT s.userid AS student, CONCAT(u.lastname, ', ', u.firstname) AS studentname, u.firstname, u.alternatename,
                             wf.departure_date_time AS departuretime, wf.return_date_time AS returntime, wf.destination,
                             wf.transportation, wf.phone_number AS phone, wf.time_modified AS timesubmitted, d.hohid AS hoh,
                             CONCAT(hoh.firstname, ' ', hoh.lastname) AS hohname, d.permissions_line AS permissionsline
@@ -59,6 +59,9 @@ class mx_notifications {
                      LEFT JOIN {user} u ON s.userid = u.id LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
                      LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE wf.id = ?", array($params['id'])
                 );
+                $record->studentname .= !empty($record->alternatename) && $record->alternatename !== $record->firstname
+                    ? " ({$record->alternatename})" : '';
+                $record->salutation = empty($record->alternatename) ? $record->firstname : $record->alternatename;
                 $record->departuretime = date('n/j/y g:i A', $record->departuretime);
                 $record->returntime = date('n/j/y g:i A', $record->returntime);
                 $record->timesubmitted = date('n/j/y g:i A', $record->timesubmitted);
@@ -82,8 +85,9 @@ class mx_notifications {
                     return false;
                 }
                 $record = $DB->get_record_sql(
-                    "SELECT CONCAT(u.firstname, ' ', u.lastname) AS studentname, es.type, es.passengers,
-                     CONCAT(du.firstname, ' ', du.lastname) AS driver, d.destination, d.departure_time AS departuretime,
+                    "SELECT CONCAT(u.lastname, ', ', u.firstname) AS studentname, u.firstname, u.alternatename, es.type,
+                     es.passengers, CONCAT(du.lastname, ', ', du.firstname) AS driver, du.firstname AS dfirstname,
+                     du.alternatename AS dalternatename, d.destination,  d.departure_time AS departuretime,
                      CONCAT(a.firstname, ' ', a.lastname) AS approver, es.time_modified AS timesubmitted,
                      p.may_ride_with AS passengerpermission, p.ride_permission_details AS specificdrivers
                      FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
@@ -91,6 +95,10 @@ class mx_notifications {
                      LEFT JOIN {user} a ON es.approverid = a.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
                      WHERE es.id = ?", array($params['id'])
                 );
+                $record->studentname .= !empty($record->alternatename) && $record->alternatename !== $record->firstname
+                    ? " ({$record->alternatename})" : '';
+                $record->driver .= !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
+                    ? " ({$record->dalternatename})" : '';
                 if (isset($record->passengers)) {
                     $passengers = json_decode($record->passengers);
                     if (!count($passengers)) { // Driver with no passengers.
@@ -153,7 +161,12 @@ class mx_notifications {
                 $list = get_student_without_advisor_form_list();
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
-                    $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");
+                    $record->replacements = array(
+                        'studentname' => "{$record->lastname} {$record->firstname}" . (
+                            !empty($record->alternatename) && $record->alternatename !== $record->firstname
+                                ? " ({$record->alternatename})" : ''
+                        ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename
+                    );
                     $emailto[] = $record;
                 }
                 break;
@@ -166,7 +179,10 @@ class mx_notifications {
                     $student = $DB->get_record('user', array('id' => $suserid));
                     $advisor = $DB->get_record('user', array('id' => $auserid));
                     $student->replacements = $advisor->replacements = array(
-                        'studentname' => "{$student->firstname} {$student->lastname}",
+                        'studentname' => "{$record->lastname} {$record->firstname}" . (
+                            !empty($record->alternatename) && $record->alternatename !== $record->firstname
+                                ? " ({$record->alternatename})" : ''
+                        ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename,
                         'advisorname' => "{$advisor->firstname} {$advisor->lastname}"
                     );
                     $emailto[] = $student;
@@ -180,7 +196,12 @@ class mx_notifications {
                 $list = get_student_without_rooming_form_list();
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
-                    $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");
+                    $record->replacements = array(
+                        'studentname' => "{$record->lastname} {$record->firstname}" . (
+                            !empty($record->alternatename) && $record->alternatename !== $record->firstname
+                                ? " ({$record->alternatename})" : ''
+                        ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename
+                    );
                     $emailto[] = $record;
                 }
                 break;
@@ -189,13 +210,13 @@ class mx_notifications {
                     return false;
                 }
                 $record = $DB->get_record_sql(
-                    "SELECT t.id, u.id AS student, CONCAT(u.firstname, ' ', u.lastname) AS studentname, t.destination,
-                     t.phone_number AS phonenumber, t.time_modified AS timesubmitted, d.mx_transportation AS depmxtransportation,
-                     d.type AS deptype, ds.name AS depsite, d.details AS depdetails, d.carrier AS depcarriercompany,
-                     d.transportation_number AS depnumber, d.date_time AS depvariable, d.international AS depinternational,
-                     r.mx_transportation AS retmxtransportation, r.type AS rettype, rs.name AS retsite, r.details AS retdetails,
-                     r.carrier AS retcarriercompany, r.transportation_number AS retnumber, r.date_time AS retvariable,
-                     r.international AS retinternational
+                    "SELECT t.id, u.id AS student, CONCAT(u.lastname, ', ', u.firstname) AS studentname, u.firstname,
+                     u.alternatename, t.destination, t.phone_number AS phonenumber, t.time_modified AS timesubmitted,
+                     d.mx_transportation AS depmxtransportation, d.type AS deptype, ds.name AS depsite, d.details AS depdetails,
+                     d.carrier AS depcarriercompany, d.transportation_number AS depnumber, d.date_time AS depvariable,
+                     d.international AS depinternational, r.mx_transportation AS retmxtransportation, r.type AS rettype,
+                     rs.name AS retsite, r.details AS retdetails, r.carrier AS retcarriercompany,
+                     r.transportation_number AS retnumber, r.date_time AS retvariable, r.international AS retinternational
                      FROM {local_mxschool_vt_trip} t LEFT JOIN {user} u ON t.userid = u.id
                      LEFT JOIN {local_mxschool_vt_transport} d ON t.departureid = d.id
                      LEFT JOIN {local_mxschool_vt_site} ds ON d.siteid = ds.id
@@ -203,6 +224,9 @@ class mx_notifications {
                      LEFT JOIN {local_mxschool_vt_site} rs ON r.siteid = rs.id
                      WHERE t.id = ?", array($params['id'])
                 );
+                $record->studentname .= !empty($record->alternatename) && $record->alternatename !== $record->firstname
+                    ? " ({$record->alternatename})" : '';
+                $record->salutation = empty($record->alternatename) ? $record->firstname : $record->alternatename;
                 $record->timesubmitted = date('n/j/y g:i A', $record->timesubmitted);
                 $record->depmxtransportation = $record->depmxtransportation ? get_string('yes') : get_string('no');
                 $record->depsite = isset($record->depsite) ? $record->depsite : '-';
@@ -231,7 +255,12 @@ class mx_notifications {
                 $list = get_student_without_vacation_travel_form_list();
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
-                    $record->replacements = array('studentname' => "{$record->firstname} {$record->lastname}");
+                    $record->replacements = array(
+                        'studentname' => "{$record->lastname} {$record->firstname}" . (
+                            !empty($record->alternatename) && $record->alternatename !== $record->firstname
+                                ? " ({$record->alternatename})" : ''
+                        ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename
+                    );
                     $emailto[] = $record;
                 }
                 break;

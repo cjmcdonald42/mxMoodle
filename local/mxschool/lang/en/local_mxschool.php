@@ -29,10 +29,10 @@ $string['pluginname'] = 'Middlesex School';
 /* General */
 $string['print'] = 'Print';
 $string['checkbox_saved'] = 'saved';
-$string['email_button_default'] = 'Send Email';
-$string['email_button_sending'] = 'Email Sending...';
-$string['email_button_send_success'] = 'Email Sent';
-$string['email_button_send_failure'] = 'Email Failed to Send';
+$string['email_button_default'] = 'Send Emails';
+$string['email_button_sending'] = 'Emails Sending...';
+$string['email_button_send_success'] = 'Emails Sent';
+$string['email_button_send_failure'] = 'Emails Failed to Send';
 $string['sign_in_button'] = 'Sign In';
 $string['legend_header'] = 'Legend';
 

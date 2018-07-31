@@ -80,7 +80,7 @@ if ($id) {
 }
 if ($isstudent) {
     $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.firstname, ' ', u.lastname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
+        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
         array($USER->id)
     );
     $record->student = $record->student.(
