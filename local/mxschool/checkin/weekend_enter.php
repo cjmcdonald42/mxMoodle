@@ -112,13 +112,18 @@ if ($form->is_cancelled()) {
     $data->timemodified = time();
     $data->departure_date = generate_timestamp($data, 'departure');
     $data->return_date = generate_timestamp($data, 'return');
+    $departurestartbound = new DateTime('now', core_date::get_server_timezone_object());
+    $departurestartbound->setTimestamp($data->departure_date);
+    $departureendbound = clone $departurestartbound;
+    $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
+    $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
     $data->weekend = $DB->get_field_sql(
-        "SELECT id FROM {local_mxschool_weekend} WHERE ? > start_time AND ? < end_time",
-        array($data->departure_date, $data->departure_date)
+        "SELECT id FROM {local_mxschool_weekend} WHERE ? >= sunday_time AND ? < sunday_time",
+        array($departurestartbound->getTimestamp(), $departureendbound->getTimestamp())
     );
     $id = update_record($queryfields, $data);
     $oldrecord = $DB->get_record_sql(
-        "SELECT * FROM {local_mxschool_weekend_form} WHERE userid = ? AND weekendid = ? AND id != ? AND active = 1",
+        "SELECT * FROM {local_mxschool_weekend_form} WHERE userid = ? AND weekendid = ? AND id <> ? AND active = 1",
         array($data->student, $data->weekend, $id)
     );
     if ($oldrecord) {

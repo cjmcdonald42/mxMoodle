@@ -97,6 +97,7 @@ class mx_notifications {
                 );
                 $record->studentname .= !empty($record->alternatename) && $record->alternatename !== $record->firstname
                     ? " ({$record->alternatename})" : '';
+                $record->salutation = empty($record->alternatename) ? $record->firstname : $record->alternatename;
                 $record->driver .= !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
                     ? " ({$record->dalternatename})" : '';
                 if (isset($record->passengers)) {
@@ -106,9 +107,17 @@ class mx_notifications {
                     }
                     $passengernames = array();
                     foreach ($passengers as $passenger) {
-                        $passengernames[] = $DB->get_field('user', "CONCAT(firstname, ' ', lastname)", array('id' => $passenger));
+                        $passengerrecord = $DB->get_record_sql(
+                            "SELECT CONCAT(lastname, ', ', firstname) AS name, firstname, alternatename FROM {user}
+                             WHERE id = ?", array($passenger)
+                        );
+                        $passengernames[] = $passengerrecord->name.(
+                            !empty($passengerrecord->alternatename) &&
+                            $passengerrecord->alternatename !== $passengerrecord->firstname
+                            ? " ({$passengerrecord->alternatename})" : ''
+                        );
                     }
-                    $record->passengers = implode(', ', $passengernames);
+                    $record->passengers = implode('<br>', $passengernames);
                 } else {
                     $record->passengers = '';
                 }
@@ -119,7 +128,7 @@ class mx_notifications {
                 if ($record->type === 'Driver') {
                     $record->permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_driver');
                 } else {
-                    if ($record->type !== 'Passenger' || $record->type === 'Parent') {
+                    if ($record->type !== 'Passenger' || $record->type !== 'Parent') {
                         $emaildeans = true;
                     }
                     if ($record->passengerpermission === 'Any Driver') {
@@ -139,14 +148,16 @@ class mx_notifications {
                 $subject = self::replace($notification->subject, $record);
                 $body = self::replace($notification->body_html, $record);
                 $users = $DB->get_record_sql(
-                    "SELECT es.approverid AS approver, d.hohid AS hoh
+                    "SELECT es.userid AS student, es.approverid AS approver, d.hohid AS hoh
                      FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
                      LEFT JOIN {local_mxschool_student} s ON es.userid = s.userid
                      LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
                      WHERE es.id = ?", array($params['id'])
                 );
                 $emailto = array(
-                    $DB->get_record('user', array('id' => $users->approver)), $DB->get_record('user', array('id' => $users->hoh))
+                    $DB->get_record('user', array('id' => $users->student)),
+                    $DB->get_record('user', array('id' => $users->approver)),
+                    $DB->get_record('user', array('id' => $users->hoh))
                 );
                 if ($emaildeans) {
                     $deans = clone $supportuser;
@@ -162,7 +173,7 @@ class mx_notifications {
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
                     $record->replacements = array(
-                        'studentname' => "{$record->lastname} {$record->firstname}" . (
+                        'studentname' => "{$record->lastname}, {$record->firstname}" . (
                             !empty($record->alternatename) && $record->alternatename !== $record->firstname
                                 ? " ({$record->alternatename})" : ''
                         ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename
@@ -179,7 +190,7 @@ class mx_notifications {
                     $student = $DB->get_record('user', array('id' => $suserid));
                     $advisor = $DB->get_record('user', array('id' => $auserid));
                     $student->replacements = $advisor->replacements = array(
-                        'studentname' => "{$student->lastname} {$student->firstname}" . (
+                        'studentname' => "{$student->lastname}, {$student->firstname}" . (
                             !empty($student->alternatename) && $student->alternatename !== $student->firstname
                                 ? " ({$student->alternatename})" : ''
                         ), 'salutation' => empty($student->alternatename) ? $student->firstname : $student->alternatename,
@@ -197,7 +208,7 @@ class mx_notifications {
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
                     $record->replacements = array(
-                        'studentname' => "{$record->lastname} {$record->firstname}" . (
+                        'studentname' => "{$record->lastname}, {$record->firstname}" . (
                             !empty($record->alternatename) && $record->alternatename !== $record->firstname
                                 ? " ({$record->alternatename})" : ''
                         ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename
@@ -256,7 +267,7 @@ class mx_notifications {
                 foreach ($list as $userid => $name) {
                     $record = $DB->get_record('user', array('id' => $userid));
                     $record->replacements = array(
-                        'studentname' => "{$record->lastname} {$record->firstname}" . (
+                        'studentname' => "{$record->lastname}, {$record->firstname}" . (
                             !empty($record->alternatename) && $record->alternatename !== $record->firstname
                                 ? " ({$record->alternatename})" : ''
                         ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename

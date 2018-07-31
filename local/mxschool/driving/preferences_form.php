@@ -38,8 +38,8 @@ class preferences_form extends local_mxschool_form {
         $emailtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
         }, array(
-            'studentname', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'timesubmitted', 'approver',
-            'passengerwarning'
+            'studentname', 'salutation', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'timesubmitted',
+            'approver', 'passengerwarning'
         )));
 
         $fields = array(
