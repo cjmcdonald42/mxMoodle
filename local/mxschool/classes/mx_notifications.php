@@ -179,10 +179,10 @@ class mx_notifications {
                     $student = $DB->get_record('user', array('id' => $suserid));
                     $advisor = $DB->get_record('user', array('id' => $auserid));
                     $student->replacements = $advisor->replacements = array(
-                        'studentname' => "{$record->lastname} {$record->firstname}" . (
-                            !empty($record->alternatename) && $record->alternatename !== $record->firstname
-                                ? " ({$record->alternatename})" : ''
-                        ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename,
+                        'studentname' => "{$student->lastname} {$student->firstname}" . (
+                            !empty($student->alternatename) && $student->alternatename !== $student->firstname
+                                ? " ({$student->alternatename})" : ''
+                        ), 'salutation' => empty($student->alternatename) ? $student->firstname : $student->alternatename,
                         'advisorname' => "{$advisor->firstname} {$advisor->lastname}"
                     );
                     $emailto[] = $student;
