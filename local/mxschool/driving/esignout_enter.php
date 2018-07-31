@@ -160,8 +160,7 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new \local_mxschool\output\form($form);
-$jsrenderable1 = new \local_mxschool\output\amd_module('local_mxschool/get_esignout_student_options');
-$jsrenderable2 = new \local_mxschool\output\amd_module('local_mxschool/get_esignout_driver_details');
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/esignout_form');
 
 echo $output->header();
 if (
@@ -170,8 +169,7 @@ if (
 ) {
     echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
     echo $output->render($formrenderable);
-    echo $output->render($jsrenderable1);
-    echo $output->render($jsrenderable2);
+    echo $output->render($jsrenderable);
 } else {
     echo $output->heading(get_config('local_mxschool', 'esignout_form_iperror'));
 }

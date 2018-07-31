@@ -170,7 +170,7 @@ class local_mxschool_external extends external_api {
         $list = $params['dorm'] ? get_dorm_student_list($params['dorm']) : get_boarding_student_list();
         $result = array();
         foreach ($list as $userid => $name) {
-            $result[] = array('userid' => $userid, 'name' => $name);
+            $result[] = array('value' => $userid, 'text' => $name);
         }
         return $result;
     }
@@ -183,8 +183,8 @@ class local_mxschool_external extends external_api {
     public static function get_dorm_students_returns() {
         return new external_multiple_structure(
             new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'user id of the student'),
-                'name' => new external_value(PARAM_TEXT, 'name of the student')
+                'value' => new external_value(PARAM_INT, 'user id of the student'),
+                'text' => new external_value(PARAM_TEXT, 'name of the student')
             ))
         );
     }
@@ -266,13 +266,13 @@ class local_mxschool_external extends external_api {
         $result->passengers = array();
         foreach ($list as $userid => $name) {
             if ($userid !== $params['userid']) {
-                $result->passengers[] = array('userid' => $userid, 'name' => $name);
+                $result->passengers[] = array('value' => $userid, 'text' => $name);
             }
         }
         $list = get_current_driver_list($params['userid']);
         $result->drivers = array();
         foreach ($list as $esignoutid => $name) {
-            $result->drivers[] = array('esignoutid' => $esignoutid, 'name' => $name);
+            $result->drivers[] = array('value' => $esignoutid, 'text' => $name);
         }
         $result->maydrivepassengers = $DB->get_field(
             'local_mxschool_permissions', 'may_drive_passengers', array('userid' => $params['userid'])
@@ -295,13 +295,13 @@ class local_mxschool_external extends external_api {
                 new external_value(PARAM_TEXT, 'the identifier of the type')
             ), 'passengers' => new external_multiple_structure(
                 new external_single_structure(array(
-                    'userid' => new external_value(PARAM_INT, 'user id of the student'),
-                    'name' => new external_value(PARAM_TEXT, 'name of the student')
+                    'value' => new external_value(PARAM_INT, 'user id of the student'),
+                    'text' => new external_value(PARAM_TEXT, 'name of the student')
                 ))
             ), 'drivers' => new external_multiple_structure(
                 new external_single_structure(array(
-                    'esignoutid' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
-                    'name' => new external_value(PARAM_TEXT, 'name of the driver')
+                    'value' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
+                    'text' => new external_value(PARAM_TEXT, 'name of the driver')
                 ))
             ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
             'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
@@ -405,13 +405,17 @@ class local_mxschool_external extends external_api {
         $list = get_student_without_advisor_form_list();
         $result->students = array();
         foreach ($list as $userid => $name) {
-            $result->students[] = array('userid' => $userid, 'name' => $name);
+            $result->students[] = array('value' => $userid, 'text' => $name);
         }
         $result->current = $DB->get_record_sql(
             "SELECT u.id AS userid, CONCAT(u.lastname, ', ', u.firstname) AS name
              FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.advisorid = u.id
              WHERE s.userid = ?", array($params['userid'])
         );
+        $result->current->value = $result->current->userid; // Value is a reserved word in SQL.
+        unset($result->current->userid);
+        $result->current->text = $result->current->name; // Text is a reserved word in SQL.
+        unset($result->current->name);
         $result->closing = $DB->get_field_sql(
             "SELECT f.advisory_closing
              FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_faculty} f ON s.advisorid = f.userid
@@ -420,7 +424,7 @@ class local_mxschool_external extends external_api {
         $list = get_available_advisor_list();
         $result->available = array();
         foreach ($list as $userid => $name) {
-            $result->available[] = array('userid' => $userid, 'name' => $name);
+            $result->available[] = array('value' => $userid, 'text' => $name);
         }
         return $result;
     }
@@ -433,18 +437,18 @@ class local_mxschool_external extends external_api {
     public static function get_advisor_selection_student_options_returns() {
         return new external_single_structure(array(
             'students' => new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(
+                'value' => new external_value(
                     PARAM_INT, 'the user id of the student who has not completed an advisor selection form'
-                ), 'name' => new external_value(
+                ), 'text' => new external_value(
                     PARAM_TEXT, 'the name of the student who has not completed an advisor selection form'
                 )
             ))), 'current' => new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'the user id of the student\' current advisor'),
-                'name' => new external_value(PARAM_TEXT, 'the name of the student\' current advisor')
+                'value' => new external_value(PARAM_INT, 'the user id of the student\' current advisor'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the student\' current advisor')
             )), 'closing' => new external_value(PARAM_BOOL, 'whether the student\'s advisory is closing'),
             'available' => new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'the user id of the available faculty'),
-                'name' => new external_value(PARAM_TEXT, 'the name of the available faculty')
+                'value' => new external_value(PARAM_INT, 'the user id of the available faculty'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the available faculty')
             )))
         ));
     }
@@ -518,7 +522,7 @@ class local_mxschool_external extends external_api {
         $list = get_student_without_rooming_form_list();
         $result->students = array();
         foreach ($list as $userid => $name) {
-            $result->students[] = array('userid' => $userid, 'name' => $name);
+            $result->students[] = array('value' => $userid, 'text' => $name);
         }
         $result->dorm = $DB->get_field_sql(
             "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
@@ -528,17 +532,17 @@ class local_mxschool_external extends external_api {
         $list = get_roomtype_list($gender);
         $result->roomtypes = array();
         foreach ($list as $internalname => $localizedname) {
-            $result->roomtypes[] = array('internalname' => $internalname, 'localizedname' => $localizedname);
+            $result->roomtypes[] = array('value' => $internalname, 'text' => $localizedname);
         }
         $list = get_student_possible_same_grade_dormmate_list($params['userid']);
         $result->gradedormmates = array();
         foreach ($list as $userid => $name) {
-            $result->gradedormmates[] = array('userid' => $userid, 'name' => $name);
+            $result->gradedormmates[] = array('value' => $userid, 'text' => $name);
         }
         $list = get_student_possible_dormmate_list($params['userid']);
         $result->dormmates = array();
         foreach ($list as $userid => $name) {
-            $result->dormmates[] = array('userid' => $userid, 'name' => $name);
+            $result->dormmates[] = array('value' => $userid, 'text' => $name);
         }
         return $result;
     }
@@ -551,18 +555,18 @@ class local_mxschool_external extends external_api {
     public static function get_rooming_student_options_returns() {
         return new external_single_structure(array(
             'students' => new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'the user id of the student who has not completed a rooming form'),
-                'name' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a rooming form')
+                'value' => new external_value(PARAM_INT, 'the user id of the student who has not completed a rooming form'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a rooming form')
             ))), 'dorm' => new external_value(PARAM_TEXT, 'the name of the student\'s current dorm'),
             'roomtypes' => new external_multiple_structure(new external_single_structure(array(
-                'internalname' => new external_value(PARAM_TEXT, 'the internal name of the available room type'),
-                'localizedname' => new external_value(PARAM_TEXT, 'the localized name of the available room type')
+                'value' => new external_value(PARAM_TEXT, 'the internal name of the available room type'),
+                'text' => new external_value(PARAM_TEXT, 'the localized name of the available room type')
             ))), 'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'the user id of the potential dormmate in the same grade'),
-                'name' => new external_value(PARAM_TEXT, 'the name of the potential dormmate in the same grade')
+                'value' => new external_value(PARAM_INT, 'the user id of the potential dormmate in the same grade'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the potential dormmate in the same grade')
             ))), 'dormmates' => new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(PARAM_INT, 'the user id of the potential dormmate'),
-                'name' => new external_value(PARAM_TEXT, 'the name of the potential dormmate')
+                'value' => new external_value(PARAM_INT, 'the user id of the potential dormmate'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the potential dormmate')
             )))
         ));
     }
@@ -603,7 +607,7 @@ class local_mxschool_external extends external_api {
         $list = get_student_without_vacation_travel_form_list();
         $result->students = array();
         foreach ($list as $userid => $name) {
-            $result->students[] = array('userid' => $userid, 'name' => $name);
+            $result->students[] = array('value' => $userid, 'text' => $name);
         }
         $result->departure = new stdClass();
         $result->departure->types = get_vacation_travel_type_list(
@@ -634,9 +638,9 @@ class local_mxschool_external extends external_api {
     public static function get_vacation_travel_options_returns() {
         return new external_single_structure(array(
             'students' => new external_multiple_structure(new external_single_structure(array(
-                'userid' => new external_value(
+                'value' => new external_value(
                     PARAM_INT, 'the user id of the student who has not completed a vacation travel form'
-                ), 'name' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a vacation travel form')
+                ), 'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a vacation travel form')
             ))), 'departure' => new external_single_structure(array(
                 'types' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the type which is available given the filter')

@@ -14,9 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Displays a warning if a selected weekend in the weekend form is closed for Middlesex School's Dorm and Student functions plugin.
+ * Updates the options of the weekend form for Middlesex School's Dorm and Student functions plugin.
  *
- * @module     local_mxschool/get_weekend_type
+ * @module     local_mxschool/weekend_form
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,8 +24,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    function update() {
+define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], function($, ajax, notification, lib) {
+    function updateStudents() {
+        var promises = ajax.call([{
+            methodname: 'local_mxschool_get_dorm_students',
+            args: {
+                dorm: $('.mx-form select#id_dorm').val()
+            }
+        }]);
+        promises[0].done(function(data) {
+            lib.updateSelect($('.mx-form select#id_student'), data);
+        }).fail(notification.exception);
+    }
+    function updateWarning() {
         var promises = ajax.call([{
             methodname: 'local_mxschool_get_weekend_type',
             args: {
@@ -49,7 +60,11 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         }).fail(notification.exception);
     }
     return function() {
-        $(document).ready(update);
-        $('.mx-form div[data-groupname="departure"]').change(update);
+        $(document).ready(function() {
+            updateStudents();
+            updateWarning();
+        });
+        $('.mx-form select#id_dorm').change(updateStudents);
+        $('.mx-form div[data-groupname="departure"]').change(updateWarning);
     };
 });

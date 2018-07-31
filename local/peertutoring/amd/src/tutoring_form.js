@@ -14,9 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates a select element with courses from a specified department for Middlesex School's Dorm and Student functions plugin.
+ * Updates the options of the tutoring form for Middlesex School's Peer Tutoring Subplugin.
  *
- * @module     local_peertutoring/get_department_courses
+ * @module     local_peertutoring/tutoring_form
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,8 +24,20 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    function update() {
+define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], function($, ajax, notification, lib) {
+    function updateTutorOptions() {
+        var promises = ajax.call([{
+            methodname: 'local_peertutoring_get_tutor_options',
+            args: {
+                userid: $('.mx-form select#id_tutor').val()
+            }
+        }]);
+        promises[0].done(function(data) {
+            lib.updateSelect($('.mx-form select#id_student'), data.students);
+            lib.updateSelect($('.mx-form select#id_department'), data.departments);
+        }).fail(notification.exception);
+    }
+    function updateCourses() {
         var promises = ajax.call([{
             methodname: 'local_peertutoring_get_department_courses',
             args: {
@@ -33,21 +45,15 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             }
         }]);
         promises[0].done(function(data) {
-            var courseSelect = $('.mx-form select#id_course');
-            var courseSelected = courseSelect.val();
-            courseSelect.empty();
-            $.each(data, function(index, course) {
-                courseSelect.append($('<option></option>').attr('value', course.id).text(course.name));
-            });
-            if ($('.mx-form select#id_course > option[value=' + courseSelected + ']').length) {
-                courseSelect.val(courseSelected);
-            } else {
-                courseSelect.change();
-            }
+            lib.updateSelect($('.mx-form select#id_course'), data);
         }).fail(notification.exception);
     }
     return function() {
-        $(document).ready(update);
-        $('.mx-form select#id_department').change(update);
+        $(document).ready(function() {
+            updateTutorOptions();
+            updateCourses();
+        });
+        $('.mx-form select#id_tutor').change(updateTutorOptions);
+        $('.mx-form select#id_department').change(updateCourses);
     };
 });

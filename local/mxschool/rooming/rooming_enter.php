@@ -114,7 +114,7 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/get_rooming_student_options');
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/rooming_form');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));

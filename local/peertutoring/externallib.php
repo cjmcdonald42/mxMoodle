@@ -56,7 +56,7 @@ class local_peertutoring_external extends external_api {
         $list = get_department_course_list($params['department']);
         $result = array();
         foreach ($list as $courseid => $name) {
-            $result[] = array('id' => $courseid, 'name' => $name);
+            $result[] = array('value' => $courseid, 'text' => $name);
         }
         return $result;
     }
@@ -69,8 +69,8 @@ class local_peertutoring_external extends external_api {
     public static function get_department_courses_returns() {
         return new external_multiple_structure(
             new external_single_structure(array(
-                'id' => new external_value(PARAM_INT, 'id of the course'),
-                'name' => new external_value(PARAM_TEXT, 'name of the course')
+                'value' => new external_value(PARAM_INT, 'id of the course'),
+                'text' => new external_value(PARAM_TEXT, 'name of the course')
             ))
         );
     }
@@ -99,13 +99,13 @@ class local_peertutoring_external extends external_api {
         $list = get_tutor_department_list($params['userid']);
         $result->departments = array();
         foreach ($list as $id => $name) {
-            $result->departments[] = array('id' => $id, 'name' => $name);
+            $result->departments[] = array('value' => $id, 'text' => $name);
         }
         $list = get_student_list();
         $result->students = array();
         foreach ($list as $userid => $name) {
             if ($userid !== $params['userid']) {
-                $result->students[] = array('userid' => $userid, 'name' => $name);
+                $result->students[] = array('value' => $userid, 'text' => $name);
             }
         }
         return $result;
@@ -119,12 +119,12 @@ class local_peertutoring_external extends external_api {
     public static function get_tutor_options_returns() {
         return new external_single_structure(array(
         'departments' => new external_multiple_structure(new external_single_structure(array(
-            'id' => new external_value(PARAM_INT, 'id of the department'),
-            'name' => new external_value(PARAM_TEXT, 'name of the department')
+            'value' => new external_value(PARAM_INT, 'id of the department'),
+            'text' => new external_value(PARAM_TEXT, 'name of the department')
         ))),
         'students' => new external_multiple_structure(new external_single_structure(array(
-            'userid' => new external_value(PARAM_INT, 'userid of the student'),
-            'name' => new external_value(PARAM_TEXT, 'name of the student')
+            'value' => new external_value(PARAM_INT, 'userid of the student'),
+            'text' => new external_value(PARAM_TEXT, 'name of the student')
         )))));
     }
 

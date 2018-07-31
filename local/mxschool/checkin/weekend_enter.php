@@ -146,12 +146,10 @@ $bottominstructions = str_replace(
 $formrenderable = new \local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
-$jsrenderable1 = new \local_mxschool\output\amd_module('local_mxschool/get_dorm_students');
-$jsrenderable2 = new \local_mxschool\output\amd_module('local_mxschool/get_weekend_type');
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student} ({$dorms[$record->dorm]})" : ''));
 echo $output->render($formrenderable);
-echo $output->render($jsrenderable1);
-echo $output->render($jsrenderable2);
+echo $output->render($jsrenderable);
 echo $output->footer();

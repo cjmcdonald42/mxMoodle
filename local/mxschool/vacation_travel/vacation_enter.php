@@ -196,7 +196,7 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/get_vacation_travel_options');
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));

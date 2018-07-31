@@ -138,7 +138,7 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/get_advisor_selection_student_options');
+$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
 
 echo $output->header();
 echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
