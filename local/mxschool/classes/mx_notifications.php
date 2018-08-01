@@ -324,15 +324,18 @@ class mx_notifications {
     private static function email_all($emailto, $subject, $body) {
         $supportuser = core_user::get_support_user();
         $result = true;
-        // ob_start();
         foreach ($emailto as $recipient) {
-            $recipient->email = 'jrdegreeff@mxschool.edu';
-            $emailsubject = isset($recipient->replacements) ? self::replace($subject, $recipient->replacements) : $subject;
-            $emailbody = isset($recipient->replacements) ? self::replace($body, $recipient->replacements) : $body;
-            // echo "\n{$emailsubject}\n{$emailbody}\n{$recipient->lastname}, {$recipient->firstname} ({$recipient->email})\n";
+            if (!isset($recipient->replacements)) {
+                $recipient->replacements = array();
+            }
+            $recipient->replacements['email'] = $recipient->email;
+            if (!empty(get_config('local_mxschool', 'email_redirect'))) {
+                $recipient->email = get_config('local_mxschool', 'email_redirect');
+            }
+            $emailsubject = self::replace($subject, $recipient->replacements);
+            $emailbody = self::replace($body, $recipient->replacements);
             $result &= email_to_user($recipient, $supportuser, $emailsubject, '', $emailbody);
         }
-        // debugging(ob_get_clean(), DEBUG_DEVELOPER);
         return $result;
     }
 

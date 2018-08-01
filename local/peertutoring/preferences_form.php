@@ -36,7 +36,7 @@ class preferences_form extends local_mxschool_form {
     protected function definition() {
         $tags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
-        }, array('total')));
+        }, array('email', 'total')));
 
         $fields = array(
             'notifications' => array(

@@ -82,6 +82,8 @@ $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View
 $string['mxschool_category'] = 'Middlesex School';
 
 $string['email_settings'] = 'Email Settings';
+$string['email_redirect'] = 'Redirect Email';
+$string['email_redirect_description'] = 'The email address to redirect to for debugging - if empty emails will be sent to actual recipients.';
 $string['deans_email'] = 'Deans Email';
 $string['deans_email_description'] = 'The email address to send notifications to the deans.';
 $string['transportationmanager_email'] = 'Transportation Manager Email';

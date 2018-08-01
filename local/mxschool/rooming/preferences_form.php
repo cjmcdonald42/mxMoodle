@@ -42,7 +42,7 @@ class preferences_form extends local_mxschool_form {
         );
         $emailtags = implode(', ', array_map(function($tag) {
             return "{{$tag}}";
-        }, array('studentname', 'salutation')));
+        }, array('email', 'studentname', 'salutation')));
 
         $fields = array(
             'availability' => array(
