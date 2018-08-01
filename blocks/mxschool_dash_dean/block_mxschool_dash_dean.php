@@ -52,8 +52,9 @@ class block_mxschool_dash_dean extends block_base {
         ));
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);;
-
+        if (has_capability('block/mxschool_dash_dean:access', context_system::instance())) {
+            $this->content->text = $output->render($renderable);;
+        }
         return $this->content;
     }
 

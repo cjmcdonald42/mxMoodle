@@ -28,6 +28,7 @@ $string['pluginname'] = 'Dean Dashboard Block';
 $string['blockname'] = 'Middlesex Admin';
 $string['mxschool_dash_dean:addinstance'] = 'Middlesex School: Add Dean Block';
 $string['mxschool_dash_dean:myaddinstance'] = 'Middlesex School: Add Dean Block to Dashboard';
+$string['mxschool_dash_dean:access'] = 'Middlesex School: Access Dean Block';
 
 $string['users_link'] = 'User Management';
 $string['checkin_link'] = 'Check-In Sheets, Weekend Forms';
