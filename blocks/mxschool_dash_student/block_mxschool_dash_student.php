@@ -41,7 +41,8 @@ class block_mxschool_dash_student extends block_base {
             return $this->content;
         }
 
-        $links = !user_is_student() || student_may_access_esignout($USER->id) ? array(
+        $links = has_capability('moodle/site:config', context_system::instance())
+                 || (user_is_student() && student_may_access_esignout($USER->id)) ? array(
             // Put any links in this array as displaytext => relative url.
             get_string('esignout_form', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_enter.php',
             get_string('esignout_report', 'block_mxschool_dash_student') => '/local/mxschool/driving/esignout_report.php'

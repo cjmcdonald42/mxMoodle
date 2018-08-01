@@ -41,7 +41,8 @@ class block_mxschool_dorm_student extends block_base {
             return $this->content;
         }
 
-        $links = student_may_access_weekend($USER->id) ? array(
+        $links = has_capability('moodle/site:config', context_system::instance())
+            || (user_is_student() && student_may_access_weekend($USER->id)) ? array(
             // Put any links in this array as displaytext => relative url.
             get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
             get_string('weekend_calc', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'

@@ -43,15 +43,18 @@ class block_mxschool_dash_student_deans extends block_base {
 
         $output = $PAGE->get_renderer('local_mxschool');
         $links = array();
-        if (!user_is_student() || student_may_access_advisor_selection($USER->id)) {
+        if (has_capability('moodle/site:config', context_system::instance())
+            || (user_is_student() && student_may_access_advisor_selection($USER->id))) {
             $links[get_string('advisor_selection', 'block_mxschool_dash_student_deans')]
             = '/local/mxschool/advisor_selection/advisor_enter.php';
         }
-        if (!user_is_student() || student_may_access_rooming($USER->id)) {
+        if (has_capability('moodle/site:config', context_system::instance())
+            || (user_is_student() && student_may_access_rooming($USER->id))) {
             $links[get_string('rooming', 'block_mxschool_dash_student_deans')]
             = '/local/mxschool/rooming/rooming_enter.php';
         }
-        if (!user_is_student() || student_may_access_vacation_travel($USER->id)) {
+        if (has_capability('moodle/site:config', context_system::instance())
+            || (user_is_student() && student_may_access_vacation_travel($USER->id))) {
             $links[get_string('vacation', 'block_mxschool_dash_student_deans')]
             = '/local/mxschool/vacation_travel/vacation_enter.php';
         }
