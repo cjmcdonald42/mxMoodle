@@ -744,6 +744,8 @@ $string['vacation_travel_form_error_nointernational_ret'] = 'You must specify wh
 $string['vacation_travel_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
 
 // Vacation Travel Report.
+$string['vacation_travel_report_title'] = 'Vacation Travel Report{$a}';
+
 $string['vacation_travel_report_select_submitted_true'] = 'Submitted';
 $string['vacation_travel_report_select_submitted_false'] = 'Not Submitted';
 $string['vacation_travel_report_add'] = 'New Vacation Travel Form';

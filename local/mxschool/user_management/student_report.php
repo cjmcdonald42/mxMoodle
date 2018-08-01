@@ -106,6 +106,6 @@ $renderable = new \local_mxschool\output\report(
 );
 
 echo $output->header();
-echo $output->heading($types[$type].($filter->dorm ? " - {$dorms[$filter->dorm]}" : ''));
+echo $output->heading($types[$type].($filter->dorm ? " &ndash; {$dorms[$filter->dorm]}" : ''));
 echo $output->render($renderable);
 echo $output->footer();
