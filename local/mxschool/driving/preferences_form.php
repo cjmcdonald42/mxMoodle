@@ -39,7 +39,7 @@ class preferences_form extends local_mxschool_form {
             return "{{$tag}}";
         }, array(
             'studentname', 'salutation', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'timesubmitted',
-            'approver', 'passengerwarning'
+            'approver', 'permissionswarning'
         )));
 
         $fields = array(

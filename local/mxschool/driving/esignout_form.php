@@ -100,13 +100,16 @@ class esignout_form extends local_mxschool_form {
         $errors = parent::validation($data, $files);
         if (!isset($data['type_select'])) {
             $errors['type'] = get_string('esignout_form_error_notype', 'local_mxschool');
-        } else if ($data['type_select'] === 'Other' && $data['type_other'] === '') {
-            $errors['type'] = get_string('esignout_form_error_notype', 'local_mxschool');
-        } else if ($data['type_select'] === 'Passenger' && !$data['driver']) {
-            $errors['driver'] = get_string('esignout_form_error_nodriver', 'local_mxschool');
-        }
-        if ($data['destination'] === '') {
-            $errors['destination'] = get_string('esignout_form_error_nodestination', 'local_mxschool');
+        } else {
+            if ($data['type_select'] === 'Other' && empty($data['type_other'])) {
+                $errors['type'] = get_string('esignout_form_error_notype', 'local_mxschool');
+            }
+            if ($data['type_select'] === 'Passenger' && !$data['driver']) {
+                $errors['driver'] = get_string('esignout_form_error_nodriver', 'local_mxschool');
+            }
+            if ($data['type_select'] !== 'Passenger' && empty($data['destination'])) {
+                $errors['destination'] = get_string('esignout_form_error_nodestination', 'local_mxschool');
+            }
         }
         if (!$data['approver']) {
             $errors['approver'] = get_string('esignout_form_error_noapprover', 'local_mxschool');

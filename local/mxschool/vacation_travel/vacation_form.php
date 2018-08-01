@@ -107,10 +107,10 @@ class vacation_form extends local_mxschool_form {
     public function validation($data, $files) {
         global $DB;
         $errors = parent::validation($data, $files);
-        if ($data['destination'] === '') {
+        if (empty($data['destination'])) {
             $errors['destination'] = get_string('vacation_travel_form_error_nodestination', 'local_mxschool');
         }
-        if ($data['phone'] === '') {
+        if (empty($data['phone'])) {
             $errors['phone'] = get_string('vacation_travel_form_error_nophone', 'local_mxschool');
         }
         if (!isset($data['dep_mxtransportation'])) {
@@ -128,7 +128,7 @@ class vacation_form extends local_mxschool_form {
                     } else {
                         $errors['dep_site'] = get_string('vacation_travel_form_error_nosite', 'local_mxschool');
                     }
-                } else if ($data['dep_details'] === '') {
+                } else if (empty($data['dep_details'])) {
                     if ($data['dep_type'] === 'Car') {
                         $errors['dep_details'] = get_string('vacation_travel_form_error_nodriver', 'local_mxschool');
                     } else if ($data['dep_type'] === 'Non-MX Bus') {
@@ -138,12 +138,12 @@ class vacation_form extends local_mxschool_form {
                     }
                 }
                 if ($data['dep_type'] === 'Plane' || $data['dep_type'] === 'Bus' || $data['dep_type'] === 'Train') {
-                    if ($data['dep_carrier'] === '') {
+                    if (empty($data['dep_carrier'])) {
                         $errors['dep_carrier'] = get_string(
                             "vacation_travel_form_error_nocarrier_{$data['dep_type']}", 'local_mxschool'
                         );
                     }
-                    if ($data['dep_number'] === '') {
+                    if (empty($data['dep_number'])) {
                         $errors['dep_number'] = get_string(
                             "vacation_travel_form_error_nonumber_{$data['dep_type']}", 'local_mxschool'
                         );
@@ -170,7 +170,7 @@ class vacation_form extends local_mxschool_form {
                         } else {
                             $errors['ret_site'] = get_string('vacation_travel_form_error_nosite', 'local_mxschool');
                         }
-                    } else if ($data['ret_details'] === '') {
+                    } else if (empty($data['ret_details'])) {
                         if ($data['ret_type'] === 'Car') {
                             $errors['ret_details'] = get_string('vacation_travel_form_error_nodriver', 'local_mxschool');
                         } else if ($data['ret_type'] === 'Non-MX Bus') {
@@ -180,12 +180,12 @@ class vacation_form extends local_mxschool_form {
                         }
                     }
                     if ($data['ret_type'] === 'Plane' || $data['ret_type'] === 'Bus' || $data['ret_type'] === 'Train') {
-                        if ($data['ret_carrier'] === '') {
+                        if (empty($data['ret_carrier'])) {
                             $errors['ret_carrier'] = get_string(
                                 "vacation_travel_form_error_nocarrier_{$data['ret_type']}", 'local_mxschool'
                             );
                         }
-                        if ($data['ret_number'] === '') {
+                        if (empty($data['ret_number'])) {
                             $errors['ret_number'] = get_string(
                                 "vacation_travel_form_error_nonumber_{$data['ret_type']}", 'local_mxschool'
                             );

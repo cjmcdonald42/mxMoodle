@@ -109,13 +109,13 @@ class weekend_form extends local_mxschool_form {
         } else {
             $errors['departure'] = get_string('weekend_form_error_notinweekend', 'local_mxschool');
         }
-        if ($data['destination'] === '') {
+        if (empty($data['destination'])) {
             $errors['destination'] = get_string('weekend_form_error_nodestination', 'local_mxschool');
         }
-        if ($data['transportation'] === '') {
+        if (empty($data['transportation'])) {
             $errors['transportation'] = get_string('weekend_form_error_notransportation', 'local_mxschool');
         }
-        if ($data['phone'] === '') {
+        if (empty($data['phone'])) {
             $errors['phone'] = get_string('weekend_form_error_nophone', 'local_mxschool');
         }
         return $errors;

@@ -75,7 +75,7 @@ class advisor_form extends local_mxschool_form {
     public function validation($data, $files) {
         global $DB;
         $errors = parent::validation($data, $files);
-        if ($data['keepcurrent'] === '') {
+        if (empty($data['keepcurrent'])) {
             $errors['keepcurrent'] = get_string('advisor_form_error_nokeepcurrent', 'local_mxschool');
         }
         if ($data['keepcurrent'] === '0') {
