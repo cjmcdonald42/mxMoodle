@@ -28,6 +28,7 @@ $string['pluginname'] = 'Dorm Faculty Block';
 $string['blockname'] = 'Dorm Faculty Menu';
 $string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Dorm Faculty Block';
 $string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';
+$string['mxschool_dorm_faculty:access'] = 'Middlesex School: Access Dorm Faculty Block';
 
 $string['event_heading'] = 'Check-In Sheets';
 $string['checkin_sheet'] = 'Event';

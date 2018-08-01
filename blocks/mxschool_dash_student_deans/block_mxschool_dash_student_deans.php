@@ -59,13 +59,16 @@ class block_mxschool_dash_student_deans extends block_base {
 
         $this->content = new stdClass();
         if (count($links)) {
-            $this->content->text = (isset($this->config->description) ? $this->config->description['text'] : '')
-                                   .$output->render($renderable);
+            $this->content->text = get_config('block_mxschool_dash_student_deans', 'description').$output->render($renderable);
         }
         return $this->content;
     }
 
     public function specialization() {
         $this->title = get_string('blockname', 'block_mxschool_dash_student_deans');
+    }
+
+    public function has_config() {
+        return true;
     }
 }

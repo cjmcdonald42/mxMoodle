@@ -47,7 +47,9 @@ class block_mxschool_manage_tutoring extends block_base {
         ));
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);;
+        if (has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
+            $this->content->text = $output->render($renderable);;
+        }
 
         return $this->content;
     }

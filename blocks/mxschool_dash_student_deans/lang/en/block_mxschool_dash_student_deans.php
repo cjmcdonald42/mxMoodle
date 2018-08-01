@@ -29,8 +29,8 @@ $string['blockname'] = 'Middlesex';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Student Deans\'s Office Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Student Deans\'s Office Block to Dashboard';
 
-$string['settings'] = 'Configuration';
 $string['description'] = 'Description';
+$string['description_description'] = 'Text to display above the available links for whomever has access.';
 
 $string['advisor_selection'] = 'Advisor Selection Form';
 $string['rooming'] = 'Rooming Form';

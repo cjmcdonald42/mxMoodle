@@ -34,5 +34,8 @@ $capabilities = array(
     ), 'block/mxschool_dorm_faculty:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
+    ), 'block/mxschool_dorm_faculty:access' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
     )
 );

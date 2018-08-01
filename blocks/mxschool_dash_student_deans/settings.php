@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Custom Conficuration Form for Middlesex School's Student Deans Menu Block for the Dashboard.
+ * Global configuration settings for Middlesex School's Student Deans Menu Block for the Dashboard.
  *
  * @package    block_mxschool_dash_student_deans
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,18 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class block_mxschool_dash_student_deans_edit_form extends block_edit_form {
-
-    protected function specific_definition($mform) {
-
-        // Section header title according to language file.
-        $mform->addElement('header', 'config_header', get_string('settings', 'block_mxschool_dash_student_deans'));
-
-        // A sample string variable with a default value.
-        $mform->addElement('editor', 'config_description', get_string('description', 'block_mxschool_dash_student_deans'));
-        $mform->setDefault('config_text', '');
-        $mform->setType('config_text', PARAM_RAW);
-
-    }
-
-}
+$settings->add(new admin_setting_confightmleditor(
+    'block_mxschool_dash_student_deans/description', get_string('description', 'block_mxschool_dash_student_deans'),
+    get_string('description_description', 'block_mxschool_dash_student_deans'), ''
+));

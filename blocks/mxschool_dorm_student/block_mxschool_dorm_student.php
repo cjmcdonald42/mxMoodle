@@ -40,15 +40,18 @@ class block_mxschool_dorm_student extends block_base {
             return $this->content;
         }
 
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index(array(
+        $links = !user_is_student() || student_may_access_weekend($USER->id) ? array(
             // Put any links in this array as displaytext => relative url.
             get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
             get_string('weekend_calc', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'
-        ));
+        ) : array();
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\index($links);
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($renderable);;
+        if (count($links)) {
+            $this->content->text = $output->render($renderable);
+        }
 
         return $this->content;
     }

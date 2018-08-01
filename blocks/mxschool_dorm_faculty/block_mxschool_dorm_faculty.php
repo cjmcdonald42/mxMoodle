@@ -57,7 +57,9 @@ class block_mxschool_dorm_faculty extends block_base {
         ), get_string('other_heading', 'block_mxschool_dorm_faculty'));
 
         $this->content = new stdClass();
-        $this->content->text = $output->render($eventrenderable).$output->render($otherrenderable);
+        if (has_capability('block/mxschool_dorm_faculty:access', context_system::instance())) {
+            $this->content->text = $output->render($eventrenderable).$output->render($otherrenderable);
+        }
 
         return $this->content;
     }

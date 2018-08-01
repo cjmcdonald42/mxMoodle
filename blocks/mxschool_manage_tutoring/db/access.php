@@ -34,5 +34,8 @@ $capabilities = array(
     ), 'block/mxschool_manage_tutoring:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
+    ), 'block/mxschool_manage_tutoring:access' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
     )
 );

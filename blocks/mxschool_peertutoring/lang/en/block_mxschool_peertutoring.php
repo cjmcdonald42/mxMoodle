@@ -26,7 +26,7 @@
 
 $string['pluginname'] = 'Peer Tutor Block';
 $string['blockname'] = 'Peer Tutoring';
-$string['mxschool_peertutoring:addinstance'] = 'Middlesex School: Add Peer Tutoring Menu';
-$string['mxschool_peertutoring:myaddinstance'] = 'Middlesex School: Add Peer Tutoring Menu to Dashboard';
+$string['mxschool_peertutoring:addinstance'] = 'Middlesex School: Add Peer Tutoring Block';
+$string['mxschool_peertutoring:myaddinstance'] = 'Middlesex School: Add Peer Tutoring Block to Dashboard';
 
 $string['tutor_submit'] = 'Submit a Peer Tutoring Form';
