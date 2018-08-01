@@ -51,11 +51,11 @@ class weekend_form extends local_mxschool_form {
             'isstudent' => parent::ELEMENT_HIDDEN_INT,
             'dorm' => array('element' => 'select', 'options' => $dorms),
             'student' => array('element' => 'select', 'options' => $students),
-            'departure' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+            'departure' => array('element' => 'group', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )), 'warning' => array('element' => 'static', 'name' => null),
-            'return' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+            'return' => array('element' => 'group', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )), 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),

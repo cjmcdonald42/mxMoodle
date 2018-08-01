@@ -70,7 +70,7 @@ class vacation_form extends local_mxschool_form {
             'dep_details' => parent::ELEMENT_TEXT,
             'dep_carrier' => parent::ELEMENT_TEXT,
             'dep_number' => parent::ELEMENT_TEXT,
-            'dep_variable' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+            'dep_variable' => array('element' => 'group', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )),
@@ -84,7 +84,7 @@ class vacation_form extends local_mxschool_form {
                 'ret_details' => parent::ELEMENT_TEXT,
                 'ret_carrier' => parent::ELEMENT_TEXT,
                 'ret_number' => parent::ELEMENT_TEXT,
-                'ret_variable' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+                'ret_variable' => array('element' => 'group', 'children' => array(
                     'time' => parent::time_selector(15),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 )),

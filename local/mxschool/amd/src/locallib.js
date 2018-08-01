@@ -69,7 +69,7 @@ define(['jquery'], function($) {
                 var spanContents = input.parent().parent().contents();
                 if (list.includes(input.val())) {
                     input.parent().show();
-                    spanContents.eq(spanContents.index(input.parent()) + 3).get(0).nodeValue = '\u2003';
+                    spanContents.eq(spanContents.index(input.parent()) + 3).get(0).nodeValue = '\u00A0';
                 } else {
                     if (input.prop('checked')) {
                         input.prop('checked', false);

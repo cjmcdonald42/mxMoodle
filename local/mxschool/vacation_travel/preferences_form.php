@@ -53,10 +53,10 @@ class preferences_form extends local_mxschool_form {
 
         $fields = array(
             'availability' => array(
-                'start' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+                'start' => array('element' => 'group', 'children' => array(
                     'time' => parent::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                )), 'stop' => array('element' => 'group', 'separator' => '&nbsp;', 'children' => array(
+                )), 'stop' => array('element' => 'group', 'children' => array(
                     'time' => parent::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 )), 'returnenabled' => array('element' => 'advcheckbox', 'name' => null, 'text' => get_string(

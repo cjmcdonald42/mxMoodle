@@ -72,7 +72,7 @@ class esignout_form extends local_mxschool_form {
                 'specificwarning' => array('element' => 'static', 'name' => null),
                 'permissionssubmitbuttons' => array(
                     'element' => 'group', 'displayname' => get_config('local_mxschool', 'esignout_form_confirmation'),
-                    'separator' => ' ', 'children' => array(
+                    'children' => array(
                         'permissionssubmityes' => array('element' => 'submit', 'text' => get_string('yes')),
                         'permissionssubmitno' => array('element' => 'cancel', 'text' => get_string('no'))
                     )

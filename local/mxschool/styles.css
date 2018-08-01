@@ -9,6 +9,14 @@
  */
 
 /**
+ * Default Form Styling
+ */
+/* Form groups inline for better compatibility with small screens. */
+div.mx-form div.form-inline div.form-group {
+    display: inline-block;
+}
+
+/**
  * Default Table Styling.
  */
 /* Small margin above and below tables. */
