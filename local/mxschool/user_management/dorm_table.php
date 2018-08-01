@@ -60,6 +60,13 @@ class dorm_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the available column.
+     */
+    protected function col_available($values) {
+        return $values->available ? get_string('yes') : get_string('no');
+    }
+
+    /**
      * Formats the actions column.
      */
     protected function col_actions($values) {

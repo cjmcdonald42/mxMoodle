@@ -30,158 +30,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2018072000) {
-
-        // Define table local_mxschool_vt_site to be created.
-        $table = new xmldb_table('local_mxschool_vt_site');
-
-        // Adding fields to table local_mxschool_vt_site.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('name', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('type', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('enabled_departure', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
-        $table->add_field('enabled_return', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
-
-        // Adding keys to table local_mxschool_vt_site.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-
-        // Conditionally launch create table for local_mxschool_vt_site.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Define table local_mxschool_vt_transport to be created.
-        $table = new xmldb_table('local_mxschool_vt_transport');
-
-        // Adding fields to table local_mxschool_vt_transport.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('campus_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('mx_transportation', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('type', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('siteid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('site_other', XMLDB_TYPE_CHAR, '100', null, null, null, null);
-        $table->add_field('carrier', XMLDB_TYPE_CHAR, '100', null, null, null, null);
-        $table->add_field('transportation_number', XMLDB_TYPE_CHAR, '20', null, null, null, null);
-        $table->add_field('transportation_date_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
-        $table->add_field('international', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
-
-        // Adding keys to table local_mxschool_vt_transport.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('site', XMLDB_KEY_FOREIGN, array('siteid'), 'local_mxschool_vt_site', array('id'));
-
-        // Conditionally launch create table for local_mxschool_vt_transport.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Define table local_mxschool_vt_trip to be created.
-        $table = new xmldb_table('local_mxschool_vt_trip');
-
-        // Adding fields to table local_mxschool_vt_trip.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('departureid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('returnid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
-        $table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-
-        // Adding keys to table local_mxschool_vt_trip.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
-        $table->add_key('departure', XMLDB_KEY_FOREIGN_UNIQUE, array('departureid'), 'local_mxschool_vt_transport', array('id'));
-        $table->add_key('return', XMLDB_KEY_FOREIGN_UNIQUE, array('returnid'), 'local_mxschool_vt_transport', array('id'));
-
-        // Conditionally launch create table for local_mxschool_vt_trip.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018072000, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018072004) {
-        $sites = array(
-            array('name' => 'Logan', 'type' => 'Plane', 'enabled_departure' => 1, 'enabled_return' => 1),
-            array('name' => 'South Station', 'type' => 'Train', 'enabled_departure' => 1, 'enabled_return' => 1),
-            array('name' => '128 Westwood', 'type' => 'Train', 'enabled_departure' => 1, 'enabled_return' => 1),
-            array('name' => 'South Station', 'type' => 'Bus', 'enabled_departure' => 1, 'enabled_return' => 1),
-            array('name' => 'Stamford, CT', 'type' => 'NYC Direct', 'enabled_departure' => 1, 'enabled_return' => 1),
-            array('name' => 'Upper East Side (NYC)', 'type' => 'NYC Direct', 'enabled_departure' => 1, 'enabled_return' => 1),
-            array('name' => 'Penn Station', 'type' => 'NYC Direct', 'enabled_departure' => 1, 'enabled_return' => 1)
-        );
-        foreach ($sites as $site) {
-            $DB->insert_record('local_mxschool_vt_site', (object) $site);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018072004, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018072418) {
-
-        // Rename field site_other on table local_mxschool_vt_transport to details.
-        $table = new xmldb_table('local_mxschool_vt_transport');
-        $field = new xmldb_field('site_other', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'siteid');
-
-        // Launch rename field details.
-        $dbman->rename_field($table, $field, 'details');
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018072418, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018072420) {
-
-        // Define key site (foreign) to be dropped form local_mxschool_vt_transport.
-        $table = new xmldb_table('local_mxschool_vt_transport');
-        $key = new xmldb_key('site', XMLDB_KEY_FOREIGN, array('siteid'), 'local_mxschool_vt_site', array('id'));
-
-        // Launch drop key site.
-        $dbman->drop_key($table, $key);
-
-        // Changing nullability of field siteid on table local_mxschool_vt_transport to null.
-        $table = new xmldb_table('local_mxschool_vt_transport');
-        $field = new xmldb_field('siteid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'type');
-
-        // Launch change of nullability for field siteid.
-        $dbman->change_field_notnull($table, $field);
-
-        // Define key site (foreign) to be added to local_mxschool_vt_transport.
-        $table = new xmldb_table('local_mxschool_vt_transport');
-        $key = new xmldb_key('site', XMLDB_KEY_FOREIGN, array('siteid'), 'local_mxschool_vt_site', array('id'));
-
-        // Launch add key site.
-        $dbman->add_key($table, $key);
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018072420, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018072510) {
-        set_config('esignout_form_instructions', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018072510, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018072702) {
-        set_config('esignout_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_mxschool');
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018072702, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018072704) {
-        set_config('esignout_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_mxschool');
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018072704, 'local', 'mxschool');
-    }
-
     if ($oldversion < 2018073008) {
         set_config('weekend_form_warning_closed', 'The weekend you have selected is a closed weekend - you will need special permissions from the deans.', 'local_mxschool');
 
@@ -226,6 +74,48 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2018073104, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018073107) {
+
+        // Define field available to be dropped from local_mxschool_dorm.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('available');
+
+        // Conditionally launch drop field available.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Define field available to be added to local_mxschool_dorm.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('available', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'gender');
+
+        // Conditionally launch add field available.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field is_primary_parent to be dropped from local_mxschool_parent.
+        $table = new xmldb_table('local_mxschool_parent');
+        $field = new xmldb_field('is_primary_parent');
+
+        // Conditionally launch drop field is_primary_parent.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Define field is_primary_parent to be added to local_mxschool_parent.
+        $table = new xmldb_table('local_mxschool_parent');
+        $field = new xmldb_field('is_primary_parent', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'deleted');
+
+        // Conditionally launch add field is_primary_parent.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018073107, 'local', 'mxschool');
     }
 
     return true;

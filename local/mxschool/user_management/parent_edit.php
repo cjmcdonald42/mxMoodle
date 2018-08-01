@@ -66,25 +66,25 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $oldrecord = $DB->get_record('local_mxschool_parent', array('id' => $data->id), 'is_primary_parent');
-    if ($oldrecord->is_primary_parent === 'Yes' && $data->isprimary === 'No') {
+    if ($oldrecord->is_primary_parent && !$data->isprimary) {
         // Each student must have a primary parent.
         $newprimary = $DB->get_record_sql(
             "SELECT id, is_primary_parent FROM {local_mxschool_parent} WHERE userid = ? AND id != ? AND deleted = 0",
             array($data->student, $data->id), IGNORE_MULTIPLE
         );
         if ($newprimary) {
-            $newprimary->is_primary_parent = 'Yes';
+            $newprimary->is_primary_parent = true;
             $DB->update_record('local_mxschool_parent', $newprimary);
         }
-    } else if ($oldrecord->is_primary_parent === 'No' && $data->isprimary === 'Yes') {
+    } else if (!$oldrecord->is_primary_parent && $data->isprimary) {
         // Each student can only have one primary parent.
         $oldprimary = $DB->get_record_sql(
             "SELECT id, is_primary_parent FROM {local_mxschool_parent}
-             WHERE userid = ? AND is_primary_parent = 'Yes' AND deleted = 0",
+             WHERE userid = ? AND is_primary_parent = 1 AND deleted = 0",
             array($data->student)
         );
         if ($oldprimary) {
-            $oldprimary->is_primary_parent = 'No';
+            $oldprimary->is_primary_parent = false;
             $DB->update_record('local_mxschool_parent', $oldprimary);
         }
     }

@@ -64,14 +64,14 @@ if ($type === 'parents' && $action === 'delete' && $id) {
     $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
     if ($record) {
         $record->deleted = 1;
-        if ($record->is_primary_parent === 'Yes') { // Each student must have a primary parent.
-            $record->is_primary_parent = 'No';
+        if ($record->is_primary_parent) { // Each student must have a primary parent.
+            $record->is_primary_parent = false;
             $newprimary = $DB->get_record_sql(
                 "SELECT id, is_primary_parent FROM {local_mxschool_parent} WHERE userid = ? AND id <> ? AND deleted = 0",
                 array($record->userid, $record->id), IGNORE_MULTIPLE
             );
             if ($newprimary) {
-                $newprimary->is_primary_parent = 'Yes';
+                $newprimary->is_primary_parent = true;
                 $DB->update_record('local_mxschool_parent', $newprimary);
             }
         }

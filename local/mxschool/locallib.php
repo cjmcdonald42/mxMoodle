@@ -747,7 +747,7 @@ function get_approver_list() {
 function get_dorm_list() {
     global $DB;
     $dorms = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' ORDER BY name"
+        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 1 ORDER BY name"
     );
     return convert_records_to_list($dorms);
 }
@@ -760,7 +760,7 @@ function get_dorm_list() {
 function get_boarding_dorm_list() {
     global $DB;
     $dorms = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 'Yes' AND type = 'Boarding' ORDER BY name"
+        "SELECT id, name FROM {local_mxschool_dorm} WHERE deleted = 0 AND available = 1 AND type = 'Boarding' ORDER BY name"
     );
     return convert_records_to_list($dorms);
 }

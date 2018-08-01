@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180730" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20180801" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -51,7 +51,7 @@
         <FIELD NAME="abbreviation" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The abbreviation for the dorm."/>
         <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boarding dorm or a day house {&quot;Boarding&quot;, &quot;Day&quot;, &quot;All&quot;}."/>
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boys dorm or a girls dorm {&quot;Boys&quot;, &quot;Girls&quot;, &quot;All&quot;}."/>
-        <FIELD NAME="available" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Whether the dorm is currently available for students to live in {&quot;Yes&quot;, &quot;No&quot;}."/>
+        <FIELD NAME="available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the dorm is currently available for students to live in."/>
         <FIELD NAME="permissions_line" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number that should be called for permissions purposes."/>
       </FIELDS>
       <KEYS>
@@ -114,7 +114,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the parent's student."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the parent record has been deleted and shouldn't be displayed."/>
-        <FIELD NAME="is_primary_parent" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="Yes" SEQUENCE="false" COMMENT="Is this parent is the student's primary parent? {&quot;Yes&quot;, &quot;No&quot;}."/>
+        <FIELD NAME="is_primary_parent" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the parent is the student's primary parent."/>
         <FIELD NAME="relationship" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's relationship with their student."/>
         <FIELD NAME="parent_name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's full name, including saluations."/>
         <FIELD NAME="home_phone" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The parent's home phone number."/>

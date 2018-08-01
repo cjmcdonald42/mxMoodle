@@ -129,6 +129,13 @@ class student_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the primary parent column to a check or nothing.
+     */
+    protected function col_primaryparent($values) {
+        return $values->primaryparent ? '&#10003;' : '';
+    }
+
+    /**
      * Formats the actions column.
      */
     protected function col_actions($values) {
