@@ -121,11 +121,11 @@ class student_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the birthday column to 'n/j'.
+     * Formats the birthday column to 'n/j/y'.
      */
     protected function col_birthday($values) {
         $birthday = new DateTime($values->birthday, core_date::get_server_timezone_object());
-        return $birthday->format('n/j');
+        return $birthday->format('n/j/y');
     }
 
     /**

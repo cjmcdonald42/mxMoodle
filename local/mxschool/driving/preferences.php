@@ -45,12 +45,14 @@ setup_mxschool_page($url, $title, $parents);
 
 $data = new stdClass();
 $data->editwindow = get_config('local_mxschool', 'esignout_edit_window');
+$data->tripwindow = get_config('local_mxschool', 'esignout_trip_window');
+$data->esignoutenabled = get_config('local_mxschool', 'esignout_form_enabled');
+$data->ipenabled = get_config('local_mxschool', 'esignout_form_ipenabled');
 $notification = $DB->get_record('local_mxschool_notification', array('class' => 'esignout_submitted'));
 if ($notification) {
     $data->subject = $notification->subject;
     $data->body['text'] = $notification->body_html;
 }
-$data->ipenabled = get_config('local_mxschool', 'esignout_form_ipenabled');
 $data->ipformerror['text'] = get_config('local_mxschool', 'esignout_form_iperror');
 $data->ipreporterror['text'] = get_config('local_mxschool', 'esignout_report_iperror');
 $data->passengerinstructions['text'] = get_config('local_mxschool', 'esignout_form_instructions_passenger');
@@ -59,6 +61,7 @@ $data->nopassengers['text'] = get_config('local_mxschool', 'esignout_form_warnin
 $data->needparent['text'] = get_config('local_mxschool', 'esignout_form_warning_needparent');
 $data->onlyspecific['text'] = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
 $data->confirmation['text'] = get_config('local_mxschool', 'esignout_form_confirmation');
+$data->irregular['text'] = get_config('local_mxschool', 'esignout_notification_warning_irregular');
 $data->driver['text'] = get_config('local_mxschool', 'esignout_notification_warning_driver');
 $data->any['text'] = get_config('local_mxschool', 'esignout_notification_warning_any');
 $data->parent['text'] = get_config('local_mxschool', 'esignout_notification_warning_parent');
@@ -73,8 +76,10 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     set_config('esignout_edit_window', $data->editwindow, 'local_mxschool');
-    update_notification('esignout_submitted', $data->subject, $data->body);
+    set_config('esignout_trip_window', $data->tripwindow, 'local_mxschool');
+    set_config('esignout_form_enabled', $data->esignoutenabled, 'local_mxschool');
     set_config('esignout_form_ipenabled', $data->ipenabled, 'local_mxschool');
+    update_notification('esignout_submitted', $data->subject, $data->body);
     set_config('esignout_form_iperror', $data->ipformerror['text'], 'local_mxschool');
     set_config('esignout_report_iperror', $data->ipreporterror['text'], 'local_mxschool');
     set_config('esignout_form_instructions_passenger', $data->passengerinstructions['text'], 'local_mxschool');
@@ -83,6 +88,7 @@ if ($form->is_cancelled()) {
     set_config('esignout_form_warning_needparent', $data->needparent['text'], 'local_mxschool');
     set_config('esignout_form_warning_onlyspecific', $data->onlyspecific['text'], 'local_mxschool');
     set_config('esignout_form_confirmation', $data->confirmation['text'], 'local_mxschool');
+    set_config('esignout_notification_warning_irregular', $data->irregular['text'], 'local_mxschool');
     set_config('esignout_notification_warning_driver', $data->driver['text'], 'local_mxschool');
     set_config('esignout_notification_warning_any', $data->any['text'], 'local_mxschool');
     set_config('esignout_notification_warning_parent', $data->parent['text'], 'local_mxschool');

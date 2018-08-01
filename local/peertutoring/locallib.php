@@ -57,7 +57,6 @@ function get_department_list() {
  */
 function get_tutor_department_list($userid) {
     global $DB;
-    $list = array(0 => get_string('form_select_default', 'local_mxschool'));
     $json = $DB->get_field('local_peertutoring_tutor', 'departments', array('userid' => $userid));
     if ($json) {
         $approved = json_decode($json);
@@ -68,10 +67,10 @@ function get_tutor_department_list($userid) {
             $departments = $DB->get_records_sql(
                 "SELECT id, name FROM {local_peertutoring_dept} WHERE deleted = 0 AND $wherestring ORDER BY name"
             );
-            $list += convert_records_to_list($departments);
+            return convert_records_to_list($departments);
         }
     }
-    return $list;
+    return array();
 }
 
 /**
@@ -97,7 +96,7 @@ function get_department_course_list($departmentid) {
         "SELECT id, name FROM {local_peertutoring_course} WHERE deleted = 0 AND departmentid = ? ORDER BY name",
         array($departmentid)
     );
-    return array(0 => get_string('form_select_default', 'local_mxschool')) + convert_records_to_list($courses);
+    return convert_records_to_list($courses);
 }
 
 /**

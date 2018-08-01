@@ -53,7 +53,7 @@ class local_peertutoring_external extends external_api {
         external_api::validate_context(context_system::instance());
         $params = self::validate_parameters(self::get_department_courses_parameters(), array('department' => $department));
 
-        $list = get_department_course_list($params['department']);
+        $list = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_course_list($params['department']);
         $result = array();
         foreach ($list as $courseid => $name) {
             $result[] = array('value' => $courseid, 'text' => $name);
@@ -96,7 +96,7 @@ class local_peertutoring_external extends external_api {
 
         global $DB;
         $result = new stdClass();
-        $list = get_tutor_department_list($params['userid']);
+        $list = array(0 => get_string('form_select_default', 'local_mxschool')) + get_tutor_department_list($params['userid']);
         $result->departments = array();
         foreach ($list as $id => $name) {
             $result->departments[] = array('value' => $id, 'text' => $name);

@@ -74,9 +74,9 @@ class tutoring_table extends local_mxschool_table {
             $endtime->modify('+1 day');
         }
         $where = array(
-            's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 'c.deleted = 0', 'd.deleted = 0', 't.deleted = 0', 'r.deleted = 0',
-            $filter->tutor ? "tu.id = {$filter->tutor}" : '', $filter->department ? "d.id = {$filter->department}" : '',
-            $filter->type ? "t.id = {$filter->type}" : '', $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
+            's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', $filter->tutor ? "tu.id = {$filter->tutor}" : '',
+            $filter->department ? "d.id = {$filter->department}" : '', $filter->type ? "t.id = {$filter->type}" : '',
+            $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
             $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
         );
         $sortable = array('tutor', 'tutoringdate', 'student', 'department', 'course', 'type', 'rating');

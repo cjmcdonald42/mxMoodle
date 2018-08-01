@@ -217,7 +217,7 @@ function student_may_access_weekend($userid) {
  * @return bool Whether the specified student is permitted to access eSignout.
  */
 function student_may_access_esignout($userid) {
-    return array_key_exists($userid, get_esignout_student_list());
+    return get_config('local_mxschool', 'esignout_form_enabled') && array_key_exists($userid, get_esignout_student_list());
 }
 
 /**
@@ -545,7 +545,8 @@ function get_all_driver_list() {
     $drivers = $DB->get_records_sql(
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename FROM {local_mxschool_esignout} es
          LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND p.may_drive_passengers = 'Yes' ORDER BY name"
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND p.may_drive_passengers = 'Yes'
+         ORDER BY name ASC, es.time_modified DESC"
     );
     return convert_records_to_list($drivers);
 }
@@ -559,14 +560,16 @@ function get_all_driver_list() {
  */
 function get_current_driver_list($ignore = 0) {
     global $DB;
-    $today = new DateTime('midnight', core_date::get_server_timezone_object());
+    $window = get_config('local_mxschool', 'esignout_trip_window');
+    $time = new DateTime('now', core_date::get_server_timezone_object());
+    $time->modify("-{$window} minutes");
     $drivers = $DB->get_records_sql(
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename FROM {local_mxschool_esignout} es
          LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.departure_time >= ? AND es.sign_in_time IS NULL
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.time_created >= ? AND es.sign_in_time IS NULL
          AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND (
              SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
-         ) = 0 ORDER BY name", array($today->getTimestamp(), $ignore, $ignore)
+         ) = 0 ORDER BY name ASC, es.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
     );
     return convert_records_to_list($drivers);
 }

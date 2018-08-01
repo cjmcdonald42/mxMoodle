@@ -118,5 +118,21 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018073107, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018073111) {
+        set_config('esignout_edit_window', '30', 'local_mxschool');
+        set_config('esignout_trip_window', '30', 'local_mxschool');
+        set_config('esignout_form_enabled', '1', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018073111, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2018073113) {
+        set_config('esignout_notification_warning_irregular', '[Irregular] ', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018073113, 'local', 'mxschool');
+    }
+
     return true;
 }

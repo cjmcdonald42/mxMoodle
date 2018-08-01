@@ -154,10 +154,7 @@ $string['tutoring_form_details_type'] = 'Type of Help Requested';
 $string['tutoring_form_details_rating'] = 'Effectiveness of Session';
 $string['tutoring_form_details_notes'] = 'Notes';
 
-$string['tutoring_form_department_default'] = 'Select';
-$string['tutoring_form_course_default'] = 'Select';
-$string['tutoring_form_type_default'] = 'Select';
-$string['tutoring_form_rating_default'] = 'Select';
+$string['tutoring_form_type_select_other'] = 'Other (please specify)';
 
 $string['tutoring_form_error_nodepartment'] = 'You must specify a subject.';
 $string['tutoring_form_error_nocourse'] = 'You must specify a course.';

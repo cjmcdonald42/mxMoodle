@@ -72,7 +72,7 @@ class tutoring_form extends local_mxschool_form {
 
         $mform = $this->_form;
         $mform->hideIf('tutor', 'isstudent', 'eq');
-        $mform->hideIf('type_other', 'type_select', 'neq', '5');
+        $mform->hideIf('type_other', 'type_select', 'neq', '-1');
     }
 
     /**
@@ -95,7 +95,7 @@ class tutoring_form extends local_mxschool_form {
         }
         if (!$data['type_select']) {
             $errors['type'] = get_string('tutoring_form_error_notype', 'local_peertutoring');
-        } else if ($data['type_select'] === '5' && empty($data['type_other'])) {
+        } else if ($data['type_select'] === '-1' && empty($data['type_other'])) {
             $errors['type'] = get_string('tutoring_form_error_notype', 'local_peertutoring');
         }
         if (!$data['rating']) {

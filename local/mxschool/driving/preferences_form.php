@@ -39,22 +39,29 @@ class preferences_form extends local_mxschool_form {
             return "{{$tag}}";
         }, array(
             'email', 'studentname', 'salutation', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime',
-            'timesubmitted', 'approver', 'permissionswarning'
+            'timesubmitted', 'approver', 'permissionswarning', 'irregular'
         )));
 
         $fields = array(
-            'config' => array('editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required'))),
-            'notifications' => array(
+            'config' => array(
+                'editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
+                'tripwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
+                'esignoutenabled' => array(
+                    'element' => 'advcheckbox', 'name' => null, 'text' => get_string(
+                        'esignout_preferences_config_esignoutenabled_text', 'local_mxschool'
+                    )
+                ),
+                'ipenabled' => array(
+                    'element' => 'advcheckbox', 'name' => null, 'text' => get_string(
+                        'esignout_preferences_config_ipenabled_text', 'local_mxschool',
+                        array('school' => get_config('local_mxschool', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR'])
+                    )
+                )
+            ), 'notifications' => array(
                 'available' => array('element' => 'static', 'text' => $emailtags),
                 'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
-                'ipenabled' => array(
-                    'element' => 'advcheckbox', 'name' => null, 'text' => get_string(
-                        'esignout_preferences_ipenabled_text', 'local_mxschool',
-                        array('school' => get_config('local_mxschool', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR'])
-                    )
-                ),
                 'ipformerror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'ipreporterror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'passengerinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
@@ -64,6 +71,7 @@ class preferences_form extends local_mxschool_form {
                 'onlyspecific' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'confirmation' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'emailtext' => array(
+                'irregular' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'driver' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'any' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'parent' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,

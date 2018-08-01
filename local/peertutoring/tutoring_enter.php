@@ -86,7 +86,8 @@ $tutors = get_tutor_list();
 $students = get_student_list();
 $departments = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_list();
 $courses = array(0 => get_string('form_select_default', 'local_mxschool')) + get_course_list();
-$types = array(0 => get_string('form_select_default', 'local_mxschool')) + get_type_list();
+$types = array(0 => get_string('form_select_default', 'local_mxschool')) + get_type_list()
+         + array(-1 => get_string('tutoring_form_type_select_other', 'local_peertutoring'));
 $ratings = array(0 => get_string('form_select_default', 'local_mxschool')) + get_rating_list();
 
 $form = new tutoring_form(array(
@@ -100,8 +101,8 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    if ($data->type_select !== '5') {
-        unset($data->type_other);
+    if ($data->type_select !== '-1') {
+        $data->type_other = null;
     }
     update_record($queryfields, $data);
     logged_redirect(

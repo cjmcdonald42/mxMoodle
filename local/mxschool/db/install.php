@@ -33,8 +33,11 @@ function xmldb_local_mxschool_install() {
     set_config('weekend_form_instructions_bottom', 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{hoh}</b> @ <b>{permissionsline}</b>.<br>If your plans change, you must get permission from <b>{hoh}</b>. <b>Remember to sign out.</b>', 'local_mxschool');
     set_config('weekend_form_warning_closed', 'The weekend you have selected is a closed weekend - you will need special permissions from the deans.', 'local_mxschool');
 
-    set_config('esignout_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_mxschool');
+    set_config('esignout_edit_window', '30', 'local_mxschool');
+    set_config('esignout_trip_window', '30', 'local_mxschool');
+    set_config('esignout_form_enabled', '1', 'local_mxschool');
     set_config('esignout_form_ipenabled', '1', 'local_mxschool');
+    set_config('esignout_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_mxschool');
     set_config('esignout_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_mxschool');
     set_config('esignout_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
     set_config('esignout_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_mxschool');
@@ -43,6 +46,7 @@ function xmldb_local_mxschool_install() {
     set_config('esignout_form_warning_onlyspecific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_mxschool');
     set_config('esignout_form_confirmation', 'Have you recieved the required permissions?', 'local_mxschool');
 
+    set_config('esignout_notification_warning_irregular', '[Irregular] ', 'local_mxschool');
     set_config('esignout_notification_warning_driver', 'None.', 'local_mxschool');
     set_config('esignout_notification_warning_any', 'None.', 'local_mxschool');
     set_config('esignout_notification_warning_parent', 'This student requires parent permission to be the passenger of another student.', 'local_mxschool');

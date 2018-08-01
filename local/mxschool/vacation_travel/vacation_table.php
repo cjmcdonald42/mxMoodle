@@ -39,7 +39,7 @@ class vacation_table extends local_mxschool_table {
     public function __construct($filter) {
         $columns = array('student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype');
         if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
-            $columns = array_merge($columns, array('retdatetime', 'rettype', 'retcarrier', 'retnumber'));
+            $columns = array_merge($columns, array('retdatetime', 'rettype', 'retinfo'));
         }
         if ($filter->dorm !== '') {
             unset($columns[array_search('dorm', $columns)]);
@@ -54,7 +54,7 @@ class vacation_table extends local_mxschool_table {
             's.id', 'u.id AS userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
             'u.alternatename', 'd.name AS dorm', 't.destination', 't.phone_number AS phone',
             'dt.date_time AS depdatetime', 'dt.type AS deptype', 'rt.date_time AS retdatetime', 'rt.type AS rettype',
-            'rt.carrier AS retcarrier', 'rt.transportation_number AS retnumber'
+            'rt.carrier AS retcarrier', 'rt.transportation_number AS retnumber', "'' AS retinfo"
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
@@ -69,12 +69,12 @@ class vacation_table extends local_mxschool_table {
             )
         );
         $sortable = array(
-            'student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype', 'retcarrier', 'retnumber'
+            'student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype'
         );
         $urlparams = array(
             'dorm' => $filter->dorm, 'submitted' => $filter->submitted, 'search' => $filter->search
         );
-        $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retcarrier', 'retnumber');
+        $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
             'vaction_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
@@ -104,17 +104,10 @@ class vacation_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the return carrier column.
+     * Formats the return info column.
      */
-    protected function col_retcarrier($values) {
-        return $values->tid ? ($values->retcarrier ?: '-') : '';
-    }
-
-    /**
-     * Formats the return number column.
-     */
-    protected function col_retnumber($values) {
-        return $values->tid ? ($values->retnumber ?: '-') : '';
+    protected function col_retinfo($values) {
+        return $values->tid ? ("{$values->retcarrier} &ndash; {$values->retnumber}" ?: '-') : '';
     }
 
     /**
