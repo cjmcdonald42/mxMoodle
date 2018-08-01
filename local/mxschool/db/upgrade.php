@@ -220,5 +220,13 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018073013, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2018073104) {
+        set_config('esignout_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
+        set_config('esignout_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2018073104, 'local', 'mxschool');
+    }
+
     return true;
 }

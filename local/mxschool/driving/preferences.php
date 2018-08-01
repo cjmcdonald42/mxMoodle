@@ -53,7 +53,8 @@ if ($notification) {
 $data->ipenabled = get_config('local_mxschool', 'esignout_form_ipenabled');
 $data->ipformerror['text'] = get_config('local_mxschool', 'esignout_form_iperror');
 $data->ipreporterror['text'] = get_config('local_mxschool', 'esignout_report_iperror');
-$data->instructions['text'] = get_config('local_mxschool', 'esignout_form_instructions');
+$data->passengerinstructions['text'] = get_config('local_mxschool', 'esignout_form_instructions_passenger');
+$data->bottominstructions['text'] = get_config('local_mxschool', 'esignout_form_instructions_bottom');
 $data->nopassengers['text'] = get_config('local_mxschool', 'esignout_form_warning_nopassengers');
 $data->needparent['text'] = get_config('local_mxschool', 'esignout_form_warning_needparent');
 $data->onlyspecific['text'] = get_config('local_mxschool', 'esignout_form_warning_onlyspecific');
@@ -76,7 +77,8 @@ if ($form->is_cancelled()) {
     set_config('esignout_form_ipenabled', $data->ipenabled, 'local_mxschool');
     set_config('esignout_form_iperror', $data->ipformerror['text'], 'local_mxschool');
     set_config('esignout_report_iperror', $data->ipreporterror['text'], 'local_mxschool');
-    set_config('esignout_form_instructions', $data->instructions['text'], 'local_mxschool');
+    set_config('esignout_form_instructions_passenger', $data->passengerinstructions['text'], 'local_mxschool');
+    set_config('esignout_form_instructions_bottom', $data->bottominstructions['text'], 'local_mxschool');
     set_config('esignout_form_warning_nopassengers', $data->nopassengers['text'], 'local_mxschool');
     set_config('esignout_form_warning_needparent', $data->needparent['text'], 'local_mxschool');
     set_config('esignout_form_warning_onlyspecific', $data->onlyspecific['text'], 'local_mxschool');

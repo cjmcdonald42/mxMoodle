@@ -536,6 +536,21 @@ function get_passenger_list() {
 }
 
 /**
+ * Queries the database to create a list of all eSignout driver records.
+ *
+ * @return array The drivers as esignoutid => name, ordered alphabetically by name.
+ */
+function get_all_driver_list() {
+    global $DB;
+    $drivers = $DB->get_records_sql(
+        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename FROM {local_mxschool_esignout} es
+         LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
+         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND p.may_drive_passengers = 'Yes' ORDER BY name"
+    );
+    return convert_records_to_list($drivers);
+}
+
+/**
  * Queries the database to create a list of currently available drivers.
  * Drivers are defined as available if today is their departure day and they have not signed in.
  *
@@ -553,7 +568,7 @@ function get_current_driver_list($ignore = 0) {
              SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
          ) = 0 ORDER BY name", array($today->getTimestamp(), $ignore, $ignore)
     );
-    return array(0 => get_string('form_select_default', 'local_mxschool')) + convert_records_to_list($drivers);
+    return convert_records_to_list($drivers);
 }
 
 /**

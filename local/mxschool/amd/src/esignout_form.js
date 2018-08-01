@@ -92,7 +92,13 @@ define(
                     permissionsFieldset.hide();
                 }
                 lib.updateMultiSelect($('.mx-form select#id_passengers'), data.passengers);
-                lib.updateSelect($('.mx-form select#id_driver'), data.drivers);
+                $.when(str.get_string('form_select_default', 'local_mxschool')).done(function(text) {
+                    data.drivers.unshift({
+                        value: 0,
+                        text: text
+                    });
+                    lib.updateSelect($('.mx-form select#id_driver'), data.drivers, true);
+                });
             }).fail(notification.exception);
         }
         function updateDriverDetails() {

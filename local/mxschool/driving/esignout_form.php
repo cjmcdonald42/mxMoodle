@@ -86,6 +86,7 @@ class esignout_form extends local_mxschool_form {
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
         $mform->disabledIf('type', 'id', 'neq', '0');
+        $mform->disabledIf('driver', 'id', 'neq', '0');
     }
 
     /**

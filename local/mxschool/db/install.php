@@ -36,7 +36,8 @@ function xmldb_local_mxschool_install() {
     set_config('esignout_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_mxschool');
     set_config('esignout_form_ipenabled', '1', 'local_mxschool');
     set_config('esignout_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_mxschool');
-    set_config('esignout_form_instructions', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
+    set_config('esignout_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
+    set_config('esignout_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_mxschool');
     set_config('esignout_form_warning_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_mxschool');
     set_config('esignout_form_warning_needparent', 'Your permissions indicate that you need a call from your parent.', 'local_mxschool');
     set_config('esignout_form_warning_onlyspecific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_mxschool');

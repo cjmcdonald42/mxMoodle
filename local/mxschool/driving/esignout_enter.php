@@ -118,7 +118,7 @@ $data->specificwarning = get_config('local_mxschool', 'esignout_form_warning_onl
 $students = get_esignout_student_list();
 $types = get_esignout_type_list();
 $passengers = get_passenger_list();
-$drivers = get_current_driver_list();
+$drivers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_all_driver_list();
 $approvers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_approver_list();
 
 $form = new esignout_form(array(
@@ -159,7 +159,11 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
+$bottominstructions = get_config('local_mxschool', 'esignout_form_instructions_bottom');
+$bottominstructions = str_replace(
+    '{minutes}', get_config('local_mxschool', 'esignout_edit_window'), $bottominstructions
+);
+$formrenderable = new \local_mxschool\output\form($form, false, $bottominstructions);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/esignout_form');
 
 echo $output->header();
