@@ -27,6 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
+require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
 class block_mxschool_dorm_student extends block_base {
 
