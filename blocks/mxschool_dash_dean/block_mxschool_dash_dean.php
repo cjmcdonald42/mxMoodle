@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Middlesex School's Dean's Block for the Dashboard.
  *
  * @package    block_mxschool_dash_dean
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -41,19 +41,42 @@ class block_mxschool_dash_dean extends block_base {
         }
 
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index(array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('users_link', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/index.php',
-            get_string('checkin_link', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/index.php',
-            get_string('esignout_link', 'block_mxschool_dash_dean') => '/local/mxschool/driving/index.php',
-            get_string('advisor_link', 'block_mxschool_dash_dean') => '/local/mxschool/advisor_selection/index.php',
-            get_string('rooming_link', 'block_mxschool_dash_dean') => '/local/mxschool/rooming/index.php',
-            get_string('vacation_link', 'block_mxschool_dash_dean') => '/local/mxschool/vacation_travel/index.php'
-        ));
+
+        $usermenu = new \local_mxschool\output\index(array(
+            get_string('student_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/student_report.php',
+            get_string('faculty_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/faculty_report.php',
+            get_string('dorm_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/dorm_report.php'
+        ), get_string('user_menu', 'block_mxschool_dash_dean'));
+        $checkinmenu = new \local_mxschool\output\index(array(
+            get_string('generic_report', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/generic_report.php',
+            get_string('weekday_report', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/weekday_report.php',
+            get_string('weekend_report', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/weekend_report.php',
+            get_string('weekend_calculator', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/weekend_calculator.php',
+            get_string('checkin_preferences', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/preferences.php'
+        ), get_string('checkin_menu', 'block_mxschool_dash_dean'));
+        $drivingmenu = new \local_mxschool\output\index(array(
+            get_string('vehicle_report', 'block_mxschool_dash_dean') => '/local/mxschool/driving/vehicle_report.php',
+            get_string('esignout_report', 'block_mxschool_dash_dean') => '/local/mxschool/driving/esignout_report.php',
+            get_string('esignout_preferences', 'block_mxschool_dash_dean') => '/local/mxschool/driving/preferences.php'
+        ), get_string('driving_menu', 'block_mxschool_dash_dean'));
+        $advisorselectionmenu = new \local_mxschool\output\index(array(
+            get_string('advisor_selection_report', 'block_mxschool_dash_dean') => '/local/mxschool/advisor_selection/advisor_report.php',
+            get_string('advisor_selection_preferences', 'block_mxschool_dash_dean') => '/local/mxschool/advisor_selection/preferences.php'
+        ), get_string('advisor_selection_menu', 'block_mxschool_dash_dean'));
+        $roomingmenu = new \local_mxschool\output\index(array(
+            get_string('rooming_report', 'block_mxschool_dash_dean') => '/local/mxschool/rooming/rooming_report.php',
+            get_string('rooming_preferences', 'block_mxschool_dash_dean') => '/local/mxschool/rooming/preferences.php'
+        ), get_string('rooming_menu', 'block_mxschool_dash_dean'));
+        $vacationtravelmenu = new \local_mxschool\output\index(array(
+            get_string('vacation_travel_report', 'block_mxschool_dash_dean') => '/local/mxschool/vacation_travel/vacation_report.php',
+            get_string('vacation_travel_transportation_report', 'block_mxschool_dash_dean') =>
+            '/local/mxschool/vacation_travel/transportation_report.php',
+            get_string('vacation_travel_preferences', 'block_mxschool_dash_dean') => '/local/mxschool/vacation_travel/preferences.php'
+        ), get_string('vacation_travel_menu', 'block_mxschool_dash_dean'));
 
         $this->content = new stdClass();
         if (has_capability('block/mxschool_dash_dean:access', context_system::instance())) {
-            $this->content->text = $output->render($renderable);;
+            $this->content->text = $output->render($usermenu).$output->render($checkinmenu).$output->render($drivingmenu).$output->render($advisorselectionmenu).$output->render($roomingmenu).$output->render($vacationtravelmenu);
         }
         return $this->content;
     }

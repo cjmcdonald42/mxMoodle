@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dean's Block for the Student Dashboard.
+ * Middlesex School's Dean's Block for the Dashboard.
  *
  * @package    block_mxschool_dash_dean
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_dean';
-$plugin->version = 2018080100;
+$plugin->version = 2018080200;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array('local_mxschool' => 2018080100); // Mxschool as dependency in order to use renderer.
+$plugin->maturity = MATURITY_RC; // Release Candidiate for v3.0
+$plugin->dependencies = array('local_mxschool' => 2018073000); // Mxschool as dependency in order to use renderer.
