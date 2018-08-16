@@ -34,14 +34,11 @@ div.mx-table table.generaltable th,
 div.mx-table table.generaltable td {
     vertical-align: middle;
     padding: 0.25rem;
-    border-right: var(--mx-table-border);
-    border-left: var(--mx-table-border);
+    border: var(--mx-table-border);
 }
 /* All header cells centered and bordered. */
 div.mx-table table.generaltable th {
     text-align: center;
-    border-top: var(--mx-table-border);
-    border-bottom: var(--mx-table-border);
 }
 /* Centered cells. */
 div.mx-table table.generaltable td.centered {
