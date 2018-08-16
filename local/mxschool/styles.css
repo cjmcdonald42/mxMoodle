@@ -29,14 +29,14 @@ div.mx-table {
 div.mx-table table.generaltable {
     border: var(--mx-table-border);
 }
-/* Middle vertical align, reduced padding, and vertical borders for all table cells. */
+/* Middle vertical align, reduced padding, and borders for all table cells. */
 div.mx-table table.generaltable th,
 div.mx-table table.generaltable td {
     vertical-align: middle;
     padding: 0.25rem;
     border: var(--mx-table-border);
 }
-/* All header cells centered and bordered. */
+/* All header cells centered. */
 div.mx-table table.generaltable th {
     text-align: center;
 }
