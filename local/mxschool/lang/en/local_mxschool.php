@@ -45,13 +45,6 @@ $string['form_select_default'] = 'Select';
 
 $string['first_semester'] = 'First Semester';
 $string['second_semester'] = 'Second Semester';
-$string['day_0'] = 'Sunday';
-$string['day_1'] = 'Monday';
-$string['day_2'] = 'Tuesday';
-$string['day_3'] = 'Wednesday';
-$string['day_4'] = 'Thursday';
-$string['day_5'] = 'Friday';
-$string['day_6'] = 'Saturday';
 $string['am'] = 'AM';
 $string['pm'] = 'PM';
 $string['room_type_single'] = 'Single';
@@ -369,6 +362,8 @@ $string['weekend_form_error_nophone'] = 'You must specify a phone number.';
 
 // Weekend Check-in Sheet.
 $string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend} ({$a->type})';
+$string['weekend_report_select_start_day_default'] = 'Default Start Day';
+$string['weekend_report_select_end_day_default'] = 'Default End Day';
 $string['weekend_report_select_submitted_true'] = 'Weekend Form';
 $string['weekend_report_select_submitted_false'] = 'No Weekend Form';
 $string['weekend_report_add'] = 'New Weekend Form';

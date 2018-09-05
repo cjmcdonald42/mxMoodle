@@ -39,29 +39,18 @@ class preferences_form extends local_mxschool_form {
 
         $weekendfields = array();
         foreach ($weekends as $weekend) {
-            $sundaytime = new DateTime('now', core_date::get_server_timezone_object());
-            $sundaytime->setTimestamp($weekend->sunday_time);
-            $startoptions = array();
-            for ($i = 4; $i >= 1; $i--) {
-                $starttime = clone $sundaytime;
-                $starttime->modify("-$i days");
-                $startoptions[$starttime->getTimestamp()] = $starttime->format('l');
-            }
-            $endoptions = array();
-            for ($i = 1; $i <= 3; $i++) {
-                $endtime = clone $sundaytime;
-                $endtime->modify("+$i days -1 second");
-                $endoptions[$endtime->getTimestamp()] = $endtime->format('l');
-            }
-            $labeltime = clone $sundaytime;
-            $labeltime->modify("-1 day");
+            $startoptions = get_weekend_start_day_list();
+            $endoptions = get_weekend_end_day_list();
+            $date = new DateTime('now', core_date::get_server_timezone_object());
+            $date->setTimestamp($weekend->sunday_time);
+            $date->modify("-1 day");
             $weekendfields["weekend_$weekend->id"] = array(
-                'element' => 'group', 'name' => 'label', 'nameparam' => $labeltime->format('m/d/y'), 'children' => array(
+                'element' => 'group', 'name' => 'label', 'nameparam' => $date->format('m/d/y'), 'children' => array(
                     'type' => array('element' => 'radio', 'name' => 'type', 'options' => array(
                         'Open', 'Closed', 'Free', 'Vacation'
                     )),
-                    'starttime' => array('element' => 'select', 'options' => $startoptions),
-                    'endtime' => array('element' => 'select', 'options' => $endoptions)
+                    'start' => array('element' => 'select', 'options' => $startoptions),
+                    'end' => array('element' => 'select', 'options' => $endoptions)
                 )
             );
         }

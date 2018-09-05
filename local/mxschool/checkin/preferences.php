@@ -53,8 +53,8 @@ if ($data->dormsopen && $data->dormsclose) {
     foreach ($weekends as $weekend) {
         $identifier = "weekend_$weekend->id";
         $data->{"{$identifier}_type"} = $weekend->type;
-        $data->{"{$identifier}_starttime"} = $weekend->start_time;
-        $data->{"{$identifier}_endtime"} = $weekend->end_time;
+        $data->{"{$identifier}_start"} = $weekend->start_offset;
+        $data->{"{$identifier}_end"} = $weekend->end_offset;
     }
 }
 $submitednotification = $DB->get_record('local_mxschool_notification', array('class' => 'weekend_form_submitted'));
@@ -82,10 +82,10 @@ if ($form->is_cancelled()) {
     set_config('second_semester_start_date', $data->secondsemester, 'local_mxschool');
     set_config('dorms_close_date', $data->dormsclose, 'local_mxschool');
     foreach ($weekends as $weekend) {
-        $identifier = "weekend_$weekend->id";
+        $identifier = "weekend_{$weekend->id}";
         $weekend->type = $data->{"{$identifier}_type"};
-        $weekend->start_time = $data->{"{$identifier}_starttime"};
-        $weekend->end_time = $data->{"{$identifier}_endtime"};
+        $weekend->start_offset = $data->{"{$identifier}_start"};
+        $weekend->end_offset = $data->{"{$identifier}_end"};
         $DB->update_record('local_mxschool_weekend', $weekend);
     }
     update_notification('weekend_form_submitted', $data->submittedsubject, $data->submittedbody);

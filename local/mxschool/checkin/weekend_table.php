@@ -35,8 +35,10 @@ class weekend_table extends local_mxschool_table {
      * Creates a new weekend_table.
      *
      * @param stdClass $filter Any filtering for the table - could include dorm, weekend, submitted, and search keys.
+     * @param int $start An offest for the start day.
+     * @param int $end An offest for the end day.
      */
-    public function __construct($filter) {
+    public function __construct($filter, $start, $end) {
         global $DB;
         $columns1 = array('student', 'dorm', 'room', 'grade');
         if ($filter->dorm) {
@@ -56,10 +58,7 @@ class weekend_table extends local_mxschool_table {
             "'' AS destinationtransportation", 'wf.destination', 'wf.transportation', 'wf.phone_number AS phone',
             "'' AS departurereturn", 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
         );
-        $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend), 'start_time, end_time');
-        $startday = date('w', $weekendrecord->start_time) - 7;
-        $endday = date('w', $weekendrecord->end_time);
-        for ($i = 1; $i <= $endday - $startday + 1; $i++) {
+        for ($i = 1; $i <= $end - $start + 1; $i++) {
             $columns1[] = $centered[] = "early_{$i}";
             $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
             $fields[] = "'' AS early_{$i}";
@@ -95,7 +94,8 @@ class weekend_table extends local_mxschool_table {
             unset($sortable[array_search('room', $sortable)]);
         }
         $urlparams = array(
-            'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
+            'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'start' => $filter->start, 'end' => $filter->end,
+            'submitted' => $filter->submitted, 'search' => $filter->search
         );
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'wf.destination', 'wf.transportation');
         parent::__construct(

@@ -30,109 +30,47 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2018073008) {
-        set_config('weekend_form_warning_closed', 'The weekend you have selected is a closed weekend - you will need special permissions from the deans.', 'local_mxschool');
+    if ($oldversion < 2018090506) {
 
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018073008, 'local', 'mxschool');
+    // Define field start_time to be dropped from local_mxschool_weekend.
+    $table = new xmldb_table('local_mxschool_weekend');
+    $field = new xmldb_field('start_time');
+
+    // Conditionally launch drop field start_time.
+    if ($dbman->field_exists($table, $field)) {
+        $dbman->drop_field($table, $field);
     }
 
-    if ($oldversion < 2018073010) {
+    // Define field start_offset to be added to local_mxschool_weekend.
+    $table = new xmldb_table('local_mxschool_weekend');
+    $field = new xmldb_field('start_offset', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '-1', 'type');
 
-        // Rename field campus_date_time on table local_mxschool_vt_transport to date_time.
-        $table = new xmldb_table('local_mxschool_vt_transport');
-        $field = new xmldb_field('campus_date_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
-
-        // Launch rename field campus_date_time.
-        $dbman->rename_field($table, $field, 'date_time');
-
-        // Define field transportation_date_time to be dropped from local_mxschool_vt_transport.
-        $table = new xmldb_table('local_mxschool_vt_transport');
-        $field = new xmldb_field('transportation_date_time');
-
-        // Conditionally launch drop field transportation_date_time.
-        if ($dbman->field_exists($table, $field)) {
-            $dbman->drop_field($table, $field);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018073010, 'local', 'mxschool');
+    // Conditionally launch add field start_offset.
+    if (!$dbman->field_exists($table, $field)) {
+        $dbman->add_field($table, $field);
     }
 
-    if ($oldversion < 2018073013) {
-        set_config('esignout_form_ipenabled', '1', 'local_mxschool');
-        set_config('advisor_form_enabled_who', 'all', 'local_mxschool');
-        set_config('vacation_form_returnenabled', '1', 'local_mxschool');
+    // Define field end_time to be dropped from local_mxschool_weekend.
+    $table = new xmldb_table('local_mxschool_weekend');
+    $field = new xmldb_field('end_time');
 
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018073013, 'local', 'mxschool');
+    // Conditionally launch drop field end_time.
+    if ($dbman->field_exists($table, $field)) {
+        $dbman->drop_field($table, $field);
     }
 
-    if ($oldversion < 2018073104) {
-        set_config('esignout_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
-        set_config('esignout_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_mxschool');
+    // Define field end_offset to be added to local_mxschool_weekend.
+    $table = new xmldb_table('local_mxschool_weekend');
+    $field = new xmldb_field('end_offset', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'start_offset');
 
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018073104, 'local', 'mxschool');
+    // Conditionally launch add field end_offset.
+    if (!$dbman->field_exists($table, $field)) {
+        $dbman->add_field($table, $field);
     }
 
-    if ($oldversion < 2018073107) {
-
-        // Define field available to be dropped from local_mxschool_dorm.
-        $table = new xmldb_table('local_mxschool_dorm');
-        $field = new xmldb_field('available');
-
-        // Conditionally launch drop field available.
-        if ($dbman->field_exists($table, $field)) {
-            $dbman->drop_field($table, $field);
-        }
-
-        // Define field available to be added to local_mxschool_dorm.
-        $table = new xmldb_table('local_mxschool_dorm');
-        $field = new xmldb_field('available', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'gender');
-
-        // Conditionally launch add field available.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define field is_primary_parent to be dropped from local_mxschool_parent.
-        $table = new xmldb_table('local_mxschool_parent');
-        $field = new xmldb_field('is_primary_parent');
-
-        // Conditionally launch drop field is_primary_parent.
-        if ($dbman->field_exists($table, $field)) {
-            $dbman->drop_field($table, $field);
-        }
-
-        // Define field is_primary_parent to be added to local_mxschool_parent.
-        $table = new xmldb_table('local_mxschool_parent');
-        $field = new xmldb_field('is_primary_parent', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'deleted');
-
-        // Conditionally launch add field is_primary_parent.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018073107, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018073111) {
-        set_config('esignout_edit_window', '30', 'local_mxschool');
-        set_config('esignout_trip_window', '30', 'local_mxschool');
-        set_config('esignout_form_enabled', '1', 'local_mxschool');
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018073111, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 2018073113) {
-        set_config('esignout_notification_warning_irregular', '[Irregular] ', 'local_mxschool');
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2018073113, 'local', 'mxschool');
-    }
+    // Mxschool savepoint reached.
+    upgrade_plugin_savepoint(true, 2018090506, 'local', 'mxschool');
+}
 
     return true;
 }

@@ -318,7 +318,7 @@ function get_param_current_date_esignout() {
  */
 function get_param_current_weekend() {
     global $DB;
-    if (isset($_GET['weekend'])) {
+    if (isset($_GET['weekend']) && $DB->record_exists('local_mxschool_weekend', array('id' => $_GET['weekend']))) {
         return $_GET['weekend'];
     }
     $starttime = get_config('local_mxschool', 'dorms_open_date');
@@ -769,6 +769,40 @@ function get_boarding_dorm_list() {
 }
 
 /**
+ * Creates a list of all possible start days for a weekend.
+ *
+ * @return array The possible start days for the weekend as offset => name in accending order.
+ */
+function get_weekend_start_day_list() {
+    $days = array();
+    $sunday = new DateTime('now', core_date::get_server_timezone_object());
+    $sunday->modify('Sunday this week');
+    for ($i = -4; $i <= -1; $i++) {
+        $day = clone $sunday;
+        $day->modify("{$i} days");
+        $days[$i] = $day->format('l');
+    }
+    return $days;
+}
+
+/**
+ * Creates a list of all possible end days for a weekend.
+ *
+ * @return array The possible end days for the weekend as offset => name in accending order.
+ */
+function get_weekend_end_day_list() {
+    $days = array();
+    $sunday = new DateTime('now', core_date::get_server_timezone_object());
+    $sunday->modify('Sunday this week');
+    for ($i = 0; $i <= 2; $i++) {
+        $day = clone $sunday;
+        $day->modify("{$i} days");
+        $days[$i] = $day->format('l');
+    }
+    return $days;
+}
+
+/**
  * Queries the database to create a list of all the weekends between the dorms open date and the dorms close date.
  *
  * @return array The weekends within the specified bounds as id => date (mm/dd/yy), ordered by date.
@@ -888,14 +922,8 @@ function generate_weekend_records($starttime, $endtime) {
     $date->modify('Sunday this week');
     while ($date->getTimestamp() < $endtime) {
         if (!isset($sorted[$date->getTimestamp()])) {
-            $startdate = clone $date;
-            $startdate->modify('-1 day');
-            $enddate = clone $date;
-            $enddate->modify('+1 day -1 second');
             $newweekend = new stdClass();
             $newweekend->sunday_time = $date->getTimestamp();
-            $newweekend->start_time = $startdate->getTimestamp();
-            $newweekend->end_time = $enddate->getTimestamp();
             $DB->insert_record('local_mxschool_weekend', $newweekend);
         }
         $date->modify('+1 week');
