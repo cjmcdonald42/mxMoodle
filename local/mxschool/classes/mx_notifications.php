@@ -246,7 +246,10 @@ class mx_notifications {
                     ? " ({$record->alternatename})" : '';
                 $record->salutation = empty($record->alternatename) ? $record->firstname : $record->alternatename;
                 $record->timesubmitted = date('n/j/y g:i A', $record->timesubmitted);
+                $record->depstination = isset($record->depstination) ? $record->depstination : '-';
+                $record->phonenumber = isset($record->phonenumber) ? $record->phonenumber : '-';
                 $record->depmxtransportation = $record->depmxtransportation ? get_string('yes') : get_string('no');
+                $record->deptype = isset($record->deptype) ? $record->deptype : '-';
                 $record->depsite = isset($record->depsite) ? $record->depsite : '-';
                 $record->depdetails = isset($record->depdetails) ? $record->depdetails : '-';
                 $record->depcarriercompany = isset($record->depcarriercompany) ? $record->depcarriercompany : '-';
@@ -254,6 +257,7 @@ class mx_notifications {
                 $record->depinternational = isset($record->depinternational) ? $record->depinternational : '-';
                 $record->depdatetime = date('n/j/y g:i A', $record->depvariable);
                 $record->retmxtransportation = $record->retmxtransportation ? get_string('yes') : get_string('no');
+                $record->rettype = isset($record->rettype) ? $record->rettype : '-';
                 $record->retsite = isset($record->retsite) ? $record->retsite : '-';
                 $record->retdetails = isset($record->retdetails) ? $record->retdetails : '-';
                 $record->retcarriercompany = isset($record->retcarriercompany) ? $record->retcarriercompany : '-';
