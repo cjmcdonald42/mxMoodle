@@ -133,7 +133,7 @@ class vacation_form extends local_mxschool_form {
                         $errors['dep_details'] = get_string('vacation_travel_form_error_nodriver', 'local_mxschool');
                     } else if ($data['dep_type'] === 'Non-MX Bus') {
                         $errors['dep_details'] = get_string('vacation_travel_form_error_nodetails', 'local_mxschool');
-                    } else if ($data['dep_site'] === '0') {
+                    } else if ($data['dep_mxtransportation'] && $data['dep_site'] === '0') {
                         $errors['dep_details'] = get_string('vacation_travel_form_error_noother', 'local_mxschool');
                     }
                 }
@@ -175,7 +175,7 @@ class vacation_form extends local_mxschool_form {
                             $errors['ret_details'] = get_string('vacation_travel_form_error_nodriver', 'local_mxschool');
                         } else if ($data['ret_type'] === 'Non-MX Bus') {
                             $errors['ret_details'] = get_string('vacation_travel_form_error_nodetails', 'local_mxschool');
-                        } else if ($data['ret_site'] === '0') {
+                        } else if ($data['ret_mxtransportation'] && $data['ret_site'] === '0') {
                             $errors['ret_details'] = get_string('vacation_travel_form_error_noother', 'local_mxschool');
                         }
                     }
