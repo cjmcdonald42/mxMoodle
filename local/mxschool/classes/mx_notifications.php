@@ -246,7 +246,7 @@ class mx_notifications {
                     ? " ({$record->alternatename})" : '';
                 $record->salutation = empty($record->alternatename) ? $record->firstname : $record->alternatename;
                 $record->timesubmitted = date('n/j/y g:i A', $record->timesubmitted);
-                $record->depstination = isset($record->depstination) ? $record->depstination : '-';
+                $record->destination = isset($record->destination) ? $record->destination : '-';
                 $record->phonenumber = isset($record->phonenumber) ? $record->phonenumber : '-';
                 $record->depmxtransportation = $record->depmxtransportation ? get_string('yes') : get_string('no');
                 $record->deptype = isset($record->deptype) ? $record->deptype : '-';
