@@ -50,7 +50,7 @@ $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 
     'id', 'userid' => 'student', 'departments'
 )));
 
-if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_peertutoring_tutor', array('id' => $id))) {
     redirect($redirect);
 }
 
