@@ -55,9 +55,10 @@ if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id))) {
 }
 
 $data = get_record($queryfields, "t.id = ?", array($id));
-if (isset($data->id)) {
+if ($data) {
     $data->departments = json_decode($data->departments);
 } else {
+    $data = new stdClass();
     $data->id = $id;
 }
 
@@ -81,8 +82,10 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
+$jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutor_form');
 
 echo $output->header();
 echo $output->heading($title);
 echo $output->render($renderable);
+echo $output->render($jsrenderable);
 echo $output->footer();

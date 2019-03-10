@@ -27,7 +27,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = array(
-    'local_peertutoring_get_department_courses' => array(
+    'local_peertutoring_get_available_tutors' => array(
+        'classname' => 'local_peertutoring_external',
+        'methodname' => 'get_available_tutors',
+        'classpath' => 'local/peertutoring/externallib.php',
+        'description' => 'Queries the database to determine the list of students who are available to be added as peer tutors.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ), 'local_peertutoring_get_department_courses' => array(
         'classname' => 'local_peertutoring_external',
         'methodname' => 'get_department_courses',
         'classpath' => 'local/peertutoring/externallib.php',

@@ -33,6 +33,48 @@ require_once('locallib.php');
 class local_peertutoring_external extends external_api {
 
     /**
+     * Returns descriptions of the get_available_tutors_options() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_available_tutors() function.
+     */
+    public static function get_available_tutors_parameters() {
+        return new external_function_parameters(array());
+    }
+
+    /**
+     * Queries the database to determine the list of students who are available to be added as peer tutors.
+     *
+     * @return stdClass With property students.
+     */
+    public static function get_available_tutors() {
+        external_api::validate_context(context_system::instance());
+        require_capability('local/peertutoring:manage_preferences', context_system::instance());
+
+        global $DB;
+        $result = new stdClass();
+        $list = get_eligible_unassigned_student_list();
+        $result->students = array();
+        foreach ($list as $userid => $name) {
+            $result->students[] = array('value' => $userid, 'text' => $name);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_available_tutors() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_available_tutors() function.
+     */
+    public static function get_available_tutors_returns() {
+        return new external_single_structure(array(
+            'students' => new external_multiple_structure(new external_single_structure(array(
+                'value' => new external_value(PARAM_INT, 'the user id of the student who is eligble to be a new tutor'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the student who is eligble to be a new tutor')
+            )))
+        ));
+    }
+
+    /**
      * Returns descriptions of the get_department_courses() function's parameters.
      *
      * @return external_function_parameters Object holding array of parameters for the get_department_courses() function.

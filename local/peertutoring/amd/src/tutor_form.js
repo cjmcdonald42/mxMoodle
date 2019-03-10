@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Peer Tutoring Subplugin.
+ * Updates the options of the new tutor form for Middlesex School's Peer Tutoring Subplugin.
  *
+ * @module     local_peertutoring/tutor_form
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,11 +24,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2019030901;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2019010100);
+define(
+    ['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], function($, ajax, notification, lib) {
+        function update() {
+            var promises = ajax.call([{
+                methodname: 'local_peertutoring_get_available_tutors',
+                args: {}
+            }]);
+            promises[0].done(function(data) {
+                lib.updateSelect($('.mx-form select#id_student'), data.students, $('.mx-form input[name="id"]').val() !== '0');
+            }).fail(notification.exception);
+        }
+        return function() {
+            $(document).ready(update);
+        };
+    }
+);
