@@ -61,7 +61,7 @@ if (isset($data->id)) {
     $data->id = $id;
 }
 
-$students = get_student_list();
+$students = get_eligible_student_list();
 $departments = get_department_list();
 
 $form = new tutor_edit_form(array('id' => $id, 'students' => $students, 'departments' => $departments));

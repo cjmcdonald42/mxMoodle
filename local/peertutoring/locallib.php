@@ -39,6 +39,23 @@ function student_may_access_tutoring($userid) {
 }
 
 /**
+ * Queries the database to create a list of all the students who are eligible to become peer tutors
+ * - i.e. juniors and seniors who are not already peer tutors.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_eligible_student_list() {
+    global $DB;
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.grade >= 11 AND NOT EXISTS (SELECT userid FROM {local_peertutoring_tutor} WHERE userid = u.id)
+         ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
  * Queries the database to create a list of all the peer tutoring departments.
  *
  * @return array The departments as id => name, ordered alphabetically by department name.
