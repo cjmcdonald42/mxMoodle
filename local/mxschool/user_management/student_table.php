@@ -69,7 +69,7 @@ class student_table extends local_mxschool_table {
                     'overnight', 'license', 'driving', 'passengers', 'riding', 'ridingcomment', 'rideshare', 'boston',
                     'swimcompetent', 'swimallowed', 'boatallowed'
                 ));
-                $fields = array_merge(array('p.id'), $fields, array(
+                $fields = array_merge(array('p.id', 's.id AS sid'), $fields, array(
                     'p.overnight', 'p.license_date AS license', 'p.may_drive_to_town AS driving',
                     'p.may_drive_passengers AS passengers', 'p.may_ride_with AS riding',
                     'p.ride_permission_details AS ridingcomment', 'p.ride_share AS rideshare',
@@ -139,9 +139,12 @@ class student_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return ($this->type === 'parents'
-            ? $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id)
-            : $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id)
+        return (
+          $this->type === 'students'
+            ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id)
+          : $this->type === 'permissions'
+            ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->sid)
+          : $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id)
         );
     }
 
