@@ -150,9 +150,7 @@ class mx_notifications {
                             $emaildeans = true;
                     }
                 }
-                if ($emaildeans) {
-                    $record->irregular = get_config('local_mxschool', 'esignout_notification_warning_irregular');
-                }
+                $record->irregular = $emaildeans ? get_config('local_mxschool', 'esignout_notification_warning_irregular') : '';
 
                 $subject = self::replace($notification->subject, $record);
                 $body = self::replace($notification->body_html, $record);
