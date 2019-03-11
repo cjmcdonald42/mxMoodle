@@ -652,14 +652,18 @@ $string['vacation_travel_site_report_add'] = 'New Site';
 $string['vacation_travel_site_report_header_name'] = 'Name';
 $string['vacation_travel_site_report_header_type'] = 'Type';
 $string['vacation_travel_site_report_header_departureenabled'] = 'Available for Departure';
+$string['vacation_travel_site_report_header_defaultdeparturetime'] = 'Default Departure Time';
 $string['vacation_travel_site_report_header_returnenabled'] = 'Available for Return';
+$string['vacation_travel_site_report_header_defaultreturntime'] = 'Default Return Time';
 
 // Vacation Travel Site Edit.
 $string['vacation_travel_site_edit_header_site'] = 'Site Information';
 $string['vacation_travel_site_edit_site_name'] = 'Name';
 $string['vacation_travel_site_edit_site_type'] = 'Type';
 $string['vacation_travel_site_edit_site_departureenabled'] = 'Available for Departure';
+$string['vacation_travel_site_edit_site_defaultdeparturetime'] = 'Default Departure Time';
 $string['vacation_travel_site_edit_site_returnenabled'] = 'Available for Return';
+$string['vacation_travel_site_edit_site_defaultreturntime'] = 'Default Return Time';
 
 // Vacation Travel Form.
 $string['vacation_travel_form_header_info'] = 'General Information';

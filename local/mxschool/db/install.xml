@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20180905" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20190311" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -221,6 +221,8 @@
         <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the site. {Plane, Train, Bus, NYC Direct}"/>
         <FIELD NAME="enabled_departure" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for departure transportation."/>
         <FIELD NAME="enabled_return" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for return transportation."/>
+        <FIELD NAME="default_departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for departure transportation to this site - NULL indicates that there is no default."/>
+        <FIELD NAME="default_return_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for return transportation from this site - NULL indicates that there is no default."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

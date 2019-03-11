@@ -73,8 +73,7 @@ class vacation_form extends local_mxschool_form {
             'dep_variable' => array('element' => 'group', 'children' => array(
                 'time' => parent::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )),
-            'dep_international' => parent::ELEMENT_BOOLEAN
+            )), 'dep_international' => parent::ELEMENT_BOOLEAN
         ));
         if ($this->returnenabled) {
             $fields['return'] = array(
@@ -87,8 +86,7 @@ class vacation_form extends local_mxschool_form {
                 'ret_variable' => array('element' => 'group', 'children' => array(
                     'time' => parent::time_selector(15),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                )),
-                'ret_international' => parent::ELEMENT_BOOLEAN
+                )), 'ret_international' => parent::ELEMENT_BOOLEAN
             );
         }
         parent::set_fields($fields, 'vacation_travel_form');

@@ -30,47 +30,29 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2018090506) {
+    if ($oldversion < 2019031000) {
 
-    // Define field start_time to be dropped from local_mxschool_weekend.
-    $table = new xmldb_table('local_mxschool_weekend');
-    $field = new xmldb_field('start_time');
+        // Define field default_departure_time to be added to local_mxschool_vt_site.
+        $table = new xmldb_table('local_mxschool_vt_site');
+        $field = new xmldb_field('default_departure_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'enabled_return');
 
-    // Conditionally launch drop field start_time.
-    if ($dbman->field_exists($table, $field)) {
-        $dbman->drop_field($table, $field);
+        // Conditionally launch add field default_departure_time.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field default_return_time to be added to local_mxschool_vt_site.
+        $table = new xmldb_table('local_mxschool_vt_site');
+        $field = new xmldb_field('default_return_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'default_departure_time');
+
+        // Conditionally launch add field default_return_time.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019031000, 'local', 'mxschool');
     }
-
-    // Define field start_offset to be added to local_mxschool_weekend.
-    $table = new xmldb_table('local_mxschool_weekend');
-    $field = new xmldb_field('start_offset', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '-1', 'type');
-
-    // Conditionally launch add field start_offset.
-    if (!$dbman->field_exists($table, $field)) {
-        $dbman->add_field($table, $field);
-    }
-
-    // Define field end_time to be dropped from local_mxschool_weekend.
-    $table = new xmldb_table('local_mxschool_weekend');
-    $field = new xmldb_field('end_time');
-
-    // Conditionally launch drop field end_time.
-    if ($dbman->field_exists($table, $field)) {
-        $dbman->drop_field($table, $field);
-    }
-
-    // Define field end_offset to be added to local_mxschool_weekend.
-    $table = new xmldb_table('local_mxschool_weekend');
-    $field = new xmldb_field('end_offset', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'start_offset');
-
-    // Conditionally launch add field end_offset.
-    if (!$dbman->field_exists($table, $field)) {
-        $dbman->add_field($table, $field);
-    }
-
-    // Mxschool savepoint reached.
-    upgrade_plugin_savepoint(true, 2018090506, 'local', 'mxschool');
-}
 
     return true;
 }

@@ -35,19 +35,22 @@ class site_table extends local_mxschool_table {
      * Creates a new site_table.
      */
     public function __construct() {
-        $columns = array('name', 'type', 'departureenabled', 'returnenabled');
+        $columns = array('name', 'type', 'departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
         $headers = array();
         foreach ($columns as $column) {
             $headers[] = get_string("vacation_travel_site_report_header_{$column}", 'local_mxschool');
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $fields = array('s.id', 's.name', 's.type', 's.enabled_departure AS departureenabled', 's.enabled_return AS returnenabled');
+        $fields = array(
+            's.id', 's.name', 's.type', 's.enabled_departure AS departureenabled', 's.enabled_return AS returnenabled',
+            's.default_departure_time AS defaultdeparturetime', 's.default_return_time AS defaultreturntime'
+        );
         $from = array('{local_mxschool_vt_site} s');
         $where = array('s.deleted = 0');
         $sortable = array('name', 'type');
         $urlparams = array();
-        $centered = array('departureenabled', 'returnenabled');
+        $centered = array('departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
         parent::__construct('site_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
     }
 
@@ -64,6 +67,13 @@ class site_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the default departure time column to 'n/j/y g:i A'.
+     */
+    protected function col_defaultdeparturetime($values) {
+        return $values->defaultdeparturetime ? date('n/j/y g:i A', $values->defaultdeparturetime) : '-';
+    }
+
+    /**
      * Formats the return enabled column to a checkbox.
      */
     protected function col_returnenabled($values) {
@@ -73,6 +83,13 @@ class site_table extends local_mxschool_table {
             $values->id, 'local_mxschool_vt_site', 'enabled_return', $values->returnenabled
         );
         return $output->render($renderable);
+    }
+
+    /**
+     * Formats the default return time column to 'n/j/y g:i A'.
+     */
+    protected function col_defaultreturntime($values) {
+        return $values->defaultreturntime ? date('n/j/y g:i A', $values->defaultreturntime) : '-';
     }
 
     /**

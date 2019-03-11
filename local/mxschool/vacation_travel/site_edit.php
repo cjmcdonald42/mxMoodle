@@ -47,7 +47,8 @@ $title = get_string('vacation_travel_site_edit', 'local_mxschool');
 setup_mxschool_page($url, $title, $parents);
 
 $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'fields' => array(
-    'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled'
+    'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled',
+    'default_departure_time' => 'defaultdeparturetime', 'default_return_time' => 'defaultreturntime'
 )));
 
 if ($id && !$DB->record_exists('local_mxschool_vt_site', array('id' => $id))) {
@@ -63,6 +64,12 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+    if (!$data->defaultdeparturetime) {
+        $data->defaultdeparturetime = null;
+    }
+    if (!$data->defaultreturntime) {
+        $data->defaultreturntime = null;
+    }
     update_record($queryfields, $data);
     logged_redirect(
         $form->get_redirect(), $data->id ? get_string('vacation_travel_site_edit_success', 'local_mxschool')

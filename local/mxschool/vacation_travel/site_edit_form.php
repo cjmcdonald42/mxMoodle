@@ -39,13 +39,22 @@ class site_edit_form extends local_mxschool_form {
 
         $typeoptions = array('Plane' => 'Plane', 'Train' => 'Train', 'Bus' => 'Bus', 'NYC Direct' => 'NYC Direct');
 
+        $dateparameters = array(
+            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
+            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
+            'timezone'  => core_date::get_server_timezone_object(),
+            'optional' => true
+        );
+
         $fields = array(
             '' => array('id' => parent::ELEMENT_HIDDEN_INT),
             'site' => array(
                 'name' => parent::ELEMENT_TEXT_REQUIRED,
                 'type' => array('element' => 'select', 'options' => $typeoptions, 'rules' => array('required')),
                 'departureenabled' => parent::ELEMENT_BOOLEAN_REQUIRED,
-                'returnenabled' => parent::ELEMENT_BOOLEAN_REQUIRED
+                'defaultdeparturetime' => array('element' => 'date_time_selector', 'parameters' => $dateparameters),
+                'returnenabled' => parent::ELEMENT_BOOLEAN_REQUIRED,
+                'defaultreturntime' => array('element' => 'date_time_selector', 'parameters' => $dateparameters)
             )
         );
         parent::set_fields($fields, 'vacation_travel_site_edit');
