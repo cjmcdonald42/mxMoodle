@@ -567,9 +567,9 @@ function get_current_driver_list($ignore = 0) {
         "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename FROM {local_mxschool_esignout} es
          LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
          WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.time_created >= ? AND es.sign_in_time IS NULL
-         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND (
-             SELECT COUNT(id) FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
-         ) = 0 ORDER BY name ASC, es.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
+         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND NOT EXISTS (
+             SELECT id FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
+         ) ORDER BY name ASC, es.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
     );
     return convert_records_to_list($drivers);
 }
@@ -599,11 +599,11 @@ function get_student_with_advisor_form_enabled_list() {
 function get_student_without_advisor_form_list() {
     global $DB;
     $year = (int)date('Y') - 1;
-    $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? " s.admission_year = {$year}" : ' s.grade <> 12';
+    $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? "s.admission_year = {$year}" : 's.grade <> 12';
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND (SELECT COUNT(id) FROM {local_mxschool_adv_selection} WHERE userid = s.userid) = 0 AND$where
+         WHERE u.deleted = 0 AND NOT EXISTS (SELECT id FROM {local_mxschool_adv_selection} WHERE userid = s.userid) AND $where
          ORDER BY name"
     );
     return convert_records_to_list($students);
@@ -636,9 +636,9 @@ function get_student_without_rooming_form_list() {
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' AND (
-             SELECT COUNT(id) FROM {local_mxschool_rooming} WHERE userid = s.userid
-         ) = 0 ORDER BY name"
+         WHERE u.deleted = 0 AND s.grade <> 12 AND s.boarding_status_next_year = 'Boarder' AND NOT EXISTS (
+             SELECT id FROM {local_mxschool_rooming} WHERE userid = s.userid
+         ) ORDER BY name"
     );
     return convert_records_to_list($students);
 }
@@ -692,9 +692,9 @@ function get_student_without_vacation_travel_form_list() {
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND (
-             SELECT COUNT(id) FROM {local_mxschool_vt_trip} WHERE userid = s.userid
-         ) = 0 ORDER BY name"
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND NOT EXISTS (
+             SELECT id FROM {local_mxschool_vt_trip} WHERE userid = s.userid
+         ) ORDER BY name"
     );
     return convert_records_to_list($students);
 }

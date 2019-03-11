@@ -70,8 +70,9 @@ class weekend_calculator_table extends local_mxschool_table {
             $headers1[] = $date->format('m/d');
             $fields[] = "CASE
                 WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'free' THEN '$free'
-                WHEN (SELECT COUNT(id) FROM {local_mxschool_weekend_form} WHERE weekendid = $weekend->id AND userid = s.userid
-                                                                                AND active = 1) = 1 THEN '$offcampus'
+                WHEN EXISTS (
+                    SELECT id FROM {local_mxschool_weekend_form} WHERE weekendid = $weekend->id AND userid = s.userid AND active = 1
+                ) THEN '$offcampus'
                 WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'closed' THEN '$closed'
                 ELSE ''
             END AS weekend_$weekend->id";
