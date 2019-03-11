@@ -60,12 +60,13 @@ class tutoring_table extends local_mxschool_table {
             's.id', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 'tu.firstname AS tfirstname',
             'tu.alternatename AS talternatename', "CONCAT(su.lastname, ', ', su.firstname) AS student", 'su.firstname',
             'su.alternatename', 's.tutoring_date AS tutoringdate', 'd.name AS department', 'c.name AS course', 's.topic',
-            't.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
+            'ty.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
         );
         $from = array(
             '{local_peertutoring_session} s', '{user} tu ON s.tutorid = tu.id', '{user} su ON s.studentid = su.id',
-            '{local_peertutoring_course} c ON s.courseid = c.id', '{local_peertutoring_dept} d ON c.departmentid = d.id',
-            '{local_peertutoring_type} t ON s.typeid = t.id', '{local_peertutoring_rating} r ON s.ratingid = r.id'
+            '{local_peertutoring_tutor} t ON s.tutorid = t.userid', '{local_peertutoring_course} c ON s.courseid = c.id',
+            '{local_peertutoring_dept} d ON c.departmentid = d.id', '{local_peertutoring_type} ty ON s.typeid = ty.id',
+            '{local_peertutoring_rating} r ON s.ratingid = r.id'
         );
         if ($filter->date) {
             $starttime = new DateTime('now', core_date::get_server_timezone_object());
@@ -74,8 +75,8 @@ class tutoring_table extends local_mxschool_table {
             $endtime->modify('+1 day');
         }
         $where = array(
-            's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', $filter->tutor ? "tu.id = {$filter->tutor}" : '',
-            $filter->department ? "d.id = {$filter->department}" : '', $filter->type ? "t.id = {$filter->type}" : '',
+            's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0', $filter->tutor ? "tu.id = {$filter->tutor}" : '',
+            $filter->department ? "d.id = {$filter->department}" : '', $filter->type ? "ty.id = {$filter->type}" : '',
             $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
             $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
         );
@@ -87,7 +88,7 @@ class tutoring_table extends local_mxschool_table {
         $centered = array('tutoringdate');
         $searchable = array(
             'tu.lastname', 'tu.firstname', 'tu.alternatename', 'su.lastname', 'su.firstname', 'su.alternatename', 'd.name',
-            'c.name', 's.topic', 't.displaytext', 's.other', 'r.displaytext'
+            'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext'
         );
         parent::__construct(
             'tutoring_table', $columns, $headers, $sortable, 'tutoringdate', $fields, $from, $where, $urlparams, $centered,

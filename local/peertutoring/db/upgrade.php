@@ -30,5 +30,20 @@ function xmldb_local_peertutoring_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
+    if ($oldversion < 2019031000) {
+
+        // Define field deleted to be added to local_peertutoring_tutor.
+        $table = new xmldb_table('local_peertutoring_tutor');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'userid');
+
+        // Conditionally launch add field deleted.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2019031000, 'local', 'peertutoring');
+    }
+
     return true;
 }

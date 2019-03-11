@@ -57,6 +57,8 @@ $string['rating_edit_success'] = 'Effectiveness Rating Record Updated Successful
 $string['tutoring_form_success'] = 'Tutoring Form Submitted Successfully';
 
 $string['table_delete_failure'] = 'Table Not Found for Record Deletion';
+$string['tutor_delete_success'] = 'Tutor Record Deleted Successfully';
+$string['tutor_delete_failure'] = 'Tutor Record Not Found for Deletion';
 $string['department_delete_success'] = 'Department Record Deleted Successfully';
 $string['department_delete_failure'] = 'Department Record Not Found for Deletion';
 $string['course_delete_success'] = 'Course Record Deleted Successfully';

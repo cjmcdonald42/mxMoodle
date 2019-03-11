@@ -51,7 +51,7 @@ class tutor_table extends local_mxschool_table {
             't.id', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 'u.firstname', 'u.alternatename', 't.departments'
         );
         $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
-        $where = array('u.deleted = 0');
+        $where = array('u.deleted = 0', 't.deleted = 0');
         $sortable = array('tutor');
         $urlparams = array();
         parent::__construct('tutor_table', $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
@@ -79,7 +79,7 @@ class tutor_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/peertutoring/tutor_edit.php', $values->id);
+        return $this->edit_icon('/local/peertutoring/tutor_edit.php', $values->id).$this->delete_icon($values->id, 'tutor');
     }
 
 }

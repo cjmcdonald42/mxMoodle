@@ -47,7 +47,7 @@ $title = get_string('tutor_edit', 'local_peertutoring');
 setup_mxschool_page($url, $title, $parents);
 
 $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 'fields' => array(
-    'id', 'userid' => 'student', 'departments'
+    'id', 'userid' => 'student', 'departments', 'deleted'
 )));
 
 if ($id && !$DB->record_exists('local_peertutoring_tutor', array('id' => $id))) {
@@ -73,6 +73,11 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->departments = json_encode($data->departments);
+    $existingdeletedid = $DB->get_field('local_peertutoring_tutor', 'id', array('userid' => $data->student));
+    if ($existingdeletedid) {
+        $data->id = $existingdeletedid;
+        $data->deleted = 0;
+    }
     update_record($queryfields, $data);
     logged_redirect(
         $form->get_redirect(), $data->id ? get_string('tutor_edit_success', 'local_peertutoring')

@@ -54,6 +54,9 @@ setup_mxschool_page($url, $title, $parents);
 
 if ($action === 'delete' && $id && $table) {
     switch($table) {
+        case 'tutor':
+            $dbtable = 'local_peertutoring_tutor';
+            break;
         case 'department':
             $dbtable = 'local_peertutoring_dept';
             break;
