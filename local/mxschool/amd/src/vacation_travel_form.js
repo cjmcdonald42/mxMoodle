@@ -137,6 +137,7 @@ define(
                             depMonthSelect.prop('disabled', true);
                             depYearSelect.prop('disabled', true);
                             depCalendar.hide();
+                            dayOfWeek();
                         } else {
                             depHourSelect.prop('disabled', false);
                             depMinuteSelect.prop('disabled', false);
@@ -241,6 +242,7 @@ define(
                                 retMonthSelect.prop('disabled', true);
                                 retYearSelect.prop('disabled', true);
                                 retCalendar.hide();
+                                dayOfWeek();
                             } else {
                                 retHourSelect.prop('disabled', false);
                                 retMinuteSelect.prop('disabled', false);
@@ -261,15 +263,57 @@ define(
                 }
             }).fail(notification.exception);
         }
+        function dayOfWeek() {
+            var depYearSelect = $('.mx-form select#id_dep_variable_date_year');
+            var depMonthSelect = $('.mx-form select#id_dep_variable_date_month');
+            var depDaySelect = $('.mx-form select#id_dep_variable_date_day');
+            var depDate = new Date(depYearSelect.val(), depMonthSelect.val() - 1, depDaySelect.val());
+            var depDayOfWeek = depDate.toLocaleDateString('en-US', {weekday: 'long'});
+            var depDateDiv = $('.mx-form div[data-groupname="dep_variable_date"]');
+            if ($(depDateDiv[0].previousSibling).text().trim() !== '') {
+                depDateDiv[0].previousSibling.remove();
+            }
+            depDateDiv.before('&nbsp;' + depDayOfWeek + '&nbsp;');
+
+            var retYearSelect = $('.mx-form select#id_ret_variable_date_year');
+            var retMonthSelect = $('.mx-form select#id_ret_variable_date_month');
+            var retDaySelect = $('.mx-form select#id_ret_variable_date_day');
+            var retDate = new Date(retYearSelect.val(), retMonthSelect.val() - 1, retDaySelect.val());
+            var retDayOfWeek = retDate.toLocaleDateString('en-US', {weekday: 'long'});
+            var retDateDiv = $('.mx-form div[data-groupname="ret_variable_date"]');
+            if ($(retDateDiv[0].previousSibling).text().trim() !== '') {
+                retDateDiv[0].previousSibling.remove();
+            }
+            retDateDiv.before('&nbsp;' + retDayOfWeek + '&nbsp;');
+        }
         return function() {
-            $(document).ready(update);
+            $(document).ready(function() {
+                update();
+                dayOfWeek();
+            });
             $('div[data-groupname="dep_mxtransportation"]').change(update);
             $('div[data-groupname="dep_type"]').change(update);
             $('div[data-groupname="dep_site"]').change(update);
+            $('div[data-groupname="dep_variable_date"]').change(dayOfWeek);
+            $('a#id_dep_variable_date_calendar').on('click', function(){
+                setTimeout(function(){
+                    $('div#dateselector-calendar-panel td').on('click', function(){
+                        setTimeout(dayOfWeek, 100);
+                    });
+                }, 100);
+            });
             if ($('.mx-form fieldset#id_return').length) {
                 $('div[data-groupname="ret_mxtransportation"]').change(update);
                 $('div[data-groupname="ret_type"]').change(update);
                 $('div[data-groupname="ret_site"]').change(update);
+                $('div[data-groupname="ret_variable_date"]').change(dayOfWeek);
+                $('a#id_ret_variable_date_calendar').on('click', function(){
+                    setTimeout(function(){
+                        $('div#dateselector-calendar-panel td').on('click', function(){
+                            setTimeout(dayOfWeek, 100);
+                        });
+                    }, 100);
+                });
             }
         };
     }
