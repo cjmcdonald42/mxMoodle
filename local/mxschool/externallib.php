@@ -580,20 +580,22 @@ class local_mxschool_external extends external_api {
         return new external_function_parameters(array('departure' => new external_single_structure(array(
             'mxtransportation' => new external_value(
                 PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
-            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL)
+            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
+            'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
         )), 'return' => new external_single_structure(array(
             'mxtransportation' => new external_value(
                 PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
-            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL)
+            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
+            'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
         ))));
     }
 
     /**
      * Queries the database to determine the available types and sites for a particular selection
-     * as well as a list of students who have not completed the form.
+     * as well as any default times and a list of students who have not completed the form.
      *
-     * @param stdClass $departure Object which may have properties mxtransportation and type.
-     * @param stdClass $return Object which may have properties mxtransportation and type.
+     * @param stdClass $departure Object which may have properties mxtransportation, type, and site.
+     * @param stdClass $return Object which may have properties mxtransportation, type, and site.
      * @return stdClass With properties students, departure, and return.
      */
     public static function get_vacation_travel_options($departure, $return) {
@@ -618,6 +620,9 @@ class local_mxschool_external extends external_api {
         foreach ($list as $id => $name) {
             $result->departure->sites[] = (string)$id;
         }
+        $result->departure->default = get_site_default_departure_time(
+            isset($params['departure']['site']) ? $params['departure']['site'] : null
+        );
         $result->return = new stdClass();
         $result->return->types = get_vacation_travel_type_list(
             isset($params['return']['mxtransportation']) ? $params['return']['mxtransportation'] : null
@@ -627,6 +632,9 @@ class local_mxschool_external extends external_api {
         foreach ($list as $id => $name) {
             $result->return->sites[] = (string)$id;
         }
+        $result->return->default = get_site_default_return_time(
+            isset($params['return']['site']) ? $params['return']['site'] : null
+        );
         return $result;
     }
 
@@ -646,13 +654,41 @@ class local_mxschool_external extends external_api {
                     new external_value(PARAM_TEXT, 'the type which is available given the filter')
                 ), 'sites' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
-                )
+                ), 'default' => new external_single_structure(array(
+                    'year' => new external_value(
+                        PARAM_TEXT, 'the year of the default time for the transportation if applicable'
+                    ), 'month' => new external_value(
+                        PARAM_TEXT, 'the month of the default time for the transportation if applicable'
+                    ), 'day' => new external_value(
+                        PARAM_TEXT, 'the day of the default time for the transportation if applicable'
+                    ), 'hour' => new external_value(
+                        PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
+                    ), 'minute' => new external_value(
+                        PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
+                    ), 'ampm' => new external_value(
+                        PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
+                    )
+                ))
             )), 'return' => new external_single_structure(array(
                 'types' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the type which is available given the filter')
                 ), 'sites' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
-                )
+                ), 'default' => new external_single_structure(array(
+                    'year' => new external_value(
+                        PARAM_TEXT, 'the year of the default time for the transportation if applicable'
+                    ), 'month' => new external_value(
+                        PARAM_TEXT, 'the month of the default time for the transportation if applicable'
+                    ), 'day' => new external_value(
+                        PARAM_TEXT, 'the day of the default time for the transportation if applicable'
+                    ), 'hour' => new external_value(
+                        PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
+                    ), 'minute' => new external_value(
+                        PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
+                    ), 'ampm' => new external_value(
+                        PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
+                    )
+                ))
             ))
         ));
     }

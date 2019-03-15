@@ -108,7 +108,7 @@ $functions = array(
         'methodname' => 'get_vacation_travel_options',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Queries the database to determine the available types and sites for a particular selection'
-                         .'as well as a list of students who have not completed the form.',
+                         .'as well as any default times and a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
     )

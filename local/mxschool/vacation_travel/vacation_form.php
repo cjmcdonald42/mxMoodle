@@ -117,7 +117,12 @@ class vacation_form extends local_mxschool_form {
             if (!isset($data['dep_type'])) {
                 $errors['dep_type'] = get_string('vacation_travel_form_error_notype', 'local_mxschool');
             } else {
-                $depdatetime = generate_timestamp($data, 'dep_variable');
+                if (isset($data['dep_site'])) {
+                    $depdefault = $DB->get_field(
+                        'local_mxschool_vt_site', 'default_departure_time', array('id' => $data['dep_site'])
+                    );
+                }
+                $depdatetime = $depdefault ?: generate_timestamp($data, 'dep_variable');
                 if ($data['dep_mxtransportation'] && !isset($data['dep_site'])) {
                     if ($data['dep_type'] === 'Plane') {
                         $errors['dep_site'] = get_string('vacation_travel_form_error_noairport', 'local_mxschool');
@@ -159,7 +164,12 @@ class vacation_form extends local_mxschool_form {
                 if (!isset($data['ret_type'])) {
                     $errors['ret_type'] = get_string('vacation_travel_form_error_notype', 'local_mxschool');
                 } else {
-                    $retdatetime = generate_timestamp($data, 'ret_variable');
+                    if (isset($data['ret_site'])) {
+                        $retdefault = $DB->get_field(
+                            'local_mxschool_vt_site', 'default_return_time', array('id' => $data['ret_site'])
+                        );
+                    }
+                    $retdatetime = $retdefault ?: generate_timestamp($data, 'ret_variable');
                     if ($data['ret_mxtransportation'] && !isset($data['ret_site'])) {
                         if ($data['ret_type'] === 'Plane') {
                             $errors['ret_site'] = get_string('vacation_travel_form_error_noairport', 'local_mxschool');

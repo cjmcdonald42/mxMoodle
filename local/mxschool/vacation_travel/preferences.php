@@ -51,6 +51,8 @@ if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_vt_site', array('id' => $id));
     if ($record) {
         $record->deleted = 1;
+        $record->enabled_departure = 0;
+        $record->enabled_return = 0;
         $DB->update_record('local_mxschool_vt_site', $record);
         logged_redirect(
             new moodle_url($url), get_string('vacation_travel_site_delete_success', 'local_mxschool'), 'delete'

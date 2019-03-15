@@ -30,18 +30,22 @@ define(
             var returnEnabled = $('.mx-form fieldset#id_return').length;
             var depMXTransportationChecked = $('.mx-form div[data-groupname="dep_mxtransportation"] input:checked');
             var depTypeChecked = $('.mx-form div[data-groupname="dep_type"] input:checked');
+            var depSiteChecked = $('.mx-form div[data-groupname="dep_site"] input:checked');
             var retMXTransportationChecked = $('.mx-form div[data-groupname="ret_mxtransportation"] input:checked');
             var retTypeChecked = $('.mx-form div[data-groupname="ret_type"] input:checked');
+            var retSiteChecked = $('.mx-form div[data-groupname="ret_site"] input:checked');
             var promises = ajax.call([{
                 methodname: 'local_mxschool_get_vacation_travel_options',
                 args: {
                     departure: {
                         mxtransportation: depMXTransportationChecked.length ? depMXTransportationChecked.val() == 1 : undefined,
-                        type: depTypeChecked.length ? depTypeChecked.val() : undefined
+                        type: depTypeChecked.length ? depTypeChecked.val() : undefined,
+                        site: depSiteChecked.length ? depSiteChecked.val() : undefined
                     }, return: {
                         mxtransportation: returnEnabled && retMXTransportationChecked.length
                             ? retMXTransportationChecked.val() == 1 : undefined,
-                        type: returnEnabled && retTypeChecked.length ? retTypeChecked.val() : undefined
+                        type: returnEnabled && retTypeChecked.length ? retTypeChecked.val() : undefined,
+                        site: retSiteChecked.length ? retSiteChecked.val() : undefined
                     }
                 }
             }]);
@@ -112,6 +116,36 @@ define(
                     $.when(str.get_string('vacation_travel_form_departure_dep_variable' + suffix, 'local_mxschool'))
                     .done(function(text) {
                         depTimeDiv.children().eq(0).text(text);
+                        var depHourSelect = $('.mx-form select#id_dep_variable_time_hour');
+                        var depMinuteSelect = $('.mx-form select#id_dep_variable_time_minute');
+                        var depAMPMSelect = $('.mx-form select#id_dep_variable_time_ampm');
+                        var depDaySelect = $('.mx-form select#id_dep_variable_date_day');
+                        var depMonthSelect = $('.mx-form select#id_dep_variable_date_month');
+                        var depYearSelect = $('.mx-form select#id_dep_variable_date_year');
+                        var depCalendar = $('.mx-form a#id_dep_variable_date_calendar');
+                        if (data.departure.default.year) {
+                            depHourSelect.val(data.departure.default.hour);
+                            depMinuteSelect.val(data.departure.default.minute);
+                            depAMPMSelect.val(data.departure.default.ampm ? 1 : 0);
+                            depDaySelect.val(data.departure.default.day);
+                            depMonthSelect.val(data.departure.default.month);
+                            depYearSelect.val(data.departure.default.year);
+                            depHourSelect.prop('disabled', true);
+                            depMinuteSelect.prop('disabled', true);
+                            depAMPMSelect.prop('disabled', true);
+                            depDaySelect.prop('disabled', true);
+                            depMonthSelect.prop('disabled', true);
+                            depYearSelect.prop('disabled', true);
+                            depCalendar.hide();
+                        } else {
+                            depHourSelect.prop('disabled', false);
+                            depMinuteSelect.prop('disabled', false);
+                            depAMPMSelect.prop('disabled', false);
+                            depDaySelect.prop('disabled', false);
+                            depMonthSelect.prop('disabled', false);
+                            depYearSelect.prop('disabled', false);
+                            depCalendar.show();
+                        }
                         depTimeDiv.show();
                     });
                     if (depType === 'Plane' && depMXTransportation === '1') {
@@ -186,6 +220,36 @@ define(
                         $.when(str.get_string('vacation_travel_form_return_ret_variable' + suffix, 'local_mxschool'))
                         .done(function(text) {
                             retTimeDiv.children().eq(0).text(text);
+                            var retHourSelect = $('.mx-form select#id_ret_variable_time_hour');
+                            var retMinuteSelect = $('.mx-form select#id_ret_variable_time_minute');
+                            var retAMPMSelect = $('.mx-form select#id_ret_variable_time_ampm');
+                            var retDaySelect = $('.mx-form select#id_ret_variable_date_day');
+                            var retMonthSelect = $('.mx-form select#id_ret_variable_date_month');
+                            var retYearSelect = $('.mx-form select#id_ret_variable_date_year');
+                            var retCalendar = $('.mx-form a#id_ret_variable_date_calendar');
+                            if (data.return.default.year) {
+                                retHourSelect.val(data.return.default.hour);
+                                retMinuteSelect.val(data.return.default.minute);
+                                retAMPMSelect.val(data.return.default.ampm ? 1 : 0);
+                                retDaySelect.val(data.return.default.day);
+                                retMonthSelect.val(data.return.default.month);
+                                retYearSelect.val(data.return.default.year);
+                                retHourSelect.prop('disabled', true);
+                                retMinuteSelect.prop('disabled', true);
+                                retAMPMSelect.prop('disabled', true);
+                                retDaySelect.prop('disabled', true);
+                                retMonthSelect.prop('disabled', true);
+                                retYearSelect.prop('disabled', true);
+                                retCalendar.hide();
+                            } else {
+                                retHourSelect.prop('disabled', false);
+                                retMinuteSelect.prop('disabled', false);
+                                retAMPMSelect.prop('disabled', false);
+                                retDaySelect.prop('disabled', false);
+                                retMonthSelect.prop('disabled', false);
+                                retYearSelect.prop('disabled', false);
+                                retCalendar.show();
+                            }
                             retTimeDiv.show();
                         });
                         if (retType === 'Plane' && retMXTransportation === '1') {

@@ -151,7 +151,13 @@ if ($form->is_cancelled()) {
             $returndata->{substr($key, 4)} = $value;
         }
     }
-    $departuredata->variable_date = generate_timestamp($departuredata, 'variable');
+    if (isset($departuredata->site)) {
+        $departuredefault = $DB->get_field(
+            'local_mxschool_vt_site', 'default_departure_time', array('id' => $departuredata->site)
+        );
+    }
+    // If there is a default time, the time from the form is nonsense.
+    $departuredata->variable_date = $departuredefault ?: generate_timestamp($departuredata, 'variable');
     if (!$departuredata->mxtransportation) {
         $departuredata->site = null;
         $departuredata->international = null;
@@ -168,7 +174,13 @@ if ($form->is_cancelled()) {
     }
     $data->departureid = update_record($transportqueryfields, $departuredata);
     if ($returnenabled) {
-        $returndata->variable_date = generate_timestamp($returndata, 'variable');
+        if (isset($returndata->site)) {
+            $returndefault = $DB->get_field(
+                'local_mxschool_vt_site', 'default_return_time', array('id' => $returndata->site)
+            );
+        }
+        // If there is a default time, the time from the form is nonsense.
+        $returndata->variable_date = $returndefault ?: generate_timestamp($returndata, 'variable');
         if (!$returndata->mxtransportation) {
             $returndata->site = null;
             $returndata->international = null;

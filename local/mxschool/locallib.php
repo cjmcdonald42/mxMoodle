@@ -852,56 +852,6 @@ function get_esignout_date_list() {
 }
 
 /**
- * Creates a list of all the vacation travel types given a filter.
- *
- * @param bool|null $mxtransportation Whether types for mx transportation or non-mx transportaion should be returned.
- * @return array The vacation travel types in an indexed array.
- */
-function get_vacation_travel_type_list($mxtransportation = null) {
-    return isset($mxtransportation) ? (
-        $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
-    ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
-}
-
-/**
- * Queries the database to create a list of all the vacation travel departure sites of a particular type.
- *
- * @param string|null $type The type to filter by, if no type is provided all will be returned.
- * @return array The vacation travel departure sites as id => name, ordered alphabetically by site name.
- */
-function get_vacation_travel_departure_sites_list($type = null) {
-    global $DB;
-    $filter = $type ? "AND type = '{$type}'" : '';
-    $sites = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_departure = 1 {$filter} ORDER BY name"
-    );
-    $list = convert_records_to_list($sites);
-    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
-        $list += array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the vacation travel return sites of a particular type.
- *
- * @param string $type The type to filter by, if no type is provided all will be returned.
- * @return array The vacation travel return sites as id => name, ordered alphabetically by site name.
- */
-function get_vacation_travel_return_sites_list($type = null) {
-    global $DB;
-    $filter = $type ? "AND type = '{$type}'" : '';
-    $sites = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_return = 1 {$filter} ORDER BY name"
-    );
-    $list = convert_records_to_list($sites);
-    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
-        $list += array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
-    }
-    return $list;
-}
-
-/**
  * Adds default weekend records for all Sundays between two timestamps.
  *
  * @param int $starttime The timestamp for the beginning of the range.
@@ -1060,4 +1010,116 @@ function get_roomtype_list($gender = '') {
         $roomtypes['Quad'] = get_string('room_type_quad', 'local_mxschool');
     }
     return $roomtypes;
+}
+
+
+
+/**
+ * Creates a list of all the vacation travel types given a filter.
+ *
+ * @param bool|null $mxtransportation Whether types for mx transportation or non-mx transportaion should be returned.
+ * @return array The vacation travel types in an indexed array.
+ */
+function get_vacation_travel_type_list($mxtransportation = null) {
+    return isset($mxtransportation) ? (
+        $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
+    ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
+}
+
+/**
+ * Queries the database to create a list of all the vacation travel departure sites of a particular type.
+ *
+ * @param string|null $type The type to filter by, if no type is provided all will be returned.
+ * @return array The vacation travel departure sites as id => name, ordered alphabetically by site name.
+ */
+function get_vacation_travel_departure_sites_list($type = null) {
+    global $DB;
+    $filter = $type ? "AND type = '{$type}'" : '';
+    $sites = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_departure = 1 {$filter} ORDER BY name"
+    );
+    $list = convert_records_to_list($sites);
+    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
+        $list += array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the vacation travel return sites of a particular type.
+ *
+ * @param string $type The type to filter by, if no type is provided all will be returned.
+ * @return array The vacation travel return sites as id => name, ordered alphabetically by site name.
+ */
+function get_vacation_travel_return_sites_list($type = null) {
+    global $DB;
+    $filter = $type ? "AND type = '{$type}'" : '';
+    $sites = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_return = 1 {$filter} ORDER BY name"
+    );
+    $list = convert_records_to_list($sites);
+    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
+        $list += array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
+    }
+    return $list;
+}
+
+/**
+ * Retrieves the default departure time for a vacation travel site.
+ *
+ * @param int $site The id of the site.
+ * @return stdClass Object with properties year, month, day, hour, minute, ampm.
+ */
+function get_site_default_departure_time($site) {
+    global $DB;
+    $default = $DB->get_field_sql(
+        "SELECT default_departure_time FROM {local_mxschool_vt_site} WHERE id = ? AND deleted = 0 AND enabled_departure = 1",
+        array($site)
+    );
+    return enumerate_timestamp($default);
+}
+
+/**
+ * Retrieves the default return time for a vacation travel site.
+ *
+ * @param int $site The id of the site.
+ * @return stdClass Object with properties year, month, day, hour, minute, ampm.
+ */
+function get_site_default_return_time($site) {
+    global $DB;
+    $default = $DB->get_field_sql(
+        "SELECT default_return_time FROM {local_mxschool_vt_site} WHERE id = ? AND deleted = 0 AND enabled_return = 1",
+        array($site)
+    );
+    return enumerate_timestamp($default);
+}
+
+/**
+ * Helper method to convert a timestamp into an object.
+ *
+ * @param int $timestamp The timestamp to convert.
+ * @return stdClass Object with properties year, month, day, hour, minute, ampm.
+ */
+function enumerate_timestamp($timestamp) {
+    $result = new stdClass();
+    if ($timestamp) {
+        $time = new DateTime('now', core_date::get_server_timezone_object());
+        $time->setTimestamp($timestamp);
+        $result->year = $time->format('Y');
+        $result->month = $time->format('n');
+        $result->day = $time->format('j');
+        $result->hour = $time->format('g');
+        $minute = $time->format('i');
+        $minute -= $minute % 15;
+        $result->minute = "{$minute}";
+        $result->ampm = $time->format('A') === 'PM';
+    } else {
+        $result->year = '';
+        $result->month = '';
+        $result->day = '';
+        $result->hour = '';
+        $result->minute = '';
+        $result->ampm = false;
+    }
+    return $result;
 }
