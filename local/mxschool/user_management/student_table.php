@@ -140,9 +140,10 @@ class student_table extends local_mxschool_table {
      */
     protected function col_actions($values) {
         return (
-            $this->type === 'students' ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id)
-            : $this->type === 'permissions' ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->sid)
-            : $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id)
+            $this->type === 'students' ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id) : (
+                $this->type === 'permissions' ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->sid)
+                : $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id)
+            )
         );
     }
 
