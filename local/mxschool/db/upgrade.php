@@ -54,5 +54,34 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019031000, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019052201) {
+
+        // Define key return (foreign-unique) to be dropped form local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('return', XMLDB_KEY_FOREIGN_UNIQUE, array('returnid'), 'local_mxschool_vt_transport', array('id'));
+
+        // Launch drop key return.
+        $dbman->drop_key($table, $key);
+
+        // Changing nullability of field returnid on table local_mxschool_vt_trip to null.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $field = new xmldb_field('returnid', XMLDB_TYPE_INTEGER, '10', null, null, null, '0', 'departureid');
+
+        // Launch change of nullability for field returnid.
+        $dbman->change_field_notnull($table, $field);
+
+        // Define key return (foreign-unique) to be added to local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('return', XMLDB_KEY_FOREIGN_UNIQUE, array('returnid'), 'local_mxschool_vt_transport', array('id'));
+
+        // Launch add key return.
+        $dbman->add_key($table, $key);
+
+        $DB->set_field('local_mxschool_vt_trip', 'returnid', null, array('returnid' => 0));
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019052201, 'local', 'mxschool');
+    }
+
     return true;
 }
