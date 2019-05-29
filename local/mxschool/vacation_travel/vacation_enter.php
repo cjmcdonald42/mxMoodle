@@ -201,7 +201,7 @@ if ($form->is_cancelled()) {
         }
         $data->returnid = update_record($transportqueryfields, $returndata);
     } else {
-        $data->returnid = 0;
+        $data->returnid = null;
     }
     $id = update_record($tripqueryfields, $data);
     $result = mx_notifications::send_email('vacation_travel_submitted', array('id' => $id));

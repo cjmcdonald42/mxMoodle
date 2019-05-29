@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20190311" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20190522" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -250,7 +250,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
         <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the departure record associated with this record - 0 indicates no departure record."/>
-        <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the return record associated with this record - 0 indicates no return record."/>
+        <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the return record associated with this record - null indicates no return record."/>
         <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
@@ -260,7 +260,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="student" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
         <KEY NAME="departure" TYPE="foreign-unique" FIELDS="departureid" REFTABLE="local_mxschool_vt_transport" REFFIELDS="id" COMMENT="The departure record associated with this record."/>
-        <KEY NAME="return" TYPE="foreign-unique" FIELDS="returnid" REFTABLE="local_mxschool_vt_transport" REFFIELDS="id" COMMENT="The return record associated with this record."/>
+        <KEY NAME="return" TYPE="foreign-unique" FIELDS="returnid" REFTABLE="local_mxschool_vt_transport" REFFIELDS="id" COMMENT="The return record associated with this record, if there is one."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_weekend" COMMENT="mxschool weekend table - stores data associated with each weekend for use with weekend check-in reports and weekend forms.">
