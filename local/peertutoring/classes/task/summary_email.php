@@ -28,7 +28,7 @@ namespace local_peertutoring\task;
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once(__DIR__.'/../../../mxschool/classes/mx_notifications.php');
+require_once(__DIR__.'/../../../mxschool/classes/mx_notification.php');
 
 use \core\task\scheduled_task;
 use \DateTime;

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
 require_once('locallib.php');
-require_once('classes/mx_notifications.php');
+require_once('classes/mx_notification.php');
 
 class local_mxschool_external extends external_api {
 
@@ -54,6 +54,7 @@ class local_mxschool_external extends external_api {
      * @param int $id The id of the record to update.
      * @param bool $value The value to set.
      * @return bool True if the operation is succesful, false otherwise.
+     * @throws moodle_exception If the table does not exist.
      */
     public static function set_boolean_field($table, $field, $id, $value) {
         external_api::validate_context(context_system::instance());
@@ -71,7 +72,7 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
                 break;
             default:
-                throw new moodle_exception('Invalid table.');
+                throw new moodle_exception("Invalid table: {$params['table']}.");
         }
 
         global $DB;
@@ -112,6 +113,7 @@ class local_mxschool_external extends external_api {
      * @param string $emailclass The class of the email to send.
      * @param array $emailparams Parameters for the email.
      * @return bool True if the email is successfully sent, false otherwise.
+     * @throws moodle_exception If the email class does not exist.
      */
     public static function send_email($emailclass, $emailparams) {
         external_api::validate_context(context_system::instance());
@@ -133,7 +135,7 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 break;
             default:
-                throw new moodle_exception('Invalid email class.');
+                throw new moodle_exception("Invalid email class: {$params['emailclass']}.");
         }
 
         return mx_notifications::send_email($params['emailclass'], $params['emailparams']);

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification system for Middlesex School's Dorm and Student functions plugin.
+ * Generic email notification for all of the emails sent by Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -27,6 +27,107 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../locallib.php');
+
+class local_mxschool_notification {
+
+    /** @var string $subject The subject line of the email.*/
+    private $subject;
+    /** @var string $body The body text of the email.*/
+    private $body;
+    /** @var array $data The data for the email as [placeholder => value] */
+    private $data;
+    /** @var array $recipients The recipients for the email with string properties email and salutationname */
+    private $recipients;
+
+    /**
+     * @param string $emailclass The class of the email as specified in the local_mxschool_notification database table.
+     * @throws coding_exception If the email class does not exist.
+     */
+    public function __construct($emailclass) {
+        global $DB;
+        $record = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
+        if (!$record) {
+            throw new coding_exception("Invalid email class: {$emailclass}.");
+        }
+        $this->subject = $record->subject;
+        $this->body = $record->$body_html;
+        $this->data = array();
+    }
+
+    /**
+     * Generates the subject line for the email with replacements.
+     *
+     * @param array $recipientdata Additional substitutions as [placeholder => value].
+     * @return string The processed subject line.
+     */
+    final public function get_subject($recipientdata) {
+        return self::replace_placeholders($this->subject, array_merge($this->data, $recipientdata));
+    }
+
+    /**
+     * Generates the body text for the email with replacements.
+     *
+     * @param array $recipientdata Additional substitutions as [placeholder => value].
+     * @return string The processed body text.
+     */
+    final public function get_body($recipientdata) {
+        return self::replace_placeholders($this->body, array_merge($this->data, $recipientdata));
+    }
+
+    /**
+     * Sends the notification emails to all of the specified recipients.
+     *
+     * @return bool A value of true if all emails send successfully, false otherwise.
+     * @throws coding_exception If any recipient has a non-valid email or
+     *                          if any recipient has no non-empty salutationname, alternatename, or firstname field.
+     */
+    final public function send_emails() {
+        $supportuser = core_user::get_support_user();
+        $result = true;
+        foreach ($recipients as $recipient) {
+            if (empty($recipient->email)) {
+                throw new coding_exception('Recipient has no email address.');
+            }
+            if (empty($recipient->salutationname) && empty($recipient->alternatename) && empty($recipient->firstname)) {
+                throw new coding_exception('Recipient has no valid option for salutation.');
+            }
+            $redirect = get_config('local_mxschool', 'email_redirect');
+            $recipientdata = array(
+                'email' => !empty($redirect) ? $redirect : $recipient->email,
+                'addressee' => !empty($recipient->salutationname) ? $recipient->salutationname : (
+                    !empty($recipient->alternatename) ? $recipient->alternatename : $recipient->firstname
+                )
+            );
+            $subject = $this->get_subject($recipientdata);
+            $body = $this->get_body($recipientdata);
+            $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
+        }
+        return $result;
+    }
+
+    /**
+     * @return array The list of strings which can serve as tags for the notification.
+     */
+    public function get_tags() {
+        return array('email', 'addressee');
+    }
+
+    /**
+     * Substitutes placeholders with values in an arbitrary string.
+     *
+     * @param string $string The string with placeholders.
+     * @param stdClass|array $replacements The substitutions to make as [placeholder => value].
+     * @return string The original string with the substitutions having been made.
+     */
+    final private static function replace_placeholders($string, $replacements) {
+        $replacements = (array)$replacements;
+        foreach ($replacements as $placeholder => $value) {
+            $string = str_replace("{{$placeholder}}", $value, $string);
+        }
+        return $string;
+    }
+
+}
 
 class mx_notifications {
 
@@ -74,10 +175,10 @@ class mx_notifications {
                 $replacements = new stdClass();
                 $replacements->hoh = $record->hohname;
                 $replacements->permissionsline = $record->permissionsline;
-                $record->instructions = self::replace($instructions, $replacements);
+                $record->instructions = self::replace_placeholders($instructions, $replacements);
 
-                $subject = self::replace($notification->subject, $record);
-                $body = self::replace($notification->body_html, $record);
+                $subject = self::replace_placeholders($notification->subject, $record);
+                $body = self::replace_placeholders($notification->body_html, $record);
                 $emailto = array(
                     $DB->get_record('user', array('id' => $record->student)), $DB->get_record('user', array('id' => $record->hoh))
                 );
@@ -152,8 +253,8 @@ class mx_notifications {
                 }
                 $record->irregular = $emaildeans ? get_config('local_mxschool', 'esignout_notification_warning_irregular') : '';
 
-                $subject = self::replace($notification->subject, $record);
-                $body = self::replace($notification->body_html, $record);
+                $subject = self::replace_placeholders($notification->subject, $record);
+                $body = self::replace_placeholders($notification->body_html, $record);
                 $users = $DB->get_record_sql(
                     "SELECT es.userid AS student, es.approverid AS approver, d.hohid AS hoh
                      FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
@@ -262,8 +363,8 @@ class mx_notifications {
                 $record->retnumber = isset($record->retnumber) ? $record->retnumber : '-';
                 $record->retinternational = isset($record->retinternational) ? $record->retinternational : '-';
                 $record->retdatetime = date('n/j/y g:i A', $record->retvariable);
-                $subject = self::replace($notification->subject, $record);
-                $body = self::replace($notification->body_html, $record);
+                $subject = self::replace_placeholders($notification->subject, $record);
+                $body = self::replace_placeholders($notification->body_html, $record);
                 $transportationmanager = clone $supportuser;
                 $transportationmanager->email = get_config('local_mxschool', 'email_transportationmanager');
                 $emailto = array($DB->get_record('user', array('id' => $record->student)), $transportationmanager);
@@ -291,8 +392,8 @@ class mx_notifications {
                     "SELECT COUNT(id) AS total FROM {local_peertutoring_session} WHERE time_modified >= ?",
                    array($time->getTimestamp())
                 );
-                $subject = self::replace($notification->subject, $record);
-                $body = self::replace($notification->body_html, $record);
+                $subject = self::replace_placeholders($notification->subject, $record);
+                $body = self::replace_placeholders($notification->body_html, $record);
                 $peertutoradmin = clone $supportuser;
                 $peertutoradmin->email = get_config('local_peertutoring', 'email_peertutoradmin');
                 $emailto = array($peertutoradmin);
@@ -302,21 +403,6 @@ class mx_notifications {
         }
         \local_mxschool\event\email_sent::create(array('other' => array('emailclass' => $emailclass)))->trigger();
         return self::email_all($emailto, $subject, $body);
-    }
-
-    /**
-     * Substitutes values for placeholders.
-     *
-     * @param string $string The string with placeholders.
-     * @param stdClass|array $replacements The substitutions to make as [placeholder => value].
-     * @return string The original string with the substitutions.
-     */
-    private static function replace($string, $replacements) {
-        $replacements = (array)$replacements;
-        foreach ($replacements as $placeholder => $value) {
-            $string = str_replace("{{$placeholder}}", $value, $string);
-        }
-        return $string;
     }
 
     /**
@@ -337,11 +423,26 @@ class mx_notifications {
             if (!empty(get_config('local_mxschool', 'email_redirect'))) {
                 $recipient->email = get_config('local_mxschool', 'email_redirect');
             }
-            $emailsubject = self::replace($subject, $recipient->replacements);
-            $emailbody = self::replace($body, $recipient->replacements);
+            $emailsubject = self::replace_placeholders($subject, $recipient->replacements);
+            $emailbody = self::replace_placeholders($body, $recipient->replacements);
             $result &= email_to_user($recipient, $supportuser, $emailsubject, '', $emailbody);
         }
         return $result;
+    }
+
+    /**
+     * Substitutes placeholders with values in an arbitrary string.
+     *
+     * @param string $string The string with placeholders.
+     * @param stdClass|array $replacements The substitutions to make as [placeholder => value].
+     * @return string The original string with the substitutions having been made.
+     */
+    private static function replace_placeholders($string, $replacements) {
+        $replacements = (array)$replacements;
+        foreach ($replacements as $placeholder => $value) {
+            $string = str_replace("{{$placeholder}}", $value, $string);
+        }
+        return $string;
     }
 
 }
