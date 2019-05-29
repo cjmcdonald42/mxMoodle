@@ -20,7 +20,7 @@
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -40,7 +40,7 @@ use html_writer;
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class index implements renderable, templatable {
@@ -82,7 +82,7 @@ class index implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report implements renderable, templatable {
@@ -129,7 +129,7 @@ class report implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report_table implements renderable, templatable {
@@ -170,7 +170,7 @@ class report_table implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report_filter implements renderable, templatable {
@@ -245,7 +245,7 @@ class report_filter implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class form implements renderable, templatable {
@@ -290,7 +290,7 @@ class form implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class amd_module implements renderable, templatable {
@@ -324,7 +324,7 @@ class amd_module implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class checkbox implements renderable, templatable {
@@ -373,7 +373,7 @@ class checkbox implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class legend_table implements renderable, templatable {
@@ -407,7 +407,7 @@ class legend_table implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class email_button implements renderable, templatable {
@@ -456,7 +456,7 @@ class email_button implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class signin_button implements renderable, templatable {
@@ -490,7 +490,7 @@ class signin_button implements renderable, templatable {
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2018, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class selection_button implements renderable, templatable {
