@@ -26,14 +26,11 @@
 
 namespace local_peertutoring\task;
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../../mxschool/classes/mx_notification.php');
+require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
 
 use \core\task\scheduled_task;
-use \DateTime;
-use \core_date;
-use \mx_notifications;
 
 class summary_email extends scheduled_task {
 
@@ -49,12 +46,12 @@ class summary_email extends scheduled_task {
      */
     public function execute() {
         global $DB;
-        $time = new DateTime('now', core_date::get_server_timezone_object());
+        $time = new \DateTime('now', \core_date::get_server_timezone_object());
         $time->modify('-1 day');
         if ($DB->record_exists_sql(
             "SELECT id FROM {local_peertutoring_session} WHERE deleted = 0 AND time_modified >= ?", array($time->getTimestamp())
         )) {
-            mx_notifications::send_email('peer_tutor_summary');
+            \mx_notifications::send_email('peer_tutor_summary');
         }
     }
 

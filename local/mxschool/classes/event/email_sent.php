@@ -26,10 +26,9 @@
 
 namespace local_mxschool\event;
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
 use \core\event\base;
-use \context_system;
 
 class email_sent extends base {
 
@@ -39,7 +38,7 @@ class email_sent extends base {
     protected function init() {
         $this->data['crud'] = 'u';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->context = context_system::instance();
+        $this->context = \context_system::instance();
     }
 
     /**
