@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Peer Tutoring Subplugin.
+ * Email notifications for Middlesex School's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,11 +24,23 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_peertutoring\local;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2019053000;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2019010100);
+require_once(__DIR__.'/../../mxschool/classes/notification/mx_notification.php');
+
+use local_peertutoring\local\notification;
+
+/**
+ * Email notification to the peer tutor admin with a summary of that day's tutoring for Middlesex School's Peer Tutoring Subplugin.
+ *
+ * @package    local_peertutoring
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class peer_tutoring_summary extends notification {
+    // TODO: Implement summary notification.
+}

@@ -15,20 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Peer Tutoring Subplugin.
+ * Email notifications for the eSignout subpackage of Middlesex School's Dorm and Student functions plugin.
  *
- * @package    local_peertutoring
+ * @package    local_mxschool
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\local\esignout;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2019053000;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2019010100);
+require_once('mx_notification.php');
+
+use local_mxschool\local\notification;
+
+/**
+ * Email notification for when an eSignout form is submitted for Middlesex School's Dorm and Student functions plugin.
+ *
+ * @package    local_mxschool
+ * @subpackage esignout
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class esignout_submitted extends notification {
+    // TODO: Implement submission notification.
+}
