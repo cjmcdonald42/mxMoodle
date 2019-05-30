@@ -30,7 +30,32 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../mxschool/classes/notification/mx_notification.php');
 
-use local_peertutoring\local\notification;
+use local_peertutoring\local\notification as mx_notification;
+
+/**
+ * Generic email notification for Middlesex School's Peer Tutoring Subplugin.
+ *
+ * @package    local_peertutoring
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class notification extends mx_notification {
+
+    /**
+     * Generates a user object to which emails should be sent to reach the deans.
+     * @return stdClass The deans user object.
+     */
+    final protected static function get_peertutoradmin_user() {
+        $supportuser = \core_user::get_support_user();
+        $peertutoradmin = clone $supportuser;
+        $peertutoradmin->email = get_config('local_peertutoring', 'email_peertutoradmin');
+        $peertutoradmin->addresseename = get_config('local_peertutoring', 'addressee_peertutoradmin');
+        return $peertutoradmin;
+    }
+
+}
 
 /**
  * Email notification to the peer tutor admin with a summary of that day's tutoring for Middlesex School's Peer Tutoring Subplugin.
@@ -41,6 +66,6 @@ use local_peertutoring\local\notification;
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class peer_tutoring_summary extends notification {
+class daily_summary extends notification {
     // TODO: Implement summary notification.
 }

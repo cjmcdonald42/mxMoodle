@@ -28,8 +28,10 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
 require_once('locallib.php');
-require_once('classes/notification/mx_notification.php');
 require_once('classes/notification/checkin.php');
+require_once('classes/notification/advisor_selection.php');
+require_once('classes/notification/rooming.php');
+require_once('classes/notification/vacation_travel.php');
 
 class local_mxschool_external extends external_api {
 
@@ -126,20 +128,20 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
                 return (new \local_mxschool\local\checkin\weekend_form_approved($params['emailparams']['id']))->send();
             case 'advisor_selection_notify_unsubmitted':
+                require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
+                return (new \local_mxschool\local\advisor_selection\notify_unsubmitted())->send();
             case 'advisor_selection_notify_results':
                 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
-                break;
+                return (new \local_mxschool\local\advisor_selection\notify_results())->send();
             case 'rooming_notify_unsubmitted':
                 require_capability('local/mxschool:manage_rooming', context_system::instance());
-                break;
+                return (new \local_mxschool\local\rooming\notify_unsubmitted())->send();
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
-                break;
+                return (new \local_mxschool\local\vacation_travel\notify_unsubmitted())->send();
             default:
                 throw new coding_exception("Invalid email class: {$params['emailclass']}.");
         }
-
-        return mx_notifications::send_email($params['emailclass'], $params['emailparams']);
     }
 
     /**

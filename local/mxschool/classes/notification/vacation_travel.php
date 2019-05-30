@@ -43,7 +43,7 @@ use local_mxschool\local\notification;
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class vacation_travel_selection_submitted extends notification {
+class submitted extends notification {
     // TODO: Implement submission notification.
 }
 
@@ -58,6 +58,6 @@ class vacation_travel_selection_submitted extends notification {
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class vacation_travel_notify_unsubmitted extends notification {
+class notify_unsubmitted extends notification {
     // TODO: Implement reminder notification.
 }

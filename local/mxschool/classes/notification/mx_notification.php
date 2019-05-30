@@ -87,7 +87,7 @@ class notification {
      *
      * @return bool A value of true if all emails send successfully, false otherwise.
      * @throws coding_exception If any recipient has a non-valid email or
-     *                          if any recipient has no non-empty salutationname, alternatename, or firstname field.
+     *                          if any recipient has no non-empty addresseename, alternatename, or firstname field.
      */
     final public function send() {
         $supportuser = \core_user::get_support_user();
@@ -96,23 +96,32 @@ class notification {
             if (empty($recipient->email)) {
                 throw new \coding_exception('Recipient has no email address.');
             }
-            if (empty($recipient->salutationname) && empty($recipient->alternatename) && empty($recipient->firstname)) {
+            if (empty($recipient->addresseename) && (empty($recipient->lastname) || empty($recipient->firstname))) {
                 throw new \coding_exception('Recipient has no valid option for salutation.');
             }
+            $recipientdata = array('email' => $recipient->email);
+            if (!empty($recipient->addresseename)) {
+                $recipientdata['addresseeshort'] = $recipientdata['addresseelong'] = $recipient->addresseename;
+            } else {
+                $recipientdata['addresseeshort'] = !empty($recipient->alternatename)
+                    ? $recipient->alternatename : $recipient->firstname;
+                $recipientdata['addresseelong'] = "{$recipient->lastname}, {$recipient->firstname}" . (
+                    !empty($recipient->alternatename) && $recipient->alternatename !== $recipient->firstname
+                        ? " ({$recipient->alternatename})" : ''
+                );
+            }
+            if (!empty($recipient->replacements)) {
+                $recipientdata += $recipient->replacements;
+            }
+            $subject = $this->get_subject($recipientdata);
+            $body = $this->get_body($recipientdata);
             $redirect = get_config('local_mxschool', 'email_redirect');
             if (!empty($redirect)) {
                 $recipient->email = $redirect;
             }
-            $recipientdata = array('email' => $recipient->email, 'addressee' =>
-                !empty($recipient->salutationname) ? $recipient->salutationname : (
-                    !empty($recipient->alternatename) ? $recipient->alternatename : $recipient->firstname
-                )
-            );
-            $subject = $this->get_subject($recipientdata);
-            $body = $this->get_body($recipientdata);
             $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
+            email_sent::create(array('other' => array('emailclass' => $this->emailclass)))->trigger();
         }
-        email_sent::create(array('other' => array('emailclass' => $this->emailclass)))->trigger();
         return $result;
     }
 
@@ -120,7 +129,31 @@ class notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array('email', 'addressee');
+        return array('email', 'addresseeshort', 'addresseelong');
+    }
+
+    /**
+     * Generates a user object to which emails should be sent to reach the deans.
+     * @return stdClass The deans user object.
+     */
+    final protected static function get_deans_user() {
+        $supportuser = \core_user::get_support_user();
+        $deans = clone $supportuser;
+        $deans->email = get_config('local_mxschool', 'email_deans');
+        $deans->addresseename = get_config('local_mxschool', 'addressee_deans');
+        return $deans;
+    }
+
+    /**
+     * Generates a user object to which emails should be sent to reach the transportation manager.
+     * @return stdClass The deans user object.
+     */
+    final protected static function get_transportationmanager_user() {
+        $supportuser = \core_user::get_support_user();
+        $transportationmanager = clone $supportuser;
+        $transportationmanager->email = get_config('local_mxschool', 'email_transportationmanager');
+        $transportationmanager->addresseename = get_config('local_mxschool', 'addressee_transportationmanager');
+        return $transportationmanager;
     }
 
     /**
@@ -152,8 +185,6 @@ class notification {
 //     public static function send_email($emailclass, $params = array()) {
 //         global $DB;
 //         $supportuser = core_user::get_support_user();
-//         $deans = clone $supportuser;
-//         $deans->email = get_config('local_mxschool', 'email_deans');
 //         $notification = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
 //         if (!$notification) {
 //             return false;
@@ -245,57 +276,6 @@ class notification {
 //                 );
 //                 if ($emaildeans) {
 //                     $emailto[] = $deans;
-//                 }
-//                 break;
-//             case 'advisor_selection_notify_unsubmitted':
-//                 $subject = $notification->subject;
-//                 $body = $notification->body_html;
-//                 $emailto = array($deans);
-//                 $list = get_student_without_advisor_form_list();
-//                 foreach ($list as $userid => $name) {
-//                     $record = $DB->get_record('user', array('id' => $userid));
-//                     $record->replacements = array(
-//                         'studentname' => "{$record->lastname}, {$record->firstname}" . (
-//                             !empty($record->alternatename) && $record->alternatename !== $record->firstname
-//                                 ? " ({$record->alternatename})" : ''
-//                         ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename
-//                     );
-//                     $emailto[] = $record;
-//                 }
-//                 break;
-//             case 'advisor_selection_notify_results':
-//                 $subject = $notification->subject;
-//                 $body = $notification->body_html;
-//                 $emailto = array($deans);
-//                 $list = get_new_student_advisor_pair_list();
-//                 foreach ($list as $suserid => $auserid) {
-//                     $student = $DB->get_record('user', array('id' => $suserid));
-//                     $advisor = $DB->get_record('user', array('id' => $auserid));
-//                     $student->replacements = $advisor->replacements = array(
-//                         'studentname' => "{$student->lastname}, {$student->firstname}" . (
-//                             !empty($student->alternatename) && $student->alternatename !== $student->firstname
-//                                 ? " ({$student->alternatename})" : ''
-//                         ), 'salutation' => empty($student->alternatename) ? $student->firstname : $student->alternatename,
-//                         'advisorname' => "{$advisor->firstname} {$advisor->lastname}"
-//                     );
-//                     $emailto[] = $student;
-//                     $emailto[] = $advisor;
-//                 }
-//                 break;
-//             case 'rooming_notify_unsubmitted':
-//                 $subject = $notification->subject;
-//                 $body = $notification->body_html;
-//                 $emailto = array($deans);
-//                 $list = get_student_without_rooming_form_list();
-//                 foreach ($list as $userid => $name) {
-//                     $record = $DB->get_record('user', array('id' => $userid));
-//                     $record->replacements = array(
-//                         'studentname' => "{$record->lastname}, {$record->firstname}" . (
-//                             !empty($record->alternatename) && $record->alternatename !== $record->firstname
-//                                 ? " ({$record->alternatename})" : ''
-//                         ), 'salutation' => empty($record->alternatename) ? $record->firstname : $record->alternatename
-//                     );
-//                     $emailto[] = $record;
 //                 }
 //                 break;
 //             case 'vacation_travel_submitted':

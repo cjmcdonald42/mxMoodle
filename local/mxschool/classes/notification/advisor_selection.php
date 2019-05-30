@@ -43,7 +43,7 @@ use local_mxschool\local\notification;
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class advisor_selection_submitted extends notification {
+class submitted extends notification {
     // TODO: Implement submission notification.
 }
 
@@ -58,8 +58,18 @@ class advisor_selection_submitted extends notification {
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class advisor_selection_notify_unsubmitted extends notification {
-    // TODO: Implement reminder notification.
+class notify_unsubmitted extends notification {
+
+    public function __construct() {
+        global $DB;
+        parent::__construct('advisor_selection_notify_unsubmitted');
+        $list = get_student_without_advisor_form_list();
+        foreach ($list as $userid => $name) {
+            $this->recipients[] = $DB->get_record('user', array('id' => $userid));
+        }
+        $this->recipients[] = self::get_deans_user();
+    }
+
 }
 
 /**
@@ -73,6 +83,31 @@ class advisor_selection_notify_unsubmitted extends notification {
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class advisor_selection_notify_results extends notification {
-    // TODO: Implement results notification.
+class notify_results extends notification {
+
+    public function __construct() {
+        global $DB;
+        parent::__construct('advisor_selection_notify_results');
+        $list = get_new_student_advisor_pair_list();
+        foreach ($list as $suserid => $auserid) {
+            $student = $DB->get_record('user', array('id' => $suserid));
+            $advisor = $DB->get_record('user', array('id' => $auserid));
+            $student->replacements = $advisor->replacements = array(
+                'studentname' => "{$student->lastname}, {$student->firstname}" . (
+                    !empty($student->alternatename) && $student->alternatename !== $student->firstname
+                        ? " ({$student->alternatename})" : ''
+                ), 'advisorname' => "{$advisor->firstname} {$advisor->lastname}"
+            );
+            array_push($this->recipients, $student, $advisor);
+        }
+        $this->recipients[] = self::get_deans_user();
+    }
+
+    /**
+     * @return array The list of strings which can serve as tags for the notification.
+     */
+    public function get_tags() {
+        return array_merge(array('studentname', 'advisorname'), parent::get_tags());
+    }
+
 }

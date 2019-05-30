@@ -36,6 +36,8 @@ $string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View 
 $string['settings'] = 'Peer Tutoring Settings';
 $string['peertutoradmin_email'] = 'Peer Tutor Admin Email';
 $string['peertutoradmin_email_description'] = 'The email address to send summary emails for peer tutoring.';
+$string['peertutoradmin_addressee'] = 'Peer Tutor Admin Addressee Name';
+$string['peertutoradmin_addressee_description'] = 'The name to use when addressing the peer tutor admin in a email notification.';
 
 $string['peertutoring_index'] = 'Peer Tutoring Index';
 

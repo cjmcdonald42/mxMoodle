@@ -79,8 +79,12 @@ $string['email_redirect'] = 'Redirect Email';
 $string['email_redirect_description'] = 'The email address to redirect to for debugging - if empty emails will be sent to actual recipients.';
 $string['deans_email'] = 'Deans Email';
 $string['deans_email_description'] = 'The email address to send notifications to the deans.';
+$string['deans_addressee'] = 'Deans Addressee Name';
+$string['deans_addressee_description'] = 'The name to use when addressing the deans in a email notification.';
 $string['transportationmanager_email'] = 'Transportation Manager Email';
 $string['transportationmanager_email_description'] = 'The email address to send notifications to the transportation manager.';
+$string['transportationmanager_addressee'] = 'Transportation Manager Addressee Name';
+$string['transportationmanager_addressee_description'] = 'The name to use when addressing the transportation manager in a email notification.';
 
 $string['other_settings'] = 'Other Settings';
 $string['school_ip'] = 'Middlesex Network IP';
