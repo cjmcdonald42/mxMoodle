@@ -53,6 +53,7 @@ abstract class weekend_form_base extends notification {
     public function __construct($emailclass, $id) {
         global $DB;
         parent::__construct($emailclass);
+
         $record = $DB->get_record_sql(
             "SELECT s.userid AS student, u.firstname, u.lastname, u.alternatename, wf.departure_date_time AS departuretime,
                     wf.return_date_time AS returntime, wf.destination, wf.transportation, wf.phone_number AS phone,
@@ -87,8 +88,9 @@ abstract class weekend_form_base extends notification {
         $this->data['hohname'] = $record->hohname;
         $this->data['permissionsline'] = $record->permissionsline;
 
-        $this->recipients = array(
-            $DB->get_record('user', array('id' => $record->student)), $DB->get_record('user', array('id' => $record->hoh))
+        array_push(
+            $this->recipients, $DB->get_record('user', array('id' => $record->student)),
+            $DB->get_record('user', array('id' => $record->hoh))
         );
     }
 

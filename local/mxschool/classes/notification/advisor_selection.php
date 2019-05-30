@@ -63,6 +63,7 @@ class notify_unsubmitted extends notification {
     public function __construct() {
         global $DB;
         parent::__construct('advisor_selection_notify_unsubmitted');
+
         $list = get_student_without_advisor_form_list();
         foreach ($list as $userid => $name) {
             $this->recipients[] = $DB->get_record('user', array('id' => $userid));
@@ -88,6 +89,7 @@ class notify_results extends notification {
     public function __construct() {
         global $DB;
         parent::__construct('advisor_selection_notify_results');
+
         $list = get_new_student_advisor_pair_list();
         foreach ($list as $suserid => $auserid) {
             $student = $DB->get_record('user', array('id' => $suserid));

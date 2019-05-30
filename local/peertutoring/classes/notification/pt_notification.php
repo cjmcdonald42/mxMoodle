@@ -28,9 +28,12 @@ namespace local_peertutoring\local;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../mxschool/classes/notification/mx_notification.php');
+require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
+require_once(__DIR__.'/../../../mxschool/classes/output/renderable.php');
+require_once(__DIR__.'/../../tutoring_table.php');
 
-use local_peertutoring\local\notification as mx_notification;
+use local_mxschool\local\notification as mx_notification;
+use \local_mxschool\output\report;
 
 /**
  * Generic email notification for Middlesex School's Peer Tutoring Subplugin.
@@ -41,7 +44,7 @@ use local_peertutoring\local\notification as mx_notification;
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class notification extends mx_notification {
+abstract class notification extends mx_notification {
 
     /**
      * Generates a user object to which emails should be sent to reach the deans.
@@ -67,5 +70,34 @@ class notification extends mx_notification {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class daily_summary extends notification {
-    // TODO: Implement summary notification.
+
+    public function __construct() {
+        global $DB, $PAGE;
+        parent::__construct('peer_tutor_summary');
+
+        $time = new \DateTime('now', \core_date::get_server_timezone_object());
+        $time->modify('-1 day');
+        $record = $DB->get_record_sql(
+            "SELECT COUNT(id) AS total FROM {local_peertutoring_session} WHERE time_modified >= ?",
+            array($time->getTimestamp())
+        );
+        $filter = new \stdClass();
+        $filter->date = $time->getTimestamp();
+        $table = new \tutoring_table($filter, '');
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\report($table);
+
+        $this->data['total'] = $record->total;
+        $this->data['table'] = $output->render($renderable);
+
+        $this->recipients[] = self::get_peertutoradmin_user();
+    }
+
+    /**
+     * @return array The list of strings which can serve as tags for the notification.
+     */
+    public function get_tags() {
+        return array_merge(array('total', 'table'), parent::get_tags());
+    }
+
 }

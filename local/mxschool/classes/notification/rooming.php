@@ -63,6 +63,7 @@ class notify_unsubmitted extends notification {
     public function __construct() {
         global $DB;
         parent::__construct('rooming_notify_unsubmitted');
+
         $list = get_student_without_rooming_form_list();
         foreach ($list as $userid => $name) {
             $this->recipients[] = $DB->get_record('user', array('id' => $userid));
