@@ -168,6 +168,24 @@ function update_record($queryfields, $data) {
 }
 
 /**
+ * Retrieves the notification record of a particular class from the database.
+ * Creates the record if it does not exist already.
+ *
+ * @param string $emailclass The class of the email to be retrieved.
+ * @return stdClass The notification record object.
+ */
+function get_notification($emailclass) {
+    global $DB;
+    if (!$DB->record_exists('local_mxschool_notification', array('class' => $emailclass))) {
+        $record = new stdClass();
+        $record->class = $emailclass;
+        $record->body_html = '';
+        $DB->insert_record('local_mxschool_notification', $record);
+    }
+    return $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
+}
+
+/**
  * Updates a notification record in the database or inserts it if it doesn't already exist.
  *
  * @param string $class The class identifier of the notification.
@@ -187,6 +205,16 @@ function update_notification($class, $subject, $body) {
     } else {
         $DB->insert_record('local_mxschool_notification', $record);
     }
+}
+
+/**
+ * Converts a boolean value to a 'yes' or 'no' language string.
+ *
+ * @param bool $boolean The boolean value.
+ * @return string The language appropriate 'yes' or 'no' value.
+ */
+function boolean_to_yes_no($boolean) {
+    return $boolean ? get_string('yes') : get_string('no');
 }
 
 /**

@@ -109,7 +109,7 @@ class rooming_table extends local_mxschool_table {
      * Formats the lived double column to "Yes" / "No".
      */
     protected function col_liveddouble($values) {
-        return isset($values->liveddouble) ? ($values->liveddouble ? get_string('yes') : get_string('no')) : '';
+        return isset($values->liveddouble) ? boolean_to_yes_no($values->liveddouble) : '';
     }
 
     /**

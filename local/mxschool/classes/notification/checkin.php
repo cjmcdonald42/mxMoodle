@@ -72,7 +72,7 @@ abstract class weekend_form_base extends notification {
         $replacements->hoh = $record->hohname;
         $replacements->permissionsline = $record->permissionsline;
 
-        $this->data['studentname'] = "{$record->lastname}, {$record->firstname}".(
+        $this->data['studentname'] = "{$record->lastname}, {$record->firstname}" . (
             !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
         );
         $this->data['departuretime'] = date('n/j/y g:i A', $record->departuretime);
