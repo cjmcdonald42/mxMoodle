@@ -28,7 +28,7 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/mx_notification.php');
+require_once(__DIR__.'/../classes/notification/esignout.php');
 require_once('esignout_form.php');
 
 require_login();
@@ -152,7 +152,7 @@ if ($form->is_cancelled()) {
         $record->driverid = $id;
         $DB->update_record('local_mxschool_esignout', $record);
     }
-    $result = mx_notifications::send_email('esignout_submitted', array('id' => $id));
+    $result = (new \local_mxschool\local\esignout\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('esignout_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
