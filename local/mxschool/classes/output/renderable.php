@@ -26,13 +26,12 @@
 
 namespace local_mxschool\output;
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
 use renderable;
 use renderer_base;
 use templatable;
 use stdClass;
-use html_writer;
 
 /**
  * Renderable class for indexes.
@@ -47,7 +46,7 @@ class index implements renderable, templatable {
 
     /** @var array $links Array of links [displaytext => url] to be passed to the template.*/
     private $links;
-    /** @var string|bool $heading String to display as a subheading or false. */
+    /** @var string|bool $heading String to display as a subheading or false.*/
     private $heading;
 
     /**
@@ -219,7 +218,7 @@ class report_filter implements renderable, templatable {
         $data->url = $PAGE->url;
         $data->dropdowns = array();
         foreach ($this->dropdowns as $dropdown) {
-            $data->dropdowns[] = html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
+            $data->dropdowns[] = \html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
         }
         $data->searchable = $this->search !== null;
         $data->search = $this->search;

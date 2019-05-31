@@ -39,18 +39,18 @@ class dorm_edit_form extends local_mxschool_form {
         $faculty = $this->_customdata['faculty'];
 
         $fields = array(
-            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
+            '' => array('id' => self::ELEMENT_HIDDEN_INT),
             'dorm' => array(
-                'name' => parent::ELEMENT_TEXT_REQUIRED,
-                'abbreviation' => parent::ELEMENT_TEXT_REQUIRED,
+                'name' => self::ELEMENT_TEXT_REQUIRED,
+                'abbreviation' => self::ELEMENT_TEXT_REQUIRED,
                 'hoh' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
-                'permissionsline' => parent::ELEMENT_TEXT_REQUIRED,
+                'permissionsline' => self::ELEMENT_TEXT_REQUIRED,
                 'type' => array('element' => 'radio', 'options' => array('Boarding', 'Day', 'All'), 'rules' => array('required')),
                 'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'All'), 'rules' => array('required')),
-                'available' => parent::ELEMENT_BOOLEAN_REQUIRED
+                'available' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );
-        parent::set_fields($fields, 'dorm_edit');
+        $this->set_fields($fields, 'dorm_edit');
     }
 
 }

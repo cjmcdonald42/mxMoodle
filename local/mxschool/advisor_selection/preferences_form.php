@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../classes/mx_form.php');
+require_once(__DIR__.'/../classes/notification/advisor_selection.php');
 
 class preferences_form extends local_mxschool_form {
 
@@ -40,35 +41,29 @@ class preferences_form extends local_mxschool_form {
             'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
             'timezone'  => core_date::get_server_timezone_object()
         );
-        $unsubmittedtags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array('email', 'studentname', 'salutation')));
-        $resultstags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array('email', 'studentname', 'salutation', 'advisorname')));
 
         $fields = array(
             'availability' => array(
                 'start' => array('element' => 'group', 'children' => array(
-                    'time' => parent::time_selector(1),
+                    'time' => self::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 )), 'stop' => array('element' => 'group', 'children' => array(
-                    'time' => parent::time_selector(1),
+                    'time' => self::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 )), 'who' => array('element' => 'radio', 'options' => array('new', 'all'), 'rules' => array('required'))
             ), 'notifications' => array(
-                'unsubmittedavailable' => array('element' => 'static', 'text' => $unsubmittedtags),
-                'unsubmittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'unsubmittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'resultsavailable' => array('element' => 'static', 'text' => $resultstags),
-                'resultssubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'resultsbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\notify_unsubmitted()),
+                'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'unsubmitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'results_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\notify_results()),
+                'results_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'results_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
-                'closing_warning' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'instructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'closing_warning' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'instructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'advisor_selection_preferences', true);
+        $this->set_fields($fields, 'advisor_selection_preferences', true);
     }
 
 }

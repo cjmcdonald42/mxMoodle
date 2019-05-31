@@ -28,7 +28,10 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
 require_once('locallib.php');
-require_once('classes/mx_notifications.php');
+require_once('classes/notification/checkin.php');
+require_once('classes/notification/advisor_selection.php');
+require_once('classes/notification/rooming.php');
+require_once('classes/notification/vacation_travel.php');
 
 class local_mxschool_external extends external_api {
 
@@ -54,6 +57,7 @@ class local_mxschool_external extends external_api {
      * @param int $id The id of the record to update.
      * @param bool $value The value to set.
      * @return bool True if the operation is succesful, false otherwise.
+     * @throws coding_exception If the table does not exist.
      */
     public static function set_boolean_field($table, $field, $id, $value) {
         external_api::validate_context(context_system::instance());
@@ -71,7 +75,7 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
                 break;
             default:
-                throw new moodle_exception('Invalid table.');
+                throw new coding_exception("Invalid table: {$params['table']}.");
         }
 
         global $DB;
@@ -112,6 +116,7 @@ class local_mxschool_external extends external_api {
      * @param string $emailclass The class of the email to send.
      * @param array $emailparams Parameters for the email.
      * @return bool True if the email is successfully sent, false otherwise.
+     * @throws coding_exception If the email class does not exist or the specified record does not exist.
      */
     public static function send_email($emailclass, $emailparams) {
         external_api::validate_context(context_system::instance());
@@ -121,22 +126,22 @@ class local_mxschool_external extends external_api {
         switch ($params['emailclass']) {
             case 'weekend_form_approved':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
-                break;
+                return (new \local_mxschool\local\checkin\weekend_form_approved($params['emailparams']['id']))->send();
             case 'advisor_selection_notify_unsubmitted':
+                require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
+                return (new \local_mxschool\local\advisor_selection\notify_unsubmitted())->send();
             case 'advisor_selection_notify_results':
                 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
-                break;
+                return (new \local_mxschool\local\advisor_selection\notify_results())->send();
             case 'rooming_notify_unsubmitted':
                 require_capability('local/mxschool:manage_rooming', context_system::instance());
-                break;
+                return (new \local_mxschool\local\rooming\notify_unsubmitted())->send();
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
-                break;
+                return (new \local_mxschool\local\vacation_travel\notify_unsubmitted())->send();
             default:
-                throw new moodle_exception('Invalid email class.');
+                throw new coding_exception("Invalid email class: {$params['emailclass']}.");
         }
-
-        return mx_notifications::send_email($params['emailclass'], $params['emailparams']);
     }
 
     /**

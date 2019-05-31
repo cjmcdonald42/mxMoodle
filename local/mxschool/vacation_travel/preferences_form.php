@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../classes/mx_form.php');
+require_once(__DIR__.'/../classes/notification/vacation_travel.php');
 
 class preferences_form extends local_mxschool_form {
 
@@ -40,38 +41,28 @@ class preferences_form extends local_mxschool_form {
             'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
             'timezone'  => core_date::get_server_timezone_object()
         );
-        $submitemailtags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array(
-            'email', 'studentname', 'salutation', 'destination', 'phonenumber', 'depmxtransportation', 'deptype', 'depsite',
-            'depdetails', 'depcarriercompany', 'depnumber', 'depdatetime', 'depinternational', 'retmxtransportation', 'rettype',
-            'retsite', 'retdetails', 'retcarriercompany', 'retnumber', 'retdatetime', 'retinternational', 'timesubmitted'
-        )));
-        $unsubmittedtags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array('studentname', 'salutation')));
 
         $fields = array(
             'availability' => array(
                 'start' => array('element' => 'group', 'children' => array(
-                    'time' => parent::time_selector(1),
+                    'time' => self::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 )), 'stop' => array('element' => 'group', 'children' => array(
-                    'time' => parent::time_selector(1),
+                    'time' => self::time_selector(1),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 )), 'returnenabled' => array('element' => 'advcheckbox', 'name' => null, 'text' => get_string(
                         'vacation_travel_preferences_availability_returnenabled_text', 'local_mxschool'
                     ))
             ), 'notifications' => array(
-                'submittedavailable' => array('element' => 'static', 'text' => $submitemailtags),
-                'submittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'submittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'unsubmittedavailable' => array('element' => 'static', 'text' => $unsubmittedtags),
-                'unsubmittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'unsubmittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'submitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\submitted(1)),
+                'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\notify_unsubmitted()),
+                'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'unsubmitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'vacation_travel_preferences', true);
+        $this->set_fields($fields, 'vacation_travel_preferences', true);
     }
 
 }

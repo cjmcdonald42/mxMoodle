@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../classes/mx_form.php');
+require_once(__DIR__.'/../classes/notification/esignout.php');
 
 class preferences_form extends local_mxschool_form {
 
@@ -35,13 +36,6 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
-        $emailtags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array(
-            'email', 'studentname', 'salutation', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime',
-            'timesubmitted', 'approver', 'permissionswarning', 'irregular'
-        )));
-
         $fields = array(
             'config' => array(
                 'editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
@@ -58,28 +52,28 @@ class preferences_form extends local_mxschool_form {
                     )
                 )
             ), 'notifications' => array(
-                'available' => array('element' => 'static', 'text' => $emailtags),
-                'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'tags' => self::email_tags(new \local_mxschool\local\esignout\submitted(1)),
+                'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
-                'ipformerror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'ipreporterror' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'passengerinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'bottominstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'nopassengers' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'needparent' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'onlyspecific' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'confirmation' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'ipformerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'ipreporterror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'passengerinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'bottominstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'nopassengers' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'needparent' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'onlyspecific' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'confirmation' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'emailtext' => array(
-                'irregular' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'driver' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'any' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'parent' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'specific' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'over21' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'irregular' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'driver' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'any' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'parent' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'specific' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'over21' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'esignout_preferences', true);
+        $this->set_fields($fields, 'esignout_preferences', true);
     }
 
 }

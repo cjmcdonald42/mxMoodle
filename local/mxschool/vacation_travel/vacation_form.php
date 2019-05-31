@@ -54,42 +54,42 @@ class vacation_form extends local_mxschool_form {
         );
 
         $fields = array('' => array(
-            'id' => parent::ELEMENT_HIDDEN_INT,
-            'dep_id' => parent::ELEMENT_HIDDEN_INT,
-            'ret_id' => parent::ELEMENT_HIDDEN_INT,
-            'timecreated' => parent::ELEMENT_HIDDEN_INT,
-            'isstudent' => parent::ELEMENT_HIDDEN_INT
+            'id' => self::ELEMENT_HIDDEN_INT,
+            'dep_id' => self::ELEMENT_HIDDEN_INT,
+            'ret_id' => self::ELEMENT_HIDDEN_INT,
+            'timecreated' => self::ELEMENT_HIDDEN_INT,
+            'isstudent' => self::ELEMENT_HIDDEN_INT
         ), 'info' => array(
             'student' => array('element' => 'select', 'options' => $students),
-            'destination' => parent::ELEMENT_TEXT,
-            'phone' => parent::ELEMENT_TEXT
+            'destination' => self::ELEMENT_TEXT,
+            'phone' => self::ELEMENT_TEXT
         ), 'departure' => array(
-            'dep_mxtransportation' => parent::ELEMENT_BOOLEAN,
+            'dep_mxtransportation' => self::ELEMENT_BOOLEAN,
             'dep_type' => array('element' => 'radio', 'options' => $types),
             'dep_site' => array('element' => 'radio', 'options' => $depsites, 'useradioindex' => true),
-            'dep_details' => parent::ELEMENT_TEXT,
-            'dep_carrier' => parent::ELEMENT_TEXT,
-            'dep_number' => parent::ELEMENT_TEXT,
+            'dep_details' => self::ELEMENT_TEXT,
+            'dep_carrier' => self::ELEMENT_TEXT,
+            'dep_number' => self::ELEMENT_TEXT,
             'dep_variable' => array('element' => 'group', 'children' => array(
-                'time' => parent::time_selector(15),
+                'time' => self::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )), 'dep_international' => parent::ELEMENT_BOOLEAN
+            )), 'dep_international' => self::ELEMENT_BOOLEAN
         ));
         if ($this->returnenabled) {
             $fields['return'] = array(
-                'ret_mxtransportation' => parent::ELEMENT_BOOLEAN,
+                'ret_mxtransportation' => self::ELEMENT_BOOLEAN,
                 'ret_type' => array('element' => 'radio', 'options' => $types),
                 'ret_site' => array('element' => 'radio', 'options' => $retsites, 'useradioindex' => true),
-                'ret_details' => parent::ELEMENT_TEXT,
-                'ret_carrier' => parent::ELEMENT_TEXT,
-                'ret_number' => parent::ELEMENT_TEXT,
+                'ret_details' => self::ELEMENT_TEXT,
+                'ret_carrier' => self::ELEMENT_TEXT,
+                'ret_number' => self::ELEMENT_TEXT,
                 'ret_variable' => array('element' => 'group', 'children' => array(
-                    'time' => parent::time_selector(15),
+                    'time' => self::time_selector(15),
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                )), 'ret_international' => parent::ELEMENT_BOOLEAN
+                )), 'ret_international' => self::ELEMENT_BOOLEAN
             );
         }
-        parent::set_fields($fields, 'vacation_travel_form');
+        $this->set_fields($fields, 'vacation_travel_form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');

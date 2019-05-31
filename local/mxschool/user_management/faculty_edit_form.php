@@ -40,22 +40,22 @@ class faculty_edit_form extends local_mxschool_form {
 
         $fields = array(
             '' => array(
-                'id' => parent::ELEMENT_HIDDEN_INT,
-                'userid' => parent::ELEMENT_HIDDEN_INT
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'userid' => self::ELEMENT_HIDDEN_INT
             ), 'faculty' => array(
-                'firstname' => parent::ELEMENT_TEXT_REQUIRED,
-                'middlename' => parent::ELEMENT_TEXT,
-                'lastname' => parent::ELEMENT_TEXT_REQUIRED,
-                'alternatename' => parent::ELEMENT_TEXT,
-                'email' => parent::ELEMENT_EMAIL_REQUIRED,
-                'facultycode' => parent::ELEMENT_TEXT,
+                'firstname' => self::ELEMENT_TEXT_REQUIRED,
+                'middlename' => self::ELEMENT_TEXT,
+                'lastname' => self::ELEMENT_TEXT_REQUIRED,
+                'alternatename' => self::ELEMENT_TEXT,
+                'email' => self::ELEMENT_EMAIL_REQUIRED,
+                'facultycode' => self::ELEMENT_TEXT,
                 'dorm' => array('element' => 'select', 'options' => $dorms),
-                'approvesignout' => parent::ELEMENT_BOOLEAN_REQUIRED,
-                'advisoryavailable' => parent::ELEMENT_BOOLEAN_REQUIRED,
-                'advisoryclosing' => parent::ELEMENT_BOOLEAN_REQUIRED
+                'approvesignout' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'advisoryavailable' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'advisoryclosing' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );
-        parent::set_fields($fields, 'faculty_edit');
+        $this->set_fields($fields, 'faculty_edit');
     }
 
 }

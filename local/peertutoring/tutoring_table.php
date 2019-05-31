@@ -35,9 +35,12 @@ class tutoring_table extends local_mxschool_table {
      *
      * @param stdClass $filter Any filtering for the table - may include tutor, department, type, date, search.
      * @param string $download Indicates whether the table is downloading.
+     * @param bool $email Indicates whether the table should be generated in an email-compatible form.
      */
-    public function __construct($filter, $download) {
-        $this->is_downloading($download, 'Peer Tutoring Records', 'Peer Tutoring Record');
+    public function __construct($filter, $download, $email = false) {
+        if (!$email) {
+            $this->is_downloading($download, 'Peer Tutoring Records', 'Peer Tutoring Record');
+        }
         $columns = array('tutor', 'tutoringdate', 'student', 'department', 'course', 'topic', 'type', 'rating', 'notes');
         if ($filter->tutor) {
             unset($columns[array_search('tutor', $columns)]);
@@ -52,7 +55,7 @@ class tutoring_table extends local_mxschool_table {
         foreach ($columns as $column) {
             $headers[] = get_string("tutoring_report_header_{$column}", 'local_peertutoring');
         }
-        if (!$this->is_downloading()) {
+        if (!$email && !$this->is_downloading()) {
             $columns[] = 'actions';
             $headers[] = get_string('report_header_actions', 'local_mxschool');
         }
@@ -80,7 +83,7 @@ class tutoring_table extends local_mxschool_table {
             $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
             $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
         );
-        $sortable = array('tutor', 'tutoringdate', 'student', 'department', 'course', 'type', 'rating');
+        $sortable = $email ? array() : array('tutor', 'tutoringdate', 'student', 'department', 'course', 'type', 'rating');
         $urlparams = array(
             'tutor' => $filter->tutor, 'department' => $filter->department, 'type' => $filter->type, 'date' => $filter->date,
             'search' => $filter->search

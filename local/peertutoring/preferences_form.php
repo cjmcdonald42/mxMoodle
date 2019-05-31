@@ -27,6 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../mxschool/classes/mx_form.php');
+require_once(__DIR__.'/classes/notification/pt_notification.php');
 
 class preferences_form extends local_mxschool_form {
 
@@ -34,18 +35,14 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
-        $tags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array('email', 'total')));
-
         $fields = array(
             'notifications' => array(
-                'available' => array('element' => 'static', 'text' => $tags),
-                'subject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'body' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'tags' => self::email_tags(new \local_peertutoring\local\daily_summary()),
+                'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
             )
         );
-        parent::set_fields($fields, 'preferences', false, 'local_peertutoring');
+        $this->set_fields($fields, 'preferences', false, 'local_peertutoring');
     }
 
 }

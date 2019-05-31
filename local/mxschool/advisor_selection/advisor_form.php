@@ -40,13 +40,13 @@ class advisor_form extends local_mxschool_form {
         $faculty = $this->_customdata['faculty'];
 
         $fields = array('' => array(
-            'id' => parent::ELEMENT_HIDDEN_INT,
-            'timecreated' => parent::ELEMENT_HIDDEN_INT,
-            'isstudent' => parent::ELEMENT_HIDDEN_INT
+            'id' => self::ELEMENT_HIDDEN_INT,
+            'timecreated' => self::ELEMENT_HIDDEN_INT,
+            'isstudent' => self::ELEMENT_HIDDEN_INT
         ), 'info' => array(
             'student' => array('element' => 'select', 'options' => $students),
             'current' => array('element' => 'static'),
-            'keepcurrent' => parent::ELEMENT_BOOLEAN,
+            'keepcurrent' => self::ELEMENT_BOOLEAN,
             'warning' => array('element' => 'static', 'name' => null)
         ), 'options' => array(
             'instructions' => array('element' => 'static', 'name' => null),
@@ -58,7 +58,7 @@ class advisor_form extends local_mxschool_form {
         ), 'deans' => array(
             'selected' => array('element' => 'select', 'options' => $faculty),
         ));
-        parent::set_fields($fields, 'advisor_form');
+        $this->set_fields($fields, 'advisor_form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');

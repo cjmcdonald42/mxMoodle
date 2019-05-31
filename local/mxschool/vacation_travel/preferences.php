@@ -72,13 +72,13 @@ generate_time_selector_fields($data, 'stop');
 $data->returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $submittednotification = $DB->get_record('local_mxschool_notification', array('class' => 'vacation_travel_submitted'));
 if ($submittednotification) {
-    $data->submittedsubject = $submittednotification->subject;
-    $data->submittedbody['text'] = $submittednotification->body_html;
+    $data->submitted_subject = $submittednotification->subject;
+    $data->submitted_body['text'] = $submittednotification->body_html;
 }
 $unsubmittednotification = $DB->get_record('local_mxschool_notification', array('class' => 'vacation_travel_notify_unsubmitted'));
 if ($unsubmittednotification) {
-    $data->unsubmittedsubject = $unsubmittednotification->subject;
-    $data->unsubmittedbody['text'] = $unsubmittednotification->body_html;
+    $data->unsubmitted_subject = $unsubmittednotification->subject;
+    $data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
 }
 
 $form = new preferences_form();
@@ -91,8 +91,8 @@ if ($form->is_cancelled()) {
     set_config('vacation_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
     set_config('vacation_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
     set_config('vacation_form_returnenabled', $data->returnenabled, 'local_mxschool');
-    update_notification('vacation_travel_submitted', $data->submittedsubject, $data->submittedbody);
-    update_notification('vacation_travel_notify_unsubmitted', $data->unsubmittedsubject, $data->unsubmittedbody);
+    update_notification('vacation_travel_submitted', $data->submitted_subject, $data->submitted_body);
+    update_notification('vacation_travel_notify_unsubmitted', $data->unsubmitted_subject, $data->unsubmitted_body);
     logged_redirect(
         $form->get_redirect(), get_string('vacation_travel_preferences_edit_success', 'local_mxschool'), 'update'
     );

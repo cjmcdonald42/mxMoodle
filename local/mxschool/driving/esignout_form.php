@@ -49,15 +49,15 @@ class esignout_form extends local_mxschool_form {
 
         $fields = array(
             '' => array(
-                'id' => parent::ELEMENT_HIDDEN_INT,
-                'timecreated' => parent::ELEMENT_HIDDEN_INT,
-                'departure_date' => parent::ELEMENT_HIDDEN_INT,
-                'isstudent' => parent::ELEMENT_HIDDEN_INT
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'timecreated' => self::ELEMENT_HIDDEN_INT,
+                'departure_date' => self::ELEMENT_HIDDEN_INT,
+                'isstudent' => self::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'type' => array('element' => 'group', 'children' => array(
                     'select' => array('element' => 'radio', 'options' => $types),
-                    'other' => parent::ELEMENT_TEXT
+                    'other' => self::ELEMENT_TEXT
                 )), 'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
                 ), 'passengerswarning' => array('element' => 'static', 'name' => 'passengers'),
@@ -65,7 +65,7 @@ class esignout_form extends local_mxschool_form {
                 'driver' => array('element' => 'select', 'options' => $drivers)
             ), 'details' => array(
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
-                'departure_time' => parent::time_selector(15),
+                'departure_time' => self::time_selector(15),
                 'approver' => array('element' => 'select', 'options' => $approvers)
             ), 'permissions' => array(
                 'parentwarning' => array('element' => 'static', 'name' => null),
@@ -79,7 +79,7 @@ class esignout_form extends local_mxschool_form {
                 )
             )
         );
-        parent::set_fields($fields, 'esignout_form', false);
+        $this->set_fields($fields, 'esignout_form', false);
 
         $mform = $this->_form;
         $mform->setExpanded('permissions');

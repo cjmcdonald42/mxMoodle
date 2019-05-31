@@ -41,13 +41,13 @@ class rooming_form extends local_mxschool_form {
         $roomtypes = $this->_customdata['roomtypes'];
 
         $fields = array('' => array(
-            'id' => parent::ELEMENT_HIDDEN_INT,
-            'timecreated' => parent::ELEMENT_HIDDEN_INT,
-            'isstudent' => parent::ELEMENT_HIDDEN_INT
+            'id' => self::ELEMENT_HIDDEN_INT,
+            'timecreated' => self::ELEMENT_HIDDEN_INT,
+            'isstudent' => self::ELEMENT_HIDDEN_INT
         ), 'info' => array(
             'student' => array('element' => 'select', 'options' => $students),
             'dorm' => array('element' => 'static'),
-            'liveddouble' => parent::ELEMENT_BOOLEAN
+            'liveddouble' => self::ELEMENT_BOOLEAN
         ), 'requests' => array(
             'roomtype' => array('element' => 'select', 'options' => $roomtypes),
             'dormmate1' => array('element' => 'select', 'options' => $roomable),
@@ -59,7 +59,7 @@ class rooming_form extends local_mxschool_form {
             'instructions' => array('element' => 'static', 'name' => null),
             'roommate' => array('element' => 'select', 'options' => $roomable)
         ));
-        parent::set_fields($fields, 'rooming_form');
+        $this->set_fields($fields, 'rooming_form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');

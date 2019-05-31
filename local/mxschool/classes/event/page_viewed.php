@@ -26,10 +26,9 @@
 
 namespace local_mxschool\event;
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
 use \core\event\base;
-use \context_system;
 
 class page_viewed extends base {
 
@@ -39,7 +38,7 @@ class page_viewed extends base {
     protected function init() {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->context = context_system::instance();
+        $this->context = \context_system::instance();
     }
 
     /**
