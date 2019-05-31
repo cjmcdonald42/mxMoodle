@@ -83,7 +83,7 @@ class daily_summary extends notification {
         );
         $filter = new \stdClass();
         $filter->date = $time->getTimestamp();
-        $table = new \tutoring_table($filter, '');
+        $table = new \tutoring_table($filter, '', true);
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\report($table);
 
