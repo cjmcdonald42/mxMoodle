@@ -76,28 +76,23 @@ class submitted extends notification {
         );
         $this->data['destination'] = $record->destination ?? '-';
         $this->data['phonenumber'] = $record->phonenumber ?? '-';
-        $this->data['depmxtransportation'] = $record->depmxtransportation ? get_string('yes') : get_string('no');
+        $this->data['depmxtransportation'] = boolean_to_yes_no($record->depmxtransportation);
         $this->data['deptype'] = $record->deptype ?? '-';
         $this->data['depsite'] = $record->depsite ?? '-';
         $this->data['depdetails'] = $record->depdetails ?? '-';
         $this->data['depcarriercompany'] = $record->depcarriercompany ?? '-';
         $this->data['depnumber'] = $record->depnumber ?? '-';
         $this->data['depdatetime'] = date('n/j/y g:i A', $record->depvariable);
-        $this->data['depinternational'] = isset($record->depinternational) ? (
-            $record->depinternational ? get_string('yes') : get_string('no')
-        ) : '-';
-        $this->data['retmxtransportation'] = isset($record->retmxtransportation) ? (
-            $record->retmxtransportation ? get_string('yes') : get_string('no')
-        ) : '';
+        $this->data['depinternational'] = isset($record->depinternational) ? boolean_to_yes_no($record->depinternational) : '-';
+        $this->data['retmxtransportation'] = isset($record->retmxtransportation)
+            ? boolean_to_yes_no($record->retmxtransportation) : '';
         $this->data['rettype'] = $record->rettype ?? '-';
         $this->data['retsite'] = $record->retsite ?? '-';
         $this->data['retdetails'] = $record->retdetails ?? '-';
         $this->data['retcarriercompany'] = $record->retcarriercompany ?? '-';
         $this->data['retnumber'] = $record->retnumber ?? '-';
         $this->data['retdatetime'] = isset($record->retvariable) ? date('n/j/y g:i A', $record->retvariable) : '';
-        $this->data['retinternational'] = isset($record->retinternational) ? (
-            $record->retinternational ? get_string('yes') : get_string('no')
-        ) : '-';
+        $this->data['retinternational'] = isset($record->retinternational) ? boolean_to_yes_no($record->retinternational) : '-';
         $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
 
         array_push(

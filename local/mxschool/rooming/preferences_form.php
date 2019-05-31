@@ -52,9 +52,12 @@ class preferences_form extends local_mxschool_form {
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 ))
             ), 'notifications' => array(
-                'tags' => self::email_tags(new \local_mxschool\local\rooming\notify_unsubmitted()),
-                'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'submitted_tags' => self::email_tags(new \local_mxschool\local\rooming\submitted(1)),
+                'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\rooming\notify_unsubmitted()),
+                'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'unsubmitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
                 'roommateinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )

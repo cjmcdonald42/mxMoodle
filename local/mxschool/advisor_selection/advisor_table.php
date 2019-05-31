@@ -100,7 +100,7 @@ class advisor_table extends local_mxschool_table {
      * Formats the keep current column.
      */
     protected function col_keepcurrent($values) {
-        return isset($values->keepcurrent) ? ($values->keepcurrent ? get_string('yes') : get_string('no')) : '';
+        return isset($values->keepcurrent) ? boolean_to_yes_no($values->keepcurrent) : '';
     }
 
     /**

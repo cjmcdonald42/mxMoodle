@@ -28,6 +28,7 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/notification/advisor_selection.php');
 require_once('advisor_form.php');
 
 require_login();
@@ -130,7 +131,8 @@ if ($form->is_cancelled()) {
     if (!isset($data->selected)) {
         $data->selected = 0;
     }
-    update_record($queryfields, $data);
+    $id = update_record($queryfields, $data);
+    $result = (new \local_mxschool\local\advisor_selection\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('advisor_selection_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );

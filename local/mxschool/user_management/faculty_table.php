@@ -67,21 +67,21 @@ class faculty_table extends local_mxschool_table {
      * Formats the approve signout column.
      */
     protected function col_approvesignout($values) {
-        return $values->approvesignout ? get_string('yes') : get_string('no');
+        return boolean_to_yes_no($values->approvesignout);
     }
 
     /**
      * Formats the advisory available column.
      */
     protected function col_advisoryavailable($values) {
-        return $values->advisoryavailable ? get_string('yes') : get_string('no');
+        return boolean_to_yes_no($values->advisoryavailable);
     }
 
     /**
      * Formats the advisory closing column.
      */
     protected function col_advisoryclosing($values) {
-        return $values->advisoryclosing ? get_string('yes') : get_string('no');
+        return boolean_to_yes_no($values->advisoryclosing);
     }
 
     /**

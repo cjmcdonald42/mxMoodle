@@ -57,16 +57,12 @@ if ($data->dormsopen && $data->dormsclose) {
         $data->{"{$identifier}_end"} = $weekend->end_offset;
     }
 }
-$submitednotification = $DB->get_record('local_mxschool_notification', array('class' => 'weekend_form_submitted'));
-if ($submitednotification) {
-    $data->submitted_subject = $submitednotification->subject;
-    $data->submitted_body['text'] = $submitednotification->body_html;
-}
-$approvednotification = $DB->get_record('local_mxschool_notification', array('class' => 'weekend_form_approved'));
-if ($approvednotification) {
-    $data->approved_subject = $approvednotification->subject;
-    $data->approved_body['text'] = $approvednotification->body_html;
-}
+$submitednotification = get_notification('weekend_form_submitted');
+$data->submitted_subject = $submitednotification->subject;
+$data->submitted_body['text'] = $submitednotification->body_html;
+$approvednotification = get_notification('weekend_form_approved');
+$data->approved_subject = $approvednotification->subject;
+$data->approved_body['text'] = $approvednotification->body_html;
 $data->topinstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_top');
 $data->bottominstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $data->closedwarning['text'] = get_config('local_mxschool', 'weekend_form_warning_closed');

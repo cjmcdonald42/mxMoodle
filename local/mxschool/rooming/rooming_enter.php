@@ -28,6 +28,7 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
+require_once(__DIR__.'/../classes/notification/rooming.php');
 require_once('rooming_form.php');
 
 require_login();
@@ -106,7 +107,8 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    update_record($queryfields, $data);
+    $id = update_record($queryfields, $data);
+    $result = (new \local_mxschool\local\rooming\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('rooming_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );

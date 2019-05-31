@@ -48,11 +48,9 @@ $data->editwindow = get_config('local_mxschool', 'esignout_edit_window');
 $data->tripwindow = get_config('local_mxschool', 'esignout_trip_window');
 $data->esignoutenabled = get_config('local_mxschool', 'esignout_form_enabled');
 $data->ipenabled = get_config('local_mxschool', 'esignout_form_ipenabled');
-$notification = $DB->get_record('local_mxschool_notification', array('class' => 'esignout_submitted'));
-if ($notification) {
-    $data->subject = $notification->subject;
-    $data->body['text'] = $notification->body_html;
-}
+$notification = get_notification('esignout_submitted');
+$data->subject = $notification->subject;
+$data->body['text'] = $notification->body_html;
 $data->ipformerror['text'] = get_config('local_mxschool', 'esignout_form_iperror');
 $data->ipreporterror['text'] = get_config('local_mxschool', 'esignout_report_iperror');
 $data->passengerinstructions['text'] = get_config('local_mxschool', 'esignout_form_instructions_passenger');

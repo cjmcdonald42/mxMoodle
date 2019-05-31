@@ -48,11 +48,12 @@ $data->start_date = get_config('local_mxschool', 'rooming_form_start_date') ?: g
 generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'rooming_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
-$notification = $DB->get_record('local_mxschool_notification', array('class' => 'rooming_notify_unsubmitted'));
-if ($notification) {
-    $data->subject = $notification->subject;
-    $data->body['text'] = $notification->body_html;
-}
+$submitednotification = get_notification('rooming_submitted');
+$data->submitted_subject = $submitednotification->subject;
+$data->submitted_body['text'] = $submitednotification->body_html;
+$unsubmitednotification = get_notification('rooming_notify_unsubmitted');
+$data->unsubmitted_subject = $unsubmitednotification->subject;
+$data->unsubmitted_body['text'] = $unsubmitednotification->body_html;
 $data->roommateinstructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 
 $form = new preferences_form();
@@ -64,7 +65,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('rooming_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
     set_config('rooming_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
-    update_notification('rooming_notify_unsubmitted', $data->subject, $data->body);
+    update_notification('rooming_submitted', $data->submitted_subject, $data->submitted_body);
+    update_notification('rooming_notify_unsubmitted', $data->unsubmitted_subject, $data->unsubmitted_body);
     set_config('rooming_form_roommate_instructions', $data->roommateinstructions['text'], 'local_mxschool');
     logged_redirect(
         $form->get_redirect(), get_string('rooming_preferences_edit_success', 'local_mxschool'), 'update'
