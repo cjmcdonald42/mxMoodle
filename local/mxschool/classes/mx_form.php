@@ -167,13 +167,13 @@ abstract class local_mxschool_form extends moodleform {
     private function create_element($name, $properties, $stringprefix, $component) {
         $mform = $this->_form;
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
-        $param = isset($properties['nameparam']) ? $properties['nameparam'] : null;
-        $displayname = isset($properties['displayname']) ? $properties['displayname'] : (
+        $param = $properties['nameparam'] ?? null;
+        $displayname = $properties['displayname'] ?? (
             !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : ''
         );
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : array();
-        $text = isset($properties['text']) ? $properties['text'] : '';
-        $useradioindex = isset($properties['useradioindex']) ? $properties['useradioindex'] : false;
+        $attributes = $properties['attributes'] ?? array();
+        $text = $properties['text'] ?? '';
+        $useradioindex = $properties['useradioindex'] ?? false;
 
         switch($properties['element']) {
             case 'hidden':

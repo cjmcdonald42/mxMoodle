@@ -143,9 +143,7 @@ if ($form->is_cancelled()) {
             $data->driver = 0;
             $data->departure_date = generate_timestamp($data, 'departure');
     }
-    $data->passengers = $data->type_select === 'Driver' ? json_encode(
-        isset($data->passengers) ? $data->passengers : array()
-    ) : null;
+    $data->passengers = $data->type_select === 'Driver' ? json_encode($data->passengers ?? array()) : null;
     $id = update_record($queryfields, $data);
     if ($data->type_select !== 'Passenger') { // For a driver, parent, or other record, the id and driverid should be the same.
         $record = $DB->get_record('local_mxschool_esignout', array('id' => $id));

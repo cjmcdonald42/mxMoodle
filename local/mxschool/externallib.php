@@ -617,29 +617,21 @@ class local_mxschool_external extends external_api {
             $result->students[] = array('value' => $userid, 'text' => $name);
         }
         $result->departure = new stdClass();
-        $result->departure->types = get_vacation_travel_type_list(
-            isset($params['departure']['mxtransportation']) ? $params['departure']['mxtransportation'] : null
-        );
-        $list = get_vacation_travel_departure_sites_list(isset($params['departure']['type']) ? $params['departure']['type'] : null);
+        $result->departure->types = get_vacation_travel_type_list($params['departure']['mxtransportation'] ?? null);
+        $list = get_vacation_travel_departure_sites_list($params['departure']['type'] ?? null);
         $result->departure->sites = array();
         foreach ($list as $id => $name) {
             $result->departure->sites[] = (string)$id;
         }
-        $result->departure->default = get_site_default_departure_time(
-            isset($params['departure']['site']) ? $params['departure']['site'] : null
-        );
+        $result->departure->default = get_site_default_departure_time($params['departure']['site'] ?? null);
         $result->return = new stdClass();
-        $result->return->types = get_vacation_travel_type_list(
-            isset($params['return']['mxtransportation']) ? $params['return']['mxtransportation'] : null
-        );
-        $list = get_vacation_travel_return_sites_list(isset($params['return']['type']) ? $params['return']['type'] : null);
+        $result->return->types = get_vacation_travel_type_list($params['return']['mxtransportation'] ?? null);
+        $list = get_vacation_travel_return_sites_list($params['return']['type'] ?? null);
         $result->return->sites = array();
         foreach ($list as $id => $name) {
             $result->return->sites[] = (string)$id;
         }
-        $result->return->default = get_site_default_return_time(
-            isset($params['return']['site']) ? $params['return']['site'] : null
-        );
+        $result->return->default = get_site_default_return_time($params['return']['site'] ?? null);
         return $result;
     }
 
