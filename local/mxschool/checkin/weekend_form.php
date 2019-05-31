@@ -46,23 +46,23 @@ class weekend_form extends local_mxschool_form {
         );
 
         $fields = array('' => array(
-            'id' => parent::ELEMENT_HIDDEN_INT,
-            'timecreated' => parent::ELEMENT_HIDDEN_INT,
-            'isstudent' => parent::ELEMENT_HIDDEN_INT,
+            'id' => self::ELEMENT_HIDDEN_INT,
+            'timecreated' => self::ELEMENT_HIDDEN_INT,
+            'isstudent' => self::ELEMENT_HIDDEN_INT,
             'dorm' => array('element' => 'select', 'options' => $dorms),
             'student' => array('element' => 'select', 'options' => $students),
             'departure' => array('element' => 'group', 'children' => array(
-                'time' => parent::time_selector(15),
+                'time' => self::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )), 'warning' => array('element' => 'static', 'name' => null),
             'return' => array('element' => 'group', 'children' => array(
-                'time' => parent::time_selector(15),
+                'time' => self::time_selector(15),
                 'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             )), 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
             'transportation' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
-            'phone' => parent::ELEMENT_TEXT
+            'phone' => self::ELEMENT_TEXT
         ));
-        parent::set_fields($fields, 'weekend_form', false);
+        $this->set_fields($fields, 'weekend_form', false);
 
         $mform = $this->_form;
         $mform->hideIf('dorm', 'isstudent', 'eq');

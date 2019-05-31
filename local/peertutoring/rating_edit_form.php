@@ -37,11 +37,11 @@ class rating_edit_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
 
         $fields = array(
-            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
+            '' => array('id' => self::ELEMENT_HIDDEN_INT),
             'rating' => array('displaytext' => array(
                 'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 60), 'rules' => array('required')
             ))
         );
-        parent::set_fields($fields, 'rating_edit', false, 'local_peertutoring');
+        $this->set_fields($fields, 'rating_edit', false, 'local_peertutoring');
     }
 }

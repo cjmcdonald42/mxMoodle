@@ -30,42 +30,44 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
-    const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
-    const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
-    const ELEMENT_TEXT_REQUIRED = array(
+    protected const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
+    protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
+    protected const ELEMENT_TEXT_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20), 'rules' => array('required')
     );
-    const ELEMENT_LONG_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100));
-    const ELEMENT_LONG_TEXT_REQUIRED = array(
+    protected const ELEMENT_LONG_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100));
+    protected const ELEMENT_LONG_TEXT_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
     );
-    const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
-    const ELEMENT_YES_NO_REQUIRED = array('element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required'));
-    const ELEMENT_BOOLEAN = array('element' => 'radio', 'options' => array(1, 0));
-    const ELEMENT_BOOLEAN_REQUIRED = array('element' => 'radio', 'options' => array(1, 0), 'rules' => array('required'));
-    const ELEMENT_EMAIL = array(
+    protected const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
+    protected const ELEMENT_YES_NO_REQUIRED = array(
+        'element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required')
+    );
+    protected const ELEMENT_BOOLEAN = array('element' => 'radio', 'options' => array(1, 0));
+    protected const ELEMENT_BOOLEAN_REQUIRED = array('element' => 'radio', 'options' => array(1, 0), 'rules' => array('required'));
+    protected const ELEMENT_EMAIL = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email')
     );
-    const ELEMENT_EMAIL_REQUIRED = array(
+    protected const ELEMENT_EMAIL_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email', 'required')
     );
-    const ELEMENT_TEXT_AREA = array(
+    protected const ELEMENT_TEXT_AREA = array(
         'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40)
     );
-    const ELEMENT_TEXT_AREA_REQUIRED = array(
+    protected const ELEMENT_TEXT_AREA_REQUIRED = array(
         'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40),
         'rules' => array('required')
     );
-    const ELEMENT_FORMATED_TEXT = array('element' => 'editor');
-    const ELEMENT_FORMATED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
+    protected const ELEMENT_FORMATED_TEXT = array('element' => 'editor');
+    protected const ELEMENT_FORMATED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
 
     /**
-     * Forms the field array for a time selector with a particular minute step.
+     * Generates the field array for a time selector with a particular minute step.
      *
      * @param int $step The number of minutes between options.
      * @return array The array to be used as a field code.
      */
-    public static function time_selector($step = 1) {
+    protected static function time_selector($step = 1) {
         if ($step < 1 || $step > 60) {
             $step = 1;
         }
@@ -83,6 +85,19 @@ abstract class local_mxschool_form extends moodleform {
             'minute' => array('element' => 'select', 'options' => $minutes),
             'ampm' => array('element' => 'select', 'options' => $ampm)
         ));
+    }
+
+    /**
+     * Generates the field array for an email tag list.
+     *
+     * @param notification $notification A notification object to query the tags from.
+     * @return array The array to be used as a field code.
+     */
+    protected static function email_tags($notification) {
+        $tags = implode(', ', array_map(function($tag) {
+            return "{{$tag}}";
+        }, $notification->get_tags()));
+        return array('element' => 'static', 'text' => $tags);
     }
 
     /**

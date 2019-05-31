@@ -50,9 +50,9 @@ class tutoring_form extends local_mxschool_form {
 
         $fields = array(
             '' => array(
-                'id' => parent::ELEMENT_HIDDEN_INT,
-                'timecreated' => parent::ELEMENT_HIDDEN_INT,
-                'isstudent' => parent::ELEMENT_HIDDEN_INT
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'timecreated' => self::ELEMENT_HIDDEN_INT,
+                'isstudent' => self::ELEMENT_HIDDEN_INT
             ), 'info' => array(
                 'tutor' => array('element' => 'select', 'options' => $tutors),
                 'tutoringdate' => array('element' => 'date_selector', 'parameters' => $dateparameters),
@@ -60,15 +60,15 @@ class tutoring_form extends local_mxschool_form {
             ), 'details' => array(
                 'department' => array('element' => 'select', 'options' => $departments),
                 'course' => array('element' => 'select', 'options' => $courses),
-                'topic' => parent::ELEMENT_TEXT,
+                'topic' => self::ELEMENT_TEXT,
                 'type' => array('element' => 'group', 'children' => array(
                     'select' => array('element' => 'select', 'options' => $types),
-                    'other' => parent::ELEMENT_TEXT
+                    'other' => self::ELEMENT_TEXT
                 )), 'rating' => array('element' => 'select', 'options' => $ratings),
-                'notes' => parent::ELEMENT_TEXT_AREA
+                'notes' => self::ELEMENT_TEXT_AREA
             )
         );
-        parent::set_fields($fields, 'tutoring_form', false, 'local_peertutoring');
+        $this->set_fields($fields, 'tutoring_form', false, 'local_peertutoring');
 
         $mform = $this->_form;
         $mform->hideIf('tutor', 'isstudent', 'eq');

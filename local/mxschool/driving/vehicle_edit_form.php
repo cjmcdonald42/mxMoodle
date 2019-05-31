@@ -40,13 +40,13 @@ class vehicle_edit_form extends local_mxschool_form {
         $drivers = $this->_customdata['drivers'];
 
         $fields = array('' => array(
-            'id' => parent::ELEMENT_HIDDEN_INT,
+            'id' => self::ELEMENT_HIDDEN_INT,
             'student' => array('element' => 'select', 'options' => $drivers, 'rules' => array('required')),
-            'make' => parent::ELEMENT_TEXT_REQUIRED,
-            'model' => parent::ELEMENT_TEXT_REQUIRED,
-            'color' => parent::ELEMENT_TEXT_REQUIRED,
-            'registration' => parent::ELEMENT_TEXT_REQUIRED
+            'make' => self::ELEMENT_TEXT_REQUIRED,
+            'model' => self::ELEMENT_TEXT_REQUIRED,
+            'color' => self::ELEMENT_TEXT_REQUIRED,
+            'registration' => self::ELEMENT_TEXT_REQUIRED
         ));
-        parent::set_fields($fields, 'vehicle_edit');
+        $this->set_fields($fields, 'vehicle_edit');
     }
 }

@@ -44,7 +44,7 @@ class tutor_edit_form extends local_mxschool_form {
         );
 
         $fields = array(
-            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
+            '' => array('id' => self::ELEMENT_HIDDEN_INT),
             'tutor' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'departments' => array(
@@ -52,7 +52,7 @@ class tutor_edit_form extends local_mxschool_form {
                 )
             )
         );
-        parent::set_fields($fields, 'tutor_edit', false, 'local_peertutoring');
+        $this->set_fields($fields, 'tutor_edit', false, 'local_peertutoring');
 
         $mform = $this->_form;
         $mform->disabledIf('student', 'id', 'neq', '0');

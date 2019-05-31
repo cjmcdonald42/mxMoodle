@@ -38,12 +38,12 @@ class course_edit_form extends local_mxschool_form {
         $departments = $this->_customdata['departments'];
 
         $fields = array(
-            '' => array('id' => parent::ELEMENT_HIDDEN_INT),
+            '' => array('id' => self::ELEMENT_HIDDEN_INT),
             'course' => array(
                 'department' => array('element' => 'select', 'options' => $departments, 'rules' => array('required')),
-                'name' => parent::ELEMENT_TEXT_REQUIRED
+                'name' => self::ELEMENT_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'course_edit', false, 'local_peertutoring');
+        $this->set_fields($fields, 'course_edit', false, 'local_peertutoring');
     }
 }

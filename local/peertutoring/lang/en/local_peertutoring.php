@@ -90,7 +90,7 @@ $string['tutoring_report'] = 'Peer Tutoring Report';
 
 // Preferences.
 $string['preferences_header_notifications'] = 'Email Notifications';
-$string['preferences_notifications_available'] = 'Available Tags for Daily Summary Email';
+$string['preferences_notifications_tags'] = 'Available Tags for Daily Summary Email';
 $string['preferences_notifications_subject'] = 'Subject for Daily Summary Email';
 $string['preferences_notifications_body'] = 'Body for Daily Summary Email';
 

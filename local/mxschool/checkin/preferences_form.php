@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../classes/mx_form.php');
+require_once(__DIR__.'/../classes/notification/checkin.php');
 
 class preferences_form extends local_mxschool_form {
 
@@ -60,12 +61,6 @@ class preferences_form extends local_mxschool_form {
             'stopyear' => (new DateTime('+1 year', core_date::get_server_timezone_object()))->format('Y'),
             'timezone' => core_date::get_server_timezone_object()
         );
-        $emailtags = implode(', ', array_map(function($tag) {
-            return "{{$tag}}";
-        }, array(
-            'email', 'studentname', 'salutation', 'departuretime', 'returntime', 'destination', 'transportation', 'phone',
-            'timesubmitted', 'weekendnum', 'weekendtotal', 'instructions', 'hohname', 'permissionsline'
-        )));
 
         $fields = array(
             'dates' => array(
@@ -74,18 +69,19 @@ class preferences_form extends local_mxschool_form {
                 'dormsclose' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             ), 'weekends' => $weekendfields,
             'notifications' => array(
-                'available' => array('element' => 'static', 'text' => $emailtags),
-                'submittedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'submittedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'approvedsubject' => parent::ELEMENT_LONG_TEXT_REQUIRED,
-                'approvedbody' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'submitted_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_submitted(1)),
+                'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'approved_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_approved(1)),
+                'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'approved_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
-                'topinstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'bottominstructions' => parent::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'closedwarning' => parent::ELEMENT_FORMATED_TEXT_REQUIRED
+                'topinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'bottominstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'closedwarning' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
-        parent::set_fields($fields, 'checkin_preferences', true);
+        $this->set_fields($fields, 'checkin_preferences', true);
     }
 
 }

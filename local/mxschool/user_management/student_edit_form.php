@@ -48,18 +48,18 @@ class student_edit_form extends local_mxschool_form {
 
         $fields = array(
             '' => array(
-                'id' => parent::ELEMENT_HIDDEN_INT,
-                'userid' => parent::ELEMENT_HIDDEN_INT,
-                'permissionsid' => parent::ELEMENT_HIDDEN_INT
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'userid' => self::ELEMENT_HIDDEN_INT,
+                'permissionsid' => self::ELEMENT_HIDDEN_INT
             ), 'student' => array(
-                'firstname' => parent::ELEMENT_TEXT_REQUIRED,
-                'middlename' => parent::ELEMENT_TEXT,
-                'lastname' => parent::ELEMENT_TEXT_REQUIRED,
-                'alternatename' => parent::ELEMENT_TEXT,
-                'email' => parent::ELEMENT_EMAIL_REQUIRED,
-                'phonenumber' => parent::ELEMENT_TEXT,
-                'birthday' => parent::ELEMENT_TEXT_REQUIRED,
-                'admissionyear' => parent::ELEMENT_TEXT_REQUIRED,
+                'firstname' => self::ELEMENT_TEXT_REQUIRED,
+                'middlename' => self::ELEMENT_TEXT,
+                'lastname' => self::ELEMENT_TEXT_REQUIRED,
+                'alternatename' => self::ELEMENT_TEXT,
+                'email' => self::ELEMENT_EMAIL_REQUIRED,
+                'phonenumber' => self::ELEMENT_TEXT,
+                'birthday' => self::ELEMENT_TEXT_REQUIRED,
+                'admissionyear' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
                 'gender' => array('element' => 'radio', 'options' => array('M', 'F'), 'rules' => array('required')),
                 'advisor' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
@@ -67,22 +67,22 @@ class student_edit_form extends local_mxschool_form {
                 'isboardernextyear' => array(
                     'element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')
                 ), 'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
-                'room' => parent::ELEMENT_TEXT
+                'room' => self::ELEMENT_TEXT
             ), 'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
                 'license' => array('element' => 'date_selector', 'parameters' => $dateparameters),
-                'driving' => parent::ELEMENT_YES_NO,
-                'passengers' => parent::ELEMENT_YES_NO,
+                'driving' => self::ELEMENT_YES_NO,
+                'passengers' => self::ELEMENT_YES_NO,
                 'riding' => array('element' => 'radio', 'options' => array('parent', '21', 'any', 'specific')),
-                'ridingcomment' => parent::ELEMENT_TEXT_AREA,
+                'ridingcomment' => self::ELEMENT_TEXT_AREA,
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
-                'swimcompetent' => parent::ELEMENT_YES_NO,
-                'swimallowed' => parent::ELEMENT_YES_NO,
-                'boatallowed' => parent::ELEMENT_YES_NO
+                'swimcompetent' => self::ELEMENT_YES_NO,
+                'swimallowed' => self::ELEMENT_YES_NO,
+                'boatallowed' => self::ELEMENT_YES_NO
             )
         );
-        parent::set_fields($fields, 'student_edit', true);
+        $this->set_fields($fields, 'student_edit', true);
 
         $mform = $this->_form;
         $mform->hideIf('ridingcomment', 'riding', 'neq', 'specific');
