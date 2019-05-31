@@ -267,8 +267,7 @@ function student_may_access_vacation_travel($userid) {
  */
 function get_param_faculty_dorm() {
     global $DB, $USER;
-    return isset($_GET['dorm']) ? $_GET['dorm']
-    : $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
+    return $_GET['dorm'] ?? $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
 }
 
 /**
@@ -280,8 +279,7 @@ function get_param_faculty_dorm() {
  * @return string The timestamp of the midnight on the desired date.
  */
 function get_param_current_date() {
-    return isset($_GET['date']) ? $_GET['date']
-    : (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp();
+    return $_GET['date'] ?? (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp();
 }
 
 /**

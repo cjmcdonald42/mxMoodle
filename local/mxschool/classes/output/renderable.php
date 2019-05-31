@@ -201,7 +201,7 @@ class report_filter implements renderable, templatable {
         if ($emailbuttons) {
             foreach ($emailbuttons as $emailbutton) {
                 $this->emailbuttons[] = new email_button(
-                    $emailbutton->text, isset($emailbutton->value) ? $emailbutton->value : 0, $emailbutton->emailclass
+                    $emailbutton->text, $emailbutton->value ?? 0, $emailbutton->emailclass
                 );
             }
         }

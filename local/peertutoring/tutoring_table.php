@@ -119,7 +119,7 @@ class tutoring_table extends local_mxschool_table {
      * Formats the type column.
      */
     protected function col_type($values) {
-        return isset($values->other) ? $values->other : $values->type;
+        return $values->other ?? $values->type;
     }
 
     /**

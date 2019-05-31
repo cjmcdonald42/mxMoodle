@@ -101,9 +101,7 @@ if ($type === 'parents') {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report(
-    $table, $filter->search, $dropdowns, $type !== 'parents', isset($addbutton) ? $addbutton : false
-);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $type !== 'parents', $addbutton ?? false);
 
 echo $output->header();
 echo $output->heading($types[$type].($filter->dorm ? " &ndash; {$dorms[$filter->dorm]}" : ''));
