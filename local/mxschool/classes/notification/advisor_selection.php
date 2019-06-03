@@ -47,37 +47,39 @@ class submitted extends notification {
 
     /**
      * @param int $id The id of the advisor selection form which has been submitted.
+     *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
      */
-    public function __construct($id) {
+    public function __construct($id=0) {
         global $DB;
         parent::__construct('advisor_selection_submitted');
+        if ($id) {
+            $record = $DB->get_record_sql(
+                "SELECT a.userid AS student, a.keep_current AS keepcurrent, CONCAT(ca.lastname, ', ', ca.firstname) AS current,
+                        CONCAT(o1.lastname, ', ', o1.firstname) AS option1, CONCAT(o2.lastname, ', ', o2.firstname) AS option2,
+                        CONCAT(o3.lastname, ', ', o3.firstname) AS option3, CONCAT(o4.lastname, ', ', o4.firstname) AS option4,
+                        CONCAT(o5.lastname, ', ', o5.firstname) AS option5, a.time_modified AS timesubmitted
+                 FROM {local_mxschool_adv_selection} a LEFT JOIN {local_mxschool_student} s on a.userid = s.userid
+                 LEFT JOIN {user} ca ON s.advisorid = ca.id LEFT JOIN {user} o1 ON a.option1id = o1.id
+                 LEFT JOIN {user} o2 ON a.option2id = o2.id LEFT JOIN {user} o3 ON a.option3id = o3.id
+                 LEFT JOIN {user} o4 ON a.option4id = o4.id LEFT JOIN {user} o5 ON a.option5id = o5.id
+                 WHERE a.id = ?", array($id)
+            );
+            if (!$record) {
+                throw new coding_exception("Record with id {$id} not found.");
+            }
 
-        $record = $DB->get_record_sql(
-            "SELECT a.userid AS student, a.keep_current AS keepcurrent, CONCAT(ca.lastname, ', ', ca.firstname) AS current,
-                    CONCAT(o1.lastname, ', ', o1.firstname) AS option1, CONCAT(o2.lastname, ', ', o2.firstname) AS option2,
-                    CONCAT(o3.lastname, ', ', o3.firstname) AS option3, CONCAT(o4.lastname, ', ', o4.firstname) AS option4,
-                    CONCAT(o5.lastname, ', ', o5.firstname) AS option5, a.time_modified AS timesubmitted
-             FROM {local_mxschool_adv_selection} a LEFT JOIN {local_mxschool_student} s on a.userid = s.userid
-             LEFT JOIN {user} ca ON s.advisorid = ca.id LEFT JOIN {user} o1 ON a.option1id = o1.id
-             LEFT JOIN {user} o2 ON a.option2id = o2.id LEFT JOIN {user} o3 ON a.option3id = o3.id
-             LEFT JOIN {user} o4 ON a.option4id = o4.id LEFT JOIN {user} o5 ON a.option5id = o5.id
-             WHERE a.id = ?", array($id)
-        );
-        if (!$record) {
-            throw new coding_exception("Record with id {$id} not found.");
+            $this->data['keepcurrent'] = boolean_to_yes_no($record->keepcurrent);
+            $this->data['current'] = $record->current;
+            $this->data['option1'] = $record->option1;
+            $this->data['option2'] = $record->option2;
+            $this->data['option3'] = $record->option3;
+            $this->data['option4'] = $record->option4;
+            $this->data['option5'] = $record->option5;
+            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+
+            $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
         }
-
-        $this->data['keepcurrent'] = boolean_to_yes_no($record->keepcurrent);
-        $this->data['current'] = $record->current;
-        $this->data['option1'] = $record->option1;
-        $this->data['option2'] = $record->option2;
-        $this->data['option3'] = $record->option3;
-        $this->data['option4'] = $record->option4;
-        $this->data['option5'] = $record->option5;
-        $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
-
-        $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
     }
 
     /**

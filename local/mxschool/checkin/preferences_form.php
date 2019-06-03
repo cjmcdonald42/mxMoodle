@@ -69,10 +69,10 @@ class preferences_form extends local_mxschool_form {
                 'dormsclose' => array('element' => 'date_selector', 'parameters' => $dateparameters)
             ), 'weekends' => $weekendfields,
             'notifications' => array(
-                'submitted_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_submitted(1)),
+                'submitted_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'approved_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_approved(1)),
+                'approved_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_approved()),
                 'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'approved_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(

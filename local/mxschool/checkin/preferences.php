@@ -57,9 +57,9 @@ if ($data->dormsopen && $data->dormsclose) {
         $data->{"{$identifier}_end"} = $weekend->end_offset;
     }
 }
-$submitednotification = get_notification('weekend_form_submitted');
-$data->submitted_subject = $submitednotification->subject;
-$data->submitted_body['text'] = $submitednotification->body_html;
+$submittednotification = get_notification('weekend_form_submitted');
+$data->submitted_subject = $submittednotification->subject;
+$data->submitted_body['text'] = $submittednotification->body_html;
 $approvednotification = get_notification('weekend_form_approved');
 $data->approved_subject = $approvednotification->subject;
 $data->approved_body['text'] = $approvednotification->body_html;

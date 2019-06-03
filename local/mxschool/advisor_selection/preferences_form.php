@@ -52,7 +52,7 @@ class preferences_form extends local_mxschool_form {
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 )), 'who' => array('element' => 'radio', 'options' => array('new', 'all'), 'rules' => array('required'))
             ), 'notifications' => array(
-                'submitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\submitted(1)),
+                'submitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\notify_unsubmitted()),

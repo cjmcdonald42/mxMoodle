@@ -52,7 +52,7 @@ class preferences_form extends local_mxschool_form {
                     'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
                 ))
             ), 'notifications' => array(
-                'submitted_tags' => self::email_tags(new \local_mxschool\local\rooming\submitted(1)),
+                'submitted_tags' => self::email_tags(new \local_mxschool\local\rooming\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\rooming\notify_unsubmitted()),

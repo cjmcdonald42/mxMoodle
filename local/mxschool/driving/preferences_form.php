@@ -52,7 +52,7 @@ class preferences_form extends local_mxschool_form {
                     )
                 )
             ), 'notifications' => array(
-                'tags' => self::email_tags(new \local_mxschool\local\esignout\submitted(1)),
+                'tags' => self::email_tags(new \local_mxschool\local\esignout\submitted()),
                 'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(
