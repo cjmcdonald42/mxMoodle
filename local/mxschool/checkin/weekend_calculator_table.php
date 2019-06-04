@@ -108,7 +108,7 @@ class weekend_calculator_table extends local_mxschool_table {
      */
     protected function col_allowed($values) {
         return calculate_weekends_allowed($values->userid, $this->semester)
-        ?: get_string('weekend_calculator_abbreviation_unlimited', 'local_mxschool');
+            ?: get_string('weekend_calculator_abbreviation_unlimited', 'local_mxschool');
     }
 
 }

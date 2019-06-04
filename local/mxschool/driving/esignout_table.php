@@ -132,7 +132,7 @@ class esignout_table extends local_mxschool_table {
             $student = $DB->get_record(
                 'user', array('id' => $passenger), "CONCAT(lastname, ', ', firstname) AS student, firstname, alternatename"
             );
-            $passengernames[] = $student->student.(
+            $passengernames[] = $student->student . (
                 $student->alternatename && $student->alternatename !== $student->firstname ? " ({$student->alternatename})" : ''
             );
         }
@@ -154,7 +154,7 @@ class esignout_table extends local_mxschool_table {
      * Formats the driver column to "last, first (alternate)" or "last, first".
      */
     protected function col_driver($values) {
-        return $values->driver.(
+        return $values->driver . (
             $values->driver !== '-' && $values->driveralternatename && $values->driveralternatename !== $values->driverfirstname
             ? " ($values->driveralternatename)" : ''
         );
@@ -208,7 +208,10 @@ class esignout_table extends local_mxschool_table {
         }
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\signin_button($values->id);
-        if (!get_config('local_mxschool', 'esignout_form_ipenabled') || $_SERVER['REMOTE_ADDR'] === get_config('local_mxschool', 'school_ip')) {
+        if (
+            !get_config('local_mxschool', 'esignout_form_ipenabled')
+            || $_SERVER['REMOTE_ADDR'] === get_config('local_mxschool', 'school_ip')
+        ) {
             return $output->render($renderable);
         }
         return '-';

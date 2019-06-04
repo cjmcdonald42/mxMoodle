@@ -444,7 +444,7 @@ function convert_records_to_list($records) {
     $list = array();
     if (is_array($records)) {
         foreach ($records as $record) {
-            $list[$record->id] = $record->name.(
+            $list[$record->id] = $record->name . (
                 !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
             );
         }

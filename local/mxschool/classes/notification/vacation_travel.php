@@ -73,7 +73,7 @@ class submitted extends notification {
                 throw new coding_exception("Record with id {$id} not found.");
             }
 
-            $this->data['studentname'] = "{$record->lastname}, {$record->firstname}".(
+            $this->data['studentname'] = "{$record->lastname}, {$record->firstname}" . (
                 !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
             );
             $this->data['destination'] = $record->destination ?? '-';

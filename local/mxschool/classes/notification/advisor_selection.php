@@ -143,7 +143,7 @@ class notify_results extends notification {
             $student->replacements = $advisor->replacements = array(
                 'studentname' => "{$student->lastname}, {$student->firstname}" . (
                     !empty($student->alternatename) && $student->alternatename !== $student->firstname
-                        ? " ({$student->alternatename})" : ''
+                    ? " ({$student->alternatename})" : ''
                 ), 'advisorname' => "{$advisor->firstname} {$advisor->lastname}"
             );
             array_push($this->recipients, $student, $advisor);

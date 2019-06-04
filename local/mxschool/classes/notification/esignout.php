@@ -80,9 +80,9 @@ class submitted extends notification {
                     $passengerrecord = $DB->get_record_sql(
                         "SELECT firstname, lastname, alternatename FROM {user} WHERE id = ?", array($passenger)
                     );
-                    $passengernames[] = "{$passengerrecord->lastname}, {$passengerrecord->firstname}".(
+                    $passengernames[] = "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
                         !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
-                            ? " ({$passengerrecord->alternatename})" : ''
+                        ? " ({$passengerrecord->alternatename})" : ''
                     );
                 }
                 $passengers = implode('<br>', $passengernames);
@@ -112,12 +112,13 @@ class submitted extends notification {
                 }
             }
 
-            $this->data['studentname'] = "{$record->lastname}, {$record->firstname}".(
+            $this->data['studentname'] = "{$record->lastname}, {$record->firstname}" . (
                 !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
             );
             $this->data['type'] = $record->type;
-            $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}".(
-                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname ? " ({$record->dalternatename})" : ''
+            $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}" . (
+                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
+                ? " ({$record->dalternatename})" : ''
             );
             $this->data['passengers'] = $passengers ?? '';
             $this->data['destination'] = $record->destination;
