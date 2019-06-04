@@ -57,10 +57,9 @@ abstract class weekend_form_base extends notification {
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT s.userid AS student, u.firstname, u.lastname, u.alternatename, wf.departure_date_time AS departuretime,
-                        wf.return_date_time AS returntime, wf.destination, wf.transportation, wf.phone_number AS phone,
-                        wf.time_modified AS timesubmitted, d.hohid AS hoh, CONCAT(hoh.firstname, ' ', hoh.lastname) AS hohname,
-                        d.permissions_line AS permissionsline
+                "SELECT s.userid AS student, wf.departure_date_time AS departuretime, wf.return_date_time AS returntime,
+                        wf.destination, wf.transportation, wf.phone_number AS phone, wf.time_modified AS timesubmitted,
+                        d.hohid AS hoh, CONCAT(hoh.firstname, ' ', hoh.lastname) AS hohname, d.permissions_line AS permissionsline
                  FROM {local_mxschool_weekend_form} wf LEFT JOIN {local_mxschool_student} s ON wf.userid = s.userid
                  LEFT JOIN {user} u ON s.userid = u.id LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
                  LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE wf.id = ?", array($id)
@@ -74,9 +73,6 @@ abstract class weekend_form_base extends notification {
             $replacements->hoh = $record->hohname;
             $replacements->permissionsline = $record->permissionsline;
 
-            $this->data['studentname'] = "{$record->lastname}, {$record->firstname}" . (
-                !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-            );
             $this->data['departuretime'] = date('n/j/y g:i A', $record->departuretime);
             $this->data['returntime'] = date('n/j/y g:i A', $record->returntime);
             $this->data['destination'] = $record->destination;
@@ -101,10 +97,10 @@ abstract class weekend_form_base extends notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array_merge(array(
-            'studentname', 'departuretime', 'returntime', 'destination', 'transportation', 'phone', 'timesubmitted',
-            'weekendnumber', 'weekendordinal', 'weekendtotal', 'instructions', 'hohname', 'permissionsline'
-        ), parent::get_tags());
+        return array_merge(parent::get_tags(), array(
+            'departuretime', 'returntime', 'destination', 'transportation', 'phone', 'timesubmitted', 'weekendnumber',
+            'weekendordinal', 'weekendtotal', 'instructions', 'hohname', 'permissionsline'
+        ));
     }
 
 }

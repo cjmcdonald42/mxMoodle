@@ -56,9 +56,9 @@ class submitted extends notification {
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, u.firstname, u.lastname, u.alternatename, es.type,
-                        es.passengers, du.firstname AS dfirstname, du.lastname AS dlastname, du.alternatename AS dalternatename,
-                        d.destination,  d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
+                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, es.type, es.passengers, du.firstname AS dfirstname,
+                        du.lastname AS dlastname, du.alternatename AS dalternatename, d.destination,
+                        d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
                         es.time_modified AS timesubmitted, p.may_ride_with AS passengerpermission,
                         p.ride_permission_details AS specificdrivers
                  FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
@@ -112,9 +112,6 @@ class submitted extends notification {
                 }
             }
 
-            $this->data['studentname'] = "{$record->lastname}, {$record->firstname}" . (
-                !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-            );
             $this->data['type'] = $record->type;
             $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}" . (
                 !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
@@ -143,10 +140,10 @@ class submitted extends notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array_merge(array(
-            'studentname', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'approver', 'permissionswarning',
+        return array_merge(parent::get_tags(), array(
+            'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'approver', 'permissionswarning',
             'timesubmitted', 'irregular'
-        ), parent::get_tags());
+        ));
     }
 
 }

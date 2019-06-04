@@ -55,10 +55,10 @@ class preferences_form extends local_mxschool_form {
                 'submitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\notify_unsubmitted()),
+                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\unsubmitted_notification()),
                 'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'unsubmitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'results_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\notify_results()),
+                'results_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\results_notification()),
                 'results_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'results_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             ), 'text' => array(

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic email notification for all of the emails sent by Middlesex School's Dorm and Student functions plugin.
+ * Generic email notification classes for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -32,6 +32,15 @@ require_once(__DIR__.'/../../locallib.php');
 
 use \local_mxschool\event\email_sent;
 
+/**
+ * Generic email notification for all of the emails sent by Middlesex School's Dorm and Student functions plugin.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 abstract class notification {
 
     /** @var string $emailclass The class of the email as specified in the local_mxschool_notification database table.*/
@@ -42,10 +51,7 @@ abstract class notification {
     private $body;
     /** @var array $data The data for the email as [placeholder => value].*/
     protected $data;
-    /**
-     * @var array $recipients The recipients for the email with string properties email, addresseeshort, and addresseelong
-     * and an optional array property replacements which has the form [placeholder => value].
-     */
+    /** @var array $recipients The recipients for the email with required property email and optional property addresseename. */
     protected $recipients;
 
     /**
@@ -94,32 +100,31 @@ abstract class notification {
      *
      * @return bool A value of true if all emails send successfully, false otherwise.
      * @throws coding_exception If any recipient has a non-valid email or
-     *                          if any recipient has no non-empty addresseename, alternatename, or firstname field.
+     *                          if the primary recipient has no adresseename property
+     *                              and is missing either the firstname or lastname property.
      */
     final public function send() {
+        $primaryrecipient = $this->recipients[0];
+        if (empty($primaryrecipient->addresseename)) {
+            if (empty($primaryrecipient->lastname) || empty($primaryrecipient->firstname)) {
+                throw new \coding_exception('Primary recipient has no valid option for salutation.');
+            }
+            $this->data['addresseeshort'] = !empty($primaryrecipient->alternatename)
+                ? $primaryrecipient->alternatename : $primaryrecipient->firstname;
+            $this->data['addresseelong'] = "{$primaryrecipient->lastname}, {$primaryrecipient->firstname}" . (
+                !empty($primaryrecipient->alternatename) && $primaryrecipient->alternatename !== $primaryrecipient->firstname
+                    ? " ({$primaryrecipient->alternatename})" : ''
+            );
+        } else {
+            $this->data['addresseeshort'] = $this->data['addresseelong'] = $primaryrecipient->addresseename;
+        }
         $supportuser = \core_user::get_support_user();
         $result = true;
         foreach ($this->recipients as $recipient) {
             if (empty($recipient->email)) {
                 throw new \coding_exception('Recipient has no email address.');
             }
-            if (empty($recipient->addresseename) && (empty($recipient->lastname) || empty($recipient->firstname))) {
-                throw new \coding_exception('Recipient has no valid option for salutation.');
-            }
             $recipientdata = array('email' => $recipient->email);
-            if (!empty($recipient->addresseename)) {
-                $recipientdata['addresseeshort'] = $recipientdata['addresseelong'] = $recipient->addresseename;
-            } else {
-                $recipientdata['addresseeshort'] = !empty($recipient->alternatename)
-                    ? $recipient->alternatename : $recipient->firstname;
-                $recipientdata['addresseelong'] = "{$recipient->lastname}, {$recipient->firstname}" . (
-                    !empty($recipient->alternatename) && $recipient->alternatename !== $recipient->firstname
-                        ? " ({$recipient->alternatename})" : ''
-                );
-            }
-            if (!empty($recipient->replacements)) {
-                $recipientdata += $recipient->replacements;
-            }
             $subject = $this->get_subject($recipientdata);
             $body = $this->get_body($recipientdata);
             $redirect = get_config('local_mxschool', 'email_redirect');
@@ -136,7 +141,7 @@ abstract class notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array('email', 'addresseeshort', 'addresseelong');
+        return array('addresseeshort', 'addresseelong', 'email');
     }
 
     /**
@@ -178,4 +183,42 @@ abstract class notification {
         return $string;
     }
 
+}
+
+/**
+ * Generic wrapper for all bulk email notifications sent by Middlesex School's Dorm and Student functions plugin.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+abstract class bulk_notification {
+
+    /** @var array $notifications The array of individual notifications to be sent. */
+    protected $notifications;
+
+    /**
+     * This generic constructor initializes the $notifications field to a default empty value.
+     * Subclasses should call this constructor then add the appropriate entries to the $notifications array.
+     */
+    public function __construct() {
+        $this->notifications = array();
+    }
+
+    /**
+     * Sends all of the notification emails specified in the $notifications field.
+     *
+     * @return bool A value of true if all emails send successfully, false otherwise.
+     * @throws coding_exception If any recipient has a non-valid email or
+     *                          if the primary recipient has no adresseename and is missing either the firstname or lastname field.
+     */
+    final public function send() {
+        $result = true;
+        foreach ($this->notifications as $notification) {
+            $result &= $notification->send();
+        }
+        return $result;
+    }
 }

@@ -32,6 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once('mx_notification.php');
 
 use local_mxschool\local\notification;
+use local_mxschool\local\bulk_notification;
 
 /**
  * Email notification for when a rooming form is submitted for Middlesex School's Dorm and Student functions plugin.
@@ -115,10 +116,10 @@ class submitted extends notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array_merge(array(
+        return array_merge(parent::get_tags(), array(
             'haslivedindouble', 'roomtype', 'dormmate1', 'dormmate2', 'dormmate3', 'dormmate4', 'dormmate5', 'dormmate6',
             'preferredroomate', 'timesubmitted'
-        ), parent::get_tags());
+        ));
     }
 
 }
@@ -134,17 +135,38 @@ class submitted extends notification {
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class notify_unsubmitted extends notification {
+class unsubmitted_notification extends notification {
 
-    public function __construct() {
+    /**
+     * @param int $id The userid of the recipient. A value of 0 indicates that the notification should be sent to the deans.
+     */
+    public function __construct($id=0) {
         global $DB;
         parent::__construct('rooming_notify_unsubmitted');
 
+        $this->recipients[] = $id ? $DB->get_record('user', array('id' => $id)) : self::get_deans_user();
+    }
+
+}
+
+/**
+ * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student functions plugin.
+ *
+ * @package    local_mxschool
+ * @subpackage rooming
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class notify_unsubmitted extends bulk_notification {
+
+    public function __construct() {
         $list = get_student_without_rooming_form_list();
         foreach ($list as $userid => $name) {
-            $this->recipients[] = $DB->get_record('user', array('id' => $userid));
+            $this->notifications[] = new unsubmitted_notification($userid);
         }
-        $this->recipients[] = self::get_deans_user();
+        $this->notifications[] = new unsubmitted_notification();
     }
 
 }

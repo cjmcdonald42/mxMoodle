@@ -88,7 +88,7 @@ class tutoring_table extends local_mxschool_table {
             'tutor' => $filter->tutor, 'department' => $filter->department, 'type' => $filter->type, 'date' => $filter->date,
             'search' => $filter->search
         );
-        $centered = array('tutoringdate');
+        $centered = array('tutoringdate', 'department', 'course');
         $searchable = array(
             'tu.lastname', 'tu.firstname', 'tu.alternatename', 'su.lastname', 'su.firstname', 'su.alternatename', 'd.name',
             'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext'

@@ -32,6 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once('mx_notification.php');
 
 use local_mxschool\local\notification;
+use local_mxschool\local\bulk_notification;
 
 /**
  * Email notification for when an advisor selection form is submitted for Middlesex School's Dorm and Student functions plugin.
@@ -86,9 +87,9 @@ class submitted extends notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array_merge(array(
+        return array_merge(parent::get_tags(), array(
             'keepcurrent', 'current', 'option1', 'option2', 'option3', 'option4', 'option5', 'timesubmitted'
-        ), parent::get_tags());
+        ));
     }
 
 }
@@ -104,17 +105,38 @@ class submitted extends notification {
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class notify_unsubmitted extends notification {
+class unsubmitted_notification extends notification {
 
-    public function __construct() {
+    /**
+     * @param int $id The userid of the recipient. A value of 0 indicates that the notification should be sent to the deans.
+     */
+    public function __construct($id=0) {
         global $DB;
         parent::__construct('advisor_selection_notify_unsubmitted');
 
+        $this->recipients[] = $id ? $DB->get_record('user', array('id' => $id)) : self::get_deans_user();
+    }
+
+}
+
+/**
+ * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student functions plugin.
+ *
+ * @package    local_mxschool
+ * @subpackage advisor_selection
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class notify_unsubmitted extends bulk_notification {
+
+    public function __construct() {
         $list = get_student_without_advisor_form_list();
         foreach ($list as $userid => $name) {
-            $this->recipients[] = $DB->get_record('user', array('id' => $userid));
+            $this->notifications[] = new unsubmitted_notification($userid);
         }
-        $this->recipients[] = self::get_deans_user();
+        $this->notifications[] = new unsubmitted_notification();
     }
 
 }
@@ -130,32 +152,52 @@ class notify_unsubmitted extends notification {
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class notify_results extends notification {
+class results_notification extends notification {
 
-    public function __construct() {
+    /**
+     * @param int $sid The userid of the student. A value of 0 indicates that the notification should be sent to the deans.
+     * @param int $aid The userid of the advisor. A value of 0 indicates that the notification should be sent to the deans.
+     */
+    public function __construct($sid=0, $aid=0) {
         global $DB;
         parent::__construct('advisor_selection_notify_results');
 
-        $list = get_new_student_advisor_pair_list();
-        foreach ($list as $suserid => $auserid) {
-            $student = $DB->get_record('user', array('id' => $suserid));
-            $advisor = $DB->get_record('user', array('id' => $auserid));
-            $student->replacements = $advisor->replacements = array(
-                'studentname' => "{$student->lastname}, {$student->firstname}" . (
-                    !empty($student->alternatename) && $student->alternatename !== $student->firstname
-                    ? " ({$student->alternatename})" : ''
-                ), 'advisorname' => "{$advisor->firstname} {$advisor->lastname}"
-            );
-            array_push($this->recipients, $student, $advisor);
+        if ($sid && $aid) {
+            $advisor = $DB->get_record('user', array('id' => $aid));
+            $this->data['advisorname'] = "{$advisor->firstname} {$advisor->lastname}";
+            array_push($this->recipients, $DB->get_record('user', array('id' => $sid)), $advisor);
+        } else {
+            $this->recipients[] = self::get_deans_user();
         }
-        $this->recipients[] = self::get_deans_user();
     }
 
     /**
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array_merge(array('studentname', 'advisorname'), parent::get_tags());
+        return array_merge(parent::get_tags(), array('advisorname'));
+    }
+
+}
+
+/**
+ * Bulk wrapper for the the results_notification for Middlesex School's Dorm and Student functions plugin.
+ *
+ * @package    local_mxschool
+ * @subpackage advisor_selection
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class notify_results extends bulk_notification {
+
+    public function __construct() {
+        $list = get_new_student_advisor_pair_list();
+        foreach ($list as $suserid => $auserid) {
+            $this->notifications[] = new results_notification($suserid, $auserid);
+        }
+        $this->notifications[] = new results_notification();
     }
 
 }

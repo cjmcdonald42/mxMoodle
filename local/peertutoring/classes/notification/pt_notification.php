@@ -82,7 +82,11 @@ class daily_summary extends notification {
             array($time->getTimestamp())
         );
         $filter = new \stdClass();
+        $filter->tutor = 0;
+        $filter->department = 0;
+        $filter->type = 0;
         $filter->date = $time->getTimestamp();
+        $filter->search = '';
         $table = new \tutoring_table($filter, '', true);
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\report($table);
@@ -97,7 +101,7 @@ class daily_summary extends notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array_merge(array('total', 'table'), parent::get_tags());
+        return array_merge(parent::get_tags(), array('total', 'table'));
     }
 
 }
