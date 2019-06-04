@@ -133,7 +133,7 @@ class unsubmitted_notification extends notification {
         global $DB;
         parent::__construct('vacation_travel_notify_unsubmitted');
 
-        $this->recipients[] = $id ? $DB->get_record('user', array('id' => $id)) : self::get_transportationmanager_user();
+        $this->recipients[] = $id ? $DB->get_record('user', array('id' => $id)) : self::get_deans_user();
     }
 
 }
