@@ -47,91 +47,92 @@ class submitted extends notification {
 
     /**
      * @param int $id The id of the esignout form which has been submitted.
+     *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
      */
-    public function __construct($id) {
+    public function __construct($id=0) {
         global $DB;
         parent::__construct('esignout_submitted');
 
-        $record = $DB->get_record_sql(
-            "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, u.firstname, u.lastname, u.alternatename, es.type,
-                    es.passengers, du.firstname AS dfirstname, du.lastname AS dlastname, du.alternatename AS dalternatename,
-                    d.destination,  d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
-                    es.time_modified AS timesubmitted, p.may_ride_with AS passengerpermission,
-                    p.ride_permission_details AS specificdrivers
-             FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
-             LEFT JOIN {local_mxschool_esignout} d ON es.driverid = d.id LEFT JOIN {user} du ON d.userid = du.id
-             LEFT JOIN {user} a ON es.approverid = a.id LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
-             LEFT JOIN {local_mxschool_dorm} sd ON s.dormid = sd.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
-             WHERE es.id = ?", array($id)
-        );
-        if (!$record) {
-            throw new coding_exception("Record with id {$id} not found.");
-        }
-        if (isset($record->passengers)) {
-            $passengerlist = json_decode($record->passengers);
-            if (!count($passengerlist)) { // Driver with no passengers.
-                $passengers = get_string('esignout_report_nopassengers', 'local_mxschool');
+        if ($id) {
+            $record = $DB->get_record_sql(
+                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, es.type, es.passengers, du.firstname AS dfirstname,
+                        du.lastname AS dlastname, du.alternatename AS dalternatename, d.destination,
+                        d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
+                        es.time_modified AS timesubmitted, p.may_ride_with AS passengerpermission,
+                        p.ride_permission_details AS specificdrivers
+                 FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
+                 LEFT JOIN {local_mxschool_esignout} d ON es.driverid = d.id LEFT JOIN {user} du ON d.userid = du.id
+                 LEFT JOIN {user} a ON es.approverid = a.id LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
+                 LEFT JOIN {local_mxschool_dorm} sd ON s.dormid = sd.id
+                 LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid WHERE es.id = ?", array($id)
+            );
+            if (!$record) {
+                throw new coding_exception("Record with id {$id} not found.");
             }
-            $passengernames = array();
-            foreach ($passengerlist as $passenger) {
-                $passengerrecord = $DB->get_record_sql(
-                    "SELECT firstname, lastname, alternatename FROM {user} WHERE id = ?", array($passenger)
-                );
-                $passengernames[] = "{$passengerrecord->lastname}, {$passengerrecord->firstname}".(
-                    !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
+            if (isset($record->passengers)) {
+                $passengerlist = json_decode($record->passengers);
+                if (!count($passengerlist)) { // Driver with no passengers.
+                    $passengers = get_string('esignout_report_nopassengers', 'local_mxschool');
+                }
+                $passengernames = array();
+                foreach ($passengerlist as $passenger) {
+                    $passengerrecord = $DB->get_record_sql(
+                        "SELECT firstname, lastname, alternatename FROM {user} WHERE id = ?", array($passenger)
+                    );
+                    $passengernames[] = "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
+                        !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
                         ? " ({$passengerrecord->alternatename})" : ''
-                );
+                    );
+                }
+                $passengers = implode('<br>', $passengernames);
             }
-            $passengers = implode('<br>', $passengernames);
-        }
-        $emaildeans = false;
-        if ($record->type === 'Driver') {
-            $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_driver');
-        } else {
-            if ($record->type !== 'Passenger' && $record->type !== 'Parent') {
-                $emaildeans = true;
-            }
-            switch($record->passengerpermission) {
-                case 'Any Driver':
-                    $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_any');
-                    break;
-                case 'Parent Permission':
-                    $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_parent');
-                    break;
-                case 'Specific Drivers':
-                    $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_specific')
-                        . " {$record->specificdrivers}";
+            $emaildeans = false;
+            if ($record->type === 'Driver') {
+                $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_driver');
+            } else {
+                if ($record->type !== 'Passenger' && $record->type !== 'Parent') {
                     $emaildeans = true;
-                    break;
-                default:
-                    $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_over21');
-                    $emaildeans = true;
+                }
+                switch($record->passengerpermission) {
+                    case 'Any Driver':
+                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_any');
+                        break;
+                    case 'Parent Permission':
+                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_parent');
+                        break;
+                    case 'Specific Drivers':
+                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_specific')
+                            . " {$record->specificdrivers}";
+                        $emaildeans = true;
+                        break;
+                    default:
+                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_over21');
+                        $emaildeans = true;
+                }
             }
-        }
 
-        $this->data['studentname'] = "{$record->lastname}, {$record->firstname}".(
-            !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-        );
-        $this->data['type'] = $record->type;
-        $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}".(
-            !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname ? " ({$record->dalternatename})" : ''
-        );
-        $this->data['passengers'] = $passengers ?? '';
-        $this->data['destination'] = $record->destination;
-        $this->data['date'] = date('n/j/y', $record->departuretime);
-        $this->data['departuretime'] = date('g:i A', $record->departuretime);
-        $this->data['approver'] = $record->approvername;
-        $this->data['permissionswarning'] = $permissionswarning;
-        $this->data['timesubmitted'] = date('g:i A', $record->timesubmitted);
-        $this->data['irregular'] = $emaildeans ? get_config('local_mxschool', 'esignout_notification_warning_irregular') : '';
+            $this->data['type'] = $record->type;
+            $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}" . (
+                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
+                ? " ({$record->dalternatename})" : ''
+            );
+            $this->data['passengers'] = $passengers ?? '';
+            $this->data['destination'] = $record->destination;
+            $this->data['date'] = date('n/j/y', $record->departuretime);
+            $this->data['departuretime'] = date('g:i A', $record->departuretime);
+            $this->data['approver'] = $record->approvername;
+            $this->data['permissionswarning'] = $permissionswarning;
+            $this->data['timesubmitted'] = date('g:i A', $record->timesubmitted);
+            $this->data['irregular'] = $emaildeans ? get_config('local_mxschool', 'esignout_notification_warning_irregular') : '';
 
-        array_push(
-            $this->recipients, $DB->get_record('user', array('id' => $record->student)),
-            $DB->get_record('user', array('id' => $record->approver)), $DB->get_record('user', array('id' => $record->hoh))
-        );
-        if ($emaildeans) {
-            $this->recipients[] = self::get_deans_user();
+            array_push(
+                $this->recipients, $DB->get_record('user', array('id' => $record->student)),
+                $DB->get_record('user', array('id' => $record->approver)), $DB->get_record('user', array('id' => $record->hoh))
+            );
+            if ($emaildeans) {
+                $this->recipients[] = self::get_deans_user();
+            }
         }
     }
 
@@ -139,10 +140,10 @@ class submitted extends notification {
      * @return array The list of strings which can serve as tags for the notification.
      */
     public function get_tags() {
-        return array_merge(array(
-            'studentname', 'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'approver', 'permissionswarning',
+        return array_merge(parent::get_tags(), array(
+            'type', 'driver', 'passengers', 'destination', 'date', 'departuretime', 'approver', 'permissionswarning',
             'timesubmitted', 'irregular'
-        ), parent::get_tags());
+        ));
     }
 
 }

@@ -76,7 +76,7 @@ if ($id) {
             "SELECT CONCAT(u.lastname, ', ', u.firstname) AS tutor, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
             array($USER->id)
         );
-        $record->tutor = $record->tutor.(
+        $record->tutor = $record->tutor . (
             $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
         );
     }
@@ -115,7 +115,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutoring_form');
 
 echo $output->header();
-echo $output->heading($title.($isstudent ? " for {$record->tutor}" : ''));
+echo $output->heading($title . ($isstudent ? " for {$record->tutor}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

@@ -154,7 +154,7 @@ class weekend_table extends local_mxschool_table {
      * Formats the destination and transportation time column to 'destination<br>transportation'.
      */
     protected function col_destinationtransportation($values) {
-        return ($values->destination ?: '').'<br>'.($values->transportation ?: '');
+        return ($values->destination ?: '') . '<br>' . ($values->transportation ?: '');
     }
 
     /**
@@ -162,7 +162,7 @@ class weekend_table extends local_mxschool_table {
      */
     protected function col_departurereturn($values) {
         return ($values->departuretime ? date('n/j/y g:i A', $values->departuretime) : '')
-               .'<br>'.($values->returntime ? date('n/j/y g:i A', $values->returntime) : '');
+               . '<br>' . ($values->returntime ? date('n/j/y g:i A', $values->returntime) : '');
     }
 
     /**
@@ -170,7 +170,7 @@ class weekend_table extends local_mxschool_table {
      */
     protected function col_actions($values) {
         return $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->wfid)
-              .$this->delete_icon($values->wfid);
+               . $this->delete_icon($values->wfid);
     }
 
 }

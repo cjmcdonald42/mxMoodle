@@ -84,7 +84,7 @@ if ($isstudent) {
         "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
         array($USER->id)
     );
-    $record->student = $record->student.(
+    $record->student = $record->student . (
         $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
     );
 }
@@ -143,7 +143,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
 
 echo $output->header();
-echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
+echo $output->heading($title . ($isstudent ? " for {$record->student}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

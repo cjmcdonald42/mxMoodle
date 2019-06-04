@@ -48,12 +48,12 @@ $data->start_date = get_config('local_mxschool', 'rooming_form_start_date') ?: g
 generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'rooming_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
-$submitednotification = get_notification('rooming_submitted');
-$data->submitted_subject = $submitednotification->subject;
-$data->submitted_body['text'] = $submitednotification->body_html;
-$unsubmitednotification = get_notification('rooming_notify_unsubmitted');
-$data->unsubmitted_subject = $unsubmitednotification->subject;
-$data->unsubmitted_body['text'] = $unsubmitednotification->body_html;
+$submittednotification = get_notification('rooming_submitted');
+$data->submitted_subject = $submittednotification->subject;
+$data->submitted_body['text'] = $submittednotification->body_html;
+$unsubmittednotification = get_notification('rooming_notify_unsubmitted');
+$data->unsubmitted_subject = $unsubmittednotification->subject;
+$data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
 $data->roommateinstructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 
 $form = new preferences_form();

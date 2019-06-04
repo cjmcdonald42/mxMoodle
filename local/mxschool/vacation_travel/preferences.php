@@ -70,10 +70,10 @@ generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
 $data->returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
-$submitednotification = get_notification('vacation_travel_submitted');
+$submittednotification = get_notification('vacation_travel_submitted');
 $data->submitted_subject = $submittednotification->subject;
 $data->submitted_body['text'] = $submittednotification->body_html;
-$unsubmitednotification = get_notification('vacation_travel_notify_unsubmitted');
+$unsubmittednotification = get_notification('vacation_travel_notify_unsubmitted');
 $data->unsubmitted_subject = $unsubmittednotification->subject;
 $data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
 

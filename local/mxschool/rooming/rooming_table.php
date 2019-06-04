@@ -119,10 +119,10 @@ class rooming_table extends local_mxschool_table {
         $dormmates = array();
         for ($i = 1; $i <= 6; $i++) {
             $dormmates[] = isset($values->{"d{$i}name"}) ? (
-                $values->{"d{$i}name"}.(
+                $values->{"d{$i}name"} . (
                     $values->{"d{$i}alternatename"} && $values->{"d{$i}alternatename"} !== $values->{"d{$i}firstname"}
                     ? " ({$values->{"d{$i}alternatename"}})" : ''
-                )." ({$values->{"d{$i}grade"}})"
+                ) . " ({$values->{"d{$i}grade"}})"
             ) : '';
         }
         return implode($this->is_downloading() ? "\n" : '<br>', $dormmates);
@@ -132,7 +132,7 @@ class rooming_table extends local_mxschool_table {
      * Formats the roommate column to "last, first (alternate)" or "last, first".
      */
     protected function col_roommate($values) {
-        return $values->rname.(
+        return $values->rname . (
             $values->ralternatename && $values->ralternatename !== $values->rfirstname ? " ({$values->ralternatename})" : ''
         );
     }

@@ -54,10 +54,10 @@ class preferences_form extends local_mxschool_form {
                         'vacation_travel_preferences_availability_returnenabled_text', 'local_mxschool'
                     ))
             ), 'notifications' => array(
-                'submitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\submitted(1)),
+                'submitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\notify_unsubmitted()),
+                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\unsubmitted_notification()),
                 'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'unsubmitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )

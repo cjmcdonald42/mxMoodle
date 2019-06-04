@@ -42,7 +42,7 @@ class preferences_form extends local_mxschool_form {
                 'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
             )
         );
-        $this->set_fields($fields, 'preferences', false, 'local_peertutoring');
+        $this->set_fields($fields, 'preferences', true, 'local_peertutoring');
     }
 
 }

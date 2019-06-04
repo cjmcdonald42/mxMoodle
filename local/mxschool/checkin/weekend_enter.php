@@ -84,7 +84,7 @@ if ($id) {
              LEFT JOIN {user} hoh ON d.hohid = hoh.id
              WHERE s.userid = ?", array($USER->id)
         );
-        $record->student = $record->student.(
+        $record->student = $record->student . (
             $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
         );
         $data->dorm = $record->dorm;
@@ -154,7 +154,7 @@ $formrenderable = new \local_mxschool\output\form(
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
-echo $output->heading($title.($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
+echo $output->heading($title . ($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

@@ -61,7 +61,7 @@ class tutor_table extends local_mxschool_table {
      * Formats the tutor column to "last, first (alternate)" or "last, first".
      */
     protected function col_tutor($values) {
-        return $values->tutor.(
+        return $values->tutor . (
             $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : ''
         );
     }

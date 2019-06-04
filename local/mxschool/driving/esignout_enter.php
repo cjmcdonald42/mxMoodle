@@ -105,7 +105,7 @@ if ($isstudent) {
         "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
         array($USER->id)
     );
-    $record->student = $record->student.(
+    $record->student = $record->student . (
         $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
     );
 }
@@ -169,7 +169,7 @@ if (
     !$isstudent || !get_config('local_mxschool', 'esignout_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_mxschool', 'school_ip')
 ) {
-    echo $output->heading($title.($isstudent ? " for {$record->student}" : ''));
+    echo $output->heading($title . ($isstudent ? " for {$record->student}" : ''));
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
 } else {
