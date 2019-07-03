@@ -61,6 +61,34 @@ function xmldb_local_mxschool_install() {
 
     set_config('vacation_form_returnenabled', '1', 'local_mxschool');
 
+    $subpackages = array(
+        array('subpackage' => 'user_management', 'pages' => json_encode((array(
+            'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php'
+        ))),
+        array('subpackage' => 'checkin', 'pages' => json_encode(array(
+            'preferences' => 'preferences.php', 'generic_report' => 'generic_report.php', 'weekday_report' => 'weekday_report.php',
+            'weekend_form' => 'weekend_enter.php', 'weekend_report' => 'weekend_report.php',
+            'weekend_calculator' => 'weekend_calculator.php'
+        ))),
+        array('subpackage' => 'esignout', 'pages' => json_encode(array(
+            'preferences' => 'preferences.php', 'vehicle_report' => 'vehicle_report.php', 'form' => 'esignout_enter.php',
+            'report' => 'esignout_report.php'
+        ))),
+        array('subpackage' => 'advisor_selection', 'pages' => json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'advisor_enter.php', 'report' => 'advisor_report.php'
+        ))),
+        array('subpackage' => 'rooming', 'pages' => json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'rooming_enter.php', 'report' => 'rooming_report.php'
+        ))),
+        array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'vacation_enter.php', 'report' => 'vacation_report.php',
+            'transportation_report' => 'transportation_report.php'
+        )))
+    );
+    foreach ($subpackages as $subpackage) {
+        $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+    }
+
     $sites = array(
         array('name' => 'Logan', 'type' => 'Plane', 'enabled_departure' => 1, 'enabled_return' => 1),
         array('name' => 'South Station', 'type' => 'Train', 'enabled_departure' => 1, 'enabled_return' => 1),

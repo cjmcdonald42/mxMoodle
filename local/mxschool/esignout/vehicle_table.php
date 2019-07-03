@@ -18,7 +18,7 @@
  * Student vehicle registration table for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage driving
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -40,7 +40,7 @@ class vehicle_table extends local_mxschool_table {
         $columns = array('student', 'grade', 'phone', 'license', 'make', 'model', 'color', 'registration');
         $headers = array();
         foreach ($columns as $column) {
-            $headers[] = get_string("vehicle_report_header_{$column}", 'local_mxschool');
+            $headers[] = get_string("esignout_vehicle_report_header_{$column}", 'local_mxschool');
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
@@ -74,7 +74,7 @@ class vehicle_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/driving/vehicle_edit.php', $values->id).$this->delete_icon($values->id);
+        return $this->edit_icon('/local/mxschool/esignout/vehicle_edit.php', $values->id).$this->delete_icon($values->id);
     }
 
 }

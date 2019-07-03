@@ -49,7 +49,7 @@ class weekend_table extends local_mxschool_table {
         }
         $headers1 = array();
         foreach ($columns1 as $column) {
-            $headers1[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
+            $headers1[] = get_string("checkin_weekend_report_header_{$column}", 'local_mxschool');
         }
         $centered = array('room', 'grade', 'parent', 'invite', 'approved');
         $fields = array(
@@ -60,10 +60,10 @@ class weekend_table extends local_mxschool_table {
         );
         for ($i = 1; $i <= $end - $start + 1; $i++) {
             $columns1[] = $centered[] = "early_{$i}";
-            $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
+            $headers1[] = get_string('checkin_weekend_report_header_early', 'local_mxschool');
             $fields[] = "'' AS early_{$i}";
             $columns1[] = $centered[] = "late_{$i}";
-            $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
+            $headers1[] = get_string('checkin_weekend_report_header_late', 'local_mxschool');
             $fields[] = "'' AS late_{$i}";
         }
         $columns2 = array(
@@ -71,7 +71,7 @@ class weekend_table extends local_mxschool_table {
         );
         $headers2 = array();
         foreach ($columns2 as $column) {
-            $headers2[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
+            $headers2[] = get_string("checkin_weekend_report_header_{$column}", 'local_mxschool');
         }
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);

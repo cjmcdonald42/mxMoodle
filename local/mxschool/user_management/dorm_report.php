@@ -42,7 +42,7 @@ $parents = array(
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
 );
 $url = '/local/mxschool/user_management/dorm_report.php';
-$title = get_string('dorm_report', 'local_mxschool');
+$title = get_string('user_management_dorm_report', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
@@ -53,11 +53,11 @@ if ($action === 'delete' && $id) {
         $record->deleted = 1;
         $DB->update_record('local_mxschool_dorm', $record);
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('dorm_delete_success', 'local_mxschool'), 'delete'
+            new moodle_url($url, $urlparams), get_string('user_management_dorm_delete_success', 'local_mxschool'), 'delete'
         );
     } else {
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('dorm_delete_failure', 'local_mxschool'), 'delete', false
+            new moodle_url($url, $urlparams), get_string('user_management_dorm_delete_failure', 'local_mxschool'), 'delete', false
         );
     }
 }
@@ -65,7 +65,7 @@ if ($action === 'delete' && $id) {
 $table = new dorm_table($search);
 
 $addbutton = new stdClass();
-$addbutton->text = get_string('dorm_report_add', 'local_mxschool');
+$addbutton->text = get_string('user_management_dorm_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/user_management/dorm_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');

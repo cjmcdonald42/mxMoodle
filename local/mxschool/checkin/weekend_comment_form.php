@@ -43,7 +43,7 @@ class weekend_comment_form extends local_mxschool_form {
             'dorm' => self::ELEMENT_HIDDEN_INT,
             'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 4, 'cols' => 100))
         ));
-        $this->set_fields($fields, 'weekend_comment_form', false);
+        $this->set_fields($fields, 'checkin_weekend_comment_form', false);
     }
 
 }

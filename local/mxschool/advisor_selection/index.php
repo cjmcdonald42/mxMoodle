@@ -28,27 +28,10 @@
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 
 if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
 admin_externalpage_setup('advisor_selection_index');
-
-$url = '/local/mxschool/advisor_selection/index.php';
-$title = get_string('advisor_selection', 'local_mxschool');
-
-setup_generic_page($url, $title);
-
-$output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index(array(
-    get_string('advisor_selection_preferences', 'local_mxschool') => '/local/mxschool/advisor_selection/preferences.php',
-    get_string('advisor_selection_form', 'local_mxschool') => '/local/mxschool/advisor_selection/advisor_enter.php',
-    get_string('advisor_selection_report', 'local_mxschool') => '/local/mxschool/advisor_selection/advisor_report.php'
-));
-
-echo $output->header();
-echo $output->heading($title);
-echo $output->render($renderable);
-echo $output->footer();
+render_index_page('advisor_selection');

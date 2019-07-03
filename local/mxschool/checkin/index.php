@@ -28,30 +28,10 @@
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 
 if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
 admin_externalpage_setup('checkin_index');
-
-$url = '/local/mxschool/checkin/index.php';
-$title = get_string('checkin', 'local_mxschool');
-
-setup_generic_page($url, $title);
-
-$output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index(array(
-    get_string('checkin_preferences', 'local_mxschool') => '/local/mxschool/checkin/preferences.php',
-    get_string('generic_report', 'local_mxschool') => '/local/mxschool/checkin/generic_report.php',
-    get_string('weekday_report', 'local_mxschool') => '/local/mxschool/checkin/weekday_report.php',
-    get_string('weekend_form', 'local_mxschool') => '/local/mxschool/checkin/weekend_enter.php',
-    get_string('weekend_report', 'local_mxschool') => '/local/mxschool/checkin/weekend_report.php',
-    get_string('weekend_calculator', 'local_mxschool') => '/local/mxschool/checkin/weekend_calculator.php'
-));
-
-echo $output->header();
-echo $output->heading($title);
-echo $output->render($renderable);
-echo $output->footer();
+render_index_page('checkin');

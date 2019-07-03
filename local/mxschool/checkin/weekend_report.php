@@ -50,7 +50,7 @@ $parents = array(
     get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
 );
 $url = '/local/mxschool/checkin/weekend_report.php';
-$title = get_string('weekend_report', 'local_mxschool');
+$title = get_string('checkin_weekend_report', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
@@ -67,11 +67,11 @@ if ($action === 'delete' && $id) {
         $record->active = 0;
         $DB->update_record('local_mxschool_weekend_form', $record);
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('weekend_form_delete_success', 'local_mxschool'), 'delete'
+            new moodle_url($url, $urlparams), get_string('checkin_weekend_form_delete_success', 'local_mxschool'), 'delete'
         );
     } else {
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('weekend_form_delete_failure', 'local_mxschool'), 'delete', false
+            new moodle_url($url, $urlparams), get_string('checkin_weekend_form_delete_failure', 'local_mxschool'), 'delete', false
         );
     }
 }
@@ -88,8 +88,8 @@ $weekends = get_weekend_list();
 $startdays = get_weekend_start_day_list();
 $enddays = get_weekend_end_day_list();
 $submittedoptions = array(
-    '1' => get_string('weekend_report_select_submitted_true', 'local_mxschool'),
-    '0' => get_string('weekend_report_select_submitted_false', 'local_mxschool')
+    '1' => get_string('checkin_weekend_report_select_submitted_true', 'local_mxschool'),
+    '0' => get_string('checkin_weekend_report_select_submitted_false', 'local_mxschool')
 );
 $start = array_key_exists($filter->start, $startdays) ? $filter->start : $weekendrecord->start_offset;
 $end = array_key_exists($filter->end, $enddays) ? $filter->end : $weekendrecord->end_offset;
@@ -108,7 +108,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), get_string('weekend_comment_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('checkin_weekend_comment_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -116,15 +116,15 @@ $dropdowns = array(
     new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool')),
     new local_mxschool_dropdown('weekend', $weekends, $filter->weekend),
     new local_mxschool_dropdown(
-        'start', $startdays, $filter->start, get_string('weekend_report_select_start_day_default', 'local_mxschool')
+        'start', $startdays, $filter->start, get_string('checkin_weekend_report_select_start_day_default', 'local_mxschool')
     ), new local_mxschool_dropdown(
-        'end', $enddays, $filter->end, get_string('weekend_report_select_end_day_default', 'local_mxschool')
+        'end', $enddays, $filter->end, get_string('checkin_weekend_report_select_end_day_default', 'local_mxschool')
     ), new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
 $addbutton = new stdClass();
-$addbutton->text = get_string('weekend_report_add', 'local_mxschool');
+$addbutton->text = get_string('checkin_weekend_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/checkin/weekend_enter.php');
 $headers = array(array(
     'text' => '', 'length' => $filter->dorm ? (
@@ -145,7 +145,7 @@ $reportrenderable = new \local_mxschool\output\report($table, $filter->search, $
 $formrenderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading(get_string('weekend_report_title', 'local_mxschool', array(
+echo $output->heading(get_string('checkin_weekend_report_title', 'local_mxschool', array(
     'dorm' => $filter->dorm ? "{$dorms[$filter->dorm]} " : '', 'weekend' => $weekends[$filter->weekend],
     'type' => $weekendrecord->type
 )));

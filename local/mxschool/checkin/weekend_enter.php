@@ -45,7 +45,7 @@ $parents = array(
 );
 $redirect = get_redirect($parents);
 $url = '/local/mxschool/checkin/weekend_enter.php';
-$title = get_string('weekend_form', 'local_mxschool');
+$title = get_string('checkin_weekend_form', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
@@ -132,7 +132,7 @@ if ($form->is_cancelled()) {
     }
     $result = (new \local_mxschool\local\checkin\weekend_form_submitted($id))->send();
     logged_redirect(
-        $form->get_redirect(), get_string('weekend_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('checkin_weekend_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -140,12 +140,12 @@ $output = $PAGE->get_renderer('local_mxschool');
 $bottominstructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $bottominstructions = str_replace(
     '{hoh}', $isstudent ? $record->hoh : get_string(
-        'weekend_form_instructions_placeholder_hoh', 'local_mxschool'
+        'checkin_weekend_form_instructions_placeholder_hoh', 'local_mxschool'
     ), $bottominstructions
 );
 $bottominstructions = str_replace(
     '{permissionsline}', $isstudent ? $record->permissionsline : get_string(
-        'weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'
+        'checkin_weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'
     ), $bottominstructions
 );
 $formrenderable = new \local_mxschool\output\form(

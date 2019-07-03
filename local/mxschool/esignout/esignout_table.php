@@ -18,7 +18,7 @@
  * eSignout table for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage driving
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -190,7 +190,7 @@ class esignout_table extends local_mxschool_table {
     protected function col_actions($values) {
         global $USER, $PAGE;
         if (!$this->isstudent) {
-            return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id).$this->delete_icon($values->id);
+            return $this->edit_icon('/local/mxschool/esignout/esignout_enter.php', $values->id).$this->delete_icon($values->id);
         }
         if ($values->userid !== $USER->id) {
             return '-';
@@ -204,7 +204,7 @@ class esignout_table extends local_mxschool_table {
         $editcutoff->modify("+{$editwindow} minutes");
         $now = new DateTime('now', core_date::get_server_timezone_object());
         if ($now->getTimestamp() < $editcutoff->getTimestamp()) {
-            return $this->edit_icon('/local/mxschool/driving/esignout_enter.php', $values->id);
+            return $this->edit_icon('/local/mxschool/esignout/esignout_enter.php', $values->id);
         }
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\signin_button($values->id);

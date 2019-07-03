@@ -62,7 +62,7 @@ class weekend_form extends local_mxschool_form {
             'transportation' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
             'phone' => self::ELEMENT_TEXT
         ));
-        $this->set_fields($fields, 'weekend_form', false);
+        $this->set_fields($fields, 'checkin_weekend_form', false);
 
         $mform = $this->_form;
         $mform->hideIf('dorm', 'isstudent', 'eq');
@@ -83,7 +83,7 @@ class weekend_form extends local_mxschool_form {
         $departure = generate_timestamp($data, 'departure');
         $return = generate_timestamp($data, 'return');
         if ($departure >= $return) {
-            $errors['return'] = get_string('weekend_form_error_outoforder', 'local_mxschool');
+            $errors['return'] = get_string('checkin_weekend_form_error_outoforder', 'local_mxschool');
         }
         $departurestartbound = new DateTime('now', core_date::get_server_timezone_object());
         $departurestartbound->setTimestamp($departure);
@@ -104,19 +104,19 @@ class weekend_form extends local_mxschool_form {
                 $returnstartbound->getTimestamp() < (int)$weekend->sunday_time
                 || $returnendbound->getTimestamp() >= (int)$weekend->sunday_time
             ) {
-                $errors['return'] = get_string('weekend_form_error_indifferentweekends', 'local_mxschool');
+                $errors['return'] = get_string('checkin_weekend_form_error_indifferentweekends', 'local_mxschool');
             }
         } else {
-            $errors['departure'] = get_string('weekend_form_error_notinweekend', 'local_mxschool');
+            $errors['departure'] = get_string('checkin_weekend_form_error_notinweekend', 'local_mxschool');
         }
         if (empty($data['destination'])) {
-            $errors['destination'] = get_string('weekend_form_error_nodestination', 'local_mxschool');
+            $errors['destination'] = get_string('checkin_weekend_form_error_nodestination', 'local_mxschool');
         }
         if (empty($data['transportation'])) {
-            $errors['transportation'] = get_string('weekend_form_error_notransportation', 'local_mxschool');
+            $errors['transportation'] = get_string('checkin_weekend_form_error_notransportation', 'local_mxschool');
         }
         if (empty($data['phone'])) {
-            $errors['phone'] = get_string('weekend_form_error_nophone', 'local_mxschool');
+            $errors['phone'] = get_string('checkin_weekend_form_error_nophone', 'local_mxschool');
         }
         return $errors;
     }

@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Driving index page for Middlesex School's Dorm and Student functions plugin.
+ * eSignout index page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage driving
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -28,28 +28,10 @@
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 
 if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
-admin_externalpage_setup('driving_index');
-
-$url = '/local/mxschool/driving/index.php';
-$title = get_string('driving', 'local_mxschool');
-
-setup_generic_page($url, $title);
-
-$output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index(array(
-    get_string('esignout_preferences', 'local_mxschool') => '/local/mxschool/driving/preferences.php',
-    get_string('vehicle_report', 'local_mxschool') => '/local/mxschool/driving/vehicle_report.php',
-    get_string('esignout', 'local_mxschool') => '/local/mxschool/driving/esignout_enter.php',
-    get_string('esignout_report', 'local_mxschool') => '/local/mxschool/driving/esignout_report.php'
-));
-
-echo $output->header();
-echo $output->heading($title);
-echo $output->render($renderable);
-echo $output->footer();
+admin_externalpage_setup('esignout_index');
+render_index_page('esignout');

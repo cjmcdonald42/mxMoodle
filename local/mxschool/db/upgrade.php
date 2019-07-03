@@ -83,5 +83,75 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019052201, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019070300) {
+
+        // Define table local_mxschool_subpackage to be created.
+        $table = new xmldb_table('local_mxschool_subpackage');
+
+        // Adding fields to table local_mxschool_subpackage.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('package', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, 'mxschool');
+        $table->add_field('subpackage', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('pages', XMLDB_TYPE_TEXT, null, null, null, null, null);
+
+        // Adding keys to table local_mxschool_subpackage.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for local_mxschool_subpackage.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070300, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2019070301) {
+
+        // Changing nullability of field subpackage on table local_mxschool_subpackage to null.
+        $table = new xmldb_table('local_mxschool_subpackage');
+        $field = new xmldb_field('subpackage', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'package');
+
+        // Launch change of nullability for field subpackage.
+        $dbman->change_field_notnull($table, $field);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070301, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2019070302) {
+        $subpackages = array(
+            array('subpackage' => 'user_management', 'pages' => json_encode(array(
+                'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php',
+                'dorm_report' => 'dorm_report.php'
+            ))),
+            array('subpackage' => 'checkin', 'pages' => json_encode(array(
+                'preferences' => 'preferences.php', 'generic_report' => 'generic_report.php',
+                'weekday_report' => 'weekday_report.php', 'weekend_form' => 'weekend_enter.php',
+                'weekend_report' => 'weekend_report.php', 'weekend_calculator' => 'weekend_calculator.php'
+            ))),
+            array('subpackage' => 'esignout', 'pages' => json_encode(array(
+                'preferences' => 'preferences.php', 'vehicle_report' => 'vehicle_report.php', 'form' => 'esignout_enter.php',
+                'report' => 'esignout_report.php'
+            ))),
+            array('subpackage' => 'advisor_selection', 'pages' => json_encode(array(
+                'preferences' => 'preferences.php', 'form' => 'advisor_enter.php', 'report' => 'advisor_report.php'
+            ))),
+            array('subpackage' => 'rooming', 'pages' => json_encode(array(
+                'preferences' => 'preferences.php', 'form' => 'rooming_enter.php', 'report' => 'rooming_report.php'
+            ))),
+            array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
+                'preferences' => 'preferences.php', 'form' => 'vacation_enter.php', 'report' => 'vacation_report.php',
+                'transportation_report' => 'transportation_report.php'
+            )))
+        );
+        foreach ($subpackages as $subpackage) {
+            $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070302, 'local', 'mxschool');
+    }
+
     return true;
 }

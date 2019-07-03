@@ -18,7 +18,7 @@
  * Page for students to sign out for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage driving
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -41,10 +41,10 @@ $id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php'
+    get_string('esignout', 'local_mxschool') => '/local/mxschool/esignout/index.php'
 );
 $redirect = get_redirect($parents);
-$url = '/local/mxschool/driving/esignout_enter.php';
+$url = '/local/mxschool/esignout/esignout_enter.php';
 $title = get_string('esignout', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);

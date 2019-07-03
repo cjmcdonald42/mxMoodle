@@ -41,7 +41,7 @@ $parents = array(
     get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
 );
 $url = '/local/mxschool/checkin/generic_report.php';
-$title = get_string('generic_report', 'local_mxschool');
+$title = get_string('checkin_generic_report', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
@@ -55,6 +55,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
 
 echo $output->header();
-echo $output->heading(get_string('generic_report_title', 'local_mxschool', $dorm ? "{$dorms[$dorm]} " : ''));
+echo $output->heading(get_string('checkin_generic_report_title', 'local_mxschool', $dorm ? "{$dorms[$dorm]} " : ''));
 echo $output->render($renderable);
 echo $output->footer();

@@ -18,7 +18,7 @@
  * Form for editing vehicle data for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage driving
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -47,6 +47,6 @@ class vehicle_edit_form extends local_mxschool_form {
             'color' => self::ELEMENT_TEXT_REQUIRED,
             'registration' => self::ELEMENT_TEXT_REQUIRED
         ));
-        $this->set_fields($fields, 'vehicle_edit');
+        $this->set_fields($fields, 'esignout_vehicle_edit');
     }
 }

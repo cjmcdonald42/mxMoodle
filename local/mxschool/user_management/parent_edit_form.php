@@ -51,7 +51,7 @@ class parent_edit_form extends local_mxschool_form {
                 'email' => self::ELEMENT_EMAIL_REQUIRED
             )
         );
-        $this->set_fields($fields, 'parent_edit');
+        $this->set_fields($fields, 'user_management_parent_edit');
     }
 
 }

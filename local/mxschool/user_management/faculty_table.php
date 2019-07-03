@@ -43,7 +43,7 @@ class faculty_table extends local_mxschool_table {
         }
         $headers = array();
         foreach ($columns as $column) {
-            $headers[] = get_string("faculty_report_header_{$column}", 'local_mxschool');
+            $headers[] = get_string("user_management_faculty_report_header_{$column}", 'local_mxschool');
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');

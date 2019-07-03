@@ -93,7 +93,7 @@ class student_table extends local_mxschool_table {
         }
         $headers = array();
         foreach ($columns as $column) {
-            $headers[] = get_string("student_report_{$type}_header_{$column}", 'local_mxschool');
+            $headers[] = get_string("user_management_student_report_{$type}_header_{$column}", 'local_mxschool');
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');

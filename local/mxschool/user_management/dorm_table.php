@@ -40,7 +40,7 @@ class dorm_table extends local_mxschool_table {
         $columns = array('name', 'abbreviation', 'hoh', 'permissionsline', 'type', 'gender', 'available');
         $headers = array();
         foreach ($columns as $column) {
-            $headers[] = get_string("dorm_report_header_{$column}", 'local_mxschool');
+            $headers[] = get_string("user_management_dorm_report_header_{$column}", 'local_mxschool');
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');

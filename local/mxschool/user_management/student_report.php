@@ -46,14 +46,14 @@ $parents = array(
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
 );
 $url = '/local/mxschool/user_management/student_report.php';
-$title = get_string('student_report', 'local_mxschool');
+$title = get_string('user_management_student_report', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
 $types = array(
-    'students' => get_string('student_report_type_students', 'local_mxschool'),
-    'permissions' => get_string('student_report_type_permissions', 'local_mxschool'),
-    'parents' => get_string('student_report_type_parents', 'local_mxschool')
+    'students' => get_string('user_management_student_report_type_students', 'local_mxschool'),
+    'permissions' => get_string('user_management_student_report_type_permissions', 'local_mxschool'),
+    'parents' => get_string('user_management_student_report_type_parents', 'local_mxschool')
 );
 
 if (!isset($types[$type])) {
@@ -77,11 +77,11 @@ if ($type === 'parents' && $action === 'delete' && $id) {
         }
         $DB->update_record('local_mxschool_parent', $record);
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('parent_delete_success', 'local_mxschool'), 'delete'
+            new moodle_url($url, $urlparams), get_string('user_management_parent_delete_success', 'local_mxschool'), 'delete'
         );
     } else {
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('parent_delete_failure', 'local_mxschool'), 'delete', false
+            new moodle_url($url, $urlparams), get_string('user_management_parent_delete_failure', 'local_mxschool'), 'delete', false
         );
     }
 }
@@ -96,7 +96,7 @@ $dropdowns = array(
 );
 if ($type === 'parents') {
     $addbutton = new stdClass();
-    $addbutton->text = get_string('parent_report_add', 'local_mxschool');
+    $addbutton->text = get_string('user_management_parent_report_add', 'local_mxschool');
     $addbutton->url = new moodle_url('/local/mxschool/user_management/parent_edit.php');
 }
 

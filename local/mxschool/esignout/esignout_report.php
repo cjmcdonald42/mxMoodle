@@ -18,7 +18,7 @@
  * eSignout report for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage driving
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -46,9 +46,9 @@ $id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php'
+    get_string('esignout', 'local_mxschool') => '/local/mxschool/esignout/index.php'
 );
-$url = '/local/mxschool/driving/esignout_report.php';
+$url = '/local/mxschool/esignout/esignout_report.php';
 $title = get_string('esignout_report', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
@@ -93,14 +93,17 @@ if (!$isstudent) {
 }
 $addbutton = new stdClass();
 $addbutton->text = get_string('esignout_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/driving/esignout_enter.php');
+$addbutton->url = new moodle_url('/local/mxschool/esignout/esignout_enter.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);
-if ($isstudent && get_config('local_mxschool', 'esignout_form_ipenabled') && $_SERVER['REMOTE_ADDR'] !== get_config('local_mxschool', 'school_ip')) {
+if (
+    $isstudent && get_config('local_mxschool', 'esignout_form_ipenabled')
+    && $_SERVER['REMOTE_ADDR'] !== get_config('local_mxschool', 'school_ip')
+) {
     echo $output->heading(get_config('local_mxschool', 'esignout_report_iperror'));
 }
 echo $output->render($renderable);

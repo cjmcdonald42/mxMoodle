@@ -29,6 +29,11 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_peertutoring_install() {
     global $DB;
 
+    $package = array('package' => 'peertutoring', 'pages' => json_encode(array(
+        'preferences' => 'preferences.php', 'tutoring_form' => 'tutoring_enter.php', 'tutoring_report' => 'tutoring_report.php'
+    )));
+    $DB->insert_record('local_mxschool_subpackage', (object) $package);
+
     $types = array(
         array('displaytext' => 'Homework help'),
         array('displaytext' => 'Study strategies'),
