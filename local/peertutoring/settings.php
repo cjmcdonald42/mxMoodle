@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Admin settings for Middlesex School's Dorm and Student functions plugin.
+ * Admin settings for Middlesex School's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
