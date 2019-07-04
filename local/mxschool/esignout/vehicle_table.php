@@ -38,10 +38,9 @@ class vehicle_table extends local_mxschool_table {
      */
     public function __construct($search) {
         $columns = array('student', 'grade', 'phone', 'license', 'make', 'model', 'color', 'registration');
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("esignout_vehicle_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("esignout_vehicle_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(

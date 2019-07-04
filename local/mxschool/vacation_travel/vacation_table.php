@@ -44,10 +44,9 @@ class vacation_table extends local_mxschool_table {
         if ($filter->dorm !== '') {
             unset($columns[array_search('dorm', $columns)]);
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("vacation_travel_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("vacation_travel_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(

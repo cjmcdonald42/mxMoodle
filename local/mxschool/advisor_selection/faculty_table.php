@@ -37,9 +37,9 @@ class faculty_table extends local_mxschool_table {
     public function __construct() {
         $columns = array('name', 'advisoryavailable', 'advisoryclosing');
         $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("faculty_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("user_management_faculty_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         $fields = array(
             'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'f.advisory_available AS advisoryavailable',
             'f.advisory_closing AS advisoryclosing'

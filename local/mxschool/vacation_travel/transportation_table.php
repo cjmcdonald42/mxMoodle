@@ -70,10 +70,9 @@ class transportation_table extends local_mxschool_table {
         if ($this->is_downloading()) {
             $columns[] = 'email';
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("vacation_travel_transportation_report_{$view}_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) use($view) {
+            return get_string("vacation_travel_transportation_report_{$view}_header_{$column}", 'local_mxschool');
+        }, $columns);
         if (!$this->is_downloading()) {
             $columns[] = 'actions';
             $headers[] = get_string('report_header_actions', 'local_mxschool');

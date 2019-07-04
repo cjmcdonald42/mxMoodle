@@ -173,11 +173,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::get_dorm_students_parameters(), array('dorm' => $dorm));
 
         $list = $params['dorm'] ? get_dorm_student_list($params['dorm']) : get_boarding_student_list();
-        $result = array();
-        foreach ($list as $userid => $name) {
-            $result[] = array('value' => $userid, 'text' => $name);
-        }
-        return $result;
+        return convert_associative_to_object($list);
     }
 
     /**
@@ -267,18 +263,11 @@ class local_mxschool_external extends external_api {
         global $DB;
         $result = new stdClass();
         $result->types = get_esignout_type_list($params['userid']);
-        $list = get_passenger_list();
-        $result->passengers = array();
-        foreach ($list as $userid => $name) {
-            if ($userid !== $params['userid']) {
-                $result->passengers[] = array('value' => $userid, 'text' => $name);
-            }
-        }
-        $list = get_current_driver_list($params['userid']);
-        $result->drivers = array();
-        foreach ($list as $esignoutid => $name) {
-            $result->drivers[] = array('value' => $esignoutid, 'text' => $name);
-        }
+        $result->passengers = convert_associative_to_object(get_passenger_list());
+        $result->passengers = array_filter($result->passengers, function($passenger) use($params) {
+            return $passenger['value'] !== $params['userid'];
+        });
+        $result->drivers = convert_associative_to_object(get_current_driver_list($params['userid']));
         $result->maydrivepassengers = $DB->get_field(
             'local_mxschool_permissions', 'may_drive_passengers', array('userid' => $params['userid'])
         ) === 'Yes';
@@ -407,11 +396,7 @@ class local_mxschool_external extends external_api {
 
         global $DB;
         $result = new stdClass();
-        $list = get_student_without_advisor_form_list();
-        $result->students = array();
-        foreach ($list as $userid => $name) {
-            $result->students[] = array('value' => $userid, 'text' => $name);
-        }
+        $result->students = convert_associative_to_object(get_student_without_advisor_form_list());
         $result->current = $DB->get_record_sql(
             "SELECT u.id AS userid, CONCAT(u.lastname, ', ', u.firstname) AS name
              FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.advisorid = u.id
@@ -426,11 +411,7 @@ class local_mxschool_external extends external_api {
              FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_faculty} f ON s.advisorid = f.userid
              WHERE s.userid = ?", array($params['userid'])
         );
-        $list = get_available_advisor_list();
-        $result->available = array();
-        foreach ($list as $userid => $name) {
-            $result->available[] = array('value' => $userid, 'text' => $name);
-        }
+        $result->available = convert_associative_to_object(get_available_advisor_list());
         return $result;
     }
 
@@ -524,31 +505,15 @@ class local_mxschool_external extends external_api {
 
         global $DB;
         $result = new stdClass();
-        $list = get_student_without_rooming_form_list();
-        $result->students = array();
-        foreach ($list as $userid => $name) {
-            $result->students[] = array('value' => $userid, 'text' => $name);
-        }
+        $result->students = convert_associative_to_object(get_student_without_rooming_form_list());
         $result->dorm = $DB->get_field_sql(
             "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
             array($params['userid'])
         );
         $gender = $DB->get_field('local_mxschool_student', 'gender', array('userid' => $params['userid']));
-        $list = get_roomtype_list($gender);
-        $result->roomtypes = array();
-        foreach ($list as $internalname => $localizedname) {
-            $result->roomtypes[] = array('value' => $internalname, 'text' => $localizedname);
-        }
-        $list = get_student_possible_same_grade_dormmate_list($params['userid']);
-        $result->gradedormmates = array();
-        foreach ($list as $userid => $name) {
-            $result->gradedormmates[] = array('value' => $userid, 'text' => $name);
-        }
-        $list = get_student_possible_dormmate_list($params['userid']);
-        $result->dormmates = array();
-        foreach ($list as $userid => $name) {
-            $result->dormmates[] = array('value' => $userid, 'text' => $name);
-        }
+        $result->roomtypes = convert_associative_to_object(get_roomtype_list($gender));
+        $result->gradedormmates = convert_associative_to_object(get_student_possible_same_grade_dormmate_list($params['userid']));
+        $result->dormmates = convert_associative_to_object(get_student_possible_dormmate_list($params['userid']));
         return $result;
     }
 
@@ -609,28 +574,21 @@ class local_mxschool_external extends external_api {
             'departure' => $departure, 'return' => $return
         ));
 
-        global $DB;
         $result = new stdClass();
-        $list = get_student_without_vacation_travel_form_list();
-        $result->students = array();
-        foreach ($list as $userid => $name) {
-            $result->students[] = array('value' => $userid, 'text' => $name);
-        }
+        $result->students = convert_associative_to_object(get_student_without_vacation_travel_form_list());
         $result->departure = new stdClass();
         $result->departure->types = get_vacation_travel_type_list($params['departure']['mxtransportation'] ?? null);
         $list = get_vacation_travel_departure_sites_list($params['departure']['type'] ?? null);
-        $result->departure->sites = array();
-        foreach ($list as $id => $name) {
-            $result->departure->sites[] = (string)$id;
-        }
+        $result->departure->sites = array_map(function($id) {
+            return (string) $id;
+        }, array_keys($list));
         $result->departure->default = get_site_default_departure_time($params['departure']['site'] ?? null);
         $result->return = new stdClass();
         $result->return->types = get_vacation_travel_type_list($params['return']['mxtransportation'] ?? null);
         $list = get_vacation_travel_return_sites_list($params['return']['type'] ?? null);
-        $result->return->sites = array();
-        foreach ($list as $id => $name) {
-            $result->return->sites[] = (string)$id;
-        }
+        $result->return->sites = array_map(function($id) {
+            return (string) $id;
+        }, array_keys($list));
         $result->return->default = get_site_default_return_time($params['return']['site'] ?? null);
         return $result;
     }

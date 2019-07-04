@@ -57,7 +57,7 @@ abstract class local_mxschool_table extends table_sql {
         parent::__construct($uniqueid);
 
         $this->define_columns($columns);
-        $this->define_headers($headers);
+        $this->define_headers(array_values($headers));
         $this->sortable(true, $defaultsort, $ascending ? SORT_ASC : SORT_DESC);
         if (in_array('actions', $columns)) {
             $centered[] = $noprint[] = 'actions';

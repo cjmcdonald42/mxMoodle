@@ -215,10 +215,8 @@ abstract class bulk_notification {
      *                          if the primary recipient has no adresseename and is missing either the firstname or lastname field.
      */
     final public function send() {
-        $result = true;
-        foreach ($this->notifications as $notification) {
-            $result &= $notification->send();
-        }
-        return $result;
+        return array_reduce($this->notifications, function($acc, $notification) {
+            return $notification->send() && $acc;
+        }, true);
     }
 }

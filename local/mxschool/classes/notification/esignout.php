@@ -72,20 +72,15 @@ class submitted extends notification {
             }
             if (isset($record->passengers)) {
                 $passengerlist = json_decode($record->passengers);
-                if (!count($passengerlist)) { // Driver with no passengers.
-                    $passengers = get_string('esignout_report_nopassengers', 'local_mxschool');
-                }
-                $passengernames = array();
-                foreach ($passengerlist as $passenger) {
+                $passengers = count($passengerlist) ? implode('<br>', array_map(function($passenger) use($DB) {
                     $passengerrecord = $DB->get_record_sql(
                         "SELECT firstname, lastname, alternatename FROM {user} WHERE id = ?", array($passenger)
                     );
-                    $passengernames[] = "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
+                    return "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
                         !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
                         ? " ({$passengerrecord->alternatename})" : ''
                     );
-                }
-                $passengers = implode('<br>', $passengernames);
+                }, $passengerlist)) : $passengers = get_string('esignout_report_nopassengers', 'local_mxschool');
             }
             $emaildeans = false;
             if ($record->type === 'Driver') {

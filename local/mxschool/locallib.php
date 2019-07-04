@@ -171,11 +171,7 @@ function get_record($queryfields, $where, $params = array()) {
     foreach ($queryfields as $table => $tablefields) {
         $abbreviation = $tablefields['abbreviation'];
         foreach ($tablefields['fields'] as $header => $name) {
-            if (is_numeric($header)) {
-                $selectarray[] = "{$abbreviation}.{$name}";
-            } else {
-                $selectarray[] = "{$abbreviation}.{$header} AS {$name}";
-            }
+            $selectarray[] = is_numeric($header) ? "{$abbreviation}.{$name}" : "{$abbreviation}.{$header} AS {$name}";
         }
         if (!isset($tablefields['join'])) {
             $fromarray[] = "{{$table}} {$abbreviation}";
@@ -501,6 +497,18 @@ function convert_records_to_list($records) {
         }
     }
     return $list;
+}
+
+/**
+ * Converts an associative array into an array of objects with properties value and text to be used in select elements.
+ *
+ * @param array $list The associative array to convert.
+ * @return array The same data in the form {'value': key, 'text': value}.
+ */
+function convert_associative_to_object($list) {
+    return array_map(function($key, $value) {
+        return array('value' => $key, 'text' => $value);
+    }, array_keys($list), $list);
 }
 
 /**

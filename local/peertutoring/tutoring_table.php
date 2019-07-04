@@ -51,10 +51,9 @@ class tutoring_table extends local_mxschool_table {
         if ($filter->type) {
             unset($columns[array_search('type', $columns)]);
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("tutoring_report_header_{$column}", 'local_peertutoring');
-        }
+        $headers = array_map(function($column) {
+            return get_string("tutoring_report_header_{$column}", 'local_peertutoring');
+        }, $columns);
         if (!$email && !$this->is_downloading()) {
             $columns[] = 'actions';
             $headers[] = get_string('report_header_actions', 'local_mxschool');

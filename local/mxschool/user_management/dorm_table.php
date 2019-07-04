@@ -38,10 +38,9 @@ class dorm_table extends local_mxschool_table {
      */
     public function __construct($search) {
         $columns = array('name', 'abbreviation', 'hoh', 'permissionsline', 'type', 'gender', 'available');
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("user_management_dorm_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("user_management_dorm_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(

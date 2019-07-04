@@ -36,10 +36,9 @@ class tutor_table extends local_mxschool_table {
     public function __construct() {
         $departments = get_department_list();
         $columns = array('tutor');
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("tutor_report_header_{$column}", 'local_peertutoring');
-        }
+        $headers = array_map(function($column) {
+            return get_string("tutor_report_header_{$column}", 'local_peertutoring');
+        }, $columns);
         $centered = array();
         foreach ($departments as $id => $name) {
             $columns[] = $centered[] = $id;

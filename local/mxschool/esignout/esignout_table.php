@@ -58,10 +58,9 @@ class esignout_table extends local_mxschool_table {
                 unset($columns[array_search('driver', $columns)]);
             }
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("esignout_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("esignout_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
@@ -124,19 +123,14 @@ class esignout_table extends local_mxschool_table {
             return '-';
         }
         $passengers = json_decode($values->passengers);
-        if (!count($passengers)) { // Driver with no passengers.
-            return get_string('esignout_report_nopassengers', 'local_mxschool');
-        }
-        $passengernames = array();
-        foreach ($passengers as $passenger) {
+        return count($passengers) ? implode('<br>', array_map(function($passenger) use($DB) {
             $student = $DB->get_record(
                 'user', array('id' => $passenger), "CONCAT(lastname, ', ', firstname) AS student, firstname, alternatename"
             );
-            $passengernames[] = $student->student . (
+            return $student->student . (
                 $student->alternatename && $student->alternatename !== $student->firstname ? " ({$student->alternatename})" : ''
             );
-        }
-        return implode('<br>', $passengernames);
+        }, $passengers)) : get_string('esignout_report_nopassengers', 'local_mxschool');
     }
 
     /**

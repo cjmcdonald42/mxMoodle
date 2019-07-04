@@ -50,10 +50,9 @@ class rooming_table extends local_mxschool_table {
         if ($filter->double !== '') {
             unset($columns[array_search('liveddouble', $columns)]);
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("rooming_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("rooming_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         if (!$this->is_downloading()) {
             $columns[] = 'actions';
             $headers[] = get_string('report_header_actions', 'local_mxschool');
