@@ -34,6 +34,7 @@ $string['user_menu'] = 'User Module';
 $string['user_management_student_report'] = 'Student Report';
 $string['user_management_faculty_report'] = 'Faculty Report';
 $string['user_management_dorm_report'] = 'Dorm Report';
+$string['user_management_vehicle_report'] = 'Student Vehicles Report';
 
 $string['checkin_menu'] = 'Check-In Module';
 $string['checkin_preferences'] = 'Check-In Sheets Preferences';
@@ -43,7 +44,6 @@ $string['checkin_weekend_report'] = 'Weekend Check-In Sheet';
 $string['checkin_weekend_calculator'] = 'Weekend Calculator';
 
 $string['esignout_menu'] = 'eSignout Module';
-$string['vehicle_report'] = 'Student Vehicles Report';
 $string['esignout_report'] = 'eSignout Report';
 $string['esignout_preferences'] = 'eSignout Preferences';
 

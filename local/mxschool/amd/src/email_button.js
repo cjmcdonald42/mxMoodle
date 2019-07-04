@@ -25,8 +25,8 @@
  */
 
 define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str, ajax, notification) {
-    function sendEmail() {
-        var element = $(this);
+    function sendEmail(event) {
+        var element = $(event.target);
         var text = element.text();
         $.when(str.get_string('email_button_sending', 'local_mxschool')).done(function(sendingString) {
             element.text(sendingString);
@@ -53,21 +53,23 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
             });
         }).fail(notification.exception);
     }
-    function showButton() {
-        $(this).show('slow');
-        $(this).parent().children('span:contains("\u2003")').remove();
-        $(this).before($('<span></span>').text('\u2003'));
+    function confirmSend(event) {
+        $.when(str.get_string('email_button_confirmation', 'local_mxschool')).done(function(cofirmationText) {
+            if (confirm(cofirmationText)) {
+                sendEmail(event);
+            }
+        });
     }
-    function hideButton() {
-        $(this).hide('slow');
-        $(this).parent().children('span:contains("\u2003")').remove();
-    }
-    return function(value, name, hidden) {
+    return function(value, name, requireConfirmation, hidden) {
         var element = $('button.mx-email-button[value="' + value + '"][name="' + name + '"]');
-        element.click(sendEmail);
+        element.click(requireConfirmation ? confirmSend : sendEmail);
         if (hidden) {
-            element.on('showButton', showButton);
-            element.on('hideButton', hideButton);
+            element.on('showButton', function(event) {
+                $(event.target).show('slow');
+            });
+            element.on('hideButton', function(event) {
+                $(event.target).hide('slow');
+            });
             var checkbox = element.parent().children('input.mx-checkbox');
             if (checkbox) {
                 checkbox.on('checkboxEnabled', function() {

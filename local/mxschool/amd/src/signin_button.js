@@ -25,8 +25,8 @@
  */
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    function signin() {
-        var element = $(this);
+    function signin(event) {
+        var element = $(event.target);
         var promises = ajax.call([{
             methodname: 'local_mxschool_sign_in',
             args: {

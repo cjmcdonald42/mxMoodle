@@ -62,8 +62,9 @@ function xmldb_local_mxschool_install() {
     set_config('vacation_form_returnenabled', '1', 'local_mxschool');
 
     $subpackages = array(
-        array('subpackage' => 'user_management', 'pages' => json_encode((array(
-            'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php'
+        array('subpackage' => 'user_management', 'pages' => json_encode(array(
+            'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php',
+            'vehicle_report' => 'vehicle_report.php',
         ))),
         array('subpackage' => 'checkin', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'generic_report' => 'generic_report.php', 'weekday_report' => 'weekday_report.php',
@@ -71,8 +72,7 @@ function xmldb_local_mxschool_install() {
             'weekend_calculator' => 'weekend_calculator.php'
         ))),
         array('subpackage' => 'esignout', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'vehicle_report' => 'vehicle_report.php', 'form' => 'esignout_enter.php',
-            'report' => 'esignout_report.php'
+            'preferences' => 'preferences.php', 'form' => 'esignout_enter.php', 'report' => 'esignout_report.php'
         ))),
         array('subpackage' => 'advisor_selection', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'advisor_enter.php', 'report' => 'advisor_report.php'

@@ -25,8 +25,8 @@
  */
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    function select() {
-        var element = $(this);
+    function select(event) {
+        var element = $(event.target);
         var args = JSON.parse(element.val());
         var promises = ajax.call([{
             methodname: 'local_mxschool_select_advisor',
@@ -37,8 +37,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         row.children('td.selection-selected').text(element.text());
         row.find('button.mx-selection-button').change();
     }
-    function update() {
-        var element = $(this);
+    function update(event) {
+        var element = $(event.target);
         var selected = element.parent().parent().children('td.selection-selected');
         if (selected.text() === element.text()) {
             element.removeClass('btn-secondary');

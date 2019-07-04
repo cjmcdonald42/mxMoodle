@@ -25,8 +25,8 @@
  */
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    function update() {
-        var element = $(this);
+    function update(event) {
+        var element = $(event.target);
         var promises = ajax.call([{
             methodname: 'local_mxschool_set_boolean_field',
             args: {

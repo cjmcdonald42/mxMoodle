@@ -408,6 +408,8 @@ class email_button implements renderable, templatable {
     private $value;
     /** @var string The string identifier for the email.*/
     private $emailclass;
+    /** @var bool Whether the button needs user confirmation before it sends a bulk email.*/
+    private $requireconfirmation;
     /** @var bool Whether the button should be hidden by default and should have show and hide functionality.*/
     private $hidden;
 
@@ -415,12 +417,14 @@ class email_button implements renderable, templatable {
      * @param string $text The text to display on the button.
      * @param int $value The value attribute of the button.
      * @param string $emailclass The string identifier for the email.
+     * @param bool $requireconfirmation Whether the button needs user confirmation before it sends a bulk email.
      * @param bool $hidden Whether the button should be hidden by default and should have show and hide functionality.
      */
-    public function __construct($text, $value, $emailclass, $hidden = false) {
+    public function __construct($text, $value, $emailclass, $requireconfirmation = true, $hidden = false) {
         $this->text = $text;
         $this->value = $value;
         $this->emailclass = $emailclass;
+        $this->requireconfirmation = $requireconfirmation;
         $this->hidden = $hidden;
     }
 
@@ -434,6 +438,7 @@ class email_button implements renderable, templatable {
         $data->text = $this->text;
         $data->value = $this->value;
         $data->emailclass = $this->emailclass;
+        $data->requireconfirmation = $this->requireconfirmation;
         $data->hidden = $this->hidden;
         return $data;
     }
