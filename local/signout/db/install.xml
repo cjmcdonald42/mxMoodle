@@ -3,4 +3,28 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
+  <TABLES>
+    <TABLE NAME="local_signout_offcampus" COMMENT="mxschool off-campus signout table - stores the data from off-campus esignout forms.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
+        <FIELD NAME="driverid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The off-campus signout id of driver record associated with the record - an equal id value and driverid value indicate that this record is a driver record."/>
+        <FIELD NAME="approverid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the record."/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the off-campus signout record has been deleted and shouldn't be displayed."/>
+        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the off-campus signout record. {&quot;Driver&quot;, &quot;Passenger&quot;, &quot;Parent&quot;, entered string}"/>
+        <FIELD NAME="passengers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted array of passengers for a driver record - a value of NULL indicates that the record is not a driver."/>
+        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The student's destination - a value of NULL indicates a passenger inheriting the value from the driver."/>
+        <FIELD NAME="departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for departure date and time - a value of NULL indicates a passenger inheriting the value from the driver."/>
+        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signs in - a value of NULL indicates that the student has not signed in."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
+        <KEY NAME="driver" TYPE="foreign" FIELDS="driverid" REFTABLE="local_signout_offcampus" REFFIELDS="id" COMMENT="The off-campus signout record of the driver associated with the record."/>
+        <KEY NAME="approver" TYPE="foreign" FIELDS="approverid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved the record."/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
 </XMLDB>

@@ -27,5 +27,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-
+    'local/signout:manage_off_campus_signout' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ), 'local/signout:manage_off_campus_signout_preferences' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    )
 );

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's eSignout Subplugin.
+ * Admin settings for Middlesex School's eSignout Subplugin.
  *
  * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,9 +26,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_signout';
-$plugin->version = 2019070401;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array('local_mxschool' => 2019070403);
+if ($hassiteconfig) {
+
+    $settings = new admin_settingpage('signout_settings', new lang_string('settings', 'local_signout'));
+    $ADMIN->add('mxschool', $settings);
+
+    $ADMIN->add('indexes', new admin_externalpage(
+        'off_campus_signout_index', new lang_string('off_campus_signout_index', 'local_signout'),
+        "$CFG->wwwroot/local/signout/off_campus/index.php")
+    );
+
+}
