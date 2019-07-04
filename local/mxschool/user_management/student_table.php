@@ -91,10 +91,9 @@ class student_table extends local_mxschool_table {
                 $searchable[] = 'p.parent_name';
                 break;
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("student_report_{$type}_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) use($type) {
+            return get_string("user_management_student_report_{$type}_header_{$column}", 'local_mxschool');
+        }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
 

@@ -43,7 +43,7 @@ $parents = array(
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
 );
 $url = '/local/mxschool/user_management/faculty_report.php';
-$title = get_string('faculty_report', 'local_mxschool');
+$title = get_string('user_management_faculty_report', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 

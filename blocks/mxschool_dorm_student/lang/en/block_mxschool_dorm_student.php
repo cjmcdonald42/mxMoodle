@@ -30,4 +30,4 @@ $string['mxschool_dorm_student:addinstance'] = 'Middlesex School: Add Student Do
 $string['mxschool_dorm_student:myaddinstance'] = 'Middlesex School: Add Student Dorm Block to Dashboard';
 
 $string['weekend_submit'] = 'Submit a Weekend Form';
-$string['weekend_calc'] = 'View Weekend Calculator';
+$string['weekend_calculator'] = 'View Weekend Calculator';

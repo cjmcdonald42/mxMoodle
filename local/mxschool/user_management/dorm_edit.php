@@ -38,11 +38,11 @@ $id = optional_param('id', 0, PARAM_INT);
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('dorm_report', 'local_mxschool') => '/local/mxschool/user_management/dorm_report.php'
+    get_string('user_management_dorm_report', 'local_mxschool') => '/local/mxschool/user_management/dorm_report.php'
 );
 $redirect = get_redirect($parents);
 $url = '/local/mxschool/user_management/dorm_edit.php';
-$title = get_string('dorm_edit', 'local_mxschool');
+$title = get_string('user_management_dorm_edit', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
@@ -66,8 +66,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('dorm_edit_success', 'local_mxschool')
-        : get_string('dorm_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), $data->id ? get_string('user_management_dorm_edit_success', 'local_mxschool')
+        : get_string('user_management_dorm_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

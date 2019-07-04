@@ -18,7 +18,7 @@
  * eSignout preferences page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage driving
+ * @subpackage esignout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -35,10 +35,10 @@ require_capability('local/mxschool:manage_esignout_preferences', context_system:
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('driving', 'local_mxschool') => '/local/mxschool/driving/index.php'
+    get_string('esignout', 'local_mxschool') => '/local/mxschool/esignout/index.php'
 );
 $redirect = get_redirect($parents);
-$url = '/local/mxschool/driving/preferences.php';
+$url = '/local/mxschool/esignout/preferences.php';
 $title = get_string('esignout_preferences', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);

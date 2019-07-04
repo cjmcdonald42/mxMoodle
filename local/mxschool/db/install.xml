@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20190522" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20190703" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -67,10 +67,10 @@
         <FIELD NAME="approverid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the record."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the esignout record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the esignout record. {&quot;Driver&quot;, &quot;Passenger&quot;, &quot;Parent&quot;, entered string}"/>
-        <FIELD NAME="passengers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON formatted list of passengers for a driver record - NULL if not a driver."/>
-        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The student's destination - NULL indicates a passenger inheriting the value from the driver."/>
-        <FIELD NAME="departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for departure date and time - NULL indicates a passenger inheriting the value from the driver."/>
-        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signs in - NULL indicates that the student has not signed in."/>
+        <FIELD NAME="passengers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted array of passengers for a driver record - a value of NULL indicates that the record is not a driver."/>
+        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The student's destination - a value of NULL indicates a passenger inheriting the value from the driver."/>
+        <FIELD NAME="departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for departure date and time - a value of NULL indicates a passenger inheriting the value from the driver."/>
+        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signs in - a value of NULL indicates that the student has not signed in."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
         <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
       </FIELDS>
@@ -198,6 +198,17 @@
         <KEY NAME="advisor" TYPE="foreign" FIELDS="advisorid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student's advisor."/>
       </KEYS>
     </TABLE>
+    <TABLE NAME="local_mxschool_subpackage" COMMENT="mxschool subpackage table - defines all the subpackages added by this plugin and child local plugins to generate index pages dynamically.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="package" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="mxschool" SEQUENCE="false" COMMENT="The package that this subpackage belongs to without the local prefix."/>
+        <FIELD NAME="subpackage" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The name of this subpackage - a value of NULL indicates that this subpackage is at the package level."/>
+        <FIELD NAME="pages" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted mapping of unlocalized page name to their URL relative to subpackage directory for all pages defined by this subpackage - a value of NULL indicates that the subpackage defines no pages."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
     <TABLE NAME="local_mxschool_vehicle" COMMENT="mxschool student vehicle table - stores the data of all registered day student vehicles.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
@@ -221,8 +232,8 @@
         <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the site. {Plane, Train, Bus, NYC Direct}"/>
         <FIELD NAME="enabled_departure" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for departure transportation."/>
         <FIELD NAME="enabled_return" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for return transportation."/>
-        <FIELD NAME="default_departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for departure transportation to this site - NULL indicates that there is no default."/>
-        <FIELD NAME="default_return_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for return transportation from this site - NULL indicates that there is no default."/>
+        <FIELD NAME="default_departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for departure transportation to this site - a value of NULL indicates that there is no default."/>
+        <FIELD NAME="default_return_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for return transportation from this site - a value of NULL indicates that there is no default."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -233,7 +244,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="mx_transportation" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be using Middlesex transportation."/>
         <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of transportation {Car, Plane, Bus, Train, NYC Direct, Non-MX Bus}."/>
-        <FIELD NAME="siteid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the site which the student is traveling to or from - 0 indicates an 'other' option - NULL indicates an unspecified site."/>
+        <FIELD NAME="siteid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the site which the student is traveling to or from - 0 indicates an 'other' option - a value of NULL indicates an unspecified site."/>
         <FIELD NAME="details" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text to provide more information for the student's travel"/>
         <FIELD NAME="carrier" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The carrier or company for the transportation."/>
         <FIELD NAME="transportation_number" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The flight, train, or bus number of the transportation."/>
@@ -250,7 +261,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
         <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the departure record associated with this record - 0 indicates no departure record."/>
-        <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the return record associated with this record - null indicates no return record."/>
+        <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the return record associated with this record - a value of NULL indicates no return record."/>
         <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>

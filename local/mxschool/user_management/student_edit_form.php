@@ -82,7 +82,7 @@ class student_edit_form extends local_mxschool_form {
                 'boatallowed' => self::ELEMENT_YES_NO
             )
         );
-        $this->set_fields($fields, 'student_edit', true);
+        $this->set_fields($fields, 'user_management_student_edit', true);
 
         $mform = $this->_form;
         $mform->hideIf('ridingcomment', 'riding', 'neq', 'specific');

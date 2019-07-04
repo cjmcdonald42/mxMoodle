@@ -55,7 +55,7 @@ class faculty_edit_form extends local_mxschool_form {
                 'advisoryclosing' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );
-        $this->set_fields($fields, 'faculty_edit');
+        $this->set_fields($fields, 'user_management_faculty_edit');
     }
 
 }

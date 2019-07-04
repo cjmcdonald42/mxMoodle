@@ -96,7 +96,7 @@ $string['indexes'] = 'Index Pages';
 $string['main_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
 $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
-$string['driving_index'] = 'Driving and eSignout Index';
+$string['esignout_index'] = 'eSignout Index';
 $string['advisor_selection_index'] = 'Advisor Selection Index';
 $string['rooming_index'] = 'Rooming Index';
 $string['vacation_travel_index'] = 'Vacation Travel Index';
@@ -109,17 +109,17 @@ $string['event_record_deleted'] = 'mxschool record deleted';
 $string['event_email_sent'] = 'mxschool email notification sent';
 
 // Notifications.
-$string['student_edit_success'] = 'Student Record Updated Successfully';
-$string['parent_edit_success'] = 'Parent Record Updated Successfully';
-$string['faculty_edit_success'] = 'Faculty Record Updated Successfully';
-$string['dorm_create_success'] = 'Dorm Record Created Successfully';
-$string['dorm_edit_success'] = 'Dorm Record Updated Successfully';
+$string['user_management_student_edit_success'] = 'Student Record Updated Successfully';
+$string['user_management_parent_edit_success'] = 'Parent Record Updated Successfully';
+$string['user_management_faculty_edit_success'] = 'Faculty Record Updated Successfully';
+$string['user_management_dorm_create_success'] = 'Dorm Record Created Successfully';
+$string['user_management_dorm_edit_success'] = 'Dorm Record Updated Successfully';
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
-$string['weekend_form_success'] = 'Weekend Form Submitted Successfully';
-$string['weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
+$string['checkin_weekend_form_success'] = 'Weekend Form Submitted Successfully';
+$string['checkin_weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
 $string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
-$string['vehicle_create_success'] = 'Vehicle Record Created Successfully';
-$string['vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
+$string['esignout_vehicle_create_success'] = 'Vehicle Record Created Successfully';
+$string['esignout_vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
 $string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Preferences Saved Successfully';
 $string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
@@ -130,14 +130,14 @@ $string['vacation_travel_site_create_success'] = 'Vacation Travel Site Record Cr
 $string['vacation_travel_site_edit_success'] = 'Vacation Travel Site Record Updated Successfully';
 $string['vacation_success'] = 'Vacation Travel Form Submitted Successfully';
 
-$string['parent_delete_success'] = 'Parent Record Deleted Successfully';
-$string['parent_delete_failure'] = 'Parent Record Not Found for Deletion';
-$string['dorm_delete_success'] = 'Dorm Record Deleted Successfully';
-$string['dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
-$string['weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
-$string['weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
-$string['vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
-$string['vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
+$string['user_management_parent_delete_success'] = 'Parent Record Deleted Successfully';
+$string['user_management_parent_delete_failure'] = 'Parent Record Not Found for Deletion';
+$string['user_management_dorm_delete_success'] = 'Dorm Record Deleted Successfully';
+$string['user_management_dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
+$string['checkin_weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
+$string['checkin_weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
+$string['esignout_vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
+$string['esignout_vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
 $string['esignout_delete_success'] = 'eSignout Record Deleted Successfully';
 $string['esignout_delete_failure'] = 'eSignout Record Not Found for Deletion';
 $string['vacation_travel_site_delete_success'] = 'Vacation Travel Site Record Deleted Successfully';
@@ -146,163 +146,163 @@ $string['vacation_travel_site_delete_failure'] = 'Vacation Travel Site Record No
 
 /* User Management. */
 $string['user_management'] = 'User Management';
-$string['student_report'] = 'Student Report';
-$string['faculty_report'] = 'Faculty Report';
-$string['dorm_report'] = 'Dorm Report';
-$string['student_edit'] = 'Edit Student Record';
-$string['parent_edit'] = 'Edit Parent Record';
-$string['faculty_edit'] = 'Edit Faculty Record';
-$string['dorm_edit'] = 'Edit Dorm Record';
+$string['user_management_student_report'] = 'Student Report';
+$string['user_management_faculty_report'] = 'Faculty Report';
+$string['user_management_dorm_report'] = 'Dorm Report';
+$string['user_management_student_edit'] = 'Edit Student Record';
+$string['user_management_parent_edit'] = 'Edit Parent Record';
+$string['user_management_faculty_edit'] = 'Edit Faculty Record';
+$string['user_management_dorm_edit'] = 'Edit Dorm Record';
 
 // Student Report.
-$string['student_report_type_students'] = 'Student Report';
-$string['student_report_type_permissions'] = 'Permissions Report';
-$string['student_report_type_parents'] = 'Parent Report';
-$string['parent_report_add'] = 'New Parent';
+$string['user_management_student_report_type_students'] = 'Student Report';
+$string['user_management_student_report_type_permissions'] = 'Permissions Report';
+$string['user_management_student_report_type_parents'] = 'Parent Report';
+$string['user_management_parent_report_add'] = 'New Parent';
 
-$string['student_report_students_header_student'] = 'Name';
-$string['student_report_students_header_grade'] = 'Grade';
-$string['student_report_students_header_advisor'] = 'Advisor';
-$string['student_report_students_header_dorm'] = 'Dorm';
-$string['student_report_students_header_room'] = 'Room';
-$string['student_report_students_header_phone'] = 'Phone Number';
-$string['student_report_students_header_birthday'] = 'Birthday';
-$string['student_report_permissions_header_student'] = 'Name';
-$string['student_report_permissions_header_overnight'] = 'Overnight';
-$string['student_report_permissions_header_license'] = 'Issue Date of License';
-$string['student_report_permissions_header_driving'] = 'May Drive with eSignout?';
-$string['student_report_permissions_header_passengers'] = 'May Drive Passengers?';
-$string['student_report_permissions_header_riding'] = 'May Ride With';
-$string['student_report_permissions_header_ridingcomment'] = 'Riding Comment';
-$string['student_report_permissions_header_rideshare'] = 'May Use Rideshare?';
-$string['student_report_permissions_header_boston'] = 'May Go to Boston?';
-$string['student_report_permissions_header_swimcompetent'] = 'Competent Swimmer?';
-$string['student_report_permissions_header_swimallowed'] = 'Allowed to Swim?';
-$string['student_report_permissions_header_boatallowed'] = 'Allowed in Boats?';
-$string['student_report_parents_header_student'] = 'Student Name';
-$string['student_report_parents_header_parent'] = 'Parent Name';
-$string['student_report_parents_header_primaryparent'] = 'Primary';
-$string['student_report_parents_header_relationship'] = 'Relationship';
-$string['student_report_parents_header_homephone'] = 'Home Phone';
-$string['student_report_parents_header_cellphone'] = 'Cell Phone';
-$string['student_report_parents_header_workphone'] = 'Work Phone';
-$string['student_report_parents_header_email'] = 'Email';
+$string['user_management_student_report_students_header_student'] = 'Name';
+$string['user_management_student_report_students_header_grade'] = 'Grade';
+$string['user_management_student_report_students_header_advisor'] = 'Advisor';
+$string['user_management_student_report_students_header_dorm'] = 'Dorm';
+$string['user_management_student_report_students_header_room'] = 'Room';
+$string['user_management_student_report_students_header_phone'] = 'Phone Number';
+$string['user_management_student_report_students_header_birthday'] = 'Birthday';
+$string['user_management_student_report_permissions_header_student'] = 'Name';
+$string['user_management_student_report_permissions_header_overnight'] = 'Overnight';
+$string['user_management_student_report_permissions_header_license'] = 'Issue Date of License';
+$string['user_management_student_report_permissions_header_driving'] = 'May Drive with eSignout?';
+$string['user_management_student_report_permissions_header_passengers'] = 'May Drive Passengers?';
+$string['user_management_student_report_permissions_header_riding'] = 'May Ride With';
+$string['user_management_student_report_permissions_header_ridingcomment'] = 'Riding Comment';
+$string['user_management_student_report_permissions_header_rideshare'] = 'May Use Rideshare?';
+$string['user_management_student_report_permissions_header_boston'] = 'May Go to Boston?';
+$string['user_management_student_report_permissions_header_swimcompetent'] = 'Competent Swimmer?';
+$string['user_management_student_report_permissions_header_swimallowed'] = 'Allowed to Swim?';
+$string['user_management_student_report_permissions_header_boatallowed'] = 'Allowed in Boats?';
+$string['user_management_student_report_parents_header_student'] = 'Student Name';
+$string['user_management_student_report_parents_header_parent'] = 'Parent Name';
+$string['user_management_student_report_parents_header_primaryparent'] = 'Primary';
+$string['user_management_student_report_parents_header_relationship'] = 'Relationship';
+$string['user_management_student_report_parents_header_homephone'] = 'Home Phone';
+$string['user_management_student_report_parents_header_cellphone'] = 'Cell Phone';
+$string['user_management_student_report_parents_header_workphone'] = 'Work Phone';
+$string['user_management_student_report_parents_header_email'] = 'Email';
 
 // Faculty Report.
-$string['faculty_report_header_name'] = 'Name';
-$string['faculty_report_header_dorm'] = 'Dorm';
-$string['faculty_report_header_approvesignout'] = 'May Approve eSignout?';
-$string['faculty_report_header_advisoryavailable'] = 'Advisory Available?';
-$string['faculty_report_header_advisoryclosing'] = 'Advisory Closing?';
+$string['user_management_faculty_report_header_name'] = 'Name';
+$string['user_management_faculty_report_header_dorm'] = 'Dorm';
+$string['user_management_faculty_report_header_approvesignout'] = 'May Approve eSignout?';
+$string['user_management_faculty_report_header_advisoryavailable'] = 'Advisory Available?';
+$string['user_management_faculty_report_header_advisoryclosing'] = 'Advisory Closing?';
 
 // Dorm Report.
-$string['dorm_report_add'] = 'New Dorm';
+$string['user_management_dorm_report_add'] = 'New Dorm';
 
-$string['dorm_report_header_name'] = 'Name';
-$string['dorm_report_header_abbreviation'] = 'Abbreviation';
-$string['dorm_report_header_hoh'] = 'Head of House';
-$string['dorm_report_header_permissionsline'] = 'Permissions Line';
-$string['dorm_report_header_type'] = 'Type';
-$string['dorm_report_header_gender'] = 'Gender';
-$string['dorm_report_header_available'] = 'Available';
+$string['user_management_dorm_report_header_name'] = 'Name';
+$string['user_management_dorm_report_header_abbreviation'] = 'Abbreviation';
+$string['user_management_dorm_report_header_hoh'] = 'Head of House';
+$string['user_management_dorm_report_header_permissionsline'] = 'Permissions Line';
+$string['user_management_dorm_report_header_type'] = 'Type';
+$string['user_management_dorm_report_header_gender'] = 'Gender';
+$string['user_management_dorm_report_header_available'] = 'Available';
 
 // Student Edit.
-$string['student_edit_header_student'] = 'Student Information';
-$string['student_edit_header_permissions'] = 'Student Permissions';
-$string['student_edit_student_firstname'] = 'First Name';
-$string['student_edit_student_middlename'] = 'Middle Name';
-$string['student_edit_student_lastname'] = 'Last Name';
-$string['student_edit_student_alternatename'] = 'Alternate Name';
-$string['student_edit_student_email'] = 'Email';
-$string['student_edit_student_admissionyear'] = 'Year of Admission';
-$string['student_edit_student_grade'] = 'Grade';
-$string['student_edit_student_grade_9'] = '9';
-$string['student_edit_student_grade_10'] = '10';
-$string['student_edit_student_grade_11'] = '11';
-$string['student_edit_student_grade_12'] = '12';
-$string['student_edit_student_gender'] = 'Gender';
-$string['student_edit_student_gender_M'] = 'M';
-$string['student_edit_student_gender_F'] = 'F';
-$string['student_edit_student_advisor'] = 'Advisor';
-$string['student_edit_student_isboarder'] = 'Boarder/Day Student';
-$string['student_edit_student_isboarder_Boarder'] = 'Boarder';
-$string['student_edit_student_isboarder_Day'] = 'Day';
-$string['student_edit_student_isboardernextyear'] = 'Boarder/Day Student Next Year';
-$string['student_edit_student_isboardernextyear_Boarder'] = 'Boarder';
-$string['student_edit_student_isboardernextyear_Day'] = 'Day';
-$string['student_edit_student_dorm'] = 'Dorm';
-$string['student_edit_student_room'] = 'Room';
-$string['student_edit_student_phonenumber'] = 'Phone Number';
-$string['student_edit_student_birthday'] = 'Birthday';
-$string['student_edit_permissions_overnight'] = 'Overnight';
-$string['student_edit_permissions_overnight_Parent'] = 'Parent';
-$string['student_edit_permissions_overnight_Host'] = 'Host';
-$string['student_edit_permissions_license'] = 'Issue Date of License';
-$string['student_edit_permissions_driving'] = 'May Drive with eSignout?';
-$string['student_edit_permissions_passengers'] = 'May Drive Passengers?';
-$string['student_edit_permissions_riding'] = 'May Ride With';
-$string['student_edit_permissions_riding_parent'] = 'Parent Permission';
-$string['student_edit_permissions_riding_21'] = 'Over 21';
-$string['student_edit_permissions_riding_any'] = 'Any Driver';
-$string['student_edit_permissions_riding_specific'] = 'Specific Drivers';
-$string['student_edit_permissions_ridingcomment'] = 'Riding Comment';
-$string['student_edit_permissions_rideshare'] = 'May Use Rideshare?';
-$string['student_edit_permissions_rideshare_Parent'] = 'Parent';
-$string['student_edit_permissions_boston'] = 'May Go to Boston?';
-$string['student_edit_permissions_boston_Parent'] = 'Parent';
-$string['student_edit_permissions_swimcompetent'] = 'Competent Swimmer?';
-$string['student_edit_permissions_swimallowed'] = 'Allowed to Swim?';
-$string['student_edit_permissions_boatallowed'] = 'Allowed in Boats?';
+$string['user_management_student_edit_header_student'] = 'Student Information';
+$string['user_management_student_edit_header_permissions'] = 'Student Permissions';
+$string['user_management_student_edit_student_firstname'] = 'First Name';
+$string['user_management_student_edit_student_middlename'] = 'Middle Name';
+$string['user_management_student_edit_student_lastname'] = 'Last Name';
+$string['user_management_student_edit_student_alternatename'] = 'Alternate Name';
+$string['user_management_student_edit_student_email'] = 'Email';
+$string['user_management_student_edit_student_admissionyear'] = 'Year of Admission';
+$string['user_management_student_edit_student_grade'] = 'Grade';
+$string['user_management_student_edit_student_grade_9'] = '9';
+$string['user_management_student_edit_student_grade_10'] = '10';
+$string['user_management_student_edit_student_grade_11'] = '11';
+$string['user_management_student_edit_student_grade_12'] = '12';
+$string['user_management_student_edit_student_gender'] = 'Gender';
+$string['user_management_student_edit_student_gender_M'] = 'M';
+$string['user_management_student_edit_student_gender_F'] = 'F';
+$string['user_management_student_edit_student_advisor'] = 'Advisor';
+$string['user_management_student_edit_student_isboarder'] = 'Boarder/Day Student';
+$string['user_management_student_edit_student_isboarder_Boarder'] = 'Boarder';
+$string['user_management_student_edit_student_isboarder_Day'] = 'Day';
+$string['user_management_student_edit_student_isboardernextyear'] = 'Boarder/Day Student Next Year';
+$string['user_management_student_edit_student_isboardernextyear_Boarder'] = 'Boarder';
+$string['user_management_student_edit_student_isboardernextyear_Day'] = 'Day';
+$string['user_management_student_edit_student_dorm'] = 'Dorm';
+$string['user_management_student_edit_student_room'] = 'Room';
+$string['user_management_student_edit_student_phonenumber'] = 'Phone Number';
+$string['user_management_student_edit_student_birthday'] = 'Birthday';
+$string['user_management_student_edit_permissions_overnight'] = 'Overnight';
+$string['user_management_student_edit_permissions_overnight_Parent'] = 'Parent';
+$string['user_management_student_edit_permissions_overnight_Host'] = 'Host';
+$string['user_management_student_edit_permissions_license'] = 'Issue Date of License';
+$string['user_management_student_edit_permissions_driving'] = 'May Drive with eSignout?';
+$string['user_management_student_edit_permissions_passengers'] = 'May Drive Passengers?';
+$string['user_management_student_edit_permissions_riding'] = 'May Ride With';
+$string['user_management_student_edit_permissions_riding_parent'] = 'Parent Permission';
+$string['user_management_student_edit_permissions_riding_21'] = 'Over 21';
+$string['user_management_student_edit_permissions_riding_any'] = 'Any Driver';
+$string['user_management_student_edit_permissions_riding_specific'] = 'Specific Drivers';
+$string['user_management_student_edit_permissions_ridingcomment'] = 'Riding Comment';
+$string['user_management_student_edit_permissions_rideshare'] = 'May Use Rideshare?';
+$string['user_management_student_edit_permissions_rideshare_Parent'] = 'Parent';
+$string['user_management_student_edit_permissions_boston'] = 'May Go to Boston?';
+$string['user_management_student_edit_permissions_boston_Parent'] = 'Parent';
+$string['user_management_student_edit_permissions_swimcompetent'] = 'Competent Swimmer?';
+$string['user_management_student_edit_permissions_swimallowed'] = 'Allowed to Swim?';
+$string['user_management_student_edit_permissions_boatallowed'] = 'Allowed in Boats?';
 
 // Parent Edit.
-$string['parent_edit_header_parent'] = 'Parent Information';
-$string['parent_edit_parent_student'] = 'Child';
-$string['parent_edit_parent_name'] = 'Parent Name';
-$string['parent_edit_parent_isprimary'] = 'Primary Parent?';
-$string['parent_edit_parent_relationship'] = 'Relationship to Child';
-$string['parent_edit_parent_homephone'] = 'Parent Home Phone';
-$string['parent_edit_parent_cellphone'] = 'Parent Cell Phone';
-$string['parent_edit_parent_workphone'] = 'Parent Work Phone';
-$string['parent_edit_parent_email'] = 'Parent Email';
+$string['user_management_parent_edit_header_parent'] = 'Parent Information';
+$string['user_management_parent_edit_parent_student'] = 'Child';
+$string['user_management_parent_edit_parent_name'] = 'Parent Name';
+$string['user_management_parent_edit_parent_isprimary'] = 'Primary Parent?';
+$string['user_management_parent_edit_parent_relationship'] = 'Relationship to Child';
+$string['user_management_parent_edit_parent_homephone'] = 'Parent Home Phone';
+$string['user_management_parent_edit_parent_cellphone'] = 'Parent Cell Phone';
+$string['user_management_parent_edit_parent_workphone'] = 'Parent Work Phone';
+$string['user_management_parent_edit_parent_email'] = 'Parent Email';
 
 // Faculty Edit.
-$string['faculty_edit_header_faculty'] = 'Faculty Information';
-$string['faculty_edit_faculty_firstname'] = 'First Name';
-$string['faculty_edit_faculty_middlename'] = 'Middle Name';
-$string['faculty_edit_faculty_lastname'] = 'Last Name';
-$string['faculty_edit_faculty_alternatename'] = 'Alternate Name';
-$string['faculty_edit_faculty_email'] = 'Email';
-$string['faculty_edit_faculty_facultycode'] = 'Faculty Code';
-$string['faculty_edit_faculty_dorm'] = 'Dorm';
-$string['faculty_edit_faculty_approvesignout'] = 'May Approve eSignout';
-$string['faculty_edit_faculty_advisoryavailable'] = 'Advisory Available';
-$string['faculty_edit_faculty_advisoryclosing'] = 'Advisory Closing';
+$string['user_management_faculty_edit_header_faculty'] = 'Faculty Information';
+$string['user_management_faculty_edit_faculty_firstname'] = 'First Name';
+$string['user_management_faculty_edit_faculty_middlename'] = 'Middle Name';
+$string['user_management_faculty_edit_faculty_lastname'] = 'Last Name';
+$string['user_management_faculty_edit_faculty_alternatename'] = 'Alternate Name';
+$string['user_management_faculty_edit_faculty_email'] = 'Email';
+$string['user_management_faculty_edit_faculty_facultycode'] = 'Faculty Code';
+$string['user_management_faculty_edit_faculty_dorm'] = 'Dorm';
+$string['user_management_faculty_edit_faculty_approvesignout'] = 'May Approve eSignout';
+$string['user_management_faculty_edit_faculty_advisoryavailable'] = 'Advisory Available';
+$string['user_management_faculty_edit_faculty_advisoryclosing'] = 'Advisory Closing';
 
 // Dorm Edit.
-$string['dorm_edit_header_dorm'] = 'Dorm Information';
-$string['dorm_edit_dorm_name'] = 'Name';
-$string['dorm_edit_dorm_abbreviation'] = 'Abbreviation';
-$string['dorm_edit_dorm_hoh'] = 'Head of House';
-$string['dorm_edit_dorm_permissionsline'] = 'Permissions Line';
-$string['dorm_edit_dorm_type'] = 'Type';
-$string['dorm_edit_dorm_type_Boarding'] = 'Boarding';
-$string['dorm_edit_dorm_type_Day'] = 'Day';
-$string['dorm_edit_dorm_type_All'] = 'All';
-$string['dorm_edit_dorm_gender'] = 'Gender';
-$string['dorm_edit_dorm_gender_Boys'] = 'Boys';
-$string['dorm_edit_dorm_gender_Girls'] = 'Girls';
-$string['dorm_edit_dorm_gender_All'] = 'All';
-$string['dorm_edit_dorm_available'] = 'Available';
+$string['user_management_dorm_edit_header_dorm'] = 'Dorm Information';
+$string['user_management_dorm_edit_dorm_name'] = 'Name';
+$string['user_management_dorm_edit_dorm_abbreviation'] = 'Abbreviation';
+$string['user_management_dorm_edit_dorm_hoh'] = 'Head of House';
+$string['user_management_dorm_edit_dorm_permissionsline'] = 'Permissions Line';
+$string['user_management_dorm_edit_dorm_type'] = 'Type';
+$string['user_management_dorm_edit_dorm_type_Boarding'] = 'Boarding';
+$string['user_management_dorm_edit_dorm_type_Day'] = 'Day';
+$string['user_management_dorm_edit_dorm_type_All'] = 'All';
+$string['user_management_dorm_edit_dorm_gender'] = 'Gender';
+$string['user_management_dorm_edit_dorm_gender_Boys'] = 'Boys';
+$string['user_management_dorm_edit_dorm_gender_Girls'] = 'Girls';
+$string['user_management_dorm_edit_dorm_gender_All'] = 'All';
+$string['user_management_dorm_edit_dorm_available'] = 'Available';
 
 
 /* Check-In Sheets and Weekend Forms. */
 $string['checkin'] = 'Check-In Sheets and Weekend Forms';
 $string['checkin_preferences'] = 'Check-In Sheets Preferences';
-$string['generic_report'] = 'Check-In Sheet';
-$string['weekday_report'] = 'Weekday Check-In Sheet';
-$string['weekend_form'] = 'Weekend Form';
-$string['weekend_report'] = 'Weekend Check-In Sheet';
-$string['weekend_calculator'] = 'Weekend Calculator';
+$string['checkin_generic_report'] = 'Check-In Sheet';
+$string['checkin_weekday_report'] = 'Weekday Check-In Sheet';
+$string['checkin_weekend_form'] = 'Weekend Form';
+$string['checkin_weekend_report'] = 'Weekend Check-In Sheet';
+$string['checkin_weekend_calculator'] = 'Weekend Calculator';
 
 // Check-in Preferences.
 $string['checkin_preferences_header_dates'] = 'Opening and Closing Dates';
@@ -328,95 +328,95 @@ $string['checkin_preferences_text_bottominstructions'] = 'Bottom Instructions';
 $string['checkin_preferences_text_closedwarning'] = 'Warning for a Closed Weekend';
 
 // Generic Check-in Sheet.
-$string['generic_report_title'] = '{$a}Check-In Sheet for __________';
+$string['checkin_generic_report_title'] = '{$a}Check-In Sheet for __________';
 
-$string['generic_report_header_student'] = 'Name';
-$string['generic_report_header_dorm'] = 'Dorm';
-$string['generic_report_header_room'] = 'Room';
-$string['generic_report_header_grade'] = 'Grade';
-$string['generic_report_header_checkin'] = '&emsp;&emsp;';
+$string['checkin_generic_report_header_student'] = 'Name';
+$string['checkin_generic_report_header_dorm'] = 'Dorm';
+$string['checkin_generic_report_header_room'] = 'Room';
+$string['checkin_generic_report_header_grade'] = 'Grade';
+$string['checkin_generic_report_header_checkin'] = '&emsp;&emsp;';
 
 // Weekday Check-in Sheet.
-$string['weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
+$string['checkin_weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
 
-$string['weekday_report_header_student'] = 'Name';
-$string['weekday_report_header_dorm'] = 'Dorm';
-$string['weekday_report_header_room'] = 'Room';
-$string['weekday_report_header_grade'] = 'Grade';
-$string['weekday_report_header_early'] = 'Early';
-$string['weekday_report_header_late'] = 'Late';
+$string['checkin_weekday_report_header_student'] = 'Name';
+$string['checkin_weekday_report_header_dorm'] = 'Dorm';
+$string['checkin_weekday_report_header_room'] = 'Room';
+$string['checkin_weekday_report_header_grade'] = 'Grade';
+$string['checkin_weekday_report_header_early'] = 'Early';
+$string['checkin_weekday_report_header_late'] = 'Late';
 
 // Weekend Form.
-$string['weekend_form_dorm'] = 'Dorm';
-$string['weekend_form_student'] = 'Student';
-$string['weekend_form_departure'] = 'Departure Date and Time';
-$string['weekend_form_return'] = 'Return Date and Time';
-$string['weekend_form_destination'] = 'Your Destination';
-$string['weekend_form_transportation'] = 'Transportation by';
-$string['weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
+$string['checkin_weekend_form_dorm'] = 'Dorm';
+$string['checkin_weekend_form_student'] = 'Student';
+$string['checkin_weekend_form_departure'] = 'Departure Date and Time';
+$string['checkin_weekend_form_return'] = 'Return Date and Time';
+$string['checkin_weekend_form_destination'] = 'Your Destination';
+$string['checkin_weekend_form_transportation'] = 'Transportation by';
+$string['checkin_weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
 
-$string['weekend_form_instructions_placeholder_hoh'] = 'your head of house';
-$string['weekend_form_instructions_placeholder_permissionsline'] = 'the house permissions line';
+$string['checkin_weekend_form_instructions_placeholder_hoh'] = 'your head of house';
+$string['checkin_weekend_form_instructions_placeholder_permissionsline'] = 'the house permissions line';
 
-$string['weekend_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
-$string['weekend_form_error_notinweekend'] = 'Your departure date must be within a valid weekend.';
-$string['weekend_form_error_indifferentweekends'] = 'Your return date must be in the same weekend as your departure date.';
-$string['weekend_form_error_nodestination'] = 'You must specify a destination.';
-$string['weekend_form_error_notransportation'] = 'You must specify who is driving you.';
-$string['weekend_form_error_nophone'] = 'You must specify a phone number.';
+$string['checkin_weekend_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
+$string['checkin_weekend_form_error_notinweekend'] = 'Your departure date must be within a valid weekend.';
+$string['checkin_weekend_form_error_indifferentweekends'] = 'Your return date must be in the same weekend as your departure date.';
+$string['checkin_weekend_form_error_nodestination'] = 'You must specify a destination.';
+$string['checkin_weekend_form_error_notransportation'] = 'You must specify who is driving you.';
+$string['checkin_weekend_form_error_nophone'] = 'You must specify a phone number.';
 
 // Weekend Check-in Sheet.
-$string['weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend} ({$a->type})';
-$string['weekend_report_select_start_day_default'] = 'Default Start Day';
-$string['weekend_report_select_end_day_default'] = 'Default End Day';
-$string['weekend_report_select_submitted_true'] = 'Weekend Form';
-$string['weekend_report_select_submitted_false'] = 'No Weekend Form';
-$string['weekend_report_add'] = 'New Weekend Form';
+$string['checkin_weekend_report_title'] = '{$a->dorm}Check-In Sheet for the Weekend of {$a->weekend} ({$a->type})';
+$string['checkin_weekend_report_select_start_day_default'] = 'Default Start Day';
+$string['checkin_weekend_report_select_end_day_default'] = 'Default End Day';
+$string['checkin_weekend_report_select_submitted_true'] = 'Weekend Form';
+$string['checkin_weekend_report_select_submitted_false'] = 'No Weekend Form';
+$string['checkin_weekend_report_add'] = 'New Weekend Form';
 
-$string['weekend_report_header_student'] = 'Name';
-$string['weekend_report_header_dorm'] = 'Dorm';
-$string['weekend_report_header_room'] = 'Room';
-$string['weekend_report_header_grade'] = 'Grade';
-$string['weekend_report_header_early'] = 'Early';
-$string['weekend_report_header_late'] = 'Late';
-$string['weekend_report_header_clean'] = 'Room Clean?';
-$string['weekend_report_header_parent'] = 'Parent?';
-$string['weekend_report_header_invite'] = 'Invite?';
-$string['weekend_report_header_approved'] = 'Approved?';
-$string['weekend_report_header_destinationtransportation'] = 'Destination<br>Transportation';
-$string['weekend_report_header_phone'] = 'Phone Number';
-$string['weekend_report_header_departurereturn'] = 'Departure Time<br>Return Time';
+$string['checkin_weekend_report_header_student'] = 'Name';
+$string['checkin_weekend_report_header_dorm'] = 'Dorm';
+$string['checkin_weekend_report_header_room'] = 'Room';
+$string['checkin_weekend_report_header_grade'] = 'Grade';
+$string['checkin_weekend_report_header_early'] = 'Early';
+$string['checkin_weekend_report_header_late'] = 'Late';
+$string['checkin_weekend_report_header_clean'] = 'Room Clean?';
+$string['checkin_weekend_report_header_parent'] = 'Parent?';
+$string['checkin_weekend_report_header_invite'] = 'Invite?';
+$string['checkin_weekend_report_header_approved'] = 'Approved?';
+$string['checkin_weekend_report_header_destinationtransportation'] = 'Destination<br>Transportation';
+$string['checkin_weekend_report_header_phone'] = 'Phone Number';
+$string['checkin_weekend_report_header_departurereturn'] = 'Departure Time<br>Return Time';
 
-$string['weekend_comment_form_comment'] = 'Comments';
+$string['checkin_weekend_comment_form_comment'] = 'Comments';
 
 // Weekend Calculator.
-$string['weekend_calculator_report_title'] = 'Weekend Calculator{$a}';
+$string['checkin_weekend_calculator_report_title'] = 'Weekend Calculator{$a}';
 
-$string['weekend_calculator_report_header_student'] = 'Name';
-$string['weekend_calculator_report_header_grade'] = 'Grade';
-$string['weekend_calculator_report_header_total'] = 'Total';
-$string['weekend_calculator_report_header_allowed'] = 'Allowed';
+$string['checkin_weekend_calculator_report_header_student'] = 'Name';
+$string['checkin_weekend_calculator_report_header_grade'] = 'Grade';
+$string['checkin_weekend_calculator_report_header_total'] = 'Total';
+$string['checkin_weekend_calculator_report_header_allowed'] = 'Allowed';
 
-$string['weekend_calculator_abbreviation_offcampus'] = 'X';
-$string['weekend_calculator_abbreviation_free'] = 'free';
-$string['weekend_calculator_abbreviation_closed'] = 'camp';
-$string['weekend_calculator_abbreviation_unlimited'] = 'ALL';
+$string['checkin_weekend_calculator_abbreviation_offcampus'] = 'X';
+$string['checkin_weekend_calculator_abbreviation_free'] = 'free';
+$string['checkin_weekend_calculator_abbreviation_closed'] = 'camp';
+$string['checkin_weekend_calculator_abbreviation_unlimited'] = 'ALL';
 
-$string['weekend_calculator_legend_0_left'] = 'No weekends left';
-$string['weekend_calculator_legend_1_left'] = '1 weekend left';
-$string['weekend_calculator_legend_2_left'] = '2 weekends left';
-$string['weekend_calculator_legend_3_left'] = '3+ weekends left';
-$string['weekend_calculator_legend_offcampus'] = 'Student Off Campus';
-$string['weekend_calculator_legend_free'] = 'Free weekend';
-$string['weekend_calculator_legend_closed'] = 'Campus weekend';
+$string['checkin_weekend_calculator_legend_0_left'] = 'No weekends left';
+$string['checkin_weekend_calculator_legend_1_left'] = '1 weekend left';
+$string['checkin_weekend_calculator_legend_2_left'] = '2 weekends left';
+$string['checkin_weekend_calculator_legend_3_left'] = '3+ weekends left';
+$string['checkin_weekend_calculator_legend_offcampus'] = 'Student Off Campus';
+$string['checkin_weekend_calculator_legend_free'] = 'Free weekend';
+$string['checkin_weekend_calculator_legend_closed'] = 'Campus weekend';
 
 
-/* Driving and eSignout. */
-$string['driving'] = 'Driving and eSignout';
+/* eSignout. */
+$string['esignout'] = 'eSignout';
 $string['esignout_preferences'] = 'eSignout Preferences';
-$string['vehicle_report'] = 'Registered Student Vehicles Report';
-$string['vehicle_edit'] = 'Edit Student Vehicle Record';
-$string['esignout'] = 'eSignout Form';
+$string['esignout_vehicle_report'] = 'Registered Student Vehicles Report';
+$string['esignout_vehicle_edit'] = 'Edit Student Vehicle Record';
+$string['esignout_form'] = 'eSignout Form';
 $string['esignout_report'] = 'eSignout Report';
 
 // Preferences for eSignout.
@@ -447,23 +447,23 @@ $string['esignout_preferences_emailtext_specific'] = 'Warning for a Passenger wi
 $string['esignout_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
 
 // Vehicle Report.
-$string['vehicle_report_add'] = 'Register a Vehicle';
+$string['esignout_vehicle_report_add'] = 'Register a Vehicle';
 
-$string['vehicle_report_header_student'] = 'Student Name';
-$string['vehicle_report_header_grade'] = 'Grade';
-$string['vehicle_report_header_phone'] = 'Student Phone Number';
-$string['vehicle_report_header_license'] = 'Issue Date of License';
-$string['vehicle_report_header_make'] = 'Vehicle Make';
-$string['vehicle_report_header_model'] = 'Vehicle Model';
-$string['vehicle_report_header_color'] = 'Vehicle Color';
-$string['vehicle_report_header_registration'] = 'Vehicle Registration';
+$string['esignout_vehicle_report_header_student'] = 'Student Name';
+$string['esignout_vehicle_report_header_grade'] = 'Grade';
+$string['esignout_vehicle_report_header_phone'] = 'Student Phone Number';
+$string['esignout_vehicle_report_header_license'] = 'Issue Date of License';
+$string['esignout_vehicle_report_header_make'] = 'Vehicle Make';
+$string['esignout_vehicle_report_header_model'] = 'Vehicle Model';
+$string['esignout_vehicle_report_header_color'] = 'Vehicle Color';
+$string['esignout_vehicle_report_header_registration'] = 'Vehicle Registration';
 
 // Vehicle Edit.
-$string['vehicle_edit_student'] = 'Student';
-$string['vehicle_edit_make'] = 'Make';
-$string['vehicle_edit_model'] = 'Model';
-$string['vehicle_edit_color'] = 'Color';
-$string['vehicle_edit_registration'] = 'Vehicle Registration';
+$string['esignout_vehicle_edit_student'] = 'Student';
+$string['esignout_vehicle_edit_make'] = 'Make';
+$string['esignout_vehicle_edit_model'] = 'Model';
+$string['esignout_vehicle_edit_color'] = 'Color';
+$string['esignout_vehicle_edit_registration'] = 'Vehicle Registration';
 
 // Form for eSignout.
 $string['esignout_form_header_info'] = 'General Information';

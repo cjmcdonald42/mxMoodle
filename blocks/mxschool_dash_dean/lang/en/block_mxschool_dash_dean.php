@@ -31,18 +31,18 @@ $string['mxschool_dash_dean:myaddinstance'] = 'Middlesex School: Add Dean\'s Blo
 $string['mxschool_dash_dean:access'] = 'Middlesex School: Access Dean\'s Block';
 
 $string['user_menu'] = 'User Module';
-$string['student_report'] = 'Student Report';
-$string['faculty_report'] = 'Faculty Report';
-$string['dorm_report'] = 'Dorm Report';
+$string['user_management_student_report'] = 'Student Report';
+$string['user_management_faculty_report'] = 'Faculty Report';
+$string['user_management_dorm_report'] = 'Dorm Report';
 
 $string['checkin_menu'] = 'Check-In Module';
 $string['checkin_preferences'] = 'Check-In Sheets Preferences';
-$string['generic_report'] = 'Check-In Sheet';
-$string['weekday_report'] = 'Weekday Check-In Sheet';
-$string['weekend_report'] = 'Weekend Check-In Sheet';
-$string['weekend_calculator'] = 'Weekend Calculator';
+$string['checkin_generic_report'] = 'Check-In Sheet';
+$string['checkin_weekday_report'] = 'Weekday Check-In Sheet';
+$string['checkin_weekend_report'] = 'Weekend Check-In Sheet';
+$string['checkin_weekend_calculator'] = 'Weekend Calculator';
 
-$string['driving_menu'] = 'Driving Module';
+$string['esignout_menu'] = 'eSignout Module';
 $string['vehicle_report'] = 'Student Vehicles Report';
 $string['esignout_report'] = 'eSignout Report';
 $string['esignout_preferences'] = 'eSignout Preferences';

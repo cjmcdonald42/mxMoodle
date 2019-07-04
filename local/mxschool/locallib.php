@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/classes/event/page_viewed.php');
 require_once(__DIR__.'/classes/event/record_updated.php');
 require_once(__DIR__.'/classes/event/record_deleted.php');
+require_once(__DIR__.'/classes/output/renderable.php');
 
 /**
  * Sets the url, title, heading, context, layout, and navbar of a page as well as logging that the page was visited.
@@ -61,6 +62,56 @@ function setup_generic_page($url, $title) {
     $PAGE->set_heading($title);
 
     \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
+}
+
+/**
+ * Generates a renderable for the index with the specified id in the local_mxschool_subpackage table.
+ *
+ * @param int $id The id of the subpackage to be indexed.
+ * @param bool $heading Whether the localized name of the subpackage should be included as the heading of the index.
+ * @return \local_mxschool\output\index The specified index renderable.
+ * @throws coding_exception if the subpackage record does not exist.
+ */
+function generate_index($id, $heading = false) {
+    global $DB;
+    $record = $DB->get_record('local_mxschool_subpackage', array('id' => $id));
+    if (!$record) {
+        throw new coding_exception('subpackage record does not exist');
+    }
+    $links = array();
+    foreach (json_decode($record->pages) as $string => $url) {
+        $links[get_string(empty($record->subpackage) ? $string : "{$record->subpackage}_{$string}", "local_{$record->package}")]
+            = "/local/{$record->package}/{$record->subpackage}/{$url}";
+    }
+    $headingtext = empty($record->subpackage) ? get_string($record->package, "local_{$record->package}")
+        : get_string($record->subpackage, "local_{$record->package}");
+    return new \local_mxschool\output\index($links, $heading ? $headingtext : false);
+}
+
+/**
+ * Outputs a rendered page which indexes a subpackage using the data in the local_mxschool_subpackage table.
+ *
+ * @param string $subpackage The name of the subpackage to be rendered.
+ * @param string $package The package which the specified subpackage belongs to without the 'local' prefix.
+ * @throws coding_exception If the specified package, subpackage pair does not exist in the local_mxschool_subpackage table.
+ */
+function render_index_page($subpackage, $package = 'mxschool') {
+    global $DB, $PAGE;
+    $id = $DB->get_field('local_mxschool_subpackage', 'id', array('package' => $package, 'subpackage' => $subpackage));
+    if (!$id) {
+        throw new coding_exception('subpackage record does not exist');
+    }
+
+    $url = empty($subpackage) ? "/local/{$package}/index.php" : "/local/{$package}/{$subpackage}/index.php";
+    $title = empty($subpackage) ? get_string($package, "local_{$package}") : get_string($subpackage, "local_{$package}");
+
+    setup_generic_page($url, $title);
+
+    $output = $PAGE->get_renderer('local_mxschool');
+    echo $output->header();
+    echo $output->heading($title);
+    echo $output->render(generate_index($id));
+    echo $output->footer();
 }
 
 /**
@@ -120,11 +171,7 @@ function get_record($queryfields, $where, $params = array()) {
     foreach ($queryfields as $table => $tablefields) {
         $abbreviation = $tablefields['abbreviation'];
         foreach ($tablefields['fields'] as $header => $name) {
-            if (is_numeric($header)) {
-                $selectarray[] = "{$abbreviation}.{$name}";
-            } else {
-                $selectarray[] = "{$abbreviation}.{$header} AS {$name}";
-            }
+            $selectarray[] = is_numeric($header) ? "{$abbreviation}.{$name}" : "{$abbreviation}.{$header} AS {$name}";
         }
         if (!isset($tablefields['join'])) {
             $fromarray[] = "{{$table}} {$abbreviation}";
@@ -450,6 +497,18 @@ function convert_records_to_list($records) {
         }
     }
     return $list;
+}
+
+/**
+ * Converts an associative array into an array of objects with properties value and text to be used in select elements.
+ *
+ * @param array $list The associative array to convert.
+ * @return array The same data in the form {'value': key, 'text': value}.
+ */
+function convert_associative_to_object($list) {
+    return array_map(function($key, $value) {
+        return array('value' => $key, 'text' => $value);
+    }, array_keys($list), $list);
 }
 
 /**

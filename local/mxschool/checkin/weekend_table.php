@@ -47,10 +47,9 @@ class weekend_table extends local_mxschool_table {
                 unset($columns1[array_search('room', $columns1)]);
             }
         }
-        $headers1 = array();
-        foreach ($columns1 as $column) {
-            $headers1[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
-        }
+        $headers1 = array_map(function($column) {
+            return get_string("checkin_weekend_report_header_{$column}", 'local_mxschool');
+        }, $columns1);
         $centered = array('room', 'grade', 'parent', 'invite', 'approved');
         $fields = array(
             's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
@@ -60,19 +59,16 @@ class weekend_table extends local_mxschool_table {
         );
         for ($i = 1; $i <= $end - $start + 1; $i++) {
             $columns1[] = $centered[] = "early_{$i}";
-            $headers1[] = get_string('weekend_report_header_early', 'local_mxschool');
+            $headers1[] = get_string('checkin_weekend_report_header_early', 'local_mxschool');
             $fields[] = "'' AS early_{$i}";
             $columns1[] = $centered[] = "late_{$i}";
-            $headers1[] = get_string('weekend_report_header_late', 'local_mxschool');
+            $headers1[] = get_string('checkin_weekend_report_header_late', 'local_mxschool');
             $fields[] = "'' AS late_{$i}";
         }
-        $columns2 = array(
-            'clean', 'parent', 'invite', 'approved', 'destinationtransportation', 'phone', 'departurereturn'
-        );
-        $headers2 = array();
-        foreach ($columns2 as $column) {
-            $headers2[] = get_string("weekend_report_header_{$column}", 'local_mxschool');
-        }
+        $columns2 = array('clean', 'parent', 'invite', 'approved', 'destinationtransportation', 'phone', 'departurereturn');
+        $headers2 = array_map(function($column) {
+            return get_string("checkin_weekend_report_header_{$column}", 'local_mxschool');
+        }, $columns2);
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
         $columns[] = 'actions';

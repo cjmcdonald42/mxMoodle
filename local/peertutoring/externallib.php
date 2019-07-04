@@ -50,13 +50,8 @@ class local_peertutoring_external extends external_api {
         external_api::validate_context(context_system::instance());
         require_capability('local/peertutoring:manage_preferences', context_system::instance());
 
-        global $DB;
         $result = new stdClass();
-        $list = get_eligible_unassigned_student_list();
-        $result->students = array();
-        foreach ($list as $userid => $name) {
-            $result->students[] = array('value' => $userid, 'text' => $name);
-        }
+        $result->students = convert_associative_to_object(get_eligible_unassigned_student_list());
         return $result;
     }
 
@@ -96,11 +91,7 @@ class local_peertutoring_external extends external_api {
         $params = self::validate_parameters(self::get_department_courses_parameters(), array('department' => $department));
 
         $list = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_course_list($params['department']);
-        $result = array();
-        foreach ($list as $courseid => $name) {
-            $result[] = array('value' => $courseid, 'text' => $name);
-        }
-        return $result;
+        return convert_associative_to_object($list);
     }
 
     /**
@@ -136,20 +127,13 @@ class local_peertutoring_external extends external_api {
         external_api::validate_context(context_system::instance());
         $params = self::validate_parameters(self::get_tutor_options_parameters(), array('userid' => $userid));
 
-        global $DB;
         $result = new stdClass();
         $list = array(0 => get_string('form_select_default', 'local_mxschool')) + get_tutor_department_list($params['userid']);
-        $result->departments = array();
-        foreach ($list as $id => $name) {
-            $result->departments[] = array('value' => $id, 'text' => $name);
-        }
-        $list = get_student_list();
-        $result->students = array();
-        foreach ($list as $userid => $name) {
-            if ($userid !== $params['userid']) {
-                $result->students[] = array('value' => $userid, 'text' => $name);
-            }
-        }
+        $result->departments = convert_associative_to_object($list);
+        $result->students = convert_associative_to_object(get_student_list());
+        $result->students = array_filter($result->students, function($student) use($params) {
+            return $student['value'] !== $params['userid'];
+        });
         return $result;
     }
 

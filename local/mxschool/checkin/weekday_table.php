@@ -45,20 +45,19 @@ class weekday_table extends local_mxschool_table {
                 unset($columns[array_search('room', $columns)]);
             }
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("weekday_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("checkin_weekday_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         $fields = array(
             's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'd.name AS dorm',
             's.room', 's.grade'
         );
         for ($i = 1; $i <= 5; $i++) {
             $columns[] = "early_$i";
-            $headers[] = get_string('weekday_report_header_early', 'local_mxschool');
+            $headers[] = get_string('checkin_weekday_report_header_early', 'local_mxschool');
             $fields[] = "'' AS early_$i";
             $columns[] = "late_$i";
-            $headers[] = get_string('weekday_report_header_late', 'local_mxschool');
+            $headers[] = get_string('checkin_weekday_report_header_late', 'local_mxschool');
             $fields[] = "'' AS late_$i";
         }
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');

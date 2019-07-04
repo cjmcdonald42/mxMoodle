@@ -38,11 +38,11 @@ $id = optional_param('id', 0, PARAM_INT);
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
+    get_string('user_management_student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
 );
 $redirect = get_redirect($parents);
 $url = '/local/mxschool/user_management/parent_edit.php';
-$title = get_string('parent_edit', 'local_mxschool');
+$title = get_string('user_management_parent_edit', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
@@ -89,7 +89,7 @@ if ($form->is_cancelled()) {
         }
     }
     update_record($queryfields, $data);
-    logged_redirect($form->get_redirect(), get_string('parent_edit_success', 'local_mxschool'), 'update');
+    logged_redirect($form->get_redirect(), get_string('user_management_parent_edit_success', 'local_mxschool'), 'update');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

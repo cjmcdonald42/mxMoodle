@@ -45,10 +45,9 @@ class advisor_table extends local_mxschool_table {
         if ($filter->keepcurrent !== '') {
             unset($columns[array_search('keepcurrent', $columns)]);
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("advisor_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("advisor_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         if (!$this->is_downloading()) {
             $columns[] = 'actions';
             $headers[] = get_string('report_header_actions', 'local_mxschool');

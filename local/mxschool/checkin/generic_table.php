@@ -45,10 +45,9 @@ class generic_table extends local_mxschool_table {
                 unset($columns[array_search('room', $columns)]);
             }
         }
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("generic_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("checkin_generic_report_header_{$column}", 'local_mxschool');
+        }, $columns);
         $fields = array(
             's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'd.name AS dorm',
             's.room', 's.grade', "'' AS checkin"

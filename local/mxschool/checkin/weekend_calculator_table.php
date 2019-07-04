@@ -45,23 +45,21 @@ class weekend_calculator_table extends local_mxschool_table {
         global $USER;
         $this->semester = $filter->semester;
         $columns1 = array('student', 'grade');
-        $headers1 = array();
-        foreach ($columns1 as $column) {
-            $headers1[] = get_string("weekend_calculator_report_header_{$column}", 'local_mxschool');
-        }
+        $headers1 = array_map(function($column) {
+            return get_string("checkin_weekend_calculator_report_header_{$column}", 'local_mxschool');
+        }, $columns1);
         $columns2 = array('total', 'allowed');
-        $headers2 = array();
-        foreach ($columns2 as $column) {
-            $headers2[] = get_string("weekend_calculator_report_header_{$column}", 'local_mxschool');
-        }
+        $headers2 = array_map(function($column) {
+            return get_string("checkin_weekend_calculator_report_header_{$column}", 'local_mxschool');
+        }, $columns2);
         $fields = array(
             's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
             "'' AS total", "'' AS allowed"
         );
         $centered = array('grade', 'total', 'allowed');
-        $offcampus = get_string('weekend_calculator_abbreviation_offcampus', 'local_mxschool');
-        $free = get_string('weekend_calculator_abbreviation_free', 'local_mxschool');
-        $closed = get_string('weekend_calculator_abbreviation_closed', 'local_mxschool');
+        $offcampus = get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool');
+        $free = get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool');
+        $closed = get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool');
         foreach ($weekends as $weekend) {
             $columns1[] = $centered[] = "weekend_$weekend->id";
             $date = new DateTime('now', core_date::get_server_timezone_object());
@@ -108,7 +106,7 @@ class weekend_calculator_table extends local_mxschool_table {
      */
     protected function col_allowed($values) {
         return calculate_weekends_allowed($values->userid, $this->semester)
-            ?: get_string('weekend_calculator_abbreviation_unlimited', 'local_mxschool');
+            ?: get_string('checkin_weekend_calculator_abbreviation_unlimited', 'local_mxschool');
     }
 
 }

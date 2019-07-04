@@ -35,10 +35,9 @@ class department_table extends local_mxschool_table {
      */
     public function __construct() {
         $columns = array('name');
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("department_report_header_{$column}", 'local_peertutoring');
-        }
+        $headers = array_map(function($column) {
+            return get_string("department_report_header_{$column}", 'local_peertutoring');
+        }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array('d.id', 'd.name');

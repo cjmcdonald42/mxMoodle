@@ -51,7 +51,7 @@ class block_mxschool_dorm_faculty extends block_base {
 
         $otherrenderable = new \local_mxschool\output\index(array(
             // Put any links in this array as displaytext => relative url.
-            get_string('esignout_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/driving/esignout_report.php',
+            get_string('esignout_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/esignout/esignout_report.php',
             get_string('vacation_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/vacation_travel/vacation_report.php',
             get_string('manage_student_data', 'block_mxschool_dorm_faculty') => '/local/mxschool/user_management/student_report.php'
         ), get_string('other_heading', 'block_mxschool_dorm_faculty'));

@@ -44,8 +44,8 @@ if ($hassiteconfig) {
         "$CFG->wwwroot/local/mxschool/checkin/index.php"
     ));
     $indexes->add('indexes', new admin_externalpage(
-        'driving_index', new lang_string('driving_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/driving/index.php"
+        'esignout_index', new lang_string('esignout_index', 'local_mxschool'),
+        "$CFG->wwwroot/local/mxschool/esignout/index.php"
     ));
     $indexes->add('indexes', new admin_externalpage(
         'advisor_selection_index', new lang_string('advisor_selection_index', 'local_mxschool'),

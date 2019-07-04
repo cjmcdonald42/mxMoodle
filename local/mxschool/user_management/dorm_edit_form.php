@@ -50,7 +50,7 @@ class dorm_edit_form extends local_mxschool_form {
                 'available' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );
-        $this->set_fields($fields, 'dorm_edit');
+        $this->set_fields($fields, 'user_management_dorm_edit');
     }
 
 }

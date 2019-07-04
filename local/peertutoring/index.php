@@ -27,27 +27,10 @@
 require(__DIR__.'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 
 if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
 admin_externalpage_setup('peertutoring_index');
-
-$url = '/local/mxschool/peertutoring/index.php';
-$title = get_string('peertutoring', 'local_peertutoring');
-
-setup_generic_page($url, $title);
-
-$output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index(array(
-    get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php',
-    get_string('tutoring_form', 'local_peertutoring') => '/local/peertutoring/tutoring_enter.php',
-    get_string('tutoring_report', 'local_peertutoring') => '/local/peertutoring/tutoring_report.php'
-));
-
-echo $output->header();
-echo $output->heading($title);
-echo $output->render($renderable);
-echo $output->footer();
+render_index_page(null, 'peertutoring');

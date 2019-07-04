@@ -64,13 +64,11 @@ class index implements renderable, templatable {
      * @return stdClass Object with property links which is an array of stdClass with properties text and url.
      */
     public function export_for_template(renderer_base $output) {
-        global $CFG;
         $data = new stdClass();
         $data->heading = $this->heading;
-        $data->links = array();
-        foreach ($this->links as $text => $url) {
-            $data->links[] = array('text' => $text, 'url' => $CFG->wwwroot.$url);
-        }
+        $data->links = array_map(function($text, $url) {
+            return array('text' => $text, 'url' => (new \moodle_url($url))->out());
+        }, array_keys($this->links), $this->links);
         return $data;
     }
 }
@@ -197,14 +195,9 @@ class report_filter implements renderable, templatable {
         $this->dropdowns = $dropdowns;
         $this->printbutton = $printbutton;
         $this->addbutton = $addbutton;
-        $this->emailbuttons = array();
-        if ($emailbuttons) {
-            foreach ($emailbuttons as $emailbutton) {
-                $this->emailbuttons[] = new email_button(
-                    $emailbutton->text, $emailbutton->value ?? 0, $emailbutton->emailclass
-                );
-            }
-        }
+        $this->emailbuttons = array_map(function($emailbutton) {
+            return new email_button($emailbutton->text, $emailbutton->value ?? 0, $emailbutton->emailclass);
+        }, $emailbuttons ?: array());
     }
 
     /**
@@ -216,10 +209,9 @@ class report_filter implements renderable, templatable {
         global $PAGE;
         $data = new stdClass();
         $data->url = $PAGE->url;
-        $data->dropdowns = array();
-        foreach ($this->dropdowns as $dropdown) {
-            $data->dropdowns[] = \html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
-        }
+        $data->dropdowns = array_map(function($dropdown) {
+            return \html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
+        }, $this->dropdowns);
         $data->searchable = $this->search !== null;
         $data->search = $this->search;
         $data->filterable = $data->searchable || count($data->dropdowns);
@@ -229,10 +221,9 @@ class report_filter implements renderable, templatable {
             $data->addbutton->text = $this->addbutton->text;
             $data->addbutton->url = $this->addbutton->url->out();
         }
-        $data->emailbuttons = array();
-        foreach ($this->emailbuttons as $emailbutton) {
-            $data->emailbuttons[] = $output->render($emailbutton);
-        }
+        $data->emailbuttons = array_map(function($emailbutton) use($output) {
+            return $output->render($emailbutton);
+        }, $this->emailbuttons);
         return $data;
     }
 
