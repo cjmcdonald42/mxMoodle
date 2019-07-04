@@ -45,7 +45,8 @@ class block_mxschool_dash_dean extends block_base {
         $usermenu = new \local_mxschool\output\index(array(
             get_string('user_management_student_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/student_report.php',
             get_string('user_management_faculty_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/faculty_report.php',
-            get_string('user_management_dorm_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/dorm_report.php'
+            get_string('user_management_dorm_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/dorm_report.php',
+            get_string('user_management_vehicle_report', 'block_mxschool_dash_dean') => '/local/mxschool/user_management/vehicle_report.php',
         ), get_string('user_menu', 'block_mxschool_dash_dean'));
         $checkinmenu = new \local_mxschool\output\index(array(
             get_string('checkin_generic_report', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/generic_report.php',
@@ -55,7 +56,6 @@ class block_mxschool_dash_dean extends block_base {
             get_string('checkin_preferences', 'block_mxschool_dash_dean') => '/local/mxschool/checkin/preferences.php'
         ), get_string('checkin_menu', 'block_mxschool_dash_dean'));
         $esignoutmenu = new \local_mxschool\output\index(array(
-            get_string('esignout_vehicle_report', 'block_mxschool_dash_dean') => '/local/mxschool/esignout/vehicle_report.php',
             get_string('esignout_report', 'block_mxschool_dash_dean') => '/local/mxschool/esignout/esignout_report.php',
             get_string('esignout_preferences', 'block_mxschool_dash_dean') => '/local/mxschool/esignout/preferences.php'
         ), get_string('esignout_menu', 'block_mxschool_dash_dean'));

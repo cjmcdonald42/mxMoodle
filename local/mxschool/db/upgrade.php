@@ -153,5 +153,22 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070302, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019070402) {
+        $usermanagement = $DB->get_record('local_mxschool_subpackage', array('subpackage' => 'user_management'));
+        $usermanagement->pages = json_encode(array(
+            'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php',
+            'vehicle_report' => 'vehicle_report.php',
+        ));
+        $DB->update_record('local_mxschool_subpackage', $usermanagement);
+        $esignout = $DB->get_record('local_mxschool_subpackage', array('subpackage' => 'esignout'));
+        $esignout->pages = json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'esignout_enter.php', 'report' => 'esignout_report.php'
+        ));
+        $DB->update_record('local_mxschool_subpackage', $esignout);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070402, 'local', 'mxschool');
+    }
+
     return true;
 }

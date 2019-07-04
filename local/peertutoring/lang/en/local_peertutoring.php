@@ -96,35 +96,29 @@ $string['preferences_notifications_body'] = 'Body for Daily Summary Email';
 
 // Tutor Report.
 $string['tutor_report_add'] = 'Add a Tutor';
-
 $string['tutor_report_header_tutor'] = 'Name';
 
 // Department Report.
 $string['department_report_add'] = 'Add a Department';
-
 $string['department_report_header_name'] = 'Name';
 
 // Course Report.
 $string['course_report_add'] = 'Add a Course';
-
 $string['course_report_header_department'] = 'Department';
 $string['course_report_header_name'] = 'Name';
 
 // Type Report.
 $string['type_report_add'] = 'Add a Type';
-
 $string['type_report_header_displaytext'] = 'Text';
 
 // Rating Report.
 $string['rating_report_add'] = 'Add an Effectiveness Rating';
-
 $string['rating_report_header_displaytext'] = 'Text';
 
 // Tutor Edit.
 $string['tutor_edit_header_tutor'] = 'Tutor Information';
 $string['tutor_edit_tutor_student'] = 'Student';
 $string['tutor_edit_tutor_departments'] = 'Approved Departments';
-
 $string['tutor_edit_form_departments_noselection'] = 'No Departments Selected';
 $string['tutor_edit_form_departments_placeholder'] = 'Search Departments';
 
@@ -157,9 +151,7 @@ $string['tutoring_form_details_topic'] = 'Topic of Tutoring Session';
 $string['tutoring_form_details_type'] = 'Type of Help Requested';
 $string['tutoring_form_details_rating'] = 'Effectiveness of Session';
 $string['tutoring_form_details_notes'] = 'Notes';
-
 $string['tutoring_form_type_select_other'] = 'Other (please specify)';
-
 $string['tutoring_form_error_nodepartment'] = 'You must specify a subject.';
 $string['tutoring_form_error_nocourse'] = 'You must specify a course.';
 $string['tutoring_form_error_notopic'] = 'You must specify a topic.';
@@ -172,7 +164,6 @@ $string['tutoring_report_select_department_all'] = 'All Departments';
 $string['tutoring_report_select_type_all'] = 'All Types';
 $string['tutoring_report_select_date_all'] = 'All Dates';
 $string['tutoring_report_add'] = 'New Peer Tutoring Record';
-
 $string['tutoring_report_header_tutor'] = 'Tutor';
 $string['tutoring_report_header_tutoringdate'] = 'Date';
 $string['tutoring_report_header_student'] = 'Student';

@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Student registered vehicles report for Middlesex School's Dorm and Student functions plugin.
+ * Vehicle edit page for Middlesex School's Dorm and Student functions plugin.
  *
  * @package    local_mxschool
- * @subpackage esignout
+ * @subpackage user_management
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -28,48 +28,50 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once('vehicle_table.php');
+require_once('vehicle_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_vehicles', context_system::instance());
 
-$search = optional_param('search', '', PARAM_RAW);
-$action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('esignout', 'local_mxschool') => '/local/mxschool/esignout/index.php'
+    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
 );
-$url = '/local/mxschool/esignout/vehicle_report.php';
-$title = get_string('esignout_vehicle_report', 'local_mxschool');
+$redirect = get_redirect($parents);
+$url = '/local/mxschool/user_management/vehicle_edit.php';
+$title = get_string('user_management_vehicle_edit', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
-if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_mxschool_vehicle', array('id' => $id));
-    $urlparams = array('search' => $search);
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_mxschool_vehicle', $record);
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('esignout_vehicle_delete_success', 'local_mxschool'), 'delete'
-        );
-    } else {
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('esignout_vehicle_delete_failure', 'local_mxschool'), 'delete', false
-        );
-    }
+$queryfields = array('local_mxschool_vehicle' => array('abbreviation' => 'v', 'fields' => array(
+    'id', 'userid' => 'student', 'make', 'model', 'color', 'registration'
+)));
+
+if ($id && !$DB->record_exists('local_mxschool_vehicle', array('id' => $id))) {
+    redirect($redirect);
 }
 
-$table = new vehicle_table($search);
+$data = get_record($queryfields, "v.id = ?", array('id' => $id));
+$drivers = get_licensed_student_list();
 
-$addbutton = new stdClass();
-$addbutton->text = get_string('esignout_vehicle_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/esignout/vehicle_edit.php');
+$form = new vehicle_edit_form(array('id' => $id, 'drivers' => $drivers));
+$form->set_redirect($redirect);
+$form->set_data($data);
+
+if ($form->is_cancelled()) {
+    redirect($form->get_redirect());
+} else if ($data = $form->get_data()) {
+    update_record($queryfields, $data);
+    logged_redirect(
+        $form->get_redirect(), $data->id ? get_string('user_management_vehicle_edit_success', 'local_mxschool')
+        : get_string('user_management_vehicle_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+    );
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($title);

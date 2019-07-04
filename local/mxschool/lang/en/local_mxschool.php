@@ -56,10 +56,10 @@ $string['room_type_quad'] = 'Quad';
 $string['mxschool:manage_students'] = 'Middlesex School: View and manage student data';
 $string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty data';
 $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
+$string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
 $string['mxschool:manage_checkin_preferences'] = 'Middlesex School: View and manage checkin preferences';
 $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend forms';
-$string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
 $string['mxschool:manage_esignout'] = 'Middlesex School: View and manage student eSignout records';
 $string['mxschool:manage_esignout_preferences'] = 'Middlesex School: View and manage eSignout preferences';
 $string['mxschool:manage_advisor_selection'] = 'Middlesex School: View and manage students\' advisor selection records';
@@ -115,12 +115,12 @@ $string['user_management_parent_edit_success'] = 'Parent Record Updated Successf
 $string['user_management_faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['user_management_dorm_create_success'] = 'Dorm Record Created Successfully';
 $string['user_management_dorm_edit_success'] = 'Dorm Record Updated Successfully';
+$string['user_management_vehicle_create_success'] = 'Vehicle Record Created Successfully';
+$string['user_management_vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 $string['checkin_weekend_form_success'] = 'Weekend Form Submitted Successfully';
 $string['checkin_weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
 $string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
-$string['esignout_vehicle_create_success'] = 'Vehicle Record Created Successfully';
-$string['esignout_vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
 $string['esignout_success'] = 'eSignout Submitted Successfully';
 $string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Preferences Saved Successfully';
 $string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
@@ -135,10 +135,10 @@ $string['user_management_parent_delete_success'] = 'Parent Record Deleted Succes
 $string['user_management_parent_delete_failure'] = 'Parent Record Not Found for Deletion';
 $string['user_management_dorm_delete_success'] = 'Dorm Record Deleted Successfully';
 $string['user_management_dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
+$string['user_management_vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
+$string['user_management_vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
 $string['checkin_weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
 $string['checkin_weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
-$string['esignout_vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
-$string['esignout_vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
 $string['esignout_delete_success'] = 'eSignout Record Deleted Successfully';
 $string['esignout_delete_failure'] = 'eSignout Record Not Found for Deletion';
 $string['vacation_travel_site_delete_success'] = 'Vacation Travel Site Record Deleted Successfully';
@@ -150,17 +150,18 @@ $string['user_management'] = 'User Management';
 $string['user_management_student_report'] = 'Student Report';
 $string['user_management_faculty_report'] = 'Faculty Report';
 $string['user_management_dorm_report'] = 'Dorm Report';
+$string['user_management_vehicle_report'] = 'Registered Student Vehicles Report';
 $string['user_management_student_edit'] = 'Edit Student Record';
 $string['user_management_parent_edit'] = 'Edit Parent Record';
 $string['user_management_faculty_edit'] = 'Edit Faculty Record';
 $string['user_management_dorm_edit'] = 'Edit Dorm Record';
+$string['user_management_vehicle_edit'] = 'Edit Student Vehicle Record';
 
 // Student Report.
 $string['user_management_student_report_type_students'] = 'Student Report';
 $string['user_management_student_report_type_permissions'] = 'Permissions Report';
 $string['user_management_student_report_type_parents'] = 'Parent Report';
 $string['user_management_parent_report_add'] = 'New Parent';
-
 $string['user_management_student_report_students_header_student'] = 'Name';
 $string['user_management_student_report_students_header_grade'] = 'Grade';
 $string['user_management_student_report_students_header_advisor'] = 'Advisor';
@@ -198,7 +199,6 @@ $string['user_management_faculty_report_header_advisoryclosing'] = 'Advisory Clo
 
 // Dorm Report.
 $string['user_management_dorm_report_add'] = 'New Dorm';
-
 $string['user_management_dorm_report_header_name'] = 'Name';
 $string['user_management_dorm_report_header_abbreviation'] = 'Abbreviation';
 $string['user_management_dorm_report_header_hoh'] = 'Head of House';
@@ -206,6 +206,17 @@ $string['user_management_dorm_report_header_permissionsline'] = 'Permissions Lin
 $string['user_management_dorm_report_header_type'] = 'Type';
 $string['user_management_dorm_report_header_gender'] = 'Gender';
 $string['user_management_dorm_report_header_available'] = 'Available';
+
+// Vehicle Report.
+$string['user_management_vehicle_report_add'] = 'Register a Vehicle';
+$string['user_management_vehicle_report_header_student'] = 'Student Name';
+$string['user_management_vehicle_report_header_grade'] = 'Grade';
+$string['user_management_vehicle_report_header_phone'] = 'Student Phone Number';
+$string['user_management_vehicle_report_header_license'] = 'Issue Date of License';
+$string['user_management_vehicle_report_header_make'] = 'Vehicle Make';
+$string['user_management_vehicle_report_header_model'] = 'Vehicle Model';
+$string['user_management_vehicle_report_header_color'] = 'Vehicle Color';
+$string['user_management_vehicle_report_header_registration'] = 'Vehicle Registration';
 
 // Student Edit.
 $string['user_management_student_edit_header_student'] = 'Student Information';
@@ -295,6 +306,13 @@ $string['user_management_dorm_edit_dorm_gender_Girls'] = 'Girls';
 $string['user_management_dorm_edit_dorm_gender_All'] = 'All';
 $string['user_management_dorm_edit_dorm_available'] = 'Available';
 
+// Vehicle Edit.
+$string['user_management_vehicle_edit_student'] = 'Student';
+$string['user_management_vehicle_edit_make'] = 'Make';
+$string['user_management_vehicle_edit_model'] = 'Model';
+$string['user_management_vehicle_edit_color'] = 'Color';
+$string['user_management_vehicle_edit_registration'] = 'Vehicle Registration';
+
 
 /* Check-In Sheets and Weekend Forms. */
 $string['checkin'] = 'Check-In Sheets and Weekend Forms';
@@ -330,7 +348,6 @@ $string['checkin_preferences_text_closedwarning'] = 'Warning for a Closed Weeken
 
 // Generic Check-in Sheet.
 $string['checkin_generic_report_title'] = '{$a}Check-In Sheet for __________';
-
 $string['checkin_generic_report_header_student'] = 'Name';
 $string['checkin_generic_report_header_dorm'] = 'Dorm';
 $string['checkin_generic_report_header_room'] = 'Room';
@@ -339,7 +356,6 @@ $string['checkin_generic_report_header_checkin'] = '&emsp;&emsp;';
 
 // Weekday Check-in Sheet.
 $string['checkin_weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
-
 $string['checkin_weekday_report_header_student'] = 'Name';
 $string['checkin_weekday_report_header_dorm'] = 'Dorm';
 $string['checkin_weekday_report_header_room'] = 'Room';
@@ -355,10 +371,8 @@ $string['checkin_weekend_form_return'] = 'Return Date and Time';
 $string['checkin_weekend_form_destination'] = 'Your Destination';
 $string['checkin_weekend_form_transportation'] = 'Transportation by';
 $string['checkin_weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
-
 $string['checkin_weekend_form_instructions_placeholder_hoh'] = 'your head of house';
 $string['checkin_weekend_form_instructions_placeholder_permissionsline'] = 'the house permissions line';
-
 $string['checkin_weekend_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
 $string['checkin_weekend_form_error_notinweekend'] = 'Your departure date must be within a valid weekend.';
 $string['checkin_weekend_form_error_indifferentweekends'] = 'Your return date must be in the same weekend as your departure date.';
@@ -373,7 +387,6 @@ $string['checkin_weekend_report_select_end_day_default'] = 'Default End Day';
 $string['checkin_weekend_report_select_submitted_true'] = 'Weekend Form';
 $string['checkin_weekend_report_select_submitted_false'] = 'No Weekend Form';
 $string['checkin_weekend_report_add'] = 'New Weekend Form';
-
 $string['checkin_weekend_report_header_student'] = 'Name';
 $string['checkin_weekend_report_header_dorm'] = 'Dorm';
 $string['checkin_weekend_report_header_room'] = 'Room';
@@ -392,7 +405,6 @@ $string['checkin_weekend_comment_form_comment'] = 'Comments';
 
 // Weekend Calculator.
 $string['checkin_weekend_calculator_report_title'] = 'Weekend Calculator{$a}';
-
 $string['checkin_weekend_calculator_report_header_student'] = 'Name';
 $string['checkin_weekend_calculator_report_header_grade'] = 'Grade';
 $string['checkin_weekend_calculator_report_header_total'] = 'Total';
@@ -415,8 +427,6 @@ $string['checkin_weekend_calculator_legend_closed'] = 'Campus weekend';
 /* eSignout. */
 $string['esignout'] = 'eSignout';
 $string['esignout_preferences'] = 'eSignout Preferences';
-$string['esignout_vehicle_report'] = 'Registered Student Vehicles Report';
-$string['esignout_vehicle_edit'] = 'Edit Student Vehicle Record';
 $string['esignout_form'] = 'eSignout Form';
 $string['esignout_report'] = 'eSignout Report';
 
@@ -447,25 +457,6 @@ $string['esignout_preferences_emailtext_parent'] = 'Warning for a Passenger with
 $string['esignout_preferences_emailtext_specific'] = 'Warning for a Passenger with Permissions to Ride Only with Specific Drivers';
 $string['esignout_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
 
-// Vehicle Report.
-$string['esignout_vehicle_report_add'] = 'Register a Vehicle';
-
-$string['esignout_vehicle_report_header_student'] = 'Student Name';
-$string['esignout_vehicle_report_header_grade'] = 'Grade';
-$string['esignout_vehicle_report_header_phone'] = 'Student Phone Number';
-$string['esignout_vehicle_report_header_license'] = 'Issue Date of License';
-$string['esignout_vehicle_report_header_make'] = 'Vehicle Make';
-$string['esignout_vehicle_report_header_model'] = 'Vehicle Model';
-$string['esignout_vehicle_report_header_color'] = 'Vehicle Color';
-$string['esignout_vehicle_report_header_registration'] = 'Vehicle Registration';
-
-// Vehicle Edit.
-$string['esignout_vehicle_edit_student'] = 'Student';
-$string['esignout_vehicle_edit_make'] = 'Make';
-$string['esignout_vehicle_edit_model'] = 'Model';
-$string['esignout_vehicle_edit_color'] = 'Color';
-$string['esignout_vehicle_edit_registration'] = 'Vehicle Registration';
-
 // Form for eSignout.
 $string['esignout_form_header_info'] = 'General Information';
 $string['esignout_form_header_details'] = 'Details';
@@ -481,10 +472,8 @@ $string['esignout_form_info_driver'] = 'Your Driver';
 $string['esignout_form_details_destination'] = 'Your Destination';
 $string['esignout_form_details_departure_time'] = 'Departure Time';
 $string['esignout_form_details_approver'] = 'Face-to-Face Permission Granted by';
-
 $string['esignout_form_passengers_noselection'] = 'No Passengers Selected';
 $string['esignout_form_passengers_placeholder'] = 'Search Passengers';
-
 $string['esignout_form_error_notype'] = 'You must specify a driver type.';
 $string['esignout_form_error_nodriver'] = 'You must specify a driver.';
 $string['esignout_form_error_nodestination'] = 'You must specify a destination.';
@@ -498,7 +487,6 @@ $string['esignout_report_select_type_parent'] = 'Parent';
 $string['esignout_report_select_type_other'] = 'Other';
 $string['esignout_report_select_date_all'] = 'All Dates';
 $string['esignout_report_add'] = 'New eSignout Record';
-
 $string['esignout_report_header_student'] = 'Student';
 $string['esignout_report_header_type'] = 'Type';
 $string['esignout_report_header_driver'] = 'Driver';
@@ -509,7 +497,6 @@ $string['esignout_report_header_date'] = 'Date';
 $string['esignout_report_header_departure'] = 'Departure Time';
 $string['esignout_report_header_approver'] = 'Permission From';
 $string['esignout_report_header_signin'] = 'Sign In Time';
-
 $string['esignout_report_nopassengers'] = 'None';
 
 
@@ -553,7 +540,6 @@ $string['advisor_form_options_option3'] = 'Third Choice';
 $string['advisor_form_options_option4'] = 'Fourth Choice';
 $string['advisor_form_options_option5'] = 'Fifth Choice';
 $string['advisor_form_deans_selected'] = 'Chosen Advisor';
-
 $string['advisor_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';
 $string['advisor_form_error_incomplete'] = 'You must either select five choices, or you current advisor must be your final choice.';
 
@@ -607,7 +593,6 @@ $string['rooming_form_requests_roomtype'] = 'Request a Room Type';
 $string['rooming_form_requests_dormmate1'] = 'Request 3 Dormmates from Your Grade';
 $string['rooming_form_requests_dormmate4'] = 'Request 3 Dormmates from Any Grade';
 $string['rooming_form_requests_roommate'] = 'Preferred Roommate';
-
 $string['rooming_form_error_noliveddouble'] = 'You must specify whether you have lived in a double.';
 $string['rooming_form_error_noroomtype'] = 'You must specify a room type.';
 $string['rooming_form_error_gradedormmates'] = 'You must request three dormmates from your grade.';
@@ -625,7 +610,6 @@ $string['rooming_report_select_double_true'] = 'Has Lived in Double';
 $string['rooming_report_select_double_false'] = 'Has Not Lived in Double';
 $string['rooming_report_add'] = 'New Rooming Requests Form';
 $string['rooming_report_remind'] = 'Notify Unsubmitted';
-
 $string['rooming_report_header_student'] = 'Student';
 $string['rooming_report_header_grade'] = 'Grade';
 $string['rooming_report_header_gender'] = 'Gender';
@@ -660,7 +644,6 @@ $string['vacation_travel_preferences_notifications_unsubmitted_body'] = 'Body fo
 
 // Vacation Travel Site Report.
 $string['vacation_travel_site_report_add'] = 'New Site';
-
 $string['vacation_travel_site_report_header_name'] = 'Name';
 $string['vacation_travel_site_report_header_type'] = 'Type';
 $string['vacation_travel_site_report_header_departureenabled'] = 'Available for Departure';
@@ -738,7 +721,6 @@ $string['vacation_travel_form_return_ret_variable_Plane'] = 'Flight Date and Tim
 $string['vacation_travel_form_return_ret_variable_Train'] = 'Train Date and Time';
 $string['vacation_travel_form_return_ret_variable_Bus'] = 'Bus Date and Time';
 $string['vacation_travel_form_return_ret_international'] = 'Will You Be Clearing Customs in Boston?';
-
 $string['vacation_travel_form_error_nodestination'] = 'You must specify a destination.';
 $string['vacation_travel_form_error_nophone'] = 'You must specify a phone number.';
 $string['vacation_travel_form_error_nomxtransportation'] = 'You must specify whether you will require school transportation.';
@@ -761,12 +743,10 @@ $string['vacation_travel_form_error_outoforder'] = 'Your return date and time mu
 
 // Vacation Travel Report.
 $string['vacation_travel_report_title'] = 'Vacation Travel Report{$a}';
-
 $string['vacation_travel_report_select_submitted_true'] = 'Submitted';
 $string['vacation_travel_report_select_submitted_false'] = 'Not Submitted';
 $string['vacation_travel_report_add'] = 'New Vacation Travel Form';
 $string['vacation_travel_report_remind'] = 'Notify Unsubmitted';
-
 $string['vacation_travel_report_header_student'] = 'Student';
 $string['vacation_travel_report_header_dorm'] = 'Dorm';
 $string['vacation_travel_report_header_destination'] = 'Destination';
@@ -792,7 +772,6 @@ $string['vacation_travel_transportation_report_select_type_Non-MXBus'] = 'Non-MX
 $string['vacation_travel_transportation_report_select_mxtransportation_true'] = 'School Transportation';
 $string['vacation_travel_transportation_report_select_mxtransportation_false'] = 'Not School Transportation';
 $string['vacation_travel_transportation_report_add'] = 'New Vacation Travel Form';
-
 $string['vacation_travel_transportation_report_departure_header_student'] = 'Student';
 $string['vacation_travel_transportation_report_departure_header_destination'] = 'Destination';
 $string['vacation_travel_transportation_report_departure_header_phone'] = 'Phone Number';
@@ -819,5 +798,4 @@ $string['vacation_travel_transportation_report_return_header_datetime'] = 'Date 
 $string['vacation_travel_transportation_report_return_header_international'] = 'Clearing Customs in Boston';
 $string['vacation_travel_transportation_report_return_header_timemodified'] = 'Last Modified';
 $string['vacation_travel_transportation_report_return_header_email'] = 'Email';
-
 $string['vacation_travel_transportation_report_site_other'] = 'Other';

@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_dean';
-$plugin->version = 2019070303;
+$plugin->version = 2019070400;
 $plugin->release = 'v3.0';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2019070306); // Mxschool as dependency in order to use renderer.
+$plugin->dependencies = array('local_mxschool' => 2019070402); // Mxschool as dependency in order to use renderer.
