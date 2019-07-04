@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/signout/db" VERSION="2019070400" COMMENT="XMLDB file for Moodle local/signout"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+</XMLDB>

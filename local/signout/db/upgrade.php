@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm and Student Functions Plugin.
+ * Database updgrade steps for Middlesex School's eSignout Subplugin.
  *
- * @package    local_mxschool
+ * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,9 +26,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2019070403;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+function xmldb_local_signout_upgrade($oldversion) {
+    global $DB;
+    $dbman = $DB->get_manager();
+
+    return true;
+}

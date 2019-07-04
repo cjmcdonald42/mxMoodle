@@ -15,20 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Dorm and Student Functions Plugin.
+ * English language strings for Middlesex School's eSignout Subplugin.
  *
- * @package    local_mxschool
+ * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Middlesex School Electronic Signout';
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2019070403;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+/* General */
+
+// Capabilities.
+
+
+// Settings Pages.
+$string['settings'] = 'eSignout Settings';
+
+$string['esignout_index'] = 'eSignout Index';
+
+// Notifications.
+
+
+
+/* Off Campus Signout */
+
+
+
+/* On Campus Signout */
