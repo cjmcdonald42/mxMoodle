@@ -28,25 +28,10 @@
 require('PATH_TO_PLUGIN_HOME/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once('PATH_TO_PLUGIN_HOME/locallib.php');
-require_once('PATH_TO_PLUGIN_HOME/classes/output/renderable.php');
 
 if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
 admin_externalpage_setup('PAGE_NAME');
-
-$url = 'PATH_TO_SUBPACKAGE/index.php';
-$title = get_string('SUBPACKAGE_NAME', 'PACKAGE');
-
-setup_generic_page($url, $title);
-
-$output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\index(array(
-    // FORMAT: display_text => url
-));
-
-echo $output->header();
-echo $output->heading($title);
-echo $output->render($renderable);
-echo $output->footer();
+render_index_page('SUBPACKAGE_NAME');

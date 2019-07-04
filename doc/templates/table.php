@@ -39,12 +39,11 @@ class NAME_table extends local_mxschool_table {
      */
     public function __construct($filter) {
         // $columns = TODO: array of column identifiers;
-        $headers = array();
-        foreach ($columns as $column) {
-            $headers[] = get_string("NAME_report_header_{$column}", 'local_mxschool');
-        }
+        $headers = array_map(function($column) {
+            return get_string("NAME_report_header_{$column}", 'PACKAGE');
+        }, $columns);
         $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers[] = get_string('report_header_actions', 'PACKAGE');
         // $fields = TODO: array of fields from the database;
         // $from = TODO: array of database tables;
         // $where = TODO: array of constraints;
