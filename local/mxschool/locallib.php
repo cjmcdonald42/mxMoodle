@@ -351,10 +351,10 @@ function get_param_faculty_dorm() {
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
  *
- * @return string The timestamp of the midnight on the desired date.
+ * @return int The timestamp of the midnight on the desired date.
  */
 function get_param_current_date() {
-    return $_GET['date'] ?? (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp();
+    return (int) ($_GET['date'] ?? (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp());
 }
 
 /**
@@ -368,7 +368,7 @@ function get_param_current_date() {
  */
 function get_param_current_date_esignout() {
     global $DB;
-    $timestamp = (int)get_param_current_date();
+    $timestamp = get_param_current_date();
     $startdate = new DateTime('now', core_date::get_server_timezone_object());
     $startdate->setTimestamp($timestamp);
     $enddate = clone $startdate;
@@ -385,9 +385,10 @@ function get_param_current_date_esignout() {
  * 1) An id specified as a 'weekend' GET parameter.
  * 2) The current or upcoming weekend (resets Wednesday 0:00:00).
  * 3) The next weekend with a record in the database.
- * 4) Defaults to a value of '0'.
+ * 4) The latest weekend in the database
  *
  * @return string The weekend id, as specified.
+ * @throws moodle_exception If are no weekend records in the database between the dorms-open date and dorms-close date configs.
  */
 function get_param_current_weekend() {
     global $DB;
@@ -414,7 +415,15 @@ function get_param_current_weekend() {
     if ($weekend) {
         return $weekend;
     }
-    return '0';
+    $weekend = $DB->get_field_sql(
+        "SELECT id FROM {local_mxschool_weekend}
+         WHERE sunday_time >= ? AND sunday_time < ? ORDER BY sunday_time DESC",
+        array($starttime, $endtime), IGNORE_MULTIPLE
+    );
+    if ($weekend) {
+        return $weekend;
+    }
+    throw new moodle_exception('there are no valid weekend records in the database');
 }
 
 /**

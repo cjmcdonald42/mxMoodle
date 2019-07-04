@@ -43,7 +43,7 @@ $string['checkin_weekend_report'] = 'Weekend Check-In Sheet';
 $string['checkin_weekend_calculator'] = 'Weekend Calculator';
 
 $string['esignout_menu'] = 'eSignout Module';
-$string['vehicle_report'] = 'Student Vehicles Report';
+$string['esignout_vehicle_report'] = 'Student Vehicles Report';
 $string['esignout_report'] = 'eSignout Report';
 $string['esignout_preferences'] = 'eSignout Preferences';
 
