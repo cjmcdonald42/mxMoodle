@@ -30,6 +30,7 @@ $string['pluginname'] = 'Middlesex School';
 $string['print'] = 'Print';
 $string['checkbox_saved'] = 'saved';
 $string['email_button_default'] = 'Send Emails';
+$string['email_button_confirmation'] = 'Are you sure you want to send this bulk notification?';
 $string['email_button_sending'] = 'Emails Sending...';
 $string['email_button_send_success'] = 'Emails Sent';
 $string['email_button_send_failure'] = 'Emails Failed to Send';

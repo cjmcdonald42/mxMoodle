@@ -24,6 +24,6 @@
 
 {{# js }}
 require(['local_mxschool/email_button'], function(setup) {
-    setup({{ value }}, '{{ emailclass }}', {{ hidden }});
+    setup({{ value }}, '{{ emailclass }}', {{ requireconfirmation }}, {{ hidden }});
 });
 {{/ js }}
