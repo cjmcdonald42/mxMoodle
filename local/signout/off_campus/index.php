@@ -15,20 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's eSignout Subplugin.
+ * Off-campus index page for Middlesex School's eSignout Subplugin.
  *
  * @package    local_signout
+ * @subpackage off_campus
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require(__DIR__.'/../../../config.php');
+require_once($CFG->libdir.'/adminlib.php');
+require_once(__DIR__.'/../../mxschool/locallib.php');
 
-$plugin->component = 'local_signout';
-$plugin->version = 2019070503;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array('local_mxschool' => 2019070500);
+if (!has_capability('moodle/site:config', context_system::instance())) {
+    redirect(new moodle_url('/my'));
+}
+
+admin_externalpage_setup('off_campus_index');
+render_index_page('off_campus', 'signout');
