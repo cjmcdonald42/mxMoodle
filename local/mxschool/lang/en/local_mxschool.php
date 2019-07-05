@@ -94,7 +94,7 @@ $string['table_size'] = 'Default Table Length';
 $string['table_size_description'] = 'The number of rows to display when outputting tables.';
 
 $string['indexes'] = 'Index Pages';
-$string['main_index'] = 'Middlesex School Index';
+$string['mxschool_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
 $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
 $string['esignout_index'] = 'eSignout Index';

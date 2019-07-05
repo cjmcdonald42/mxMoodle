@@ -32,7 +32,7 @@ if ($hassiteconfig) {
 
     $indexes = new admin_category('indexes', new lang_string('indexes', 'local_mxschool'));
     $indexes->add('indexes', new admin_externalpage(
-        'main_index', new lang_string('main_index', 'local_mxschool'),
+        'mxschool_index', new lang_string('mxschool_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/index.php"
     ));
     $indexes->add('indexes', new admin_externalpage(

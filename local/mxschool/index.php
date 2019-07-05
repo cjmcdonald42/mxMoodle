@@ -33,7 +33,7 @@ if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
-admin_externalpage_setup('main_index');
+admin_externalpage_setup('mxschool_index');
 
 $url = '/local/mxschool/index.php';
 $title = get_string('pluginname', 'local_mxschool');

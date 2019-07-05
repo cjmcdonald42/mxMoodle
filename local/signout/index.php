@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Admin settings for Middlesex School's eSignout Subplugin.
+ * Main index page for Middlesex School's eSignout Subplugin..
  *
  * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,20 +24,29 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require(__DIR__.'/../../config.php');
+require_once($CFG->libdir.'/adminlib.php');
+require_once(__DIR__.'/../mxschool/locallib.php');
+require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 
-if ($hassiteconfig) {
-
-    $settings = new admin_settingpage('signout_settings', new lang_string('settings', 'local_signout'));
-    $ADMIN->add('mxschool', $settings);
-
-    $ADMIN->add('indexes', new admin_externalpage(
-        'signout_index', new lang_string('signout_index', 'local_signout'),
-        "$CFG->wwwroot/local/signout/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
-        'off_campus_index', new lang_string('off_campus_index', 'local_signout'),
-        "$CFG->wwwroot/local/signout/off_campus/index.php")
-    );
-
+if (!has_capability('moodle/site:config', context_system::instance())) {
+    redirect(new moodle_url('/my'));
 }
+
+admin_externalpage_setup('signout_index');
+
+$url = '/local/signout/index.php';
+$title = get_string('pluginname', 'local_signout');
+
+setup_generic_page($url, $title);
+
+$subpackages = $DB->get_fieldset_select('local_mxschool_subpackage', 'id', "package = 'signout'");
+
+$output = $PAGE->get_renderer('local_mxschool');
+
+echo $output->header();
+echo $output->heading($title);
+foreach ($subpackages as $id) {
+    echo $output->render(generate_index($id, true));
+}
+echo $output->footer();
