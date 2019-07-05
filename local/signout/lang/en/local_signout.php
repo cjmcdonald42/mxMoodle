@@ -34,6 +34,8 @@ $string['signout:manage_off_campus_preferences'] = 'Middlesex School Electronic 
 
 // Settings Pages.
 $string['settings'] = 'eSignout Settings';
+$string['school_ip'] = 'Middlesex Network IP';
+$string['school_ip_description'] = 'The IP to check against to confirm that someone is on campus.';
 
 $string['signout_index'] = 'Signout Index';
 $string['off_campus_index'] = 'Off-Campus Signout Index';
@@ -59,7 +61,7 @@ $string['off_campus_preferences_header_text'] = 'Off-Campus Signout Form Permiss
 $string['off_campus_preferences_header_emailtext'] = 'Off-Campus Signout Email Permissions Warnings';
 $string['off_campus_preferences_config_editwindow'] = 'Window for Students to Edit Off-Campus Signout Forms (minutes)';
 $string['off_campus_preferences_config_tripwindow'] = 'Window for a Driver to be Available for Selection (minutes)';
-$string['off_campus_preferences_config_esignoutenabled_text'] = 'Check to Enable the Off-Campus Signout Form';
+$string['off_campus_preferences_config_offcampusenabled_text'] = 'Check to Enable the Off-Campus Signout Form';
 $string['off_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
 $string['off_campus_preferences_notifications_tags'] = 'Available Tags';
 $string['off_campus_preferences_notifications_subject'] = 'Subject for Off-Campus Signout Form Submitted Email';

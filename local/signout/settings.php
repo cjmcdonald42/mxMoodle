@@ -29,6 +29,10 @@ defined('MOODLE_INTERNAL') || die();
 if ($hassiteconfig) {
 
     $settings = new admin_settingpage('signout_settings', new lang_string('settings', 'local_signout'));
+    $settings->add(new admin_setting_configtext(
+        'local_signout/school_ip', new lang_string('school_ip', 'local_signout'),
+        new lang_string('school_ip_description', 'local_signout'), '63.138.153.62'
+    ));
     $ADMIN->add('mxschool', $settings);
 
     $ADMIN->add('indexes', new admin_externalpage(
