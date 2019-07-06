@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the options of the vacation travel form for Middlesex School's Dorm and Student functions plugin.
+ * Updates the options of the vacation travel form for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/vacation_travel_form
  * @package    local_mxschool

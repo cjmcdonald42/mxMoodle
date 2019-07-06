@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic class to encapsulate dropdown fields for Middlesex School's Dorm and Student functions plugin.
+ * Generic class to encapsulate dropdown fields for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

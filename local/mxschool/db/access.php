@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilites for Middlesex School's Dorm and Student functions plugin.
+ * Capabilites for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

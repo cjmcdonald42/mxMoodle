@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the advisor selection subpackage of Middlesex School's Dorm and Student functions plugin.
+ * Email notifications for the advisor selection subpackage of Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -35,7 +35,7 @@ use local_mxschool\local\notification;
 use local_mxschool\local\bulk_notification;
 
 /**
- * Email notification for when an advisor selection form is submitted for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when an advisor selection form is submitted for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -96,7 +96,7 @@ class submitted extends notification {
 
 /**
  * Email notification to remind students to complete the advisor selection form
- * for Middlesex School's Dorm and Student functions plugin.
+ * for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -120,7 +120,7 @@ class unsubmitted_notification extends notification {
 }
 
 /**
- * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student functions plugin.
+ * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -143,7 +143,7 @@ class notify_unsubmitted extends bulk_notification {
 
 /**
  * Email notification to notify students and advisors of the new pairings
- * for Middlesex School's Dorm and Student functions plugin.
+ * for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -181,7 +181,7 @@ class results_notification extends notification {
 }
 
 /**
- * Bulk wrapper for the the results_notification for Middlesex School's Dorm and Student functions plugin.
+ * Bulk wrapper for the the results_notification for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection

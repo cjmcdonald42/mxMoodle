@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the rooming subpackage of Middlesex School's Dorm and Student functions plugin.
+ * Email notifications for the rooming subpackage of Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming
@@ -35,7 +35,7 @@ use local_mxschool\local\notification;
 use local_mxschool\local\bulk_notification;
 
 /**
- * Email notification for when a rooming form is submitted for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when a rooming form is submitted for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming
@@ -126,7 +126,7 @@ class submitted extends notification {
 
 /**
  * Email notification to remind students to complete the rooming form
- * for Middlesex School's Dorm and Student functions plugin.
+ * for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming
@@ -150,7 +150,7 @@ class unsubmitted_notification extends notification {
 }
 
 /**
- * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student functions plugin.
+ * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming

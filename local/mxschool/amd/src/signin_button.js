@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Signs in an eSignout record for Middlesex School's Dorm and Student functions plugin.
+ * Signs in an eSignout record for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/signin_button
  * @package    local_mxschool

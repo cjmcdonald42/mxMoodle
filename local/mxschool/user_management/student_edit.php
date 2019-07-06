@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Student edit page for Middlesex School's Dorm and Student functions plugin.
+ * Student edit page for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management

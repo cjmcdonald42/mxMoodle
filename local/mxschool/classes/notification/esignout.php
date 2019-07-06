@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the eSignout subpackage of Middlesex School's Dorm and Student functions plugin.
+ * Email notifications for the eSignout subpackage of Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage esignout
@@ -34,7 +34,7 @@ require_once('mx_notification.php');
 use local_mxschool\local\notification;
 
 /**
- * Email notification for when an eSignout form is submitted for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when an eSignout form is submitted for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage esignout

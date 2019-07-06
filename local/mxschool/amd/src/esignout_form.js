@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the options of the eSignout form for Middlesex School's Dorm and Student functions plugin.
+ * Updates the options of the eSignout form for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/esignout_form
  * @package    local_mxschool

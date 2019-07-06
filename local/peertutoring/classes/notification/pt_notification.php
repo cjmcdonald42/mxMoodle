@@ -47,8 +47,8 @@ use \local_mxschool\output\report;
 abstract class notification extends mx_notification {
 
     /**
-     * Generates a user object to which emails should be sent to reach the deans.
-     * @return stdClass The deans user object.
+     * Generates a user object to which emails should be sent to reach the peer tutor administrator.
+     * @return stdClass The peer tutor administrator user object.
      */
     final protected static function get_peertutoradmin_user() {
         $supportuser = \core_user::get_support_user();
