@@ -138,7 +138,7 @@ class local_signout_external extends external_api {
      */
     public static function sign_in_parameters() {
         return new external_function_parameters(array(
-            'offcampusid' => new external_value(PARAM_INT, 'The id of the record to sign in.'),
+            'id' => new external_value(PARAM_INT, 'The id of the record to sign in.'),
         ));
     }
 
@@ -149,11 +149,11 @@ class local_signout_external extends external_api {
      * @return string The text to display for the sign in time.
      * @throws coding_exception If the off-campus signout record does not exist or has already been signed in.
      */
-    public static function sign_in($offcampusid) {
+    public static function sign_in($id) {
         external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::sign_in_parameters(), array('offcampusid' => $offcampusid));
+        $params = self::validate_parameters(self::sign_in_parameters(), array('id' => $id));
 
-        return sign_in_off_campus($params['offcampusid']);
+        return sign_in_off_campus($params['id']);
     }
 
     /**
