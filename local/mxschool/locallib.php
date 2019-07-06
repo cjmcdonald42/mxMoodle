@@ -351,10 +351,10 @@ function get_param_faculty_dorm() {
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
  *
- * @return int The timestamp of the midnight on the desired date.
+ * @return string The timestamp of the midnight on the desired date.
  */
 function get_param_current_date() {
-    return (int) ($_GET['date'] ?? (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp());
+    return $_GET['date'] ?? (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp();
 }
 
 // /**
@@ -392,7 +392,10 @@ function get_param_current_date() {
  */
 function get_param_current_weekend() {
     global $DB;
-    if (isset($_GET['weekend']) && $DB->record_exists('local_mxschool_weekend', array('id' => $_GET['weekend']))) {
+    if (
+        isset($_GET['weekend']) && is_numeric($_GET['weekend'])
+        && $DB->record_exists('local_mxschool_weekend', array('id' => $_GET['weekend']))
+    ) {
         return $_GET['weekend'];
     }
     $starttime = get_config('local_mxschool', 'dorms_open_date');
