@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's eSignout Subplugin.
+ * Signs in an eSignout record for Middlesex School's eSignout Subplugin.
  *
+ * @module     local_signout/signin_button
  * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -24,11 +24,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_signout';
-$plugin->version = 2019070506;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array('local_mxschool' => 2019070500);
+define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
+    function signin(event) {
+        var element = $(event.target);
+        var promises = ajax.call([{
+            methodname: 'local_signout_sign_in',
+            args: {
+                id: element.val()
+            }
+        }]);
+        promises[0].done(function(data) {
+            element.hide('slow', function() {
+                element.parent().html('&#x2705;');
+            });
+            element.parent().parent().find('td.sign-in').text(data);
+        }).fail(notification.exception);
+    }
+    return function(id) {
+        var element = $('.mx-signin-button[value="' + id + '"]');
+        element.click(signin);
+    };
+});

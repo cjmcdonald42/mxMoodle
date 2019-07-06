@@ -27,6 +27,7 @@
 $string['pluginname'] = 'Middlesex School Electronic Signout';
 
 /* General */
+$string['sign_in_button'] = 'Sign In';
 
 // Capabilities.
 $string['signout:manage_off_campus'] = 'Middlesex School Electronic Signout: View and manage student off-campus signout records';

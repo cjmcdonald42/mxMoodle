@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's eSignout Subplugin.
+ * Renderer for Middlesex School's eSignout Subplugin.
  *
  * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,11 +24,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_signout\output;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_signout';
-$plugin->version = 2019070506;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array('local_mxschool' => 2019070500);
+class renderer extends \plugin_renderer_base {
+
+    /**
+     * Renders a sign in button according to the template.
+     *
+     * @param signin_button $button.
+     *
+     * @return string html for the button.
+     */
+    public function render_signin_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template('local_signout/signin_button', $data);
+    }
+
+}
