@@ -59,31 +59,6 @@ $functions = array(
         'type' => 'read',
         'ajax' => 'true'
     ),
-    'local_mxschool_get_esignout_student_options' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'get_esignout_student_options',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to determine the type options, passenger list, driver list,'
-                         .'and permissions for a selected student.',
-        'type' => 'read',
-        'ajax' => 'true'
-    ),
-    'local_mxschool_get_esignout_driver_details' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'get_esignout_driver_details',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to find the destination and departure time of an esignout driver record.',
-        'type' => 'read',
-        'ajax' => 'true'
-    ),
-    'local_mxschool_sign_in' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'sign_in',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Signs in an eSignout record and records the timestamp.',
-        'type' => 'write',
-        'ajax' => 'true'
-    ),
     'local_mxschool_get_advisor_selection_student_options' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_advisor_selection_student_options',

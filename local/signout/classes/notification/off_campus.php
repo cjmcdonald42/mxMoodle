@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the off_campus subpackage of Middlesex School's eSignout Subpackage.
+ * Email notifications for the off_campus subpackage of Middlesex School's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage off_campus

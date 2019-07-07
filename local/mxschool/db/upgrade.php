@@ -170,5 +170,48 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070402, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019070701) {
+        // Define table local_mxschool_esignout to be dropped.
+        $table = new xmldb_table('local_mxschool_esignout');
+
+        // Conditionally launch drop table for local_mxschool_esignout.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Drop esignout from subpackage table.
+        $DB->delete_records('local_mxschool_subpackage', array('subpackage' => 'esignout'));
+
+        // Drop esignout notification email.
+        $DB->delete_records('local_mxschool_notification', array('class' => 'esignout_submitted'));
+
+        // Unset esignout configs.
+        unset_config('esignout_edit_window', 'local_mxschool');
+        unset_config('esignout_trip_window', 'local_mxschool');
+        unset_config('esignout_form_enabled', 'local_mxschool');
+        unset_config('esignout_form_ipenabled', 'local_mxschool');
+        unset_config('esignout_form_iperror', 'local_mxschool');
+        unset_config('esignout_report_iperror', 'local_mxschool');
+        unset_config('esignout_form_instructions_passenger', 'local_mxschool');
+        unset_config('esignout_form_instructions_bottom', 'local_mxschool');
+        unset_config('esignout_form_warning_nopassengers', 'local_mxschool');
+        unset_config('esignout_form_warning_needparent', 'local_mxschool');
+        unset_config('esignout_form_warning_onlyspecific', 'local_mxschool');
+        unset_config('esignout_form_confirmation', 'local_mxschool');
+
+        unset_config('esignout_notification_warning_irregular', 'local_mxschool');
+        unset_config('esignout_notification_warning_driver', 'local_mxschool');
+        unset_config('esignout_notification_warning_any', 'local_mxschool');
+        unset_config('esignout_notification_warning_parent', 'local_mxschool');
+        unset_config('esignout_notification_warning_specific', 'local_mxschool');
+        unset_config('esignout_notification_warning_over21', 'local_mxschool');
+
+        unset_config('esignout_form_instructions', 'local_mxschool');
+        unset_config('school_ip', 'local_mxschool');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070701, 'local', 'mxschool');
+    }
+
     return true;
 }

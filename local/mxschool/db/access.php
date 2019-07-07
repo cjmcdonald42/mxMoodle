@@ -61,16 +61,6 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
-    'local/mxschool:manage_esignout' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/mxschool:manage_esignout_preferences' => array(
-        'riskbitmask' => RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ),
     'local/mxschool:manage_advisor_selection' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
