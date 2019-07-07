@@ -73,7 +73,7 @@ abstract class notification extends mx_notification {
 class daily_summary extends notification {
 
     public function __construct() {
-        global $PAGE;
+        global $PAGE, $DB;
         parent::__construct('peer_tutor_summary');
 
         $filter = new \stdClass();
@@ -86,7 +86,7 @@ class daily_summary extends notification {
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\report($table);
 
-        $this->data['total'] = get_tutoring_count();
+        $this->data['total'] = $DB->count_records_select('local_peertutoring_session', "tutoring_date >= ?", array($filter->date));
         $this->data['table'] = $output->render($renderable);
 
         $this->recipients[] = self::get_peertutoradmin_user();

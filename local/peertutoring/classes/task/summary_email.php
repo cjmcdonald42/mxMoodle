@@ -47,7 +47,9 @@ class summary_email extends scheduled_task {
      * Emails the peer tutor admin a summary of the tutoring which took place in the last 24 hours.
      */
     public function execute() {
-        if (get_tutoring_count()) {
+        global $DB;
+        $date = generate_datetime('-1 day')->getTimestamp();
+        if ($DB->record_exists_select('local_peertutoring_session', "tutoring_date >= ?", array($date))) {
             (new daily_summary())->send();
         }
     }
