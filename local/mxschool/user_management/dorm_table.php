@@ -69,7 +69,7 @@ class dorm_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/user_management/dorm_edit.php', $values->id).$this->delete_icon($values->id);
+        return $this->edit_icon('/local/mxschool/user_management/dorm_edit.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

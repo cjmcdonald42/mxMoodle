@@ -65,11 +65,9 @@ if ($id) {
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing off-campus signout records beyond the edit window.
         $editwindow = get_config('local_signout', 'off_campus_edit_window');
-        $editcutoff = new DateTime('now', core_date::get_server_timezone_object());
-        $editcutoff->setTimestamp($data->timecreated);
+        $editcutoff = generate_datetime($data->timecreated);
         $editcutoff->modify("+{$editwindow} minutes");
-        $now = new DateTime('now', core_date::get_server_timezone_object());
-        if ($now->getTimestamp() > $editcutoff->getTimestamp() || $data->student !== $USER->id) {
+        if (generate_datetime()->getTimestamp() > $editcutoff->getTimestamp() || $data->student !== $USER->id) {
             redirect(new moodle_url($url));
         }
     }
@@ -133,7 +131,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    switch($data->type_select) {
+    switch ($data->type_select) {
         case 'Passenger': // For a passenger record, the destination and departure fields are inherited.
             $data->destination = null;
             $data->date = null;

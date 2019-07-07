@@ -72,8 +72,9 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('vacation_travel_site_edit_success', 'local_mxschool')
-        : get_string('vacation_travel_site_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(),
+        get_string($data->id ? 'vacation_travel_site_edit_success' : 'vacation_travel_site_create_success', 'local_mxschool'),
+        $data->id ? 'update' : 'create'
     );
 }
 

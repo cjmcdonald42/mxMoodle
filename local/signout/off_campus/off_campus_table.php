@@ -77,8 +77,7 @@ class off_campus_table extends local_mxschool_table {
             '{user} du ON d.userid = du.id', '{user} a ON oc.approverid = a.id'
         );
         if ($filter->date) {
-            $starttime = new DateTime('now', core_date::get_server_timezone_object());
-            $starttime->setTimestamp($filter->date);
+            $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
         }
@@ -101,7 +100,7 @@ class off_campus_table extends local_mxschool_table {
                 "(SELECT COUNT(id) FROM {local_signout_off_campus} WHERE driverid = d.id AND userid = {$USER->id})"
             );
             $where[] = '('.implode(' OR ', $include).')';
-            $starttime = new DateTime('midnight', core_date::get_server_timezone_object());
+            $starttime = generate_datetime('midnight');
             $where[] = "d.departure_time >= {$starttime->getTimestamp()}";
         }
         $sortable = array('student', 'driver', 'date', 'approver');
@@ -151,7 +150,7 @@ class off_campus_table extends local_mxschool_table {
     protected function col_driver($values) {
         return $values->driver . (
             $values->driver !== '-' && $values->driveralternatename && $values->driveralternatename !== $values->driverfirstname
-            ? " ($values->driveralternatename)" : ''
+                ? " ($values->driveralternatename)" : ''
         );
     }
 
@@ -159,14 +158,14 @@ class off_campus_table extends local_mxschool_table {
      * Formats the date column to 'n/j/y'.
      */
     protected function col_date($values) {
-        return date('n/j/y', $values->date);
+        return format_date('n/j/y', $values->date);
     }
 
     /**
      * Formats the departure time column to 'g:i A'.
      */
     protected function col_departure($values) {
-        return date('g:i A', $values->departure);
+        return format_date('g:i A', $values->departure);
     }
 
     /**
@@ -174,8 +173,8 @@ class off_campus_table extends local_mxschool_table {
      */
     protected function col_signin($values) {
         return $values->signin ? (
-            date('n/j/y', $values->date) === date('n/j/y', $values->signin)
-            ? date('g:i A', $values->signin) : date('n/j/y g:i A', $values->signin)
+            format_date('n/j/y', $values->date) === format_date('n/j/y', $values->signin) ? format_date('g:i A', $values->signin)
+                : format_date('n/j/y g:i A', $values->signin)
         ) : '-';
     }
 
@@ -185,7 +184,7 @@ class off_campus_table extends local_mxschool_table {
     protected function col_actions($values) {
         global $USER, $PAGE;
         if (!$this->isstudent) {
-            return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id).$this->delete_icon($values->id);
+            return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id) . $this->delete_icon($values->id);
         }
         if ($values->userid !== $USER->id) {
             return '-';
@@ -194,11 +193,9 @@ class off_campus_table extends local_mxschool_table {
             return '&#x2705;';
         }
         $editwindow = get_config('local_signout', 'off_campus_edit_window');
-        $editcutoff = new DateTime('now', core_date::get_server_timezone_object());
-        $editcutoff->setTimestamp($values->timecreated);
+        $editcutoff = generate_datetime($values->timecreated);
         $editcutoff->modify("+{$editwindow} minutes");
-        $now = new DateTime('now', core_date::get_server_timezone_object());
-        if ($now->getTimestamp() < $editcutoff->getTimestamp()) {
+        if (generate_datetime()->getTimestamp() < $editcutoff->getTimestamp()) {
             return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id);
         }
         $output = $PAGE->get_renderer('local_signout');

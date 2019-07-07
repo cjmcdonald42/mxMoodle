@@ -111,6 +111,7 @@ $string['event_email_sent'] = 'mxschool email notification sent';
 
 // Notifications.
 $string['user_management_student_edit_success'] = 'Student Record Updated Successfully';
+$string['user_management_parent_create_success'] = 'Parent Record Created Successfully';
 $string['user_management_parent_edit_success'] = 'Parent Record Updated Successfully';
 $string['user_management_faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['user_management_dorm_create_success'] = 'Dorm Record Created Successfully';

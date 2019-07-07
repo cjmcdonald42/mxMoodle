@@ -57,7 +57,8 @@ if ($action === 'delete' && $id) {
         );
     } else {
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('user_management_vehicle_delete_failure', 'local_mxschool'), 'delete', false
+            new moodle_url($url, $urlparams), get_string('user_management_vehicle_delete_failure', 'local_mxschool'), 'delete',
+            false
         );
     }
 }

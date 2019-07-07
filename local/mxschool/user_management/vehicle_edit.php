@@ -65,8 +65,9 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('user_management_vehicle_edit_success', 'local_mxschool')
-        : get_string('user_management_vehicle_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(),
+        get_string($data->id ? 'user_management_vehicle_edit_success' : 'user_management_vehicle_create_success', 'local_mxschool'),
+        $data->id ? 'update' : 'create'
     );
 }
 

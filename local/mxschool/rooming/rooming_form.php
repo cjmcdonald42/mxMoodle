@@ -44,11 +44,13 @@ class rooming_form extends local_mxschool_form {
             'id' => self::ELEMENT_HIDDEN_INT,
             'timecreated' => self::ELEMENT_HIDDEN_INT,
             'isstudent' => self::ELEMENT_HIDDEN_INT
-        ), 'info' => array(
+        ),
+        'info' => array(
             'student' => array('element' => 'select', 'options' => $students),
             'dorm' => array('element' => 'static'),
             'liveddouble' => self::ELEMENT_BOOLEAN
-        ), 'requests' => array(
+        ),
+        'requests' => array(
             'roomtype' => array('element' => 'select', 'options' => $roomtypes),
             'dormmate1' => array('element' => 'select', 'options' => $roomable),
             'dormmate2' => array('element' => 'select', 'name' => null, 'options' => $roomable),

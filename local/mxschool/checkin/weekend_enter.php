@@ -112,8 +112,7 @@ if ($form->is_cancelled()) {
     $data->timemodified = time();
     $data->departure_date = generate_timestamp($data, 'departure');
     $data->return_date = generate_timestamp($data, 'return');
-    $departurestartbound = new DateTime('now', core_date::get_server_timezone_object());
-    $departurestartbound->setTimestamp($data->departure_date);
+    $departurestartbound = generate_datetime($data->departure_date);
     $departureendbound = clone $departurestartbound;
     $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
     $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
@@ -139,14 +138,13 @@ if ($form->is_cancelled()) {
 $output = $PAGE->get_renderer('local_mxschool');
 $bottominstructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $bottominstructions = str_replace(
-    '{hoh}', $isstudent ? $record->hoh : get_string(
-        'checkin_weekend_form_instructions_placeholder_hoh', 'local_mxschool'
-    ), $bottominstructions
+    '{hoh}', $isstudent ? $record->hoh : get_string('checkin_weekend_form_instructions_placeholder_hoh', 'local_mxschool'),
+    $bottominstructions
 );
 $bottominstructions = str_replace(
-    '{permissionsline}', $isstudent ? $record->permissionsline : get_string(
-        'checkin_weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'
-    ), $bottominstructions
+    '{permissionsline}', $isstudent ? $record->permissionsline
+        : get_string('checkin_weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'),
+    $bottominstructions
 );
 $formrenderable = new \local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions

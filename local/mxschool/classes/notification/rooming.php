@@ -31,8 +31,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('mx_notification.php');
 
-use local_mxschool\local\notification;
-use local_mxschool\local\bulk_notification;
+use \local_mxschool\local\notification;
+use \local_mxschool\local\bulk_notification;
 
 /**
  * Email notification for when a rooming form is submitted for Middlesex School's Dorm and Student Functions Plugin.
@@ -80,33 +80,33 @@ class submitted extends notification {
             $this->data['roomtype'] = $record->roomtype;
             $this->data['dormmate1'] = "{$record->d1lastname}, {$record->d1firstname}" . (
                 !empty($record->d1alternatename) && $record->d1alternatename !== $record->d1firstname
-                ? " ({$record->d1alternatename})" : ''
+                    ? " ({$record->d1alternatename})" : ''
             );
             $this->data['dormmate2'] = "{$record->d2lastname}, {$record->d2firstname}" . (
                 !empty($record->d2alternatename) && $record->d2alternatename !== $record->d2firstname
-                ? " ({$record->d2alternatename})" : ''
+                    ? " ({$record->d2alternatename})" : ''
             );
             $this->data['dormmate3'] = "{$record->d3lastname}, {$record->d3firstname}" . (
                 !empty($record->d3alternatename) && $record->d3alternatename !== $record->d3firstname
-                ? " ({$record->d3alternatename})" : ''
+                    ? " ({$record->d3alternatename})" : ''
             );
             $this->data['dormmate4'] = "{$record->d4lastname}, {$record->d4firstname}" . (
                 !empty($record->d4alternatename) && $record->d4alternatename !== $record->d4firstname
-                ? " ({$record->d4alternatename})" : ''
+                    ? " ({$record->d4alternatename})" : ''
             );
             $this->data['dormmate5'] = "{$record->d5lastname}, {$record->d5firstname}" . (
                 !empty($record->d5alternatename) && $record->d5alternatename !== $record->d5firstname
-                ? " ({$record->d5alternatename})" : ''
+                    ? " ({$record->d5alternatename})" : ''
             );
             $this->data['dormmate6'] = "{$record->d6lastname}, {$record->d6firstname}" . (
                 !empty($record->d6alternatename) && $record->d6alternatename !== $record->d6firstname
-                ? " ({$record->d6alternatename})" : ''
+                    ? " ({$record->d6alternatename})" : ''
             );
             $this->data['preferredroomate'] = "{$record->plastname}, {$record->pfirstname}" . (
                 !empty($record->palternatename) && $record->palternatename !== $record->pfirstname
-                ? " ({$record->palternatename})" : ''
+                    ? " ({$record->palternatename})" : ''
             );
-            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
         }

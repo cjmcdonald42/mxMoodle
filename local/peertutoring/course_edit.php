@@ -66,8 +66,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('course_edit_success', 'local_peertutoring')
-        : get_string('course_create_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string($data->id ? 'course_edit_success' : 'course_create_success', 'local_peertutoring'),
+        $data->id ? 'update' : 'create'
     );
 }
 

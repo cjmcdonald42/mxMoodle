@@ -70,11 +70,14 @@ $table = new rooming_table($filter, $download);
 $dropdowns = array(
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'gender', $genderoptions, $filter->gender, get_string('rooming_report_select_gender_all', 'local_mxschool')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'roomtype', $roomtypeoptions, $filter->roomtype, get_string('rooming_report_select_roomtype_all', 'local_mxschool')
-    ), new local_mxschool_dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
+    ),
+    new local_mxschool_dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
 );
 $addbutton = new stdClass();
 $addbutton->text = get_string('rooming_report_add', 'local_mxschool');

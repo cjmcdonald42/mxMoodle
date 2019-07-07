@@ -151,8 +151,8 @@ function logged_redirect($url, $notification, $type, $success = true) {
  */
 function get_redirect($parents) {
     return new moodle_url(
-        has_capability('moodle/site:config', context_system::instance())
-        ? $parents[array_keys($parents)[count($parents) - 1]] : '/my'
+        has_capability('moodle/site:config', context_system::instance()) ? $parents[array_keys($parents)[count($parents) - 1]]
+            : '/my'
     );
 }
 
@@ -252,6 +252,95 @@ function update_notification($class, $subject, $body) {
     } else {
         $DB->insert_record('local_mxschool_notification', $record);
     }
+}
+
+/**
+ * Generates a DateTime object from a time string or timestamp with the user's timezone.
+ *
+ * @param string|int $time A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ *                         or a timestamp.
+ * @return DateTime The DateTime object with the specified time in the user's timezone.
+ */
+function generate_datetime($time='now') {
+    return is_numeric($time) ? (new DateTime('now', core_date::get_user_timezone_object()))->setTimestamp($time)
+        : new DateTime($time, core_date::get_server_timezone_object());
+}
+
+/**
+ * Formats a date/time in a specified format with the user's timezone.
+ *
+ * @param string $format The format to output the timestamp in a format accepted by date()
+ *                       (https://www.php.net/manual/en/function.date.php).
+ * @param string|int $time A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ *                         or a timestamp.
+ * @return string The specified time in the specified format.
+ */
+function format_date($format, $time = 'now') {
+    return generate_datetime($time)->format($format);
+}
+
+
+/**
+ * Sets the data for a time selector based on a timstamp and a step.
+ *
+ * @param stdClass $data The data object.
+ * @param string $prefix A prefix for the properties to be set.
+ *                       - The properties set will be "{$prefix}_time_hour", "{$prefix}_time_minute", and "{$prefix}_time_ampm".
+ *                       - The timestamp used will be from "{$prefix}_date".
+ * @param int $step An increment indicating the available minute values.
+ */
+function generate_time_selector_fields(&$data, $prefix, $step = 1) {
+    $time = generate_datetime($data->{"{$prefix}_date"});
+    $data->{"{$prefix}_time_hour"} = $time->format('g');
+    $minute = $time->format('i');
+    $data->{"{$prefix}_time_minute"} = $minute - $minute % $step;
+    $data->{"{$prefix}_time_ampm"} = $time->format('A') === 'PM';
+}
+
+/**
+ * Generates a timestamp as the result of a time selector.
+ *
+ * @param stdClass|array $data The data object.
+ * @param string $prefix A prefix for the properties to access.
+ *                       - The properties used will be "{$prefix}_date", "{$prefix}_time_hour", "{$prefix}_time_minute", and
+ *                         "{$prefix}_time_ampm".
+ * @param int A timestamp for the current date.
+ * @return int The resulting timestamp.
+ */
+function generate_timestamp($data, $prefix) {
+    $data = (object)$data;
+    $time = generate_datetime($data->{"{$prefix}_date"});
+    $time->setTime($data->{"{$prefix}_time_hour"} % 12 + $data->{"{$prefix}_time_ampm"} * 12, $data->{"{$prefix}_time_minute"});
+    return $time->getTimestamp();
+}
+
+/**
+ * Helper method to convert a timestamp into an object.
+ *
+ * @param int $timestamp The timestamp to convert.
+ * @return stdClass Object with properties year, month, day, hour, minute, ampm.
+ */
+function enumerate_timestamp($timestamp) {
+    $result = new stdClass();
+    if ($timestamp) {
+        $time = generate_datetime($timestamp);
+        $result->year = $time->format('Y');
+        $result->month = $time->format('n');
+        $result->day = $time->format('j');
+        $result->hour = $time->format('g');
+        $minute = $time->format('i');
+        $minute -= $minute % 15;
+        $result->minute = "{$minute}";
+        $result->ampm = $time->format('A') === 'PM';
+    } else {
+        $result->year = '';
+        $result->month = '';
+        $result->day = '';
+        $result->hour = '';
+        $result->minute = '';
+        $result->ampm = false;
+    }
+    return $result;
 }
 
 /**
@@ -356,8 +445,7 @@ function get_param_faculty_dorm() {
  * @return string The timestamp of the midnight on the desired date.
  */
 function get_param_current_date() {
-    return isset($_GET['date']) && is_numeric($_GET['date']) ? $_GET['date']
-        : (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp();
+    return isset($_GET['date']) && is_numeric($_GET['date']) ? $_GET['date'] : generate_datetime('midnight')->getTimestamp();
 }
 
 // /**
@@ -403,8 +491,7 @@ function get_param_current_weekend() {
     }
     $starttime = get_config('local_mxschool', 'dorms_open_date');
     $endtime = get_config('local_mxschool', 'dorms_close_date');
-    $date = new DateTime('now', core_date::get_server_timezone_object());
-    $date->modify('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
+    $date = generate_datetime('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
     $date->modify('Sunday this week');
     $timestamp = $date->getTimestamp();
     if ($timestamp >= $starttime && $timestamp < $endtime) {
@@ -443,7 +530,7 @@ function get_param_current_weekend() {
  */
 function get_param_current_semester() {
     return isset($_GET['semester']) && ($_GET['semester'] === '1' || $_GET['semester'] === '2') ? $_GET['semester']
-    : get_current_semester();
+        : get_current_semester();
 }
 
 /**
@@ -454,46 +541,7 @@ function get_param_current_semester() {
  */
 function get_current_semester() {
     $semesterdate = get_config('local_mxschool', 'second_semester_start_date');
-    $date = new DateTime('now', core_date::get_server_timezone_object());
-    return $date->getTimestamp() < $semesterdate ? '1' : '2';
-}
-
-/**
- * Sets the data for a time selector based on a timstamp and a step.
- *
- * @param stdClass $data The data object.
- * @param string $prefix A prefix for the properties to be set.
- *                       - The properties set will be "{$prefix}_time_hour", "{$prefix}_time_minute", and "{$prefix}_time_ampm".
- *                       - The timestamp used will be from "{$prefix}_date".
- * @param int $step An increment indicating the available minute values.
- */
-function generate_time_selector_fields(&$data, $prefix, $step = 1) {
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($data->{"{$prefix}_date"});
-    $data->{"{$prefix}_time_hour"} = $time->format('g');
-    $minute = $time->format('i');
-    $data->{"{$prefix}_time_minute"} = $minute - $minute % $step;
-    $data->{"{$prefix}_time_ampm"} = $time->format('A') === 'PM';
-}
-
-/**
- * Generates a timestamp as the result of a time selector.
- *
- * @param stdClass|array $data The data object.
- * @param string $prefix A prefix for the properties to access.
- *                       - The properties used will be "{$prefix}_date", "{$prefix}_time_hour", "{$prefix}_time_minute", and
- *                         "{$prefix}_time_ampm".
- * @param int A timestamp for the current date.
- * @return int The resulting timestamp.
- */
-function generate_timestamp($data, $prefix) {
-    if (is_array($data)) {
-        $data = (object) $data;
-    }
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($data->{"{$prefix}_date"});
-    $time->setTime($data->{"{$prefix}_time_hour"} % 12 + $data->{"{$prefix}_time_ampm"} * 12, $data->{"{$prefix}_time_minute"});
-    return $time->getTimestamp();
+    return generate_datetime()->getTimestamp() < $semesterdate ? '1' : '2';
 }
 
 /**
@@ -681,7 +729,7 @@ function get_licensed_student_list() {
  */
 function get_student_with_advisor_form_enabled_list() {
     global $DB;
-    $year = (int)date('Y') - 1;
+    $year = (int)format_date('Y') - 1;
     $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? " s.admission_year = {$year}" : ' s.grade <> 12';
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
@@ -698,7 +746,7 @@ function get_student_with_advisor_form_enabled_list() {
  */
 function get_student_without_advisor_form_list() {
     global $DB;
-    $year = (int)date('Y') - 1;
+    $year = (int)format_date('Y') - 1;
     $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? "s.admission_year = {$year}" : 's.grade <> 12';
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
@@ -875,8 +923,7 @@ function get_boarding_dorm_list() {
  */
 function get_weekend_start_day_list() {
     $days = array();
-    $sunday = new DateTime('now', core_date::get_server_timezone_object());
-    $sunday->modify('Sunday this week');
+    $sunday = generate_datetime('Sunday this week');
     for ($i = -4; $i <= -1; $i++) {
         $day = clone $sunday;
         $day->modify("{$i} days");
@@ -892,8 +939,7 @@ function get_weekend_start_day_list() {
  */
 function get_weekend_end_day_list() {
     $days = array();
-    $sunday = new DateTime('now', core_date::get_server_timezone_object());
-    $sunday->modify('Sunday this week');
+    $sunday = generate_datetime('Sunday this week');
     for ($i = 0; $i <= 2; $i++) {
         $day = clone $sunday;
         $day->modify("{$i} days");
@@ -917,8 +963,7 @@ function get_weekend_list() {
     );
     if ($weekends) {
         foreach ($weekends as $weekend) {
-            $time = new DateTime('now', core_date::get_server_timezone_object());
-            $time->setTimestamp($weekend->sunday_time);
+            $time = generate_datetime($weekend->sunday_time);
             $time->modify("-1 day");
             $weekend->name = $time->format('m/d/y');
         }
@@ -967,8 +1012,7 @@ function generate_weekend_records($starttime, $endtime) {
     foreach ($weekends as $weekend) {
         $sorted[$weekend->sunday_time] = $weekend;
     }
-    $date = new DateTime('now', core_date::get_server_timezone_object());
-    $date->setTimestamp($starttime);
+    $date = generate_datetime($starttime);
     $date->modify('Sunday this week');
     while ($date->getTimestamp() < $endtime) {
         if (!isset($sorted[$date->getTimestamp()])) {
@@ -995,10 +1039,8 @@ function generate_weekend_records($starttime, $endtime) {
  */
 function calculate_weekends_used($userid, $semester) {
     global $DB;
-    $startdate = $semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
-                                        : get_config('local_mxschool', 'second_semester_start_date');
-    $enddate = $semester == 1 ? get_config('local_mxschool', 'second_semester_start_date')
-                                      : get_config('local_mxschool', 'dorms_close_date');
+    $startdate = get_config('local_mxschool', $semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
+    $enddate = get_config('local_mxschool', $semester == 1 ? 'second_semester_start_date' : 'dorms_close_date');
     return $DB->count_records_sql(
         "SELECT COUNT(wf.id) FROM {local_mxschool_student} s
          LEFT JOIN {local_mxschool_weekend_form} wf ON s.userid = wf.userid
@@ -1192,34 +1234,4 @@ function get_site_default_return_time($site) {
         array($site)
     );
     return enumerate_timestamp($default);
-}
-
-/**
- * Helper method to convert a timestamp into an object.
- *
- * @param int $timestamp The timestamp to convert.
- * @return stdClass Object with properties year, month, day, hour, minute, ampm.
- */
-function enumerate_timestamp($timestamp) {
-    $result = new stdClass();
-    if ($timestamp) {
-        $time = new DateTime('now', core_date::get_server_timezone_object());
-        $time->setTimestamp($timestamp);
-        $result->year = $time->format('Y');
-        $result->month = $time->format('n');
-        $result->day = $time->format('j');
-        $result->hour = $time->format('g');
-        $minute = $time->format('i');
-        $minute -= $minute % 15;
-        $result->minute = "{$minute}";
-        $result->ampm = $time->format('A') === 'PM';
-    } else {
-        $result->year = '';
-        $result->month = '';
-        $result->day = '';
-        $result->hour = '';
-        $result->minute = '';
-        $result->ampm = false;
-    }
-    return $result;
 }

@@ -42,7 +42,8 @@ class faculty_edit_form extends local_mxschool_form {
             '' => array(
                 'id' => self::ELEMENT_HIDDEN_INT,
                 'userid' => self::ELEMENT_HIDDEN_INT
-            ), 'faculty' => array(
+            ),
+            'faculty' => array(
                 'firstname' => self::ELEMENT_TEXT_REQUIRED,
                 'middlename' => self::ELEMENT_TEXT,
                 'lastname' => self::ELEMENT_TEXT_REQUIRED,

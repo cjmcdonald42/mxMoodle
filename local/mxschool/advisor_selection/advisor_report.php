@@ -64,7 +64,8 @@ $dropdowns = array(
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted,
         get_string('report_select_default', 'local_mxschool')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'keepcurrent', $keepcurrentoptions, $filter->keepcurrent,
         get_string('report_select_default', 'local_mxschool')
     )

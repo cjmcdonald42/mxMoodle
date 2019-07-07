@@ -56,7 +56,7 @@ class department_table extends local_mxschool_table {
      */
     protected function col_actions($values) {
         return $this->edit_icon('/local/peertutoring/department_edit.php', $values->id)
-               .$this->delete_icon($values->id, 'department');
+               . $this->delete_icon($values->id, 'department');
     }
 
 }

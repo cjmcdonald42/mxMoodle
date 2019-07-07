@@ -150,7 +150,7 @@ class esignout_table extends local_mxschool_table {
     protected function col_driver($values) {
         return $values->driver . (
             $values->driver !== '-' && $values->driveralternatename && $values->driveralternatename !== $values->driverfirstname
-            ? " ($values->driveralternatename)" : ''
+                ? " ($values->driveralternatename)" : ''
         );
     }
 
@@ -173,8 +173,8 @@ class esignout_table extends local_mxschool_table {
      */
     protected function col_signin($values) {
         return $values->signin ? (
-            date('n/j/y', $values->date) === date('n/j/y', $values->signin)
-            ? date('g:i A', $values->signin) : date('n/j/y g:i A', $values->signin)
+            date('n/j/y', $values->date) === date('n/j/y', $values->signin) ? date('g:i A', $values->signin)
+                : date('n/j/y g:i A', $values->signin)
         ) : '-';
     }
 
@@ -184,7 +184,7 @@ class esignout_table extends local_mxschool_table {
     protected function col_actions($values) {
         global $USER, $PAGE;
         if (!$this->isstudent) {
-            return $this->edit_icon('/local/mxschool/esignout/esignout_enter.php', $values->id).$this->delete_icon($values->id);
+            return $this->edit_icon('/local/mxschool/esignout/esignout_enter.php', $values->id) . $this->delete_icon($values->id);
         }
         if ($values->userid !== $USER->id) {
             return '-';

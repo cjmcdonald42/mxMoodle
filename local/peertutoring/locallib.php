@@ -184,8 +184,7 @@ function get_tutoring_date_list() {
     );
     if ($records) {
         foreach ($records as $record) {
-            $date = new DateTime('now', core_date::get_server_timezone_object());
-            $date->setTimestamp($record->tutoring_date);
+            $date = generate_datetime($record->tutoring_date);
             $date->modify('midnight');
             if (!array_key_exists($date->getTimestamp(), $list)) {
                 $list[$date->getTimestamp()] = $date->format('m/d/y');
@@ -193,4 +192,19 @@ function get_tutoring_date_list() {
         }
     }
     return $list;
+}
+
+/**
+ * Counts the number of tutoring sessions which have occured in the last 24 hours.
+ * Intended to be used to determine whether a summary email should be sent.
+ *
+ * @return int The number of tutoring sessions which were submitted in the last 24 hours.
+ */
+function get_tutoring_count() {
+    global $DB;
+    $record = $DB->get_record_sql(
+        "SELECT COUNT(id) AS sessions FROM {local_peertutoring_session} WHERE time_modified >= ?",
+        array(generate_datetime('-1 day')->getTimestamp())
+    );
+    return $record->sessions;
 }

@@ -60,19 +60,17 @@ class vacation_table extends local_mxschool_table {
             '{local_mxschool_vt_trip} t ON s.userid = t.userid', '{local_mxschool_vt_transport} dt ON t.departureid = dt.id',
             '{local_mxschool_vt_transport} rt ON t.returnid = rt.id'
         );
-        $where = array(
-            'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '',
-            $filter->submitted === '1' ? "EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)" : (
-                $filter->submitted === '0'
-                ? "NOT EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)" : ''
-            )
-        );
-        $sortable = array(
-            'student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype'
-        );
-        $urlparams = array(
-            'dorm' => $filter->dorm, 'submitted' => $filter->submitted, 'search' => $filter->search
-        );
+        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '');
+        switch ($filter->submitted) {
+            case '1':
+                $where[] = "EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)";
+                break;
+            case '0':
+                $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)";
+                break;
+        }
+        $sortable = array('student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
+        $urlparams = array('dorm' => $filter->dorm, 'submitted' => $filter->submitted, 'search' => $filter->search);
         $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
@@ -85,14 +83,14 @@ class vacation_table extends local_mxschool_table {
      * Formats the departure date and time column to 'n/j/y g:i A'.
      */
     protected function col_depdatetime($values) {
-        return $values->depdatetime ? date('n/j/y g:i A', $values->depdatetime) : '';
+        return $values->depdatetime ? format_date('n/j/y g:i A', $values->depdatetime) : '';
     }
 
     /**
      * Formats the return date and time column to 'n/j/y g:i A'.
      */
     protected function col_retdatetime($values) {
-        return $values->tid ? ($values->retdatetime ? date('n/j/y g:i A', $values->retdatetime) : '-') : '';
+        return $values->tid ? ($values->retdatetime ? format_date('n/j/y g:i A', $values->retdatetime) : '-') : '';
     }
 
     /**

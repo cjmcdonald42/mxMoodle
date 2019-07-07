@@ -35,14 +35,16 @@ $functions = array(
                          .'and permissions for a selected student.',
         'type' => 'read',
         'ajax' => 'true'
-    ), 'local_signout_get_off_campus_driver_details' => array(
+    ),
+    'local_signout_get_off_campus_driver_details' => array(
         'classname' => 'local_signout_external',
         'methodname' => 'get_off_campus_driver_details',
         'classpath' => 'local/signout/externallib.php',
         'description' => 'Queries the database to find the destination and departure time of an off-campus signout driver record.',
         'type' => 'read',
         'ajax' => 'true'
-    ), 'local_signout_sign_in' => array(
+    ),
+    'local_signout_sign_in' => array(
         'classname' => 'local_signout_external',
         'methodname' => 'sign_in',
         'classpath' => 'local/signout/externallib.php',

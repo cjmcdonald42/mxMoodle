@@ -78,17 +78,20 @@ class local_signout_external extends external_api {
         return new external_single_structure(array(
             'types' => new external_multiple_structure(
                 new external_value(PARAM_TEXT, 'the identifier of the type')
-            ), 'passengers' => new external_multiple_structure(
+            ),
+            'passengers' => new external_multiple_structure(
                 new external_single_structure(array(
                     'value' => new external_value(PARAM_INT, 'user id of the student'),
                     'text' => new external_value(PARAM_TEXT, 'name of the student')
                 ))
-            ), 'drivers' => new external_multiple_structure(
+            ),
+            'drivers' => new external_multiple_structure(
                 new external_single_structure(array(
                     'value' => new external_value(PARAM_INT, 'id of the driver\'s off-campus signout record'),
                     'text' => new external_value(PARAM_TEXT, 'name of the driver')
                 ))
-            ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
+            ),
+            'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
             'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
             'specificdrivers' => new external_value(PARAM_TEXT, 'the comment for the student\'s riding permission')
         ));

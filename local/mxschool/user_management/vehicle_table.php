@@ -66,14 +66,14 @@ class vehicle_table extends local_mxschool_table {
      * Formats the license column to 'n/j/y'.
      */
     protected function col_license($values) {
-        return ($values->license ? date('n/j/y', $values->license) : '');
+        return $values->license ? format_date('n/j/y', $values->license) : '';
     }
 
     /**
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/user_management/vehicle_edit.php', $values->id).$this->delete_icon($values->id);
+        return $this->edit_icon('/local/mxschool/user_management/vehicle_edit.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

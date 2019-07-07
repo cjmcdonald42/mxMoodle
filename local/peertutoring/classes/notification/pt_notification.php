@@ -29,10 +29,11 @@ namespace local_peertutoring\local;
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
+require_once(__DIR__.'/../../locallib.php');
 require_once(__DIR__.'/../../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../../tutoring_table.php');
 
-use local_mxschool\local\notification as mx_notification;
+use \local_mxschool\local\notification as mx_notification;
 use \local_mxschool\output\report;
 
 /**
@@ -72,26 +73,20 @@ abstract class notification extends mx_notification {
 class daily_summary extends notification {
 
     public function __construct() {
-        global $DB, $PAGE;
+        global $PAGE;
         parent::__construct('peer_tutor_summary');
 
-        $time = new \DateTime('now', \core_date::get_server_timezone_object());
-        $time->modify('-1 day');
-        $record = $DB->get_record_sql(
-            "SELECT COUNT(id) AS total FROM {local_peertutoring_session} WHERE time_modified >= ?",
-            array($time->getTimestamp())
-        );
         $filter = new \stdClass();
         $filter->tutor = 0;
         $filter->department = 0;
         $filter->type = 0;
-        $filter->date = $time->getTimestamp();
+        $filter->date = generate_datetime('-1 day')->getTimestamp();
         $filter->search = '';
         $table = new \tutoring_table($filter, '', true);
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\report($table);
 
-        $this->data['total'] = $record->total;
+        $this->data['total'] = get_tutoring_count();
         $this->data['table'] = $output->render($renderable);
 
         $this->recipients[] = self::get_peertutoradmin_user();

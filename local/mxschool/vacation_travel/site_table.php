@@ -69,7 +69,7 @@ class site_table extends local_mxschool_table {
      * Formats the default departure time column to 'n/j/y g:i A'.
      */
     protected function col_defaultdeparturetime($values) {
-        return $values->defaultdeparturetime ? date('n/j/y g:i A', $values->defaultdeparturetime) : '-';
+        return $values->defaultdeparturetime ? format_date('n/j/y g:i A', $values->defaultdeparturetime) : '-';
     }
 
     /**
@@ -88,14 +88,14 @@ class site_table extends local_mxschool_table {
      * Formats the default return time column to 'n/j/y g:i A'.
      */
     protected function col_defaultreturntime($values) {
-        return $values->defaultreturntime ? date('n/j/y g:i A', $values->defaultreturntime) : '-';
+        return $values->defaultreturntime ? format_date('n/j/y g:i A', $values->defaultreturntime) : '-';
     }
 
     /**
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/vacation_travel/site_edit.php', $values->id).$this->delete_icon($values->id);
+        return $this->edit_icon('/local/mxschool/vacation_travel/site_edit.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

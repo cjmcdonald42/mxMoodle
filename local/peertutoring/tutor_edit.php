@@ -80,8 +80,8 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('tutor_edit_success', 'local_peertutoring')
-        : get_string('tutor_create_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string($data->id ? 'tutor_edit_success' : 'tutor_create_success', 'local_peertutoring'),
+        $data->id ? 'update' : 'create'
     );
 }
 

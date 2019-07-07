@@ -39,12 +39,6 @@ class weekend_form extends local_mxschool_form {
         $dorms = $this->_customdata['dorms'];
         $students = $this->_customdata['students'];
 
-        $dateparameters = array(
-            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
-            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
-            'timezone'  => core_date::get_server_timezone_object()
-        );
-
         $fields = array('' => array(
             'id' => self::ELEMENT_HIDDEN_INT,
             'timecreated' => self::ELEMENT_HIDDEN_INT,
@@ -53,12 +47,14 @@ class weekend_form extends local_mxschool_form {
             'student' => array('element' => 'select', 'options' => $students),
             'departure' => array('element' => 'group', 'children' => array(
                 'time' => self::time_selector(15),
-                'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )), 'warning' => array('element' => 'static', 'name' => null),
+                'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+            )),
+            'warning' => array('element' => 'static', 'name' => null),
             'return' => array('element' => 'group', 'children' => array(
                 'time' => self::time_selector(15),
-                'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )), 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
+                'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+            )),
+            'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
             'transportation' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
             'phone' => self::ELEMENT_TEXT
         ));
@@ -85,8 +81,7 @@ class weekend_form extends local_mxschool_form {
         if ($departure >= $return) {
             $errors['return'] = get_string('checkin_weekend_form_error_outoforder', 'local_mxschool');
         }
-        $departurestartbound = new DateTime('now', core_date::get_server_timezone_object());
-        $departurestartbound->setTimestamp($departure);
+        $departurestartbound = generate_datetime($departure);
         $departureendbound = clone $departurestartbound;
         $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
         $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
@@ -95,8 +90,7 @@ class weekend_form extends local_mxschool_form {
             array($departurestartbound->getTimestamp(), $departureendbound->getTimestamp())
         );
         if ($weekend) {
-            $returnstartbound = new DateTime('now', core_date::get_server_timezone_object());
-            $returnstartbound->setTimestamp($return);
+            $returnstartbound = generate_datetime($return);
             $returnendbound = clone $returnstartbound;
             $returnstartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
             $returnendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.

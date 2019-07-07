@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('mx_notification.php');
 
-use local_mxschool\local\notification;
+use \local_mxschool\local\notification;
 
 /**
  * Email notification for when an eSignout form is submitted for Middlesex School's Dorm and Student Functions Plugin.
@@ -78,7 +78,7 @@ class submitted extends notification {
                     );
                     return "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
                         !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
-                        ? " ({$passengerrecord->alternatename})" : ''
+                            ? " ({$passengerrecord->alternatename})" : ''
                     );
                 }, $passengerlist)) : $passengers = get_string('esignout_report_nopassengers', 'local_mxschool');
             }
@@ -89,7 +89,7 @@ class submitted extends notification {
                 if ($record->type !== 'Passenger' && $record->type !== 'Parent') {
                     $emaildeans = true;
                 }
-                switch($record->passengerpermission) {
+                switch ($record->passengerpermission) {
                     case 'Any Driver':
                         $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_any');
                         break;
@@ -110,7 +110,7 @@ class submitted extends notification {
             $this->data['type'] = $record->type;
             $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}" . (
                 !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
-                ? " ({$record->dalternatename})" : ''
+                    ? " ({$record->dalternatename})" : ''
             );
             $this->data['passengers'] = $passengers ?? '';
             $this->data['destination'] = $record->destination;

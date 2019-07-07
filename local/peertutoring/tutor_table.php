@@ -78,7 +78,7 @@ class tutor_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/peertutoring/tutor_edit.php', $values->id).$this->delete_icon($values->id, 'tutor');
+        return $this->edit_icon('/local/peertutoring/tutor_edit.php', $values->id) . $this->delete_icon($values->id, 'tutor');
     }
 
 }

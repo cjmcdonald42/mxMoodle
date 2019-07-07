@@ -53,7 +53,7 @@ $title = get_string('preferences', 'local_peertutoring');
 setup_mxschool_page($url, $title, $parents);
 
 if ($action === 'delete' && $id && $table) {
-    switch($table) {
+    switch ($table) {
         case 'tutor':
             $dbtable = 'local_peertutoring_tutor';
             break;

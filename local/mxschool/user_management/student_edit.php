@@ -46,18 +46,22 @@ $title = get_string('user_management_student_edit', 'local_mxschool');
 
 setup_mxschool_page($url, $title, $parents);
 
-$queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
-    'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
-    'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
-    'dormid' => 'dorm', 'room'
-)), 'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
-    'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
-)), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.userid = p.userid', 'fields' => array(
-    'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
-    'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
-    'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
-    'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
-)));
+$queryfields = array(
+    'local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
+        'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
+        'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
+        'dormid' => 'dorm', 'room'
+    )),
+    'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
+        'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
+    )),
+    'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.userid = p.userid', 'fields' => array(
+        'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
+        'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
+        'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
+        'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
+    ))
+);
 
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
     redirect($redirect);

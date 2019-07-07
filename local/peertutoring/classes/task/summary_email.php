@@ -28,6 +28,7 @@ namespace local_peertutoring\task;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/../../../mxschool/locallib.php');
 require_once(__DIR__.'/../notification/pt_notification.php');
 
 use \core\task\scheduled_task;
@@ -46,12 +47,7 @@ class summary_email extends scheduled_task {
      * Emails the peer tutor admin a summary of the tutoring which took place in the last 24 hours.
      */
     public function execute() {
-        global $DB;
-        $time = new \DateTime('now', \core_date::get_server_timezone_object());
-        $time->modify('-1 day');
-        if ($DB->record_exists_sql(
-            "SELECT id FROM {local_peertutoring_session} WHERE deleted = 0 AND time_modified >= ?", array($time->getTimestamp())
-        )) {
+        if (get_tutoring_count()) {
             (new daily_summary())->send();
         }
     }

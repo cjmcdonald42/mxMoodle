@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
 
-use local_mxschool\local\notification;
+use \local_mxschool\local\notification;
 
 /**
  * Email notification for when an off-campus signout form is submitted for Middlesex School's eSignout Subplugin.
@@ -78,7 +78,7 @@ class submitted extends notification {
                     );
                     return "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
                         !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
-                        ? " ({$passengerrecord->alternatename})" : ''
+                            ? " ({$passengerrecord->alternatename})" : ''
                     );
                 }, $passengerlist)) : $passengers = get_string('off_campus_report_nopassengers', 'local_signout');
             }
@@ -109,16 +109,16 @@ class submitted extends notification {
 
             $this->data['type'] = $record->type;
             $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}" . (
-                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
-                ? " ({$record->dalternatename})" : ''
+                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname ? " ({$record->dalternatename})"
+                    : ''
             );
             $this->data['passengers'] = $passengers ?? '';
             $this->data['destination'] = $record->destination;
-            $this->data['date'] = date('n/j/y', $record->departuretime);
-            $this->data['departuretime'] = date('g:i A', $record->departuretime);
+            $this->data['date'] = format_date('n/j/y', $record->departuretime);
+            $this->data['departuretime'] = format_date('g:i A', $record->departuretime);
             $this->data['approver'] = $record->approvername;
             $this->data['permissionswarning'] = $permissionswarning;
-            $this->data['timesubmitted'] = date('g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('g:i A', $record->timesubmitted);
             $this->data['irregular'] = $emaildeans ? get_config('local_signout', 'off_campus_notification_warning_irregular') : '';
 
             array_push(

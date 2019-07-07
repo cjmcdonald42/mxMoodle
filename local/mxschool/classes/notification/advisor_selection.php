@@ -31,8 +31,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('mx_notification.php');
 
-use local_mxschool\local\notification;
-use local_mxschool\local\bulk_notification;
+use \local_mxschool\local\notification;
+use \local_mxschool\local\bulk_notification;
 
 /**
  * Email notification for when an advisor selection form is submitted for Middlesex School's Dorm and Student Functions Plugin.
@@ -77,7 +77,7 @@ class submitted extends notification {
             $this->data['option3'] = $record->option3;
             $this->data['option4'] = $record->option4;
             $this->data['option5'] = $record->option5;
-            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
         }

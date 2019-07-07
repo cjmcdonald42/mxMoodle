@@ -140,7 +140,7 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 return (new \local_mxschool\local\vacation_travel\notify_unsubmitted())->send();
             default:
-                throw new coding_exception("Invalid email class: {$params['emailclass']}.");
+                throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }
     }
 
@@ -219,7 +219,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::get_weekend_type_parameters(), array('datetime' => $datetime));
 
         global $DB;
-        $startbound = new DateTime('now', core_date::get_server_timezone_object());
+        $startbound = generate_datetime();
         $startbound->setDate($params['datetime']['year'], $params['datetime']['month'], $params['datetime']['day']);
         $startbound->setTime($params['datetime']['hour'] % 12 + $params['datetime']['ampm'] * 12, $params['datetime']['minute']);
         $endbound = clone $startbound;
@@ -287,17 +287,20 @@ class local_mxschool_external extends external_api {
         return new external_single_structure(array(
             'types' => new external_multiple_structure(
                 new external_value(PARAM_TEXT, 'the identifier of the type')
-            ), 'passengers' => new external_multiple_structure(
+            ),
+            'passengers' => new external_multiple_structure(
                 new external_single_structure(array(
                     'value' => new external_value(PARAM_INT, 'user id of the student'),
                     'text' => new external_value(PARAM_TEXT, 'name of the student')
                 ))
-            ), 'drivers' => new external_multiple_structure(
+            ),
+            'drivers' => new external_multiple_structure(
                 new external_single_structure(array(
                     'value' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
                     'text' => new external_value(PARAM_TEXT, 'name of the driver')
                 ))
-            ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
+            ),
+            'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
             'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
             'specificdrivers' => new external_value(PARAM_TEXT, 'the comment for the student\'s riding permission')
         ));
@@ -425,13 +428,16 @@ class local_mxschool_external extends external_api {
             'students' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(
                     PARAM_INT, 'the user id of the student who has not completed an advisor selection form'
-                ), 'text' => new external_value(
+                ),
+                'text' => new external_value(
                     PARAM_TEXT, 'the name of the student who has not completed an advisor selection form'
                 )
-            ))), 'current' => new external_single_structure(array(
+            ))),
+            'current' => new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the student\' current advisor'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the student\' current advisor')
-            )), 'closing' => new external_value(PARAM_BOOL, 'whether the student\'s advisory is closing'),
+            )),
+            'closing' => new external_value(PARAM_BOOL, 'whether the student\'s advisory is closing'),
             'available' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the available faculty'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the available faculty')
@@ -527,14 +533,17 @@ class local_mxschool_external extends external_api {
             'students' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the student who has not completed a rooming form'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a rooming form')
-            ))), 'dorm' => new external_value(PARAM_TEXT, 'the name of the student\'s current dorm'),
+            ))),
+            'dorm' => new external_value(PARAM_TEXT, 'the name of the student\'s current dorm'),
             'roomtypes' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_TEXT, 'the internal name of the available room type'),
                 'text' => new external_value(PARAM_TEXT, 'the localized name of the available room type')
-            ))), 'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
+            ))),
+            'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the potential dormmate in the same grade'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the potential dormmate in the same grade')
-            ))), 'dormmates' => new external_multiple_structure(new external_single_structure(array(
+            ))),
+            'dormmates' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the potential dormmate'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the potential dormmate')
             )))
@@ -547,17 +556,22 @@ class local_mxschool_external extends external_api {
      * @return external_function_parameters Object holding array of parameters for the get_vacation_travel_options() function.
      */
     public static function get_vacation_travel_options_parameters() {
-        return new external_function_parameters(array('departure' => new external_single_structure(array(
-            'mxtransportation' => new external_value(
-                PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
-            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
-            'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
-        )), 'return' => new external_single_structure(array(
-            'mxtransportation' => new external_value(
-                PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
-            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
-            'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
-        ))));
+        return new external_function_parameters(array(
+            'departure' => new external_single_structure(array(
+                'mxtransportation' => new external_value(
+                    PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
+                ),
+                'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
+                'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
+            )),
+            'return' => new external_single_structure(array(
+                'mxtransportation' => new external_value(
+                    PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
+                ),
+                'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
+                'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
+            ))
+        ));
     }
 
     /**
@@ -601,46 +615,61 @@ class local_mxschool_external extends external_api {
     public static function get_vacation_travel_options_returns() {
         return new external_single_structure(array(
             'students' => new external_multiple_structure(new external_single_structure(array(
-                'value' => new external_value(
-                    PARAM_INT, 'the user id of the student who has not completed a vacation travel form'
-                ), 'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a vacation travel form')
-            ))), 'departure' => new external_single_structure(array(
+                'value' => new external_value(PARAM_INT, 'the user id of the student who has not completed a vacation travel form'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a vacation travel form')
+            ))),
+            'departure' => new external_single_structure(array(
                 'types' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the type which is available given the filter')
-                ), 'sites' => new external_multiple_structure(
+                ),
+                'sites' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
-                ), 'default' => new external_single_structure(array(
+                ),
+                'default' => new external_single_structure(array(
                     'year' => new external_value(
                         PARAM_TEXT, 'the year of the default time for the transportation if applicable'
-                    ), 'month' => new external_value(
+                    ),
+                    'month' => new external_value(
                         PARAM_TEXT, 'the month of the default time for the transportation if applicable'
-                    ), 'day' => new external_value(
+                    ),
+                    'day' => new external_value(
                         PARAM_TEXT, 'the day of the default time for the transportation if applicable'
-                    ), 'hour' => new external_value(
+                    ),
+                    'hour' => new external_value(
                         PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
-                    ), 'minute' => new external_value(
+                    ),
+                    'minute' => new external_value(
                         PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
-                    ), 'ampm' => new external_value(
+                    ),
+                    'ampm' => new external_value(
                         PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
                     )
                 ))
-            )), 'return' => new external_single_structure(array(
+            )),
+            'return' => new external_single_structure(array(
                 'types' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the type which is available given the filter')
-                ), 'sites' => new external_multiple_structure(
+                ),
+                'sites' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
-                ), 'default' => new external_single_structure(array(
+                ),
+                'default' => new external_single_structure(array(
                     'year' => new external_value(
                         PARAM_TEXT, 'the year of the default time for the transportation if applicable'
-                    ), 'month' => new external_value(
+                    ),
+                    'month' => new external_value(
                         PARAM_TEXT, 'the month of the default time for the transportation if applicable'
-                    ), 'day' => new external_value(
+                    ),
+                    'day' => new external_value(
                         PARAM_TEXT, 'the day of the default time for the transportation if applicable'
-                    ), 'hour' => new external_value(
+                    ),
+                    'hour' => new external_value(
                         PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
-                    ), 'minute' => new external_value(
+                    ),
+                    'minute' => new external_value(
                         PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
-                    ), 'ampm' => new external_value(
+                    ),
+                    'ampm' => new external_value(
                         PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
                     )
                 ))

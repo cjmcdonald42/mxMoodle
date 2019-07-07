@@ -41,9 +41,10 @@ define(
                         mxtransportation: depMXTransportationChecked.length ? depMXTransportationChecked.val() == 1 : undefined,
                         type: depTypeChecked.length ? depTypeChecked.val() : undefined,
                         site: depSiteChecked.length ? depSiteChecked.val() : undefined
-                    }, return: {
-                        mxtransportation: returnEnabled && retMXTransportationChecked.length
-                            ? retMXTransportationChecked.val() == 1 : undefined,
+                    },
+                    return: {
+                        mxtransportation: returnEnabled && retMXTransportationChecked.length ? retMXTransportationChecked.val() == 1
+                            : undefined,
                         type: returnEnabled && retTypeChecked.length ? retTypeChecked.val() : undefined,
                         site: retSiteChecked.length ? retSiteChecked.val() : undefined
                     }
@@ -295,9 +296,9 @@ define(
             $('div[data-groupname="dep_type"]').change(update);
             $('div[data-groupname="dep_site"]').change(update);
             $('div[data-groupname="dep_variable_date"]').change(dayOfWeek);
-            $('a#id_dep_variable_date_calendar').on('click', function(){
-                setTimeout(function(){
-                    $('div#dateselector-calendar-panel td').on('click', function(){
+            $('a#id_dep_variable_date_calendar').on('click', function() {
+                setTimeout(function() {
+                    $('div#dateselector-calendar-panel td').on('click', function() {
                         setTimeout(dayOfWeek, 100);
                     });
                 }, 100);
@@ -307,9 +308,9 @@ define(
                 $('div[data-groupname="ret_type"]').change(update);
                 $('div[data-groupname="ret_site"]').change(update);
                 $('div[data-groupname="ret_variable_date"]').change(dayOfWeek);
-                $('a#id_ret_variable_date_calendar').on('click', function(){
-                    setTimeout(function(){
-                        $('div#dateselector-calendar-panel td').on('click', function(){
+                $('a#id_ret_variable_date_calendar').on('click', function() {
+                    setTimeout(function() {
+                        $('div#dateselector-calendar-panel td').on('click', function() {
                             setTimeout(dayOfWeek, 100);
                         });
                     }, 100);

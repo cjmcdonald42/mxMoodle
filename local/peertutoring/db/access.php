@@ -31,7 +31,8 @@ $capabilities = array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/peertutoring:manage_tutoring' => array(
+    ),
+    'local/peertutoring:manage_tutoring' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM

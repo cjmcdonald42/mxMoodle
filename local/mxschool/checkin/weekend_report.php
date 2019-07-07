@@ -117,9 +117,11 @@ $dropdowns = array(
     new local_mxschool_dropdown('weekend', $weekends, $filter->weekend),
     new local_mxschool_dropdown(
         'start', $startdays, $filter->start, get_string('checkin_weekend_report_select_start_day_default', 'local_mxschool')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'end', $enddays, $filter->end, get_string('checkin_weekend_report_select_end_day_default', 'local_mxschool')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
@@ -128,11 +130,10 @@ $addbutton->text = get_string('checkin_weekend_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/checkin/weekend_enter.php');
 $headers = array(array(
     'text' => '', 'length' => $filter->dorm ? (
-        $DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)
-    ) === 'Day' ? 2 : 3) : 4
+        $DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day' ? 2 : 3
+    ) : 4
 ));
-$sunday = new DateTime('now', core_date::get_server_timezone_object());
-$sunday->modify('Sunday this week');
+$sunday = generate_datetime('Sunday this week');
 for ($i = $start; $i <= $end; $i++) {
     $day = clone $sunday;
     $day->modify("{$i} days");

@@ -39,25 +39,30 @@ class advisor_form extends local_mxschool_form {
         $students = $this->_customdata['students'];
         $faculty = $this->_customdata['faculty'];
 
-        $fields = array('' => array(
-            'id' => self::ELEMENT_HIDDEN_INT,
-            'timecreated' => self::ELEMENT_HIDDEN_INT,
-            'isstudent' => self::ELEMENT_HIDDEN_INT
-        ), 'info' => array(
-            'student' => array('element' => 'select', 'options' => $students),
-            'current' => array('element' => 'static'),
-            'keepcurrent' => self::ELEMENT_BOOLEAN,
-            'warning' => array('element' => 'static', 'name' => null)
-        ), 'options' => array(
-            'instructions' => array('element' => 'static', 'name' => null),
-            'option1' => array('element' => 'select', 'options' => $faculty),
-            'option2' => array('element' => 'select', 'options' => $faculty),
-            'option3' => array('element' => 'select', 'options' => $faculty),
-            'option4' => array('element' => 'select', 'options' => $faculty),
-            'option5' => array('element' => 'select', 'options' => $faculty)
-        ), 'deans' => array(
-            'selected' => array('element' => 'select', 'options' => $faculty),
-        ));
+        $fields = array(
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'timecreated' => self::ELEMENT_HIDDEN_INT,
+                'isstudent' => self::ELEMENT_HIDDEN_INT
+            ),
+            'info' => array(
+                'student' => array('element' => 'select', 'options' => $students),
+                'current' => array('element' => 'static'),
+                'keepcurrent' => self::ELEMENT_BOOLEAN,
+                'warning' => array('element' => 'static', 'name' => null)
+            ),
+            'options' => array(
+                'instructions' => array('element' => 'static', 'name' => null),
+                'option1' => array('element' => 'select', 'options' => $faculty),
+                'option2' => array('element' => 'select', 'options' => $faculty),
+                'option3' => array('element' => 'select', 'options' => $faculty),
+                'option4' => array('element' => 'select', 'options' => $faculty),
+                'option5' => array('element' => 'select', 'options' => $faculty)
+            ),
+            'deans' => array(
+                'selected' => array('element' => 'select', 'options' => $faculty)
+            )
+        );
         $this->set_fields($fields, 'advisor_form');
 
         $mform = $this->_form;

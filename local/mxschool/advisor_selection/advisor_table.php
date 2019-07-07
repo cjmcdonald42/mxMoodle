@@ -69,16 +69,19 @@ class advisor_table extends local_mxschool_table {
             '{user} o2a ON asf.option2id = o2a.id', '{user} o3a ON asf.option3id = o3a.id', '{user} o4a ON asf.option4id = o4a.id',
             '{user} o5a ON asf.option5id = o5a.id', '{user} sa ON asf.selectedid = sa.id'
         );
+        $year = (int)format_date('Y') - 1;
         $where = array(
-            'u.deleted = 0', $filter->submitted === '1'
-            ? "EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)" : (
-                $filter->submitted === '0'
-                ? "NOT EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)" : ''
-            ), $filter->keepcurrent !== '' ? "asf.keep_current = {$filter->keepcurrent}" : ''
+            'u.deleted = 0', $filter->keepcurrent !== '' ? "asf.keep_current = {$filter->keepcurrent}" : '',
+            get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? "s.admission_year = {$year}" : 's.grade <> 12'
         );
-        $year = (int)date('Y') - 1;
-        $where[] = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new'
-            ? "s.admission_year = {$year}" : 's.grade <> 12';
+        switch ($filter->submitted) {
+            case '1':
+                $where[] = "EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)";
+                break;
+            case '0':
+                $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)";
+                break;
+        }
         $sortable = array('student', 'current', 'keepcurrent');
         $urlparams = array('submitted' => $filter->submitted, 'keepcurrent' => $filter->keepcurrent, 'search' => $filter->search);
         $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');
@@ -202,8 +205,7 @@ class advisor_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return isset($values->asfid)
-            ? $this->edit_icon('/local/mxschool/advisor_selection/advisor_enter.php', $values->asfid) : '';
+        return isset($values->asfid) ? $this->edit_icon('/local/mxschool/advisor_selection/advisor_enter.php', $values->asfid) : '';
     }
 
 }

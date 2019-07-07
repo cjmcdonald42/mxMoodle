@@ -53,8 +53,7 @@ $dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string
 $headers = array(array(
     'text' => '', 'length' => $dorm ? ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $dorm)) === 'Day' ? 2 : 3) : 4
 ));
-$day = new DateTime('now', core_date::get_server_timezone_object());
-$day->modify('Sunday this week');
+$day = generate_datetime('Sunday this week');
 for ($i = 1; $i <= 5; $i++) {
     $day->modify("+1 day");
     $headers[] = array('text' => $day->format('l'), 'length' => 2);

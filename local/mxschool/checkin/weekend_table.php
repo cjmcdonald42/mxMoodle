@@ -77,16 +77,21 @@ class weekend_table extends local_mxschool_table {
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
             "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = {$filter->weekend} AND wf.active = 1"
         );
-        $where = array(
-            'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '',
-            $filter->submitted === '1' ? "EXISTS (
-                SELECT userid FROM mdl_local_mxschool_weekend_form wf
-                WHERE s.userid = userid AND wf.active = 1 AND wf.weekendid = {$filter->weekend}
-            )" : ($filter->submitted === '0' ? "NOT EXISTS (
-                SELECT userid FROM mdl_local_mxschool_weekend_form wf
-                WHERE s.userid = userid AND wf.active = 1 AND wf.weekendid = {$filter->weekend}
-            )" : '')
-        );
+        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '');
+        switch ($filter->submitted) {
+            case '1':
+                $where[] = "EXISTS (
+                    SELECT userid FROM mdl_local_mxschool_weekend_form wf
+                    WHERE s.userid = userid AND wf.active = 1 AND wf.weekendid = {$filter->weekend}
+                )";
+                break;
+            case '0':
+                $where[] = "NOT EXISTS (
+                    SELECT userid FROM mdl_local_mxschool_weekend_form wf
+                    WHERE s.userid = userid AND wf.active = 1 AND wf.weekendid = {$filter->weekend}
+                )";
+                break;
+        }
         $sortable = array('student', 'dorm', 'room', 'grade');
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
@@ -150,15 +155,15 @@ class weekend_table extends local_mxschool_table {
      * Formats the destination and transportation time column to 'destination<br>transportation'.
      */
     protected function col_destinationtransportation($values) {
-        return ($values->destination ?: '') . '<br>' . ($values->transportation ?: '');
+        return isset($values->wfid) ? "{$values->destination}<br>{$values->transportation}" : '';
     }
 
     /**
      * Formats the departure and return time column to 'n/j/y g:i A'<br>'n/j/y g:i A'.
      */
     protected function col_departurereturn($values) {
-        return ($values->departuretime ? date('n/j/y g:i A', $values->departuretime) : '')
-               . '<br>' . ($values->returntime ? date('n/j/y g:i A', $values->returntime) : '');
+        return isset($values->wfid) ? format_date('n/j/y g:i A', $values->departuretime) . '<br>'
+            . format_date('n/j/y g:i A', $values->returntime) : '';
     }
 
     /**
@@ -166,7 +171,7 @@ class weekend_table extends local_mxschool_table {
      */
     protected function col_actions($values) {
         return $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->wfid)
-               . $this->delete_icon($values->wfid);
+               . (isset($values->wfid) ? $this->delete_icon($values->wfid) : '');
     }
 
 }

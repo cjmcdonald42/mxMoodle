@@ -109,8 +109,8 @@ abstract class notification {
             if (empty($primaryrecipient->lastname) || empty($primaryrecipient->firstname)) {
                 throw new \coding_exception('Primary recipient has no valid option for salutation.');
             }
-            $this->data['addresseeshort'] = !empty($primaryrecipient->alternatename)
-                ? $primaryrecipient->alternatename : $primaryrecipient->firstname;
+            $this->data['addresseeshort'] = !empty($primaryrecipient->alternatename) ? $primaryrecipient->alternatename
+                : $primaryrecipient->firstname;
             $this->data['addresseelong'] = "{$primaryrecipient->lastname}, {$primaryrecipient->firstname}" . (
                 !empty($primaryrecipient->alternatename) && $primaryrecipient->alternatename !== $primaryrecipient->firstname
                     ? " ({$primaryrecipient->alternatename})" : ''

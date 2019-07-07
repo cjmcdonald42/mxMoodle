@@ -50,9 +50,7 @@ function student_may_access_off_campus_signout($userid) {
  */
 function get_param_current_date_off_campus() {
     global $DB;
-    $timestamp = get_param_current_date();
-    $startdate = new DateTime('now', core_date::get_server_timezone_object());
-    $startdate->setTimestamp($timestamp);
+    $startdate = generate_datetime(get_param_current_date());
     $enddate = clone $startdate;
     $enddate->modify('+1 day');
     return $DB->record_exists_sql(
@@ -120,8 +118,7 @@ function get_permitted_driver_list() {
 function get_current_driver_list($ignore = 0) {
     global $DB;
     $window = get_config('local_signout', 'off_campus_trip_window');
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->modify("-{$window} minutes");
+    $time = generate_datetime("-{$window} minutes");
     $drivers = $DB->get_records_sql(
         "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
@@ -189,8 +186,7 @@ function get_off_campus_date_list() {
     );
     if ($records) {
         foreach ($records as $record) {
-            $date = new DateTime('now', core_date::get_server_timezone_object());
-            $date->setTimestamp($record->departure_time);
+            $date = generate_datetime($record->departure_time);
             $date->modify('midnight');
             if (!array_key_exists($date->getTimestamp(), $list)) {
                 $list[$date->getTimestamp()] = $date->format('m/d/y');
@@ -215,8 +211,7 @@ function get_driver_inheritable_fields($offcampusid) {
     }
     $result = new stdClass();
     $result->destination = $record->destination;
-    $departuretime = new DateTime('now', core_date::get_server_timezone_object());
-    $departuretime->setTimestamp($record->departure_time);
+    $departuretime = generate_datetime($record->departure_time);
     $result->departurehour = $departuretime->format('g');
     $minute = $departuretime->format('i');
     $minute -= $minute % 15;
@@ -240,5 +235,5 @@ function sign_in_off_campus($offcampusid) {
     }
     $record->sign_in_time = time();
     $DB->update_record('local_signout_off_campus', $record);
-    return date('g:i A', $record->sign_in_time);
+    return format_date('g:i A', $record->sign_in_time);
 }

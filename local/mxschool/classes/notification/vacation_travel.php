@@ -31,8 +31,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('mx_notification.php');
 
-use local_mxschool\local\notification;
-use local_mxschool\local\bulk_notification;
+use \local_mxschool\local\notification;
+use \local_mxschool\local\bulk_notification;
 
 /**
  * Email notification for when a vacation travel form is submitted for Middlesex School's Dorm and Student Functions Plugin.
@@ -81,7 +81,7 @@ class submitted extends notification {
             $this->data['depdetails'] = $record->depdetails ?? '-';
             $this->data['depcarriercompany'] = $record->depcarriercompany ?? '-';
             $this->data['depnumber'] = $record->depnumber ?? '-';
-            $this->data['depdatetime'] = date('n/j/y g:i A', $record->depvariable);
+            $this->data['depdatetime'] = format_date('n/j/y g:i A', $record->depvariable);
             $this->data['depinternational'] = isset($record->depinternational) ? boolean_to_yes_no($record->depinternational) : '-';
             $this->data['retmxtransportation'] = isset($record->retmxtransportation)
                 ? boolean_to_yes_no($record->retmxtransportation) : '-';
@@ -90,9 +90,9 @@ class submitted extends notification {
             $this->data['retdetails'] = $record->retdetails ?? '-';
             $this->data['retcarriercompany'] = $record->retcarriercompany ?? '-';
             $this->data['retnumber'] = $record->retnumber ?? '-';
-            $this->data['retdatetime'] = isset($record->retvariable) ? date('n/j/y g:i A', $record->retvariable) : '-';
+            $this->data['retdatetime'] = isset($record->retvariable) ? format_date('n/j/y g:i A', $record->retvariable) : '-';
             $this->data['retinternational'] = isset($record->retinternational) ? boolean_to_yes_no($record->retinternational) : '-';
-            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             array_push(
                 $this->recipients, $DB->get_record('user', array('id' => $record->student)), self::get_transportationmanager_user()

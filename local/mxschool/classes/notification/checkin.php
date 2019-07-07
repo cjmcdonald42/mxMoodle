@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('mx_notification.php');
 
-use local_mxschool\local\notification;
+use \local_mxschool\local\notification;
 
 /**
  * Base class for email notification regarding weekend forms for Middlesex School's Dorm and Student Functions Plugin.
@@ -73,12 +73,12 @@ abstract class weekend_form_base extends notification {
             $replacements->hoh = $record->hohname;
             $replacements->permissionsline = $record->permissionsline;
 
-            $this->data['departuretime'] = date('n/j/y g:i A', $record->departuretime);
-            $this->data['returntime'] = date('n/j/y g:i A', $record->returntime);
+            $this->data['departuretime'] = format_date('n/j/y g:i A', $record->departuretime);
+            $this->data['returntime'] = format_date('n/j/y g:i A', $record->returntime);
             $this->data['destination'] = $record->destination;
             $this->data['transportation'] = $record->transportation;
             $this->data['phone'] = $record->phone;
-            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
             $this->data['weekendnumber'] = calculate_weekends_used($record->student, get_current_semester());
             $this->data['weekendordinal'] = $formatter->format($this->data['weekendnumber']);
             $this->data['weekendtotal'] = calculate_weekends_allowed($record->student, get_current_semester());

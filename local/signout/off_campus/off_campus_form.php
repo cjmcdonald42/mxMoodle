@@ -53,21 +53,26 @@ class off_campus_form extends local_mxschool_form {
                 'timecreated' => self::ELEMENT_HIDDEN_INT,
                 'departure_date' => self::ELEMENT_HIDDEN_INT,
                 'isstudent' => self::ELEMENT_HIDDEN_INT
-            ), 'info' => array(
+            ),
+            'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'type' => array('element' => 'group', 'children' => array(
                     'select' => array('element' => 'radio', 'options' => $types),
                     'other' => self::ELEMENT_TEXT
-                )), 'passengers' => array(
+                )),
+                'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
-                ), 'passengerswarning' => array('element' => 'static', 'name' => 'passengers'),
+                ),
+                'passengerswarning' => array('element' => 'static', 'name' => 'passengers'),
                 'instructions' => array('element' => 'static', 'name' => null),
                 'driver' => array('element' => 'select', 'options' => $drivers)
-            ), 'details' => array(
+            ),
+            'details' => array(
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
                 'departure_time' => self::time_selector(15),
                 'approver' => array('element' => 'select', 'options' => $approvers)
-            ), 'permissions' => array(
+            ),
+            'permissions' => array(
                 'parentwarning' => array('element' => 'static', 'name' => null),
                 'specificwarning' => array('element' => 'static', 'name' => null),
                 'permissionssubmitbuttons' => array(

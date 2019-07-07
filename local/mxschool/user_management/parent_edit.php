@@ -89,7 +89,11 @@ if ($form->is_cancelled()) {
         }
     }
     update_record($queryfields, $data);
-    logged_redirect($form->get_redirect(), get_string('user_management_parent_edit_success', 'local_mxschool'), 'update');
+    logged_redirect(
+        $form->get_redirect(),
+        get_string($data->id ? 'user_management_parent_edit_success' : 'user_management_parent_create_success', 'local_mxschool'),
+        $data->id ? 'update' : 'create'
+    );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

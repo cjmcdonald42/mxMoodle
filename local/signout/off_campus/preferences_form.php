@@ -51,11 +51,13 @@ class preferences_form extends local_mxschool_form {
                         array('school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR'])
                     )
                 )
-            ), 'notifications' => array(
+            ),
+            'notifications' => array(
                 'tags' => self::email_tags(new \local_signout\local\off_campus\submitted()),
                 'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
-            ), 'text' => array(
+            ),
+            'text' => array(
                 'ipformerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'ipreporterror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'passengerinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
@@ -64,7 +66,8 @@ class preferences_form extends local_mxschool_form {
                 'needparent' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'onlyspecific' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'confirmation' => self::ELEMENT_FORMATED_TEXT_REQUIRED
-            ), 'emailtext' => array(
+            ),
+            'emailtext' => array(
                 'irregular' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'driver' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'any' => self::ELEMENT_FORMATED_TEXT_REQUIRED,

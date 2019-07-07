@@ -132,7 +132,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    switch($data->type_select) {
+    switch ($data->type_select) {
         case 'Passenger': // For a passenger record, the destination and departure fields are inherited.
             $data->destination = null;
             $data->date = null;

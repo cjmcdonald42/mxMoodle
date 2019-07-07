@@ -84,14 +84,19 @@ class rooming_table extends local_mxschool_table {
         $from = array_merge($from, array('{user} ru ON r.preferred_roommateid = ru.id'));
         $searchable = array_merge($searchable, array('ru.firstname', 'ru.lastname', 'ru.alternatename'));
         $where = array(
-            'u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'", $filter->submitted === '1'
-            ? "EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)" : (
-                $filter->submitted === '0'
-                ? "NOT EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)" : ''
-            ), $filter->gender ? "s.gender = '{$filter->gender}'" : '',
+            'u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'",
+            $filter->gender ? "s.gender = '{$filter->gender}'" : '',
             $filter->roomtype ? "r.room_type = '{$filter->roomtype}'" : '',
             $filter->double !== '' ? "r.has_lived_in_double = {$filter->double}" : ''
         );
+        switch ($filter->submitted) {
+            case '1':
+                $where[] = "EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)";
+                break;
+            case '0':
+                $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)";
+                break;
+        }
         $sortable = array('student', 'grade', 'dorm', 'roommate');
         $urlparams = array(
             'submitted' => $filter->submitted, 'gender' => $filter->gender, 'roomtype' => $filter->roomtype,
@@ -120,7 +125,7 @@ class rooming_table extends local_mxschool_table {
             $dormmates[] = isset($values->{"d{$i}name"}) ? (
                 $values->{"d{$i}name"} . (
                     $values->{"d{$i}alternatename"} && $values->{"d{$i}alternatename"} !== $values->{"d{$i}firstname"}
-                    ? " ({$values->{"d{$i}alternatename"}})" : ''
+                        ? " ({$values->{"d{$i}alternatename"}})" : ''
                 ) . " ({$values->{"d{$i}grade"}})"
             ) : '';
         }

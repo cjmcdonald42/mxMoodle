@@ -82,11 +82,14 @@ $table = new tutoring_table($filter, $download);
 $dropdowns = array(
     new local_mxschool_dropdown(
         'date', $dates, $filter->date, get_string('tutoring_report_select_date_all', 'local_peertutoring')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'tutor', $tutors, $filter->tutor, get_string('tutoring_report_select_tutor_all', 'local_peertutoring')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'department', $departments, $filter->department, get_string('tutoring_report_select_department_all', 'local_peertutoring')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'type', $types, $filter->type, get_string('tutoring_report_select_type_all', 'local_peertutoring')
     )
 );
