@@ -32,6 +32,8 @@ $string['sign_in_button'] = 'Sign In';
 // Capabilities.
 $string['signout:manage_off_campus'] = 'Middlesex School Electronic Signout: View and manage student off-campus signout records';
 $string['signout:manage_off_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage off-campus signout preferences';
+$string['signout:manage_on_campus'] = 'Middlesex School Electronic Signout: View and manage student on-campus signout records';
+$string['signout:manage_on_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage on-campus signout preferences';
 
 // Settings Pages.
 $string['settings'] = 'eSignout Settings';
