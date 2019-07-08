@@ -31,7 +31,7 @@ require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
 require_once('preferences_form.php');
 
 require_login();
-require_capability('local/signout:manage_off_campus_preferences', context_system::instance());
+require_capability('local/signout:manage_on_campus_preferences', context_system::instance());
 
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
@@ -47,6 +47,8 @@ setup_mxschool_page($url, $title, $parents);
 $data = new stdClass();
 $data->oncampusenabled = get_config('local_signout', 'on_campus_form_enabled');
 $data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
+$data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
+$data->ipreporterror['text'] = get_config('local_signout', 'on_campus_report_iperror');
 
 $form = new preferences_form();
 $form->set_redirect($redirect);
@@ -57,6 +59,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('on_campus_form_enabled', $data->oncampusenabled, 'local_signout');
     set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
+    set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
+    set_config('on_campus_report_iperror', $data->ipreporterror['text'], 'local_signout');
     logged_redirect(
         $form->get_redirect(), get_string('on_campus_preferences_edit_success', 'local_signout'), 'update'
     );

@@ -51,6 +51,8 @@ function xmldb_local_signout_install() {
 
     set_config('on_campus_form_enabled', '1', 'local_signout');
     set_config('on_campus_form_ipenabled', '1', 'local_signout');
+    set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+    set_config('on_campus_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
 
     $subpackages = array(
         array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array(

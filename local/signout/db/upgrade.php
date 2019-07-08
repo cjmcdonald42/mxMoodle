@@ -104,5 +104,30 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070805, 'local', 'signout');
     }
 
+    if ($oldversion < 2019070806) {
+
+        // Add new configs for on_campus signout.
+        set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+        set_config('on_campus_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070806, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019070810) {
+
+        // Define field other to be added to local_signout_on_campus.
+        $table = new xmldb_table('local_signout_on_campus');
+        $field = new xmldb_field('other', XMLDB_TYPE_CHAR, '20', null, null, null, null, 'deleted');
+
+        // Conditionally launch add field other.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070810, 'local', 'signout');
+    }
+
     return true;
 }

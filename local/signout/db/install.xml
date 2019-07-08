@@ -44,9 +44,10 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
-        <FIELD NAME="locationid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the location associated with the record."/>
+        <FIELD NAME="locationid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the location associated with the record - a value of -1 indicates that the 'other' option was slected."/>
         <FIELD NAME="confirmerid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user id of the duty-person who has confirmed the record - a value of NULL indicates that the record has not been confirmed."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the on-campus signout record has been deleted and shouldn't be displayed."/>
+        <FIELD NAME="other" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Text as an 'other' option for the location of the on-campus signout - a value of NULL indicates that the 'other' option was not selected."/>
         <FIELD NAME="confirmation_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when a duty-person confirmed the record - a value of NULL indicates that the duty-person has not confirmed the record."/>
         <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signed in - a value of NULL indicates that the student has not signed in."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>

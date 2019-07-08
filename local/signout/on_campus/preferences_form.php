@@ -48,6 +48,10 @@ class preferences_form extends local_mxschool_form {
                         'school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR']
                     ))
                 )
+            ),
+            'text' => array(
+                'ipformerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'ipreporterror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
             )
         );
         $this->set_fields($fields, 'on_campus_preferences', true, 'local_signout');

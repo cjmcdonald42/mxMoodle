@@ -140,11 +140,18 @@ $string['on_campus_duty_report'] = 'On-Campus Duty Report';
 
 // Preferences for On-Campus Signout.
 $string['on_campus_preferences_header_config'] = 'Config';
+$string['on_campus_preferences_header_text'] = 'On-Campus Signout Form Permissions Warnings';
 $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable the On-Campus Signout Form';
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
+$string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
+$string['on_campus_preferences_text_ipreporterror'] = 'Text to Display in On-Campus Signout Report When on the Wrong Network';
 
 // Form for On-Campus Signout.
-
+$string['on_campus_form_header_info'] = 'General Information';
+$string['on_campus_form_info_student'] = 'Student';
+$string['on_campus_form_info_location'] = 'Sign-Out Location';
+$string['on_campus_form_location_select_other'] = 'Other (please specify)';
+$string['on_campus_form_error_nolocation'] = 'You must specify a location.';
 
 // Report for On-Campus Signout.
 

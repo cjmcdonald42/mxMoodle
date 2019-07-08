@@ -30,6 +30,7 @@ require_once(__DIR__.'/../mxschool/locallib.php');
 
 /**
  * Determines whether a specified user is a student who is permitted to access off-campus signout.
+ * Students are permitted to participate in off-campus signout if off-campus signout is enabled and the student's grade is 11 or 12.
  *
  * @param int $id The user id of the student to check.
  * @return bool Whether the specified student is permitted to access off-campus signout.
@@ -37,6 +38,18 @@ require_once(__DIR__.'/../mxschool/locallib.php');
 function student_may_access_off_campus_signout($userid) {
     return get_config('local_signout', 'off_campus_form_enabled')
            && array_key_exists($userid, get_off_campus_permitted_student_list());
+}
+
+/**
+ * Determines whether a specified user is a student who is permitted to access on-campus signout.
+ * Students are permitted to participate in on-campus signout if on-campus signout is enabled and the student's grade is 11 or 12.
+ *
+ * @param int $id The user id of the student to check.
+ * @return bool Whether the specified student is permitted to access on-campus signout.
+ */
+function student_may_access_on_campus_signout($userid) {
+    return get_config('local_signout', 'on_campus_form_enabled')
+           && array_key_exists($userid, get_on_campus_permitted_student_list());
 }
 
 /**
@@ -61,6 +74,7 @@ function get_param_current_date_off_campus() {
 
 /**
  * Queries the database to create a list of all the students who have sufficient permissions to participate in off-campus signout.
+ * Students are permitted to participate in off-campus signout if their grade is 11 or 12.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
@@ -132,7 +146,23 @@ function get_current_driver_list($ignore = 0) {
 }
 
 /**
- * Queries the database to create a list of all faculty who are able to approve off-capus signout.
+ * Queries the database to create a list of all the students who have sufficient permissions to participate in on-campus signout.
+ * Students are permitted to participate in on-campus signout if their grade is 11 or 12.
+ *
+ * @return array The students as userid => name, ordered alphabetically by student name.
+ */
+function get_on_campus_permitted_student_list() {
+    global $DB;
+    $students = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
+    );
+    return convert_records_to_list($students);
+}
+
+/**
+ * Queries the database to create a list of all faculty who are able to approve off-campus signout.
  *
  * @return array The faculty who are able to approve off-campus signout as userid => name, ordered alphabetically by faculty name.
  */
@@ -169,6 +199,17 @@ function get_off_campus_type_list($userid = 0) {
         $types = array_values($types); // Reset the keys so that [0] can be the default option.
     }
     return $types;
+}
+
+/**
+ * Queries the database to create a list of all locations which are available to a student for on-campus signout.
+ *
+ * @param int $grade The grade of the student. A value of 0 indicates that all locations should be returned.
+ * @return array The locations which are available to a student of the specified grade for on-campus signout.
+ */
+function get_on_campus_location_list($grade = 0) {
+    // TODO write this function.
+    return array();
 }
 
 /**
