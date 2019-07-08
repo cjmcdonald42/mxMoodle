@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * On-campus preferences page for Middlesex School's eSignout Subplugin.
+ * Edit page for on-campus location records for Middlesex School's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage on_campus
@@ -28,13 +28,11 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../../mxschool/locallib.php');
 require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once('preferences_form.php');
-require_once('location_table.php');
+require_once('location_edit_form.php');
 
 require_login();
 require_capability('local/signout:manage_on_campus_preferences', context_system::instance());
 
-$action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 $parents = array(
@@ -43,61 +41,46 @@ $parents = array(
     get_string('on_campus', 'local_signout') => '/local/signout/on_campus/index.php'
 );
 $redirect = get_redirect($parents);
-$url = '/local/signout/on_campus/preferences.php';
-$title = get_string('on_campus_preferences', 'local_signout');
+$url = '/local/signout/on_campus/location_edit.php';
+$title = get_string('on_campus_location_edit', 'local_signout');
 
 setup_mxschool_page($url, $title, $parents);
 
-if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_signout_location', array('id' => $id));
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_signout_location', $record);
-        logged_redirect(
-            new moodle_url($url), get_string('on_campus_location_delete_success', 'local_signout'), 'delete'
-        );
-    } else {
-        logged_redirect(
-            new moodle_url($url), get_string('on_campus_location_delete_failure', 'local_signout'), 'delete', false
-        );
-    }
+$queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'fields' => array(
+    'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'stop_date' => 'stop'
+)));
+
+if ($id && !$DB->record_exists('local_signout_location', array('id' => $id))) {
+    redirect($redirect);
 }
 
-$data = new stdClass();
-$data->oncampusenabled = get_config('local_signout', 'on_campus_form_enabled');
-$data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
-$data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
-$data->ipreporterror['text'] = get_config('local_signout', 'on_campus_report_iperror');
+$data = get_record($queryfields, 'l.id = ?', array($id));
 
-$form = new preferences_form();
+$form = new location_edit_form(array('id' => $id));
 $form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    set_config('on_campus_form_enabled', $data->oncampusenabled, 'local_signout');
-    set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
-    set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
-    set_config('on_campus_report_iperror', $data->ipreporterror['text'], 'local_signout');
+    if (!$data->start) {
+        $data->start = null;
+    }
+    if (!$data->stop) {
+        $data->stop = null;
+    }
+    update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), get_string('on_campus_preferences_edit_success', 'local_signout'), 'update'
+        $form->get_redirect(),
+        get_string($data->id ? 'on_campus_location_edit_success' : 'on_campus_location_create_success', 'local_signout'),
+        $data->id ? 'update' : 'create'
     );
 }
 
-$table = new location_table();
-
-$addbutton = new stdClass();
-$addbutton->text = get_string('on_campus_location_report_add', 'local_signout');
-$addbutton->url = new moodle_url('/local/signout/on_campus/location_edit.php');
-
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table, null, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($title);
 echo $output->render($renderable);
-echo $output->heading(get_string('on_campus_location_report', 'local_signout'));
-echo $output->render($reportrenderable);
 echo $output->footer();

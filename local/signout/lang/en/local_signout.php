@@ -48,10 +48,16 @@ $string['on_campus_index'] = 'On-Campus Signout Index';
 $string['off_campus_preferences_edit_success'] = 'Off-Campus Signout Preferences Saved Successfully';
 $string['off_campus_success'] = 'Off-Campus Signout Form Submitted Successfully';
 $string['on_campus_preferences_edit_success'] = 'On-Campus Signout Preferences Saved Successfully';
+
+$string['on_campus_location_create_success'] = 'On-Campus Location Record Created Successfully';
+$string['on_campus_location_edit_success'] = 'On-Campus Location Record Updated Successfully';
+
 $string['on_campus_success'] = 'On-Campus Signout Form Submitted Successfully';
 
 $string['off_campus_delete_success'] = 'Off-Campus Signout Record Deleted Successfully';
 $string['off_campus_delete_failure'] = 'Off-Campus Signout Record Not Found for Deletion';
+$string['on_campus_location_delete_success'] = 'On-Campus Location Record Deleted Successfully';
+$string['on_campus_location_delete_failure'] = 'On-Campus Location Record Not Found for Deletion';
 $string['on_campus_delete_success'] = 'On-Campus Signout Record Deleted Successfully';
 $string['on_campus_delete_failure'] = 'On-Campus Signout Record Not Found for Deletion';
 
@@ -134,6 +140,8 @@ $string['off_campus_report_nopassengers'] = 'None';
 /* On Campus Signout */
 $string['on_campus'] = 'On-Campus Signout';
 $string['on_campus_preferences'] = 'On-Campus Signout Preferences';
+$string['on_campus_location_report'] = 'Location Report';
+$string['on_campus_location_edit'] = 'Edit Location Record';
 $string['on_campus_form'] = 'On-Campus Signout Form';
 $string['on_campus_report'] = 'On-Campus Signout Report';
 $string['on_campus_duty_report'] = 'On-Campus Duty Report';
@@ -145,6 +153,24 @@ $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable 
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
 $string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
 $string['on_campus_preferences_text_ipreporterror'] = 'Text to Display in On-Campus Signout Report When on the Wrong Network';
+
+// On-Campus Location Report.
+$string['on_campus_location_report_add'] = 'New Location';
+$string['on_campus_location_report_header_name'] = 'Name';
+$string['on_campus_location_report_header_grade'] = 'Minimum Grade';
+$string['on_campus_location_report_header_enabled'] = 'Enabled';
+$string['on_campus_location_report_header_start'] = 'Start Date';
+$string['on_campus_location_report_header_stop'] = 'Stop Date';
+
+// On-Campus Location Edit.
+$string['on_campus_location_edit_header_location'] = 'Location Information';
+$string['on_campus_location_edit_location_name'] = 'Name';
+$string['on_campus_location_edit_location_grade'] = 'Minimum Grade';
+$string['on_campus_location_edit_location_grade_11'] = '11';
+$string['on_campus_location_edit_location_grade_12'] = '12';
+$string['on_campus_location_edit_location_enabled'] = 'Enabled';
+$string['on_campus_location_edit_location_start'] = 'Start Date';
+$string['on_campus_location_edit_location_stop'] = 'Stop Date';
 
 // Form for On-Campus Signout.
 $string['on_campus_form_header_info'] = 'General Information';

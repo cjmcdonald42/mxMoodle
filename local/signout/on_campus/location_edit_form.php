@@ -15,9 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's eSignout Subplugin.
+ * Form for editing on-campus location data for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_signout
+ * @subpackage on_campus
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,9 +27,26 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_signout';
-$plugin->version = 2019070814;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array('local_mxschool' => 2019070600);
+require_once(__DIR__.'/../../mxschool/classes/mx_form.php');
+
+class location_edit_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $id = $this->_customdata['id'];
+
+        $fields = array(
+            '' => array('id' => self::ELEMENT_HIDDEN_INT),
+            'location' => array(
+                'name' => self::ELEMENT_TEXT_REQUIRED,
+                'grade' => array('element' => 'radio', 'options' => array(11, 12), 'rules' => array('required')),
+                'enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'start' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year(true)),
+                'stop' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year(true))
+            )
+        );
+        $this->set_fields($fields, 'on_campus_location_edit', false, 'local_signout');
+    }
+}

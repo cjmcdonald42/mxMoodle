@@ -76,10 +76,14 @@ class local_mxschool_external extends external_api {
                 break;
             case 'local_mxschool_vt_site':
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
-                $page = get_string('vacation_travel_preferences', 'local_mxschool');
+                $page = get_string('vacation_travel_site_report', 'local_mxschool');
+                break;
+            case 'local_signout_location':
+                require_capability('local/signout:manage_on_campus_preferences', context_system::instance());
+                $page = get_string('on_campus_location_report', 'local_signout');
                 break;
             default:
-                throw new coding_exception("Invalid table: {$params['table']}.");
+                throw new coding_exception("Unsupported table: {$params['table']}.");
         }
 
         global $DB;

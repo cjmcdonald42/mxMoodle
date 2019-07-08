@@ -129,5 +129,37 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070810, 'local', 'signout');
     }
 
+    if ($oldversion < 2019070811) {
+
+        // Changing precision of field name on table local_signout_location to (100).
+        $table = new xmldb_table('local_signout_location');
+        $field = new xmldb_field('name', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'deleted');
+
+        // Launch change of precision for field name.
+        $dbman->change_field_precision($table, $field);
+
+        // Changing precision of field other on table local_signout_on_campus to (100).
+        $table = new xmldb_table('local_signout_on_campus');
+        $field = new xmldb_field('other', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'deleted');
+
+        // Launch change of precision for field other.
+        $dbman->change_field_precision($table, $field);
+
+        // Populate the local_signout_location table.
+        $locations = array(
+            array('name' => 'Library', 'grade' => 11),
+            array('name' => 'Terry Room', 'grade' => 11),
+            array('name' => 'Tech Center', 'grade' => 11),
+            array('name' => 'Rachel Carson Center', 'grade' => 11),
+            array('name' => 'Clay Centenial Center Lobby', 'grade' => 11)
+        );
+        foreach ($locations as $location) {
+            $DB->insert_record('local_signout_location', (object) $location);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070811, 'local', 'signout');
+    }
+
     return true;
 }

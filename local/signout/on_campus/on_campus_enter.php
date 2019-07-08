@@ -85,7 +85,7 @@ if ($isstudent) {
 $data->isstudent = $isstudent ? '1' : '0';
 $students = get_on_campus_permitted_student_list();
 $locations = array(0 => get_string('form_select_default', 'local_mxschool'))
-           + get_on_campus_location_list($isstudent ? $record->grade : 0)
+           + get_on_campus_location_list($isstudent ? $record->grade : 12)
            + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
 
 $form = new on_campus_form(array('id' => $id, 'students' => $students, 'locations' => $locations));

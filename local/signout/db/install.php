@@ -66,4 +66,15 @@ function xmldb_local_signout_install() {
     foreach ($subpackages as $subpackage) {
         $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
     }
+
+    $locations = array(
+        array('name' => 'Library', 'grade' => 11),
+        array('name' => 'Terry Room', 'grade' => 11),
+        array('name' => 'Tech Center', 'grade' => 11),
+        array('name' => 'Rachel Carson Center', 'grade' => 11),
+        array('name' => 'Clay Centenial Center Lobby', 'grade' => 11)
+    );
+    foreach ($locations as $location) {
+        $DB->insert_record('local_signout_location', (object) $location);
+    }
 }

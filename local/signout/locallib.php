@@ -207,9 +207,15 @@ function get_off_campus_type_list($userid = 0) {
  * @param int $grade The grade of the student. A value of 0 indicates that all locations should be returned.
  * @return array The locations which are available to a student of the specified grade for on-campus signout.
  */
-function get_on_campus_location_list($grade = 0) {
-    // TODO write this function.
-    return array();
+function get_on_campus_location_list($grade = 12) {
+    global $DB;
+    $timestamp = generate_datetime()->getTimestamp();
+    $locations = $DB->get_records_sql(
+        "SELECT id, name FROM {local_signout_location} l WHERE l.deleted = 0 AND l.grade <= ? AND l.enabled = 1
+         AND (l.start_date IS NULL OR l.start_date < ?) AND (l.stop_date IS NULL OR l.stop_date > ?) ORDER BY name",
+        array($grade, $timestamp, $timestamp)
+    );
+    return convert_records_to_list($locations);
 }
 
 /**
