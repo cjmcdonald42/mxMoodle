@@ -233,7 +233,7 @@ function sign_in_off_campus($offcampusid) {
     if (!$record || $record->sign_in_time) {
         throw new coding_exception('off-campus signout record doesn\'t exist or has already been signed in');
     }
-    $record->sign_in_time = time();
+    $record->sign_in_time = $record->time_modified = time();
     $DB->update_record('local_signout_off_campus', $record);
     return format_date('g:i A', $record->sign_in_time);
 }
