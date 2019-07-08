@@ -37,12 +37,14 @@ class weekend_comment_form extends local_mxschool_form {
     protected function definition() {
         $id = $this->_customdata['id'];
 
-        $fields = array('' => array(
-            'id' => self::ELEMENT_HIDDEN_INT,
-            'weekend' => self::ELEMENT_HIDDEN_INT,
-            'dorm' => self::ELEMENT_HIDDEN_INT,
-            'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 4, 'cols' => 100))
-        ));
+        $fields = array(
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'weekend' => self::ELEMENT_HIDDEN_INT,
+                'dorm' => self::ELEMENT_HIDDEN_INT,
+                'comment' => array('element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 4, 'cols' => 100))
+            )
+        );
         $this->set_fields($fields, 'checkin_weekend_comment_form', false);
     }
 

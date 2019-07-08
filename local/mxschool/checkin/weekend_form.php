@@ -39,25 +39,27 @@ class weekend_form extends local_mxschool_form {
         $dorms = $this->_customdata['dorms'];
         $students = $this->_customdata['students'];
 
-        $fields = array('' => array(
-            'id' => self::ELEMENT_HIDDEN_INT,
-            'timecreated' => self::ELEMENT_HIDDEN_INT,
-            'isstudent' => self::ELEMENT_HIDDEN_INT,
-            'dorm' => array('element' => 'select', 'options' => $dorms),
-            'student' => array('element' => 'select', 'options' => $students),
-            'departure' => array('element' => 'group', 'children' => array(
-                'time' => self::time_selector(15),
-                'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
-            )),
-            'warning' => array('element' => 'static', 'name' => null),
-            'return' => array('element' => 'group', 'children' => array(
-                'time' => self::time_selector(15),
-                'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
-            )),
-            'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
-            'transportation' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
-            'phone' => self::ELEMENT_TEXT
-        ));
+        $fields = array(
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'timecreated' => self::ELEMENT_HIDDEN_INT,
+                'isstudent' => self::ELEMENT_HIDDEN_INT,
+                'dorm' => array('element' => 'select', 'options' => $dorms),
+                'student' => array('element' => 'select', 'options' => $students),
+                'departure' => array('element' => 'group', 'children' => array(
+                    'time' => self::time_selector(15),
+                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                )),
+                'warning' => array('element' => 'static', 'name' => null),
+                'return' => array('element' => 'group', 'children' => array(
+                    'time' => self::time_selector(15),
+                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                )),
+                'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
+                'transportation' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
+                'phone' => self::ELEMENT_TEXT
+            )
+        );
         $this->set_fields($fields, 'checkin_weekend_form', false);
 
         $mform = $this->_form;

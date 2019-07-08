@@ -40,27 +40,29 @@ class rooming_form extends local_mxschool_form {
         $roomable = $this->_customdata['roomable'];
         $roomtypes = $this->_customdata['roomtypes'];
 
-        $fields = array('' => array(
-            'id' => self::ELEMENT_HIDDEN_INT,
-            'timecreated' => self::ELEMENT_HIDDEN_INT,
-            'isstudent' => self::ELEMENT_HIDDEN_INT
-        ),
-        'info' => array(
-            'student' => array('element' => 'select', 'options' => $students),
-            'dorm' => array('element' => 'static'),
-            'liveddouble' => self::ELEMENT_BOOLEAN
-        ),
-        'requests' => array(
-            'roomtype' => array('element' => 'select', 'options' => $roomtypes),
-            'dormmate1' => array('element' => 'select', 'options' => $roomable),
-            'dormmate2' => array('element' => 'select', 'name' => null, 'options' => $roomable),
-            'dormmate3' => array('element' => 'select', 'name' => null, 'options' => $roomable),
-            'dormmate4' => array('element' => 'select', 'options' => $roomable),
-            'dormmate5' => array('element' => 'select', 'name' => null, 'options' => $roomable),
-            'dormmate6' => array('element' => 'select', 'name' => null, 'options' => $roomable),
-            'instructions' => array('element' => 'static', 'name' => null),
-            'roommate' => array('element' => 'select', 'options' => $roomable)
-        ));
+        $fields = array(
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'timecreated' => self::ELEMENT_HIDDEN_INT,
+                'isstudent' => self::ELEMENT_HIDDEN_INT
+            ),
+            'info' => array(
+                'student' => array('element' => 'select', 'options' => $students),
+                'dorm' => array('element' => 'static'),
+                'liveddouble' => self::ELEMENT_BOOLEAN
+            ),
+            'requests' => array(
+                'roomtype' => array('element' => 'select', 'options' => $roomtypes),
+                'dormmate1' => array('element' => 'select', 'options' => $roomable),
+                'dormmate2' => array('element' => 'select', 'name' => null, 'options' => $roomable),
+                'dormmate3' => array('element' => 'select', 'name' => null, 'options' => $roomable),
+                'dormmate4' => array('element' => 'select', 'options' => $roomable),
+                'dormmate5' => array('element' => 'select', 'name' => null, 'options' => $roomable),
+                'dormmate6' => array('element' => 'select', 'name' => null, 'options' => $roomable),
+                'instructions' => array('element' => 'static', 'name' => null),
+                'roommate' => array('element' => 'select', 'options' => $roomable)
+            )
+        );
         $this->set_fields($fields, 'rooming_form');
 
         $mform = $this->_form;

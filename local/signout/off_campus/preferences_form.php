@@ -41,15 +41,14 @@ class preferences_form extends local_mxschool_form {
                 'editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
                 'tripwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
                 'offcampusenabled' => array(
-                    'element' => 'advcheckbox', 'name' => null, 'text' => get_string(
-                        'off_campus_preferences_config_offcampusenabled_text', 'local_signout'
-                    )
+                    'element' => 'advcheckbox', 'name' => null,
+                    'text' => get_string('off_campus_preferences_config_offcampusenabled_text', 'local_signout')
                 ),
                 'ipenabled' => array(
-                    'element' => 'advcheckbox', 'name' => null, 'text' => get_string(
-                        'off_campus_preferences_config_ipenabled_text', 'local_signout',
-                        array('school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR'])
-                    )
+                    'element' => 'advcheckbox', 'name' => null,
+                    'text' => get_string('off_campus_preferences_config_ipenabled_text', 'local_signout', array(
+                        'school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR']
+                    ))
                 )
             ),
             'notifications' => array(
