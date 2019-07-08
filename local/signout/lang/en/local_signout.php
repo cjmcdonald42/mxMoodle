@@ -126,3 +126,19 @@ $string['off_campus_report_nopassengers'] = 'None';
 
 
 /* On Campus Signout */
+$string['on_campus'] = 'On-Campus Signout';
+$string['on_campus_preferences'] = 'On-Campus Signout Preferences';
+$string['on_campus_form'] = 'On-Campus Signout Form';
+$string['on_campus_report'] = 'On-Campus Signout Report';
+$string['on_campus_duty_report'] = 'On-Campus Duty Report';
+
+// Preferences for On-Campus Signout.
+
+
+// Form for On-Campus Signout.
+
+
+// Report for On-Campus Signout.
+
+
+// Duty Report for On-Campus Signout.

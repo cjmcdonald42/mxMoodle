@@ -43,5 +43,9 @@ if ($hassiteconfig) {
         'off_campus_index', new lang_string('off_campus_index', 'local_signout'),
         "$CFG->wwwroot/local/signout/off_campus/index.php")
     );
+    $ADMIN->add('indexes', new admin_externalpage(
+        'on_campus_index', new lang_string('on_campus_index', 'local_signout'),
+        "$CFG->wwwroot/local/signout/on_campus/index.php")
+    );
 
 }

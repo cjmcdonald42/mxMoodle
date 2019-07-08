@@ -30,5 +30,18 @@ function xmldb_local_signout_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
+    if ($oldversion < 2019070801) {
+
+        // Add on-campus subpackage to the database.
+        $subpackage = array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
+            'duty_report' => 'on_campus_duty_report.php'
+        )));
+        $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070801, 'local', 'signout');
+    }
+
     return true;
 }
