@@ -47,9 +47,13 @@ $string['on_campus_index'] = 'On-Campus Signout Index';
 // Notifications.
 $string['off_campus_preferences_edit_success'] = 'Off-Campus Signout Preferences Saved Successfully';
 $string['off_campus_success'] = 'Off-Campus Signout Form Submitted Successfully';
+$string['on_campus_preferences_edit_success'] = 'On-Campus Signout Preferences Saved Successfully';
+$string['on_campus_success'] = 'On-Campus Signout Form Submitted Successfully';
 
 $string['off_campus_delete_success'] = 'Off-Campus Signout Record Deleted Successfully';
 $string['off_campus_delete_failure'] = 'Off-Campus Signout Record Not Found for Deletion';
+$string['on_campus_delete_success'] = 'On-Campus Signout Record Deleted Successfully';
+$string['on_campus_delete_failure'] = 'On-Campus Signout Record Not Found for Deletion';
 
 /* Off-Campus Signout */
 $string['off_campus'] = 'Off-Campus Signout';
@@ -135,7 +139,9 @@ $string['on_campus_report'] = 'On-Campus Signout Report';
 $string['on_campus_duty_report'] = 'On-Campus Duty Report';
 
 // Preferences for On-Campus Signout.
-
+$string['on_campus_preferences_header_config'] = 'Config';
+$string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable the On-Campus Signout Form';
+$string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
 
 // Form for On-Campus Signout.
 

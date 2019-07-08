@@ -94,5 +94,15 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070802, 'local', 'signout');
     }
 
+    if ($oldversion < 2019070805) {
+
+        // Add new configs for on_campus signout.
+        set_config('on_campus_form_enabled', '1', 'local_signout');
+        set_config('on_campus_form_ipenabled', '1', 'local_signout');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070805, 'local', 'signout');
+    }
+
     return true;
 }

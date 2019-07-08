@@ -49,6 +49,9 @@ function xmldb_local_signout_install() {
     set_config('off_campus_notification_warning_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_signout');
     set_config('off_campus_notification_warning_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
 
+    set_config('on_campus_form_enabled', '1', 'local_signout');
+    set_config('on_campus_form_ipenabled', '1', 'local_signout');
+
     $subpackages = array(
         array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'off_campus_enter.php', 'report' => 'off_campus_report.php'
