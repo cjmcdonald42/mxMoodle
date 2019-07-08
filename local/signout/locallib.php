@@ -63,11 +63,12 @@ function student_may_access_on_campus_signout($userid) {
  */
 function get_param_current_date_off_campus() {
     global $DB;
-    $startdate = generate_datetime(get_param_current_date());
+    $timestamp = get_param_current_date();
+    $startdate = generate_datetime($timestamp);
     $enddate = clone $startdate;
     $enddate->modify('+1 day');
     return $DB->record_exists_sql(
-        "SELECT * FROM {local_signout_off_campus} WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
+        "SELECT id FROM {local_signout_off_campus} WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
         array($startdate->getTimestamp(), $enddate->getTimestamp())
     ) ? $timestamp : '';
 }
@@ -228,12 +229,39 @@ function get_off_campus_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT oc.id, oc.departure_time FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+        "SELECT oc.id, oc.departure_time AS signoutdate FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type <> 'Passenger' ORDER BY departure_time DESC"
     );
     if ($records) {
         foreach ($records as $record) {
-            $date = generate_datetime($record->departure_time);
+            $date = generate_datetime($record->signoutdate);
+            $date->modify('midnight');
+            if (!array_key_exists($date->getTimestamp(), $list)) {
+                $list[$date->getTimestamp()] = $date->format('m/d/y');
+            }
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the dates for which there are on-campus signout records.
+ *
+ * @return array The dates for which there are on-campus signout records as timestamp => date (mm/dd/yy),
+ *               in descending order by date.
+ */
+function get_on_campus_date_list() {
+    global $DB;
+    $list = array();
+    $records = $DB->get_records_sql(
+        "SELECT oc.id, oc.time_created AS signoutdate FROM {local_signout_on_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+         LEFT JOIN {local_signout_location} l ON oc.locationid = l.id LEFT JOIN {user} c ON oc.confirmerid = c.id
+         WHERE oc.deleted = 0 AND u.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0)
+         AND (oc.confirmerid IS NULL OR c.deleted = 0) ORDER BY signoutdate DESC"
+    );
+    if ($records) {
+        foreach ($records as $record) {
+            $date = generate_datetime($record->signoutdate);
             $date->modify('midnight');
             if (!array_key_exists($date->getTimestamp(), $list)) {
                 $list[$date->getTimestamp()] = $date->format('m/d/y');

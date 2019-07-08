@@ -48,7 +48,7 @@ $functions = array(
         'classname' => 'local_signout_external',
         'methodname' => 'sign_in',
         'classpath' => 'local/signout/externallib.php',
-        'description' => 'Signs in an off-campus signout record and records the timestamp.',
+        'description' => 'Signs in an eSignout record and records the timestamp.',
         'type' => 'write',
         'ajax' => 'true'
     )

@@ -30,7 +30,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         var promises = ajax.call([{
             methodname: 'local_signout_sign_in',
             args: {
-                id: element.val()
+                id: element.val(),
+                table: element.attr('name')
             }
         }]);
         promises[0].done(function(data) {
@@ -40,8 +41,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             element.parent().parent().find('td.sign-in').text(data);
         }).fail(notification.exception);
     }
-    return function(id) {
-        var element = $('.mx-signin-button[value="' + id + '"]');
+    return function(value, name) {
+        var element = $('.mx-signin-button[value="' + value + '"][name="' + name + '"]');
         element.click(signin);
     };
 });

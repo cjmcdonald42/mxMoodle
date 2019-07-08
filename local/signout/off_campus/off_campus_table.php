@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../mxschool/classes/mx_table.php');
+require_once(__DIR__.'/../classes/output/renderable.php');
 
 class off_campus_table extends local_mxschool_table {
 
@@ -44,7 +45,8 @@ class off_campus_table extends local_mxschool_table {
         global $USER;
         $this->isstudent = $isstudent;
         $columns = array(
-            'student', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'date', 'departure', 'approver', 'signin'
+            'student', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'departuredate', 'departuretime',
+            'approver', 'signin'
         );
         if ($filter->type) {
             if ($filter->type === 'Driver' || $filter->type === 'Passenger' || $filter->type === 'Parent') {
@@ -58,6 +60,9 @@ class off_campus_table extends local_mxschool_table {
                 unset($columns[array_search('driver', $columns)]);
             }
         }
+        if ($filter->date) {
+            unset($columns[array_search('departuredate', $columns)]);
+        }
         $headers = array_map(function($column) {
             return get_string("off_campus_report_header_{$column}", 'local_signout');
         }, $columns);
@@ -68,23 +73,21 @@ class off_campus_table extends local_mxschool_table {
             'oc.passengers', "du.firstname AS driverfirstname", "du.alternatename AS driveralternatename", "IF(oc.type = 'Driver', (
                 SELECT COUNT(driverid) - 1 FROM {local_signout_off_campus} WHERE driverid = oc.id AND deleted = 0), '-'
             ) AS passengercount", "IF(oc.type = 'Passenger', CONCAT(du.lastname, ', ', du.firstname), '-') AS driver",
-            'd.destination', 'd.departure_time AS date', 'd.departure_time AS departure',
+            'd.destination', 'd.departure_time AS departuredate', 'd.departure_time AS departuretime',
             "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'oc.sign_in_time AS signin, oc.time_created AS timecreated'
         );
         $from = array(
             '{local_signout_off_campus} oc', '{user} u ON oc.userid = u.id', '{local_signout_off_campus} d ON oc.driverid = d.id',
             '{user} du ON d.userid = du.id', '{user} a ON oc.approverid = a.id'
         );
+        $where = array('oc.deleted = 0', 'u.deleted = 0');
         if ($filter->date) {
             $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
+            $where[] = "d.departure_time >= {$starttime->getTimestamp()}";
+            $where[] = "d.departure_time < {$endtime->getTimestamp()}";
         }
-        $where = array(
-            'oc.deleted = 0', 'u.deleted = 0',
-            $filter->date ? "d.departure_time >= {$starttime->getTimestamp()}" : '',
-            $filter->date ? "d.departure_time < {$endtime->getTimestamp()}" : ''
-        );
         if ($filter->type) {
             $types = array('Driver', 'Passenger', 'Parent');
             $otherstring = implode(' AND ', array_map(function($type) {
@@ -99,16 +102,16 @@ class off_campus_table extends local_mxschool_table {
                 "(SELECT COUNT(id) FROM {local_signout_off_campus} WHERE driverid = d.id AND userid = {$USER->id})"
             );
             $where[] = '('.implode(' OR ', $include).')';
-            $starttime = generate_datetime('midnight');
-            $where[] = "d.departure_time >= {$starttime->getTimestamp()}";
+            $starttime = generate_datetime('midnight')->getTimestamp();
+            $where[] = "d.departure_time >= {$starttime}";
         }
-        $sortable = array('student', 'driver', 'date', 'approver');
+        $sortable = array('student', 'driver', $filter->date ? 'departuretime' : 'departuredate', 'approver');
         $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
-        $centered = array('type', 'driver', 'passengers', 'passengercount', 'date', 'departure', 'signin');
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'd.destination');
+        $centered = array('type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'd.destination', 'a.firstname', 'a.lastname');
         parent::__construct(
-            'off_campus_table', $columns, $headers, $sortable, 'date', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable, array(), false
+            'off_campus_table', $columns, $headers, $sortable, $filter->date ? 'departuretime' : 'departuredate', $fields, $from,
+            $where, $urlparams, $centered, $filter->search, $searchable, array(), false
         );
         $this->column_class('signin', "{$this->column_class['signin']} sign-in");
     }
@@ -154,26 +157,26 @@ class off_campus_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the date column to 'n/j/y'.
+     * Formats the departure date column to 'n/j/y'.
      */
-    protected function col_date($values) {
-        return format_date('n/j/y', $values->date);
+    protected function col_departuredate($values) {
+        return format_date('n/j/y', $values->departuredate);
     }
 
     /**
      * Formats the departure time column to 'g:i A'.
      */
-    protected function col_departure($values) {
-        return format_date('g:i A', $values->departure);
+    protected function col_departuretime($values) {
+        return format_date('g:i A', $values->departuretime);
     }
 
     /**
      * Formats the sign-in time column to 'g:i A'.
      */
     protected function col_signin($values) {
-        return $values->signin ? (
-            format_date('n/j/y', $values->date) === format_date('n/j/y', $values->signin) ? format_date('g:i A', $values->signin)
-                : format_date('n/j/y g:i A', $values->signin)
+        return isset($values->signin) ? (
+            format_date('n/j/y', $values->departuredate) === format_date('n/j/y', $values->signin)
+                ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin)
         ) : '-';
     }
 
@@ -183,7 +186,8 @@ class off_campus_table extends local_mxschool_table {
     protected function col_actions($values) {
         global $USER, $PAGE;
         if (!$this->isstudent) {
-            return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id) . $this->delete_icon($values->id);
+            return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id)
+                . $this->delete_icon($values->id);
         }
         if ($values->userid !== $USER->id) {
             return '-';
@@ -198,7 +202,7 @@ class off_campus_table extends local_mxschool_table {
             return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id);
         }
         $output = $PAGE->get_renderer('local_signout');
-        $renderable = new \local_signout\output\signin_button($values->id);
+        $renderable = new \local_signout\output\signin_button($values->id, 'local_signout_off_campus');
         if (
             !get_config('local_signout', 'off_campus_form_ipenabled')
             || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')

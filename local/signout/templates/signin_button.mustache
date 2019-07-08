@@ -20,10 +20,10 @@
     The purpose of this template is to render a button with ajax functionality to signin a signout record.
 }}
 
-<button class="mx-signin-button btn btn-secondary noprint" value="{{ value }}">{{# str }} sign_in_button, local_signout {{/ str }}</button>
+<button class="mx-signin-button btn btn-secondary noprint" value="{{ value }}" name="{{ table }}">{{# str }} sign_in_button, local_signout {{/ str }}</button>
 
 {{# js }}
 require(['local_signout/signin_button'], function(setup) {
-    setup({{ value }});
+    setup({{ value }}, '{{ table }}');
 });
 {{/ js }}

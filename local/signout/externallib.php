@@ -142,30 +142,43 @@ class local_signout_external extends external_api {
     public static function sign_in_parameters() {
         return new external_function_parameters(array(
             'id' => new external_value(PARAM_INT, 'The id of the record to sign in.'),
+            'table' => new external_value(PARAM_TEXT, 'The table of the record to sign in.')
         ));
     }
 
     /**
-     * Signs in an off-campus signout record and records the timestamp.
+     * Signs in an eSignout record and records the timestamp.
      *
-     * @param int $offcampusid The id of the record to sign in.
+     * @param int $id The id of the record to sign in.
+     * @param string $table The table of the record to sign in.
      * @return string The text to display for the sign in time.
-     * @throws coding_exception If the off-campus signout record does not exist or has already been signed in.
+     * @throws coding_exception If the table is invalid or
+     *                          if the eSignout record does not exist, doesn't belong to this user, or has already been signed in.
      */
-    public static function sign_in($id) {
+    public static function sign_in($id, $table) {
         external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::sign_in_parameters(), array('id' => $id));
+        $params = self::validate_parameters(self::sign_in_parameters(), array('id' => $id, 'table' => $table));
 
-        global $DB;
-        $record = $DB->get_record('local_signout_off_campus', array('id' => $params['id']));
-        if (!$record || $record->sign_in_time) {
-            throw new coding_exception('off-campus signout record doesn\'t exist or has already been signed in');
+        global $DB, $USER;
+        switch ($params['table']) {
+            case 'local_signout_off_campus':
+                $page = get_string('off_campus_report', 'local_signout');
+                break;
+            case 'local_signout_on_campus':
+                $page = get_string('on_campus_report', 'local_signout');
+                break;
+            default:
+                throw new coding_exception("Unsupported table: {$params['table']}.");
+        }
+        $record = $DB->get_record($params['table'], array('id' => $params['id']));
+        if (!$record || $USER->id != $record->userid || $record->sign_in_time) {
+            throw new coding_exception(
+                'eSignout record either doesn\'t exist, doesn\' belong to this user, or has already been signed in'
+            );
         }
         $record->sign_in_time = $record->time_modified = time();
-        \local_mxschool\event\record_updated::create(array('other' => array(
-            'page' => get_string('off_campus_report', 'local_signout')
-        )))->trigger();
-        $DB->update_record('local_signout_off_campus', $record);
+        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
+        $DB->update_record($params['table'], $record);
         return format_date('g:i A', $record->sign_in_time);
     }
 

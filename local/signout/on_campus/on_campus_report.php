@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Off-campus signout report for Middlesex School's eSignout Subplugin.
+ * On-campus signout report for Middlesex School's eSignout Subplugin.
  *
  * @package    local_signout
- * @subpackage off_campus
+ * @subpackage on_campus
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -29,16 +29,16 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../../mxschool/classes/mx_dropdown.php');
-require_once('off_campus_table.php');
+require_once('on_campus_table.php');
 
 require_login();
 $isstudent = user_is_student();
 if (!$isstudent) {
-    require_capability('local/signout:manage_off_campus', context_system::instance());
+    require_capability('local/signout:manage_on_campus', context_system::instance());
 }
 
 $filter = new stdClass();
-$filter->type = optional_param('type', '', PARAM_RAW);
+$filter->location = optional_param('location', '', PARAM_RAW);
 $filter->date = get_param_current_date_off_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
@@ -47,53 +47,48 @@ $id = optional_param('id', 0, PARAM_INT);
 $parents = array(
     get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
     get_string('pluginname', 'local_signout') => '/local/signout/index.php',
-    get_string('off_campus', 'local_signout') => '/local/signout/off_campus/index.php'
+    get_string('off_campus', 'local_signout') => '/local/signout/on_campus/index.php'
 );
-$url = '/local/signout/off_campus/off_campus_report.php';
-$title = get_string('off_campus_report', 'local_signout');
+$url = '/local/signout/on_campus/on_campus_report.php';
+$title = get_string('on_campus_report', 'local_signout');
 
 setup_mxschool_page($url, $title, $parents);
 
-$types = array(
-    'Driver' => get_string('off_campus_report_select_type_driver', 'local_signout'),
-    'Passenger' => get_string('off_campus_report_select_type_passenger', 'local_signout'),
-    'Parent' => get_string('off_campus_report_select_type_parent', 'local_signout'),
-    'Other' => get_string('off_campus_report_select_type_other', 'local_signout')
-);
-if ($filter->type && !isset($types[$filter->type])) {
-    redirect(new moodle_url($url, array('type' => '', 'date' => $filter->date, 'search' => $filter->search)));
+$locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));
+if ($filter->location && !isset($locations[$filter->location])) {
+    redirect(new moodle_url($url, array('location' => '', 'date' => $filter->date, 'search' => $filter->search)));
 }
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_signout_off_campus', array('id' => $id));
-    $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
+    $record = $DB->get_record('local_signout_on_campus', array('id' => $id));
+    $urlparams = array('location' => $filter->location, 'date' => $filter->date, 'search' => $filter->search);
     if ($record) {
         $record->deleted = 1;
-        $DB->update_record('local_signout_off_campus', $record);
+        $DB->update_record('local_signout_on_campus', $record);
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('off_campus_delete_success', 'local_signout'), 'delete'
+            new moodle_url($url, $urlparams), get_string('on_campus_delete_success', 'local_signout'), 'delete'
         );
     } else {
         logged_redirect(
-            new moodle_url($url, $urlparams), get_string('off_campus_delete_failure', 'local_signout'), 'delete', false
+            new moodle_url($url, $urlparams), get_string('on_campus_delete_failure', 'local_signout'), 'delete', false
         );
     }
 }
 
-$dates = get_off_campus_date_list();
+$dates = get_on_campus_date_list();
 
-$table = new off_campus_table($filter, $isstudent);
+$table = new on_campus_table($filter, $isstudent);
 
-$dropdowns = array(
-    new local_mxschool_dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout'))
-);
+$dropdowns = array(new local_mxschool_dropdown(
+    'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
+));
 if (!$isstudent) {
     $dropdowns[] = new local_mxschool_dropdown(
-        'date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout')
+        'date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout')
     );
 }
 $addbutton = new stdClass();
-$addbutton->text = get_string('off_campus_report_add', 'local_signout');
-$addbutton->url = new moodle_url('/local/signout/off_campus/off_campus_enter.php');
+$addbutton->text = get_string('on_campus_report_add', 'local_signout');
+$addbutton->url = new moodle_url('/local/signout/on_campus/on_campus_enter.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
@@ -101,10 +96,10 @@ $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdo
 echo $output->header();
 echo $output->heading($title);
 if (
-    $isstudent && get_config('local_signout', 'off_campus_form_ipenabled')
+    $isstudent && get_config('local_signout', 'on_campus_form_ipenabled')
     && $_SERVER['REMOTE_ADDR'] !== get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading(get_config('local_signout', 'off_campus_report_iperror'));
+    echo $output->heading(get_config('local_signout', 'on_campus_report_iperror'));
 }
 echo $output->render($renderable);
 echo $output->footer();

@@ -130,8 +130,8 @@ $string['off_campus_report_header_driver'] = 'Driver';
 $string['off_campus_report_header_passengers'] = 'Passengers';
 $string['off_campus_report_header_passengercount'] = 'Passengers Submitted';
 $string['off_campus_report_header_destination'] = 'Destination';
-$string['off_campus_report_header_date'] = 'Date';
-$string['off_campus_report_header_departure'] = 'Departure Time';
+$string['off_campus_report_header_departuredate'] = 'Date';
+$string['off_campus_report_header_departuretime'] = 'Departure Time';
 $string['off_campus_report_header_approver'] = 'Permission From';
 $string['off_campus_report_header_signin'] = 'Sign In Time';
 $string['off_campus_report_nopassengers'] = 'None';
@@ -180,6 +180,16 @@ $string['on_campus_form_location_select_other'] = 'Other (please specify)';
 $string['on_campus_form_error_nolocation'] = 'You must specify a location.';
 
 // Report for On-Campus Signout.
-
+$string['on_campus_report_select_location_all'] = 'All Locations';
+$string['on_campus_report_select_location_other'] = 'Other';
+$string['on_campus_report_select_date_all'] = 'All Dates';
+$string['on_campus_report_add'] = 'New On-Campus Signout Record';
+$string['on_campus_report_header_student'] = 'Student';
+$string['on_campus_report_header_location'] = 'Location';
+$string['on_campus_report_header_signoutdate'] = 'Date';
+$string['on_campus_report_header_signouttime'] = 'Sign Out Time';
+$string['on_campus_report_header_confirmation'] = 'Confirmation';
+$string['on_campus_report_header_signin'] = 'Sign In Time';
+$string['on_campus_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime}';
 
 // Duty Report for On-Campus Signout.

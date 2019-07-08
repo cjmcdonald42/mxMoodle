@@ -46,12 +46,16 @@ class signin_button implements renderable, templatable {
 
     /** @var int The value attribute of the button.*/
     private $value;
+    /** @var string The table to sign in to.*/
+    private $table;
 
     /**
      * @param int $value The value attribute of the button.
+     * @param string $table The table to sign in to.
      */
-    public function __construct($value) {
+    public function __construct($value, $table) {
         $this->value = $value;
+        $this->table = $table;
     }
 
     /**
@@ -62,6 +66,7 @@ class signin_button implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         $data->value = $this->value;
+        $data->table = $this->table;
         return $data;
     }
 
