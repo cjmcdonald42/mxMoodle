@@ -417,11 +417,14 @@ function student_may_access_vacation_travel($userid) {
  * 2) The dorm of the currently logged in faculty member, if it exists.
  * 3) An empty string.
  *
+ * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the 'all' option.
+ *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
+ *
  * @return string The dorm id or an empty string, as specified.
  */
 function get_param_faculty_dorm() {
     global $DB, $USER;
-    return isset($_GET['dorm']) && is_numeric($_GET['dorm']) ? $_GET['dorm'] : (
+    return isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm'])) ? $_GET['dorm'] : (
         $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: ''
     );
 }
@@ -432,10 +435,14 @@ function get_param_faculty_dorm() {
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
  *
+ * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the 'all' option.
+ *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
+ *
  * @return string The timestamp of the midnight on the desired date.
  */
 function get_param_current_date() {
-    return isset($_GET['date']) && is_numeric($_GET['date']) ? $_GET['date'] : generate_datetime('midnight')->getTimestamp();
+    return isset($_GET['date']) && (is_numeric($_GET['date']) || empty($_GET['date']))
+        ? $_GET['date'] : generate_datetime('midnight')->getTimestamp();
 }
 
 /**
@@ -451,11 +458,9 @@ function get_param_current_date() {
  */
 function get_param_current_weekend() {
     global $DB;
-    if (
-        isset($_GET['weekend']) && is_numeric($_GET['weekend'])
-        && $DB->record_exists('local_mxschool_weekend', array('id' => $_GET['weekend']))
-    ) {
-        return $_GET['weekend'];
+    $weekend = optional_param('weekend', 0, PARAM_INT);
+    if ($weekend && $DB->record_exists('local_mxschool_weekend', array('id' => $weekend))) {
+        return $weekend;
     }
     $starttime = get_config('local_mxschool', 'dorms_open_date');
     $endtime = get_config('local_mxschool', 'dorms_close_date');
