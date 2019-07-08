@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/signout/db" VERSION="2019070400" COMMENT="XMLDB file for Moodle local/signout"
+<XMLDB PATH="local/signout/db" VERSION="20190708" COMMENT="XMLDB file for Moodle local/signout"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
+    <TABLE NAME="local_signout_location" COMMENT="mxschool on-campus location table - stores the locations to which students can sign out during study hours.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the on-campus location record has been deleted and shouldn't be displayed."/>
+        <FIELD NAME="name" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the on-campus location."/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="11" SEQUENCE="false" COMMENT="The minimum grade of a student who is permitted to sign out to the location."/>
+        <FIELD NAME="enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the location is available for sign-out."/>
+        <FIELD NAME="start_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the location should first be available - a value of NULL indicates that the location should always be available."/>
+        <FIELD NAME="stop_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the location should stop being available - a value of NULL indicates that the location should always be available."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
     <TABLE NAME="local_signout_off_campus" COMMENT="mxschool off-campus signout table - stores the data from off-campus signout forms.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
@@ -24,6 +38,25 @@
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
         <KEY NAME="driver" TYPE="foreign" FIELDS="driverid" REFTABLE="local_signout_offcampus" REFFIELDS="id" COMMENT="The off-campus signout record of the driver associated with the record."/>
         <KEY NAME="approver" TYPE="foreign" FIELDS="approverid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved the record."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_signout_on_campus" COMMENT="mxschool on-campus signout table - stores the data from on-campus signout forms.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
+        <FIELD NAME="locationid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the location associated with the record."/>
+        <FIELD NAME="confirmerid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user id of the duty-person who has confirmed the record - a value of NULL indicates that the record has not been confirmed."/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the on-campus signout record has been deleted and shouldn't be displayed."/>
+        <FIELD NAME="confirmation_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when a duty-person confirmed the record - a value of NULL indicates that the duty-person has not confirmed the record."/>
+        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signed in - a value of NULL indicates that the student has not signed in."/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
+        <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
+        <KEY NAME="location" TYPE="foreign" FIELDS="locationid" REFTABLE="local_signout_location" REFFIELDS="id" COMMENT="The on-campus location record of the location associated with the record."/>
+        <KEY NAME="confirmer" TYPE="foreign" FIELDS="confirmerid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the duty-person who has confirmed the record."/>
       </KEYS>
     </TABLE>
   </TABLES>

@@ -43,5 +43,56 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070801, 'local', 'signout');
     }
 
+    if ($oldversion < 2019070802) {
+
+        // Define table local_signout_location to be created.
+        $table = new xmldb_table('local_signout_location');
+
+        // Adding fields to table local_signout_location.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('name', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('grade', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '11');
+        $table->add_field('enabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
+        $table->add_field('start_date', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('stop_date', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+
+        // Adding keys to table local_signout_location.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for local_signout_location.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Define table local_signout_on_campus to be created.
+        $table = new xmldb_table('local_signout_on_campus');
+
+        // Adding fields to table local_signout_on_campus.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('locationid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('confirmerid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('confirmation_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('sign_in_time', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_signout_on_campus.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+        $table->add_key('location', XMLDB_KEY_FOREIGN, array('locationid'), 'local_signout_location', array('id'));
+        $table->add_key('confirmer', XMLDB_KEY_FOREIGN, array('confirmerid'), 'user', array('id'));
+
+        // Conditionally launch create table for local_signout_on_campus.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019070802, 'local', 'signout');
+    }
+
     return true;
 }
