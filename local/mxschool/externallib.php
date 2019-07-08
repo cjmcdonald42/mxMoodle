@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
 require_once('locallib.php');
+require_once('classes/event/record_updated.php');
 require_once('classes/notification/checkin.php');
 require_once('classes/notification/advisor_selection.php');
 require_once('classes/notification/rooming.php');
@@ -67,12 +68,15 @@ class local_mxschool_external extends external_api {
         switch ($params['table']) {
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
+                $page = get_string('checkin_weekend_report', 'local_mxschool');
                 break;
             case 'local_mxschool_faculty':
                 require_capability('local/mxschool:manage_faculty', context_system::instance());
+                $page = get_string('user_management_faculty_report', 'local_mxschool');
                 break;
             case 'local_mxschool_vt_site':
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
+                $page = get_string('vacation_travel_preferences', 'local_mxschool');
                 break;
             default:
                 throw new coding_exception("Invalid table: {$params['table']}.");
@@ -84,6 +88,10 @@ class local_mxschool_external extends external_api {
             return false;
         }
         $record->{$params['field']} = $params['value'];
+        if (isset($record->time_modified)) {
+            $record->time_modified = time();
+        }
+        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         return $DB->update_record($params['table'], $record);
     }
 
@@ -336,12 +344,16 @@ class local_mxschool_external extends external_api {
             'student' => $student, 'choice' => $choice
         ));
 
-        global $DB;
+        global $DB, $PAGE;
         $record = $DB->get_record('local_mxschool_adv_selection', array('userid' => $params['student']));
         if (!$record) {
             return false;
         }
         $record->selectedid = $params['choice'];
+        $record->time_modified = time();
+        \local_mxschool\event\record_updated::create(array('other' => array(
+            'page' => get_string('advisor_selection_report', 'local_mxschool')
+        )))->trigger();
         return $DB->update_record('local_mxschool_adv_selection', $record);
     }
 

@@ -156,7 +156,17 @@ class local_signout_external extends external_api {
         external_api::validate_context(context_system::instance());
         $params = self::validate_parameters(self::sign_in_parameters(), array('id' => $id));
 
-        return sign_in_off_campus($params['id']);
+        global $DB;
+        $record = $DB->get_record('local_signout_off_campus', array('id' => $params['id']));
+        if (!$record || $record->sign_in_time) {
+            throw new coding_exception('off-campus signout record doesn\'t exist or has already been signed in');
+        }
+        $record->sign_in_time = $record->time_modified = time();
+        \local_mxschool\event\record_updated::create(array('other' => array(
+            'page' => get_string('off_campus_report', 'local_signout')
+        )))->trigger();
+        $DB->update_record('local_signout_off_campus', $record);
+        return format_date('g:i A', $record->sign_in_time);
     }
 
     /**

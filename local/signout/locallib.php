@@ -219,21 +219,3 @@ function get_driver_inheritable_fields($offcampusid) {
     $result->departureampm = $departuretime->format('A') === 'PM';
     return $result;
 }
-
-/**
- * Signs in an off-campus signout record and records the timestamp.
- *
- * @param int $offcampusid The id of the record to sign in.
- * @return string The text to display for the sign in time.
- * @throws coding_exception If the off-campus signout record does not exist or has already been signed in.
- */
-function sign_in_off_campus($offcampusid) {
-    global $DB;
-    $record = $DB->get_record('local_signout_off_campus', array('id' => $offcampusid));
-    if (!$record || $record->sign_in_time) {
-        throw new coding_exception('off-campus signout record doesn\'t exist or has already been signed in');
-    }
-    $record->sign_in_time = $record->time_modified = time();
-    $DB->update_record('local_signout_off_campus', $record);
-    return format_date('g:i A', $record->sign_in_time);
-}
