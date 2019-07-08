@@ -95,7 +95,7 @@ class off_campus_form extends local_mxschool_form {
     }
 
     /**
-     * Validates the eSignout form before it can be submitted.
+     * Validates the off-campus signout form before it can be submitted.
      * The checks performed are to ensure that all required fields are filled out.
      * Permissions checks are done in JavaScript.
      *

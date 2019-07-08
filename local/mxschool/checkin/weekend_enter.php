@@ -70,9 +70,7 @@ if ($id) {
 } else {
     $data = new stdClass();
     $data->id = $id;
-    $data->timecreated = time();
-    $data->departure_date = time();
-    $data->return_date = time();
+    $data->timecreated = $data->departure_date = $data->return_date = time();
     if ($isstudent) {
         $data->student = $USER->id;
         $record = $DB->get_record_sql(

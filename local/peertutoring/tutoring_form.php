@@ -90,9 +90,7 @@ class tutoring_form extends local_mxschool_form {
         if (!$data['topic']) {
             $errors['topic'] = get_string('tutoring_form_error_notopic', 'local_peertutoring');
         }
-        if (!$data['type_select']) {
-            $errors['type'] = get_string('tutoring_form_error_notype', 'local_peertutoring');
-        } else if ($data['type_select'] === '-1' && empty($data['type_other'])) {
+        if (!$data['type_select'] || ($data['type_select'] === '-1' && empty($data['type_other']))) {
             $errors['type'] = get_string('tutoring_form_error_notype', 'local_peertutoring');
         }
         if (!$data['rating']) {
