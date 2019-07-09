@@ -39,7 +39,8 @@ class tutor_edit_form extends local_mxschool_form {
         $departments = $this->_customdata['departments'];
 
         $departmentsparameters = array(
-            'multiple' => true, 'noselectionstring' => get_string('tutor_edit_form_departments_noselection', 'local_peertutoring'),
+            'multiple' => true,
+            'noselectionstring' => get_string('tutor_edit_form_departments_noselection', 'local_peertutoring'),
             'placeholder' => get_string('tutor_edit_form_departments_placeholder', 'local_peertutoring')
         );
 

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the rooming subpackage of Middlesex School's Dorm and Student functions plugin.
+ * Email notifications for the rooming subpackage of Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming
@@ -29,13 +29,13 @@ namespace local_mxschool\local\rooming;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('mx_notification.php');
+require_once(__DIR__.'/mx_notification.php');
 
-use local_mxschool\local\notification;
-use local_mxschool\local\bulk_notification;
+use \local_mxschool\local\notification;
+use \local_mxschool\local\bulk_notification;
 
 /**
- * Email notification for when a rooming form is submitted for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when a rooming form is submitted for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming
@@ -73,40 +73,40 @@ class submitted extends notification {
                  LEFT JOIN {user} p ON r.preferred_roommateid = p.id WHERE r.id = ?", array($id)
             );
             if (!$record) {
-                throw new coding_exception("Record with id {$id} not found.");
+                throw new \coding_exception("Record with id {$id} not found.");
             }
 
             $this->data['haslivedindouble'] = boolean_to_yes_no($record->haslivedindouble);
             $this->data['roomtype'] = $record->roomtype;
             $this->data['dormmate1'] = "{$record->d1lastname}, {$record->d1firstname}" . (
                 !empty($record->d1alternatename) && $record->d1alternatename !== $record->d1firstname
-                ? " ({$record->d1alternatename})" : ''
+                    ? " ({$record->d1alternatename})" : ''
             );
             $this->data['dormmate2'] = "{$record->d2lastname}, {$record->d2firstname}" . (
                 !empty($record->d2alternatename) && $record->d2alternatename !== $record->d2firstname
-                ? " ({$record->d2alternatename})" : ''
+                    ? " ({$record->d2alternatename})" : ''
             );
             $this->data['dormmate3'] = "{$record->d3lastname}, {$record->d3firstname}" . (
                 !empty($record->d3alternatename) && $record->d3alternatename !== $record->d3firstname
-                ? " ({$record->d3alternatename})" : ''
+                    ? " ({$record->d3alternatename})" : ''
             );
             $this->data['dormmate4'] = "{$record->d4lastname}, {$record->d4firstname}" . (
                 !empty($record->d4alternatename) && $record->d4alternatename !== $record->d4firstname
-                ? " ({$record->d4alternatename})" : ''
+                    ? " ({$record->d4alternatename})" : ''
             );
             $this->data['dormmate5'] = "{$record->d5lastname}, {$record->d5firstname}" . (
                 !empty($record->d5alternatename) && $record->d5alternatename !== $record->d5firstname
-                ? " ({$record->d5alternatename})" : ''
+                    ? " ({$record->d5alternatename})" : ''
             );
             $this->data['dormmate6'] = "{$record->d6lastname}, {$record->d6firstname}" . (
                 !empty($record->d6alternatename) && $record->d6alternatename !== $record->d6firstname
-                ? " ({$record->d6alternatename})" : ''
+                    ? " ({$record->d6alternatename})" : ''
             );
             $this->data['preferredroomate'] = "{$record->plastname}, {$record->pfirstname}" . (
                 !empty($record->palternatename) && $record->palternatename !== $record->pfirstname
-                ? " ({$record->palternatename})" : ''
+                    ? " ({$record->palternatename})" : ''
             );
-            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
         }
@@ -126,7 +126,7 @@ class submitted extends notification {
 
 /**
  * Email notification to remind students to complete the rooming form
- * for Middlesex School's Dorm and Student functions plugin.
+ * for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming
@@ -150,7 +150,7 @@ class unsubmitted_notification extends notification {
 }
 
 /**
- * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student functions plugin.
+ * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage rooming

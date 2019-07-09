@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Student management report for Middlesex School's Dorm and Student functions plugin.
+ * Student management report for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('student_table.php');
+require_once(__DIR__.'/student_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
@@ -41,14 +41,7 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
-);
-$url = '/local/mxschool/user_management/student_report.php';
-$title = get_string('user_management_student_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('student_report', 'user_management');
 
 $types = array(
     'students' => get_string('user_management_student_report_type_students', 'local_mxschool'),
@@ -57,11 +50,11 @@ $types = array(
 );
 
 if (!isset($types[$type])) {
-    redirect(new moodle_url($url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
+    redirect(new moodle_url($PAGE->url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
 }
 if ($type === 'parents' && $action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_parent', array('id' => $id));
-    $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
+    $redirect = new moodle_url($PAGE->url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search));
     if ($record) {
         $record->deleted = 1;
         if ($record->is_primary_parent) { // Each student must have a primary parent.
@@ -76,13 +69,9 @@ if ($type === 'parents' && $action === 'delete' && $id) {
             }
         }
         $DB->update_record('local_mxschool_parent', $record);
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('user_management_parent_delete_success', 'local_mxschool'), 'delete'
-        );
+        logged_redirect($redirect, get_string('user_management_parent_delete_success', 'local_mxschool'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('user_management_parent_delete_failure', 'local_mxschool'), 'delete', false
-        );
+        logged_redirect($redirect, get_string('user_management_parent_delete_failure', 'local_mxschool'), 'delete', false);
     }
 }
 

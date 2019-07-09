@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing checkin preferences for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing checkin preferences for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -42,8 +42,7 @@ class preferences_form extends local_mxschool_form {
         foreach ($weekends as $weekend) {
             $startoptions = get_weekend_start_day_list();
             $endoptions = get_weekend_end_day_list();
-            $date = new DateTime('now', core_date::get_server_timezone_object());
-            $date->setTimestamp($weekend->sunday_time);
+            $date = generate_datetime($weekend->sunday_time);
             $date->modify("-1 day");
             $weekendfields["weekend_$weekend->id"] = array(
                 'element' => 'group', 'name' => 'label', 'nameparam' => $date->format('m/d/y'), 'children' => array(
@@ -57,9 +56,9 @@ class preferences_form extends local_mxschool_form {
         }
 
         $dateparameters = array(
-            'startyear' => (new DateTime('-1 year', core_date::get_server_timezone_object()))->format('Y'),
-            'stopyear' => (new DateTime('+1 year', core_date::get_server_timezone_object()))->format('Y'),
-            'timezone' => core_date::get_server_timezone_object()
+            'startyear' => format_date('Y', '-1 year'),
+            'stopyear' => format_date('Y', '+1 year'),
+            'timezone' => core_date::get_user_timezone_object()
         );
 
         $fields = array(
@@ -67,7 +66,8 @@ class preferences_form extends local_mxschool_form {
                 'dormsopen' => array('element' => 'date_selector', 'parameters' => $dateparameters),
                 'secondsemester' => array('element' => 'date_selector', 'parameters' => $dateparameters),
                 'dormsclose' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            ), 'weekends' => $weekendfields,
+            ),
+            'weekends' => $weekendfields,
             'notifications' => array(
                 'submitted_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
@@ -75,7 +75,8 @@ class preferences_form extends local_mxschool_form {
                 'approved_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_approved()),
                 'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'approved_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
-            ), 'text' => array(
+            ),
+            'text' => array(
                 'topinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'bottominstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'closedwarning' => self::ELEMENT_FORMATED_TEXT_REQUIRED

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the checkin subpackage of Middlesex School's Dorm and Student functions plugin.
+ * Email notifications for the checkin subpackage of Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -29,12 +29,12 @@ namespace local_mxschool\local\checkin;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('mx_notification.php');
+require_once(__DIR__.'/mx_notification.php');
 
-use local_mxschool\local\notification;
+use \local_mxschool\local\notification;
 
 /**
- * Base class for email notification regarding weekend forms for Middlesex School's Dorm and Student functions plugin.
+ * Base class for email notification regarding weekend forms for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -65,7 +65,7 @@ abstract class weekend_form_base extends notification {
                  LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE wf.id = ?", array($id)
             );
             if (!$record) {
-                throw new coding_exception("Record with id {$id} not found.");
+                throw new \coding_exception("Record with id {$id} not found.");
             }
             $formatter = new \NumberFormatter('en_us', \NumberFormatter::ORDINAL);
             $instructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
@@ -73,12 +73,12 @@ abstract class weekend_form_base extends notification {
             $replacements->hoh = $record->hohname;
             $replacements->permissionsline = $record->permissionsline;
 
-            $this->data['departuretime'] = date('n/j/y g:i A', $record->departuretime);
-            $this->data['returntime'] = date('n/j/y g:i A', $record->returntime);
+            $this->data['departuretime'] = format_date('n/j/y g:i A', $record->departuretime);
+            $this->data['returntime'] = format_date('n/j/y g:i A', $record->returntime);
             $this->data['destination'] = $record->destination;
             $this->data['transportation'] = $record->transportation;
             $this->data['phone'] = $record->phone;
-            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
             $this->data['weekendnumber'] = calculate_weekends_used($record->student, get_current_semester());
             $this->data['weekendordinal'] = $formatter->format($this->data['weekendnumber']);
             $this->data['weekendtotal'] = calculate_weekends_allowed($record->student, get_current_semester());
@@ -106,7 +106,7 @@ abstract class weekend_form_base extends notification {
 }
 
 /**
- * Email notification for when a weekend form is submitted for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when a weekend form is submitted for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -128,7 +128,7 @@ class weekend_form_submitted extends weekend_form_base {
 }
 
 /**
- * Email notification for when a weekend form is approved for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when a weekend form is approved for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing vacation travel site data for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing vacation travel site data for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -39,22 +39,17 @@ class site_edit_form extends local_mxschool_form {
 
         $typeoptions = array('Plane' => 'Plane', 'Train' => 'Train', 'Bus' => 'Bus', 'NYC Direct' => 'NYC Direct');
 
-        $dateparameters = array(
-            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
-            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
-            'timezone'  => core_date::get_server_timezone_object(),
-            'optional' => true
-        );
-
         $fields = array(
             '' => array('id' => self::ELEMENT_HIDDEN_INT),
             'site' => array(
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'type' => array('element' => 'select', 'options' => $typeoptions, 'rules' => array('required')),
                 'departureenabled' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'defaultdeparturetime' => array('element' => 'date_time_selector', 'parameters' => $dateparameters),
+                'defaultdeparturetime' => array(
+                    'element' => 'date_time_selector', 'parameters' => self::date_parameters_school_year(true)
+                ),
                 'returnenabled' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'defaultreturntime' => array('element' => 'date_time_selector', 'parameters' => $dateparameters)
+                'defaultreturntime' => array('element' => 'date_time_selector', 'parameters' => self::date_parameters_school_year(true))
             )
         );
         $this->set_fields($fields, 'vacation_travel_site_edit');

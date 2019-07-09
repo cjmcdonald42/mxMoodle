@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Vacation travel transportation table for Middlesex School's Dorm and Student functions plugin.
+ * Vacation travel transportation table for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -89,11 +89,11 @@ class transportation_table extends local_mxschool_table {
         );
         $where = array(
             'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->mxtransportation === ''
-            ? '' : "dr.mx_transportation = {$filter->mxtransportation}", $filter->type ? "dr.type = '{$filter->type}'" : ''
+                ? '' : "dr.mx_transportation = {$filter->mxtransportation}", $filter->type ? "dr.type = '{$filter->type}'" : ''
         );
         $sortable = array(
-            'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'datetime',
-            'international', 'timemodified'
+            'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'datetime', 'international',
+            'timemodified'
         );
         $urlparams = array(
             'view' => $view, 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
@@ -156,7 +156,7 @@ class transportation_table extends local_mxschool_table {
      * Formats the date and time column to 'n/j/y g:i A'.
      */
     protected function col_datetime($values) {
-        return $values->tid ? ($values->datetime ? date('n/j/y g:i A', $values->datetime) : '-') : '';
+        return $values->tid ? ($values->datetime ? format_date('n/j/y g:i A', $values->datetime) : '-') : '';
     }
 
     /**
@@ -167,17 +167,17 @@ class transportation_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the time modified column to 'n/j/y g:i A'.
+     */
+    protected function col_timemodified($values) {
+        return $values->tid ? format_date('n/j/y g:i A', $values->timemodified) : '';
+    }
+
+    /**
      * Formats the actions column.
      */
     protected function col_actions($values) {
         return $values->tid ? $this->edit_icon('/local/mxschool/vacation_travel/vacation_enter.php', $values->tid) : '';
-    }
-
-    /**
-     * Formats the time modified column to 'n/j/y g:i A'.
-     */
-    protected function col_timemodified($values) {
-        return $values->tid ? date('n/j/y g:i A', $values->timemodified) : '';
     }
 
 }

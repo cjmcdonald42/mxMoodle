@@ -14,10 +14,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the options of the eSignout form for Middlesex School's Dorm and Student functions plugin.
+ * Updates the options of the off-campus signout form for Middlesex School's eSignout Subplugin.
  *
- * @module     local_mxschool/esignout_form
- * @package    local_mxschool
+ * @module     local_signout/off_campus_form
+ * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -46,15 +46,15 @@ define(
             } else {
                 otherDiv.hide();
             }
-            var isPassengerType = $('.mx-form input#id_type_select_Passenger').prop('checked');
-            $('.mx-form input#id_destination').prop('disabled', isPassengerType);
-            $('.mx-form select#id_departure_time_hour').prop('disabled', isPassengerType);
-            $('.mx-form select#id_departure_time_minute').prop('disabled', isPassengerType);
-            $('.mx-form select#id_departure_time_ampm').prop('disabled', isPassengerType);
+            var isPassenger = $('.mx-form input#id_type_select_Passenger').prop('checked');
+            $('.mx-form input#id_destination').prop('disabled', isPassenger);
+            $('.mx-form select#id_departure_time_hour').prop('disabled', isPassenger);
+            $('.mx-form select#id_departure_time_minute').prop('disabled', isPassenger);
+            $('.mx-form select#id_departure_time_ampm').prop('disabled', isPassenger);
         }
         function updateStudentOptions() {
             var promises = ajax.call([{
-                methodname: 'local_mxschool_get_esignout_student_options',
+                methodname: 'local_signout_get_off_campus_student_options',
                 args: {
                     userid: $('.mx-form select#id_student').val()
                 }
@@ -103,9 +103,9 @@ define(
         }
         function updateDriverDetails() {
             var promises = ajax.call([{
-                methodname: 'local_mxschool_get_esignout_driver_details',
+                methodname: 'local_signout_get_off_campus_driver_details',
                 args: {
-                    esignoutid: $('.mx-form select#id_driver').val()
+                    offcampusid: parseInt($('.mx-form select#id_driver').val())
                 }
             }]);
             promises[0].done(function(data) {

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for students to submit vacation travel details for Middlesex School's Dorm and Student functions plugin.
+ * Form for students to submit vacation travel details for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -47,34 +47,32 @@ class vacation_form extends local_mxschool_form {
         $retsites = $this->_customdata['retsites'];
         $types = $this->_customdata['types'];
 
-        $dateparameters = array(
-            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
-            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
-            'timezone'  => core_date::get_server_timezone_object()
-        );
-
-        $fields = array('' => array(
-            'id' => self::ELEMENT_HIDDEN_INT,
-            'dep_id' => self::ELEMENT_HIDDEN_INT,
-            'ret_id' => self::ELEMENT_HIDDEN_INT,
-            'timecreated' => self::ELEMENT_HIDDEN_INT,
-            'isstudent' => self::ELEMENT_HIDDEN_INT
-        ), 'info' => array(
-            'student' => array('element' => 'select', 'options' => $students),
-            'destination' => self::ELEMENT_TEXT,
-            'phone' => self::ELEMENT_TEXT
-        ), 'departure' => array(
-            'dep_mxtransportation' => self::ELEMENT_BOOLEAN,
-            'dep_type' => array('element' => 'radio', 'options' => $types),
-            'dep_site' => array('element' => 'radio', 'options' => $depsites, 'useradioindex' => true),
-            'dep_details' => self::ELEMENT_TEXT,
-            'dep_carrier' => self::ELEMENT_TEXT,
-            'dep_number' => self::ELEMENT_TEXT,
-            'dep_variable' => array('element' => 'group', 'children' => array(
-                'time' => self::time_selector(15),
-                'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-            )), 'dep_international' => self::ELEMENT_BOOLEAN
-        ));
+        $fields = array(
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'dep_id' => self::ELEMENT_HIDDEN_INT,
+                'ret_id' => self::ELEMENT_HIDDEN_INT,
+                'timecreated' => self::ELEMENT_HIDDEN_INT,
+                'isstudent' => self::ELEMENT_HIDDEN_INT
+            ),
+            'info' => array(
+                'student' => array('element' => 'select', 'options' => $students),
+                'destination' => self::ELEMENT_TEXT,
+                'phone' => self::ELEMENT_TEXT
+            ),
+            'departure' => array(
+                'dep_mxtransportation' => self::ELEMENT_BOOLEAN,
+                'dep_type' => array('element' => 'radio', 'options' => $types),
+                'dep_site' => array('element' => 'radio', 'options' => $depsites, 'useradioindex' => true),
+                'dep_details' => self::ELEMENT_TEXT,
+                'dep_carrier' => self::ELEMENT_TEXT,
+                'dep_number' => self::ELEMENT_TEXT,
+                'dep_variable' => array('element' => 'group', 'children' => array(
+                    'time' => self::time_selector(15),
+                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                )),
+                'dep_international' => self::ELEMENT_BOOLEAN
+            ));
         if ($this->returnenabled) {
             $fields['return'] = array(
                 'ret_mxtransportation' => self::ELEMENT_BOOLEAN,
@@ -85,8 +83,9 @@ class vacation_form extends local_mxschool_form {
                 'ret_number' => self::ELEMENT_TEXT,
                 'ret_variable' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(15),
-                    'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                )), 'ret_international' => self::ELEMENT_BOOLEAN
+                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                )),
+                'ret_international' => self::ELEMENT_BOOLEAN
             );
         }
         $this->set_fields($fields, 'vacation_travel_form');

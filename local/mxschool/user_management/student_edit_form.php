@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing student data for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing student data for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -41,8 +41,8 @@ class student_edit_form extends local_mxschool_form {
 
         $dateparameters = array(
             'startyear' => 2000, // Completely arbitrary.
-            'stopyear' => (new DateTime('now', core_date::get_server_timezone_object()))->format('Y'),
-            'timezone'  => core_date::get_server_timezone_object(),
+            'stopyear' => format_date('Y'),
+            'timezone' => core_date::get_user_timezone_object(),
             'optional' => true
         );
 
@@ -51,7 +51,8 @@ class student_edit_form extends local_mxschool_form {
                 'id' => self::ELEMENT_HIDDEN_INT,
                 'userid' => self::ELEMENT_HIDDEN_INT,
                 'permissionsid' => self::ELEMENT_HIDDEN_INT
-            ), 'student' => array(
+            ),
+            'student' => array(
                 'firstname' => self::ELEMENT_TEXT_REQUIRED,
                 'middlename' => self::ELEMENT_TEXT,
                 'lastname' => self::ELEMENT_TEXT_REQUIRED,
@@ -66,9 +67,11 @@ class student_edit_form extends local_mxschool_form {
                 'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
                 'isboardernextyear' => array(
                     'element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')
-                ), 'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
+                ),
+                'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
                 'room' => self::ELEMENT_TEXT
-            ), 'permissions' => array(
+            ),
+            'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
                 'license' => array('element' => 'date_selector', 'parameters' => $dateparameters),
                 'driving' => self::ELEMENT_YES_NO,

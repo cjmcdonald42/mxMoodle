@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Vacation travel report for Middlesex School's Dorm and Student functions plugin.
+ * Vacation travel report for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('vacation_table.php');
+require_once(__DIR__.'/vacation_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
@@ -39,14 +39,7 @@ $filter->dorm = get_param_faculty_dorm();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php'
-);
-$url = '/local/mxschool/vacation_travel/vacation_report.php';
-$title = get_string('vacation_travel_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('report', 'vacation_travel');
 
 $submittedoptions = array(
     '1' => get_string('vacation_travel_report_select_submitted_true', 'local_mxschool'),

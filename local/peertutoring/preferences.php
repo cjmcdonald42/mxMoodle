@@ -27,13 +27,13 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once('locallib.php');
-require_once('preferences_form.php');
-require_once('tutor_table.php');
-require_once('department_table.php');
-require_once('course_table.php');
-require_once('type_table.php');
-require_once('rating_table.php');
+require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/preferences_form.php');
+require_once(__DIR__.'/tutor_table.php');
+require_once(__DIR__.'/department_table.php');
+require_once(__DIR__.'/course_table.php');
+require_once(__DIR__.'/type_table.php');
+require_once(__DIR__.'/rating_table.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
@@ -42,18 +42,11 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 $table = optional_param('table', '', PARAM_RAW);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/peertutoring/preferences.php';
-$title = get_string('preferences', 'local_peertutoring');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('preferences', null, 'peertutoring');
+$redirect = get_redirect();
 
 if ($action === 'delete' && $id && $table) {
-    switch($table) {
+    switch ($table) {
         case 'tutor':
             $dbtable = 'local_peertutoring_tutor';
             break;
@@ -70,21 +63,15 @@ if ($action === 'delete' && $id && $table) {
             $dbtable = 'local_peertutoring_rating';
             break;
         default:
-            logged_redirect(
-                new moodle_url($url), get_string('table_delete_failure', 'local_peertutoring'), 'delete', false
-            );
+            logged_redirect($PAGE->url, get_string('table_delete_failure', 'local_peertutoring'), 'delete', false);
     }
     $record = $DB->get_record($dbtable, array('id' => $id));
     if ($record) {
         $record->deleted = 1;
         $DB->update_record($dbtable, $record);
-        logged_redirect(
-            new moodle_url($url), get_string("{$table}_delete_success", 'local_peertutoring'), 'delete'
-        );
+        logged_redirect($PAGE->url, get_string("{$table}_delete_success", 'local_peertutoring'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url), get_string("{$table}_delete_failure", 'local_peertutoring'), 'delete', false
-        );
+        logged_redirect($PAGE->url, get_string("{$table}_delete_failure", 'local_peertutoring'), 'delete', false);
     }
 }
 
@@ -139,7 +126,7 @@ $typerenderable = new \local_mxschool\output\report($typetable, null, array(), f
 $ratingrenderable = new \local_mxschool\output\report($ratingtable, null, array(), false, $ratingadd);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($formrenderable);
 echo $output->heading(get_string('tutor_report', 'local_peertutoring'));
 echo $output->render($tutorrenderable);

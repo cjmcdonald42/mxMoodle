@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page for students to request rooming for Middlesex School's Dorm and Student functions plugin.
+ * Page for students to request rooming for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/notification/vacation_travel.php');
-require_once('vacation_form.php');
+require_once(__DIR__.'/vacation_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -40,15 +40,8 @@ if (!$isstudent) {
 $returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/vacation_travel/vacation_enter.php';
-$title = get_string('vacation_travel_form', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('form', 'vacation_travel');
+$redirect = get_redirect();
 
 $tripqueryfields = array('local_mxschool_vt_trip' => array('abbreviation' => 't', 'fields' => array(
     'id', 'userid' => 'student', 'departureid', 'returnid', 'destination', 'phone_number' => 'phone',
@@ -68,7 +61,7 @@ if ($id) {
     }
     $data = get_record($tripqueryfields, 't.id = ?', array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
-        redirect(new moodle_url($url));
+        redirect($PAGE->url);
     }
     $departuredata = get_record($transportqueryfields, 'dr.id = ?', array($data->departureid));
     foreach ($departuredata as $key => $value) {
@@ -106,7 +99,7 @@ if ($id) {
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_vt_trip', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one vacation travel form per student.
-            redirect(new moodle_url($url, array('id' => $existingid)));
+            redirect(new moodle_url($PAGE->url, array('id' => $existingid)));
         }
         $data->student = $USER->id;
     }
@@ -215,7 +208,7 @@ $renderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
 
 echo $output->header();
-echo $output->heading($title . ($isstudent ? " for {$record->student}" : ''));
+echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
 echo $output->render($renderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

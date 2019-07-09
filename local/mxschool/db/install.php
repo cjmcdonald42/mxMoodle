@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Database installation steps for Middlesex School's Dorm and Student functions plugin.
+ * Database installation steps for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -32,26 +32,6 @@ function xmldb_local_mxschool_install() {
     set_config('weekend_form_instructions_top', 'Please fill out the form entirely. Your form should be submitted to your Head of House no later than <b>10:30 PM on Friday</b>.<br>All relevant phone calls giving permission should also be received by Friday at 10:30 PM <i>(Voice mail messages are OK; Email messages are NOT)</i>.', 'local_mxschool');
     set_config('weekend_form_instructions_bottom', 'You may not leave for the weekend until you see your name on the \'OK\' list.<br>Permission phone calls should be addressed to <b>{hoh}</b> @ <b>{permissionsline}</b>.<br>If your plans change, you must get permission from <b>{hoh}</b>. <b>Remember to sign out.</b>', 'local_mxschool');
     set_config('weekend_form_warning_closed', 'The weekend you have selected is a closed weekend - you will need special permissions from the deans.', 'local_mxschool');
-
-    set_config('esignout_edit_window', '30', 'local_mxschool');
-    set_config('esignout_trip_window', '30', 'local_mxschool');
-    set_config('esignout_form_enabled', '1', 'local_mxschool');
-    set_config('esignout_form_ipenabled', '1', 'local_mxschool');
-    set_config('esignout_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_mxschool');
-    set_config('esignout_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_mxschool');
-    set_config('esignout_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_mxschool');
-    set_config('esignout_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_mxschool');
-    set_config('esignout_form_warning_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_mxschool');
-    set_config('esignout_form_warning_needparent', 'Your permissions indicate that you need a call from your parent.', 'local_mxschool');
-    set_config('esignout_form_warning_onlyspecific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_mxschool');
-    set_config('esignout_form_confirmation', 'Have you recieved the required permissions?', 'local_mxschool');
-
-    set_config('esignout_notification_warning_irregular', '[Irregular] ', 'local_mxschool');
-    set_config('esignout_notification_warning_driver', 'None.', 'local_mxschool');
-    set_config('esignout_notification_warning_any', 'None.', 'local_mxschool');
-    set_config('esignout_notification_warning_parent', 'This student requires parent permission to be the passenger of another student.', 'local_mxschool');
-    set_config('esignout_notification_warning_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_mxschool');
-    set_config('esignout_notification_warning_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_mxschool');
 
     set_config('advisor_form_enabled_who', 'all', 'local_mxschool');
     set_config('advisor_form_closing_warning', 'Your current advisor\'s advisory is closing, so you must provide choices for a new advisor.', 'local_mxschool');
@@ -70,9 +50,6 @@ function xmldb_local_mxschool_install() {
             'preferences' => 'preferences.php', 'generic_report' => 'generic_report.php', 'weekday_report' => 'weekday_report.php',
             'weekend_form' => 'weekend_enter.php', 'weekend_report' => 'weekend_report.php',
             'weekend_calculator' => 'weekend_calculator.php'
-        ))),
-        array('subpackage' => 'esignout', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'form' => 'esignout_enter.php', 'report' => 'esignout_report.php'
         ))),
         array('subpackage' => 'advisor_selection', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'advisor_enter.php', 'report' => 'advisor_report.php'

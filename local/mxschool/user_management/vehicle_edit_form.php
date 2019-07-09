@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing vehicle data for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing vehicle data for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -39,14 +39,16 @@ class vehicle_edit_form extends local_mxschool_form {
         $id = $this->_customdata['id'];
         $drivers = $this->_customdata['drivers'];
 
-        $fields = array('' => array(
-            'id' => self::ELEMENT_HIDDEN_INT,
-            'student' => array('element' => 'select', 'options' => $drivers, 'rules' => array('required')),
-            'make' => self::ELEMENT_TEXT_REQUIRED,
-            'model' => self::ELEMENT_TEXT_REQUIRED,
-            'color' => self::ELEMENT_TEXT_REQUIRED,
-            'registration' => self::ELEMENT_TEXT_REQUIRED
-        ));
+        $fields = array(
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT,
+                'student' => array('element' => 'select', 'options' => $drivers, 'rules' => array('required')),
+                'make' => self::ELEMENT_TEXT_REQUIRED,
+                'model' => self::ELEMENT_TEXT_REQUIRED,
+                'color' => self::ELEMENT_TEXT_REQUIRED,
+                'registration' => self::ELEMENT_TEXT_REQUIRED
+            )
+        );
         $this->set_fields($fields, 'user_management_vehicle_edit');
     }
 }

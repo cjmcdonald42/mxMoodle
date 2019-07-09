@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for students to sign out for Middlesex School's Dorm and Student functions plugin.
+ * Form for students to sign out to an off-campus location for Middlesex School's eSignout Subplugin.
  *
- * @package    local_mxschool
- * @subpackage esignout
+ * @package    local_signout
+ * @subpackage off_campus
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -27,9 +27,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
+require_once(__DIR__.'/../../mxschool/classes/mx_form.php');
 
-class esignout_form extends local_mxschool_form {
+class off_campus_form extends local_mxschool_form {
 
     /**
      * Form definition.
@@ -43,8 +43,8 @@ class esignout_form extends local_mxschool_form {
         $approvers = $this->_customdata['approvers'];
 
         $passengerparameters = array(
-            'multiple' => true, 'noselectionstring' => get_string('esignout_form_passengers_noselection', 'local_mxschool'),
-            'placeholder' => get_string('esignout_form_passengers_placeholder', 'local_mxschool')
+            'multiple' => true, 'noselectionstring' => get_string('off_campus_form_passengers_noselection', 'local_signout'),
+            'placeholder' => get_string('off_campus_form_passengers_placeholder', 'local_signout')
         );
 
         $fields = array(
@@ -53,25 +53,30 @@ class esignout_form extends local_mxschool_form {
                 'timecreated' => self::ELEMENT_HIDDEN_INT,
                 'departure_date' => self::ELEMENT_HIDDEN_INT,
                 'isstudent' => self::ELEMENT_HIDDEN_INT
-            ), 'info' => array(
+            ),
+            'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'type' => array('element' => 'group', 'children' => array(
                     'select' => array('element' => 'radio', 'options' => $types),
                     'other' => self::ELEMENT_TEXT
-                )), 'passengers' => array(
+                )),
+                'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
-                ), 'passengerswarning' => array('element' => 'static', 'name' => 'passengers'),
+                ),
+                'passengerswarning' => array('element' => 'static', 'name' => 'passengers'),
                 'instructions' => array('element' => 'static', 'name' => null),
                 'driver' => array('element' => 'select', 'options' => $drivers)
-            ), 'details' => array(
+            ),
+            'details' => array(
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
                 'departure_time' => self::time_selector(15),
                 'approver' => array('element' => 'select', 'options' => $approvers)
-            ), 'permissions' => array(
+            ),
+            'permissions' => array(
                 'parentwarning' => array('element' => 'static', 'name' => null),
                 'specificwarning' => array('element' => 'static', 'name' => null),
                 'permissionssubmitbuttons' => array(
-                    'element' => 'group', 'displayname' => get_config('local_mxschool', 'esignout_form_confirmation'),
+                    'element' => 'group', 'displayname' => get_config('local_signout', 'off_campus_form_confirmation'),
                     'children' => array(
                         'permissionssubmityes' => array('element' => 'submit', 'text' => get_string('yes')),
                         'permissionssubmitno' => array('element' => 'cancel', 'text' => get_string('no'))
@@ -79,7 +84,7 @@ class esignout_form extends local_mxschool_form {
                 )
             )
         );
-        $this->set_fields($fields, 'esignout_form', false);
+        $this->set_fields($fields, 'off_campus_form', false, 'local_signout');
 
         $mform = $this->_form;
         $mform->setExpanded('permissions');
@@ -90,7 +95,7 @@ class esignout_form extends local_mxschool_form {
     }
 
     /**
-     * Validates the eSignout form before it can be submitted.
+     * Validates the off-campus signout form before it can be submitted.
      * The checks performed are to ensure that all required fields are filled out.
      * Permissions checks are done in JavaScript.
      *
@@ -100,20 +105,20 @@ class esignout_form extends local_mxschool_form {
         global $DB;
         $errors = parent::validation($data, $files);
         if (!isset($data['type_select'])) {
-            $errors['type'] = get_string('esignout_form_error_notype', 'local_mxschool');
+            $errors['type'] = get_string('off_campus_form_error_notype', 'local_signout');
         } else {
             if ($data['type_select'] === 'Other' && empty($data['type_other'])) {
-                $errors['type'] = get_string('esignout_form_error_notype', 'local_mxschool');
+                $errors['type'] = get_string('off_campus_form_error_notype', 'local_signout');
             }
             if ($data['type_select'] === 'Passenger' && !$data['driver']) {
-                $errors['driver'] = get_string('esignout_form_error_nodriver', 'local_mxschool');
+                $errors['driver'] = get_string('off_campus_form_error_nodriver', 'local_signout');
             }
             if ($data['type_select'] !== 'Passenger' && empty($data['destination'])) {
-                $errors['destination'] = get_string('esignout_form_error_nodestination', 'local_mxschool');
+                $errors['destination'] = get_string('off_campus_form_error_nodestination', 'local_signout');
             }
         }
         if (!$data['approver']) {
-            $errors['approver'] = get_string('esignout_form_error_noapprover', 'local_mxschool');
+            $errors['approver'] = get_string('off_campus_form_error_noapprover', 'local_signout');
         }
         return $errors;
     }

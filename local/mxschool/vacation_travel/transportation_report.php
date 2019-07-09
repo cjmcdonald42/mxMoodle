@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Vacation travel transportation report for Middlesex School's Dorm and Student functions plugin.
+ * Vacation travel transportation report for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('transportation_table.php');
+require_once(__DIR__.'/transportation_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel_transportation', context_system::instance());
@@ -44,21 +44,14 @@ $filter->type = optional_param('type', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php'
-);
-$url = '/local/mxschool/vacation_travel/transportation_report.php';
-$title = get_string('vacation_travel_transportation_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('transportation_report', 'vacation_travel');
 
 $views = array(
     'departure' => get_string('vacation_travel_transportation_report_select_view_departure', 'local_mxschool'),
     'return' => get_string('vacation_travel_transportation_report_select_view_return', 'local_mxschool')
 );
 if (!isset($views[$view])) {
-    redirect(new moodle_url($url, array(
+    redirect(new moodle_url($PAGE->url, array(
         'view' => 'departure', 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
     )));
 }
@@ -77,17 +70,19 @@ $types = array(
 
 $table = new transportation_table($view, $filter, $download);
 
-$dropdowns = array_merge(
-    get_config('local_mxschool', 'vacation_form_returnenabled') ? array(new local_mxschool_dropdown('view', $views, $view))
-    : array(), array(
-        new local_mxschool_dropdown(
-            'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
-            get_string('report_select_default', 'local_mxschool')
-        ), new local_mxschool_dropdown(
-            'type', $types, $filter->type, get_string('vacation_travel_transportation_report_select_type_all', 'local_mxschool')
-        )
+$dropdowns = array(
+    new local_mxschool_dropdown(
+        'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
+        get_string('report_select_default', 'local_mxschool')
+    ),
+    new local_mxschool_dropdown(
+        'type', $types, $filter->type, get_string('vacation_travel_transportation_report_select_type_all', 'local_mxschool')
     )
 );
+if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
+    array_unshift($dropdowns, new local_mxschool_dropdown('view', $views, $view));
+}
+
 $addbutton = new stdClass();
 $addbutton->text = get_string('vacation_travel_transportation_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php');

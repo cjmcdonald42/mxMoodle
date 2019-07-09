@@ -184,8 +184,7 @@ function get_tutoring_date_list() {
     );
     if ($records) {
         foreach ($records as $record) {
-            $date = new DateTime('now', core_date::get_server_timezone_object());
-            $date->setTimestamp($record->tutoring_date);
+            $date = generate_datetime($record->tutoring_date);
             $date->modify('midnight');
             if (!array_key_exists($date->getTimestamp(), $list)) {
                 $list[$date->getTimestamp()] = $date->format('m/d/y');

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Weekday checkin sheet for Middlesex School's Dorm and Student functions plugin.
+ * Weekday checkin sheet for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -29,21 +29,14 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('weekday_table.php');
+require_once(__DIR__.'/weekday_table.php');
 
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
 
 $dorm = get_param_faculty_dorm();
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$url = '/local/mxschool/checkin/weekday_report.php';
-$title = get_string('checkin_weekday_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('weekday_report', 'checkin');
 
 $dorms = get_boarding_dorm_list();
 
@@ -53,8 +46,7 @@ $dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string
 $headers = array(array(
     'text' => '', 'length' => $dorm ? ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $dorm)) === 'Day' ? 2 : 3) : 4
 ));
-$day = new DateTime('now', core_date::get_server_timezone_object());
-$day->modify('Sunday this week');
+$day = generate_datetime('Sunday this week');
 for ($i = 1; $i <= 5; $i++) {
     $day->modify("+1 day");
     $headers[] = array('text' => $day->format('l'), 'length' => 2);

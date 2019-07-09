@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page for students to submit a weekend form for Middlesex School's Dorm and Student functions plugin.
+ * Page for students to submit a weekend form for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/notification/checkin.php');
-require_once('weekend_form.php');
+require_once(__DIR__.'/weekend_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -39,15 +39,8 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/checkin/weekend_enter.php';
-$title = get_string('checkin_weekend_form', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('weekend_form', 'checkin');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
@@ -63,16 +56,14 @@ if ($id) {
         redirect($redirect);
     }
     if ($isstudent) { // Students cannot edit existing weekend forms.
-        redirect(new moodle_url($url));
+        redirect($PAGE->url);
     }
     $data = get_record($queryfields, "wf.id = ?", array($id));
     $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
 } else {
     $data = new stdClass();
     $data->id = $id;
-    $data->timecreated = time();
-    $data->departure_date = time();
-    $data->return_date = time();
+    $data->timecreated = $data->departure_date = $data->return_date = time();
     if ($isstudent) {
         $data->student = $USER->id;
         $record = $DB->get_record_sql(
@@ -112,8 +103,7 @@ if ($form->is_cancelled()) {
     $data->timemodified = time();
     $data->departure_date = generate_timestamp($data, 'departure');
     $data->return_date = generate_timestamp($data, 'return');
-    $departurestartbound = new DateTime('now', core_date::get_server_timezone_object());
-    $departurestartbound->setTimestamp($data->departure_date);
+    $departurestartbound = generate_datetime($data->departure_date);
     $departureendbound = clone $departurestartbound;
     $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
     $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
@@ -139,14 +129,13 @@ if ($form->is_cancelled()) {
 $output = $PAGE->get_renderer('local_mxschool');
 $bottominstructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $bottominstructions = str_replace(
-    '{hoh}', $isstudent ? $record->hoh : get_string(
-        'checkin_weekend_form_instructions_placeholder_hoh', 'local_mxschool'
-    ), $bottominstructions
+    '{hoh}', $isstudent ? $record->hoh : get_string('checkin_weekend_form_instructions_placeholder_hoh', 'local_mxschool'),
+    $bottominstructions
 );
 $bottominstructions = str_replace(
-    '{permissionsline}', $isstudent ? $record->permissionsline : get_string(
-        'checkin_weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'
-    ), $bottominstructions
+    '{permissionsline}', $isstudent ? $record->permissionsline
+        : get_string('checkin_weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'),
+    $bottominstructions
 );
 $formrenderable = new \local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
@@ -154,7 +143,7 @@ $formrenderable = new \local_mxschool\output\form(
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
-echo $output->heading($title . ($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
+echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

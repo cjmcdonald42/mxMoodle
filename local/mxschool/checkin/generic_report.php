@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic checkin sheet for Middlesex School's Dorm and Student functions plugin.
+ * Generic checkin sheet for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -29,21 +29,14 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('generic_table.php');
+require_once(__DIR__.'/generic_table.php');
 
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
 
 $dorm = get_param_faculty_dorm();
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$url = '/local/mxschool/checkin/generic_report.php';
-$title = get_string('checkin_generic_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('generic_report', 'checkin');
 
 $dorms = get_dorm_list();
 

@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * eSignout index page for Middlesex School's Dorm and Student functions plugin.
+ * On-campus index page for Middlesex School's eSignout Subplugin.
  *
- * @package    local_mxschool
- * @subpackage esignout
+ * @package    local_signout
+ * @subpackage on_campus
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -27,11 +27,11 @@
 
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__.'/../../mxschool/locallib.php');
 
 if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
-admin_externalpage_setup('esignout_index');
-render_index_page('esignout');
+admin_externalpage_setup('on_campus_index');
+render_index_page('on_campus', 'signout');

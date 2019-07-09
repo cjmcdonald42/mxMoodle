@@ -15,15 +15,15 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/signin_button
+    @template local_signout/signin_button
 
-    The purpose of this template is to render a button with ajax functionality to signin an eSignout record.
+    The purpose of this template is to render a button with ajax functionality to signin a signout record.
 }}
 
-<button class="mx-signin-button btn btn-secondary noprint" value="{{ value }}">{{# str }} sign_in_button, local_mxschool {{/ str }}</button>
+<button class="mx-signin-button btn btn-secondary noprint" value="{{ value }}" name="{{ table }}">{{# str }} sign_in_button, local_signout {{/ str }}</button>
 
 {{# js }}
-require(['local_mxschool/signin_button'], function(setup) {
-    setup({{ value }});
+require(['local_signout/signin_button'], function(setup) {
+    setup({{ value }}, '{{ table }}');
 });
 {{/ js }}

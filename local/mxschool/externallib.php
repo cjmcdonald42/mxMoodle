@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * External functions for Middlesex School's Dorm and Student functions plugin.
+ * External functions for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -27,11 +27,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
-require_once('locallib.php');
-require_once('classes/notification/checkin.php');
-require_once('classes/notification/advisor_selection.php');
-require_once('classes/notification/rooming.php');
-require_once('classes/notification/vacation_travel.php');
+require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/classes/event/record_updated.php');
+require_once(__DIR__.'/classes/notification/checkin.php');
+require_once(__DIR__.'/classes/notification/advisor_selection.php');
+require_once(__DIR__.'/classes/notification/rooming.php');
+require_once(__DIR__.'/classes/notification/vacation_travel.php');
 
 class local_mxschool_external extends external_api {
 
@@ -67,15 +68,22 @@ class local_mxschool_external extends external_api {
         switch ($params['table']) {
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
+                $page = get_string('checkin_weekend_report', 'local_mxschool');
                 break;
             case 'local_mxschool_faculty':
                 require_capability('local/mxschool:manage_faculty', context_system::instance());
+                $page = get_string('user_management_faculty_report', 'local_mxschool');
                 break;
             case 'local_mxschool_vt_site':
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
+                $page = get_string('vacation_travel_site_report', 'local_mxschool');
+                break;
+            case 'local_signout_location':
+                require_capability('local/signout:manage_on_campus_preferences', context_system::instance());
+                $page = get_string('on_campus_location_report', 'local_signout');
                 break;
             default:
-                throw new coding_exception("Invalid table: {$params['table']}.");
+                throw new coding_exception("Unsupported table: {$params['table']}.");
         }
 
         global $DB;
@@ -84,6 +92,10 @@ class local_mxschool_external extends external_api {
             return false;
         }
         $record->{$params['field']} = $params['value'];
+        if (isset($record->time_modified)) {
+            $record->time_modified = time();
+        }
+        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         return $DB->update_record($params['table'], $record);
     }
 
@@ -140,7 +152,7 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 return (new \local_mxschool\local\vacation_travel\notify_unsubmitted())->send();
             default:
-                throw new coding_exception("Invalid email class: {$params['emailclass']}.");
+                throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }
     }
 
@@ -219,7 +231,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::get_weekend_type_parameters(), array('datetime' => $datetime));
 
         global $DB;
-        $startbound = new DateTime('now', core_date::get_server_timezone_object());
+        $startbound = generate_datetime();
         $startbound->setDate($params['datetime']['year'], $params['datetime']['month'], $params['datetime']['day']);
         $startbound->setTime($params['datetime']['hour'] % 12 + $params['datetime']['ampm'] * 12, $params['datetime']['minute']);
         $endbound = clone $startbound;
@@ -241,143 +253,10 @@ class local_mxschool_external extends external_api {
     }
 
     /**
-     * Returns descriptions of the get_esignout_student_options() function's parameters.
-     *
-     * @return external_function_parameters Object holding array of parameters for the get_esignout_student_options() function.
-     */
-    public static function get_esignout_student_options_parameters() {
-        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
-    }
-
-    /**
-     * Queries the database to determine the type options, passenger list, driver list,
-     * and permissions for a selected student.
-     *
-     * @param int $userid The user id of the student.
-     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
-     */
-    public static function get_esignout_student_options($userid) {
-        external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_esignout_student_options_parameters(), array('userid' => $userid));
-
-        global $DB;
-        $result = new stdClass();
-        $result->types = get_esignout_type_list($params['userid']);
-        $result->passengers = convert_associative_to_object(get_passenger_list());
-        $result->passengers = array_filter($result->passengers, function($passenger) use($params) {
-            return $passenger['value'] !== $params['userid'];
-        });
-        $result->drivers = convert_associative_to_object(get_current_driver_list($params['userid']));
-        $result->maydrivepassengers = $DB->get_field(
-            'local_mxschool_permissions', 'may_drive_passengers', array('userid' => $params['userid'])
-        ) === 'Yes';
-        $result->mayridewith = $DB->get_field('local_mxschool_permissions', 'may_ride_with', array('userid' => $params['userid']));
-        $result->specificdrivers = $DB->get_field(
-            'local_mxschool_permissions', 'ride_permission_details', array('userid' => $params['userid'])
-        ) ?: '';
-        return $result;
-    }
-
-    /**
-     * Returns a description of the get_esignout_student_options() function's return values.
-     *
-     * @return external_single_structure Object describing the return values of the get_esignout_student_options() function.
-     */
-    public static function get_esignout_student_options_returns() {
-        return new external_single_structure(array(
-            'types' => new external_multiple_structure(
-                new external_value(PARAM_TEXT, 'the identifier of the type')
-            ), 'passengers' => new external_multiple_structure(
-                new external_single_structure(array(
-                    'value' => new external_value(PARAM_INT, 'user id of the student'),
-                    'text' => new external_value(PARAM_TEXT, 'name of the student')
-                ))
-            ), 'drivers' => new external_multiple_structure(
-                new external_single_structure(array(
-                    'value' => new external_value(PARAM_INT, 'id of the driver\'s esignout record'),
-                    'text' => new external_value(PARAM_TEXT, 'name of the driver')
-                ))
-            ), 'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
-            'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
-            'specificdrivers' => new external_value(PARAM_TEXT, 'the comment for the student\'s riding permission')
-        ));
-    }
-
-    /**
-     * Returns descriptions of the get_esignout_driver_details() function's parameters.
-     *
-     * @return external_function_parameters Object holding array of parameters for the get_esignout_driver_details() function.
-     */
-    public static function get_esignout_driver_details_parameters() {
-        return new external_function_parameters(array('esignoutid' => new external_value(PARAM_INT, 'The id of driver record.')));
-    }
-
-    /**
-     * Queries the database to find the destination and departure time of an esignout driver record.
-     *
-     * @param int $esignoutid The id of driver record.
-     * @return stdClass With properties destination, departurehour, departureminutes, and departureampm.
-     * @throws coding_exception If the esignout record is not a driver record.
-     */
-    public static function get_esignout_driver_details($esignoutid) {
-        external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_esignout_driver_details_parameters(), array('esignoutid' => $esignoutid));
-
-        return get_driver_inheritable_fields($params['esignoutid']);
-    }
-
-    /**
-     * Returns a description of the get_esignout_driver_details() function's return values.
-     *
-     * @return external_single_structure Object describing the return values of the get_esignout_driver_details() function.
-     */
-    public static function get_esignout_driver_details_returns() {
-        return new external_single_structure(array(
-            'destination' => new external_value(PARAM_TEXT, 'the driver\'s destination'),
-            'departurehour' => new external_value(PARAM_TEXT, 'the hour of the driver\'s departure time'),
-            'departureminute' => new external_value(PARAM_TEXT, 'the minute of the driver\'s departure time'),
-            'departureampm' => new external_value(PARAM_BOOL, 'whether the driver\'s departure time is am (0) or pm (1)')
-        ));
-    }
-
-    /**
-     * Returns descriptions of the sign_in() function's parameters.
-     *
-     * @return external_function_parameters Object holding array of parameters for the sign_in() function.
-     */
-    public static function sign_in_parameters() {
-        return new external_function_parameters(array(
-            'esignoutid' => new external_value(PARAM_INT, 'The id of ther record to sign in.'),
-        ));
-    }
-
-    /**
-     * Signs in an eSignout record and records the timestamp.
-     *
-     * @param int $esignoutid The id of the record to sign in.
-     * @return string The text to display for the sign in time.
-     * @throws coding_exception If the esignout record does not exist or is already signed in.
-     */
-    public static function sign_in($esignoutid) {
-        external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::sign_in_parameters(), array('esignoutid' => $esignoutid));
-
-        return sign_in_esignout($params['esignoutid']);
-    }
-
-    /**
-     * Returns a description of the sign_in() function's return value.
-     *
-     * @return external_value Object describing the return value of the sign_in() function.
-     */
-    public static function sign_in_returns() {
-        return new external_value(PARAM_TEXT, 'The text to display for the sign in time.');
-    }
-
-    /**
      * Returns descriptions of the get_advisor_selection_student_options() function's parameters.
      *
-     * @return external_function_parameters Object holding array of parameters for the get_advisor_selection_student_options() function.
+     * @return external_function_parameters Object holding array of parameters
+     *                                      for the get_advisor_selection_student_options() function.
      */
     public static function get_advisor_selection_student_options_parameters() {
         return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
@@ -418,20 +297,24 @@ class local_mxschool_external extends external_api {
     /**
      * Returns a description of the get_advisor_selection_student_options() function's return values.
      *
-     * @return external_single_structure Object describing the return values of the get_advisor_selection_student_options() function.
+     * @return external_single_structure Object describing the return values
+     *                                   of the get_advisor_selection_student_options() function.
      */
     public static function get_advisor_selection_student_options_returns() {
         return new external_single_structure(array(
             'students' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(
                     PARAM_INT, 'the user id of the student who has not completed an advisor selection form'
-                ), 'text' => new external_value(
+                ),
+                'text' => new external_value(
                     PARAM_TEXT, 'the name of the student who has not completed an advisor selection form'
                 )
-            ))), 'current' => new external_single_structure(array(
+            ))),
+            'current' => new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the student\' current advisor'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the student\' current advisor')
-            )), 'closing' => new external_value(PARAM_BOOL, 'whether the student\'s advisory is closing'),
+            )),
+            'closing' => new external_value(PARAM_BOOL, 'whether the student\'s advisory is closing'),
             'available' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the available faculty'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the available faculty')
@@ -465,12 +348,16 @@ class local_mxschool_external extends external_api {
             'student' => $student, 'choice' => $choice
         ));
 
-        global $DB;
+        global $DB, $PAGE;
         $record = $DB->get_record('local_mxschool_adv_selection', array('userid' => $params['student']));
         if (!$record) {
             return false;
         }
         $record->selectedid = $params['choice'];
+        $record->time_modified = time();
+        \local_mxschool\event\record_updated::create(array('other' => array(
+            'page' => get_string('advisor_selection_report', 'local_mxschool')
+        )))->trigger();
         return $DB->update_record('local_mxschool_adv_selection', $record);
     }
 
@@ -527,14 +414,17 @@ class local_mxschool_external extends external_api {
             'students' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the student who has not completed a rooming form'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a rooming form')
-            ))), 'dorm' => new external_value(PARAM_TEXT, 'the name of the student\'s current dorm'),
+            ))),
+            'dorm' => new external_value(PARAM_TEXT, 'the name of the student\'s current dorm'),
             'roomtypes' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_TEXT, 'the internal name of the available room type'),
                 'text' => new external_value(PARAM_TEXT, 'the localized name of the available room type')
-            ))), 'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
+            ))),
+            'gradedormmates' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the potential dormmate in the same grade'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the potential dormmate in the same grade')
-            ))), 'dormmates' => new external_multiple_structure(new external_single_structure(array(
+            ))),
+            'dormmates' => new external_multiple_structure(new external_single_structure(array(
                 'value' => new external_value(PARAM_INT, 'the user id of the potential dormmate'),
                 'text' => new external_value(PARAM_TEXT, 'the name of the potential dormmate')
             )))
@@ -547,17 +437,22 @@ class local_mxschool_external extends external_api {
      * @return external_function_parameters Object holding array of parameters for the get_vacation_travel_options() function.
      */
     public static function get_vacation_travel_options_parameters() {
-        return new external_function_parameters(array('departure' => new external_single_structure(array(
-            'mxtransportation' => new external_value(
-                PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
-            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
-            'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
-        )), 'return' => new external_single_structure(array(
-            'mxtransportation' => new external_value(
-                PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
-            ), 'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
-            'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
-        ))));
+        return new external_function_parameters(array(
+            'departure' => new external_single_structure(array(
+                'mxtransportation' => new external_value(
+                    PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
+                ),
+                'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
+                'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
+            )),
+            'return' => new external_single_structure(array(
+                'mxtransportation' => new external_value(
+                    PARAM_BOOL, 'Whether the student has selected that they require school transportation.', VALUE_OPTIONAL
+                ),
+                'type' => new external_value(PARAM_TEXT, 'The type of transportation specified.', VALUE_OPTIONAL),
+                'site' => new external_value(PARAM_TEXT, 'The site of transportation specified.', VALUE_OPTIONAL)
+            ))
+        ));
     }
 
     /**
@@ -601,46 +496,61 @@ class local_mxschool_external extends external_api {
     public static function get_vacation_travel_options_returns() {
         return new external_single_structure(array(
             'students' => new external_multiple_structure(new external_single_structure(array(
-                'value' => new external_value(
-                    PARAM_INT, 'the user id of the student who has not completed a vacation travel form'
-                ), 'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a vacation travel form')
-            ))), 'departure' => new external_single_structure(array(
+                'value' => new external_value(PARAM_INT, 'the user id of the student who has not completed a vacation travel form'),
+                'text' => new external_value(PARAM_TEXT, 'the name of the student who has not completed a vacation travel form')
+            ))),
+            'departure' => new external_single_structure(array(
                 'types' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the type which is available given the filter')
-                ), 'sites' => new external_multiple_structure(
+                ),
+                'sites' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
-                ), 'default' => new external_single_structure(array(
+                ),
+                'default' => new external_single_structure(array(
                     'year' => new external_value(
                         PARAM_TEXT, 'the year of the default time for the transportation if applicable'
-                    ), 'month' => new external_value(
+                    ),
+                    'month' => new external_value(
                         PARAM_TEXT, 'the month of the default time for the transportation if applicable'
-                    ), 'day' => new external_value(
+                    ),
+                    'day' => new external_value(
                         PARAM_TEXT, 'the day of the default time for the transportation if applicable'
-                    ), 'hour' => new external_value(
+                    ),
+                    'hour' => new external_value(
                         PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
-                    ), 'minute' => new external_value(
+                    ),
+                    'minute' => new external_value(
                         PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
-                    ), 'ampm' => new external_value(
+                    ),
+                    'ampm' => new external_value(
                         PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
                     )
                 ))
-            )), 'return' => new external_single_structure(array(
+            )),
+            'return' => new external_single_structure(array(
                 'types' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the type which is available given the filter')
-                ), 'sites' => new external_multiple_structure(
+                ),
+                'sites' => new external_multiple_structure(
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
-                ), 'default' => new external_single_structure(array(
+                ),
+                'default' => new external_single_structure(array(
                     'year' => new external_value(
                         PARAM_TEXT, 'the year of the default time for the transportation if applicable'
-                    ), 'month' => new external_value(
+                    ),
+                    'month' => new external_value(
                         PARAM_TEXT, 'the month of the default time for the transportation if applicable'
-                    ), 'day' => new external_value(
+                    ),
+                    'day' => new external_value(
                         PARAM_TEXT, 'the day of the default time for the transportation if applicable'
-                    ), 'hour' => new external_value(
+                    ),
+                    'hour' => new external_value(
                         PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
-                    ), 'minute' => new external_value(
+                    ),
+                    'minute' => new external_value(
                         PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
-                    ), 'ampm' => new external_value(
+                    ),
+                    'ampm' => new external_value(
                         PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
                     )
                 ))

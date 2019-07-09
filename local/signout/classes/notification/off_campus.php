@@ -15,29 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the eSignout subpackage of Middlesex School's Dorm and Student functions plugin.
+ * Email notifications for the off_campus subpackage of Middlesex School's eSignout Subplugin.
  *
- * @package    local_mxschool
- * @subpackage esignout
+ * @package    local_signout
+ * @subpackage off_campus
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool\local\esignout;
+namespace local_signout\local\off_campus;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('mx_notification.php');
+require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
 
-use local_mxschool\local\notification;
+use \local_mxschool\local\notification;
 
 /**
- * Email notification for when an eSignout form is submitted for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when an off-campus signout form is submitted for Middlesex School's eSignout Subplugin.
  *
- * @package    local_mxschool
- * @subpackage esignout
+ * @package    local_signout
+ * @subpackage off_campus
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -46,26 +46,26 @@ use local_mxschool\local\notification;
 class submitted extends notification {
 
     /**
-     * @param int $id The id of the esignout form which has been submitted.
+     * @param int $id The id of the off-campus signout form which has been submitted.
      *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
      */
     public function __construct($id=0) {
         global $DB;
-        parent::__construct('esignout_submitted');
+        parent::__construct('off_campus_submitted');
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, es.type, es.passengers, du.firstname AS dfirstname,
+                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, oc.type, oc.passengers, du.firstname AS dfirstname,
                         du.lastname AS dlastname, du.alternatename AS dalternatename, d.destination,
                         d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
-                        es.time_modified AS timesubmitted, p.may_ride_with AS passengerpermission,
+                        oc.time_modified AS timesubmitted, p.may_ride_with AS passengerpermission,
                         p.ride_permission_details AS specificdrivers
-                 FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
-                 LEFT JOIN {local_mxschool_esignout} d ON es.driverid = d.id LEFT JOIN {user} du ON d.userid = du.id
-                 LEFT JOIN {user} a ON es.approverid = a.id LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
+                 FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+                 LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id LEFT JOIN {user} du ON d.userid = du.id
+                 LEFT JOIN {user} a ON oc.approverid = a.id LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
                  LEFT JOIN {local_mxschool_dorm} sd ON s.dormid = sd.id
-                 LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid WHERE es.id = ?", array($id)
+                 LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid WHERE oc.id = ?", array($id)
             );
             if (!$record) {
                 throw new coding_exception("Record with id {$id} not found.");
@@ -78,48 +78,48 @@ class submitted extends notification {
                     );
                     return "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
                         !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
-                        ? " ({$passengerrecord->alternatename})" : ''
+                            ? " ({$passengerrecord->alternatename})" : ''
                     );
-                }, $passengerlist)) : $passengers = get_string('esignout_report_nopassengers', 'local_mxschool');
+                }, $passengerlist)) : $passengers = get_string('off_campus_report_nopassengers', 'local_signout');
             }
             $emaildeans = false;
             if ($record->type === 'Driver') {
-                $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_driver');
+                $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_driver');
             } else {
                 if ($record->type !== 'Passenger' && $record->type !== 'Parent') {
                     $emaildeans = true;
                 }
                 switch($record->passengerpermission) {
                     case 'Any Driver':
-                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_any');
+                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_any');
                         break;
                     case 'Parent Permission':
-                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_parent');
+                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_parent');
                         break;
                     case 'Specific Drivers':
-                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_specific')
+                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_specific')
                             . " {$record->specificdrivers}";
                         $emaildeans = true;
                         break;
                     default:
-                        $permissionswarning = get_config('local_mxschool', 'esignout_notification_warning_over21');
+                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_over21');
                         $emaildeans = true;
                 }
             }
 
             $this->data['type'] = $record->type;
             $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}" . (
-                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname
-                ? " ({$record->dalternatename})" : ''
+                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname ? " ({$record->dalternatename})"
+                    : ''
             );
             $this->data['passengers'] = $passengers ?? '';
             $this->data['destination'] = $record->destination;
-            $this->data['date'] = date('n/j/y', $record->departuretime);
-            $this->data['departuretime'] = date('g:i A', $record->departuretime);
+            $this->data['date'] = format_date('n/j/y', $record->departuretime);
+            $this->data['departuretime'] = format_date('g:i A', $record->departuretime);
             $this->data['approver'] = $record->approvername;
             $this->data['permissionswarning'] = $permissionswarning;
-            $this->data['timesubmitted'] = date('g:i A', $record->timesubmitted);
-            $this->data['irregular'] = $emaildeans ? get_config('local_mxschool', 'esignout_notification_warning_irregular') : '';
+            $this->data['timesubmitted'] = format_date('g:i A', $record->timesubmitted);
+            $this->data['irregular'] = $emaildeans ? get_config('local_signout', 'off_campus_notification_warning_irregular') : '';
 
             array_push(
                 $this->recipients, $DB->get_record('user', array('id' => $record->student)),

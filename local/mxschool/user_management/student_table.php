@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Student management table for Middlesex School's Dorm and Student functions plugin.
+ * Student management table for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -48,7 +48,7 @@ class student_table extends local_mxschool_table {
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-        switch($type) {
+        switch ($type) {
             case 'students':
                 $columns = array_merge($columns, array('grade', 'advisor', 'dorm', 'room', 'phone', 'birthday'));
                 if ($filter->dorm) {
@@ -116,15 +116,14 @@ class student_table extends local_mxschool_table {
      * Formats the license column to 'n/j/y'.
      */
     protected function col_license($values) {
-        return $values->license ? date('n/j/y', $values->license) : '';
+        return $values->license ? format_date('n/j/y', $values->license) : '';
     }
 
     /**
      * Formats the birthday column to 'n/j/y'.
      */
     protected function col_birthday($values) {
-        $birthday = new DateTime($values->birthday, core_date::get_server_timezone_object());
-        return $birthday->format('n/j/y');
+        return generate_datetime($values->birthday)->format('n/j');
     }
 
     /**
@@ -138,12 +137,15 @@ class student_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return (
-            $this->type === 'students' ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id) : (
-                $this->type === 'permissions' ? $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->sid)
-                : $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id).$this->delete_icon($values->id)
-            )
-        );
+        switch ($this->type) {
+            case 'students':
+                return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->id);
+            case 'permissions':
+                return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->sid);
+            case 'parents':
+                return $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id)
+                       . $this->delete_icon($values->id);
+        }
     }
 
 }

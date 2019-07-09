@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Weekend calculator table for Middlesex School's Dorm and Student functions plugin.
+ * Weekend calculator table for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -62,8 +62,7 @@ class weekend_calculator_table extends local_mxschool_table {
         $closed = get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool');
         foreach ($weekends as $weekend) {
             $columns1[] = $centered[] = "weekend_$weekend->id";
-            $date = new DateTime('now', core_date::get_server_timezone_object());
-            $date->setTimestamp($weekend->sunday_time);
+            $date = generate_datetime($weekend->sunday_time);
             $date->modify("-1 day");
             $headers1[] = $date->format('m/d');
             $fields[] = "CASE

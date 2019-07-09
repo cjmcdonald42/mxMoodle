@@ -1,3 +1,4 @@
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,34 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Signs in an eSignout record for Middlesex School's Dorm and Student functions plugin.
+ * Capabilites for Middlesex School's eSignout Subplugin.
  *
- * @module     local_mxschool/signin_button
- * @package    local_mxschool
+ * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    function signin(event) {
-        var element = $(event.target);
-        var promises = ajax.call([{
-            methodname: 'local_mxschool_sign_in',
-            args: {
-                esignoutid: element.val()
-            }
-        }]);
-        promises[0].done(function(data) {
-            element.hide('slow', function() {
-                element.parent().html('&#x2705;');
-            });
-            element.parent().parent().find('td.sign-in').text(data);
-        }).fail(notification.exception);
-    }
-    return function(id) {
-        var element = $('.mx-signin-button[value="' + id + '"]');
-        element.click(signin);
-    };
-});
+defined('MOODLE_INTERNAL') || die();
+
+$capabilities = array(
+    'local/signout:manage_off_campus' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/signout:manage_off_campus_preferences' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/signout:manage_on_campus' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/signout:manage_on_campus_preferences' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    )
+);

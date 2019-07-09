@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Edit page for vacation travel site records for Middlesex School's Dorm and Student functions plugin.
+ * Edit page for vacation travel site records for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -28,23 +28,15 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once('site_edit_form.php');
+require_once(__DIR__.'/site_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php',
-    get_string('vacation_travel_preferences', 'local_mxschool') => '/local/mxschool/vacation_travel/preferences.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/vacation_travel/site_edit.php';
-$title = get_string('vacation_travel_site_edit', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('site_edit', 'preferences', 'vacation_travel');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'fields' => array(
     'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled',
@@ -72,8 +64,9 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('vacation_travel_site_edit_success', 'local_mxschool')
-        : get_string('vacation_travel_site_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(),
+        get_string($data->id ? 'vacation_travel_site_edit_success' : 'vacation_travel_site_create_success', 'local_mxschool'),
+        $data->id ? 'update' : 'create'
     );
 }
 
@@ -81,6 +74,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

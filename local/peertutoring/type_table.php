@@ -55,7 +55,7 @@ class type_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/peertutoring/type_edit.php', $values->id).$this->delete_icon($values->id, 'type');
+        return $this->edit_icon('/local/peertutoring/type_edit.php', $values->id) . $this->delete_icon($values->id, 'type');
     }
 
 }

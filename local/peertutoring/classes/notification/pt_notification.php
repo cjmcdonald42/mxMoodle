@@ -29,10 +29,11 @@ namespace local_peertutoring\local;
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
+require_once(__DIR__.'/../../locallib.php');
 require_once(__DIR__.'/../../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../../tutoring_table.php');
 
-use local_mxschool\local\notification as mx_notification;
+use \local_mxschool\local\notification as mx_notification;
 use \local_mxschool\output\report;
 
 /**
@@ -47,8 +48,8 @@ use \local_mxschool\output\report;
 abstract class notification extends mx_notification {
 
     /**
-     * Generates a user object to which emails should be sent to reach the deans.
-     * @return stdClass The deans user object.
+     * Generates a user object to which emails should be sent to reach the peer tutor administrator.
+     * @return stdClass The peer tutor administrator user object.
      */
     final protected static function get_peertutoradmin_user() {
         $supportuser = \core_user::get_support_user();
@@ -72,26 +73,20 @@ abstract class notification extends mx_notification {
 class daily_summary extends notification {
 
     public function __construct() {
-        global $DB, $PAGE;
+        global $PAGE, $DB;
         parent::__construct('peer_tutor_summary');
 
-        $time = new \DateTime('now', \core_date::get_server_timezone_object());
-        $time->modify('-1 day');
-        $record = $DB->get_record_sql(
-            "SELECT COUNT(id) AS total FROM {local_peertutoring_session} WHERE time_modified >= ?",
-            array($time->getTimestamp())
-        );
         $filter = new \stdClass();
         $filter->tutor = 0;
         $filter->department = 0;
         $filter->type = 0;
-        $filter->date = $time->getTimestamp();
+        $filter->date = generate_datetime('-1 day')->getTimestamp();
         $filter->search = '';
         $table = new \tutoring_table($filter, '', true);
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\report($table);
 
-        $this->data['total'] = $record->total;
+        $this->data['total'] = $DB->count_records_select('local_peertutoring_session', "tutoring_date >= ?", array($filter->date));
         $this->data['table'] = $output->render($renderable);
 
         $this->recipients[] = self::get_peertutoradmin_user();

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer for Middlesex School's Dorm and Student functions plugin.
+ * Renderer for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -136,18 +136,6 @@ class renderer extends \plugin_renderer_base {
     public function render_email_button($button) {
         $data = $button->export_for_template($this);
         return parent::render_from_template('local_mxschool/email_button', $data);
-    }
-
-    /**
-     * Renders a sign in button according to the template.
-     *
-     * @param signin_button $button.
-     *
-     * @return string html for the button.
-     */
-    public function render_signin_button($button) {
-        $data = $button->export_for_template($this);
-        return parent::render_from_template('local_mxschool/signin_button', $data);
     }
 
     /**

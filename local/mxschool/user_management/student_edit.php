@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Student edit page for Middlesex School's Dorm and Student functions plugin.
+ * Student edit page for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -28,36 +28,32 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once('student_edit_form.php');
+require_once(__DIR__.'/student_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('user_management_student_report', 'local_mxschool') => '/local/mxschool/user_management/student_report.php'
+setup_edit_page('student_edit', 'student_report', 'user_management');
+$redirect = get_redirect();
+
+$queryfields = array(
+    'local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
+        'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
+        'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
+        'dormid' => 'dorm', 'room'
+    )),
+    'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
+        'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
+    )),
+    'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.userid = p.userid', 'fields' => array(
+        'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
+        'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
+        'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
+        'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
+    ))
 );
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/user_management/student_edit.php';
-$title = get_string('user_management_student_edit', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
-
-$queryfields = array('local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
-    'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
-    'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
-    'dormid' => 'dorm', 'room'
-)), 'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
-    'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
-)), 'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.userid = p.userid', 'fields' => array(
-    'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
-    'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
-    'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
-    'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
-)));
 
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
     redirect($redirect);
@@ -99,6 +95,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Vehicle edit page for Middlesex School's Dorm and Student functions plugin.
+ * Vehicle edit page for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -28,22 +28,15 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once('vehicle_edit_form.php');
+require_once(__DIR__.'/vehicle_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_vehicles', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/user_management/vehicle_edit.php';
-$title = get_string('user_management_vehicle_edit', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('vehicle_edit', 'vehicle_report', 'user_management');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_vehicle' => array('abbreviation' => 'v', 'fields' => array(
     'id', 'userid' => 'student', 'make', 'model', 'color', 'registration'
@@ -65,8 +58,9 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('user_management_vehicle_edit_success', 'local_mxschool')
-        : get_string('user_management_vehicle_create_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(),
+        get_string($data->id ? 'user_management_vehicle_edit_success' : 'user_management_vehicle_create_success', 'local_mxschool'),
+        $data->id ? 'update' : 'create'
     );
 }
 
@@ -74,6 +68,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

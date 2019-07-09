@@ -27,23 +27,15 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once('department_edit_form.php');
+require_once(__DIR__.'/department_edit_form.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php',
-    get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php',
-);
-$redirect = get_redirect($parents);
-$url = '/local/peertutoring/department_edit.php';
-$title = get_string('department_edit', 'local_peertutoring');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('department_edit', 'preferences', null, 'peertutoring');
+$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_dept' => array('abbreviation' => 'd', 'fields' => array('id', 'name')));
 
@@ -62,8 +54,9 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), $data->id ? get_string('department_edit_success', 'local_peertutoring')
-        : get_string('department_create_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
+        $form->get_redirect(),
+        get_string($data->id ? 'department_edit_success' : 'department_create_success', 'local_peertutoring'),
+        $data->id ? 'update' : 'create'
     );
 }
 
@@ -71,6 +64,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

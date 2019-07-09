@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing advisor selection preferences for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing advisor selection preferences for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -36,22 +36,19 @@ class preferences_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
-        $dateparameters = array(
-            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
-            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
-            'timezone'  => core_date::get_server_timezone_object()
-        );
-
         $fields = array(
             'availability' => array(
                 'start' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(1),
-                    'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                )), 'stop' => array('element' => 'group', 'children' => array(
+                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                )),
+                'stop' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(1),
-                    'date' => array('element' => 'date_selector', 'parameters' => $dateparameters)
-                )), 'who' => array('element' => 'radio', 'options' => array('new', 'all'), 'rules' => array('required'))
-            ), 'notifications' => array(
+                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                )),
+                'who' => array('element' => 'radio', 'options' => array('new', 'all'), 'rules' => array('required'))
+            ),
+            'notifications' => array(
                 'submitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
@@ -61,7 +58,8 @@ class preferences_form extends local_mxschool_form {
                 'results_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\results_notification()),
                 'results_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'results_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
-            ), 'text' => array(
+            ),
+            'text' => array(
                 'closing_warning' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'instructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )

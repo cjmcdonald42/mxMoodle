@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Main index page for Middlesex School's Dorm and Student functions plugin.
+ * Main index page for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,14 +26,14 @@
 
 require(__DIR__.'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once('locallib.php');
 require_once(__DIR__.'/classes/output/renderable.php');
+require_once(__DIR__.'/locallib.php');
 
 if (!has_capability('moodle/site:config', context_system::instance())) {
     redirect(new moodle_url('/my'));
 }
 
-admin_externalpage_setup('main_index');
+admin_externalpage_setup('mxschool_index');
 
 $url = '/local/mxschool/index.php';
 $title = get_string('pluginname', 'local_mxschool');

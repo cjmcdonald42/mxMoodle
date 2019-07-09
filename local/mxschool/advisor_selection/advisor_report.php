@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Advisor selection report for Middlesex School's Dorm and Student functions plugin.
+ * Advisor selection report for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('advisor_table.php');
+require_once(__DIR__.'/advisor_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
@@ -40,14 +40,7 @@ $filter->keepcurrent = optional_param('keepcurrent', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
-);
-$url = '/local/mxschool/advisor_selection/advisor_report.php';
-$title = get_string('advisor_selection_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('report', 'advisor_selection');
 
 $submittedoptions = array(
     '1' => get_string('advisor_selection_report_select_submitted_true', 'local_mxschool'),
@@ -64,7 +57,8 @@ $dropdowns = array(
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted,
         get_string('report_select_default', 'local_mxschool')
-    ), new local_mxschool_dropdown(
+    ),
+    new local_mxschool_dropdown(
         'keepcurrent', $keepcurrentoptions, $filter->keepcurrent,
         get_string('report_select_default', 'local_mxschool')
     )
@@ -89,6 +83,6 @@ if ($table->is_downloading()) {
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dorm management report for Middlesex School's Dorm and Student functions plugin.
+ * Dorm management report for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -28,7 +28,7 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once('dorm_table.php');
+require_once(__DIR__.'/dorm_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_dorms', context_system::instance());
@@ -37,28 +37,17 @@ $search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
-);
-$url = '/local/mxschool/user_management/dorm_report.php';
-$title = get_string('user_management_dorm_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('dorm_report', 'user_management');
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_dorm', array('id' => $id));
-    $urlparams = array('search' => $search);
+    $redirect = new moodle_url($PAGE->url, array('search' => $search));
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_mxschool_dorm', $record);
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('user_management_dorm_delete_success', 'local_mxschool'), 'delete'
-        );
+        logged_redirect($redirect, get_string('user_management_dorm_delete_success', 'local_mxschool'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('user_management_dorm_delete_failure', 'local_mxschool'), 'delete', false
-        );
+        logged_redirect($redirect, get_string('user_management_dorm_delete_failure', 'local_mxschool'), 'delete', false);
     }
 }
 
@@ -72,6 +61,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $search, array(), false, $addbutton);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

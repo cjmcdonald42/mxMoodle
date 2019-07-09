@@ -42,29 +42,26 @@ class tutoring_form extends local_mxschool_form {
         $types = $this->_customdata['types'];
         $ratings = $this->_customdata['ratings'];
 
-        $dateparameters = array(
-            'startyear' => strftime('%Y', get_config('local_mxschool', 'dorms_open_date')),
-            'stopyear' => strftime('%Y', get_config('local_mxschool', 'dorms_close_date')),
-            'timezone'  => core_date::get_server_timezone_object()
-        );
-
         $fields = array(
             '' => array(
                 'id' => self::ELEMENT_HIDDEN_INT,
                 'timecreated' => self::ELEMENT_HIDDEN_INT,
                 'isstudent' => self::ELEMENT_HIDDEN_INT
-            ), 'info' => array(
+            ),
+            'info' => array(
                 'tutor' => array('element' => 'select', 'options' => $tutors),
-                'tutoringdate' => array('element' => 'date_selector', 'parameters' => $dateparameters),
+                'tutoringdate' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year()),
                 'student' => array('element' => 'select', 'options' => $students)
-            ), 'details' => array(
+            ),
+            'details' => array(
                 'department' => array('element' => 'select', 'options' => $departments),
                 'course' => array('element' => 'select', 'options' => $courses),
                 'topic' => self::ELEMENT_TEXT,
                 'type' => array('element' => 'group', 'children' => array(
                     'select' => array('element' => 'select', 'options' => $types),
                     'other' => self::ELEMENT_TEXT
-                )), 'rating' => array('element' => 'select', 'options' => $ratings),
+                )),
+                'rating' => array('element' => 'select', 'options' => $ratings),
                 'notes' => self::ELEMENT_TEXT_AREA
             )
         );
@@ -93,9 +90,7 @@ class tutoring_form extends local_mxschool_form {
         if (!$data['topic']) {
             $errors['topic'] = get_string('tutoring_form_error_notopic', 'local_peertutoring');
         }
-        if (!$data['type_select']) {
-            $errors['type'] = get_string('tutoring_form_error_notype', 'local_peertutoring');
-        } else if ($data['type_select'] === '-1' && empty($data['type_other'])) {
+        if (!$data['type_select'] || ($data['type_select'] === '-1' && empty($data['type_other']))) {
             $errors['type'] = get_string('tutoring_form_error_notype', 'local_peertutoring');
         }
         if (!$data['rating']) {

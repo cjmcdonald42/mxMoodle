@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the advisor selection subpackage of Middlesex School's Dorm and Student functions plugin.
+ * Email notifications for the advisor selection subpackage of Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -29,13 +29,13 @@ namespace local_mxschool\local\advisor_selection;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('mx_notification.php');
+require_once(__DIR__.'/mx_notification.php');
 
-use local_mxschool\local\notification;
-use local_mxschool\local\bulk_notification;
+use \local_mxschool\local\notification;
+use \local_mxschool\local\bulk_notification;
 
 /**
- * Email notification for when an advisor selection form is submitted for Middlesex School's Dorm and Student functions plugin.
+ * Email notification for when an advisor selection form is submitted for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -67,7 +67,7 @@ class submitted extends notification {
                  WHERE a.id = ?", array($id)
             );
             if (!$record) {
-                throw new coding_exception("Record with id {$id} not found.");
+                throw new \coding_exception("Record with id {$id} not found.");
             }
 
             $this->data['keepcurrent'] = boolean_to_yes_no($record->keepcurrent);
@@ -77,7 +77,7 @@ class submitted extends notification {
             $this->data['option3'] = $record->option3;
             $this->data['option4'] = $record->option4;
             $this->data['option5'] = $record->option5;
-            $this->data['timesubmitted'] = date('n/j/y g:i A', $record->timesubmitted);
+            $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
         }
@@ -96,7 +96,7 @@ class submitted extends notification {
 
 /**
  * Email notification to remind students to complete the advisor selection form
- * for Middlesex School's Dorm and Student functions plugin.
+ * for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -120,7 +120,7 @@ class unsubmitted_notification extends notification {
 }
 
 /**
- * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student functions plugin.
+ * Bulk wrapper for the the unsubmitted_notification for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -143,7 +143,7 @@ class notify_unsubmitted extends bulk_notification {
 
 /**
  * Email notification to notify students and advisors of the new pairings
- * for Middlesex School's Dorm and Student functions plugin.
+ * for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection
@@ -181,7 +181,7 @@ class results_notification extends notification {
 }
 
 /**
- * Bulk wrapper for the the results_notification for Middlesex School's Dorm and Student functions plugin.
+ * Bulk wrapper for the the results_notification for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage advisor_selection

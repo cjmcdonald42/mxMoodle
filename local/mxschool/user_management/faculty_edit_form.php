@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing faculty data for Middlesex School's Dorm and Student functions plugin.
+ * Form for editing faculty data for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage user_management
@@ -42,7 +42,8 @@ class faculty_edit_form extends local_mxschool_form {
             '' => array(
                 'id' => self::ELEMENT_HIDDEN_INT,
                 'userid' => self::ELEMENT_HIDDEN_INT
-            ), 'faculty' => array(
+            ),
+            'faculty' => array(
                 'firstname' => self::ELEMENT_TEXT_REQUIRED,
                 'middlename' => self::ELEMENT_TEXT,
                 'lastname' => self::ELEMENT_TEXT_REQUIRED,

@@ -71,8 +71,7 @@ class tutoring_table extends local_mxschool_table {
             '{local_peertutoring_rating} r ON s.ratingid = r.id'
         );
         if ($filter->date) {
-            $starttime = new DateTime('now', core_date::get_server_timezone_object());
-            $starttime->setTimestamp($filter->date);
+            $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
         }
@@ -111,7 +110,7 @@ class tutoring_table extends local_mxschool_table {
      * Formats the tutoring date column to 'n/j/y'.
      */
     protected function col_tutoringdate($values) {
-        return date('n/j/y', $values->tutoringdate);
+        return format_date('n/j/y', $values->tutoringdate);
     }
 
     /**
@@ -125,7 +124,7 @@ class tutoring_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/peertutoring/tutoring_enter.php', $values->id).$this->delete_icon($values->id);
+        return $this->edit_icon('/local/peertutoring/tutoring_enter.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

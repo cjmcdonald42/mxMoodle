@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic moodleform with desired defaults to be used for Middlesex School's Dorm and Student functions plugin.
+ * Generic moodleform with desired defaults to be used for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -62,7 +62,7 @@ abstract class local_mxschool_form extends moodleform {
     protected const ELEMENT_FORMATED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
 
     /**
-     * Generates the field array for a time selector with a particular minute step.
+     * Generates the field array for a 12-hour time selector with a particular minute step.
      *
      * @param int $step The number of minutes between options.
      * @return array The array to be used as a field code.
@@ -85,6 +85,21 @@ abstract class local_mxschool_form extends moodleform {
             'minute' => array('element' => 'select', 'options' => $minutes),
             'ampm' => array('element' => 'select', 'options' => $ampm)
         ));
+    }
+
+    /**
+     * Generates the parameter array for a standard date selector between the school opening and closing dates.
+     *
+     * @param bool $optional The value of the 'optional' parameter.
+     * @return array Associative array that specifies the parameters to the date_selector.
+     */
+    protected static function date_parameters_school_year($optional = false) {
+        return array(
+            'startyear' => format_date('Y', get_config('local_mxschool', 'dorms_open_date')),
+            'stopyear' => format_date('Y', get_config('local_mxschool', 'dorms_close_date')),
+            'timezone' => core_date::get_user_timezone_object(),
+            'optional' => $optional
+        );
     }
 
     /**
@@ -175,7 +190,7 @@ abstract class local_mxschool_form extends moodleform {
         $text = $properties['text'] ?? '';
         $useradioindex = $properties['useradioindex'] ?? false;
 
-        switch($properties['element']) {
+        switch ($properties['element']) {
             case 'hidden':
                 $result = $mform->createElement($properties['element'], $name, null);
                 break;

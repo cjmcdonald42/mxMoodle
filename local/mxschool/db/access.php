@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilites for Middlesex School's Dorm and Student functions plugin.
+ * Capabilites for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -31,65 +31,71 @@ $capabilities = array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_faculty' => array(
+    ),
+    'local/mxschool:manage_faculty' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_dorms' => array(
+    ),
+    'local/mxschool:manage_dorms' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:view_checkin' => array(
+    ),
+    'local/mxschool:manage_vehicles' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:view_checkin' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_checkin_preferences' => array(
+    ),
+    'local/mxschool:manage_checkin_preferences' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_weekend' => array(
+    ),
+    'local/mxschool:manage_weekend' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_vehicles' => array(
+    ),
+    'local/mxschool:manage_advisor_selection' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_esignout' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_esignout_preferences' => array(
+    ),
+    'local/mxschool:manage_advisor_selection_preferences' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_advisor_selection' => array(
+    ),
+    'local/mxschool:manage_rooming' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_advisor_selection_preferences' => array(
+    ),
+    'local/mxschool:manage_rooming_preferences' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_rooming' => array(
+    ),
+    'local/mxschool:manage_vacation_travel' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_rooming_preferences' => array(
-        'riskbitmask' => RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_vacation_travel' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:notify_vacation_travel' => array(
+    ),
+    'local/mxschool:notify_vacation_travel' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_vacation_travel_transportation' => array(
+    ),
+    'local/mxschool:manage_vacation_travel_transportation' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'local/mxschool:manage_vacation_travel_preferences' => array(
+    ),
+    'local/mxschool:manage_vacation_travel_preferences' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM

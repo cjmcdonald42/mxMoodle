@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex School's Dorm and Student functions plugin.
+ * English language strings for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -34,7 +34,6 @@ $string['email_button_confirmation'] = 'Are you sure you want to send this bulk 
 $string['email_button_sending'] = 'Emails Sending...';
 $string['email_button_send_success'] = 'Emails Sent';
 $string['email_button_send_failure'] = 'Emails Failed to Send';
-$string['sign_in_button'] = 'Sign In';
 $string['legend_header'] = 'Legend';
 
 $string['report_header_actions'] = 'Actions';
@@ -60,8 +59,6 @@ $string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
 $string['mxschool:manage_checkin_preferences'] = 'Middlesex School: View and manage checkin preferences';
 $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend forms';
-$string['mxschool:manage_esignout'] = 'Middlesex School: View and manage student eSignout records';
-$string['mxschool:manage_esignout_preferences'] = 'Middlesex School: View and manage eSignout preferences';
 $string['mxschool:manage_advisor_selection'] = 'Middlesex School: View and manage students\' advisor selection records';
 $string['mxschool:manage_advisor_selection_preferences'] = 'Middlesex School: View and manage advisor selection preferences';
 $string['mxschool:manage_rooming'] = 'Middlesex School: View and manage students\' rooming request records';
@@ -87,17 +84,14 @@ $string['transportationmanager_email_description'] = 'The email address to send 
 $string['transportationmanager_addressee'] = 'Transportation Manager Addressee Name';
 $string['transportationmanager_addressee_description'] = 'The name to use when addressing the transportation manager in a email notification.';
 
-$string['other_settings'] = 'Other Settings';
-$string['school_ip'] = 'Middlesex Network IP';
-$string['school_ip_description'] = 'The IP to check against to confirm that someone is on campus.';
+$string['other_settings'] = 'General Settings';
 $string['table_size'] = 'Default Table Length';
 $string['table_size_description'] = 'The number of rows to display when outputting tables.';
 
 $string['indexes'] = 'Index Pages';
-$string['main_index'] = 'Middlesex School Index';
+$string['mxschool_index'] = 'Middlesex School Index';
 $string['user_management_index'] = 'User Management Index';
 $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
-$string['esignout_index'] = 'eSignout Index';
 $string['advisor_selection_index'] = 'Advisor Selection Index';
 $string['rooming_index'] = 'Rooming Index';
 $string['vacation_travel_index'] = 'Vacation Travel Index';
@@ -111,6 +105,7 @@ $string['event_email_sent'] = 'mxschool email notification sent';
 
 // Notifications.
 $string['user_management_student_edit_success'] = 'Student Record Updated Successfully';
+$string['user_management_parent_create_success'] = 'Parent Record Created Successfully';
 $string['user_management_parent_edit_success'] = 'Parent Record Updated Successfully';
 $string['user_management_faculty_edit_success'] = 'Faculty Record Updated Successfully';
 $string['user_management_dorm_create_success'] = 'Dorm Record Created Successfully';
@@ -120,8 +115,6 @@ $string['user_management_vehicle_edit_success'] = 'Vehicle Record Updated Succes
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 $string['checkin_weekend_form_success'] = 'Weekend Form Submitted Successfully';
 $string['checkin_weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
-$string['esignout_preferences_edit_success'] = 'eSignout Preferences Saved Successfully';
-$string['esignout_success'] = 'eSignout Submitted Successfully';
 $string['advisor_selection_preferences_edit_success'] = 'Advisor Selection Preferences Saved Successfully';
 $string['advisor_selection_success'] = 'Advisor Selection Form Submitted Successfully';
 $string['rooming_preferences_edit_success'] = 'Rooming Preferences Saved Successfully';
@@ -139,8 +132,6 @@ $string['user_management_vehicle_delete_success'] = 'Vehicle Record Deleted Succ
 $string['user_management_vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
 $string['checkin_weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
 $string['checkin_weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
-$string['esignout_delete_success'] = 'eSignout Record Deleted Successfully';
-$string['esignout_delete_failure'] = 'eSignout Record Not Found for Deletion';
 $string['vacation_travel_site_delete_success'] = 'Vacation Travel Site Record Deleted Successfully';
 $string['vacation_travel_site_delete_failure'] = 'Vacation Travel Site Record Not Found for Deletion';
 
@@ -172,7 +163,7 @@ $string['user_management_student_report_students_header_birthday'] = 'Birthday';
 $string['user_management_student_report_permissions_header_student'] = 'Name';
 $string['user_management_student_report_permissions_header_overnight'] = 'Overnight';
 $string['user_management_student_report_permissions_header_license'] = 'Issue Date of License';
-$string['user_management_student_report_permissions_header_driving'] = 'May Drive with eSignout?';
+$string['user_management_student_report_permissions_header_driving'] = 'May Drive with Off-Campus Signout?';
 $string['user_management_student_report_permissions_header_passengers'] = 'May Drive Passengers?';
 $string['user_management_student_report_permissions_header_riding'] = 'May Ride With';
 $string['user_management_student_report_permissions_header_ridingcomment'] = 'Riding Comment';
@@ -193,7 +184,7 @@ $string['user_management_student_report_parents_header_email'] = 'Email';
 // Faculty Report.
 $string['user_management_faculty_report_header_name'] = 'Name';
 $string['user_management_faculty_report_header_dorm'] = 'Dorm';
-$string['user_management_faculty_report_header_approvesignout'] = 'May Approve eSignout?';
+$string['user_management_faculty_report_header_approvesignout'] = 'May Approve Off-Campus Signout?';
 $string['user_management_faculty_report_header_advisoryavailable'] = 'Advisory Available?';
 $string['user_management_faculty_report_header_advisoryclosing'] = 'Advisory Closing?';
 
@@ -250,7 +241,7 @@ $string['user_management_student_edit_permissions_overnight'] = 'Overnight';
 $string['user_management_student_edit_permissions_overnight_Parent'] = 'Parent';
 $string['user_management_student_edit_permissions_overnight_Host'] = 'Host';
 $string['user_management_student_edit_permissions_license'] = 'Issue Date of License';
-$string['user_management_student_edit_permissions_driving'] = 'May Drive with eSignout?';
+$string['user_management_student_edit_permissions_driving'] = 'May Drive with Off-Campus Signout?';
 $string['user_management_student_edit_permissions_passengers'] = 'May Drive Passengers?';
 $string['user_management_student_edit_permissions_riding'] = 'May Ride With';
 $string['user_management_student_edit_permissions_riding_parent'] = 'Parent Permission';
@@ -286,7 +277,7 @@ $string['user_management_faculty_edit_faculty_alternatename'] = 'Alternate Name'
 $string['user_management_faculty_edit_faculty_email'] = 'Email';
 $string['user_management_faculty_edit_faculty_facultycode'] = 'Faculty Code';
 $string['user_management_faculty_edit_faculty_dorm'] = 'Dorm';
-$string['user_management_faculty_edit_faculty_approvesignout'] = 'May Approve eSignout';
+$string['user_management_faculty_edit_faculty_approvesignout'] = 'May Approve Off-Campus Signout';
 $string['user_management_faculty_edit_faculty_advisoryavailable'] = 'Advisory Available';
 $string['user_management_faculty_edit_faculty_advisoryclosing'] = 'Advisory Closing';
 
@@ -422,82 +413,6 @@ $string['checkin_weekend_calculator_legend_3_left'] = '3+ weekends left';
 $string['checkin_weekend_calculator_legend_offcampus'] = 'Student Off Campus';
 $string['checkin_weekend_calculator_legend_free'] = 'Free weekend';
 $string['checkin_weekend_calculator_legend_closed'] = 'Campus weekend';
-
-
-/* eSignout. */
-$string['esignout'] = 'eSignout';
-$string['esignout_preferences'] = 'eSignout Preferences';
-$string['esignout_form'] = 'eSignout Form';
-$string['esignout_report'] = 'eSignout Report';
-
-// Preferences for eSignout.
-$string['esignout_preferences_header_config'] = 'Config';
-$string['esignout_preferences_header_notifications'] = 'eSignout Email Notifications';
-$string['esignout_preferences_header_text'] = 'eSignout Form Permissions Warnings';
-$string['esignout_preferences_header_emailtext'] = 'eSignout Email Permissions Warnings';
-$string['esignout_preferences_config_editwindow'] = 'Window for Students to Edit eSignout Forms (minutes)';
-$string['esignout_preferences_config_tripwindow'] = 'Window for a Driver to be Available for Selection (minutes)';
-$string['esignout_preferences_config_esignoutenabled_text'] = 'Check to Enable the eSignout Form';
-$string['esignout_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
-$string['esignout_preferences_notifications_tags'] = 'Available Tags';
-$string['esignout_preferences_notifications_subject'] = 'Subject for eSignout Form Submitted Email';
-$string['esignout_preferences_notifications_body'] = 'Body for eSignout Form Submitted Email';
-$string['esignout_preferences_text_ipformerror'] = 'Text to Display in eSignout Form When on the Wrong Network';
-$string['esignout_preferences_text_ipreporterror'] = 'Text to Display in eSignout Report When on the Wrong Network';
-$string['esignout_preferences_text_passengerinstructions'] = 'Instructions Regarding Selecting a Driver';
-$string['esignout_preferences_text_bottominstructions'] = 'Instructions at the Bottom of the eSignout Form';
-$string['esignout_preferences_text_nopassengers'] = 'Warning for a Student Who May Not Drive Passengers';
-$string['esignout_preferences_text_needparent'] = 'Warning for a Student Who May Only be a Passenger with Parent Permission';
-$string['esignout_preferences_text_onlyspecific'] = 'Warning for a Student Who May Only be the Passenger of Specific Drivers';
-$string['esignout_preferences_text_confirmation'] = 'Confirmation for a Passenger with Warnings';
-$string['esignout_preferences_emailtext_irregular'] = 'Indicator for an Irregular Signout';
-$string['esignout_preferences_emailtext_driver'] = 'Warning for a Driver';
-$string['esignout_preferences_emailtext_any'] = 'Warning for a Passenger with Permissions to Ride with Any Driver';
-$string['esignout_preferences_emailtext_parent'] = 'Warning for a Passenger with Permissions to Ride Only with Parent Permission';
-$string['esignout_preferences_emailtext_specific'] = 'Warning for a Passenger with Permissions to Ride Only with Specific Drivers';
-$string['esignout_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
-
-// Form for eSignout.
-$string['esignout_form_header_info'] = 'General Information';
-$string['esignout_form_header_details'] = 'Details';
-$string['esignout_form_header_permissions'] = 'Permissions Check';
-$string['esignout_form_info_student'] = 'Student';
-$string['esignout_form_info_type'] = 'Driver Type';
-$string['esignout_form_info_type_select_Driver'] = 'Yourself';
-$string['esignout_form_info_type_select_Passenger'] = 'Another Student';
-$string['esignout_form_info_type_select_Parent'] = 'Your Parent';
-$string['esignout_form_info_type_select_Other'] = 'Other Adult (Please Specify)';
-$string['esignout_form_info_passengers'] = 'Your Passengers';
-$string['esignout_form_info_driver'] = 'Your Driver';
-$string['esignout_form_details_destination'] = 'Your Destination';
-$string['esignout_form_details_departure_time'] = 'Departure Time';
-$string['esignout_form_details_approver'] = 'Face-to-Face Permission Granted by';
-$string['esignout_form_passengers_noselection'] = 'No Passengers Selected';
-$string['esignout_form_passengers_placeholder'] = 'Search Passengers';
-$string['esignout_form_error_notype'] = 'You must specify a driver type.';
-$string['esignout_form_error_nodriver'] = 'You must specify a driver.';
-$string['esignout_form_error_nodestination'] = 'You must specify a destination.';
-$string['esignout_form_error_noapprover'] = 'You must specify who approved your signout.';
-
-// Report for eSignout.
-$string['esignout_report_select_type_all'] = 'All Types';
-$string['esignout_report_select_type_driver'] = 'Driver';
-$string['esignout_report_select_type_passenger'] = 'Passenger';
-$string['esignout_report_select_type_parent'] = 'Parent';
-$string['esignout_report_select_type_other'] = 'Other';
-$string['esignout_report_select_date_all'] = 'All Dates';
-$string['esignout_report_add'] = 'New eSignout Record';
-$string['esignout_report_header_student'] = 'Student';
-$string['esignout_report_header_type'] = 'Type';
-$string['esignout_report_header_driver'] = 'Driver';
-$string['esignout_report_header_passengers'] = 'Passengers';
-$string['esignout_report_header_passengercount'] = 'Passengers Submitted';
-$string['esignout_report_header_destination'] = 'Destination';
-$string['esignout_report_header_date'] = 'Date';
-$string['esignout_report_header_departure'] = 'Departure Time';
-$string['esignout_report_header_approver'] = 'Permission From';
-$string['esignout_report_header_signin'] = 'Sign In Time';
-$string['esignout_report_nopassengers'] = 'None';
 
 
 /* Advisor Selection. */

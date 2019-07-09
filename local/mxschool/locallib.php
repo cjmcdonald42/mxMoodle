@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local functions for Middlesex School's Dorm and Student functions plugin.
+ * Local functions for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -32,24 +32,8 @@ require_once(__DIR__.'/classes/event/record_deleted.php');
 require_once(__DIR__.'/classes/output/renderable.php');
 
 /**
- * Sets the url, title, heading, context, layout, and navbar of a page as well as logging that the page was visited.
- *
- * @param string $url The url for the page.
- * @param string $title The title and heading for the page.
- * @param array $parents Parent pages to be displayed as linkes in the navbar represented as $displaytext => $url.
- */
-function setup_mxschool_page($url, $title, $parents) {
-    global $PAGE;
-    setup_generic_page($url, $title);
-    $PAGE->set_pagelayout('incourse');
-    foreach ($parents as $display => $parenturl) {
-        $PAGE->navbar->add($display, new moodle_url($parenturl));
-    }
-    $PAGE->navbar->add($title);
-}
-
-/**
  * Sets the url, title, heading, and context of a page as well as logging that the page was visited.
+ * Should be called to initialize all pages.
  *
  * @param string $url The url for the page.
  * @param string $title The title and heading for the page.
@@ -62,6 +46,78 @@ function setup_generic_page($url, $title) {
     $PAGE->set_heading($title);
 
     \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
+}
+
+/**
+ * Sets the url, title, heading, context, layout, and navbar of a page as well as logging that the page was visited.
+ * Should be called to initialize all pages except for index pages and edit pages.
+ *
+ * @param string $page The name of the page as referenced in the local_mxschool_subpackage table.
+ * @param string $subpackage The subpackage to which the page belongs. A value of null indicates a package without subpackages.
+ * @param string $package The package to which the subpackage belongs.
+ * @throws coding_exception if the subpackage record does not exist or if the page cannot be found.
+ */
+function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
+    global $DB, $PAGE;
+    $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
+    if (!$record || !isset(json_decode($record->pages)->$page)) {
+        throw new coding_exception('page cannot be found in the subpackages table');
+    }
+
+    $file = json_decode($record->pages)->$page;
+    $url = empty($subpackage) ? "/local/{$package}/{$file}" : "/local/{$package}/{$subpackage}/{$file}";
+    $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
+
+    setup_generic_page($url, $title);
+
+    $PAGE->set_pagelayout('incourse');
+    $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/local/mxschool'));
+    if ($package !== 'mxschool') {
+        $PAGE->navbar->add(get_string('pluginname', "local_{$package}"), new moodle_url("/local/{$package}"));
+    }
+    if (!empty($subpackage)) {
+        $PAGE->navbar->add(get_string($subpackage, "local_{$package}"), new moodle_url("/local/{$package}/{$subpackage}"));
+    }
+    $PAGE->navbar->add($title, $url);
+}
+
+/**
+ * Sets the url, title, heading, context, layout, and navbar of an edit page as well as logging that the page was visited.
+ * Should be called to initialize all edit pages.
+ *
+ * @param string $page The name of the edit page. This function assumes that this is also the edit page's filename.
+ * @param string $page The name of the edit page's parent page as referenced in the local_mxschool_subpackage table.
+ * @param string $subpackage The subpackage to which the edit page and parent page both belong.
+ *                           A value of null indicates a package without subpackages.
+ * @param string $package The package to which the subpackage belongs.
+ * @throws coding_exception if the subpackage record does not exist or if the parent page cannot be found.
+ */
+function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
+    global $DB, $PAGE;
+    $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
+    if (!$record || !isset(json_decode($record->pages)->$parent)) {
+        throw new coding_exception('parent page cannot be found in the subpackages table');
+    }
+
+    $url = empty($subpackage) ? "/local/{$package}/{$page}" : "/local/{$package}/{$subpackage}/{$page}";
+    $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
+
+    setup_generic_page($url, $title);
+
+    $parentfile = json_decode($record->pages)->$page;
+    $parenturl = empty($subpackage) ? "/local/{$package}/{$parentfile}" : "/local/{$package}/{$subpackage}/{$parentfile}";
+    $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}_{$parent}", "local_{$package}");
+
+    $PAGE->set_pagelayout('incourse');
+    $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/local/mxschool'));
+    if ($package !== 'mxschool') {
+        $PAGE->navbar->add(get_string('pluginname', "local_{$package}"), new moodle_url("/local/{$package}"));
+    }
+    if (!empty($subpackage)) {
+        $PAGE->navbar->add(get_string($subpackage, "local_{$package}"), new moodle_url("/local/{$package}/{$subpackage}"));
+    }
+    $PAGE->navbar->add($parenttitle, $parenturl);
+    $PAGE->navbar->add($title, $url);
 }
 
 /**
@@ -80,8 +136,12 @@ function generate_index($id, $heading = false) {
     }
     $links = array();
     foreach (json_decode($record->pages) as $string => $url) {
-        $links[get_string(empty($record->subpackage) ? $string : "{$record->subpackage}_{$string}", "local_{$record->package}")]
-            = "/local/{$record->package}/{$record->subpackage}/{$url}";
+        if (empty($record->subpackage)) {
+            $links[get_string($string, "local_{$record->package}")] = "/local/{$record->package}/{$url}";
+        } else {
+            $links[get_string("{$record->subpackage}_{$string}", "local_{$record->package}")]
+                = "/local/{$record->package}/{$record->subpackage}/{$url}";
+        }
     }
     $headingtext = empty($record->subpackage) ? get_string($record->package, "local_{$record->package}")
         : get_string($record->subpackage, "local_{$record->package}");
@@ -103,7 +163,7 @@ function render_index_page($subpackage, $package = 'mxschool') {
     }
 
     $url = empty($subpackage) ? "/local/{$package}/index.php" : "/local/{$package}/{$subpackage}/index.php";
-    $title = empty($subpackage) ? get_string($package, "local_{$package}") : get_string($subpackage, "local_{$package}");
+    $title = get_string(empty($subpackage) ? $package : $subpackage, "local_{$package}");
 
     setup_generic_page($url, $title);
 
@@ -144,16 +204,14 @@ function logged_redirect($url, $notification, $type, $success = true) {
 }
 
 /**
- * Determines the redirect url for a form when there is no referer or the state is invalid.
+ * Determines a fallback redirect url for a form when there is no referer or the state is invalid.
  *
- * @param array $parents Array of parent pages with values which are relative urls.
- * @return moodle_url The url for the form to redirect to if there is no referer.
+ * @return moodle_url The fallback url for the form to redirect to.
  */
-function get_redirect($parents) {
-    return new moodle_url(
-        has_capability('moodle/site:config', context_system::instance())
-        ? $parents[array_keys($parents)[count($parents) - 1]] : '/my'
-    );
+function get_redirect() {
+    global $PAGE;
+    return has_capability('moodle/site:config', context_system::instance())
+        ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/my');
 }
 
 /**
@@ -255,6 +313,95 @@ function update_notification($class, $subject, $body) {
 }
 
 /**
+ * Generates a DateTime object from a time string or timestamp with the user's timezone.
+ *
+ * @param string|int $time A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ *                         or a timestamp.
+ * @return DateTime The DateTime object with the specified time in the user's timezone.
+ */
+function generate_datetime($time='now') {
+    return is_numeric($time) ? (new DateTime('now', core_date::get_user_timezone_object()))->setTimestamp($time)
+        : new DateTime($time, core_date::get_server_timezone_object());
+}
+
+/**
+ * Formats a date/time in a specified format with the user's timezone.
+ *
+ * @param string $format The format to output the timestamp in a format accepted by date()
+ *                       (https://www.php.net/manual/en/function.date.php).
+ * @param string|int $time A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ *                         or a timestamp.
+ * @return string The specified time in the specified format.
+ */
+function format_date($format, $time = 'now') {
+    return generate_datetime($time)->format($format);
+}
+
+
+/**
+ * Sets the data for a time selector based on a timstamp and a step.
+ *
+ * @param stdClass $data The data object.
+ * @param string $prefix A prefix for the properties to be set.
+ *                       - The properties set will be "{$prefix}_time_hour", "{$prefix}_time_minute", and "{$prefix}_time_ampm".
+ *                       - The timestamp used will be from "{$prefix}_date".
+ * @param int $step An increment indicating the available minute values.
+ */
+function generate_time_selector_fields(&$data, $prefix, $step = 1) {
+    $time = generate_datetime($data->{"{$prefix}_date"});
+    $data->{"{$prefix}_time_hour"} = $time->format('g');
+    $minute = $time->format('i');
+    $data->{"{$prefix}_time_minute"} = $minute - $minute % $step;
+    $data->{"{$prefix}_time_ampm"} = $time->format('A') === 'PM';
+}
+
+/**
+ * Generates a timestamp as the result of a time selector.
+ *
+ * @param stdClass|array $data The data object.
+ * @param string $prefix A prefix for the properties to access.
+ *                       - The properties used will be "{$prefix}_date", "{$prefix}_time_hour", "{$prefix}_time_minute", and
+ *                         "{$prefix}_time_ampm".
+ * @param int A timestamp for the current date.
+ * @return int The resulting timestamp.
+ */
+function generate_timestamp($data, $prefix) {
+    $data = (object)$data;
+    $time = generate_datetime($data->{"{$prefix}_date"});
+    $time->setTime($data->{"{$prefix}_time_hour"} % 12 + $data->{"{$prefix}_time_ampm"} * 12, $data->{"{$prefix}_time_minute"});
+    return $time->getTimestamp();
+}
+
+/**
+ * Helper method to convert a timestamp into an object.
+ *
+ * @param int $timestamp The timestamp to convert.
+ * @return stdClass Object with properties year, month, day, hour, minute, ampm.
+ */
+function enumerate_timestamp($timestamp) {
+    $result = new stdClass();
+    if ($timestamp) {
+        $time = generate_datetime($timestamp);
+        $result->year = $time->format('Y');
+        $result->month = $time->format('n');
+        $result->day = $time->format('j');
+        $result->hour = $time->format('g');
+        $minute = $time->format('i');
+        $minute -= $minute % 15;
+        $result->minute = "{$minute}";
+        $result->ampm = $time->format('A') === 'PM';
+    } else {
+        $result->year = '';
+        $result->month = '';
+        $result->day = '';
+        $result->hour = '';
+        $result->minute = '';
+        $result->ampm = false;
+    }
+    return $result;
+}
+
+/**
  * Converts a boolean value to a 'yes' or 'no' language string.
  *
  * @param bool $boolean The boolean value.
@@ -283,16 +430,6 @@ function user_is_student() {
  */
 function student_may_access_weekend($userid) {
     return array_key_exists($userid, get_boarding_student_list());
-}
-
-/**
- * Determines whether a specified user is a student who is permitted to access eSignout.
- *
- * @param int $id The user id of the student to check.
- * @return bool Whether the specified student is permitted to access eSignout.
- */
-function student_may_access_esignout($userid) {
-    return get_config('local_mxschool', 'esignout_form_enabled') && array_key_exists($userid, get_esignout_student_list());
 }
 
 /**
@@ -338,11 +475,16 @@ function student_may_access_vacation_travel($userid) {
  * 2) The dorm of the currently logged in faculty member, if it exists.
  * 3) An empty string.
  *
+ * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the 'all' option.
+ *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
+ *
  * @return string The dorm id or an empty string, as specified.
  */
 function get_param_faculty_dorm() {
     global $DB, $USER;
-    return $_GET['dorm'] ?? $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
+    return isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm'])) ? $_GET['dorm'] : (
+        $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: ''
+    );
 }
 
 /**
@@ -351,32 +493,14 @@ function get_param_faculty_dorm() {
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
  *
- * @return int The timestamp of the midnight on the desired date.
- */
-function get_param_current_date() {
-    return (int) ($_GET['date'] ?? (new DateTime('midnight', core_date::get_server_timezone_object()))->getTimestamp());
-}
-
-/**
- * Determines the date to be selected which corresponds to an existing eSignout record.
- * The priorities of this function are as follows:
- * 1) An id specified as a 'date' GET parameter.
- * 2) The current or date.
- * If there is not an eSignout record asseociated with the selected date, an empty string will be returned.
+ * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the 'all' option.
+ *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
  *
  * @return string The timestamp of the midnight on the desired date.
  */
-function get_param_current_date_esignout() {
-    global $DB;
-    $timestamp = get_param_current_date();
-    $startdate = new DateTime('now', core_date::get_server_timezone_object());
-    $startdate->setTimestamp($timestamp);
-    $enddate = clone $startdate;
-    $enddate->modify('+1 day');
-    return $DB->record_exists_sql(
-        "SELECT * FROM {local_mxschool_esignout} WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
-        array($startdate->getTimestamp(), $enddate->getTimestamp())
-    ) ? $timestamp : '';
+function get_param_current_date() {
+    return isset($_GET['date']) && (is_numeric($_GET['date']) || empty($_GET['date']))
+        ? $_GET['date'] : generate_datetime('midnight')->getTimestamp();
 }
 
 /**
@@ -392,13 +516,13 @@ function get_param_current_date_esignout() {
  */
 function get_param_current_weekend() {
     global $DB;
-    if (isset($_GET['weekend']) && $DB->record_exists('local_mxschool_weekend', array('id' => $_GET['weekend']))) {
-        return $_GET['weekend'];
+    $weekend = optional_param('weekend', 0, PARAM_INT);
+    if ($weekend && $DB->record_exists('local_mxschool_weekend', array('id' => $weekend))) {
+        return $weekend;
     }
     $starttime = get_config('local_mxschool', 'dorms_open_date');
     $endtime = get_config('local_mxschool', 'dorms_close_date');
-    $date = new DateTime('now', core_date::get_server_timezone_object());
-    $date->modify('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
+    $date = generate_datetime('-2 days'); // Map 0:00:00 on Wednesday to 0:00:00 on Monday.
     $date->modify('Sunday this week');
     $timestamp = $date->getTimestamp();
     if ($timestamp >= $starttime && $timestamp < $endtime) {
@@ -437,7 +561,7 @@ function get_param_current_weekend() {
  */
 function get_param_current_semester() {
     return isset($_GET['semester']) && ($_GET['semester'] === '1' || $_GET['semester'] === '2') ? $_GET['semester']
-    : get_current_semester();
+        : get_current_semester();
 }
 
 /**
@@ -448,46 +572,7 @@ function get_param_current_semester() {
  */
 function get_current_semester() {
     $semesterdate = get_config('local_mxschool', 'second_semester_start_date');
-    $date = new DateTime('now', core_date::get_server_timezone_object());
-    return $date->getTimestamp() < $semesterdate ? '1' : '2';
-}
-
-/**
- * Sets the data for a time selector based on a timstamp and a step.
- *
- * @param stdClass $data The data object.
- * @param string $prefix A prefix for the properties to be set.
- *                       - The properties set will be "{$prefix}_time_hour", "{$prefix}_time_minute", and "{$prefix}_time_ampm".
- *                       - The timestamp used will be from "{$prefix}_date".
- * @param int $step An increment indicating the available minute values.
- */
-function generate_time_selector_fields(&$data, $prefix, $step = 1) {
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($data->{"{$prefix}_date"});
-    $data->{"{$prefix}_time_hour"} = $time->format('g');
-    $minute = $time->format('i');
-    $data->{"{$prefix}_time_minute"} = $minute - $minute % $step;
-    $data->{"{$prefix}_time_ampm"} = $time->format('A') === 'PM';
-}
-
-/**
- * Generates a timestamp as the result of a time selector.
- *
- * @param stdClass|array $data The data object.
- * @param string $prefix A prefix for the properties to access.
- *                       - The properties used will be "{$prefix}_date", "{$prefix}_time_hour", "{$prefix}_time_minute", and
- *                         "{$prefix}_time_ampm".
- * @param int A timestamp for the current date.
- * @return int The resulting timestamp.
- */
-function generate_timestamp($data, $prefix) {
-    if (is_array($data)) {
-        $data = (object) $data;
-    }
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->setTimestamp($data->{"{$prefix}_date"});
-    $time->setTime($data->{"{$prefix}_time_hour"} % 12 + $data->{"{$prefix}_time_ampm"} * 12, $data->{"{$prefix}_time_minute"});
-    return $time->getTimestamp();
+    return generate_datetime()->getTimestamp() < $semesterdate ? '1' : '2';
 }
 
 /**
@@ -598,84 +683,13 @@ function get_licensed_student_list() {
 }
 
 /**
- * Queries the database to create a list of all the students who have sufficient permissions to participate in eSignout.
- *
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_esignout_student_list() {
-    global $DB;
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
-    );
-    return convert_records_to_list($students);
-}
-
-/**
- * Queries the database to create a list of all the students who have sufficient permissions to be another student's passenger.
- *
- * @return array The students as userid => name, ordered alphabetically by student name.
- */
-function get_passenger_list() {
-    global $DB;
-    $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
-         ORDER BY name"
-    );
-    return convert_records_to_list($students);
-}
-
-/**
- * Queries the database to create a list of all eSignout driver records.
- *
- * @return array The drivers as esignoutid => name, ordered alphabetically by name.
- */
-function get_all_driver_list() {
-    global $DB;
-    $drivers = $DB->get_records_sql(
-        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename FROM {local_mxschool_esignout} es
-         LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND p.may_drive_passengers = 'Yes'
-         ORDER BY name ASC, es.time_modified DESC"
-    );
-    return convert_records_to_list($drivers);
-}
-
-/**
- * Queries the database to create a list of currently available drivers.
- * Drivers are defined as available if today is their departure day and they have not signed in.
- *
- * @param int $ignore The user id of a student to ignore (intended to be used to ignore the current student).
- * @return array The drivers as esignoutid => name, ordered alphabetically by name.
- */
-function get_current_driver_list($ignore = 0) {
-    global $DB;
-    $window = get_config('local_mxschool', 'esignout_trip_window');
-    $time = new DateTime('now', core_date::get_server_timezone_object());
-    $time->modify("-{$window} minutes");
-    $drivers = $DB->get_records_sql(
-        "SELECT es.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename FROM {local_mxschool_esignout} es
-         LEFT JOIN {user} u ON es.userid = u.id LEFT JOIN {local_mxschool_permissions} p ON es.userid = p.userid
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type = 'Driver' AND es.time_created >= ? AND es.sign_in_time IS NULL
-         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND NOT EXISTS (
-             SELECT id FROM {local_mxschool_esignout} WHERE driverid = es.id AND userid = ?
-         ) ORDER BY name ASC, es.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
-    );
-    return convert_records_to_list($drivers);
-}
-
-/**
  * Queries the database to create a list of all the students who are required to fill out advisor selection form.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
 function get_student_with_advisor_form_enabled_list() {
     global $DB;
-    $year = (int)date('Y') - 1;
+    $year = (int)format_date('Y') - 1;
     $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? " s.admission_year = {$year}" : ' s.grade <> 12';
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
@@ -692,7 +706,7 @@ function get_student_with_advisor_form_enabled_list() {
  */
 function get_student_without_advisor_form_list() {
     global $DB;
-    $year = (int)date('Y') - 1;
+    $year = (int)format_date('Y') - 1;
     $where = get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? "s.admission_year = {$year}" : 's.grade <> 12';
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
@@ -823,20 +837,6 @@ function get_available_advisor_list() {
 }
 
 /**
- * Queries the database to create a list of all faculty who are able to approve eSignout.
- *
- * @return array The faculty who are able to approve eSignout as userid => name, ordered alphabetically by faculty name.
- */
-function get_approver_list() {
-    global $DB;
-    $faculty = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
-         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
-    );
-    return convert_records_to_list($faculty);
-}
-
-/**
  * Queries the database to create a list of all the available dorms.
  *
  * @return array The available dorms as id => name, ordered alphabetically by dorm name.
@@ -869,8 +869,7 @@ function get_boarding_dorm_list() {
  */
 function get_weekend_start_day_list() {
     $days = array();
-    $sunday = new DateTime('now', core_date::get_server_timezone_object());
-    $sunday->modify('Sunday this week');
+    $sunday = generate_datetime('Sunday this week');
     for ($i = -4; $i <= -1; $i++) {
         $day = clone $sunday;
         $day->modify("{$i} days");
@@ -886,8 +885,7 @@ function get_weekend_start_day_list() {
  */
 function get_weekend_end_day_list() {
     $days = array();
-    $sunday = new DateTime('now', core_date::get_server_timezone_object());
-    $sunday->modify('Sunday this week');
+    $sunday = generate_datetime('Sunday this week');
     for ($i = 0; $i <= 2; $i++) {
         $day = clone $sunday;
         $day->modify("{$i} days");
@@ -911,38 +909,12 @@ function get_weekend_list() {
     );
     if ($weekends) {
         foreach ($weekends as $weekend) {
-            $time = new DateTime('now', core_date::get_server_timezone_object());
-            $time->setTimestamp($weekend->sunday_time);
+            $time = generate_datetime($weekend->sunday_time);
             $time->modify("-1 day");
             $weekend->name = $time->format('m/d/y');
         }
     }
     return convert_records_to_list($weekends);
-}
-
-/**
- * Queries the database to create a list of all the dates for which there are eSignout records.
- *
- * @return array The dates for which there are eSignout records as timestamp => date (mm/dd/yy), in descending order by date.
- */
-function get_esignout_date_list() {
-    global $DB;
-    $list = array();
-    $records = $DB->get_records_sql(
-        "SELECT es.id, es.departure_time FROM {local_mxschool_esignout} es LEFT JOIN {user} u ON es.userid = u.id
-         WHERE es.deleted = 0 AND u.deleted = 0 AND es.type <> 'Passenger' ORDER BY departure_time DESC"
-    );
-    if ($records) {
-        foreach ($records as $record) {
-            $date = new DateTime('now', core_date::get_server_timezone_object());
-            $date->setTimestamp($record->departure_time);
-            $date->modify('midnight');
-            if (!array_key_exists($date->getTimestamp(), $list)) {
-                $list[$date->getTimestamp()] = $date->format('m/d/y');
-            }
-        }
-    }
-    return $list;
 }
 
 /**
@@ -961,8 +933,7 @@ function generate_weekend_records($starttime, $endtime) {
     foreach ($weekends as $weekend) {
         $sorted[$weekend->sunday_time] = $weekend;
     }
-    $date = new DateTime('now', core_date::get_server_timezone_object());
-    $date->setTimestamp($starttime);
+    $date = generate_datetime($starttime);
     $date->modify('Sunday this week');
     while ($date->getTimestamp() < $endtime) {
         if (!isset($sorted[$date->getTimestamp()])) {
@@ -989,10 +960,8 @@ function generate_weekend_records($starttime, $endtime) {
  */
 function calculate_weekends_used($userid, $semester) {
     global $DB;
-    $startdate = $semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
-                                        : get_config('local_mxschool', 'second_semester_start_date');
-    $enddate = $semester == 1 ? get_config('local_mxschool', 'second_semester_start_date')
-                                      : get_config('local_mxschool', 'dorms_close_date');
+    $startdate = get_config('local_mxschool', $semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
+    $enddate = get_config('local_mxschool', $semester == 1 ? 'second_semester_start_date' : 'dorms_close_date');
     return $DB->count_records_sql(
         "SELECT COUNT(wf.id) FROM {local_mxschool_student} s
          LEFT JOIN {local_mxschool_weekend_form} wf ON s.userid = wf.userid
@@ -1018,75 +987,6 @@ function calculate_weekends_allowed($userid, $semester) {
     );
     $grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $userid));
     return $weekendsallowed[$grade][$semester];
-}
-
-/**
- * Creates a list of the types of eSignout which a specified student has the permissions to perform.
- *
- * @param int $userid The user id of the student.
- * @return array The types of eSignout which the student is allowed to perform.
- */
-function get_esignout_type_list($userid = 0) {
-    global $DB;
-    $types = array('Driver', 'Passenger', 'Parent', 'Other');
-    $record = $DB->get_record_sql(
-        "SELECT p.may_drive_to_town AS maydrive, p.may_ride_with AS mayridewith, s.boarding_status AS boardingstatus
-         FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid WHERE s.userid = ?",
-         array('userid' => $userid)
-    );
-    if ($record) {
-        if ($record->maydrive === 'No' || $record->boardingstatus !== 'Day') {
-            unset($types[array_search('Driver', $types)]);
-        }
-        if ($record->mayridewith === null || $record->mayridewith === 'Over 21') {
-            unset($types[array_search('Passenger', $types)]);
-        }
-        $types = array_values($types); // Reset the keys so that [0] can be the default option.
-    }
-    return $types;
-}
-
-/**
- * Retrieves the destination and departure time fields from a esignout driver record.
- *
- * @param int $esignoutid The id of the driver's record.
- * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
- * @throws coding_exception If the esignout record is not a driver record.
- */
-function get_driver_inheritable_fields($esignoutid) {
-    global $DB;
-    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
-    if (!$record || $record->type !== 'Driver') {
-        throw new coding_exception('eSignout record is not a driver');
-    }
-    $result = new stdClass();
-    $result->destination = $record->destination;
-    $departuretime = new DateTime('now', core_date::get_server_timezone_object());
-    $departuretime->setTimestamp($record->departure_time);
-    $result->departurehour = $departuretime->format('g');
-    $minute = $departuretime->format('i');
-    $minute -= $minute % 15;
-    $result->departureminute = "{$minute}";
-    $result->departureampm = $departuretime->format('A') === 'PM';
-    return $result;
-}
-
-/**
- * Signs in an eSignout record and records the timestamp.
- *
- * @param int $esignoutid The id of the record to sign in.
- * @return string The text to display for the sign in time.
- * @throws coding_exception If the esignout record does not exist or is already signed in.
- */
-function sign_in_esignout($esignoutid) {
-    global $DB;
-    $record = $DB->get_record('local_mxschool_esignout', array('id' => $esignoutid));
-    if (!$record || $record->sign_in_time) {
-        throw new coding_exception('eSignout record doesn\'t exist or is already signed in');
-    }
-    $record->sign_in_time = time();
-    $DB->update_record('local_mxschool_esignout', $record);
-    return date('g:i A', $record->sign_in_time);
 }
 
 /**
@@ -1186,34 +1086,4 @@ function get_site_default_return_time($site) {
         array($site)
     );
     return enumerate_timestamp($default);
-}
-
-/**
- * Helper method to convert a timestamp into an object.
- *
- * @param int $timestamp The timestamp to convert.
- * @return stdClass Object with properties year, month, day, hour, minute, ampm.
- */
-function enumerate_timestamp($timestamp) {
-    $result = new stdClass();
-    if ($timestamp) {
-        $time = new DateTime('now', core_date::get_server_timezone_object());
-        $time->setTimestamp($timestamp);
-        $result->year = $time->format('Y');
-        $result->month = $time->format('n');
-        $result->day = $time->format('j');
-        $result->hour = $time->format('g');
-        $minute = $time->format('i');
-        $minute -= $minute % 15;
-        $result->minute = "{$minute}";
-        $result->ampm = $time->format('A') === 'PM';
-    } else {
-        $result->year = '';
-        $result->month = '';
-        $result->day = '';
-        $result->hour = '';
-        $result->minute = '';
-        $result->ampm = false;
-    }
-    return $result;
 }

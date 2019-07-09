@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Services for Middlesex School's Dorm and Student functions plugin.
+ * Services for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -34,50 +34,32 @@ $functions = array(
         'description' => 'Sets a boolean field in the database.',
         'type' => 'write',
         'ajax' => 'true'
-    ), 'local_mxschool_send_email' => array(
+    ),
+    'local_mxschool_send_email' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'send_email',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Sends an email to users based on predefined a email class.',
         'type' => 'read',
         'ajax' => 'true'
-    ), 'local_mxschool_get_dorm_students' => array(
+    ),
+    'local_mxschool_get_dorm_students' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_dorm_students',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Queries the database to find all students in a specified dorm.',
         'type' => 'read',
         'ajax' => 'true'
-    ), 'local_mxschool_get_weekend_type' => array(
+    ),
+    'local_mxschool_get_weekend_type' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_weekend_type',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Queries the database to determine the type of a weekend specified by a timestamp.',
         'type' => 'read',
         'ajax' => 'true'
-    ), 'local_mxschool_get_esignout_student_options' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'get_esignout_student_options',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to determine the type options, passenger list, driver list,'
-                         .'and permissions for a selected student.',
-        'type' => 'read',
-        'ajax' => 'true'
-    ), 'local_mxschool_get_esignout_driver_details' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'get_esignout_driver_details',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Queries the database to find the destination and departure time of an esignout driver record.',
-        'type' => 'read',
-        'ajax' => 'true'
-    ), 'local_mxschool_sign_in' => array(
-        'classname' => 'local_mxschool_external',
-        'methodname' => 'sign_in',
-        'classpath' => 'local/mxschool/externallib.php',
-        'description' => 'Signs in an eSignout record and records the timestamp.',
-        'type' => 'write',
-        'ajax' => 'true'
-    ), 'local_mxschool_get_advisor_selection_student_options' => array(
+    ),
+    'local_mxschool_get_advisor_selection_student_options' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_advisor_selection_student_options',
         'classpath' => 'local/mxschool/externallib.php',
@@ -85,7 +67,8 @@ $functions = array(
                          .'for a particular student as well as a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
-    ), 'local_mxschool_select_advisor' => array(
+    ),
+    'local_mxschool_select_advisor' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'select_advisor',
         'classpath' => 'local/mxschool/externallib.php',
@@ -93,7 +76,8 @@ $functions = array(
         'type' => 'write',
         'ajax' => 'true',
         'capabilities' => 'local/mxschool:manage_advisor_selection'
-    ), 'local_mxschool_get_rooming_student_options' => array(
+    ),
+    'local_mxschool_get_rooming_student_options' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_rooming_student_options',
         'classpath' => 'local/mxschool/externallib.php',
@@ -103,7 +87,8 @@ $functions = array(
                          .'as well as a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
-    ), 'local_mxschool_get_vacation_travel_options' => array(
+    ),
+    'local_mxschool_get_vacation_travel_options' => array(
         'classname' => 'local_mxschool_external',
         'methodname' => 'get_vacation_travel_options',
         'classpath' => 'local/mxschool/externallib.php',

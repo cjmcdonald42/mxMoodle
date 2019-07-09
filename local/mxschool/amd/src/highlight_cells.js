@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Highlighs table cells for Middlesex School's Dorm and Student functions plugin.
+ * Highlighs table cells for Middlesex School's Dorm and Student Functions Plugin.
  * This module is currently only intended to be used for the weekend calculator and is currently very non-reusable.
  *
  * @module     local_mxschool/highlight_cells

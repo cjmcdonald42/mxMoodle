@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Admin settings for Middlesex School's Dorm and Student functions plugin.
+ * Admin settings for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -32,7 +32,7 @@ if ($hassiteconfig) {
 
     $indexes = new admin_category('indexes', new lang_string('indexes', 'local_mxschool'));
     $indexes->add('indexes', new admin_externalpage(
-        'main_index', new lang_string('main_index', 'local_mxschool'),
+        'mxschool_index', new lang_string('mxschool_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/index.php"
     ));
     $indexes->add('indexes', new admin_externalpage(
@@ -42,10 +42,6 @@ if ($hassiteconfig) {
     $indexes->add('indexes', new admin_externalpage(
         'checkin_index', new lang_string('checkin_index', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/checkin/index.php"
-    ));
-    $indexes->add('indexes', new admin_externalpage(
-        'esignout_index', new lang_string('esignout_index', 'local_mxschool'),
-        "$CFG->wwwroot/local/mxschool/esignout/index.php"
     ));
     $indexes->add('indexes', new admin_externalpage(
         'advisor_selection_index', new lang_string('advisor_selection_index', 'local_mxschool'),
@@ -88,10 +84,6 @@ if ($hassiteconfig) {
     $othersettings->add(new admin_setting_configtext(
         'local_mxschool/table_size', new lang_string('table_size', 'local_mxschool'),
         new lang_string('table_size_description', 'local_mxschool'), 50, PARAM_INT
-    ));
-    $othersettings->add(new admin_setting_configtext(
-        'local_mxschool/school_ip', new lang_string('school_ip', 'local_mxschool'),
-        new lang_string('school_ip_description', 'local_mxschool'), '63.138.153.62'
     ));
     $mxschool->add('mxschool', $othersettings);
 

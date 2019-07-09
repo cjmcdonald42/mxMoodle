@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Weekend calculator report for Middlesex School's Dorm and Student functions plugin.
+ * Weekend calculator report for Middlesex School's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -29,7 +29,8 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('weekend_calculator_table.php');
+require_once(__DIR__.'/weekend_calculator_table.php');
+
 require_login();
 $isstudent = user_is_student();
 if (!$isstudent) {
@@ -40,21 +41,12 @@ $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm();
 $filter->semester = get_param_current_semester();
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$url = '/local/mxschool/checkin/weekend_calculator.php';
-$title = get_string('checkin_weekend_calculator', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('weekend_calculator', 'checkin');
 
 $dorms = get_boarding_dorm_list();
 $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));
-$startdate = $filter->semester == 1 ? get_config('local_mxschool', 'dorms_open_date')
-                                    : get_config('local_mxschool', 'second_semester_start_date');
-$enddate = $filter->semester == 1 ? get_config('local_mxschool', 'second_semester_start_date')
-                                  : get_config('local_mxschool', 'dorms_close_date');
+$startdate = get_config('local_mxschool', $filter->semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
+$enddate = get_config('local_mxschool', $filter->semester == 1 ? 'second_semester_start_date' : 'dorms_close_date');
 $weekends = $DB->get_records_sql(
     "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? AND type <> 'Vacation'
      ORDER BY sunday_time", array($startdate, $enddate)
@@ -70,14 +62,16 @@ $rows = array(
     array(
         'lefttext' => get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool'),
         'righttext' => get_string('checkin_weekend_calculator_legend_offcampus', 'local_mxschool')
-    ), array('righttext' => get_string('checkin_weekend_calculator_legend_3_left', 'local_mxschool')),
+    ),
+    array('righttext' => get_string('checkin_weekend_calculator_legend_3_left', 'local_mxschool')),
     array('leftclass' => 'mx-green', 'righttext' => get_string('checkin_weekend_calculator_legend_2_left', 'local_mxschool')),
     array('leftclass' => 'mx-yellow', 'righttext' => get_string('checkin_weekend_calculator_legend_1_left', 'local_mxschool')),
     array('leftclass' => 'mx-red', 'righttext' => get_string('checkin_weekend_calculator_legend_0_left', 'local_mxschool')),
     array(
         'lefttext' => get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool'),
         'righttext' => get_string('checkin_weekend_calculator_legend_free', 'local_mxschool')
-    ), array(
+    ),
+    array(
         'lefttext' => get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool'),
         'righttext' => get_string('checkin_weekend_calculator_legend_closed', 'local_mxschool')
     )
