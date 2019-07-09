@@ -37,11 +37,7 @@ require_capability('CAPABILITY', context_system::instance());
 $filter = new stdClass();
 // TODO: Save URL parameters.
 
-// $parents = TODO: array of parent pages;
-$url = 'PATH_TO_THIS_FILE';
-$title = get_string('REPORT_NAME', 'PACKAGE');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('PAGE', 'SUBPACKAGE', 'PACKAGE');
 
 // TODO: Any static querying.
 
@@ -57,6 +53,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, 'SEARCH', $dropdowns, /* true or false for printbutton */, /* object or false for addbutton */, /* array or false for emailbuttons */, /* array or false for second row of headers */);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();
