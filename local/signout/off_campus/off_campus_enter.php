@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../classes/notification/off_campus.php');
-require_once('off_campus_form.php');
+require_once(__DIR__.'/off_campus_form.php');
 
 require_login();
 $isstudent = user_is_student();

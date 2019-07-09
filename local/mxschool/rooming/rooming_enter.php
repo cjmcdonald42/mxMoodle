@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/notification/rooming.php');
-require_once('rooming_form.php');
+require_once(__DIR__.'/rooming_form.php');
 
 require_login();
 $isstudent = user_is_student();

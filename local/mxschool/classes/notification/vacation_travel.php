@@ -29,7 +29,7 @@ namespace local_mxschool\local\vacation_travel;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('mx_notification.php');
+require_once(__DIR__.'/mx_notification.php');
 
 use \local_mxschool\local\notification;
 use \local_mxschool\local\bulk_notification;
@@ -70,7 +70,7 @@ class submitted extends notification {
                  LEFT JOIN {local_mxschool_vt_site} rs ON r.siteid = rs.id WHERE t.id = ?", array($id)
             );
             if (!$record) {
-                throw new coding_exception("Record with id {$id} not found.");
+                throw new \coding_exception("Record with id {$id} not found.");
             }
 
             $this->data['destination'] = $record->destination;

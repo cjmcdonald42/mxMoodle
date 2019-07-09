@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
-require_once('locallib.php');
+require_once(__DIR__.'/locallib.php');
 
 class local_signout_external extends external_api {
 

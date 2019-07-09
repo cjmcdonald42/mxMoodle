@@ -27,12 +27,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
-require_once('locallib.php');
-require_once('classes/event/record_updated.php');
-require_once('classes/notification/checkin.php');
-require_once('classes/notification/advisor_selection.php');
-require_once('classes/notification/rooming.php');
-require_once('classes/notification/vacation_travel.php');
+require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/classes/event/record_updated.php');
+require_once(__DIR__.'/classes/notification/checkin.php');
+require_once(__DIR__.'/classes/notification/advisor_selection.php');
+require_once(__DIR__.'/classes/notification/rooming.php');
+require_once(__DIR__.'/classes/notification/vacation_travel.php');
 
 class local_mxschool_external extends external_api {
 

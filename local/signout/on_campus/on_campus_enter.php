@@ -28,7 +28,7 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once('on_campus_form.php');
+require_once(__DIR__.'/on_campus_form.php');
 
 require_login();
 $isstudent = user_is_student();

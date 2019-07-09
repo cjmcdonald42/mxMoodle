@@ -29,8 +29,8 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('weekend_table.php');
-require_once('weekend_comment_form.php');
+require_once(__DIR__.'/weekend_table.php');
+require_once(__DIR__.'/weekend_comment_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_weekend', context_system::instance());

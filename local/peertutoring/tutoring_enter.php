@@ -27,8 +27,8 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once('locallib.php');
-require_once('tutoring_form.php');
+require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/tutoring_form.php');
 
 require_login();
 $isstudent = user_is_student();

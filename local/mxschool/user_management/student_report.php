@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once('student_table.php');
+require_once(__DIR__.'/student_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());

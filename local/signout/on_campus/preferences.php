@@ -28,8 +28,8 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../../mxschool/locallib.php');
 require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once('preferences_form.php');
-require_once('location_table.php');
+require_once(__DIR__.'/preferences_form.php');
+require_once(__DIR__.'/location_table.php');
 
 require_login();
 require_capability('local/signout:manage_on_campus_preferences', context_system::instance());

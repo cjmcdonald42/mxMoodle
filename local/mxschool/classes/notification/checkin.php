@@ -29,7 +29,7 @@ namespace local_mxschool\local\checkin;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('mx_notification.php');
+require_once(__DIR__.'/mx_notification.php');
 
 use \local_mxschool\local\notification;
 
@@ -65,7 +65,7 @@ abstract class weekend_form_base extends notification {
                  LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE wf.id = ?", array($id)
             );
             if (!$record) {
-                throw new coding_exception("Record with id {$id} not found.");
+                throw new \coding_exception("Record with id {$id} not found.");
             }
             $formatter = new \NumberFormatter('en_us', \NumberFormatter::ORDINAL);
             $instructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');

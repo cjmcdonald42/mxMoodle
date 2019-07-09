@@ -28,7 +28,7 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
-require_once('student_edit_form.php');
+require_once(__DIR__.'/student_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
