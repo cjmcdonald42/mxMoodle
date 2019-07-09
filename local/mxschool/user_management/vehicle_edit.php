@@ -35,15 +35,8 @@ require_capability('local/mxschool:manage_vehicles', context_system::instance())
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/user_management/vehicle_edit.php';
-$title = get_string('user_management_vehicle_edit', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('vehicle_edit', 'vehicle_report', 'user_management');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_vehicle' => array('abbreviation' => 'v', 'fields' => array(
     'id', 'userid' => 'student', 'make', 'model', 'color', 'registration'
@@ -75,6 +68,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

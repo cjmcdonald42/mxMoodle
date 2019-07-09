@@ -39,16 +39,8 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_signout') => '/local/signout/index.php',
-    get_string('off_campus', 'local_signout') => '/local/signout/off_campus/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/signout/off_campus/off_campus_enter.php';
-$title = get_string('off_campus_form', 'local_signout');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('form', 'off_campus', 'signout');
+$redirect = get_redirect();
 
 $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
@@ -68,7 +60,7 @@ if ($id) {
         $editcutoff = generate_datetime($data->timecreated);
         $editcutoff->modify("+{$editwindow} minutes");
         if (generate_datetime()->getTimestamp() > $editcutoff->getTimestamp() || $data->student !== $USER->id) {
-            redirect(new moodle_url($url));
+            redirect($PAGE->url);
         }
     }
     switch ($data->type_select) {
@@ -167,7 +159,7 @@ if (
     !$isstudent || !get_config('local_signout', 'off_campus_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading($title . ($isstudent ? " for {$record->student}" : ''));
+    echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
 } else {

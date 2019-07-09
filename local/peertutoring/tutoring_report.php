@@ -44,31 +44,20 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php'
-);
-$url = '/local/peertutoring/tutoring_report.php';
-$title = get_string('tutoring_report', 'local_peertutoring');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('tutoring_report', null, 'peertutoring');
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_peertutoring_session', array('id' => $id));
-    $urlparams = array(
+    $redirect = new moodle_url($PAGE->url, array(
         'tutor' => $filter->tutor, 'department' => $filter->department, 'type' => $filter->type, 'date' => $filter->date,
         'search' => $filter->search
-    );
+    ));
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_peertutoring_session', $record);
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('session_delete_success', 'local_peertutoring'), 'delete'
-        );
+        logged_redirect($redirect, get_string('session_delete_success', 'local_peertutoring'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('session_delete_failure', 'local_peertutoring'), 'delete', false
-        );
+        logged_redirect($redirect, get_string('session_delete_failure', 'local_peertutoring'), 'delete', false);
     }
 }
 
@@ -106,6 +95,6 @@ if ($table->is_downloading()) {
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, true, $addbutton);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

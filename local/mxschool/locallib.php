@@ -32,24 +32,8 @@ require_once(__DIR__.'/classes/event/record_deleted.php');
 require_once(__DIR__.'/classes/output/renderable.php');
 
 /**
- * Sets the url, title, heading, context, layout, and navbar of a page as well as logging that the page was visited.
- *
- * @param string $url The url for the page.
- * @param string $title The title and heading for the page.
- * @param array $parents Parent pages to be displayed as linkes in the navbar represented as $displaytext => $url.
- */
-function setup_mxschool_page($url, $title, $parents) {
-    global $PAGE;
-    setup_generic_page($url, $title);
-    $PAGE->set_pagelayout('incourse');
-    foreach ($parents as $display => $parenturl) {
-        $PAGE->navbar->add($display, new moodle_url($parenturl));
-    }
-    $PAGE->navbar->add($title);
-}
-
-/**
  * Sets the url, title, heading, and context of a page as well as logging that the page was visited.
+ * Should be called to initialize all pages.
  *
  * @param string $url The url for the page.
  * @param string $title The title and heading for the page.
@@ -62,6 +46,78 @@ function setup_generic_page($url, $title) {
     $PAGE->set_heading($title);
 
     \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
+}
+
+/**
+ * Sets the url, title, heading, context, layout, and navbar of a page as well as logging that the page was visited.
+ * Should be called to initialize all pages except for index pages and edit pages.
+ *
+ * @param string $page The name of the page as referenced in the local_mxschool_subpackage table.
+ * @param string $subpackage The subpackage to which the page belongs. A value of null indicates a package without subpackages.
+ * @param string $package The package to which the subpackage belongs.
+ * @throws coding_exception if the subpackage record does not exist or if the page cannot be found.
+ */
+function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
+    global $DB, $PAGE;
+    $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
+    if (!$record || !isset(json_decode($record->pages)->$page)) {
+        throw new coding_exception('page cannot be found in the subpackages table');
+    }
+
+    $file = json_decode($record->pages)->$page;
+    $url = empty($subpackage) ? "/local/{$package}/{$file}" : "/local/{$package}/{$subpackage}/{$file}";
+    $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
+
+    setup_generic_page($url, $title);
+
+    $PAGE->set_pagelayout('incourse');
+    $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/local/mxschool'));
+    if ($package !== 'mxschool') {
+        $PAGE->navbar->add(get_string('pluginname', "local_{$package}"), new moodle_url("/local/{$package}"));
+    }
+    if (!empty($subpackage)) {
+        $PAGE->navbar->add(get_string($subpackage, "local_{$package}"), new moodle_url("/local/{$package}/{$subpackage}"));
+    }
+    $PAGE->navbar->add($title, $url);
+}
+
+/**
+ * Sets the url, title, heading, context, layout, and navbar of an edit page as well as logging that the page was visited.
+ * Should be called to initialize all edit pages.
+ *
+ * @param string $page The name of the edit page. This function assumes that this is also the edit page's filename.
+ * @param string $page The name of the edit page's parent page as referenced in the local_mxschool_subpackage table.
+ * @param string $subpackage The subpackage to which the edit page and parent page both belong.
+ *                           A value of null indicates a package without subpackages.
+ * @param string $package The package to which the subpackage belongs.
+ * @throws coding_exception if the subpackage record does not exist or if the parent page cannot be found.
+ */
+function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
+    global $DB, $PAGE;
+    $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
+    if (!$record || !isset(json_decode($record->pages)->$parent)) {
+        throw new coding_exception('parent page cannot be found in the subpackages table');
+    }
+
+    $url = empty($subpackage) ? "/local/{$package}/{$page}" : "/local/{$package}/{$subpackage}/{$page}";
+    $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
+
+    setup_generic_page($url, $title);
+
+    $parentfile = json_decode($record->pages)->$page;
+    $parenturl = empty($subpackage) ? "/local/{$package}/{$parentfile}" : "/local/{$package}/{$subpackage}/{$parentfile}";
+    $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}_{$parent}", "local_{$package}");
+
+    $PAGE->set_pagelayout('incourse');
+    $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/local/mxschool'));
+    if ($package !== 'mxschool') {
+        $PAGE->navbar->add(get_string('pluginname', "local_{$package}"), new moodle_url("/local/{$package}"));
+    }
+    if (!empty($subpackage)) {
+        $PAGE->navbar->add(get_string($subpackage, "local_{$package}"), new moodle_url("/local/{$package}/{$subpackage}"));
+    }
+    $PAGE->navbar->add($parenttitle, $parenturl);
+    $PAGE->navbar->add($title, $url);
 }
 
 /**
@@ -80,8 +136,12 @@ function generate_index($id, $heading = false) {
     }
     $links = array();
     foreach (json_decode($record->pages) as $string => $url) {
-        $links[get_string(empty($record->subpackage) ? $string : "{$record->subpackage}_{$string}", "local_{$record->package}")]
-            = "/local/{$record->package}/{$record->subpackage}/{$url}";
+        if (empty($record->subpackage)) {
+            $links[get_string($string, "local_{$record->package}")] = "/local/{$record->package}/{$url}";
+        } else {
+            $links[get_string("{$record->subpackage}_{$string}", "local_{$record->package}")]
+                = "/local/{$record->package}/{$record->subpackage}/{$url}";
+        }
     }
     $headingtext = empty($record->subpackage) ? get_string($record->package, "local_{$record->package}")
         : get_string($record->subpackage, "local_{$record->package}");
@@ -103,7 +163,7 @@ function render_index_page($subpackage, $package = 'mxschool') {
     }
 
     $url = empty($subpackage) ? "/local/{$package}/index.php" : "/local/{$package}/{$subpackage}/index.php";
-    $title = empty($subpackage) ? get_string($package, "local_{$package}") : get_string($subpackage, "local_{$package}");
+    $title = get_string(empty($subpackage) ? $package : $subpackage, "local_{$package}");
 
     setup_generic_page($url, $title);
 
@@ -144,16 +204,14 @@ function logged_redirect($url, $notification, $type, $success = true) {
 }
 
 /**
- * Determines the redirect url for a form when there is no referer or the state is invalid.
+ * Determines a fallback redirect url for a form when there is no referer or the state is invalid.
  *
- * @param array $parents Array of parent pages with values which are relative urls.
- * @return moodle_url The url for the form to redirect to if there is no referer.
+ * @return moodle_url The fallback url for the form to redirect to.
  */
-function get_redirect($parents) {
-    return new moodle_url(
-        has_capability('moodle/site:config', context_system::instance()) ? $parents[array_keys($parents)[count($parents) - 1]]
-            : '/my'
-    );
+function get_redirect() {
+    global $PAGE;
+    return has_capability('moodle/site:config', context_system::instance())
+        ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/my');
 }
 
 /**

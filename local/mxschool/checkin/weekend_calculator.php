@@ -40,14 +40,7 @@ $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm();
 $filter->semester = get_param_current_semester();
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$url = '/local/mxschool/checkin/weekend_calculator.php';
-$title = get_string('checkin_weekend_calculator', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('weekend_calculator', 'checkin');
 
 $dorms = get_boarding_dorm_list();
 $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));

@@ -38,16 +38,8 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_signout') => '/local/signout/index.php',
-    get_string('on_campus', 'local_signout') => '/local/signout/on_campus/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/signout/on_campus/on_campus_enter.php';
-$title = get_string('on_campus_form', 'local_signout');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('form', 'on_campus', 'signout');
+$redirect = get_redirect();
 
 $queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'locationid' => 'location_select', 'other' => 'location_other', 'time_created' => 'timecreated',
@@ -63,7 +55,7 @@ if ($id) {
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing on-campus signout records.
-        redirect(new moodle_url($url));
+        redirect($PAGE->url);
     }
 } else {
     $data = new stdClass();
@@ -114,7 +106,7 @@ if (
     !$isstudent || !get_config('local_signout', 'on_campus_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading($title . ($isstudent ? " for {$record->student}" : ''));
+    echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
     echo $output->render($formrenderable);
     // echo $output->render($jsrenderable);
 } else {

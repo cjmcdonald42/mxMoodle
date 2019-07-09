@@ -34,16 +34,8 @@ require_capability('local/peertutoring:manage_preferences', context_system::inst
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php',
-    get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php',
-);
-$redirect = get_redirect($parents);
-$url = '/local/peertutoring/rating_edit.php';
-$title = get_string('rating_edit', 'local_peertutoring');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('rating_edit', 'preferences', null, 'peertutoring');
+$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_rating' => array('abbreviation' => 'r', 'fields' => array('id', 'displaytext')));
 
@@ -71,6 +63,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

@@ -44,21 +44,14 @@ $filter->type = optional_param('type', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php'
-);
-$url = '/local/mxschool/vacation_travel/transportation_report.php';
-$title = get_string('vacation_travel_transportation_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('transportation_report', 'vacation_travel');
 
 $views = array(
     'departure' => get_string('vacation_travel_transportation_report_select_view_departure', 'local_mxschool'),
     'return' => get_string('vacation_travel_transportation_report_select_view_return', 'local_mxschool')
 );
 if (!isset($views[$view])) {
-    redirect(new moodle_url($url, array(
+    redirect(new moodle_url($PAGE->url, array(
         'view' => 'departure', 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
     )));
 }

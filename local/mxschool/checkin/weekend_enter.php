@@ -39,15 +39,8 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/checkin/weekend_enter.php';
-$title = get_string('checkin_weekend_form', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('weekend_form', 'checkin');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
@@ -63,7 +56,7 @@ if ($id) {
         redirect($redirect);
     }
     if ($isstudent) { // Students cannot edit existing weekend forms.
-        redirect(new moodle_url($url));
+        redirect($PAGE->url);
     }
     $data = get_record($queryfields, "wf.id = ?", array($id));
     $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
@@ -150,7 +143,7 @@ $formrenderable = new \local_mxschool\output\form(
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
-echo $output->heading($title . ($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
+echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

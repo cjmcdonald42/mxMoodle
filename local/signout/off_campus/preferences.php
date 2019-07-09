@@ -33,16 +33,8 @@ require_once('preferences_form.php');
 require_login();
 require_capability('local/signout:manage_off_campus_preferences', context_system::instance());
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_signout') => '/local/signout/index.php',
-    get_string('off_campus', 'local_signout') => '/local/signout/off_campus/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/signout/off_campus/preferences.php';
-$title = get_string('off_campus_preferences', 'local_signout');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('preferences', 'off_campus', 'signout');
+$redirect = get_redirect();
 
 $data = new stdClass();
 $data->editwindow = get_config('local_signout', 'off_campus_edit_window');
@@ -102,6 +94,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

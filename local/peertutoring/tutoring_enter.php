@@ -38,15 +38,8 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/peertutoring/tutoring_enter.php';
-$title = get_string('tutoring_form', 'local_peertutoring');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('course_edit', null, 'peertutoring');
+$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's', 'fields' => array(
     'id', 'tutorid' => 'tutor', 'tutoring_date' => 'tutoringdate', 'studentid' => 'student', 'courseid' => 'course', 'topic',
@@ -62,7 +55,7 @@ if ($id) {
         redirect($redirect);
     }
     if ($isstudent) { // Students cannot edit existing tutoring records.
-        redirect(new moodle_url($url));
+        redirect($PAGE->url);
     }
     $data = get_record($queryfields, "s.id = ?", array($id));
     $data->department = $DB->get_field('local_peertutoring_course', 'departmentid', array('id' => $data->course));
@@ -115,7 +108,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutoring_form');
 
 echo $output->header();
-echo $output->heading($title . ($isstudent ? " for {$record->tutor}" : ''));
+echo $output->heading($PAGE->title . ($isstudent ? " for {$record->tutor}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

@@ -37,15 +37,8 @@ require_capability('local/mxschool:manage_vacation_travel_preferences', context_
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/vacation_travel/preferences.php';
-$title = get_string('vacation_travel_preferences', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('preferences', 'vacation_travel');
+$redirect = get_redirect();
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_vt_site', array('id' => $id));
@@ -54,13 +47,9 @@ if ($action === 'delete' && $id) {
         $record->enabled_departure = 0;
         $record->enabled_return = 0;
         $DB->update_record('local_mxschool_vt_site', $record);
-        logged_redirect(
-            new moodle_url($url), get_string('vacation_travel_site_delete_success', 'local_mxschool'), 'delete'
-        );
+        logged_redirect($PAGE->url, get_string('vacation_travel_site_delete_success', 'local_mxschool'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url), get_string('vacation_travel_site_delete_failure', 'local_mxschool'), 'delete', false
-        );
+        logged_redirect($PAGE->url, get_string('vacation_travel_site_delete_failure', 'local_mxschool'), 'delete', false);
     }
 }
 
@@ -105,7 +94,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $reportrenderable = new \local_mxschool\output\report($table, null, array(), false, $addbutton);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($formrenderable);
 echo $output->heading(get_string('vacation_travel_site_report', 'local_mxschool'));
 echo $output->render($reportrenderable);

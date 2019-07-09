@@ -42,7 +42,7 @@ class preferences_form extends local_mxschool_form {
         foreach ($weekends as $weekend) {
             $startoptions = get_weekend_start_day_list();
             $endoptions = get_weekend_end_day_list();
-            generate_datetime($weekend->sunday_time);
+            $date = generate_datetime($weekend->sunday_time);
             $date->modify("-1 day");
             $weekendfields["weekend_$weekend->id"] = array(
                 'element' => 'group', 'name' => 'label', 'nameparam' => $date->format('m/d/y'), 'children' => array(

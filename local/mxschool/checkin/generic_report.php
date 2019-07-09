@@ -36,14 +36,7 @@ require_capability('local/mxschool:view_checkin', context_system::instance());
 
 $dorm = get_param_faculty_dorm();
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$url = '/local/mxschool/checkin/generic_report.php';
-$title = get_string('checkin_generic_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('generic_report', 'checkin');
 
 $dorms = get_dorm_list();
 

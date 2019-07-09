@@ -38,14 +38,7 @@ $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm();
 $filter->search = optional_param('search', '', PARAM_RAW);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
-);
-$url = '/local/mxschool/user_management/faculty_report.php';
-$title = get_string('user_management_faculty_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('faculty_report', 'user_management');
 
 $dorms = get_dorm_list();
 
@@ -57,6 +50,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

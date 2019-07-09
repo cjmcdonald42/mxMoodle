@@ -35,16 +35,8 @@ require_capability('local/signout:manage_on_campus_preferences', context_system:
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_signout') => '/local/signout/index.php',
-    get_string('on_campus', 'local_signout') => '/local/signout/on_campus/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/signout/on_campus/location_edit.php';
-$title = get_string('on_campus_location_edit', 'local_signout');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('location_edit', 'preferences', 'on_campus', 'signout');
+$redirect = get_redirect();
 
 $queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'fields' => array(
     'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'stop_date' => 'stop'
@@ -81,6 +73,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

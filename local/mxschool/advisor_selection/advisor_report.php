@@ -40,14 +40,7 @@ $filter->keepcurrent = optional_param('keepcurrent', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
-);
-$url = '/local/mxschool/advisor_selection/advisor_report.php';
-$title = get_string('advisor_selection_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('report', 'advisor_selection');
 
 $submittedoptions = array(
     '1' => get_string('advisor_selection_report_select_submitted_true', 'local_mxschool'),
@@ -90,6 +83,6 @@ if ($table->is_downloading()) {
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

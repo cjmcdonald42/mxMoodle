@@ -37,29 +37,17 @@ require_capability('local/signout:manage_on_campus_preferences', context_system:
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_signout') => '/local/signout/index.php',
-    get_string('on_campus', 'local_signout') => '/local/signout/on_campus/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/signout/on_campus/preferences.php';
-$title = get_string('on_campus_preferences', 'local_signout');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('preferences', 'on_campus', 'signout');
+$redirect = get_redirect();
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_signout_location', array('id' => $id));
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_signout_location', $record);
-        logged_redirect(
-            new moodle_url($url), get_string('on_campus_location_delete_success', 'local_signout'), 'delete'
-        );
+        logged_redirect($PAGE->url, get_string('on_campus_location_delete_success', 'local_signout'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url), get_string('on_campus_location_delete_failure', 'local_signout'), 'delete', false
-        );
+        logged_redirect($PAGE->url, get_string('on_campus_location_delete_failure', 'local_signout'), 'delete', false);
     }
 }
 
@@ -96,7 +84,7 @@ $renderable = new \local_mxschool\output\form($form);
 $reportrenderable = new \local_mxschool\output\report($table, null, array(), false, $addbutton);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->heading(get_string('on_campus_location_report', 'local_signout'));
 echo $output->render($reportrenderable);

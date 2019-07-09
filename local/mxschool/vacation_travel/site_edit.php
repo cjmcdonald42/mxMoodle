@@ -35,16 +35,8 @@ require_capability('local/mxschool:manage_vacation_travel_preferences', context_
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php',
-    get_string('vacation_travel_preferences', 'local_mxschool') => '/local/mxschool/vacation_travel/preferences.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/vacation_travel/site_edit.php';
-$title = get_string('vacation_travel_site_edit', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('site_edit', 'preferences', 'vacation_travel');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'fields' => array(
     'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled',
@@ -82,6 +74,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

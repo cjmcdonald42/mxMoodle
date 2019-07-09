@@ -39,15 +39,8 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/advisor_selection/advisor_enter.php';
-$title = get_string('advisor_selection_form', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('form', 'advisor_selection');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'asf', 'fields' => array(
     'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
@@ -64,7 +57,7 @@ if ($id) {
     }
     $data = get_record($queryfields, "asf.id = ?", array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
-        redirect(new moodle_url($url));
+        redirect($PAGE->url);
     }
 } else {
     $data = new stdClass();
@@ -74,7 +67,7 @@ if ($id) {
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_adv_selection', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one advisor selection form per student.
-            redirect(new moodle_url($url, array('id' => $existingid)));
+            redirect(new moodle_url($PAGE->url, array('id' => $existingid)));
         }
         $data->student = $USER->id;
     }
@@ -143,7 +136,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
 
 echo $output->header();
-echo $output->heading($title . ($isstudent ? " for {$record->student}" : ''));
+echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

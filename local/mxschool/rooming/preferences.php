@@ -33,15 +33,8 @@ require_once('preferences_form.php');
 require_login();
 require_capability('local/mxschool:manage_rooming_preferences', context_system::instance());
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('rooming', 'local_mxschool') => '/local/mxschool/rooming/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/rooming/preferences.php';
-$title = get_string('rooming_preferences', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('preferences', 'rooming');
+$redirect = get_redirect();
 
 $data = new stdClass();
 $data->start_date = get_config('local_mxschool', 'rooming_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
@@ -77,6 +70,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

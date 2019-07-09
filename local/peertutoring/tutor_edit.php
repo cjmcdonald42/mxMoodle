@@ -35,16 +35,8 @@ require_capability('local/peertutoring:manage_preferences', context_system::inst
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_peertutoring') => '/local/peertutoring/index.php',
-    get_string('preferences', 'local_peertutoring') => '/local/peertutoring/preferences.php',
-);
-$redirect = get_redirect($parents);
-$url = '/local/peertutoring/tutor_edit.php';
-$title = get_string('tutor_edit', 'local_peertutoring');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('tutor_edit', 'preferences', null, 'peertutoring');
+$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 'fields' => array(
     'id', 'userid' => 'student', 'departments', 'deleted'
@@ -76,8 +68,8 @@ if ($form->is_cancelled()) {
     $existingdeletedid = $DB->get_field('local_peertutoring_tutor', 'id', array('userid' => $data->student));
     if ($existingdeletedid) {
         $data->id = $existingdeletedid;
-        $data->deleted = 0;
     }
+    $data->deleted = 0;
     update_record($queryfields, $data);
     logged_redirect(
         $form->get_redirect(), get_string($data->id ? 'tutor_edit_success' : 'tutor_create_success', 'local_peertutoring'),
@@ -90,7 +82,7 @@ $renderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutor_form');
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

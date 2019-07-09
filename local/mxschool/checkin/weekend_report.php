@@ -45,14 +45,7 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('checkin', 'local_mxschool') => '/local/mxschool/checkin/index.php'
-);
-$url = '/local/mxschool/checkin/weekend_report.php';
-$title = get_string('checkin_weekend_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('weekend_report', 'checkin');
 
 $queryfields = array('local_mxschool_comment' => array('abbreviation' => 'c', 'fields' => array(
     'id', 'weekendid' => 'weekend', 'dormid' => 'dorm', 'comment'
@@ -60,19 +53,15 @@ $queryfields = array('local_mxschool_comment' => array('abbreviation' => 'c', 'f
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_weekend_form', array('id' => $id));
-    $urlparams = array(
+    $redirect = new moodle_url($PAGE->url, array(
         'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
-    );
+    ));
     if ($record) {
         $record->active = 0;
         $DB->update_record('local_mxschool_weekend_form', $record);
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('checkin_weekend_form_delete_success', 'local_mxschool'), 'delete'
-        );
+        logged_redirect($redirect, get_string('checkin_weekend_form_delete_success', 'local_mxschool'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('checkin_weekend_form_delete_failure', 'local_mxschool'), 'delete', false
-        );
+        logged_redirect($redirect, get_string('checkin_weekend_form_delete_failure', 'local_mxschool'), 'delete', false);
     }
 }
 $data = get_record($queryfields, "c.weekendid = ? AND c.dormid = ?", array($filter->weekend, $filter->dorm));
@@ -97,7 +86,7 @@ $end = array_key_exists($filter->end, $enddays) ? $filter->end : $weekendrecord-
 $table = new weekend_table($filter, $start, $end);
 
 $form = new weekend_comment_form(array('id' => $id));
-$form->set_redirect(new moodle_url($url, array(
+$form->set_redirect(new moodle_url($PAGE->url, array(
     'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'start' => $filter->start, 'end' => $filter->end,
     'submitted' => $filter->submitted, 'search' => $filter->search
 )), true);

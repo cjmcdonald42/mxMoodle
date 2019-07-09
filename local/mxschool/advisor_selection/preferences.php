@@ -34,15 +34,7 @@ require_once('faculty_table.php');
 require_login();
 require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('advisor_selection', 'local_mxschool') => '/local/mxschool/advisor_selection/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/advisor_selection/preferences.php';
-$title = get_string('advisor_selection_preferences', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('preferences', 'advisor_selection');
 
 $data = new stdClass();
 $data->start_date = get_config('local_mxschool', 'advisor_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
@@ -89,7 +81,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $reportrenderable = new \local_mxschool\output\report($table);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($formrenderable);
 echo $output->heading(get_string('user_management_faculty_report', 'local_mxschool'));
 echo $output->render($reportrenderable);

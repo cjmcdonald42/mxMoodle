@@ -39,15 +39,8 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('rooming', 'local_mxschool') => '/local/mxschool/rooming/index.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/rooming/rooming_enter.php';
-$title = get_string('rooming_form', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('form', 'rooming');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'fields' => array(
     'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
@@ -65,7 +58,7 @@ if ($id) {
     }
     $data = get_record($queryfields, "r.id = ?", array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
-        redirect(new moodle_url($url));
+        redirect($PAGE->url);
     }
 } else {
     $data = new stdClass();
@@ -75,7 +68,7 @@ if ($id) {
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_rooming', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one rooming form per student.
-            redirect(new moodle_url($url, array('id' => $existingid)));
+            redirect(new moodle_url($PAGE->url, array('id' => $existingid)));
         }
         $data->student = $USER->id;
     }
@@ -119,7 +112,7 @@ $renderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/rooming_form');
 
 echo $output->header();
-echo $output->heading($title . ($isstudent ? " for {$record->student}" : ''));
+echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
 echo $output->render($renderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

@@ -39,14 +39,7 @@ $filter->dorm = get_param_faculty_dorm();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('vacation_travel', 'local_mxschool') => '/local/mxschool/vacation_travel/index.php'
-);
-$url = '/local/mxschool/vacation_travel/vacation_report.php';
-$title = get_string('vacation_travel_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('report', 'vacation_travel');
 
 $submittedoptions = array(
     '1' => get_string('vacation_travel_report_select_submitted_true', 'local_mxschool'),

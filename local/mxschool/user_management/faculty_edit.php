@@ -35,16 +35,8 @@ require_capability('local/mxschool:manage_faculty', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php',
-    get_string('user_management_faculty_report', 'local_mxschool') => '/local/mxschool/user_management/faculty_report.php'
-);
-$redirect = get_redirect($parents);
-$url = '/local/mxschool/user_management/faculty_edit.php';
-$title = get_string('user_management_faculty_edit', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_edit_page('faculty_edit', 'faculty_report', 'user_management');
+$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'fields' => array(
     'id', 'dormid' => 'dorm', 'faculty_code' => 'facultycode', 'may_approve_signout' => 'approvesignout',
@@ -75,6 +67,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

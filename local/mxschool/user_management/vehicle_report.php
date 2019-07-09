@@ -37,29 +37,17 @@ $search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('user_management', 'local_mxschool') => '/local/mxschool/user_management/index.php'
-);
-$url = '/local/mxschool/user_management/vehicle_report.php';
-$title = get_string('user_management_vehicle_report', 'local_mxschool');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('vehicle_report', 'user_management');
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_vehicle', array('id' => $id));
-    $urlparams = array('search' => $search);
+    $redirect = new moodle_url($PAGE->url, array('search' => $search));
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_mxschool_vehicle', $record);
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('user_management_vehicle_delete_success', 'local_mxschool'), 'delete'
-        );
+        logged_redirect($redirect, get_string('user_management_vehicle_delete_success', 'local_mxschool'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('user_management_vehicle_delete_failure', 'local_mxschool'), 'delete',
-            false
-        );
+        logged_redirect($redirect, get_string('user_management_vehicle_delete_failure', 'local_mxschool'), 'delete', false);
     }
 }
 
@@ -73,6 +61,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $search, array(), false, $addbutton);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

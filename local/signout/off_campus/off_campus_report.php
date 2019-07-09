@@ -44,15 +44,8 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-$parents = array(
-    get_string('pluginname', 'local_mxschool') => '/local/mxschool/index.php',
-    get_string('pluginname', 'local_signout') => '/local/signout/index.php',
-    get_string('off_campus', 'local_signout') => '/local/signout/off_campus/index.php'
-);
-$url = '/local/signout/off_campus/off_campus_report.php';
-$title = get_string('off_campus_report', 'local_signout');
-
-setup_mxschool_page($url, $title, $parents);
+setup_mxschool_page('report', 'off_campus', 'signout');
+$redirect = get_redirect();
 
 $types = array(
     'Driver' => get_string('off_campus_report_select_type_driver', 'local_signout'),
@@ -61,21 +54,17 @@ $types = array(
     'Other' => get_string('off_campus_report_select_type_other', 'local_signout')
 );
 if ($filter->type && !isset($types[$filter->type])) {
-    redirect(new moodle_url($url, array('type' => '', 'date' => $filter->date, 'search' => $filter->search)));
+    redirect(new moodle_url($PAGE->url, array('type' => '', 'date' => $filter->date, 'search' => $filter->search)));
 }
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_signout_off_campus', array('id' => $id));
-    $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
+    $redirect = new moodle_url($PAGE->url, array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search));
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_signout_off_campus', $record);
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('off_campus_delete_success', 'local_signout'), 'delete'
-        );
+        logged_redirect($redirect, get_string('off_campus_delete_success', 'local_signout'), 'delete');
     } else {
-        logged_redirect(
-            new moodle_url($url, $urlparams), get_string('off_campus_delete_failure', 'local_signout'), 'delete', false
-        );
+        logged_redirect($redirect, get_string('off_campus_delete_failure', 'local_signout'), 'delete', false);
     }
 }
 
@@ -99,7 +88,7 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
-echo $output->heading($title);
+echo $output->heading($PAGE->title);
 if (
     $isstudent && get_config('local_signout', 'off_campus_form_ipenabled')
     && $_SERVER['REMOTE_ADDR'] !== get_config('local_signout', 'school_ip')
