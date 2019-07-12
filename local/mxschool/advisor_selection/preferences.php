@@ -35,6 +35,7 @@ require_login();
 require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());
 
 setup_mxschool_page('preferences', 'advisor_selection');
+$redirect = get_redirect();
 
 $data = new stdClass();
 $data->start_date = get_config('local_mxschool', 'advisor_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');

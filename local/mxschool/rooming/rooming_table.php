@@ -60,17 +60,16 @@ class rooming_table extends local_mxschool_table {
         $fields = array(
             's.id', 'u.id AS userid', 'r.id AS rid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
             'u.alternatename', 's.grade', 's.gender', 'd.name AS dorm', 'r.has_lived_in_double AS liveddouble',
-            'r.room_type AS roomtype', "'' AS dormmates"
+            'r.room_type AS roomtype', "'' AS dormmates", 'ru.id as ruid', 'ru.deleted as rdeleted'
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
-            '{local_mxschool_rooming} r ON s.userid = r.userid'
+            '{local_mxschool_rooming} r ON s.userid = r.userid', '{user} ru ON r.preferred_roommateid = ru.id'
         );
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'ru.firstname', 'ru.lastname', 'ru.alternatename');
         for ($i = 1; $i <= 6; $i++) {
             $fields = array_merge($fields, array(
-                "CONCAT(d{$i}u.lastname, ', ', d{$i}u.firstname) AS d{$i}name", "d{$i}u.firstname AS d{$i}firstname",
-                "d{$i}u.alternatename AS d{$i}alternatename", "d{$i}s.grade AS d{$i}grade"
+                "d{$i}u.id AS d{$i}id", "d{$i}s.grade AS d{$i}grade"
             ));
             $from = array_merge($from, array(
                 "{user} d{$i}u ON r.dormmate{$i}id = d{$i}u.id",
@@ -78,11 +77,6 @@ class rooming_table extends local_mxschool_table {
             ));
             $searchable = array_merge($searchable, array("d{$i}u.firstname", "d{$i}u.lastname", "d{$i}u.alternatename"));
         }
-        $fields = array_merge($fields, array(
-            "CONCAT(ru.lastname, ', ', ru.firstname) AS rname", 'ru.firstname AS rfirstname', 'ru.alternatename AS ralternatename'
-        ));
-        $from = array_merge($from, array('{user} ru ON r.preferred_roommateid = ru.id'));
-        $searchable = array_merge($searchable, array('ru.firstname', 'ru.lastname', 'ru.alternatename'));
         $where = array(
             'u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'",
             $filter->gender ? "s.gender = '{$filter->gender}'" : '',
@@ -97,7 +91,7 @@ class rooming_table extends local_mxschool_table {
                 $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)";
                 break;
         }
-        $sortable = array('student', 'grade', 'dorm', 'roommate');
+        $sortable = array('student', 'grade', 'dorm');
         $urlparams = array(
             'submitted' => $filter->submitted, 'gender' => $filter->gender, 'roomtype' => $filter->roomtype,
             'double' => $filter->double, 'search' => $filter->search
@@ -113,21 +107,19 @@ class rooming_table extends local_mxschool_table {
      * Formats the lived double column to "Yes" / "No".
      */
     protected function col_liveddouble($values) {
-        return isset($values->liveddouble) ? boolean_to_yes_no($values->liveddouble) : '';
+        return isset($values->rid) ? format_boolean($values->liveddouble) : '';
     }
 
     /**
      * Formats the dormmates column to a list of "last, first (alternate)" or "last, first".
      */
     protected function col_dormmates($values) {
+        if (!isset($values->rid)) {
+            return '';
+        }
         $dormmates = array();
         for ($i = 1; $i <= 6; $i++) {
-            $dormmates[] = isset($values->{"d{$i}name"}) ? (
-                $values->{"d{$i}name"} . (
-                    $values->{"d{$i}alternatename"} && $values->{"d{$i}alternatename"} !== $values->{"d{$i}firstname"}
-                        ? " ({$values->{"d{$i}alternatename"}})" : ''
-                ) . " ({$values->{"d{$i}grade"}})"
-            ) : '';
+            $dormmates[] = format_student_name_userid($values->{"d{$i}id"}) . " ({$values->{"d{$i}grade"}})";
         }
         return implode($this->is_downloading() ? "\n" : '<br>', $dormmates);
     }
@@ -136,9 +128,7 @@ class rooming_table extends local_mxschool_table {
      * Formats the roommate column to "last, first (alternate)" or "last, first".
      */
     protected function col_roommate($values) {
-        return $values->rname . (
-            $values->ralternatename && $values->ralternatename !== $values->rfirstname ? " ({$values->ralternatename})" : ''
-        );
+        return isset($values->rid) ? format_student_name_userid($values->ruid) : '';
     }
 
     /**

@@ -70,11 +70,9 @@ class off_campus_table extends local_mxschool_table {
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'oc.type',
-            'oc.passengers', "du.firstname AS driverfirstname", "du.alternatename AS driveralternatename", "IF(oc.type = 'Driver', (
-                SELECT COUNT(driverid) - 1 FROM {local_signout_off_campus} WHERE driverid = oc.id AND deleted = 0), '-'
-            ) AS passengercount", "IF(oc.type = 'Passenger', CONCAT(du.lastname, ', ', du.firstname), '-') AS driver",
-            'd.destination', 'd.departure_time AS departuredate', 'd.departure_time AS departuretime',
-            "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'oc.sign_in_time AS signin, oc.time_created AS timecreated'
+            'oc.passengers', 'du.id AS driverid', 'd.destination', 'd.departure_time AS departuredate',
+            'd.departure_time AS departuretime', "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'oc.sign_in_time AS signin',
+            'oc.time_created AS timecreated'
         );
         $from = array(
             '{local_signout_off_campus} oc', '{user} u ON oc.userid = u.id', '{local_signout_off_campus} d ON oc.driverid = d.id',
@@ -105,10 +103,13 @@ class off_campus_table extends local_mxschool_table {
             $starttime = generate_datetime('midnight')->getTimestamp();
             $where[] = "d.departure_time >= {$starttime}";
         }
-        $sortable = array('student', 'driver', $filter->date ? 'departuretime' : 'departuredate', 'approver');
+        $sortable = array('student', $filter->date ? 'departuretime' : 'departuredate', 'approver');
         $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
         $centered = array('type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'd.destination', 'a.firstname', 'a.lastname');
+        $searchable = array(
+            'u.firstname', 'u.lastname', 'u.alternatename', 'du.firstname', 'du.lastname', 'du.alternatename', 'd.destination',
+            'a.firstname', 'a.lastname'
+        );
         parent::__construct(
             'off_campus_table', $columns, $headers, $sortable, $filter->date ? 'departuretime' : 'departuredate', $fields, $from,
             $where, $urlparams, $centered, $filter->search, $searchable, array(), false
@@ -121,39 +122,38 @@ class off_campus_table extends local_mxschool_table {
      */
     protected function col_passengers($values) {
         global $DB;
-        if (!isset($values->passengers)) { // Not a driver.
+        if ($values->type !== 'Driver') {
             return '-';
         }
-        $passengers = json_decode($values->passengers);
-        return count($passengers) ? implode('<br>', array_map(function($passenger) use($DB) {
-            $student = $DB->get_record(
-                'user', array('id' => $passenger), "CONCAT(lastname, ', ', firstname) AS student, firstname, alternatename"
-            );
-            return $student->student . (
-                $student->alternatename && $student->alternatename !== $student->firstname ? " ({$student->alternatename})" : ''
-            );
-        }, $passengers)) : get_string('off_campus_report_nopassengers', 'local_signout');
+        $passengers = array_filter(array_map(function($passenger) use($DB) {
+            return format_student_name_userid($passenger);
+        }, json_decode($values->passengers)));
+        return count($passengers) ? implode('<br>', $passengers) : get_string('off_campus_report_nopassengers', 'local_signout');
     }
 
     /**
      * Formats the passenger count column.
      */
     protected function col_passengercount($values) {
-        if ($values->passengercount === '-') {
+        global $DB;
+        if ($values->type !== 'Driver') {
             return '-';
         }
-        $count = count(json_decode($values->passengers));
-        return "{$values->passengercount} / {$count}";
+        $submitted = $DB->count_records_sql(
+            "SELECT COUNT(oc.id) FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+             WHERE oc.driverid = ? AND oc.deleted = 0 AND u.deleted = 0", array($values->id)
+        ) - 1;
+        $count = count(array_filter(json_decode($values->passengers), function($passenger) use ($DB) {
+            return !$DB->get_field('user', 'deleted', array('id' => $passenger));
+        }));
+        return "{$submitted} / {$count}";
     }
 
     /**
      * Formats the driver column to "last, first (alternate)" or "last, first".
      */
     protected function col_driver($values) {
-        return $values->driver . (
-            $values->driver !== '-' && $values->driveralternatename && $values->driveralternatename !== $values->driverfirstname
-                ? " ($values->driveralternatename)" : ''
-        );
+        return $values->type === 'Passenger' ? format_student_name_userid($values->driverid) : '-';
     }
 
     /**

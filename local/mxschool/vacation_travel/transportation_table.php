@@ -110,7 +110,7 @@ class transportation_table extends local_mxschool_table {
      * Formats the school transportation column to 'Yes' or 'No'.
      */
     protected function col_mxtransportation($values) {
-        return $values->tid ? boolean_to_yes_no($values->mxtransportation) : '';
+        return $values->tid ? format_boolean($values->mxtransportation) : '';
     }
 
     /**
@@ -163,7 +163,7 @@ class transportation_table extends local_mxschool_table {
      * Formats the international column to 'Yes' or 'No'.
      */
     protected function col_international($values) {
-        return $values->tid ? ($values->international ? boolean_to_yes_no($values->international) : '-') : '';
+        return $values->tid ? ($values->international ? format_boolean($values->international) : '-') : '';
     }
 
     /**

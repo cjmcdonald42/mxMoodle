@@ -95,6 +95,7 @@ $string['off_campus_preferences_emailtext_specific'] = 'Warning for a Passenger 
 $string['off_campus_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
 
 // Form for Off-Campus Signout.
+$string['off_campus_form_title'] = 'Off-Campus Signout Form for {$a}';
 $string['off_campus_form_header_info'] = 'General Information';
 $string['off_campus_form_header_details'] = 'Details';
 $string['off_campus_form_header_permissions'] = 'Permissions Check';
@@ -173,6 +174,7 @@ $string['on_campus_location_edit_location_start'] = 'Start Date';
 $string['on_campus_location_edit_location_end'] = 'End Date';
 
 // Form for On-Campus Signout.
+$string['on_campus_form_title'] = 'On-Campus Signout Form for {$a}';
 $string['on_campus_form_header_info'] = 'General Information';
 $string['on_campus_form_info_student'] = 'Student';
 $string['on_campus_form_info_location'] = 'Sign-Out Location';

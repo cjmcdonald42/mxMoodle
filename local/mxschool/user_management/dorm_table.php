@@ -62,7 +62,7 @@ class dorm_table extends local_mxschool_table {
      * Formats the available column.
      */
     protected function col_available($values) {
-        return boolean_to_yes_no($values->available);
+        return format_boolean($values->available);
     }
 
     /**

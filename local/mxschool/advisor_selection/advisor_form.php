@@ -63,7 +63,7 @@ class advisor_form extends local_mxschool_form {
                 'selected' => array('element' => 'select', 'options' => $faculty)
             )
         );
-        $this->set_fields($fields, 'advisor_form');
+        $this->set_fields($fields, 'advisor_selection_form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');

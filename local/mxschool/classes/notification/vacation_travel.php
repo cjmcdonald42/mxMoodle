@@ -75,23 +75,23 @@ class submitted extends notification {
 
             $this->data['destination'] = $record->destination;
             $this->data['phonenumber'] = $record->phonenumber;
-            $this->data['depmxtransportation'] = boolean_to_yes_no($record->depmxtransportation);
+            $this->data['depmxtransportation'] = format_boolean($record->depmxtransportation);
             $this->data['deptype'] = $record->deptype;
             $this->data['depsite'] = $record->depsite ?? '-';
             $this->data['depdetails'] = $record->depdetails ?? '-';
             $this->data['depcarriercompany'] = $record->depcarriercompany ?? '-';
             $this->data['depnumber'] = $record->depnumber ?? '-';
             $this->data['depdatetime'] = format_date('n/j/y g:i A', $record->depvariable);
-            $this->data['depinternational'] = isset($record->depinternational) ? boolean_to_yes_no($record->depinternational) : '-';
+            $this->data['depinternational'] = isset($record->depinternational) ? format_boolean($record->depinternational) : '-';
             $this->data['retmxtransportation'] = isset($record->retmxtransportation)
-                ? boolean_to_yes_no($record->retmxtransportation) : '-';
+                ? format_boolean($record->retmxtransportation) : '-';
             $this->data['rettype'] = $record->rettype ?? '-';
             $this->data['retsite'] = $record->retsite ?? '-';
             $this->data['retdetails'] = $record->retdetails ?? '-';
             $this->data['retcarriercompany'] = $record->retcarriercompany ?? '-';
             $this->data['retnumber'] = $record->retnumber ?? '-';
             $this->data['retdatetime'] = isset($record->retvariable) ? format_date('n/j/y g:i A', $record->retvariable) : '-';
-            $this->data['retinternational'] = isset($record->retinternational) ? boolean_to_yes_no($record->retinternational) : '-';
+            $this->data['retinternational'] = isset($record->retinternational) ? format_boolean($record->retinternational) : '-';
             $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             array_push(

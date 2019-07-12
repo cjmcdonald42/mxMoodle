@@ -325,9 +325,9 @@ function update_notification($class, $subject, $body) {
 }
 
 /**
- * ======================
- * DateTime Abstractions.
- * ======================
+ * ===============================================
+ * DateTime Abstractions and Formatting Functions.
+ * ===============================================
  */
 
 /**
@@ -420,23 +420,60 @@ function enumerate_timestamp($timestamp) {
 }
 
 /**
- * =====================
- * Formatting Functions.
- * =====================
- */
-
-/**
  * Converts a boolean value to a 'yes' or 'no' language string.
  *
  * @param bool $boolean The boolean value.
  * @return string The language appropriate 'yes' or 'no' value.
  */
-function boolean_to_yes_no($boolean) {
+function format_boolean($boolean) {
     return $boolean ? get_string('yes') : get_string('no');
 }
 
 /**
+ * Formats a student's name to "Last, First (Preferred)" or "Last, First" using properties from a data object.
+ * The data object should have properties 'firstname', 'lastname', and optionally 'alternatename' as in the user table.
+ * The properties can also be prefixed by a string offset as sepecified in the $prefix parameter.
+ *
+ * NOTE: There are some cases where the lastname, firstname combination is needed to order the results of a query. In such cases,
+ *       this function is not the prefered option of formatting student names because they will already be partially formatted.
+ *       As such, changing the code within this function would not be sufficient to globally change the student name format.
+ *
+ * @param stdClass $data The data object.
+ * @param string $prefix A string prefix for the name properties.
+ * @return string The formatted name.
+ * @throws coding_exception if the prefixed firstname or lastname property is not present.
+ */
+function format_student_name($data, $prefix = '') {
+    if (empty($data->{"{$prefix}firstname"}) || empty($data->{"{$prefix}lastname"})) {
+        throw new coding_exception('student data object is missing a valid first or last name');
+    }
+    $first = $data->{"{$prefix}firstname"};
+    $last = $data->{"{$prefix}lastname"};
+    $alternate = empty($data->{"{$prefix}alternatename"}) ? '' : $data->{"{$prefix}alternatename"};
+    return "{$last}, {$first}" . ($alternate && $alternate !== $first ? " ({$alternate})" : '');
+}
+
+/**
+ * Formats a student's name to "Last, First (Preferred)" or "Last, First" based on the data in their user record.
+ *
+ * @param int $userid THe userid of the student.
+ * @return string The formatted name.
+ * @throws coding_exception If the specified user record cannot be found.
+ */
+function format_student_name_userid($userid) {
+    global $DB;
+    $record = $DB->get_record('user', array('id' => $userid));
+    if (!$record) {
+        throw new coding_exception('student\'s user record could not be found');
+    }
+    return $record->deleted ? '' : format_student_name($record);
+}
+
+/**
  * Converts an array of objects with properties id and name to an array with form id => name.
+ *
+ * NOTE: This function doesn't use the format_student_name function because the lastname, firstname pairs are needed for ordering
+ *       when the data is originally queried.
  *
  * @param array $records The record objects to convert.
  * @return array The same data in the form id => name.
@@ -466,9 +503,9 @@ function convert_associative_to_object($list) {
 }
 
 /**
- * ====================================
- * Permissions Validation Abstractions.
- * ====================================
+ * =================================
+ * Permissions Validation Functions.
+ * =================================
  */
 
 /**

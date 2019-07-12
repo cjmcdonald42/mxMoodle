@@ -111,10 +111,7 @@ abstract class notification {
             }
             $this->data['addresseeshort'] = !empty($primaryrecipient->alternatename) ? $primaryrecipient->alternatename
                 : $primaryrecipient->firstname;
-            $this->data['addresseelong'] = "{$primaryrecipient->lastname}, {$primaryrecipient->firstname}" . (
-                !empty($primaryrecipient->alternatename) && $primaryrecipient->alternatename !== $primaryrecipient->firstname
-                    ? " ({$primaryrecipient->alternatename})" : ''
-            );
+            $this->data['addresseelong'] = format_student_name($primaryrecipient);
         } else {
             $this->data['addresseeshort'] = $this->data['addresseelong'] = $primaryrecipient->addresseename;
         }

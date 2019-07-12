@@ -71,7 +71,7 @@ $renderable = new \local_mxschool\output\report(
 
 echo $output->header();
 echo $output->heading(
-    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? " for {$dorms[$filter->dorm]}" : '')
+    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

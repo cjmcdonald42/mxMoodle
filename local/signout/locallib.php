@@ -189,7 +189,8 @@ function get_approver_list() {
     global $DB;
     $faculty = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
-         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
+         LEFT JOIN {user} u ON f.userid = u.id
+         WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
     );
     return convert_records_to_list($faculty);
 }
@@ -205,8 +206,8 @@ function get_off_campus_type_list($userid = 0) {
     $types = array('Driver', 'Passenger', 'Parent', 'Other');
     $record = $DB->get_record_sql(
         "SELECT p.may_drive_to_town AS maydrive, p.may_ride_with AS mayridewith, s.boarding_status AS boardingstatus
-         FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid WHERE s.userid = ?",
-         array('userid' => $userid)
+         FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid
+         WHERE s.userid = ?", array('userid' => $userid)
     );
     if ($record) {
         if ($record->maydrive === 'No' || $record->boardingstatus !== 'Day') {
@@ -230,9 +231,10 @@ function get_on_campus_location_list($grade = 12) {
     global $DB;
     $timestamp = generate_datetime('midnight')->getTimestamp(); // Set to midnight to avoid an off-by-one issue on the end date.
     $locations = $DB->get_records_sql(
-        "SELECT id, name FROM {local_signout_location} l WHERE l.deleted = 0 AND l.grade <= ? AND l.enabled = 1
-         AND (l.start_date IS NULL OR l.start_date <= ?) AND (l.end_date IS NULL OR l.end_date >= ?) ORDER BY name",
-        array($grade, $timestamp, $timestamp)
+        "SELECT id, name
+         FROM {local_signout_location} l
+         WHERE l.deleted = 0 AND l.grade <= ? AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
+         AND (l.end_date IS NULL OR l.end_date >= ?) ORDER BY name", array($grade, $timestamp, $timestamp)
     );
     return convert_records_to_list($locations);
 }
@@ -247,7 +249,8 @@ function get_off_campus_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT oc.id, oc.departure_time AS signoutdate FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+        "SELECT oc.id, oc.departure_time AS signoutdate
+         FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type <> 'Passenger' ORDER BY departure_time DESC"
     );
     if ($records) {
@@ -272,7 +275,8 @@ function get_on_campus_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT oc.id, oc.time_created AS signoutdate FROM {local_signout_on_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+        "SELECT oc.id, oc.time_created AS signoutdate
+         FROM {local_signout_on_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
          LEFT JOIN {local_signout_location} l ON oc.locationid = l.id LEFT JOIN {user} c ON oc.confirmerid = c.id
          WHERE oc.deleted = 0 AND u.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0)
          AND (oc.confirmerid IS NULL OR c.deleted = 0) ORDER BY signoutdate DESC"

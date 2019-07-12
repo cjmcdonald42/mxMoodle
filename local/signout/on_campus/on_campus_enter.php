@@ -66,18 +66,11 @@ if ($id) {
     }
 }
 if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename, s.grade
-         FROM {user} u LEFT JOIN {local_mxschool_student} s on s.userid = u.id WHERE u.id = ?", array($USER->id)
-    );
-    $record->student = $record->student . (
-        $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-    );
+    $student = format_student_name_userid($USER->id);
 }
 $data->isstudent = $isstudent ? '1' : '0';
 $students = get_on_campus_permitted_student_list();
-$locations = array(0 => get_string('form_select_default', 'local_mxschool'))
-           + get_on_campus_location_list($isstudent ? $record->grade : 12)
+$locations = array(0 => get_string('form_select_default', 'local_mxschool')) + get_on_campus_location_list()
            + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
 
 $form = new on_campus_form(array('id' => $id, 'students' => $students, 'locations' => $locations));
@@ -106,7 +99,7 @@ if (
     !$isstudent || !get_config('local_signout', 'on_campus_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
+    echo $output->heading($isstudent ? get_string('on_campus_form_title', 'local_signout', $student) : $PAGE->title);
     echo $output->render($formrenderable);
     // echo $output->render($jsrenderable);
 } else {

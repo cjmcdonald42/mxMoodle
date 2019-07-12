@@ -96,7 +96,7 @@ $string['preferences_notifications_body'] = 'Body for Daily Summary Email';
 
 // Tutor Report.
 $string['tutor_report_add'] = 'Add a Tutor';
-$string['tutor_report_header_tutor'] = 'Name';
+$string['tutor_report_header_student'] = 'Name';
 
 // Department Report.
 $string['department_report_add'] = 'Add a Department';
@@ -140,6 +140,7 @@ $string['rating_edit_header_rating'] = 'Effectiveness Rating Information';
 $string['rating_edit_rating_displaytext'] = 'Text';
 
 // Tutoring Form.
+$string['tutoring_form_title'] = 'Peer Tutoring Form for {$a}';
 $string['tutoring_form_header_info'] = 'General Information';
 $string['tutoring_form_header_details'] = 'Details';
 $string['tutoring_form_info_tutor'] = 'Tutor';

@@ -67,17 +67,11 @@ if ($id) {
     if ($isstudent) {
         $data->student = $USER->id;
         $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename, d.id AS dorm,
-                    CONCAT(hoh.firstname, ' ', hoh.lastname) AS hoh, d.permissions_line AS permissionsline
-             FROM {local_mxschool_student} s
-             LEFT JOIN {user} u ON s.userid = u.id
-             LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-             LEFT JOIN {user} hoh ON d.hohid = hoh.id
-             WHERE s.userid = ?", array($USER->id)
+            "SELECT d.id AS dorm, CONCAT(hoh.firstname, ' ', hoh.lastname) AS hoh, d.permissions_line AS permissionsline
+             FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+             LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE s.userid = ?", array($USER->id)
         );
-        $record->student = $record->student . (
-            $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-        );
+        $student = format_student_name_userid($USER->id);
         $data->dorm = $record->dorm;
     } else {
         $dorm = $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id));
@@ -143,7 +137,7 @@ $formrenderable = new \local_mxschool\output\form(
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
-echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
+echo $output->heading($isstudent ? get_string('weekend_form_title', 'local_mxschool', $student) : $PAGE->title);
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

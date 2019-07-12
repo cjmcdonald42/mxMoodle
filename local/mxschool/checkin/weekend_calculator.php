@@ -84,7 +84,7 @@ $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_
 
 echo $output->header();
 echo $output->heading(
-    get_string('checkin_weekend_calculator_report_title', 'local_mxschool', $filter->dorm ? " for {$dorms[$filter->dorm]}" : '')
+    get_string('checkin_weekend_calculator_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
 );
 echo $output->render($reportrenderable);
 echo $output->render($legendrenderable);

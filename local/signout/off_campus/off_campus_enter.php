@@ -91,13 +91,7 @@ if ($id) {
     }
 }
 if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
-        array($USER->id)
-    );
-    $record->student = $record->student . (
-        $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-    );
+    $student = format_student_name_userid($USER->id);
 }
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_signout', 'off_campus_form_instructions_passenger');
@@ -159,7 +153,7 @@ if (
     !$isstudent || !get_config('local_signout', 'off_campus_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
+    echo $output->heading($isstudent ? get_string('off_campus_form_title', 'local_signout', $student) : $PAGE->title);
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
 } else {

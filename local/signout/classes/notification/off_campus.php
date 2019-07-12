@@ -56,31 +56,24 @@ class submitted extends notification {
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, oc.type, oc.passengers, du.firstname AS dfirstname,
-                        du.lastname AS dlastname, du.alternatename AS dalternatename, d.destination,
-                        d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
+                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, oc.type, oc.passengers, d.userid as driver,
+                        d.destination, d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
                         oc.time_modified AS timesubmitted, p.may_ride_with AS passengerpermission,
                         p.ride_permission_details AS specificdrivers
                  FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-                 LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id LEFT JOIN {user} du ON d.userid = du.id
-                 LEFT JOIN {user} a ON oc.approverid = a.id LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
-                 LEFT JOIN {local_mxschool_dorm} sd ON s.dormid = sd.id
+                 LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id LEFT JOIN {user} a ON oc.approverid = a.id
+                 LEFT JOIN {local_mxschool_student} s ON u.id = s.userid LEFT JOIN {local_mxschool_dorm} sd ON s.dormid = sd.id
                  LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid WHERE oc.id = ?", array($id)
             );
             if (!$record) {
                 throw new coding_exception("Record with id {$id} not found.");
             }
             if (isset($record->passengers)) {
-                $passengerlist = json_decode($record->passengers);
-                $passengers = count($passengerlist) ? implode('<br>', array_map(function($passenger) use($DB) {
-                    $passengerrecord = $DB->get_record_sql(
-                        "SELECT firstname, lastname, alternatename FROM {user} WHERE id = ?", array($passenger)
-                    );
-                    return "{$passengerrecord->lastname}, {$passengerrecord->firstname}" . (
-                        !empty($passengerrecord->alternatename) && $passengerrecord->alternatename !== $passengerrecord->firstname
-                            ? " ({$passengerrecord->alternatename})" : ''
-                    );
-                }, $passengerlist)) : $passengers = get_string('off_campus_report_nopassengers', 'local_signout');
+                $passengerlist = array_filter(array_map(function($passenger) use($DB) {
+                    return format_student_name_userid($passenger);
+                }, json_decode($record->passengers)));
+                $passengers = count($passengerlist) ? implode('<br>', $passengerlist)
+                    : get_string('off_campus_report_nopassengers', 'local_signout');
             }
             $emaildeans = false;
             if ($record->type === 'Driver') {
@@ -108,10 +101,7 @@ class submitted extends notification {
             }
 
             $this->data['type'] = $record->type;
-            $this->data['driver'] = "{$record->dlastname}, {$record->dfirstname}" . (
-                !empty($record->dalternatename) && $record->dalternatename !== $record->dfirstname ? " ({$record->dalternatename})"
-                    : ''
-            );
+            $this->data['driver'] = format_student_name_userid($record->driver);
             $this->data['passengers'] = $passengers ?? '';
             $this->data['destination'] = $record->destination;
             $this->data['date'] = format_date('n/j/y', $record->departuretime);

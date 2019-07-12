@@ -99,6 +99,8 @@ class tutoring_table extends local_mxschool_table {
 
     /**
      * Formats the tutor column to "last, first (alternate)" or "last, first".
+     *
+     * NOTE: This method doesn't use the format_student_name function because the lastname, firstname pairs are needed for sorting.
      */
     protected function col_tutor($values) {
         return $values->tutor . (

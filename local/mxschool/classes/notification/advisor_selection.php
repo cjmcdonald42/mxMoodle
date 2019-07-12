@@ -70,7 +70,7 @@ class submitted extends notification {
                 throw new \coding_exception("Record with id {$id} not found.");
             }
 
-            $this->data['keepcurrent'] = boolean_to_yes_no($record->keepcurrent);
+            $this->data['keepcurrent'] = format_boolean($record->keepcurrent);
             $this->data['current'] = $record->current;
             $this->data['option1'] = $record->option1;
             $this->data['option2'] = $record->option2;

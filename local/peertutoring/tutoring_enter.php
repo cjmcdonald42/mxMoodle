@@ -38,7 +38,7 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-setup_mxschool_page('course_edit', null, 'peertutoring');
+setup_mxschool_page('tutoring_form', null, 'peertutoring');
 $redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's', 'fields' => array(
@@ -65,13 +65,7 @@ if ($id) {
     $data->timecreated = time();
     if ($isstudent) {
         $data->tutor = $USER->id;
-        $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.lastname, ', ', u.firstname) AS tutor, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
-            array($USER->id)
-        );
-        $record->tutor = $record->tutor . (
-            $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-        );
+        $tutor = format_student_name_userid($USER->id);
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
@@ -108,7 +102,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutoring_form');
 
 echo $output->header();
-echo $output->heading($PAGE->title . ($isstudent ? " for {$record->tutor}" : ''));
+echo $output->heading($isstudent ? get_string('tutoring_form_title', 'local_peertutoring', $tutor) : $PAGE->title);
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

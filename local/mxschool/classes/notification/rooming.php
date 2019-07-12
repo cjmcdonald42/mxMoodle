@@ -58,54 +58,25 @@ class submitted extends notification {
         if ($id) {
             $record = $DB->get_record_sql(
                 "SELECT r.userid AS student, r.has_lived_in_double AS haslivedindouble, r.room_type AS roomtype,
-                        d1.firstname AS d1firstname, d1.lastname AS d1lastname, d1.alternatename AS d1alternatename,
-                        d2.firstname AS d2firstname, d2.lastname AS d2lastname, d2.alternatename AS d2alternatename,
-                        d3.firstname AS d3firstname, d3.lastname AS d3lastname, d3.alternatename AS d3alternatename,
-                        d4.firstname AS d4firstname, d4.lastname AS d4lastname, d4.alternatename AS d4alternatename,
-                        d5.firstname AS d5firstname, d5.lastname AS d5lastname, d5.alternatename AS d5alternatename,
-                        d6.firstname AS d6firstname, d6.lastname AS d6lastname, d6.alternatename AS d6alternatename,
-                        p.firstname AS pfirstname, p.lastname AS plastname, p.alternatename AS palternatename,
-                        r.time_modified AS timesubmitted
+                        r.dormmate1id AS dormmate1, r.dormmate2id AS dormmate2, r.dormmate3id AS dormmate3,
+                        r.dormmate4id AS dormmate4, r.dormmate5id AS dormmate5, r.dormmate6id AS dormmate6,
+                        r.preferred_roommateid AS preferredroommate, r.time_modified AS timesubmitted
                  FROM {local_mxschool_rooming} r LEFT JOIN {local_mxschool_student} s on r.userid = s.userid
-                 LEFT JOIN {user} d1 ON r.dormmate1id = d1.id LEFT JOIN {user} d2 ON r.dormmate2id = d2.id
-                 LEFT JOIN {user} d3 ON r.dormmate3id = d3.id LEFT JOIN {user} d4 ON r.dormmate4id = d4.id
-                 LEFT JOIN {user} d5 ON r.dormmate5id = d5.id LEFT JOIN {user} d6 ON r.dormmate6id = d6.id
-                 LEFT JOIN {user} p ON r.preferred_roommateid = p.id WHERE r.id = ?", array($id)
+                 WHERE r.id = ?", array($id)
             );
             if (!$record) {
                 throw new \coding_exception("Record with id {$id} not found.");
             }
 
-            $this->data['haslivedindouble'] = boolean_to_yes_no($record->haslivedindouble);
+            $this->data['haslivedindouble'] = format_boolean($record->haslivedindouble);
             $this->data['roomtype'] = $record->roomtype;
-            $this->data['dormmate1'] = "{$record->d1lastname}, {$record->d1firstname}" . (
-                !empty($record->d1alternatename) && $record->d1alternatename !== $record->d1firstname
-                    ? " ({$record->d1alternatename})" : ''
-            );
-            $this->data['dormmate2'] = "{$record->d2lastname}, {$record->d2firstname}" . (
-                !empty($record->d2alternatename) && $record->d2alternatename !== $record->d2firstname
-                    ? " ({$record->d2alternatename})" : ''
-            );
-            $this->data['dormmate3'] = "{$record->d3lastname}, {$record->d3firstname}" . (
-                !empty($record->d3alternatename) && $record->d3alternatename !== $record->d3firstname
-                    ? " ({$record->d3alternatename})" : ''
-            );
-            $this->data['dormmate4'] = "{$record->d4lastname}, {$record->d4firstname}" . (
-                !empty($record->d4alternatename) && $record->d4alternatename !== $record->d4firstname
-                    ? " ({$record->d4alternatename})" : ''
-            );
-            $this->data['dormmate5'] = "{$record->d5lastname}, {$record->d5firstname}" . (
-                !empty($record->d5alternatename) && $record->d5alternatename !== $record->d5firstname
-                    ? " ({$record->d5alternatename})" : ''
-            );
-            $this->data['dormmate6'] = "{$record->d6lastname}, {$record->d6firstname}" . (
-                !empty($record->d6alternatename) && $record->d6alternatename !== $record->d6firstname
-                    ? " ({$record->d6alternatename})" : ''
-            );
-            $this->data['preferredroomate'] = "{$record->plastname}, {$record->pfirstname}" . (
-                !empty($record->palternatename) && $record->palternatename !== $record->pfirstname
-                    ? " ({$record->palternatename})" : ''
-            );
+            $this->data['dormmate1'] = format_student_name_userid($record->dormmate1);
+            $this->data['dormmate2'] = format_student_name_userid($record->dormmate2);
+            $this->data['dormmate3'] = format_student_name_userid($record->dormmate3);
+            $this->data['dormmate4'] = format_student_name_userid($record->dormmate4);
+            $this->data['dormmate5'] = format_student_name_userid($record->dormmate5);
+            $this->data['dormmate6'] = format_student_name_userid($record->dormmate6);
+            $this->data['preferredroommate'] = format_student_name_userid($record->preferredroommate);
             $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
@@ -118,7 +89,7 @@ class submitted extends notification {
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
             'haslivedindouble', 'roomtype', 'dormmate1', 'dormmate2', 'dormmate3', 'dormmate4', 'dormmate5', 'dormmate6',
-            'preferredroomate', 'timesubmitted'
+            'preferredroommate', 'timesubmitted'
         ));
     }
 
