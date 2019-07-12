@@ -264,7 +264,7 @@ class local_signout_external extends external_api {
         $record->confirmerid = $USER->id;
         $DB->update_record('local_signout_on_campus', $record);
         \local_mxschool\event\record_updated::create(array('other' => array(
-            'page' => get_string('duty_report', 'local_signout')
+            'page' => get_string('on_campus_duty_report', 'local_signout')
         )))->trigger();
         $result = new stdClass();
         $result->confirmationtime = format_date('g:i A', $record->confirmation_time);
