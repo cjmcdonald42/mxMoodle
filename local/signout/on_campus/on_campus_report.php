@@ -49,7 +49,6 @@ setup_mxschool_page('report', 'on_campus', 'signout');
 if (get_config('local_signout', 'on_campus_refresh_rate')) {
     $PAGE->set_periodic_refresh_delay((int) get_config('local_signout', 'on_campus_refresh_rate'));
 }
-$redirect = get_redirect();
 
 $locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));
 if ($filter->location && !isset($locations[$filter->location])) {

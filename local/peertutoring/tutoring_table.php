@@ -48,7 +48,7 @@ class tutoring_table extends local_mxschool_table {
         if ($filter->department) {
             unset($columns[array_search('department', $columns)]);
         }
-        if ($filter->type) {
+        if ($filter->type > 0) {
             unset($columns[array_search('type', $columns)]);
         }
         $headers = array_map(function($column) {
@@ -77,7 +77,7 @@ class tutoring_table extends local_mxschool_table {
         }
         $where = array(
             's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0', $filter->tutor ? "tu.id = {$filter->tutor}" : '',
-            $filter->department ? "d.id = {$filter->department}" : '', $filter->type ? "ty.id = {$filter->type}" : '',
+            $filter->department ? "d.id = {$filter->department}" : '', $filter->type ? "s.typeid = {$filter->type}" : '',
             $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
             $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
         );

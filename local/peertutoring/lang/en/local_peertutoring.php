@@ -163,6 +163,7 @@ $string['tutoring_form_error_norating'] = 'You must specify a rating.';
 $string['tutoring_report_select_tutor_all'] = 'All Tutors';
 $string['tutoring_report_select_department_all'] = 'All Departments';
 $string['tutoring_report_select_type_all'] = 'All Types';
+$string['tutoring_report_select_type_other'] = 'Other';
 $string['tutoring_report_select_date_all'] = 'All Dates';
 $string['tutoring_report_add'] = 'New Peer Tutoring Record';
 $string['tutoring_report_header_tutor'] = 'Tutor';

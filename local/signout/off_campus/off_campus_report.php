@@ -45,7 +45,6 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('report', 'off_campus', 'signout');
-$redirect = get_redirect();
 
 $types = array(
     'Driver' => get_string('off_campus_report_select_type_driver', 'local_signout'),

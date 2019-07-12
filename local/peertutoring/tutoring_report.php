@@ -46,6 +46,13 @@ $download = optional_param('download', '', PARAM_ALPHA);
 
 setup_mxschool_page('tutoring_report', null, 'peertutoring');
 
+$types = get_type_list() + array(-1 => get_string('tutoring_report_select_type_other', 'local_peertutoring'));
+if ($filter->type && !isset($types[$filter->type])) {
+    redirect(new moodle_url($PAGE->url, array(
+        'tutor' => $filter->tutor, 'department' => $filter->department, 'type' => '', 'date' => $filter->date,
+        'search' => $filter->search
+    )));
+}
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_peertutoring_session', array('id' => $id));
     $redirect = new moodle_url($PAGE->url, array(
@@ -63,7 +70,6 @@ if ($action === 'delete' && $id) {
 
 $tutors = get_tutor_list();
 $departments = get_department_list();
-$types = get_type_list();
 $dates = get_tutoring_date_list();
 
 $table = new tutoring_table($filter, $download);

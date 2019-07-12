@@ -48,7 +48,7 @@ class on_campus_table extends local_mxschool_table {
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        if ($filter->location) {
+        if ($filter->location > 0) {
             unset($columns[array_search('location', $columns)]);
         }
         if ($filter->date) {
