@@ -183,5 +183,16 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019071204, 'local', 'signout');
     }
 
+    if ($oldversion < 2019071208) {
+
+        // Add new configs for on_campus warnings.
+        set_config('on_campus_form_warning', 'You need special permission to go to a non-academic location.', 'local_signout');
+        set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+        set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071208, 'local', 'signout');
+    }
+
     return true;
 }

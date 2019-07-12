@@ -44,6 +44,14 @@ $functions = array(
         'type' => 'read',
         'ajax' => 'true'
     ),
+    'local_signout_get_on_campus_student_options' => array(
+        'classname' => 'local_signout_external',
+        'methodname' => 'get_on_campus_student_options',
+        'classpath' => 'local/signout/externallib.php',
+        'description' => 'Queries the database to determine the location options and permissions for a selected student.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ),
     'local_signout_sign_in' => array(
         'classname' => 'local_signout_external',
         'methodname' => 'sign_in',

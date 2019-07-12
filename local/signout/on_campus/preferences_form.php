@@ -52,6 +52,8 @@ class preferences_form extends local_mxschool_form {
             'text' => array(
                 'ipformerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'ipreporterror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'warning' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'confirmation' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
             )
         );
         $this->set_fields($fields, 'on_campus_preferences', true, 'local_signout');
