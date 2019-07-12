@@ -32,6 +32,12 @@ require_once(__DIR__.'/classes/event/record_deleted.php');
 require_once(__DIR__.'/classes/output/renderable.php');
 
 /**
+ * ========================
+ * Page Setup Abstractions.
+ * ========================
+ */
+
+/**
  * Sets the url, title, heading, and context of a page as well as logging that the page was visited.
  * Should be called to initialize all pages.
  *
@@ -215,6 +221,12 @@ function get_redirect() {
 }
 
 /**
+ * ===================================
+ * Database Manipulation Abstractions.
+ * ===================================
+ */
+
+/**
  * Generates and performs an SQL query to retrieve a record from the database.
  *
  * @param array $queryfields The fields to query - must be organized as [table => [abbreviation, join, fields => [header => name]]].
@@ -313,6 +325,12 @@ function update_notification($class, $subject, $body) {
 }
 
 /**
+ * ======================
+ * DateTime Abstractions.
+ * ======================
+ */
+
+/**
  * Generates a DateTime object from a time string or timestamp with the user's timezone.
  *
  * @param string|int $time A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
@@ -402,6 +420,12 @@ function enumerate_timestamp($timestamp) {
 }
 
 /**
+ * =====================
+ * Formatting Functions.
+ * =====================
+ */
+
+/**
  * Converts a boolean value to a 'yes' or 'no' language string.
  *
  * @param bool $boolean The boolean value.
@@ -410,6 +434,42 @@ function enumerate_timestamp($timestamp) {
 function boolean_to_yes_no($boolean) {
     return $boolean ? get_string('yes') : get_string('no');
 }
+
+/**
+ * Converts an array of objects with properties id and name to an array with form id => name.
+ *
+ * @param array $records The record objects to convert.
+ * @return array The same data in the form id => name.
+ */
+function convert_records_to_list($records) {
+    $list = array();
+    if (is_array($records)) {
+        foreach ($records as $record) {
+            $list[$record->id] = $record->name . (
+                !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
+            );
+        }
+    }
+    return $list;
+}
+
+/**
+ * Converts an associative array into an array of objects with properties value and text to be used in select elements.
+ *
+ * @param array $list The associative array to convert.
+ * @return array The same data in the form {'value': key, 'text': value}.
+ */
+function convert_associative_to_object($list) {
+    return array_map(function($key, $value) {
+        return array('value' => $key, 'text' => $value);
+    }, array_keys($list), $list);
+}
+
+/**
+ * ====================================
+ * Permissions Validation Abstractions.
+ * ====================================
+ */
 
 /**
  * Determines whether the current user is a student.
@@ -467,6 +527,12 @@ function student_may_access_vacation_travel($userid) {
     $stop = (int) get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
     return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_student_list());
 }
+
+/**
+ * ====================================
+ * URL Parameter Querying Abstractions.
+ * ====================================
+ */
 
 /**
  * Determines the dorm id to display for a faculty.
@@ -576,34 +642,10 @@ function get_current_semester() {
 }
 
 /**
- * Converts an array of objects with properties id and name to an array with form id => name.
- *
- * @param array $records The record objects to convert.
- * @return array The same data in the form id => name.
+ * ==========================================
+ * Database Query for Record List Functions.
+ * ==========================================
  */
-function convert_records_to_list($records) {
-    $list = array();
-    if (is_array($records)) {
-        foreach ($records as $record) {
-            $list[$record->id] = $record->name . (
-                !empty($record->alternatename) && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-            );
-        }
-    }
-    return $list;
-}
-
-/**
- * Converts an associative array into an array of objects with properties value and text to be used in select elements.
- *
- * @param array $list The associative array to convert.
- * @return array The same data in the form {'value': key, 'text': value}.
- */
-function convert_associative_to_object($list) {
-    return array_map(function($key, $value) {
-        return array('value' => $key, 'text' => $value);
-    }, array_keys($list), $list);
-}
 
 /**
  * Queries the database to create a list of all the students.
@@ -863,6 +905,52 @@ function get_boarding_dorm_list() {
 }
 
 /**
+ * Queries the database to create a list of all the vacation travel departure sites of a particular type.
+ *
+ * @param string|null $type The type to filter by, if no type is provided all will be returned.
+ * @return array The vacation travel departure sites as id => name, ordered alphabetically by site name.
+ */
+function get_vacation_travel_departure_sites_list($type = null) {
+    global $DB;
+    $filter = $type ? "AND type = '{$type}'" : '';
+    $sites = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_departure = 1 {$filter} ORDER BY name"
+    );
+    $list = convert_records_to_list($sites);
+    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
+        $list += array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the vacation travel return sites of a particular type.
+ *
+ * @param string $type The type to filter by, if no type is provided all will be returned.
+ * @return array The vacation travel return sites as id => name, ordered alphabetically by site name.
+ */
+function get_vacation_travel_return_sites_list($type = null) {
+    global $DB;
+    $filter = $type ? "AND type = '{$type}'" : '';
+    $sites = $DB->get_records_sql(
+        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_return = 1 {$filter} ORDER BY name"
+    );
+    $list = convert_records_to_list($sites);
+    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
+        $list += array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
+    }
+    return $list;
+}
+
+/**
+ * ============================================
+ * Miscellaneous Subpackage-Specific Functions.
+ * ============================================
+ */
+
+/* Check-In Sheets and Weekend Forms. */
+
+/**
  * Creates a list of all possible start days for a weekend.
  *
  * @return array The possible start days for the weekend as offset => name in accending order.
@@ -950,6 +1038,24 @@ function generate_weekend_records($starttime, $endtime) {
 }
 
 /**
+ * Calculates the number of weekends which a student is allowed for a semester.
+ * This number is determined from a lookup table.
+ *
+ * @param int $userid The userid of the student to query for.
+ * @param int $semester The semester to query for.
+ * @return int The the number of allowed weekends or 0 if allowed unlimited weekends.
+ */
+function calculate_weekends_allowed($userid, $semester) {
+    global $DB;
+    $weekendsallowed = array(
+        '9' => array('1' => 4, '2' => 4), '10' => array('1' => 4, '2' => 5),
+        '11' => array('1' => 6, '2' => 6), '12' => array('1' => 6, '2' => 0)
+    );
+    $grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $userid));
+    return $weekendsallowed[$grade][$semester];
+}
+
+/**
  * Calculates the number of weekends which a student has used.
  * This number is determined by the number of active weekend forms for the student
  * on open or closed weekends in the specified semester.
@@ -971,23 +1077,7 @@ function calculate_weekends_used($userid, $semester) {
     );
 }
 
-/**
- * Calculates the number of weekends which a student is allowed for a semester.
- * This number is determined from a lookup table.
- *
- * @param int $userid The userid of the student to query for.
- * @param int $semester The semester to query for.
- * @return int The the number of allowed weekends or 0 if allowed unlimited weekends.
- */
-function calculate_weekends_allowed($userid, $semester) {
-    global $DB;
-    $weekendsallowed = array(
-        '9' => array('1' => 4, '2' => 4), '10' => array('1' => 4, '2' => 5),
-        '11' => array('1' => 6, '2' => 6), '12' => array('1' => 6, '2' => 0)
-    );
-    $grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $userid));
-    return $weekendsallowed[$grade][$semester];
-}
+/* Rooming. */
 
 /**
  * Creates a list of all the room types for a particular gender.
@@ -1006,7 +1096,7 @@ function get_roomtype_list($gender = '') {
     return $roomtypes;
 }
 
-
+/* Vacation Travel. */
 
 /**
  * Creates a list of all the vacation travel types given a filter.
@@ -1018,44 +1108,6 @@ function get_vacation_travel_type_list($mxtransportation = null) {
     return isset($mxtransportation) ? (
         $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
     ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
-}
-
-/**
- * Queries the database to create a list of all the vacation travel departure sites of a particular type.
- *
- * @param string|null $type The type to filter by, if no type is provided all will be returned.
- * @return array The vacation travel departure sites as id => name, ordered alphabetically by site name.
- */
-function get_vacation_travel_departure_sites_list($type = null) {
-    global $DB;
-    $filter = $type ? "AND type = '{$type}'" : '';
-    $sites = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_departure = 1 {$filter} ORDER BY name"
-    );
-    $list = convert_records_to_list($sites);
-    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
-        $list += array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
-    }
-    return $list;
-}
-
-/**
- * Queries the database to create a list of all the vacation travel return sites of a particular type.
- *
- * @param string $type The type to filter by, if no type is provided all will be returned.
- * @return array The vacation travel return sites as id => name, ordered alphabetically by site name.
- */
-function get_vacation_travel_return_sites_list($type = null) {
-    global $DB;
-    $filter = $type ? "AND type = '{$type}'" : '';
-    $sites = $DB->get_records_sql(
-        "SELECT id, name FROM {local_mxschool_vt_site} WHERE deleted = 0 AND enabled_return = 1 {$filter} ORDER BY name"
-    );
-    $list = convert_records_to_list($sites);
-    if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
-        $list += array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
-    }
-    return $list;
 }
 
 /**

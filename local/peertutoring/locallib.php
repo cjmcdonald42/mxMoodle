@@ -29,6 +29,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/../mxschool/locallib.php');
 
 /**
+ * =================================
+ * Permissions Validation Functions.
+ * =================================
+ */
+
+/**
  * Determines whether a specified user is a student who is permitted to access the tutoring form.
  *
  * @param int $id The user id of the student to check.
@@ -37,6 +43,12 @@ require_once(__DIR__.'/../mxschool/locallib.php');
 function student_may_access_tutoring($userid) {
     return array_key_exists($userid, get_tutor_list());
 }
+
+/**
+ * ==========================================
+ * Database Query for Record List Functions.
+ * ==========================================
+ */
 
 /**
  * Queries the database to create a list of all the students who are eligible to become peer tutors.

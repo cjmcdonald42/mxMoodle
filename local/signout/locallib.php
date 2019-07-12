@@ -29,6 +29,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/../mxschool/locallib.php');
 
 /**
+ * =================================
+ * Permissions Validation Functions.
+ * =================================
+ */
+
+/**
  * Determines whether a specified user is a student who is permitted to access off-campus signout.
  * Students are permitted to participate in off-campus signout if off-campus signout is enabled and the student's grade is 11 or 12.
  *
@@ -53,6 +59,12 @@ function student_may_access_on_campus_signout($userid) {
 }
 
 /**
+ * ====================================
+ * URL Parameter Querying Abstractions.
+ * ====================================
+ */
+
+/**
  * Determines the date to be selected which corresponds to an existing off-campus signout record.
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
@@ -72,6 +84,12 @@ function get_param_current_date_off_campus() {
         array($startdate->getTimestamp(), $enddate->getTimestamp())
     ) ? $timestamp : '';
 }
+
+/**
+ * =========================================
+ * Database Query for Record List Functions.
+ * =========================================
+ */
 
 /**
  * Queries the database to create a list of all the students who have sufficient permissions to participate in off-campus signout.
