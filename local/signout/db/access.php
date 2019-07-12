@@ -46,5 +46,10 @@ $capabilities = array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/signout:confirm_on_campus' => array(
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
     )
 );

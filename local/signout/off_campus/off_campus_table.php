@@ -174,10 +174,11 @@ class off_campus_table extends local_mxschool_table {
      * Formats the sign-in time column to 'g:i A'.
      */
     protected function col_signin($values) {
-        return isset($values->signin) ? (
-            format_date('n/j/y', $values->departuredate) === format_date('n/j/y', $values->signin)
-                ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin)
-        ) : '-';
+        if (!isset($values->signin)) {
+            return '-';
+        }
+        return format_date('n/j/y', $values->departuredate) === format_date('n/j/y', $values->signin)
+            ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin);
     }
 
     /**

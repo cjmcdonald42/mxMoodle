@@ -62,7 +62,7 @@ function xmldb_local_signout_install() {
         ))),
         array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
-            'duty_report' => 'on_campus_duty_report.php'
+            'duty_report' => 'duty_report.php'
         )))
     );
     foreach ($subpackages as $subpackage) {

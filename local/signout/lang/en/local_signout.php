@@ -28,12 +28,14 @@ $string['pluginname'] = 'Middlesex School Electronic Signout';
 
 /* General */
 $string['sign_in_button'] = 'Sign In';
+$string['confirmation_button'] = 'Confirm';
 
 // Capabilities.
 $string['signout:manage_off_campus'] = 'Middlesex School Electronic Signout: View and manage student off-campus signout records';
 $string['signout:manage_off_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage off-campus signout preferences';
 $string['signout:manage_on_campus'] = 'Middlesex School Electronic Signout: View and manage student on-campus signout records';
 $string['signout:manage_on_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage on-campus signout preferences';
+$string['signout:confirm_on_campus'] = 'Middlesex School Electronic Signout: View duty report and confirm on-campus signout records';
 
 // Settings Pages.
 $string['settings'] = 'eSignout Settings';
@@ -192,12 +194,29 @@ $string['on_campus_report_select_location_other'] = 'Other';
 $string['on_campus_report_select_date_all'] = 'All Dates';
 $string['on_campus_report_add'] = 'New On-Campus Signout Record';
 $string['on_campus_report_header_student'] = 'Student';
+$string['on_campus_report_header_grade'] = 'Grade';
 $string['on_campus_report_header_dorm'] = 'Dorm';
 $string['on_campus_report_header_location'] = 'Location';
 $string['on_campus_report_header_signoutdate'] = 'Date';
 $string['on_campus_report_header_signouttime'] = 'Sign Out Time';
 $string['on_campus_report_header_confirmation'] = 'Confirmation';
 $string['on_campus_report_header_signin'] = 'Sign In Time';
-$string['on_campus_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime}';
+$string['on_campus_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime} on {$a->confirmationdate}';
 
 // Duty Report for On-Campus Signout.
+$string['duty_report_title'] = 'On-Campus Duty Report for {$a}';
+$string['duty_report_select_pictures_on'] = 'Show Pictures';
+$string['duty_report_select_pictures_off'] = 'Hide Pictures';
+$string['duty_report_select_location_all'] = 'All Locations';
+$string['duty_report_select_location_other'] = 'Other';
+$string['duty_report_header_student'] = 'Student';
+$string['duty_report_header_picture'] = 'Picture';
+$string['duty_report_header_grade'] = 'Grade';
+$string['duty_report_header_dorm'] = 'Dorm';
+$string['duty_report_header_advisor'] = 'Advisor';
+$string['duty_report_header_location'] = 'Location';
+$string['duty_report_header_signouttime'] = 'Sign Out Time';
+$string['duty_report_header_confirmation'] = 'Confirmation';
+$string['duty_report_header_signin'] = 'Sign In Time';
+$string['duty_report_column_picture_notfound'] = '<i>&mdash;Picture Not Found&mdash;</i>';
+$string['duty_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime}';

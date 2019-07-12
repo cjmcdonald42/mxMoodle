@@ -46,8 +46,9 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('report', 'on_campus', 'signout');
-if (get_config('local_signout', 'on_campus_refresh_rate')) {
-    $PAGE->set_periodic_refresh_delay((int) get_config('local_signout', 'on_campus_refresh_rate'));
+$refresh = get_config('local_signout', 'on_campus_refresh_rate');
+if ($refresh) {
+    $PAGE->set_periodic_refresh_delay((int) $refresh);
 }
 
 $locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));

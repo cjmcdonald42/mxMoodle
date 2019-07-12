@@ -59,5 +59,13 @@ $functions = array(
         'description' => 'Signs in an eSignout record and records the timestamp.',
         'type' => 'write',
         'ajax' => 'true'
+    ),
+    'local_signout_confirm_signout' => array(
+        'classname' => 'local_signout_external',
+        'methodname' => 'confirm_signout',
+        'classpath' => 'local/signout/externallib.php',
+        'description' => 'Confirms an on-campus signout record and records the timestamp.',
+        'type' => 'write',
+        'ajax' => 'true'
     )
 );

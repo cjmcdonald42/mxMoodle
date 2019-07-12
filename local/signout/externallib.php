@@ -194,7 +194,7 @@ class local_signout_external extends external_api {
      *
      * @param int $id The id of the record to sign in.
      * @param string $table The table of the record to sign in.
-     * @return string The text to display for the sign in time.
+     * @return string The text to display for the sign-in time.
      * @throws coding_exception If the table is invalid or
      *                          if the eSignout record does not exist, doesn't belong to this user, or has already been signed in.
      */
@@ -220,8 +220,8 @@ class local_signout_external extends external_api {
             );
         }
         $record->sign_in_time = $record->time_modified = time();
-        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         $DB->update_record($params['table'], $record);
+        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         return format_date('g:i A', $record->sign_in_time);
     }
 
@@ -232,6 +232,58 @@ class local_signout_external extends external_api {
      */
     public static function sign_in_returns() {
         return new external_value(PARAM_TEXT, 'The text to display for the sign in time.');
+    }
+
+    /**
+     * Returns descriptions of the confirm_signout() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the confirm_signout() function.
+     */
+    public static function confirm_signout_parameters() {
+        return new external_function_parameters(array('id' => new external_value(PARAM_INT, 'The id of the record to confirm.')));
+    }
+
+    /**
+     * Confirms an on-campus signout record and records the timestamp.
+     *
+     * @param int $id The id of the record to confirm.
+     * @return string The text to display for the sign in time.
+     * @throws coding_exception If the on-campus signout record does not exist or has already been confirmed.
+     */
+    public static function confirm_signout($id) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::confirm_signout_parameters(), array('id' => $id));
+
+        global $DB, $USER;
+        require_capability('local/signout:confirm_on_campus', context_system::instance());
+        $record = $DB->get_record('local_signout_on_campus', array('id' => $params['id']));
+        if (!$record || $record->confirmation_time) {
+            throw new coding_exception('on-campus signout record either doesn\'t exist or has already been confirmed');
+        }
+        $record->confirmation_time = $record->time_modified = time();
+        $record->confirmerid = $USER->id;
+        $DB->update_record('local_signout_on_campus', $record);
+        \local_mxschool\event\record_updated::create(array('other' => array(
+            'page' => get_string('duty_report', 'local_signout')
+        )))->trigger();
+        $result = new stdClass();
+        $result->confirmationtime = format_date('g:i A', $record->confirmation_time);
+        $result->confirmer = $DB->get_field_sql(
+            "SELECT CONCAT(lastname, ', ', firstname) FROM {user} WHERE id = ?", array($record->confirmerid)
+        );
+        return $result;
+    }
+
+    /**
+     * Returns a description of the confirm_signout() function's return value.
+     *
+     * @return external_single_structure Object describing the return value of the confirm_signout() function.
+     */
+    public static function confirm_signout_returns() {
+        return new external_single_structure(array(
+            'confirmationtime' => new external_value(PARAM_TEXT, 'The time when the record was confirmed.'),
+            'confirmer' => new external_value(PARAM_TEXT, 'The name of the user who confirmed the record.'),
+        ));
     }
 
 }

@@ -44,7 +44,7 @@ class on_campus_table extends local_mxschool_table {
     public function __construct($filter, $isstudent) {
         global $USER;
         $this->isstudent = $isstudent;
-        $columns = array('student', 'dorm', 'location', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        $columns = array('student', 'grade', 'dorm', 'location', 'signoutdate', 'signouttime', 'confirmation', 'signin');
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
@@ -63,7 +63,7 @@ class on_campus_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
+            'oc.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
             'd.name AS dorm', 'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
             "CONCAT(c.lastname, ', ', c.firstname) AS confirmer", 'oc.confirmation_time AS confirmationtime',
             'oc.sign_in_time AS signin'
@@ -87,11 +87,11 @@ class on_campus_table extends local_mxschool_table {
             $where[] = "oc.time_created >= {$starttime->getTimestamp()}";
             $where[] = "oc.time_created < {$endtime->getTimestamp()}";
         }
-        $sortable = array('student', 'dorm', 'location', $filter->date ? 'signouttime' : 'signoutdate');
+        $sortable = array('student', 'grade', 'dorm', 'location', $filter->date ? 'signouttime' : 'signoutdate');
         $urlparams = array(
             'dorm' => $filter->dorm, 'location' => $filter->location, 'date' => $filter->date, 'search' => $filter->search
         );
-        $centered = array('signoutdate', 'signouttime', 'confirmation', 'signin');
+        $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
         parent::__construct(
             'on_campus_table', $columns, $headers, $sortable, $filter->date ? 'signouttime' : 'signoutdate', $fields, $from, $where,
@@ -125,19 +125,24 @@ class on_campus_table extends local_mxschool_table {
      * Formats the confirmation column.
      */
     protected function col_confirmation($values) {
-        return isset($values->confirmationtime) ? get_string('on_campus_report_column_confirmation_text', 'local_signout', array(
-            'confirmer' => $values->confirmer, 'confirmationtime' => format_date('g:i A', $values->confirmationtime)
-        )) : '-';
+        if (!isset($values->confirmationtime)) {
+            return '-';
+        }
+        return get_string('on_campus_report_column_confirmation_text', 'local_signout', array(
+            'confirmer' => $values->confirmer, 'confirmationtime' => format_date('g:i A', $values->confirmationtime),
+            'confirmationdate' => format_date('n/j/y', $values->confirmationtime)
+        ));
     }
 
     /**
      * Formats the sign-in time column to 'g:i A'.
      */
     protected function col_signin($values) {
-        return isset($values->signin) ? (
-            format_date('n/j/y', $values->signoutdate) === format_date('n/j/y', $values->signin)
-                ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin)
-        ) : '-';
+        if (!isset($values->signin)) {
+            return '-';
+        }
+        return format_date('n/j/y', $values->signoutdate) === format_date('n/j/y', $values->signin)
+            ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin);
     }
 
     /**

@@ -194,5 +194,18 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019071208, 'local', 'signout');
     }
 
+    if ($oldversion < 2019071209) {
+
+        $oncampus = $DB->get_record('local_mxschool_subpackage', array('subpackage' => 'on_campus'));
+        $oncampus->pages = json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
+            'duty_report' => 'duty_report.php'
+        ));
+        $DB->update_record('local_mxschool_subpackage', $oncampus);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071209, 'local', 'signout');
+    }
+
     return true;
 }
