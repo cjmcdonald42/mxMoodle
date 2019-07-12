@@ -38,13 +38,19 @@ class on_campus_table extends local_mxschool_table {
     /**
      * Creates a new on_campus_table.
      *
-     * @param stdClass $filter any filtering for the table - could include location, date, and search.
+     * @param stdClass $filter any filtering for the table - could include dorm, location, date, and search.
      * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
     public function __construct($filter, $isstudent) {
         global $USER;
         $this->isstudent = $isstudent;
-        $columns = array('student', 'location', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        $columns = array('student', 'dorm', 'location', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        if ($filter->dorm) {
+            unset($columns[array_search('dorm', $columns)]);
+        }
+        if ($filter->location) {
+            unset($columns[array_search('location', $columns)]);
+        }
         if ($filter->date) {
             unset($columns[array_search('signoutdate', $columns)]);
         }
@@ -58,17 +64,19 @@ class on_campus_table extends local_mxschool_table {
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
-            'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
+            'd.name AS dorm', 'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
             "CONCAT(c.lastname, ', ', c.firstname) AS confirmer", 'oc.confirmation_time AS confirmationtime',
             'oc.sign_in_time AS signin'
         );
         $from = array(
-            '{local_signout_on_campus} oc', '{user} u ON oc.userid = u.id', '{local_signout_location} l ON oc.locationid = l.id',
+            '{local_signout_on_campus} oc', '{user} u ON oc.userid = u.id', '{local_mxschool_student} s ON s.userid = u.id',
+            '{local_mxschool_dorm} d ON s.dormid = d.id', '{local_signout_location} l ON oc.locationid = l.id',
             '{user} c ON oc.confirmerid = c.id'
         );
         $starttime = generate_datetime('midnight')->getTimestamp();
         $where = array(
-            'oc.deleted = 0', 'u.deleted = 0', '(locationid = -1 OR l.deleted = 0)', '(oc.confirmerid IS NULL OR c.deleted = 0)',
+            'oc.deleted = 0', 'u.deleted = 0', $filter->dorm ? "s.dormid = {$filter->dorm}" : '',
+            '(oc.locationid = -1 OR l.deleted = 0)', '(oc.confirmerid IS NULL OR c.deleted = 0)',
             $filter->location ? "oc.locationid = {$filter->location}" : '', $isstudent ? "oc.userid = {$USER->id}" : '',
             $isstudent ? "oc.time_created >= {$starttime}" : ''
         );
@@ -79,8 +87,10 @@ class on_campus_table extends local_mxschool_table {
             $where[] = "oc.time_created >= {$starttime->getTimestamp()}";
             $where[] = "oc.time_created < {$endtime->getTimestamp()}";
         }
-        $sortable = array('student', 'location', $filter->date ? 'signouttime' : 'signoutdate');
-        $urlparams = array('location' => $filter->location, 'date' => $filter->date, 'search' => $filter->search);
+        $sortable = array('student', 'dorm', 'location', $filter->date ? 'signouttime' : 'signoutdate');
+        $urlparams = array(
+            'dorm' => $filter->dorm, 'location' => $filter->location, 'date' => $filter->date, 'search' => $filter->search
+        );
         $centered = array('signoutdate', 'signouttime', 'confirmation', 'signin');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
         parent::__construct(

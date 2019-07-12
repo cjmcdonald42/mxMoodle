@@ -54,6 +54,7 @@ if ($action === 'delete' && $id) {
 $data = new stdClass();
 $data->oncampusenabled = get_config('local_signout', 'on_campus_form_enabled');
 $data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
+$data->refresh = get_config('local_signout', 'on_campus_refresh_rate');
 $data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
 $data->ipreporterror['text'] = get_config('local_signout', 'on_campus_report_iperror');
 
@@ -66,6 +67,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('on_campus_form_enabled', $data->oncampusenabled, 'local_signout');
     set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
+    set_config('on_campus_refresh_rate', $data->refresh, 'local_signout');
     set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
     set_config('on_campus_report_iperror', $data->ipreporterror['text'], 'local_signout');
     logged_redirect(

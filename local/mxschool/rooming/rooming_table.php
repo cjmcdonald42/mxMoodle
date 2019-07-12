@@ -41,10 +41,10 @@ class rooming_table extends local_mxschool_table {
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Rooming Requests', 'Rooming Requests');
         $columns = array('student', 'grade', 'gender', 'dorm', 'liveddouble', 'roomtype', 'dormmates', 'roommate');
-        if ($filter->gender !== '') {
+        if ($filter->gender) {
             unset($columns[array_search('gender', $columns)]);
         }
-        if ($filter->roomtype !== '') {
+        if ($filter->roomtype) {
             unset($columns[array_search('roomtype', $columns)]);
         }
         if ($filter->double !== '') {

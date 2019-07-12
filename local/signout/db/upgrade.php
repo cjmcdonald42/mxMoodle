@@ -174,5 +174,14 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019071100, 'local', 'signout');
     }
 
+    if ($oldversion < 2019071204) {
+
+        // Add new configs for on_campus reports to refresh.
+        set_config('on_campus_refresh_rate', '60', 'local_signout');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071204, 'local', 'signout');
+    }
+
     return true;
 }

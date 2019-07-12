@@ -71,7 +71,7 @@ function student_may_access_on_campus_signout($userid) {
  * 2) The current or date.
  * If there is not an off-campus signout record asseociated with the selected date, an empty string will be returned.
  *
- * @return string The timestamp of the midnight on the desired date.
+ * @return string The timestamp of midnight on the desired date.
  */
 function get_param_current_date_off_campus() {
     global $DB;
@@ -81,6 +81,27 @@ function get_param_current_date_off_campus() {
     $enddate->modify('+1 day');
     return $DB->record_exists_sql(
         "SELECT id FROM {local_signout_off_campus} WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
+        array($startdate->getTimestamp(), $enddate->getTimestamp())
+    ) ? $timestamp : '';
+}
+
+/**
+ * Determines the date to be selected which corresponds to an existing on-campus signout record.
+ * The priorities of this function are as follows:
+ * 1) An id specified as a 'date' GET parameter.
+ * 2) The current or date.
+ * If there is not an on-campus signout record asseociated with the selected date, an empty string will be returned.
+ *
+ * @return string The timestamp of midnight on the desired date.
+ */
+function get_param_current_date_on_campus() {
+    global $DB;
+    $timestamp = get_param_current_date();
+    $startdate = generate_datetime($timestamp);
+    $enddate = clone $startdate;
+    $enddate->modify('+1 day');
+    return $DB->record_exists_sql(
+        "SELECT id FROM {local_signout_on_campus} WHERE deleted = 0 AND time_created > ? AND time_created < ?",
         array($startdate->getTimestamp(), $enddate->getTimestamp())
     ) ? $timestamp : '';
 }
@@ -175,7 +196,7 @@ function get_on_campus_permitted_student_list() {
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
     );
     return convert_records_to_list($students);
 }

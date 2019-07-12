@@ -41,7 +41,7 @@ class vacation_table extends local_mxschool_table {
         if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
             $columns = array_merge($columns, array('retdatetime', 'rettype', 'retinfo'));
         }
-        if ($filter->dorm !== '') {
+        if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
         $headers = array_map(function($column) {

@@ -152,6 +152,7 @@ $string['on_campus_preferences_header_config'] = 'Config';
 $string['on_campus_preferences_header_text'] = 'On-Campus Signout Form Permissions Warnings';
 $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable the On-Campus Signout Form';
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
+$string['on_campus_preferences_config_refresh'] = 'How often the On-Campus reports should refresh (seconds)<br>Leave blank to disable auto-refresh';
 $string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
 $string['on_campus_preferences_text_ipreporterror'] = 'Text to Display in On-Campus Signout Report When on the Wrong Network';
 
@@ -182,11 +183,13 @@ $string['on_campus_form_location_select_other'] = 'Other (please specify)';
 $string['on_campus_form_error_nolocation'] = 'You must specify a location.';
 
 // Report for On-Campus Signout.
+$string['on_campus_report_title'] = '{$a}On-Campus Signout Report';
 $string['on_campus_report_select_location_all'] = 'All Locations';
 $string['on_campus_report_select_location_other'] = 'Other';
 $string['on_campus_report_select_date_all'] = 'All Dates';
 $string['on_campus_report_add'] = 'New On-Campus Signout Record';
 $string['on_campus_report_header_student'] = 'Student';
+$string['on_campus_report_header_dorm'] = 'Dorm';
 $string['on_campus_report_header_location'] = 'Location';
 $string['on_campus_report_header_signoutdate'] = 'Date';
 $string['on_campus_report_header_signouttime'] = 'Sign Out Time';

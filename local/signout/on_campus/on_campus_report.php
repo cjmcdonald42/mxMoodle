@@ -38,13 +38,17 @@ if (!$isstudent) {
 }
 
 $filter = new stdClass();
+$filter->dorm = get_param_faculty_dorm();
 $filter->location = optional_param('location', '', PARAM_RAW);
-$filter->date = get_param_current_date_off_campus();
+$filter->date = get_param_current_date_on_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('report', 'on_campus', 'signout');
+if (get_config('local_signout', 'on_campus_refresh_rate')) {
+    $PAGE->set_periodic_refresh_delay((int) get_config('local_signout', 'on_campus_refresh_rate'));
+}
 $redirect = get_redirect();
 
 $locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));
@@ -65,13 +69,17 @@ if ($action === 'delete' && $id) {
     }
 }
 
+$dorms = get_boarding_dorm_list();
 $dates = get_on_campus_date_list();
 
 $table = new on_campus_table($filter, $isstudent);
 
-$dropdowns = array(new local_mxschool_dropdown(
-    'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
-));
+$dropdowns = array(
+    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool')),
+    new local_mxschool_dropdown(
+        'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
+    )
+);
 if (!$isstudent) {
     $dropdowns[] = new local_mxschool_dropdown(
         'date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout')
@@ -85,7 +93,9 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
-echo $output->heading($PAGE->title);
+echo $output->heading(
+    get_string('on_campus_report_title', 'local_signout', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
+);
 if (
     $isstudent && get_config('local_signout', 'on_campus_form_ipenabled')
     && $_SERVER['REMOTE_ADDR'] !== get_config('local_signout', 'school_ip')

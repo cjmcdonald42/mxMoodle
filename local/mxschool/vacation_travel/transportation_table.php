@@ -51,7 +51,7 @@ class transportation_table extends local_mxschool_table {
                 unset($columns[array_search('international', $columns)]);
             }
         }
-        if ($filter->type !== '') {
+        if ($filter->type) {
             unset($columns[array_search('type', $columns)]);
             if ($filter->type === 'Car' || $filter->type === 'Non-MX Bus') {
                 unset($columns[array_search('site', $columns)]);
