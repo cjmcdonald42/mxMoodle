@@ -160,7 +160,7 @@ $string['on_campus_location_report_header_name'] = 'Name';
 $string['on_campus_location_report_header_grade'] = 'Minimum Grade';
 $string['on_campus_location_report_header_enabled'] = 'Enabled';
 $string['on_campus_location_report_header_start'] = 'Start Date';
-$string['on_campus_location_report_header_stop'] = 'Stop Date';
+$string['on_campus_location_report_header_end'] = 'End Date';
 
 // On-Campus Location Edit.
 $string['on_campus_location_edit_header_location'] = 'Location Information';
@@ -170,7 +170,7 @@ $string['on_campus_location_edit_location_grade_11'] = '11';
 $string['on_campus_location_edit_location_grade_12'] = '12';
 $string['on_campus_location_edit_location_enabled'] = 'Enabled';
 $string['on_campus_location_edit_location_start'] = 'Start Date';
-$string['on_campus_location_edit_location_stop'] = 'Stop Date';
+$string['on_campus_location_edit_location_end'] = 'End Date';
 
 // Form for On-Campus Signout.
 $string['on_campus_form_header_info'] = 'General Information';

@@ -161,5 +161,18 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070811, 'local', 'signout');
     }
 
+    if ($oldversion < 2019071100) {
+
+        // Rename field stop_date on table local_signout_location to end_date.
+        $table = new xmldb_table('local_signout_location');
+        $field = new xmldb_field('stop_date', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'start_date');
+
+        // Launch rename field stop_date.
+        $dbman->rename_field($table, $field, 'end_date');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071100, 'local', 'signout');
+    }
+
     return true;
 }

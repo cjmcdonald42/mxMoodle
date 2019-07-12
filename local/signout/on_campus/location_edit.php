@@ -39,7 +39,7 @@ setup_edit_page('location_edit', 'preferences', 'on_campus', 'signout');
 $redirect = get_redirect();
 
 $queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'fields' => array(
-    'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'stop_date' => 'stop'
+    'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'end_date' => 'end'
 )));
 
 if ($id && !$DB->record_exists('local_signout_location', array('id' => $id))) {
@@ -58,8 +58,8 @@ if ($form->is_cancelled()) {
     if (!$data->start) {
         $data->start = null;
     }
-    if (!$data->stop) {
-        $data->stop = null;
+    if (!$data->end) {
+        $data->end = null;
     }
     update_record($queryfields, $data);
     logged_redirect(

@@ -44,7 +44,7 @@ class location_edit_form extends local_mxschool_form {
                 'grade' => array('element' => 'radio', 'options' => array(11, 12), 'rules' => array('required')),
                 'enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'start' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year(true)),
-                'stop' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year(true))
+                'end' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year(true))
             )
         );
         $this->set_fields($fields, 'on_campus_location_edit', false, 'local_signout');

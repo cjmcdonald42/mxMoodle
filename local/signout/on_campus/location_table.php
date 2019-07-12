@@ -34,18 +34,18 @@ class location_table extends local_mxschool_table {
      * Creates a new location_table.
      */
     public function __construct() {
-        $columns = array('name', 'grade', 'enabled', 'start', 'stop');
+        $columns = array('name', 'grade', 'enabled', 'start', 'end');
         $headers = array_map(function($column) {
             return get_string("on_campus_location_report_header_{$column}", 'local_signout');
         }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $fields = array('l.id', 'l.name', 'l.grade', 'l.enabled', 'l.start_date AS start', 'l.stop_date AS stop');
+        $fields = array('l.id', 'l.name', 'l.grade', 'l.enabled', 'l.start_date AS start', 'l.end_date AS end');
         $from = array('{local_signout_location} l');
         $where = array('l.deleted = 0');
         $sortable = array('name', 'grade');
         $urlparams = array();
-        $centered = array('enabled', 'start', 'stop');
+        $centered = array('grade', 'enabled', 'start', 'end');
         parent::__construct('location_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
     }
 
@@ -67,10 +67,10 @@ class location_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the stop date column to 'n/j/y'.
+     * Formats the end date column to 'n/j/y'.
      */
-    protected function col_stop($values) {
-        return isset($values->stop) ? format_date('n/j/y', $values->stop) : '-';
+    protected function col_end($values) {
+        return isset($values->end) ? format_date('n/j/y', $values->end) : '-';
     }
 
     /**
