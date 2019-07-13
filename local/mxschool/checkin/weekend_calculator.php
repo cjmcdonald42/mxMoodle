@@ -48,7 +48,9 @@ $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' =>
 $startdate = get_config('local_mxschool', $filter->semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
 $enddate = get_config('local_mxschool', $filter->semester == 1 ? 'second_semester_start_date' : 'dorms_close_date');
 $weekends = $DB->get_records_sql(
-    "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? AND type <> 'Vacation'
+    "SELECT id, sunday_time
+     FROM {local_mxschool_weekend}
+     WHERE sunday_time >= ? AND sunday_time < ? AND type <> 'Vacation'
      ORDER BY sunday_time", array($startdate, $enddate)
 );
 

@@ -55,12 +55,7 @@ class advisor_table extends local_mxschool_table {
         $fields = array(
             's.id', 's.userid', 'asf.id AS asfid', "CONCAT(u.lastname, ', ', u.firstname) AS student",
             'asf.keep_current AS keepcurrent', "CONCAT(ca.lastname, ', ', ca.firstname) AS current", 'ca.id AS cid',
-            "CONCAT(o1a.lastname, ', ', o1a.firstname) AS option1", 'o1a.id AS o1id',
-            "CONCAT(o2a.lastname, ', ', o2a.firstname) AS option2", 'o2a.id AS o2id',
-            "CONCAT(o3a.lastname, ', ', o3a.firstname) AS option3", 'o3a.id AS o3id',
-            "CONCAT(o4a.lastname, ', ', o4a.firstname) AS option4", 'o4a.id AS o4id',
-            "CONCAT(o5a.lastname, ', ', o5a.firstname) AS option5", 'o5a.id AS o5id',
-            "CONCAT(sa.lastname, ', ', sa.firstname) AS selected", 'sa.id AS sid',
+            'o1a.id AS o1id', 'o2a.id AS o2id', 'o3a.id AS o3id', 'o4a.id AS o4id', 'o5a.id AS o5id', 'sa.id AS sid',
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{user} ca ON s.advisorid = ca.id',
@@ -81,7 +76,7 @@ class advisor_table extends local_mxschool_table {
                 $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)";
                 break;
         }
-        $sortable = array('student', 'current', 'keepcurrent');
+        $sortable = array('student', 'current');
         $urlparams = array('submitted' => $filter->submitted, 'keepcurrent' => $filter->keepcurrent, 'search' => $filter->search);
         $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');
         $searchable = array(
@@ -135,11 +130,12 @@ class advisor_table extends local_mxschool_table {
         if (!isset($values->o1id)) {
             return '';
         }
+        $text = format_faculty_name($values->o1id);
         if ($this->is_downloading()) {
-            return $values->option1;
+            return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o1id, $values->option1);
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o1id, $text);
         return $output->render($renderable);
     }
 
@@ -151,11 +147,12 @@ class advisor_table extends local_mxschool_table {
         if (!isset($values->o2id)) {
             return '';
         }
+        $text = format_faculty_name($values->o2id);
         if ($this->is_downloading()) {
-            return $values->option2;
+            return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o2id, $values->option2);
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o2id, $text);
         return $output->render($renderable);
     }
 
@@ -167,11 +164,12 @@ class advisor_table extends local_mxschool_table {
         if (!isset($values->o3id)) {
             return '';
         }
+        $text = format_faculty_name($values->o3id);
         if ($this->is_downloading()) {
-            return $values->option3;
+            return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o3id, $values->option3);
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o3id, $text);
         return $output->render($renderable);
     }
 
@@ -183,11 +181,12 @@ class advisor_table extends local_mxschool_table {
         if (!isset($values->o4id)) {
             return '';
         }
+        $text = format_faculty_name($values->o4id);
         if ($this->is_downloading()) {
-            return $values->option4;
+            return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o4id, $values->option4);
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o4id, $text);
         return $output->render($renderable);
     }
 
@@ -199,12 +198,20 @@ class advisor_table extends local_mxschool_table {
         if (!isset($values->o5id)) {
             return '';
         }
+        $text = format_faculty_name($values->o5id);
         if ($this->is_downloading()) {
-            return $values->option5;
+            return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o5id, $values->option5);
+        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o5id, $text);
         return $output->render($renderable);
+    }
+
+    /**
+     * Formats the selected column to "Last, First".
+     */
+    protected function col_selected($values) {
+        return isset($values->sid) ? format_faculty_name($values->sid) : '';
     }
 
     /**

@@ -60,8 +60,9 @@ if ($type === 'parents' && $action === 'delete' && $id) {
         if ($record->is_primary_parent) { // Each student must have a primary parent.
             $record->is_primary_parent = false;
             $newprimary = $DB->get_record_sql(
-                "SELECT id, is_primary_parent FROM {local_mxschool_parent} WHERE userid = ? AND id <> ? AND deleted = 0",
-                array($record->userid, $record->id), IGNORE_MULTIPLE
+                "SELECT id, is_primary_parent
+                 FROM {local_mxschool_parent}
+                 WHERE userid = ? AND id <> ? AND deleted = 0", array($record->userid, $record->id), IGNORE_MULTIPLE
             );
             if ($newprimary) {
                 $newprimary->is_primary_parent = true;

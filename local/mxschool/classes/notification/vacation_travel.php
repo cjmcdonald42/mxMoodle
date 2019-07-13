@@ -51,7 +51,7 @@ class submitted extends notification {
      *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         global $DB;
         parent::__construct('vacation_travel_submitted');
 
@@ -64,10 +64,11 @@ class submitted extends notification {
                         rs.name AS retsite, r.details AS retdetails, r.carrier AS retcarriercompany,
                         r.transportation_number AS retnumber, r.date_time AS retvariable, r.international AS retinternational
                  FROM {local_mxschool_vt_trip} t LEFT JOIN {user} u ON t.userid = u.id
-                 LEFT JOIN {local_mxschool_vt_transport} d ON t.departureid = d.id
-                 LEFT JOIN {local_mxschool_vt_site} ds ON d.siteid = ds.id
-                 LEFT JOIN {local_mxschool_vt_transport} r ON t.returnid = r.id
-                 LEFT JOIN {local_mxschool_vt_site} rs ON r.siteid = rs.id WHERE t.id = ?", array($id)
+                                                 LEFT JOIN {local_mxschool_vt_transport} d ON t.departureid = d.id
+                                                 LEFT JOIN {local_mxschool_vt_site} ds ON d.siteid = ds.id
+                                                 LEFT JOIN {local_mxschool_vt_transport} r ON t.returnid = r.id
+                                                 LEFT JOIN {local_mxschool_vt_site} rs ON r.siteid = rs.id
+                 WHERE t.id = ?", array($id)
             );
             if (!$record) {
                 throw new \coding_exception("Record with id {$id} not found.");
@@ -129,7 +130,7 @@ class unsubmitted_notification extends notification {
      * @param int $id The userid of the recipient.
      *                A value of 0 indicates that the notification should be sent to the transportation manager.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         global $DB;
         parent::__construct('vacation_travel_notify_unsubmitted');
 

@@ -76,9 +76,9 @@ function get_eligible_unassigned_student_list() {
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND s.grade >= 11 AND NOT EXISTS (
-             SELECT userid FROM {local_peertutoring_tutor} t WHERE userid = u.id and t.deleted = 0
-         ) ORDER BY name"
+         WHERE u.deleted = 0 AND s.grade >= 11
+                             AND NOT EXISTS (SELECT userid FROM {local_peertutoring_tutor} t WHERE userid = u.id and t.deleted = 0)
+         ORDER BY name"
     );
     return convert_student_records_to_list($students);
 }
@@ -219,7 +219,7 @@ function get_tutoring_date_list() {
     $records = $DB->get_records_sql(
         "SELECT s.id, s.tutoring_date
          FROM {local_peertutoring_session} s LEFT JOIN {user} tu ON s.tutorid = tu.id LEFT JOIN {user} su ON s.studentid = su.id
-         LEFT JOIN {local_peertutoring_tutor} t ON s.tutorid = t.userid
+                                             LEFT JOIN {local_peertutoring_tutor} t ON s.tutorid = t.userid
          WHERE s.deleted = 0 AND tu.deleted = 0 AND su.deleted = 0 AND t.deleted = 0
          ORDER BY tutoring_date DESC"
     );

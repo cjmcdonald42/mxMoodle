@@ -50,20 +50,21 @@ class submitted extends notification {
      *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         global $DB;
         parent::__construct('off_campus_submitted');
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT u.id as student, a.id as approver, sd.hohid AS hoh, oc.type, oc.passengers, d.userid as driver,
-                        d.destination, d.departure_time AS departuretime, CONCAT(a.firstname, ' ', a.lastname) AS approvername,
-                        oc.time_modified AS timesubmitted, p.may_ride_with AS passengerpermission,
-                        p.ride_permission_details AS specificdrivers
+                "SELECT u.id as student, d.approverid AS approver, sd.hohid AS hoh, oc.type, oc.passengers, d.userid as driver,
+                        d.destination, d.departure_time AS departuretime, oc.time_modified AS timesubmitted,
+                        p.may_ride_with AS passengerpermission, p.ride_permission_details AS specificdrivers
                  FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-                 LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id LEFT JOIN {user} a ON oc.approverid = a.id
-                 LEFT JOIN {local_mxschool_student} s ON u.id = s.userid LEFT JOIN {local_mxschool_dorm} sd ON s.dormid = sd.id
-                 LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid WHERE oc.id = ?", array($id)
+                                                    LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id
+                                                    LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
+                                                    LEFT JOIN {local_mxschool_dorm} sd ON s.dormid = sd.id
+                                                    LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
+                 WHERE oc.id = ?", array($id)
             );
             if (!$record) {
                 throw new coding_exception("Record with id {$id} not found.");
@@ -106,7 +107,7 @@ class submitted extends notification {
             $this->data['destination'] = $record->destination;
             $this->data['date'] = format_date('n/j/y', $record->departuretime);
             $this->data['departuretime'] = format_date('g:i A', $record->departuretime);
-            $this->data['approver'] = $record->approvername;
+            $this->data['approver'] = format_faculty_name($record->approver, false);
             $this->data['permissionswarning'] = $permissionswarning;
             $this->data['timesubmitted'] = format_date('g:i A', $record->timesubmitted);
             $this->data['irregular'] = $emaildeans ? get_config('local_signout', 'off_campus_notification_warning_irregular') : '';

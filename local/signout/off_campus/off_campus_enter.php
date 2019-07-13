@@ -90,9 +90,6 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $student = format_student_name($USER->id);
-}
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_signout', 'off_campus_form_instructions_passenger');
 $data->passengerswarning = get_config('local_signout', 'off_campus_form_warning_nopassengers');
@@ -153,7 +150,9 @@ if (
     !$isstudent || !get_config('local_signout', 'off_campus_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading($isstudent ? get_string('off_campus_form_title', 'local_signout', $student) : $PAGE->title);
+    echo $output->heading(
+        $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
+    );
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
 } else {

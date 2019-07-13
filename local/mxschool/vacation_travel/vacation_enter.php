@@ -104,9 +104,6 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $student = format_student_name($USER->id);
-}
 $data->isstudent = $isstudent ? '1' : '0';
 generate_time_selector_fields($data, 'dep_variable', 15);
 if ($returnenabled) {
@@ -202,7 +199,9 @@ $renderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
 
 echo $output->header();
-echo $output->heading($isstudent ? get_string('vacation_travel_form_title', 'local_mxschool', $student) : $PAGE->title);
+echo $output->heading(
+    $isstudent ? get_string('vacation_travel_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($renderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

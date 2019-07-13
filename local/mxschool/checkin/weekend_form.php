@@ -88,7 +88,9 @@ class weekend_form extends local_mxschool_form {
         $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
         $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
         $weekend = $DB->get_record_sql(
-            "SELECT * FROM {local_mxschool_weekend} WHERE ? >= sunday_time AND ? < sunday_time",
+            "SELECT *
+             FROM {local_mxschool_weekend}
+             WHERE ? >= sunday_time AND ? < sunday_time",
             array($departurestartbound->getTimestamp(), $departureendbound->getTimestamp())
         );
         if ($weekend) {

@@ -51,7 +51,7 @@ class submitted extends notification {
      *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         global $DB;
         parent::__construct('rooming_submitted');
 
@@ -111,7 +111,7 @@ class unsubmitted_notification extends notification {
     /**
      * @param int $id The userid of the recipient. A value of 0 indicates that the notification should be sent to the deans.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         global $DB;
         parent::__construct('rooming_notify_unsubmitted');
 

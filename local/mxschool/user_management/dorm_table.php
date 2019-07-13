@@ -44,8 +44,8 @@ class dorm_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'd.id', 'd.name', 'd.abbreviation', "CONCAT(u.lastname, ', ', u.firstname) AS hoh",
-            'd.permissions_line AS permissionsline', 'd.type', 'd.gender', 'd.available'
+            'd.id', 'd.name', 'd.abbreviation', "d.hohid AS hoh", 'd.permissions_line AS permissionsline', 'd.type', 'd.gender',
+            'd.available'
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('d.deleted = 0', 'u.deleted = 0');
@@ -56,6 +56,13 @@ class dorm_table extends local_mxschool_table {
         parent::__construct(
             'dorm_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $search, $searchable
         );
+    }
+
+    /**
+     * Formats the hoh column to "Last, First".
+     */
+    protected function col_hoh($values) {
+        return format_faculty_name($values->hoh);
     }
 
     /**

@@ -51,19 +51,15 @@ class submitted extends notification {
      *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         global $DB;
         parent::__construct('advisor_selection_submitted');
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT a.userid AS student, a.keep_current AS keepcurrent, CONCAT(ca.lastname, ', ', ca.firstname) AS current,
-                        CONCAT(o1.lastname, ', ', o1.firstname) AS option1, CONCAT(o2.lastname, ', ', o2.firstname) AS option2,
-                        CONCAT(o3.lastname, ', ', o3.firstname) AS option3, CONCAT(o4.lastname, ', ', o4.firstname) AS option4,
-                        CONCAT(o5.lastname, ', ', o5.firstname) AS option5, a.time_modified AS timesubmitted
-                 FROM {local_mxschool_adv_selection} a LEFT JOIN {local_mxschool_student} s on a.userid = s.userid
-                 LEFT JOIN {user} ca ON s.advisorid = ca.id LEFT JOIN {user} o1 ON a.option1id = o1.id
-                 LEFT JOIN {user} o2 ON a.option2id = o2.id LEFT JOIN {user} o3 ON a.option3id = o3.id
-                 LEFT JOIN {user} o4 ON a.option4id = o4.id LEFT JOIN {user} o5 ON a.option5id = o5.id
+                "SELECT a.userid AS student, a.keep_current AS keepcurrent, s.advisorid AS current, a.option1id AS option1,
+                        a.option2id AS option2, a.option3id AS option3, a.option4id AS option4, a.option5id AS option5,
+                        a.time_modified AS timesubmitted
+                 FROM {local_mxschool_adv_selection} a LEFT JOIN {local_mxschool_student} s ON a.userid = s.userid
                  WHERE a.id = ?", array($id)
             );
             if (!$record) {
@@ -71,12 +67,12 @@ class submitted extends notification {
             }
 
             $this->data['keepcurrent'] = format_boolean($record->keepcurrent);
-            $this->data['current'] = $record->current;
-            $this->data['option1'] = $record->option1;
-            $this->data['option2'] = $record->option2;
-            $this->data['option3'] = $record->option3;
-            $this->data['option4'] = $record->option4;
-            $this->data['option5'] = $record->option5;
+            $this->data['current'] = format_faculty_name($record->current);
+            $this->data['option1'] = $record->option1 ? format_faculty_name($record->option1) : '';
+            $this->data['option2'] = $record->option2 ? format_faculty_name($record->option2) : '';
+            $this->data['option3'] = $record->option3 ? format_faculty_name($record->option3) : '';
+            $this->data['option4'] = $record->option4 ? format_faculty_name($record->option4) : '';
+            $this->data['option5'] = $record->option5 ? format_faculty_name($record->option5) : '';
             $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             $this->recipients[] = $DB->get_record('user', array('id' => $record->student));
@@ -110,7 +106,7 @@ class unsubmitted_notification extends notification {
     /**
      * @param int $id The userid of the recipient. A value of 0 indicates that the notification should be sent to the deans.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         global $DB;
         parent::__construct('advisor_selection_notify_unsubmitted');
 
@@ -158,14 +154,15 @@ class results_notification extends notification {
      * @param int $sid The userid of the student. A value of 0 indicates that the notification should be sent to the deans.
      * @param int $aid The userid of the advisor. A value of 0 indicates that the notification should be sent to the deans.
      */
-    public function __construct($sid=0, $aid=0) {
+    public function __construct($sid = 0, $aid = 0) {
         global $DB;
         parent::__construct('advisor_selection_notify_results');
 
         if ($sid && $aid) {
-            $advisor = $DB->get_record('user', array('id' => $aid));
-            $this->data['advisorname'] = "{$advisor->firstname} {$advisor->lastname}";
-            array_push($this->recipients, $DB->get_record('user', array('id' => $sid)), $advisor);
+            $this->data['advisorname'] = format_faculty_name($aid, false);
+            array_push(
+                $this->recipients, $DB->get_record('user', array('id' => $sid)), $DB->get_record('user', array('id' => $aid))
+            );
         } else {
             $this->recipients[] = self::get_deans_user();
         }

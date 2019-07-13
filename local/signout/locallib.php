@@ -80,7 +80,9 @@ function get_param_current_date_off_campus() {
     $enddate = clone $startdate;
     $enddate->modify('+1 day');
     return $DB->record_exists_sql(
-        "SELECT id FROM {local_signout_off_campus} WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
+        "SELECT id
+         FROM {local_signout_off_campus}
+         WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
         array($startdate->getTimestamp(), $enddate->getTimestamp())
     ) ? $timestamp : '';
 }
@@ -101,8 +103,9 @@ function get_param_current_date_on_campus() {
     $enddate = clone $startdate;
     $enddate->modify('+1 day');
     return $DB->record_exists_sql(
-        "SELECT id FROM {local_signout_on_campus} WHERE deleted = 0 AND time_created > ? AND time_created < ?",
-        array($startdate->getTimestamp(), $enddate->getTimestamp())
+        "SELECT id
+         FROM {local_signout_on_campus}
+         WHERE deleted = 0 AND time_created > ? AND time_created < ?", array($startdate->getTimestamp(), $enddate->getTimestamp())
     ) ? $timestamp : '';
 }
 
@@ -139,7 +142,7 @@ function get_permitted_passenger_list() {
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
+                                         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
          WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
          ORDER BY name"
     );
@@ -156,7 +159,7 @@ function get_permitted_driver_list() {
     $drivers = $DB->get_records_sql(
         "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
+                                            LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type = 'Driver' AND p.may_drive_passengers = 'Yes'
          ORDER BY name ASC, oc.time_modified DESC"
     );
@@ -177,11 +180,11 @@ function get_current_driver_list($ignore = 0) {
     $drivers = $DB->get_records_sql(
         "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
+                                            LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type = 'Driver' AND oc.time_created >= ? AND oc.sign_in_time IS NULL
-         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND NOT EXISTS (
-             SELECT id FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = ?
-         ) ORDER BY name ASC, oc.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
+                              AND p.may_drive_passengers = 'Yes' AND u.id <> ?
+                              AND NOT EXISTS (SELECT id FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = ?)
+         ORDER BY name ASC, oc.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
     );
     return convert_student_records_to_list($drivers);
 }
@@ -258,7 +261,7 @@ function get_on_campus_location_list($grade = 12) {
         "SELECT id, name AS value
          FROM {local_signout_location} l
          WHERE l.deleted = 0 AND l.grade <= ? AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
-         AND (l.end_date IS NULL OR l.end_date >= ?)
+                             AND (l.end_date IS NULL OR l.end_date >= ?)
          ORDER BY value", array($grade, $timestamp, $timestamp)
     );
     return convert_records_to_list($locations);
@@ -303,9 +306,10 @@ function get_on_campus_date_list() {
     $records = $DB->get_records_sql(
         "SELECT oc.id, oc.time_created AS signoutdate
          FROM {local_signout_on_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         LEFT JOIN {local_signout_location} l ON oc.locationid = l.id LEFT JOIN {user} c ON oc.confirmerid = c.id
+                                           LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
+                                           LEFT JOIN {user} c ON oc.confirmerid = c.id
          WHERE oc.deleted = 0 AND u.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0)
-         AND (oc.confirmerid IS NULL OR c.deleted = 0)
+                              AND (oc.confirmerid IS NULL OR c.deleted = 0)
          ORDER BY signoutdate DESC"
     );
     if ($records) {

@@ -73,13 +73,11 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $student = format_student_name($USER->id);
-}
 $data->isstudent = $isstudent ? '1' : '0';
 $data->dorm = isset($data->student) ? $DB->get_field_sql(
-    "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
-    array($data->student)
+    "SELECT d.name
+     FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+     WHERE s.userid = ?", array($data->student)
 ) : '';
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
@@ -106,7 +104,9 @@ $renderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/rooming_form');
 
 echo $output->header();
-echo $output->heading($isstudent ? get_string('rooming_form_title', 'local_mxschool', $student) : $PAGE->title);
+echo $output->heading(
+    $isstudent ? get_string('rooming_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($renderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

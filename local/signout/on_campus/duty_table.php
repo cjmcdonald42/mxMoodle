@@ -53,8 +53,7 @@ class duty_table extends local_mxschool_table {
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
             "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 'l.name AS location', 'oc.other',
-            'oc.time_created AS signouttime', "CONCAT(c.lastname, ', ', c.firstname) AS confirmer",
-            'oc.confirmation_time AS confirmationtime'
+            'oc.time_created AS signouttime', 'oc.confirmerid AS confirmer', 'oc.confirmation_time AS confirmationtime'
         );
         $from = array(
             '{local_signout_on_campus} oc', '{user} u ON oc.userid = u.id', '{local_mxschool_student} s ON s.userid = u.id',
@@ -113,9 +112,13 @@ class duty_table extends local_mxschool_table {
      * Formats the confirmation column.
      */
     protected function col_confirmation($values) {
-        return isset($values->confirmationtime) ? get_string('duty_report_column_confirmation_text', 'local_signout', array(
-            'confirmer' => $values->confirmer, 'confirmationtime' => format_date('g:i A', $values->confirmationtime)
-        )) : '-';
+        if (!isset($values->confirmationtime)) {
+            return '-';
+        }
+        return get_string('duty_report_column_confirmation_text', 'local_signout', array(
+            'confirmer' => format_faculty_name($values->confirmer),
+            'confirmationtime' => format_date('g:i A', $values->confirmationtime)
+        ));
     }
 
     /**

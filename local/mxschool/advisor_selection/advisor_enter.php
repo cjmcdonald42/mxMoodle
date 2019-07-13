@@ -72,16 +72,11 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $student = format_student_name($USER->id);
+if (isset($data->student)) {
+    $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data->student));
+    $data->current = format_faculty_name($current);
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$data->current = isset($data->student) ? $DB->get_field_sql(
-    "SELECT CONCAT(u.lastname, ', ', u.firstname)
-     FROM {local_mxschool_student} s
-     LEFT JOIN {user} u ON s.advisorid = u.id
-     WHERE s.userid = ?", array($data->student)
-) : '';
 $data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
 $students = get_student_with_advisor_form_enabled_list();
@@ -130,7 +125,9 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
 
 echo $output->header();
-echo $output->heading($isstudent ? get_string('advisor_selection_form_title', 'local_mxschool', $student) : $PAGE->title);
+echo $output->heading(
+    $isstudent ? get_string('advisor_selection_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

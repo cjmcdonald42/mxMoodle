@@ -268,9 +268,7 @@ class local_signout_external extends external_api {
         )))->trigger();
         $result = new stdClass();
         $result->confirmationtime = format_date('g:i A', $record->confirmation_time);
-        $result->confirmer = $DB->get_field_sql(
-            "SELECT CONCAT(lastname, ', ', firstname) FROM {user} WHERE id = ?", array($record->confirmerid)
-        );
+        $result->confirmer = format_faculty_name($record->confirmerid);
         return $result;
     }
 

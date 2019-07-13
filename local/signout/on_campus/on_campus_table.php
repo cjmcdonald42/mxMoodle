@@ -65,8 +65,7 @@ class on_campus_table extends local_mxschool_table {
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
             'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
-            "CONCAT(c.lastname, ', ', c.firstname) AS confirmer", 'oc.confirmation_time AS confirmationtime',
-            'oc.sign_in_time AS signin'
+            'oc.confirmerid AS confirmer', 'oc.confirmation_time AS confirmationtime', 'oc.sign_in_time AS signin'
         );
         $from = array(
             '{local_signout_on_campus} oc', '{user} u ON oc.userid = u.id', '{local_mxschool_student} s ON s.userid = u.id',
@@ -136,7 +135,8 @@ class on_campus_table extends local_mxschool_table {
             return '-';
         }
         return get_string('on_campus_report_column_confirmation_text', 'local_signout', array(
-            'confirmer' => $values->confirmer, 'confirmationtime' => format_date('g:i A', $values->confirmationtime),
+            'confirmer' => format_faculty_name($values->confirmer),
+            'confirmationtime' => format_date('g:i A', $values->confirmationtime),
             'confirmationdate' => format_date('n/j/y', $values->confirmationtime)
         ));
     }

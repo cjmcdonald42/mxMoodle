@@ -146,7 +146,8 @@ class off_campus_table extends local_mxschool_table {
             return '-';
         }
         $submitted = $DB->count_records_sql(
-            "SELECT COUNT(oc.id) FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+            "SELECT COUNT(oc.id)
+             FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
              WHERE oc.driverid = ? AND oc.deleted = 0 AND u.deleted = 0", array($values->id)
         ) - 1;
         $count = count(array_filter(json_decode($values->passengers), function($passenger) use ($DB) {

@@ -65,7 +65,6 @@ if ($id) {
     $data->timecreated = time();
     if ($isstudent) {
         $data->tutor = $USER->id;
-        $tutor = format_student_name($USER->id);
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
@@ -102,7 +101,9 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutoring_form');
 
 echo $output->header();
-echo $output->heading($isstudent ? get_string('tutoring_form_title', 'local_peertutoring', $tutor) : $PAGE->title);
+echo $output->heading(
+    $isstudent ? get_string('tutoring_form_title', 'local_peertutoring', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();
