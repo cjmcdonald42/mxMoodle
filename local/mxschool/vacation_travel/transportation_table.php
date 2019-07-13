@@ -78,10 +78,10 @@ class transportation_table extends local_mxschool_table {
             $headers[] = get_string('report_header_actions', 'local_mxschool');
         }
         $fields = array(
-            's.id', 'u.id AS userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
-            'u.alternatename', 't.destination', 't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation',
-            'dr.type AS type', 'drs.name AS site', 'dr.details', 'dr.carrier', 'dr.transportation_number AS number',
-            'dr.date_time AS datetime', 'dr.international', 't.time_modified AS timemodified', 'u.email'
+            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 't.destination',
+            't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation', 'dr.type AS type', 'drs.name AS site',
+            'dr.details', 'dr.carrier', 'dr.transportation_number AS number', 'dr.date_time AS datetime', 'dr.international',
+            't.time_modified AS timemodified', 'u.email'
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_vt_trip} t ON s.userid = t.userid',
@@ -104,6 +104,13 @@ class transportation_table extends local_mxschool_table {
             'transportation_table', $columns, $headers, $sortable, 'timemodified', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable, array(), false
         );
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

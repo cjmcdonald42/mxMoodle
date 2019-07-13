@@ -52,10 +52,9 @@ class weekend_table extends local_mxschool_table {
         }, $columns1);
         $centered = array('room', 'grade', 'parent', 'invite', 'approved');
         $fields = array(
-            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
-            'd.name AS dorm', 's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved',
-            "'' AS destinationtransportation", 'wf.destination', 'wf.transportation', 'wf.phone_number AS phone',
-            "'' AS departurereturn", 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
+            's.id', 's.userid', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm',
+            's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
+            'wf.phone_number AS phone', 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
         );
         for ($i = 1; $i <= $end - $start + 1; $i++) {
             $columns1[] = $centered[] = "early_{$i}";
@@ -105,6 +104,13 @@ class weekend_table extends local_mxschool_table {
             'weekend_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable
         );
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

@@ -89,17 +89,6 @@ abstract class local_mxschool_table extends table_sql {
     }
 
     /**
-     * Formats the student column to "last, first (alternate)" or "last, first".
-     *
-     * NOTE: This method doesn't use the format_student_name function because the lastname, firstname pairs are needed for sorting.
-     */
-    protected function col_student($values) {
-        return $values->student . (
-            $values->alternatename && $values->alternatename !== $values->firstname ? " ({$values->alternatename})" : ''
-        );
-    }
-
-    /**
      * Creates an edit icon for the actions column of a table.
      *
      * @param string $url the url of the edit form.

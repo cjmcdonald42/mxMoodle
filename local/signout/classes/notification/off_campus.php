@@ -70,7 +70,7 @@ class submitted extends notification {
             }
             if (isset($record->passengers)) {
                 $passengerlist = array_filter(array_map(function($passenger) use($DB) {
-                    return format_student_name_userid($passenger);
+                    return format_student_name($passenger);
                 }, json_decode($record->passengers)));
                 $passengers = count($passengerlist) ? implode('<br>', $passengerlist)
                     : get_string('off_campus_report_nopassengers', 'local_signout');
@@ -101,7 +101,7 @@ class submitted extends notification {
             }
 
             $this->data['type'] = $record->type;
-            $this->data['driver'] = format_student_name_userid($record->driver);
+            $this->data['driver'] = format_student_name($record->driver);
             $this->data['passengers'] = $passengers ?? '';
             $this->data['destination'] = $record->destination;
             $this->data['date'] = format_date('n/j/y', $record->departuretime);

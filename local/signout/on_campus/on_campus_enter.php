@@ -66,7 +66,7 @@ if ($id) {
     }
 }
 if ($isstudent) {
-    $student = format_student_name_userid($USER->id);
+    $student = format_student_name($USER->id);
 }
 $data->isstudent = $isstudent ? '1' : '0';
 $data->locationwarning = get_config('local_signout', 'on_campus_form_warning');

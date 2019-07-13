@@ -69,10 +69,9 @@ class off_campus_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'oc.type',
-            'oc.passengers', 'du.id AS driverid', 'd.destination', 'd.departure_time AS departuredate',
-            'd.departure_time AS departuretime', "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'oc.sign_in_time AS signin',
-            'oc.time_created AS timecreated'
+            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'oc.type', 'oc.passengers',
+            'du.id AS driverid', 'd.destination', 'd.departure_time AS departuredate', 'd.departure_time AS departuretime',
+            "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'oc.sign_in_time AS signin', 'oc.time_created AS timecreated'
         );
         $from = array(
             '{local_signout_off_campus} oc', '{user} u ON oc.userid = u.id', '{local_signout_off_campus} d ON oc.driverid = d.id',
@@ -118,6 +117,13 @@ class off_campus_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
+    }
+
+    /**
      * Formats the passengers column.
      */
     protected function col_passengers($values) {
@@ -126,7 +132,7 @@ class off_campus_table extends local_mxschool_table {
             return '-';
         }
         $passengers = array_filter(array_map(function($passenger) use($DB) {
-            return format_student_name_userid($passenger);
+            return format_student_name($passenger);
         }, json_decode($values->passengers)));
         return count($passengers) ? implode('<br>', $passengers) : get_string('off_campus_report_nopassengers', 'local_signout');
     }
@@ -153,7 +159,7 @@ class off_campus_table extends local_mxschool_table {
      * Formats the driver column to "last, first (alternate)" or "last, first".
      */
     protected function col_driver($values) {
-        return $values->type === 'Passenger' ? format_student_name_userid($values->driverid) : '-';
+        return $values->type === 'Passenger' ? format_student_name($values->driverid) : '-';
     }
 
     /**

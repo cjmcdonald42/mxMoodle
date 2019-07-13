@@ -53,9 +53,8 @@ class advisor_table extends local_mxschool_table {
             $headers[] = get_string('report_header_actions', 'local_mxschool');
         }
         $fields = array(
-            's.id', 'u.id AS userid', 'asf.id AS asfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
-            'u.alternatename', 'asf.keep_current AS keepcurrent',
-            "CONCAT(ca.lastname, ', ', ca.firstname) AS current", 'ca.id AS cid',
+            's.id', 's.userid', 'asf.id AS asfid', "CONCAT(u.lastname, ', ', u.firstname) AS student",
+            'asf.keep_current AS keepcurrent', "CONCAT(ca.lastname, ', ', ca.firstname) AS current", 'ca.id AS cid',
             "CONCAT(o1a.lastname, ', ', o1a.firstname) AS option1", 'o1a.id AS o1id',
             "CONCAT(o2a.lastname, ', ', o2a.firstname) AS option2", 'o2a.id AS o2id',
             "CONCAT(o3a.lastname, ', ', o3a.firstname) AS option3", 'o3a.id AS o3id',
@@ -96,6 +95,13 @@ class advisor_table extends local_mxschool_table {
         );
 
         $this->column_class('selected', "{$this->column_class['selected']} selection-selected");
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

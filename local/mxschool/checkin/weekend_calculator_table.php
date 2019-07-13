@@ -52,10 +52,7 @@ class weekend_calculator_table extends local_mxschool_table {
         $headers2 = array_map(function($column) {
             return get_string("checkin_weekend_calculator_report_header_{$column}", 'local_mxschool');
         }, $columns2);
-        $fields = array(
-            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
-            "'' AS total", "'' AS allowed"
-        );
+        $fields = array('s.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade');
         $centered = array('grade', 'total', 'allowed');
         $offcampus = get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool');
         $free = get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool');
@@ -91,6 +88,13 @@ class weekend_calculator_table extends local_mxschool_table {
 
         $this->column_class('total', "{$this->column_class['total']} highlight-format");
         $this->column_class('allowed', "{$this->column_class['allowed']} highlight-reference");
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

@@ -35,7 +35,7 @@ class tutor_table extends local_mxschool_table {
      */
     public function __construct() {
         $departments = get_department_list();
-        $columns = array('student');
+        $columns = array('tutor');
         $headers = array_map(function($column) {
             return get_string("tutor_report_header_{$column}", 'local_peertutoring');
         }, $columns);
@@ -46,14 +46,19 @@ class tutor_table extends local_mxschool_table {
         }
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $fields = array(
-            't.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 't.departments'
-        );
+        $fields = array('t.id', 't.userid', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 't.departments');
         $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
         $where = array('u.deleted = 0', 't.deleted = 0');
-        $sortable = array('student');
+        $sortable = array('tutor');
         $urlparams = array();
-        parent::__construct('tutor_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('tutor_table', $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_tutor($values) {
+        return format_student_name($values->userid);
     }
 
     /**

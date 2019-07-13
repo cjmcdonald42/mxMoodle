@@ -74,7 +74,7 @@ if ($id) {
     }
 }
 if ($isstudent) {
-    $student = format_student_name_userid($USER->id);
+    $student = format_student_name($USER->id);
 }
 $data->isstudent = $isstudent ? '1' : '0';
 $data->dorm = isset($data->student) ? $DB->get_field_sql(

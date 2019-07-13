@@ -49,8 +49,8 @@ class generic_table extends local_mxschool_table {
             return get_string("checkin_generic_report_header_{$column}", 'local_mxschool');
         }, $columns);
         $fields = array(
-            's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'd.name AS dorm',
-            's.room', 's.grade', "'' AS checkin"
+            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade',
+            "'' AS checkin"
         );
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $dorm ? "s.dormid = {$dorm}" : '');
@@ -63,6 +63,13 @@ class generic_table extends local_mxschool_table {
         parent::__construct(
             'checkin_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
         );
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
 }

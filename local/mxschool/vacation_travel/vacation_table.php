@@ -50,10 +50,10 @@ class vacation_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            's.id', 'u.id AS userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
-            'u.alternatename', 'd.name AS dorm', 't.destination', 't.phone_number AS phone',
-            'dt.date_time AS depdatetime', 'dt.type AS deptype', 'rt.date_time AS retdatetime', 'rt.type AS rettype',
-            'rt.carrier AS retcarrier', 'rt.transportation_number AS retnumber', "'' AS retinfo"
+            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm',
+            't.destination', 't.phone_number AS phone', 'dt.date_time AS depdatetime', 'dt.type AS deptype',
+            'rt.date_time AS retdatetime', 'rt.type AS rettype', 'rt.carrier AS retcarrier',
+            'rt.transportation_number AS retnumber',
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
@@ -77,6 +77,13 @@ class vacation_table extends local_mxschool_table {
             'vaction_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable
         );
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

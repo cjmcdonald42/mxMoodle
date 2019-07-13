@@ -70,13 +70,13 @@ class submitted extends notification {
 
             $this->data['haslivedindouble'] = format_boolean($record->haslivedindouble);
             $this->data['roomtype'] = $record->roomtype;
-            $this->data['dormmate1'] = format_student_name_userid($record->dormmate1);
-            $this->data['dormmate2'] = format_student_name_userid($record->dormmate2);
-            $this->data['dormmate3'] = format_student_name_userid($record->dormmate3);
-            $this->data['dormmate4'] = format_student_name_userid($record->dormmate4);
-            $this->data['dormmate5'] = format_student_name_userid($record->dormmate5);
-            $this->data['dormmate6'] = format_student_name_userid($record->dormmate6);
-            $this->data['preferredroommate'] = format_student_name_userid($record->preferredroommate);
+            $this->data['dormmate1'] = format_student_name($record->dormmate1);
+            $this->data['dormmate2'] = format_student_name($record->dormmate2);
+            $this->data['dormmate3'] = format_student_name($record->dormmate3);
+            $this->data['dormmate4'] = format_student_name($record->dormmate4);
+            $this->data['dormmate5'] = format_student_name($record->dormmate5);
+            $this->data['dormmate6'] = format_student_name($record->dormmate6);
+            $this->data['preferredroommate'] = format_student_name($record->preferredroommate);
             $this->data['timesubmitted'] = format_date('n/j/y g:i A', $record->timesubmitted);
 
             $this->recipients[] = $DB->get_record('user', array('id' => $record->student));

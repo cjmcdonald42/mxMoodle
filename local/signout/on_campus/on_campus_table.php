@@ -63,8 +63,8 @@ class on_campus_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'oc.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
-            'd.name AS dorm', 'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
+            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
+            'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
             "CONCAT(c.lastname, ', ', c.firstname) AS confirmer", 'oc.confirmation_time AS confirmationtime',
             'oc.sign_in_time AS signin'
         );
@@ -98,6 +98,13 @@ class on_campus_table extends local_mxschool_table {
             $urlparams, $centered, $filter->search, $searchable, array(), false
         );
         $this->column_class('signin', "{$this->column_class['signin']} sign-in");
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

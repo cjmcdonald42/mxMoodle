@@ -91,7 +91,7 @@ if ($id) {
     }
 }
 if ($isstudent) {
-    $student = format_student_name_userid($USER->id);
+    $student = format_student_name($USER->id);
 }
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_signout', 'off_campus_form_instructions_passenger');

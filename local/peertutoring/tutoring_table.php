@@ -59,10 +59,9 @@ class tutoring_table extends local_mxschool_table {
             $headers[] = get_string('report_header_actions', 'local_mxschool');
         }
         $fields = array(
-            's.id', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 'tu.firstname AS tfirstname',
-            'tu.alternatename AS talternatename', "CONCAT(su.lastname, ', ', su.firstname) AS student", 'su.firstname',
-            'su.alternatename', 's.tutoring_date AS tutoringdate', 'd.name AS department', 'c.name AS course', 's.topic',
-            'ty.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
+            's.id', 's.tutorid', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 's.studentid',
+            "CONCAT(su.lastname, ', ', su.firstname) AS student", 's.tutoring_date AS tutoringdate', 'd.name AS department',
+            'c.name AS course', 's.topic', 'ty.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
         );
         $from = array(
             '{local_peertutoring_session} s', '{user} tu ON s.tutorid = tu.id', '{user} su ON s.studentid = su.id',
@@ -77,7 +76,7 @@ class tutoring_table extends local_mxschool_table {
         }
         $where = array(
             's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0', $filter->tutor ? "tu.id = {$filter->tutor}" : '',
-            $filter->department ? "d.id = {$filter->department}" : '', $filter->type ? "s.typeid = {$filter->type}" : '',
+            $filter->department ? "s.departmentid = {$filter->department}" : '', $filter->type ? "s.typeid = {$filter->type}" : '',
             $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
             $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
         );
@@ -98,14 +97,10 @@ class tutoring_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the tutor column to "last, first (alternate)" or "last, first".
-     *
-     * NOTE: This method doesn't use the format_student_name function because the lastname, firstname pairs are needed for sorting.
+     * Formats the tutor column to "last, first (preferred)" or "last, first".
      */
     protected function col_tutor($values) {
-        return $values->tutor . (
-            $values->talternatename && $values->talternatename !== $values->tfirstname ? " ($values->talternatename)" : ''
-        );
+        return format_student_name($values->tutorid);
     }
 
     /**
@@ -113,6 +108,13 @@ class tutoring_table extends local_mxschool_table {
      */
     protected function col_tutoringdate($values) {
         return format_date('n/j/y', $values->tutoringdate);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->studentid);
     }
 
     /**

@@ -65,7 +65,7 @@ if ($id) {
     $data->timecreated = time();
     if ($isstudent) {
         $data->tutor = $USER->id;
-        $tutor = format_student_name_userid($USER->id);
+        $tutor = format_student_name($USER->id);
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';

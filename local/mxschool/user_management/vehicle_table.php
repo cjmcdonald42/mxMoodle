@@ -44,8 +44,8 @@ class vehicle_table extends local_mxschool_table {
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
         $fields = array(
-            'v.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
-            's.phone_number AS phone', 'p.license_date AS license', 'v.make', 'v.model', 'v.color', 'v.registration'
+            'v.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.phone_number AS phone',
+            'p.license_date AS license', 'v.make', 'v.model', 'v.color', 'v.registration'
         );
         $from = array(
             '{local_mxschool_vehicle} v', '{user} u ON v.userid = u.id', '{local_mxschool_student} s ON v.userid = s.userid',
@@ -60,6 +60,13 @@ class vehicle_table extends local_mxschool_table {
             'vehicle_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $search,
             $searchable
         );
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

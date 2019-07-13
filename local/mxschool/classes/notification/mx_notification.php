@@ -99,19 +99,24 @@ abstract class notification {
      * Sends the notification emails to all of the specified recipients.
      *
      * @return bool A value of true if all emails send successfully, false otherwise.
-     * @throws coding_exception If any recipient has a non-valid email or
-     *                          if the primary recipient has no adresseename property
-     *                              and is missing either the firstname or lastname property.
+     * @throws coding_exception If the primary recipient has no adresseename property
+     *                          and is missing either the firstname or lastname property
+     *                          or if any recipient has a non-valid email.
      */
     final public function send() {
         $primaryrecipient = $this->recipients[0];
         if (empty($primaryrecipient->addresseename)) {
-            if (empty($primaryrecipient->lastname) || empty($primaryrecipient->firstname)) {
+            if (empty($primaryrecipient->firstname) || empty($primaryrecipient->lastname)) {
                 throw new \coding_exception('Primary recipient has no valid option for salutation.');
             }
-            $this->data['addresseeshort'] = !empty($primaryrecipient->alternatename) ? $primaryrecipient->alternatename
-                : $primaryrecipient->firstname;
-            $this->data['addresseelong'] = format_student_name($primaryrecipient);
+            $firstname = $primaryrecipient->firstname;
+            $lastname = $primaryrecipient->lastname;
+            $alternatename = empty($primaryrecipient->alternatename) ? '' : $primaryrecipient->alternatename;
+            $this->data['addresseeshort'] = $alternatename ?: $firstname;
+            $this->data['addresseelong'] = "{$lastname}, {$firstname}" . (
+                $alternatename && $alternatename !== $firstname ? " ({$alternatename})" : ''
+            );
+
         } else {
             $this->data['addresseeshort'] = $this->data['addresseelong'] = $primaryrecipient->addresseename;
         }

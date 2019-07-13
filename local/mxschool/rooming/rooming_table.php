@@ -25,7 +25,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../classes/mx_table.php');
@@ -58,9 +57,9 @@ class rooming_table extends local_mxschool_table {
             $headers[] = get_string('report_header_actions', 'local_mxschool');
         }
         $fields = array(
-            's.id', 'u.id AS userid', 'r.id AS rid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname',
-            'u.alternatename', 's.grade', 's.gender', 'd.name AS dorm', 'r.has_lived_in_double AS liveddouble',
-            'r.room_type AS roomtype', "'' AS dormmates", 'ru.id as ruid', 'ru.deleted as rdeleted'
+            's.id', 's.userid', 'r.id AS rid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.gender',
+            'd.name AS dorm', 'r.has_lived_in_double AS liveddouble', 'r.room_type AS roomtype', 'ru.id as ruid',
+            'ru.deleted as rdeleted'
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
@@ -104,6 +103,13 @@ class rooming_table extends local_mxschool_table {
     }
 
     /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
+    }
+
+    /**
      * Formats the lived double column to "Yes" / "No".
      */
     protected function col_liveddouble($values) {
@@ -119,7 +125,7 @@ class rooming_table extends local_mxschool_table {
         }
         $dormmates = array();
         for ($i = 1; $i <= 6; $i++) {
-            $dormmates[] = format_student_name_userid($values->{"d{$i}id"}) . " ({$values->{"d{$i}grade"}})";
+            $dormmates[] = format_student_name($values->{"d{$i}id"}) . " ({$values->{"d{$i}grade"}})";
         }
         return implode($this->is_downloading() ? "\n" : '<br>', $dormmates);
     }
@@ -128,7 +134,7 @@ class rooming_table extends local_mxschool_table {
      * Formats the roommate column to "last, first (alternate)" or "last, first".
      */
     protected function col_roommate($values) {
-        return isset($values->rid) ? format_student_name_userid($values->ruid) : '';
+        return isset($values->rid) ? format_student_name($values->ruid) : '';
     }
 
     /**

@@ -105,7 +105,7 @@ if ($id) {
     }
 }
 if ($isstudent) {
-    $student = format_student_name_userid($USER->id);
+    $student = format_student_name($USER->id);
 }
 $data->isstudent = $isstudent ? '1' : '0';
 generate_time_selector_fields($data, 'dep_variable', 15);

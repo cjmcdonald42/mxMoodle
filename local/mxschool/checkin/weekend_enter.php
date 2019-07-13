@@ -71,7 +71,7 @@ if ($id) {
              FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
              LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE s.userid = ?", array($USER->id)
         );
-        $student = format_student_name_userid($USER->id);
+        $student = format_student_name($USER->id);
         $data->dorm = $record->dorm;
     } else {
         $dorm = $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id));

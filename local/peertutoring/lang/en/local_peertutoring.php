@@ -96,7 +96,7 @@ $string['preferences_notifications_body'] = 'Body for Daily Summary Email';
 
 // Tutor Report.
 $string['tutor_report_add'] = 'Add a Tutor';
-$string['tutor_report_header_student'] = 'Name';
+$string['tutor_report_header_tutor'] = 'Name';
 
 // Department Report.
 $string['department_report_add'] = 'Add a Department';

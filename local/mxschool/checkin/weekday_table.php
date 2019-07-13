@@ -49,8 +49,7 @@ class weekday_table extends local_mxschool_table {
             return get_string("checkin_weekday_report_header_{$column}", 'local_mxschool');
         }, $columns);
         $fields = array(
-            's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'd.name AS dorm',
-            's.room', 's.grade'
+            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade'
         );
         for ($i = 1; $i <= 5; $i++) {
             $columns[] = "early_$i";
@@ -71,6 +70,13 @@ class weekday_table extends local_mxschool_table {
         parent::__construct(
             'weekday_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
         );
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
 }

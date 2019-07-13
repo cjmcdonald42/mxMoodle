@@ -44,7 +44,7 @@ class student_table extends local_mxschool_table {
         global $DB;
         $this->type = $type;
         $columns = array('student');
-        $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename');
+        $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student");
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
@@ -110,6 +110,13 @@ class student_table extends local_mxschool_table {
             'student_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
             $filter->search, $searchable
         );
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**
