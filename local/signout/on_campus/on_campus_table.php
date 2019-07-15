@@ -38,7 +38,7 @@ class on_campus_table extends local_mxschool_table {
     /**
      * Creates a new on_campus_table.
      *
-     * @param stdClass $filter any filtering for the table - could include dorm, location, date, and search.
+     * @param stdClass $filter any filtering for the table - could include properties dorm, location, date, and search.
      * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
     public function __construct($filter, $isstudent) {

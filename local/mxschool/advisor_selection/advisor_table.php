@@ -34,7 +34,7 @@ class advisor_table extends local_mxschool_table {
     /**
      * Creates a new advisor_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include submitted, keepcurrent, and search.
+     * @param stdClass $filter Any filtering for the table - could include propeties submitted, keepcurrent, and search.
      * @param string $download Indicates whether the table is downloading.
      */
     public function __construct($filter, $download) {

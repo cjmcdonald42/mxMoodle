@@ -34,14 +34,14 @@ class generic_table extends local_mxschool_table {
     /**
      * Creates a new generic_table.
      *
-     * @param string $dorm The id of the currently selected dorm or '' for all dorms.
+     * @param stdClass $filter Any filtering for the table - could include property dorm.
      */
-    public function __construct($dorm) {
+    public function __construct($filter) {
         global $DB;
         $columns = array('student', 'dorm', 'room', 'grade', 'checkin');
-        if ($dorm) {
+        if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
-            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $dorm)) === 'Day') {
+            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
                 unset($columns[array_search('room', $columns)]);
             }
         }
@@ -53,12 +53,12 @@ class generic_table extends local_mxschool_table {
             "'' AS checkin"
         );
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $dorm ? "s.dormid = {$dorm}" : '');
+        $where = array('u.deleted = 0', $filter->dorm ? "s.dormid = {$filter->dorm}" : '');
         $sortable = array('student', 'dorm', 'room', 'grade');
-        if (!$dorm) {
+        if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
-        $urlparams = array('dorm' => $dorm);
+        $urlparams = array('dorm' => $filter->dorm);
         $centered = array('room', 'grade');
         parent::__construct(
             'checkin_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered

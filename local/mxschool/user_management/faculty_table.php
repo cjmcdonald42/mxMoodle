@@ -34,7 +34,7 @@ class faculty_table extends local_mxschool_table {
     /**
      * Creates a new faculty_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include dorm or search.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
      */
     public function __construct($filter) {
         $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');

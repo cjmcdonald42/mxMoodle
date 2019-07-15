@@ -33,7 +33,8 @@ require_once(__DIR__.'/vehicle_table.php');
 require_login();
 require_capability('local/mxschool:manage_vehicles', context_system::instance());
 
-$search = optional_param('search', '', PARAM_RAW);
+$filter = new stdClass();
+$filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
@@ -41,7 +42,7 @@ setup_mxschool_page('vehicle_report', 'user_management');
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_vehicle', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, array('search' => $search));
+    $redirect = new moodle_url($PAGE->url, array('search' => $filter->search));
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_mxschool_vehicle', $record);
@@ -51,14 +52,14 @@ if ($action === 'delete' && $id) {
     }
 }
 
-$table = new vehicle_table($search);
+$table = new vehicle_table($filter);
 
 $addbutton = new stdClass();
 $addbutton->text = get_string('user_management_vehicle_report_add', 'local_mxschool');
 $addbutton->url = new moodle_url('/local/mxschool/user_management/vehicle_edit.php');
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, array(), false, $addbutton);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

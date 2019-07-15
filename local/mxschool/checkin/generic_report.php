@@ -34,20 +34,23 @@ require_once(__DIR__.'/generic_table.php');
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
 
-$dorm = get_param_faculty_dorm();
+$filter = new stdClass();
+$filter->dorm = get_param_faculty_dorm();
 
 setup_mxschool_page('generic_report', 'checkin');
 
 $dorms = get_dorm_list();
 
-$table = new generic_table($dorm);
+$table = new generic_table($filter);
 
-$dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $dorm, get_string('report_select_dorm', 'local_mxschool')));
+$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
 
 echo $output->header();
-echo $output->heading(get_string('checkin_generic_report_title', 'local_mxschool', $dorm ? "{$dorms[$dorm]} " : ''));
+echo $output->heading(
+    get_string('checkin_generic_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
+);
 echo $output->render($renderable);
 echo $output->footer();

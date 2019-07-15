@@ -33,7 +33,7 @@ class tutoring_table extends local_mxschool_table {
     /**
      * Creates a new tutoring_table.
      *
-     * @param stdClass $filter Any filtering for the table - may include tutor, department, type, date, search.
+     * @param stdClass $filter Any filtering for the table - could include properties tutor, department, type, date, and search.
      * @param string $download Indicates whether the table is downloading.
      * @param bool $email Indicates whether the table should be generated in an email-compatible form.
      */

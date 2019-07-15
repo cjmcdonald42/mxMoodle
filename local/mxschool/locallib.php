@@ -587,20 +587,24 @@ function student_may_access_vacation_travel($userid) {
 /**
  * Determines the dorm id to display for a faculty.
  * The priorities of this function are as follows:
- * 1) An id specified as a 'dorm' GET parameter.
+ * 1) An id specified as a 'dorm' GET parameter, if the id is valid.
  * 2) The dorm of the currently logged in faculty member, if it exists.
  * 3) An empty string.
  *
- * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the 'all' option.
+ * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the all option.
  *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
  *
+ * @param bool $includeday Whether to include day houses or limit to boading houses.
  * @return string The dorm id or an empty string, as specified.
  */
-function get_param_faculty_dorm() {
+function get_param_faculty_dorm($includeday = true) {
     global $DB, $USER;
-    return isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm'])) ? $_GET['dorm'] : (
-        $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: ''
-    );
+    if (isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm']))) {
+        if (isset(($includeday ? get_dorm_list() : get_boarding_dorm_list())[$_GET['dorm']]) || empty($_GET['dorm'])) {
+            return $_GET['dorm'];
+        }
+    }
+    return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?? '';
 }
 
 /**
@@ -609,7 +613,7 @@ function get_param_faculty_dorm() {
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
  *
- * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the 'all' option.
+ * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the all option.
  *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
  *
  * @return string The timestamp of the midnight on the desired date.
@@ -678,8 +682,7 @@ function get_param_current_weekend() {
  * @return string The semester, as specified.
  */
 function get_param_current_semester() {
-    return isset($_GET['semester']) && ($_GET['semester'] === '1' || $_GET['semester'] === '2') ? $_GET['semester']
-        : get_current_semester();
+    return isset($_GET['semester']) && in_array($_GET['semester'], array(1, 2)) ? $_GET['semester'] : get_current_semester();
 }
 
 /**
@@ -689,8 +692,7 @@ function get_param_current_semester() {
  * @return string The semester, as specified.
  */
 function get_current_semester() {
-    $semesterdate = get_config('local_mxschool', 'second_semester_start_date');
-    return generate_datetime()->getTimestamp() < $semesterdate ? '1' : '2';
+    return generate_datetime()->getTimestamp() < get_config('local_mxschool', 'second_semester_start_date') ? '1' : '2';
 }
 
 /**

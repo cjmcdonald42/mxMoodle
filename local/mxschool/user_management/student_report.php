@@ -80,10 +80,7 @@ $dorms = get_dorm_list();
 
 $table = new student_table($type, $filter);
 
-$dropdowns = array(
-    new local_mxschool_dropdown('type', $types, $type),
-    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool'))
-);
+$dropdowns = array(new local_mxschool_dropdown('type', $types, $type), local_mxschool_dropdown::dorm_dropdown($filter->dorm));
 if ($type === 'parents') {
     $addbutton = new stdClass();
     $addbutton->text = get_string('user_management_parent_report_add', 'local_mxschool');
@@ -94,6 +91,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $type !== 'parents', $addbutton ?? false);
 
 echo $output->header();
-echo $output->heading($types[$type] . ($filter->dorm ? " &ndash; {$dorms[$filter->dorm]}" : ''));
+echo $output->heading(($filter->dorm ? "{$dorms[$filter->dorm]} " : '') . $types[$type]);
 echo $output->render($renderable);
 echo $output->footer();

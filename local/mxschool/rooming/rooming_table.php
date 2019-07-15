@@ -34,7 +34,8 @@ class rooming_table extends local_mxschool_table {
     /**
      * Creates a new rooming_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include submitted, gender, roomtype, double, and search.
+     * @param stdClass $filter Any filtering for the table
+     *                         - could include properties submitted, gender, roomtype, double, and search.
      * @param string $download Indicates whether the table is downloading.
      */
     public function __construct($filter, $download) {

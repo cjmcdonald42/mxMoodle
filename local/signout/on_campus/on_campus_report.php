@@ -38,7 +38,7 @@ if (!$isstudent) {
 }
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm();
+$filter->dorm = get_param_faculty_dorm(false);
 $filter->location = optional_param('location', '', PARAM_RAW);
 $filter->date = get_param_current_date_on_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -75,7 +75,7 @@ $dates = get_on_campus_date_list();
 $table = new on_campus_table($filter, $isstudent);
 
 $dropdowns = array(
-    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool')),
+    local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool_dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
     )

@@ -34,9 +34,9 @@ class vehicle_table extends local_mxschool_table {
     /**
      * Creates a new vehicle_table.
      *
-     * @param string $search The search for the table.
+     * @param stdClass $filter Any filtering for the table - could include property search.
      */
-    public function __construct($search) {
+    public function __construct($filter) {
         $columns = array('student', 'grade', 'phone', 'license', 'make', 'model', 'color', 'registration');
         $headers = array_map(function($column) {
             return get_string("user_management_vehicle_report_header_{$column}", 'local_mxschool');
@@ -53,12 +53,12 @@ class vehicle_table extends local_mxschool_table {
         );
         $where = array('v.deleted = 0', 'u.deleted = 0');
         $sortable = array('student', 'grade', 'license', 'make', 'model', 'color');
-        $urlparams = array('search' => $search);
+        $urlparams = array('search' => $filter->search);
         $centered = array('grade', 'license');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'v.make', 'v.model', 'v.color', 'v.registration');
         parent::__construct(
-            'vehicle_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $search,
-            $searchable
+            'vehicle_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
+            $filter->search, $searchable
         );
     }
 

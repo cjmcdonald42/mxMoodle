@@ -37,7 +37,7 @@ class weekend_calculator_table extends local_mxschool_table {
     /**
      * Creates a new weekend_calculator_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include a dorm or semester filter.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm and semester.
      * @param array $weekends The records of the weekends to include in the table.
      * @param bool $isstudent Whether the user is a student and only their record should be displayed.
      */
@@ -81,7 +81,10 @@ class weekend_calculator_table extends local_mxschool_table {
             "d.type = 'Boarding'"
         );
         $sortable = array('student', 'grade');
-        $urlparams = array('dorm' => $filter->dorm, 'semester' => $filter->semester);
+        $urlparams = array('semester' => $filter->semester);
+        if (!$isstudent) {
+            $urlparams['dorm'] = $filter->dorm;
+        }
         parent::__construct(
             'weekend_calculator_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
         );

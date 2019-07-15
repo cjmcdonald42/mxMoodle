@@ -34,7 +34,7 @@ class weekend_table extends local_mxschool_table {
     /**
      * Creates a new weekend_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include dorm, weekend, submitted, and search keys.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm, weekend, submitted, and search.
      * @param int $start An offest for the start day.
      * @param int $end An offest for the end day.
      */

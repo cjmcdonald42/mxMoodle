@@ -38,7 +38,7 @@ class student_table extends local_mxschool_table {
      * Creates a new student_table.
      *
      * @param string $type The type of report - either 'students', 'permissions', or 'parents'.
-     * @param stdClass $filter Any filtering for the table - could include dorm or search.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
      */
     public function __construct($type, $filter) {
         global $DB;

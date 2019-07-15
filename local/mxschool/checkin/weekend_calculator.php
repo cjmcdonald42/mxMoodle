@@ -38,7 +38,7 @@ if (!$isstudent) {
 }
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm();
+$filter->dorm = $isstudent ? '' : get_param_faculty_dorm(false);
 $filter->semester = get_param_current_semester();
 
 setup_mxschool_page('weekend_calculator', 'checkin');
@@ -56,11 +56,11 @@ $weekends = $DB->get_records_sql(
 
 $table = new weekend_calculator_table($filter, $weekends, $isstudent);
 
-$dropdowns = $isstudent ? array() : array(
-    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool'))
-);
-$dropdowns[] = new local_mxschool_dropdown('semester', $semesters, $filter->semester);
-$rows = array(
+$dropdowns = array(new local_mxschool_dropdown('semester', $semesters, $filter->semester));
+if (!$isstudent) {
+    array_unshift($dropdowns, local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
+}
+$legend = array(
     array(
         'lefttext' => get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool'),
         'righttext' => get_string('checkin_weekend_calculator_legend_offcampus', 'local_mxschool')
@@ -81,7 +81,7 @@ $rows = array(
 
 $output = $PAGE->get_renderer('local_mxschool');
 $reportrenderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
-$legendrenderable = new \local_mxschool\output\legend_table($rows);
+$legendrenderable = new \local_mxschool\output\legend_table($legend);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 
 echo $output->header();
