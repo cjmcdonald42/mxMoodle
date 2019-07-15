@@ -36,20 +36,18 @@ require_capability('local/signout:manage_on_campus_preferences', context_system:
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('location_edit', 'preferences', 'on_campus', 'signout');
-$redirect = get_redirect();
 
 $queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'fields' => array(
     'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'end_date' => 'end'
 )));
 
 if ($id && !$DB->record_exists('local_signout_location', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, 'l.id = ?', array($id));
 
 $form = new location_edit_form(array('id' => $id));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

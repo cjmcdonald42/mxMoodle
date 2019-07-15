@@ -36,21 +36,19 @@ require_capability('local/mxschool:manage_vehicles', context_system::instance())
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('vehicle_edit', 'vehicle_report', 'user_management');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_vehicle' => array('abbreviation' => 'v', 'fields' => array(
     'id', 'userid' => 'student', 'make', 'model', 'color', 'registration'
 )));
 
 if ($id && !$DB->record_exists('local_mxschool_vehicle', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "v.id = ?", array('id' => $id));
 $drivers = get_licensed_student_list();
 
 $form = new vehicle_edit_form(array('id' => $id, 'drivers' => $drivers));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

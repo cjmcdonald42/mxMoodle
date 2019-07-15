@@ -36,21 +36,19 @@ require_capability('local/peertutoring:manage_preferences', context_system::inst
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('course_edit', 'preferences', null, 'peertutoring');
-$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_course' => array('abbreviation' => 'c', 'fields' => array(
     'id', 'departmentid' => 'department', 'name'
 )));
 
 if ($id && !$DB->record_exists('local_peertutoring_course', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "c.id = ?", array($id));
 $departments = get_department_list();
 
 $form = new course_edit_form(array('id' => $id, 'departments' => $departments));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

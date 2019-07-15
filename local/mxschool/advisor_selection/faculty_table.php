@@ -47,9 +47,8 @@ class faculty_table extends local_mxschool_table {
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id');
         $where = array('u.deleted = 0');
         $sortable = array('name');
-        $urlparams = array();
         $centered = array('advisoryavailable', 'advisoryclosing');
-        parent::__construct('faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, array(), $centered);
     }
 
     /**

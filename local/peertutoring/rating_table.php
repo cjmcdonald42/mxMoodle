@@ -44,10 +44,9 @@ class rating_table extends local_mxschool_table {
         $from = array('{local_peertutoring_rating} r');
         $where = array('r.deleted = 0');
         $sortable = array('displaytext');
-        $urlparams = array();
         $centered = array('displaytext');
         parent::__construct(
-            'rating_table', $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, $urlparams, $centered
+            'rating_table', $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, array(), $centered
         );
     }
 

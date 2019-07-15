@@ -36,14 +36,13 @@ require_capability('local/peertutoring:manage_preferences', context_system::inst
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('tutor_edit', 'preferences', null, 'peertutoring');
-$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 'fields' => array(
     'id', 'userid' => 'student', 'departments', 'deleted'
 )));
 
 if ($id && !$DB->record_exists('local_peertutoring_tutor', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "t.id = ?", array($id));
@@ -58,7 +57,6 @@ $students = get_eligible_student_list();
 $departments = get_department_list();
 
 $form = new tutor_edit_form(array('id' => $id, 'students' => $students, 'departments' => $departments));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

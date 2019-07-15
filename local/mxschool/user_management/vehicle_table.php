@@ -53,12 +53,11 @@ class vehicle_table extends local_mxschool_table {
         );
         $where = array('v.deleted = 0', 'u.deleted = 0');
         $sortable = array('student', 'grade', 'license', 'make', 'model', 'color');
-        $urlparams = array('search' => $filter->search);
         $centered = array('grade', 'license');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'v.make', 'v.model', 'v.color', 'v.registration');
         parent::__construct(
-            'vehicle_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            'vehicle_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
+            $searchable
         );
     }
 

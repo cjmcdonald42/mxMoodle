@@ -46,6 +46,7 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('weekend_report', 'checkin');
+$redirect = new moodle_url($PAGE->url, (array) $filter);
 
 $queryfields = array('local_mxschool_comment' => array('abbreviation' => 'c', 'fields' => array(
     'id', 'weekendid' => 'weekend', 'dormid' => 'dorm', 'comment'
@@ -53,9 +54,6 @@ $queryfields = array('local_mxschool_comment' => array('abbreviation' => 'c', 'f
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_weekend_form', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, array(
-        'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'submitted' => $filter->submitted, 'search' => $filter->search
-    ));
     if ($record) {
         $record->active = 0;
         $DB->update_record('local_mxschool_weekend_form', $record);
@@ -111,10 +109,7 @@ for ($i = $start; $i <= $end; $i++) {
 $headers[] = array('text' => '', 'length' => 9);
 
 $form = new weekend_comment_form(array('id' => $id));
-$form->set_redirect(new moodle_url($PAGE->url, array(
-    'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'start' => $filter->start, 'end' => $filter->end,
-    'submitted' => $filter->submitted, 'search' => $filter->search
-)), true);
+$form->set_fallback($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

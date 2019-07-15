@@ -58,11 +58,8 @@ class generic_table extends local_mxschool_table {
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
-        $urlparams = array('dorm' => $filter->dorm);
         $centered = array('room', 'grade');
-        parent::__construct(
-            'checkin_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
-        );
+        parent::__construct('checkin_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered);
     }
 
     /**

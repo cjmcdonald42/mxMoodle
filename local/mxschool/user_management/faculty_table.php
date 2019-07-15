@@ -53,11 +53,10 @@ class faculty_table extends local_mxschool_table {
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
         $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
-        $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
         $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
         $searchable = array('u.firstname', 'u.lastname');
         parent::__construct(
-            'faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $filter->search,
+            'faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $filter, $centered, $filter->search,
             $searchable
         );
     }

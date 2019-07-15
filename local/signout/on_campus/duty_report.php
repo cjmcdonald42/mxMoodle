@@ -47,7 +47,8 @@ if ($refresh) {
 
 $locations = get_on_campus_location_list() + array(-1 => get_string('duty_report_select_location_other', 'local_signout'));
 if ($filter->location && !isset($locations[$filter->location])) {
-    redirect(new moodle_url($PAGE->url, array('pictures' => $filter->pictures, 'location' => '', 'search' => $filter->search)));
+    unset($filter->location);
+    redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 
 $table = new duty_table($filter);

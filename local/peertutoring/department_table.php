@@ -44,11 +44,8 @@ class department_table extends local_mxschool_table {
         $from = array('{local_peertutoring_dept} d');
         $where = array('d.deleted = 0');
         $sortable = array('name');
-        $urlparams = array();
         $centered = array('name');
-        parent::__construct(
-            'department_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered
-        );
+        parent::__construct('department_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $filter, $centered);
     }
 
     /**

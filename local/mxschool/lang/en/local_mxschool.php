@@ -675,10 +675,10 @@ $string['vacation_travel_report_header_rettype'] = 'Return Type';
 $string['vacation_travel_report_header_retinfo'] = 'Return Details';
 
 // Vacation Travel Transportation Report.
-$string['vacation_travel_transportation_report_view_departure'] = 'Departure Transportation Report';
-$string['vacation_travel_transportation_report_view_return'] = 'Return Transportation Report';
-$string['vacation_travel_transportation_report_select_view_departure'] = 'Departure';
-$string['vacation_travel_transportation_report_select_view_return'] = 'Return';
+$string['vacation_travel_transportation_report_portion_departure'] = 'Departure Transportation Report';
+$string['vacation_travel_transportation_report_portion_return'] = 'Return Transportation Report';
+$string['vacation_travel_transportation_report_select_portion_departure'] = 'Departure';
+$string['vacation_travel_transportation_report_select_portion_return'] = 'Return';
 $string['vacation_travel_transportation_report_select_type_all'] = 'All Types';
 $string['vacation_travel_transportation_report_select_type_Car'] = 'Car';
 $string['vacation_travel_transportation_report_select_type_Plane'] = 'Plane';

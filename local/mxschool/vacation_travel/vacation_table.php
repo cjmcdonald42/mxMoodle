@@ -70,12 +70,11 @@ class vacation_table extends local_mxschool_table {
                 break;
         }
         $sortable = array('student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
-        $urlparams = array('dorm' => $filter->dorm, 'submitted' => $filter->submitted, 'search' => $filter->search);
         $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
-            'vaction_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            'vaction_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
+            $searchable
         );
     }
 

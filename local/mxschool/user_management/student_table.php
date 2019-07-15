@@ -37,18 +37,17 @@ class student_table extends local_mxschool_table {
     /**
      * Creates a new student_table.
      *
-     * @param string $type The type of report - either 'students', 'permissions', or 'parents'.
-     * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
+     * @param stdClass $filter Any filtering for the table - could include properties type, dorm, and search.
      */
-    public function __construct($type, $filter) {
+    public function __construct($filter) {
         global $DB;
-        $this->type = $type;
+        $this->type = $filter->type;
         $columns = array('student');
         $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student");
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-        switch ($type) {
+        switch ($filter->type) {
             case 'students':
                 $columns = array_merge($columns, array('grade', 'advisor', 'dorm', 'room', 'phone', 'birthday'));
                 if ($filter->dorm) {
@@ -91,8 +90,8 @@ class student_table extends local_mxschool_table {
                 $searchable[] = 'p.parent_name';
                 break;
         }
-        $headers = array_map(function($column) use($type) {
-            return get_string("user_management_student_report_{$type}_header_{$column}", 'local_mxschool');
+        $headers = array_map(function($column) use($filter) {
+            return get_string("user_management_student_report_{$filter->type}_header_{$column}", 'local_mxschool');
         }, $columns);
         $columns[] = 'actions';
         $headers[] = get_string('report_header_actions', 'local_mxschool');
@@ -101,14 +100,13 @@ class student_table extends local_mxschool_table {
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
-        $urlparams = array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search);
         $centered = array(
             'grade', 'room', 'birthday', 'overnight', 'license', 'driving', 'passengers', 'rideshare', 'boston', 'swimcompetent',
             'swimallowed', 'boatallowed', 'primaryparent'
         );
         parent::__construct(
-            'student_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            'student_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
+            $searchable
         );
     }
 

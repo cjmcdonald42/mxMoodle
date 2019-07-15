@@ -53,11 +53,12 @@ $types = array(
     'Other' => get_string('off_campus_report_select_type_other', 'local_signout')
 );
 if ($filter->type && !isset($types[$filter->type])) {
-    redirect(new moodle_url($PAGE->url, array('type' => '', 'date' => $filter->date, 'search' => $filter->search)));
+    unset($filter->type);
+    redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_signout_off_campus', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search));
+    $redirect = new moodle_url($PAGE->url, (array) $filter);
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_signout_off_campus', $record);

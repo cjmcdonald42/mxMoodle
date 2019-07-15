@@ -34,7 +34,6 @@ require_login();
 require_capability('local/signout:manage_off_campus_preferences', context_system::instance());
 
 setup_mxschool_page('preferences', 'off_campus', 'signout');
-$redirect = get_redirect();
 
 $data = new stdClass();
 $data->editwindow = get_config('local_signout', 'off_campus_edit_window');
@@ -60,7 +59,6 @@ $data->specific['text'] = get_config('local_signout', 'off_campus_notification_w
 $data->over21['text'] = get_config('local_signout', 'off_campus_notification_warning_over21');
 
 $form = new preferences_form();
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

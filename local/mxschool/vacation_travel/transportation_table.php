@@ -34,12 +34,11 @@ class transportation_table extends local_mxschool_table {
     /**
      * Creates a new transportation_table.
      *
-     * @param string $view The records to view - either 'departure' or 'return'.
-     * @param stdClass $filter Any filtering for the table - could include properties mxtransportation, type, and search.
+     * @param stdClass $filter Any filtering for the table - could include properties portion, mxtransportation, type, and search.
      * @param string $download Indicates whether the table is downloading.
      */
-    public function __construct($view, $filter, $download) {
-        $this->is_downloading($download, 'Vacation Travel Transportation', $view);
+    public function __construct($filter, $download) {
+        $this->is_downloading($download, 'Vacation Travel Transportation', $filter->portion);
         $columns = array(
             'student', 'destination', 'phone', 'mxtransportation', 'type', 'site', 'details', 'carrier', 'number',
             'datetime', 'international', 'timemodified'
@@ -70,8 +69,8 @@ class transportation_table extends local_mxschool_table {
         if ($this->is_downloading()) {
             $columns[] = 'email';
         }
-        $headers = array_map(function($column) use($view) {
-            return get_string("vacation_travel_transportation_report_{$view}_header_{$column}", 'local_mxschool');
+        $headers = array_map(function($column) use($filter) {
+            return get_string("vacation_travel_transportation_report_{$filter->portion}_header_{$column}", 'local_mxschool');
         }, $columns);
         if (!$this->is_downloading()) {
             $columns[] = 'actions';
@@ -85,7 +84,8 @@ class transportation_table extends local_mxschool_table {
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_vt_trip} t ON s.userid = t.userid',
-            "{local_mxschool_vt_transport} dr ON t.{$view}id = dr.id", '{local_mxschool_vt_site} drs ON dr.siteid = drs.id'
+            "{local_mxschool_vt_transport} dr ON t.{$filter->portion}id = dr.id",
+            '{local_mxschool_vt_site} drs ON dr.siteid = drs.id'
         );
         $where = array(
             'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->mxtransportation === ''
@@ -95,13 +95,10 @@ class transportation_table extends local_mxschool_table {
             'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'datetime', 'international',
             'timemodified'
         );
-        $urlparams = array(
-            'view' => $view, 'mxtransportation' => $filter->mxtransportation, 'type' => $filter->type, 'search' => $filter->search
-        );
         $centered = array('mxtransportation', 'type', 'site', 'details', 'carrier', 'number', 'datetime', 'international');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         parent::__construct(
-            'transportation_table', $columns, $headers, $sortable, 'timemodified', $fields, $from, $where, $urlparams, $centered,
+            'transportation_table', $columns, $headers, $sortable, 'timemodified', $fields, $from, $where, $filter, $centered,
             $filter->search, $searchable, array(), false
         );
     }

@@ -50,8 +50,7 @@ class tutor_table extends local_mxschool_table {
         $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
         $where = array('u.deleted = 0', 't.deleted = 0');
         $sortable = array('tutor');
-        $urlparams = array();
-        parent::__construct('tutor_table', $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('tutor_table', $columns, $headers, $sortable, 'tutor', $fields, $from, $where, array(), $centered);
     }
 
     /**

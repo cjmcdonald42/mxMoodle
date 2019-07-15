@@ -36,7 +36,6 @@ require_capability('local/mxschool:manage_vacation_travel_preferences', context_
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('site_edit', 'preferences', 'vacation_travel');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'fields' => array(
     'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled',
@@ -44,13 +43,12 @@ $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'f
 )));
 
 if ($id && !$DB->record_exists('local_mxschool_vt_site', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, 's.id = ?', array($id));
 
 $form = new site_edit_form(array('id' => $id));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

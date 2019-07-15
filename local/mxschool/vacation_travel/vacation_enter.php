@@ -41,7 +41,6 @@ $returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'vacation_travel');
-$redirect = get_redirect();
 
 $tripqueryfields = array('local_mxschool_vt_trip' => array('abbreviation' => 't', 'fields' => array(
     'id', 'userid' => 'student', 'departureid', 'returnid', 'destination', 'phone_number' => 'phone',
@@ -53,11 +52,11 @@ $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviati
 )));
 
 if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_vt_trip', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($tripqueryfields, 't.id = ?', array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
@@ -118,7 +117,6 @@ $form = new vacation_form(array(
     'id' => $id, 'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites,
     'types' => $types
 ));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

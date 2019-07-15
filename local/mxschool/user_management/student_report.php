@@ -34,8 +34,8 @@ require_once(__DIR__.'/student_table.php');
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
 
-$type = optional_param('type', 'students', PARAM_RAW);
 $filter = new stdClass();
+$filter->type = optional_param('type', 'students', PARAM_RAW);
 $filter->dorm = get_param_faculty_dorm();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
@@ -49,12 +49,13 @@ $types = array(
     'parents' => get_string('user_management_student_report_type_parents', 'local_mxschool')
 );
 
-if (!isset($types[$type])) {
-    redirect(new moodle_url($PAGE->url, array('type' => 'students', 'dorm' => $filter->dorm, 'search' => $filter->search)));
+if (!isset($types[$filter->type])) {
+    unset($filter->type);
+    redirect(new moodle_url($PAGE->url, (array) $filter));
 }
-if ($type === 'parents' && $action === 'delete' && $id) {
+if ($filter->type === 'parents' && $action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_parent', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, array('type' => $type, 'dorm' => $filter->dorm, 'search' => $filter->search));
+    $redirect = new moodle_url($PAGE->url, (array) $filter);
     if ($record) {
         $record->deleted = 1;
         if ($record->is_primary_parent) { // Each student must have a primary parent.
@@ -78,19 +79,23 @@ if ($type === 'parents' && $action === 'delete' && $id) {
 
 $dorms = get_dorm_list();
 
-$table = new student_table($type, $filter);
+$table = new student_table($filter);
 
-$dropdowns = array(new local_mxschool_dropdown('type', $types, $type), local_mxschool_dropdown::dorm_dropdown($filter->dorm));
-if ($type === 'parents') {
+$dropdowns = array(
+    new local_mxschool_dropdown('type', $types, $filter->type), local_mxschool_dropdown::dorm_dropdown($filter->dorm)
+);
+if ($filter->type === 'parents') {
     $addbutton = new stdClass();
     $addbutton->text = get_string('user_management_parent_report_add', 'local_mxschool');
     $addbutton->url = new moodle_url('/local/mxschool/user_management/parent_edit.php');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $type !== 'parents', $addbutton ?? false);
+$renderable = new \local_mxschool\output\report(
+    $table, $filter->search, $dropdowns, $filter->type !== 'parents', $addbutton ?? false
+);
 
 echo $output->header();
-echo $output->heading(($filter->dorm ? "{$dorms[$filter->dorm]} " : '') . $types[$type]);
+echo $output->heading(($filter->dorm ? "{$dorms[$filter->dorm]} " : '') . $types[$filter->type]);
 echo $output->render($renderable);
 echo $output->footer();

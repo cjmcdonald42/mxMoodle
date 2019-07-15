@@ -42,7 +42,7 @@ setup_mxschool_page('dorm_report', 'user_management');
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_dorm', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, array('search' => $filter->search));
+    $redirect = new moodle_url($PAGE->url, (array) $filter);
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_mxschool_dorm', $record);

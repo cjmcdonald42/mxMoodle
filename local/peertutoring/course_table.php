@@ -44,9 +44,8 @@ class course_table extends local_mxschool_table {
         $from = array('{local_peertutoring_course} c', '{local_peertutoring_dept} d ON c.departmentid = d.id');
         $where = array('c.deleted = 0', 'd.deleted = 0');
         $sortable = array('name', 'department');
-        $urlparams = array();
         $centered = array('name', 'department');
-        parent::__construct('course_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('course_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, array(), $centered);
     }
 
     /**

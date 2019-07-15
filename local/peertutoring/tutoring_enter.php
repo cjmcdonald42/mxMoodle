@@ -39,7 +39,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('tutoring_form', null, 'peertutoring');
-$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's', 'fields' => array(
     'id', 'tutorid' => 'tutor', 'tutoring_date' => 'tutoringdate', 'studentid' => 'student', 'courseid' => 'course', 'topic',
@@ -48,11 +47,11 @@ $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's'
 )));
 
 if ($isstudent && !student_may_access_tutoring($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_peertutoring_session', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     if ($isstudent) { // Students cannot edit existing tutoring records.
         redirect($PAGE->url);
@@ -80,7 +79,6 @@ $form = new tutoring_form(array(
     'id' => $id, 'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses,
     'types' => $types, 'ratings' => $ratings
 ));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

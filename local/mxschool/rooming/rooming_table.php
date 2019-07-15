@@ -92,14 +92,10 @@ class rooming_table extends local_mxschool_table {
                 break;
         }
         $sortable = array('student', 'grade', 'dorm');
-        $urlparams = array(
-            'submitted' => $filter->submitted, 'gender' => $filter->gender, 'roomtype' => $filter->roomtype,
-            'double' => $filter->double, 'search' => $filter->search
-        );
         $centered = array('grade', 'gender', 'liveddouble', 'roomtype');
         parent::__construct(
-            'rooming_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            'rooming_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
+            $searchable
         );
     }
 

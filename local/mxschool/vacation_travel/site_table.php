@@ -48,9 +48,8 @@ class site_table extends local_mxschool_table {
         $from = array('{local_mxschool_vt_site} s');
         $where = array('s.deleted = 0');
         $sortable = array('name', 'type');
-        $urlparams = array();
         $centered = array('departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
-        parent::__construct('site_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('site_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, array(), $centered);
     }
 
     /**

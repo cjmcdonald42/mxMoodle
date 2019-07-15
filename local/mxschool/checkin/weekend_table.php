@@ -95,14 +95,10 @@ class weekend_table extends local_mxschool_table {
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
-        $urlparams = array(
-            'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'start' => $filter->start, 'end' => $filter->end,
-            'submitted' => $filter->submitted, 'search' => $filter->search
-        );
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'wf.destination', 'wf.transportation');
         parent::__construct(
-            'weekend_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            'weekend_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
+            $searchable
         );
     }
 

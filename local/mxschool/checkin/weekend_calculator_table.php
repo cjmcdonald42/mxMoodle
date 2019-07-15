@@ -80,13 +80,10 @@ class weekend_calculator_table extends local_mxschool_table {
             'u.deleted = 0', $isstudent ? "s.userid = $USER->id" : ($filter->dorm ? "s.dormid = {$filter->dorm}" : ''),
             "d.type = 'Boarding'"
         );
-        $sortable = array('student', 'grade');
-        $urlparams = array('semester' => $filter->semester);
-        if (!$isstudent) {
-            $urlparams['dorm'] = $filter->dorm;
-        }
+        $sortable = $isstudent ? array() : array('student', 'grade');
         parent::__construct(
-            'weekend_calculator_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
+            'weekend_calculator_table', $columns, $headers, $sortable, $isstudent ? false : 'student', $fields, $from, $where,
+            $filter, $centered
         );
 
         $this->column_class('total', "{$this->column_class['total']} highlight-format");

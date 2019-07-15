@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'off_campus', 'signout');
-$redirect = get_redirect();
 
 $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
@@ -48,11 +47,11 @@ $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc',
 )));
 
 if ($isstudent && !student_may_access_off_campus_signout($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_signout_off_campus', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing off-campus signout records beyond the edit window.
@@ -106,7 +105,6 @@ $form = new off_campus_form(array(
     'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,
     'approvers' => $approvers
 ));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

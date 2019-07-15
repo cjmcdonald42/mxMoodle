@@ -67,14 +67,13 @@ class duty_table extends local_mxschool_table {
             "oc.time_created >= {$starttime}"
         );
         $sortable = array('student', 'grade', 'dorm', 'location', 'signouttime');
-        $urlparams = array('pictures' => $filter->pictures, 'location' => $filter->location, 'search' => $filter->search);
         $centered = array('picture', 'grade', 'signouttime', 'confirmation');
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'd.name', 'a.firstname', 'a.lastname', 'l.name', 'oc.other',
             'c.firstname', 'c.lastname'
         );
         parent::__construct(
-            'on_campus_table', $columns, $headers, $sortable, 'signouttime', $fields, $from, $where, $urlparams, $centered,
+            'on_campus_table', $columns, $headers, $sortable, 'signouttime', $fields, $from, $where, $fitler, $centered,
             $filter->search, $searchable, array(), false
         );
         $this->column_class('confirmation', "{$this->column_class['confirmation']} confirmation");

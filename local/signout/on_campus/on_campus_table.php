@@ -87,14 +87,11 @@ class on_campus_table extends local_mxschool_table {
             $where[] = "oc.time_created < {$endtime->getTimestamp()}";
         }
         $sortable = array('student', 'grade', 'dorm', 'location', $filter->date ? 'signouttime' : 'signoutdate');
-        $urlparams = array(
-            'dorm' => $filter->dorm, 'location' => $filter->location, 'date' => $filter->date, 'search' => $filter->search
-        );
         $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
         parent::__construct(
             'on_campus_table', $columns, $headers, $sortable, $filter->date ? 'signouttime' : 'signoutdate', $fields, $from, $where,
-            $urlparams, $centered, $filter->search, $searchable, array(), false
+            $filter, $centered, $filter->search, $searchable, array(), false
         );
         $this->column_class('signin', "{$this->column_class['signin']} sign-in");
     }

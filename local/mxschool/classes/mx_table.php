@@ -41,7 +41,7 @@ abstract class local_mxschool_table extends table_sql {
      * @param array $fields The database fields to select.
      * @param array $from The database tables to query.
      * @param array $where The constaints on the query.
-     * @param array $urlparams The parameters for the baseurl.
+     * @param array $filter The parameters for the baseurl.
      * @param array $centered The columns whose text should be centered.
      * @param string $search The string to search for as a constraint, null indicates no search option.
      * @param array $searchable The database fields to search.
@@ -49,7 +49,7 @@ abstract class local_mxschool_table extends table_sql {
      * @param bool $ascending Whether the default sort should be in ascending or descending order.
      */
     public function __construct(
-        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $urlparams,
+        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $filter,
         $centered = array(), $search = null, $searchable = array(), $noprint = array(), $ascending = true
     ) {
         global $PAGE;
@@ -58,7 +58,9 @@ abstract class local_mxschool_table extends table_sql {
 
         $this->define_columns($columns);
         $this->define_headers(array_values($headers));
-        $this->sortable(true, $defaultsort, $ascending ? SORT_ASC : SORT_DESC);
+        if ($defaultsort) {
+            $this->sortable(true, $defaultsort, $ascending ? SORT_ASC : SORT_DESC);
+        }
         if (in_array('actions', $columns)) {
             $centered[] = $noprint[] = 'actions';
         }
@@ -84,7 +86,7 @@ abstract class local_mxschool_table extends table_sql {
 
         $this->set_sql(implode(', ', $fields), implode(' LEFT JOIN ', $from), implode(' AND ', array_filter($where)));
 
-        $this->define_baseurl(new moodle_url($PAGE->url, $urlparams));
+        $this->define_baseurl(new moodle_url($PAGE->url, (array) $filter));
         $this->collapsible(false);
     }
 
@@ -113,14 +115,14 @@ abstract class local_mxschool_table extends table_sql {
     protected function delete_icon($id, $table = null) {
         global $OUTPUT;
         $warning = get_string('report_delete_warning', 'local_mxschool');
-        $urlparams = array('action' => 'delete', 'id' => $id);
+        $params = array('action' => 'delete', 'id' => $id);
         if (isset($table)) {
-            $urlparams['table'] = $table;
+            $params['table'] = $table;
         }
         return $OUTPUT->action_icon(
-            new moodle_url($this->baseurl, $urlparams),
+            new moodle_url($this->baseurl, $params),
             new pix_icon('t/delete', get_string('delete'), 'core', array('class' => 'iconsmall')),
-            null, array('onclick' => "return window.confirm(\"$warning\")")
+            null, array('onclick' => "return window.confirm(\"{$warning}\")")
         );
     }
 

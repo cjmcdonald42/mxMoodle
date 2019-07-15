@@ -77,7 +77,6 @@ class advisor_table extends local_mxschool_table {
                 break;
         }
         $sortable = array('student', 'current');
-        $urlparams = array('submitted' => $filter->submitted, 'keepcurrent' => $filter->keepcurrent, 'search' => $filter->search);
         $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'ca.firstname', 'ca.lastname', 'o1a.firstname', 'o1a.lastname',
@@ -85,8 +84,8 @@ class advisor_table extends local_mxschool_table {
             'o5a.lastname', 'sa.firstname', 'sa.lastname'
         );
         parent::__construct(
-            'advisor_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
+            'advisor_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
+            $searchable
         );
 
         $this->column_class('selected', "{$this->column_class['selected']} selection-selected");

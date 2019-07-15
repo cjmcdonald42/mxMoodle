@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('weekend_form', 'checkin');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
@@ -49,11 +48,11 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
 )));
 
 if ($isstudent && !student_may_access_weekend($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     if ($isstudent) { // Students cannot edit existing weekend forms.
         redirect($PAGE->url);
@@ -89,7 +88,6 @@ $dorms = array('0' => get_string('report_select_boarding_dorm', 'local_mxschool'
 $students = get_boarding_student_list();
 
 $form = new weekend_form(array('id' => $id, 'dorms' => $dorms, 'students' => $students));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

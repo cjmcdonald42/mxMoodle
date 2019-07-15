@@ -103,7 +103,6 @@ class off_campus_table extends local_mxschool_table {
             $where[] = "d.departure_time >= {$starttime}";
         }
         $sortable = array('student', $filter->date ? 'departuretime' : 'departuredate', 'approver');
-        $urlparams = array('type' => $filter->type, 'date' => $filter->date, 'search' => $filter->search);
         $centered = array('type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'du.firstname', 'du.lastname', 'du.alternatename', 'd.destination',
@@ -111,7 +110,7 @@ class off_campus_table extends local_mxschool_table {
         );
         parent::__construct(
             'off_campus_table', $columns, $headers, $sortable, $filter->date ? 'departuretime' : 'departuredate', $fields, $from,
-            $where, $urlparams, $centered, $filter->search, $searchable, array(), false
+            $where, $filter, $centered, $filter->search, $searchable, array(), false
         );
         $this->column_class('signin', "{$this->column_class['signin']} sign-in");
     }

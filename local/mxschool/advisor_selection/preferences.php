@@ -35,7 +35,6 @@ require_login();
 require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());
 
 setup_mxschool_page('preferences', 'advisor_selection');
-$redirect = get_redirect();
 
 $data = new stdClass();
 $data->start_date = get_config('local_mxschool', 'advisor_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
@@ -56,7 +55,6 @@ $data->closing_warning['text'] = get_config('local_mxschool', 'advisor_form_clos
 $data->instructions['text'] = get_config('local_mxschool', 'advisor_form_instructions');
 
 $form = new preferences_form();
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

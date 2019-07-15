@@ -34,7 +34,6 @@ require_login();
 require_capability('local/mxschool:manage_rooming_preferences', context_system::instance());
 
 setup_mxschool_page('preferences', 'rooming');
-$redirect = get_redirect();
 
 $data = new stdClass();
 $data->start_date = get_config('local_mxschool', 'rooming_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
@@ -50,7 +49,6 @@ $data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
 $data->roommateinstructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 
 $form = new preferences_form();
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

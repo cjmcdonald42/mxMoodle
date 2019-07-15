@@ -39,7 +39,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'on_campus', 'signout');
-$redirect = get_redirect();
 
 $queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'locationid' => 'location_select', 'other' => 'location_other', 'time_created' => 'timecreated',
@@ -47,11 +46,11 @@ $queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 
 )));
 
 if ($isstudent && !student_may_access_on_campus_signout($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_signout_on_campus', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing on-campus signout records.
@@ -72,7 +71,6 @@ $locations = array(0 => get_string('form_select_default', 'local_mxschool')) + g
            + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
 
 $form = new on_campus_form(array('id' => $id, 'students' => $students, 'locations' => $locations));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

@@ -38,7 +38,6 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('preferences', 'on_campus', 'signout');
-$redirect = get_redirect();
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_signout_location', array('id' => $id));
@@ -61,7 +60,6 @@ $data->warning['text'] = get_config('local_signout', 'on_campus_form_warning');
 $data->confirmation['text'] = get_config('local_signout', 'on_campus_form_confirmation');
 
 $form = new preferences_form();
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

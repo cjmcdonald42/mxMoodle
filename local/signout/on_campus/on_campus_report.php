@@ -53,13 +53,12 @@ if ($refresh) {
 
 $locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));
 if ($filter->location && !isset($locations[$filter->location])) {
-    redirect(new moodle_url($PAGE->url, array('location' => '', 'date' => $filter->date, 'search' => $filter->search)));
+    unset($filter->location);
+    redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_signout_on_campus', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, array(
-        'location' => $filter->location, 'date' => $filter->date, 'search' => $filter->search
-    ));
+    $redirect = new moodle_url($PAGE->url, (array) $filter);
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_signout_on_campus', $record);

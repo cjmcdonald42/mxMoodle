@@ -81,17 +81,13 @@ class tutoring_table extends local_mxschool_table {
             $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
         );
         $sortable = $email ? array() : array('tutor', 'tutoringdate', 'student', 'department', 'course', 'type', 'rating');
-        $urlparams = array(
-            'tutor' => $filter->tutor, 'department' => $filter->department, 'type' => $filter->type, 'date' => $filter->date,
-            'search' => $filter->search
-        );
         $centered = array('tutoringdate', 'department', 'course');
         $searchable = array(
             'tu.lastname', 'tu.firstname', 'tu.alternatename', 'su.lastname', 'su.firstname', 'su.alternatename', 'd.name',
             'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext'
         );
         parent::__construct(
-            'tutoring_table', $columns, $headers, $sortable, 'tutoringdate', $fields, $from, $where, $urlparams, $centered,
+            'tutoring_table', $columns, $headers, $sortable, 'tutoringdate', $fields, $from, $where, $filter, $centered,
             $filter->search, $searchable, array(), false
         );
     }

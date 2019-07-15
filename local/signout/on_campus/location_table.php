@@ -44,9 +44,8 @@ class location_table extends local_mxschool_table {
         $from = array('{local_signout_location} l');
         $where = array('l.deleted = 0');
         $sortable = array('name', 'grade');
-        $urlparams = array();
         $centered = array('grade', 'enabled', 'start', 'end');
-        parent::__construct('location_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        parent::__construct('location_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, array(), $centered);
     }
 
     /**

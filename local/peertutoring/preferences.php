@@ -43,7 +43,6 @@ $id = optional_param('id', 0, PARAM_INT);
 $table = optional_param('table', '', PARAM_RAW);
 
 setup_mxschool_page('preferences', null, 'peertutoring');
-$redirect = get_redirect();
 
 if ($action === 'delete' && $id && $table) {
     switch ($table) {
@@ -83,7 +82,6 @@ if ($notification) {
 }
 
 $form = new preferences_form();
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

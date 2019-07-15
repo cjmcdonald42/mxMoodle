@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'advisor_selection');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'asf', 'fields' => array(
     'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
@@ -49,11 +48,11 @@ $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => '
 )));
 
 if ($isstudent && !student_may_access_advisor_selection($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_adv_selection', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "asf.id = ?", array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
@@ -83,7 +82,6 @@ $students = get_student_with_advisor_form_enabled_list();
 $faculty = array(0 => get_string('form_select_default', 'local_mxschool')) + get_faculty_list();
 
 $form = new advisor_form(array('id' => $id, 'students' => $students, 'faculty' => $faculty));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

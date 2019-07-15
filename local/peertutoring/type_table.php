@@ -44,11 +44,8 @@ class type_table extends local_mxschool_table {
         $from = array('{local_peertutoring_type} t');
         $where = array('t.deleted = 0');
         $sortable = array('displaytext');
-        $urlparams = array();
         $centered = array('displaytext');
-        parent::__construct(
-            'type_table', $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, $urlparams, $centered
-        );
+        parent::__construct('type_table', $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, array(), $centered);
     }
 
     /**

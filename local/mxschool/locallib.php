@@ -110,7 +110,7 @@ function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
 
     setup_generic_page($url, $title);
 
-    $parentfile = json_decode($record->pages)->$page;
+    $parentfile = json_decode($record->pages)->$parent;
     $parenturl = empty($subpackage) ? "/local/{$package}/{$parentfile}" : "/local/{$package}/{$subpackage}/{$parentfile}";
     $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}_{$parent}", "local_{$package}");
 
@@ -210,14 +210,23 @@ function logged_redirect($url, $notification, $type, $success = true) {
 }
 
 /**
- * Determines a fallback redirect url for a form when there is no referer or the state is invalid.
+ * Determines a fallback url for a form to redirect to when submitted or cancelled if when there is no referer.
+ * Also intedned to be used when the current user can't currently access a form or the page is given invalid url parameters.
  *
  * @return moodle_url The fallback url for the form to redirect to.
  */
-function get_redirect() {
+function get_fallback_url() {
     global $PAGE;
     return has_capability('moodle/site:config', context_system::instance())
         ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/my');
+}
+
+/**
+ * Redirects to the default fallback.
+ * Intedned to be used when the current user can't currently access a form or the page is given invalid url parameters.
+ */
+function redirect_to_fallback() {
+    redirect(get_fallback_url());
 }
 
 /**

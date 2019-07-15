@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'rooming');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'fields' => array(
     'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
@@ -50,11 +49,11 @@ $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'f
 )));
 
 if ($isstudent && !student_may_access_rooming($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_rooming', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "r.id = ?", array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
@@ -85,7 +84,6 @@ $roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + ge
 $roomtypes = array(0 => get_string('form_select_default', 'local_mxschool')) + get_roomtype_list();
 
 $form = new rooming_form(array('id' => $id, 'students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
