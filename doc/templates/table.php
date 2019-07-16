@@ -34,27 +34,21 @@ class NAME_table extends local_mxschool_table {
     /**
      * Creates a new NAME_table.
      *
-     * @param stdClass $filter Any filtering for the table - TODO: details.
+     * @param stdClass $filter Any filtering for the table - could include properties // TODO: list properties.
      * TODO: Description of other parameters
      */
     public function __construct($filter) {
         // $columns = TODO: array of column identifiers;
-        $headers = array_map(function($column) {
-            return get_string("NAME_report_header_{$column}", 'PACKAGE');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'PACKAGE');
+        $headers = $this->generate_headers($columns, 'NAME_report');
+        // $sortable = TODO: array of column identifiers that are sortable (first element is default);
+        // $centered = TODO: array of column identifiers that are centered;
+        parent::__construct('UNIQUE_ID', $columns, $headers, $sortable, $centered, $filter, /* false to turn off actions column, *//* false to sort descending (useful for timestamps) */);
+
         // $fields = TODO: array of fields from the database;
         // $from = TODO: array of database tables;
         // $where = TODO: array of constraints;
-        // $sortable = TODO: array of column identifiers that are sortable;
-        // $urlparams = TODO: array of parameters for the baseurl;
-        // $centered = TODO: array of column identifiers that are centered;
         // $searchable = TODO: array of fields that are searchable;
-        // $noprint = TODO: array of column identifiers that should not be printed;
-        parent::__construct(
-            'UNIQUE_ID', $columns, $headers, $sortable, 'DEFAULT_SORT', $fields, $from, $where, $urlparams, $centered, $filter->search, $searchable, $noprint
-        );
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search); // NOTE: remove last two parameters if the table has no search functionality.
     }
 
     // TODO: any column transformations as protected functions.

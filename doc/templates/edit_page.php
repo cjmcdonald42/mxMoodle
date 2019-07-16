@@ -36,7 +36,6 @@ require_capability('CAPABILITY', context_system::instance());
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('PAGE', 'PARENT', 'SUBPACKAGE', 'PACKAGE');
-$redirect = get_redirect();
 
 $queryfields = array(
     'TABLE' => array('abbreviation' => 'ABBREVIATION', 'fields' => array(
@@ -44,15 +43,14 @@ $queryfields = array(
     )) // ETC.
 );
 
-if (/* $id && */ !$DB->record_exists('TABLE', array('id' => $id))) {
-    redirect($redirect);
+if (!$DB->record_exists('TABLE', array('id' => $id))) { // NOTE: Add $id && to beginning of condidional if creation of new records is allowed.
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "WHERE_STRING", array(/* Query parameters. */));
 // TODO: Any other static querying.
 
 $form = new FORM_CLASS(array('id' => $id, /* TODO: Other parameters. */));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -61,7 +59,7 @@ if ($form->is_cancelled()) {
     // TODO: Data transformations.
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), get_string('SUCCESS_STRING', 'PACKAGE'), 'update' /* $data->id ? 'update' : 'create' */
+        $form->get_redirect(), get_string('SUCCESS_STRING', 'PACKAGE'), 'update' // NOTE: Replace 'update' with $data->id ? 'update' : 'create' if creation of new records is allowed.
     );
 }
 

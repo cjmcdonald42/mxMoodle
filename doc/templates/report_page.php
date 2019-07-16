@@ -44,10 +44,10 @@ setup_mxschool_page('PAGE', 'SUBPACKAGE', 'PACKAGE');
 $table = new TABLE_CLASS($filter);
 
 $dropdowns = array(
-    new local_mxschool_dropdown('NAME', /* array of options */, 'SELECTED')
+    new local_mxschool_dropdown('NAME', /* array of options */, 'SELECTED', /* default option (optional) */)
     // ETC.
 );
-// TODO: Any buttons.
+// TODO: Set up objects for any buttons.
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, 'SEARCH', $dropdowns, /* true or false for printbutton */, /* object or false for addbutton */, /* array or false for emailbuttons */, /* array or false for second row of headers */);
