@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for Middlesex School's Peer Tutoring Subplugin.
+ * Email notifications for Middlesex's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -37,7 +37,7 @@ use \local_mxschool\local\notification as mx_notification;
 use \local_mxschool\output\report;
 
 /**
- * Generic email notification for Middlesex School's Peer Tutoring Subplugin.
+ * Generic email notification for Middlesex's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -62,7 +62,7 @@ abstract class notification extends mx_notification {
 }
 
 /**
- * Email notification to the peer tutor admin with a summary of that day's tutoring for Middlesex School's Peer Tutoring Subplugin.
+ * Email notification to the peer tutor admin with a summary of that day's tutoring for Middlesex's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

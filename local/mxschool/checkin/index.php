@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Checkin sheets index page for Middlesex School's Dorm and Student Functions Plugin.
+ * Checkin sheets index page for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin

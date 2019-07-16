@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Confirms an on-campus signout record for Middlesex School's eSignout Subplugin.
+ * Confirms an on-campus signout record for Middlesex's eSignout Subplugin.
  *
  * @module     local_signout/confirmation_button
  * @package    local_signout

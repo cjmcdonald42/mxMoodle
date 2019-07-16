@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * On-campus duty table for Middlesex School's eSignout Subplugin.
+ * On-campus duty table for Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage on_campus

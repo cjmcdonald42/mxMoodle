@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic email notification classes for Middlesex School's Dorm and Student Functions Plugin.
+ * Generic email notification classes for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -33,7 +33,7 @@ require_once(__DIR__.'/../../locallib.php');
 use \local_mxschool\event\email_sent;
 
 /**
- * Generic email notification for all of the emails sent by Middlesex School's Dorm and Student Functions Plugin.
+ * Generic email notification for all of the emails sent by Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -188,7 +188,7 @@ abstract class notification {
 }
 
 /**
- * Generic wrapper for all bulk email notifications sent by Middlesex School's Dorm and Student Functions Plugin.
+ * Generic wrapper for all bulk email notifications sent by Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

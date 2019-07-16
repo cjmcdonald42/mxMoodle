@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prepends a second header to a table for Middlesex School's Dorm and Student Functions Plugin.
+ * Prepends a second header to a table for Middlesex's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/prepend_table_header
  * @package    local_mxschool

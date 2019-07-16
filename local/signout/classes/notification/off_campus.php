@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the off_campus subpackage of Middlesex School's eSignout Subplugin.
+ * Email notifications for the off_campus subpackage of Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage off_campus
@@ -34,7 +34,7 @@ require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.ph
 use \local_mxschool\local\notification;
 
 /**
- * Email notification for when an off-campus signout form is submitted for Middlesex School's eSignout Subplugin.
+ * Email notification for when an off-campus signout form is submitted for Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage off_campus

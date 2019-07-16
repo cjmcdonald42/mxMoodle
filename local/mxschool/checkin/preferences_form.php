@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing checkin preferences for Middlesex School's Dorm and Student Functions Plugin.
+ * Form for editing checkin preferences for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin

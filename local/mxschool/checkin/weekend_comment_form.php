@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for dorm faculty to add comments to a weekend report for Middlesex School's Dorm and Student Functions Plugin.
+ * Form for dorm faculty to add comments to a weekend report for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin

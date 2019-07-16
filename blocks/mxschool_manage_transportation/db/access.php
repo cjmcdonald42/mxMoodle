@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex School's Transportation Manager Block for the Dashboard.
+ * Middlesex's Transportation Manager Block for the Dashboard.
  *
  * @package    block_mxschool_manage_transportation
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

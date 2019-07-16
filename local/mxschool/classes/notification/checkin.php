@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the checkin subpackage of Middlesex School's Dorm and Student Functions Plugin.
+ * Email notifications for the checkin subpackage of Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -34,7 +34,7 @@ require_once(__DIR__.'/mx_notification.php');
 use \local_mxschool\local\notification;
 
 /**
- * Base class for email notification regarding weekend forms for Middlesex School's Dorm and Student Functions Plugin.
+ * Base class for email notification regarding weekend forms for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -105,7 +105,7 @@ abstract class weekend_form_base extends notification {
 }
 
 /**
- * Email notification for when a weekend form is submitted for Middlesex School's Dorm and Student Functions Plugin.
+ * Email notification for when a weekend form is submitted for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -127,7 +127,7 @@ class weekend_form_submitted extends weekend_form_base {
 }
 
 /**
- * Email notification for when a weekend form is approved for Middlesex School's Dorm and Student Functions Plugin.
+ * Email notification for when a weekend form is approved for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin

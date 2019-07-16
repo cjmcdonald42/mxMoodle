@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the options of the advisor selection form for Middlesex School's Dorm and Student Functions Plugin.
+ * Updates the options of the advisor selection form for Middlesex's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/advisor_selection_form
  * @package    local_mxschool

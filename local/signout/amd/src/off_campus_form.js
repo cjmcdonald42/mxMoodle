@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the options of the off-campus signout form for Middlesex School's eSignout Subplugin.
+ * Updates the options of the off-campus signout form for Middlesex's eSignout Subplugin.
  *
  * @module     local_signout/off_campus_form
  * @package    local_signout
