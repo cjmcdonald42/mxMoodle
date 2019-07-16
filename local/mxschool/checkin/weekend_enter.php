@@ -72,7 +72,7 @@ if ($id) {
             $data->dorm = $dorm;
         }
     }
-    if ($data->dorm) {
+    if (isset($data->dorm)) {
         $record = $DB->get_record_sql(
             "SELECT d.hohid AS hoh, d.permissions_line AS permissionsline
              FROM {local_mxschool_dorm} d

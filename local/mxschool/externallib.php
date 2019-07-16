@@ -65,7 +65,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::set_boolean_field_parameters(), array(
             'table' => $table, 'field' => $field, 'id' => $id, 'value' => $value)
         );
-        switch ($params['table']) {
+        switch ($params['table']) { // TODO: This should not be hardcoded, especially the signout case.
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
                 $page = get_string('checkin_weekend_report', 'local_mxschool');
