@@ -51,13 +51,13 @@ class tutoring_table extends local_mxschool_table {
         if ($filter->type > 0) {
             unset($columns[array_search('type', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("tutoring_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
-        if (!$email && !$this->is_downloading()) {
-            $columns[] = 'actions';
-            $headers[] = get_string('report_header_actions', 'local_mxschool');
-        }
+        $headers = $this->generate_headers($columns, 'tutoring_report', 'local_peertutoring');
+        $sortable = $email ? array() : array('tutoringdate', 'tutor', 'student', 'department', 'course', 'type', 'rating');
+        $centered = array('tutoringdate', 'department', 'course');
+        parent::__construct(
+            'tutoring_table', $columns, $headers, $sortable, $centered, $filter, !$email && !$this->is_downloading(), false
+        );
+
         $fields = array(
             's.id', 's.tutorid', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 's.studentid',
             "CONCAT(su.lastname, ', ', su.firstname) AS student", 's.tutoring_date AS tutoringdate', 'd.name AS department',
@@ -69,27 +69,27 @@ class tutoring_table extends local_mxschool_table {
             '{local_peertutoring_dept} d ON c.departmentid = d.id', '{local_peertutoring_type} ty ON s.typeid = ty.id',
             '{local_peertutoring_rating} r ON s.ratingid = r.id'
         );
+        $where = array('s.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0');
+        if ($filter->tutor) {
+            $where[] = "tu.id = {$filter->tutor}";
+        }
+        if ($filter->department) {
+            $where[] = "s.departmentid = {$filter->department}";
+        }
+        if ($filter->type) {
+            $where[] = "s.typeid = {$filter->type}";
+        }
         if ($filter->date) {
             $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
+            array_push($where, "s.tutoring_date >= {$starttime->getTimestamp()}", "s.tutoring_date < {$endtime->getTimestamp()}");
         }
-        $where = array(
-            's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0', $filter->tutor ? "tu.id = {$filter->tutor}" : '',
-            $filter->department ? "s.departmentid = {$filter->department}" : '', $filter->type ? "s.typeid = {$filter->type}" : '',
-            $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
-            $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
-        );
-        $sortable = $email ? array() : array('tutor', 'tutoringdate', 'student', 'department', 'course', 'type', 'rating');
-        $centered = array('tutoringdate', 'department', 'course');
         $searchable = array(
             'tu.lastname', 'tu.firstname', 'tu.alternatename', 'su.lastname', 'su.firstname', 'su.alternatename', 'd.name',
-            'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext'
+            'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext', 's.notes'
         );
-        parent::__construct(
-            'tutoring_table', $columns, $headers, $sortable, 'tutoringdate', $fields, $from, $where, $filter, $centered,
-            $filter->search, $searchable, array(), false
-        );
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

@@ -42,28 +42,33 @@ class weekday_table extends local_mxschool_table {
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("checkin_weekday_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $fields = array(
-            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade'
-        );
+        $headers = $this->generate_headers($columns, 'checkin_weekday_report');
         for ($i = 1; $i <= 5; $i++) {
-            $columns[] = "early_$i";
-            $headers[] = get_string('checkin_weekday_report_header_early', 'local_mxschool');
-            $fields[] = "'' AS early_$i";
-            $columns[] = "late_$i";
-            $headers[] = get_string('checkin_weekday_report_header_late', 'local_mxschool');
-            $fields[] = "'' AS late_$i";
+            array_push($columns, "early_{$i}", "late_{$i}");
+            array_push(
+                $headers, get_string('checkin_weekday_report_header_early', 'local_mxschool'),
+                get_string('checkin_weekday_report_header_late', 'local_mxschool')
+            );
         }
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $filter->dorm ? "s.dormid = {$filter->dorm}" : '', "d.type = 'Boarding'");
         $sortable = array('student', 'dorm', 'room', 'grade');
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
         $centered = array('room', 'grade');
-        parent::__construct('weekday_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered);
+        parent::__construct('weekday_table', $columns, $headers, $sortable, $centered, $filter, false);
+
+        $fields = array(
+            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade'
+        );
+        for ($i = 1; $i <= 5; $i++) {
+            array_push($fields, "'' AS early_{$i}", "'' AS late_{$i}");
+        }
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
+        $where = array('u.deleted = 0', "d.type = 'Boarding'");
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

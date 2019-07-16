@@ -35,17 +35,15 @@ class location_table extends local_mxschool_table {
      */
     public function __construct() {
         $columns = array('name', 'grade', 'enabled', 'start', 'end');
-        $headers = array_map(function($column) {
-            return get_string("on_campus_location_report_header_{$column}", 'local_signout');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'on_campus_location_report', 'local_signout');
+        $sortable = array('name', 'grade');
+        $centered = array('grade', 'enabled', 'start', 'end');
+        parent::__construct('location_table', $columns, $headers, $sortable, $centered);
+
         $fields = array('l.id', 'l.name', 'l.grade', 'l.enabled', 'l.start_date AS start', 'l.end_date AS end');
         $from = array('{local_signout_location} l');
         $where = array('l.deleted = 0');
-        $sortable = array('name', 'grade');
-        $centered = array('grade', 'enabled', 'start', 'end');
-        parent::__construct('location_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, array(), $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

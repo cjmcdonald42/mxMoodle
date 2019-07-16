@@ -38,14 +38,15 @@ class type_table extends local_mxschool_table {
         $headers = array_map(function($column) {
             return get_string("type_report_header_{$column}", 'local_peertutoring');
         }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'type_report', 'local_peertutoring');
+        $sortable = array('displaytext');
+        $centered = array('displaytext');
+        parent::__construct('type_table', $columns, $headers, $sortable, $centered);
+
         $fields = array('t.id', 't.displaytext');
         $from = array('{local_peertutoring_type} t');
         $where = array('t.deleted = 0');
-        $sortable = array('displaytext');
-        $centered = array('displaytext');
-        parent::__construct('type_table', $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, array(), $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

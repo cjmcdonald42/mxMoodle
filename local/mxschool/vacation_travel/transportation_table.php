@@ -41,7 +41,7 @@ class transportation_table extends local_mxschool_table {
         $this->is_downloading($download, 'Vacation Travel Transportation', $filter->portion);
         $columns = array(
             'student', 'destination', 'phone', 'mxtransportation', 'type', 'site', 'details', 'carrier', 'number',
-            'datetime', 'international', 'timemodified'
+            'datetime', 'international', 'timemodified', 'email'
         );
         if ($filter->mxtransportation !== '') {
             unset($columns[array_search('mxtransportation', $columns)]);
@@ -66,16 +66,19 @@ class transportation_table extends local_mxschool_table {
                 unset($columns[array_search('international', $columns)]);
             }
         }
-        if ($this->is_downloading()) {
-            $columns[] = 'email';
-        }
-        $headers = array_map(function($column) use($filter) {
-            return get_string("vacation_travel_transportation_report_{$filter->portion}_header_{$column}", 'local_mxschool');
-        }, $columns);
         if (!$this->is_downloading()) {
-            $columns[] = 'actions';
-            $headers[] = get_string('report_header_actions', 'local_mxschool');
+            unset($columns[array_search('email', $columns)]);
         }
+        $headers = $this->generate_headers($columns, "vacation_travel_transportation_report_{$filter->portion}");
+        $sortable = array(
+            'timemodified', 'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'datetime',
+            'international'
+        );
+        $centered = array('mxtransportation', 'type', 'site', 'details', 'carrier', 'number', 'datetime', 'international');
+        parent::__construct(
+            'transportation_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading(), false
+        );
+
         $fields = array(
             's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 't.destination',
             't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation', 'dr.type AS type', 'drs.name AS site',
@@ -87,20 +90,15 @@ class transportation_table extends local_mxschool_table {
             "{local_mxschool_vt_transport} dr ON t.{$filter->portion}id = dr.id",
             '{local_mxschool_vt_site} drs ON dr.siteid = drs.id'
         );
-        $where = array(
-            'u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->mxtransportation === ''
-                ? '' : "dr.mx_transportation = {$filter->mxtransportation}", $filter->type ? "dr.type = '{$filter->type}'" : ''
-        );
-        $sortable = array(
-            'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'datetime', 'international',
-            'timemodified'
-        );
-        $centered = array('mxtransportation', 'type', 'site', 'details', 'carrier', 'number', 'datetime', 'international');
+        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
+        if ($filter->mxtransportation !== '') {
+            $where[] = "dr.mx_transportation = '{$filter->mxtransportation}'";
+        }
+        if ($filter->type) {
+            $where[] = "dr.type = '{$filter->type}'";
+        }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
-        parent::__construct(
-            'transportation_table', $columns, $headers, $sortable, 'timemodified', $fields, $from, $where, $filter, $centered,
-            $filter->search, $searchable, array(), false
-        );
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

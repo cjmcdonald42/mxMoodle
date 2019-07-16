@@ -41,24 +41,22 @@ class faculty_table extends local_mxschool_table {
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("user_management_faculty_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'user_management_faculty_report');
+        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
+        parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, $filter);
+
         $fields = array(
             'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'd.name AS dorm', 'f.may_approve_signout AS approvesignout',
             'f.advisory_available AS advisoryavailable', 'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
-        $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
-        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
-        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $where = array('u.deleted = 0');
+        if ($filter->dorm) {
+            $where[] = "d.id = {$filter->dorm}";
+        }
         $searchable = array('u.firstname', 'u.lastname');
-        parent::__construct(
-            'faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $filter, $centered, $filter->search,
-            $searchable
-        );
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

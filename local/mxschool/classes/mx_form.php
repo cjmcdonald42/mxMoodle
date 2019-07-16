@@ -249,9 +249,8 @@ abstract class local_mxschool_form extends moodleform {
             case 'group':
                 $childelements = array();
                 foreach ($properties['children'] as $childname => $childproperties) {
-                    $childelements[] = $this->create_element(
-                        "{$name}_{$childname}", array_merge($childproperties, array('ingroup' => true)), $stringprefix, $component
-                    );
+                    $childproperties['ingroup'] = true;
+                    $childelements[] = $this->create_element("{$name}_{$childname}", $childproperties, $stringprefix, $component);
                 }
                 $result = $mform->createElement('group', $name, $displayname, $childelements, '&nbsp;', false);
                 break;

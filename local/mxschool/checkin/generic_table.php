@@ -45,21 +45,24 @@ class generic_table extends local_mxschool_table {
                 unset($columns[array_search('room', $columns)]);
             }
         }
-        $headers = array_map(function($column) {
-            return get_string("checkin_generic_report_header_{$column}", 'local_mxschool');
-        }, $columns);
+        $headers = $this->generate_headers($columns, 'checkin_generic_report');
+        $sortable = array('student', 'dorm', 'room', 'grade');
+        $centered = array('room', 'grade');
+        if (!$filter->dorm) {
+            unset($sortable[array_search('room', $sortable)]);
+        }
+        parent::__construct('checkin_table', $columns, $headers, $sortable, $centered, $filter, false);
+
         $fields = array(
             's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade',
             "'' AS checkin"
         );
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $filter->dorm ? "s.dormid = {$filter->dorm}" : '');
-        $sortable = array('student', 'dorm', 'room', 'grade');
-        if (!$filter->dorm) {
-            unset($sortable[array_search('room', $sortable)]);
+        $where = array('u.deleted = 0');
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
         }
-        $centered = array('room', 'grade');
-        parent::__construct('checkin_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

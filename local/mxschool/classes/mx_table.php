@@ -36,58 +36,86 @@ abstract class local_mxschool_table extends table_sql {
      * @param string $uniqueid A unique identifier for the table.
      * @param array $columns The columns of the table.
      * @param array $headers The headers of the table.
-     * @param array $sortable The columns which can be sorted.
-     * @param string $deafultsort The column to sort by before another column is specified.
-     * @param array $fields The database fields to select.
-     * @param array $from The database tables to query.
-     * @param array $where The constaints on the query.
-     * @param array $filter The parameters for the baseurl.
+     * @param array $sortable The columns which can be sorted. The first element will be the default sort.
      * @param array $centered The columns whose text should be centered.
-     * @param string $search The string to search for as a constraint, null indicates no search option.
-     * @param array $searchable The database fields to search.
-     * @param array $noprint The columns which should not be displayed if the page is printing.
+     * @param array $filter The parameters for the baseurl.
+     * @param bool $actions Whether there should be an actions column.
      * @param bool $ascending Whether the default sort should be in ascending or descending order.
      */
     public function __construct(
-        $uniqueid, $columns, $headers, $sortable, $defaultsort, $fields, $from, $where, $filter,
-        $centered = array(), $search = null, $searchable = array(), $noprint = array(), $ascending = true
+        $uniqueid, $columns, $headers, $sortable, $centered = array(), $filter = array(), $actions = true, $ascending = true
     ) {
         global $PAGE;
-
         parent::__construct($uniqueid);
 
-        $this->define_columns($columns);
-        $this->define_headers(array_values($headers));
-        if ($defaultsort) {
-            $this->sortable(true, $defaultsort, $ascending ? SORT_ASC : SORT_DESC);
+        if ($actions) {
+            $columns[] = $centered[] = 'actions';
+            $headers[] = get_string('report_header_actions', 'local_mxschool');
         }
-        if (in_array('actions', $columns)) {
-            $centered[] = $noprint[] = 'actions';
+
+        $this->define_columns(array_values($columns));
+        $this->define_headers(array_values($headers));
+        if ($sortable) {
+            $this->sortable(true, $sortable[0], $ascending ? SORT_ASC : SORT_DESC);
         }
         foreach ($columns as $column) {
             if (!in_array($column, $sortable)) {
                 $this->no_sorting($column);
             }
-            $columnclasses = array();
-            if (in_array($column, $noprint)) {
-                $columnclasses[] = 'noprint';
-            }
             if (in_array($column, $centered)) {
-                $columnclasses[] = 'centered';
-            }
-            if (count($columnclasses)) {
-                $this->column_class($column, implode(' ', $columnclasses));
+                $this->add_column_class($column, 'centered');
             }
         }
-
-        $where[] = $search ? '(' . implode(' OR ', array_map(function($field) use($search) {
-            return "{$field} LIKE '%{$search}%'";
-        }, $searchable)) . ')' : '';
-
-        $this->set_sql(implode(', ', $fields), implode(' LEFT JOIN ', $from), implode(' AND ', array_filter($where)));
+        if ($actions) {
+            $this->add_column_class('actions', 'noprint');
+        }
 
         $this->define_baseurl(new moodle_url($PAGE->url, (array) $filter));
         $this->collapsible(false);
+    }
+
+    /**
+     * Sets the sql for the table.
+     *
+     * @param array $fields The database fields to select.
+     * @param array $from The database tables to query.
+     * @param array $where The constaints on the query.
+     * @param array $searchable The database fields to search.
+     * @param string $search The string to search for as a constraint, null indicates no search option.
+     */
+    public function set_sql($fields, $from, $where, $searchable = array(), $search = null) {
+        if ($search) {
+            $where[] = '(' . implode(' OR ', array_map(function($field) use($search) {
+                return "{$field} LIKE '%{$search}%'";
+            }, $searchable)) . ')';
+        }
+
+        parent::set_sql(implode(', ', $fields), implode(' LEFT JOIN ', $from), implode(' AND ', $where));
+    }
+
+    /**
+     * Generates an array of localized strings to be used as the headers for the table based on an array of columns.
+     *
+     * @param array $columns The array of columns.
+     * @param string $prefix The prefix for the language strings.
+     *                       The expected form of the langauge strings is "{$prefix}_header_{$column}".
+     * @param string $plugin The plugin to retrieve the language strings from.
+     * @return array The localized headers.
+     */
+    protected function generate_headers($columns, $prefix, $plugin = 'local_mxschool') {
+        return array_map(function($column) use($prefix, $plugin) {
+            return get_string("{$prefix}_header_{$column}", $plugin);
+        }, $columns);
+    }
+
+    /**
+     * Adds a class to every cell in a column to be used for css formatting or Javascript interaction.
+     *
+     * @param string $column The name of the column to apply the class to.
+     * @param string $class The class to add.
+     */
+    protected function add_column_class($column, $class) {
+        $this->column_class($column, "{$this->column_class[$column]} {$class}");
     }
 
     /**

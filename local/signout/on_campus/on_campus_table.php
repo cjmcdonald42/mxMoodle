@@ -57,11 +57,12 @@ class on_campus_table extends local_mxschool_table {
         if ($isstudent) {
             unset($columns[array_search('confirmation', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("on_campus_report_header_{$column}", 'local_signout');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'on_campus_report', 'local_signout');
+        $sortable = array($filter->date ? 'signouttime' : 'signoutdate', 'student', 'grade', 'dorm', 'location');
+        $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        parent::__construct('on_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
+        $this->add_column_class('signin', 'sign-in');
+
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
             'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
@@ -72,28 +73,25 @@ class on_campus_table extends local_mxschool_table {
             '{local_mxschool_dorm} d ON s.dormid = d.id', '{local_signout_location} l ON oc.locationid = l.id',
             '{user} c ON oc.confirmerid = c.id'
         );
-        $starttime = generate_datetime('midnight')->getTimestamp();
-        $where = array(
-            'oc.deleted = 0', 'u.deleted = 0', $filter->dorm ? "s.dormid = {$filter->dorm}" : '',
-            '(oc.locationid = -1 OR l.deleted = 0)', '(oc.confirmerid IS NULL OR c.deleted = 0)',
-            $filter->location ? "oc.locationid = {$filter->location}" : '', $isstudent ? "oc.userid = {$USER->id}" : '',
-            $isstudent ? "oc.time_created >= {$starttime}" : ''
-        );
+        $where = array('oc.deleted = 0', 'u.deleted = 0');
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
+        if ($filter->location) {
+            $where[] = "oc.locationid = {$filter->location}";
+        }
         if ($filter->date) {
             $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
-            $where[] = "oc.time_created >= {$starttime->getTimestamp()}";
-            $where[] = "oc.time_created < {$endtime->getTimestamp()}";
+            array_push($where, "oc.time_created >= {$starttime->getTimestamp()}", "oc.time_created < {$endtime->getTimestamp()}");
         }
-        $sortable = array('student', 'grade', 'dorm', 'location', $filter->date ? 'signouttime' : 'signoutdate');
-        $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        if ($isstudent) {
+            $starttime = generate_datetime('midnight')->getTimestamp();
+            array_push($where, "oc.userid = {$USER->id}", "oc.time_created >= {$starttime}");
+        }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
-        parent::__construct(
-            'on_campus_table', $columns, $headers, $sortable, $filter->date ? 'signouttime' : 'signoutdate', $fields, $from, $where,
-            $filter, $centered, $filter->search, $searchable, array(), false
-        );
-        $this->column_class('signin', "{$this->column_class['signin']} sign-in");
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

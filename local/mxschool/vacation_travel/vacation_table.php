@@ -37,18 +37,20 @@ class vacation_table extends local_mxschool_table {
      * @param stdClass $filter Any filtering for the table - could include properties dorm, submitted, and search.
      */
     public function __construct($filter) {
-        $columns = array('student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype');
-        if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
-            $columns = array_merge($columns, array('retdatetime', 'rettype', 'retinfo'));
-        }
+        $columns = array('student', 'dorm', 'destination', 'phone', 'depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("vacation_travel_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        if (!get_config('local_mxschool', 'vacation_form_returnenabled')) {
+            unset($columns[array_search('retdatetime', $columns)]);
+            unset($columns[array_search('rettype', $columns)]);
+            unset($columns[array_search('retinfo', $columns)]);
+        }
+        $headers = $this->generate_headers($columns, 'vacation_travel_report');
+        $sortable = array('student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
+        $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
+        parent::__construct('vaction_table', $columns, $headers, $sortable, $centered, $filter);
+
         $fields = array(
             's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm',
             't.destination', 't.phone_number AS phone', 'dt.date_time AS depdatetime', 'dt.type AS deptype',
@@ -60,7 +62,10 @@ class vacation_table extends local_mxschool_table {
             '{local_mxschool_vt_trip} t ON s.userid = t.userid', '{local_mxschool_vt_transport} dt ON t.departureid = dt.id',
             '{local_mxschool_vt_transport} rt ON t.returnid = rt.id'
         );
-        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '');
+        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
         switch ($filter->submitted) {
             case '1':
                 $where[] = "EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)";
@@ -69,13 +74,8 @@ class vacation_table extends local_mxschool_table {
                 $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)";
                 break;
         }
-        $sortable = array('student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
-        $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
-        parent::__construct(
-            'vaction_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
-            $searchable
-        );
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

@@ -50,13 +50,11 @@ class rooming_table extends local_mxschool_table {
         if ($filter->double !== '') {
             unset($columns[array_search('liveddouble', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("rooming_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        if (!$this->is_downloading()) {
-            $columns[] = 'actions';
-            $headers[] = get_string('report_header_actions', 'local_mxschool');
-        }
+        $headers = $this->generate_headers($columns, 'rooming_report');
+        $sortable = array('student', 'grade', 'dorm');
+        $centered = array('grade', 'gender', 'liveddouble', 'roomtype');
+        parent::__construct('rooming_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
+
         $fields = array(
             's.id', 's.userid', 'r.id AS rid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.gender',
             'd.name AS dorm', 'r.has_lived_in_double AS liveddouble', 'r.room_type AS roomtype', 'ru.id as ruid',
@@ -66,23 +64,7 @@ class rooming_table extends local_mxschool_table {
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
             '{local_mxschool_rooming} r ON s.userid = r.userid', '{user} ru ON r.preferred_roommateid = ru.id'
         );
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'ru.firstname', 'ru.lastname', 'ru.alternatename');
-        for ($i = 1; $i <= 6; $i++) {
-            $fields = array_merge($fields, array(
-                "d{$i}u.id AS d{$i}id", "d{$i}s.grade AS d{$i}grade"
-            ));
-            $from = array_merge($from, array(
-                "{user} d{$i}u ON r.dormmate{$i}id = d{$i}u.id",
-                "{local_mxschool_student} d{$i}s ON r.dormmate{$i}id = d{$i}s.userid"
-            ));
-            $searchable = array_merge($searchable, array("d{$i}u.firstname", "d{$i}u.lastname", "d{$i}u.alternatename"));
-        }
-        $where = array(
-            'u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'",
-            $filter->gender ? "s.gender = '{$filter->gender}'" : '',
-            $filter->roomtype ? "r.room_type = '{$filter->roomtype}'" : '',
-            $filter->double !== '' ? "r.has_lived_in_double = {$filter->double}" : ''
-        );
+        $where = array('u.deleted = 0', 's.grade <> 12', "s.boarding_status_next_year = 'Boarder'");
         switch ($filter->submitted) {
             case '1':
                 $where[] = "EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)";
@@ -91,12 +73,25 @@ class rooming_table extends local_mxschool_table {
                 $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_rooming} WHERE userid = u.id)";
                 break;
         }
-        $sortable = array('student', 'grade', 'dorm');
-        $centered = array('grade', 'gender', 'liveddouble', 'roomtype');
-        parent::__construct(
-            'rooming_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
-            $searchable
-        );
+        if ($filter->gender) {
+            $where[] = "s.gender = '{$filter->gender}'";
+        }
+        if ($filter->roomtype) {
+            $where[] = "r.room_type = '{$filter->roomtype}'";
+        }
+        if ($filter->double !== '') {
+            $where[] = "r.has_lived_in_double = {$filter->double}";
+        }
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'ru.firstname', 'ru.lastname', 'ru.alternatename');
+        for ($i = 1; $i <= 6; $i++) {
+            array_push($fields, "d{$i}u.id AS d{$i}id", "d{$i}s.grade AS d{$i}grade");
+            array_push(
+                $from, "{user} d{$i}u ON r.dormmate{$i}id = d{$i}u.id",
+                "{local_mxschool_student} d{$i}s ON r.dormmate{$i}id = d{$i}s.userid"
+            );
+            array_push($searchable, "d{$i}u.firstname", "d{$i}u.lastname", "d{$i}u.alternatename");
+        }
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

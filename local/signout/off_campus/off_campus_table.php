@@ -63,11 +63,12 @@ class off_campus_table extends local_mxschool_table {
         if ($filter->date) {
             unset($columns[array_search('departuredate', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("off_campus_report_header_{$column}", 'local_signout');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'off_campus_report', 'local_signout');
+        $sortable = array($filter->date ? 'departuretime' : 'departuredate', 'student', 'approver');
+        $centered = array('type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
+        parent::__construct('off_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
+        $this->add_column_class('signin', 'sign-in');
+
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'oc.type', 'oc.passengers',
             'du.id AS driverid', 'd.destination', 'd.departure_time AS departuredate', 'd.departure_time AS departuretime',
@@ -78,13 +79,6 @@ class off_campus_table extends local_mxschool_table {
             '{user} du ON d.userid = du.id', '{user} a ON oc.approverid = a.id'
         );
         $where = array('oc.deleted = 0', 'u.deleted = 0');
-        if ($filter->date) {
-            $starttime = generate_datetime($filter->date);
-            $endtime = clone $starttime;
-            $endtime->modify('+1 day');
-            $where[] = "d.departure_time >= {$starttime->getTimestamp()}";
-            $where[] = "d.departure_time < {$endtime->getTimestamp()}";
-        }
         if ($filter->type) {
             $types = array('Driver', 'Passenger', 'Parent');
             $otherstring = implode(' AND ', array_map(function($type) {
@@ -92,27 +86,27 @@ class off_campus_table extends local_mxschool_table {
             }, $types));
             $where[] = in_array($filter->type, $types) ? "oc.type = '{$filter->type}'" : $otherstring;
         }
+        if ($filter->date) {
+            $starttime = generate_datetime($filter->date);
+            $endtime = clone $starttime;
+            $endtime->modify('+1 day');
+            array_push($where, "d.departure_time >= {$starttime->getTimestamp()}", "d.departure_time < {$endtime->getTimestamp()}");
+        }
         if ($isstudent) {
             $include = array(
                 "oc.userid = {$USER->id}", "d.userid = {$USER->id}",
                 "(SELECT COUNT(id) FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = {$USER->id})",
                 "(SELECT COUNT(id) FROM {local_signout_off_campus} WHERE driverid = d.id AND userid = {$USER->id})"
             );
-            $where[] = '('.implode(' OR ', $include).')';
             $starttime = generate_datetime('midnight')->getTimestamp();
-            $where[] = "d.departure_time >= {$starttime}";
+            array_push($where, '(' . implode(' OR ', $include) . ')', "d.departure_time >= {$starttime}");
         }
-        $sortable = array('student', $filter->date ? 'departuretime' : 'departuredate', 'approver');
-        $centered = array('type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'du.firstname', 'du.lastname', 'du.alternatename', 'd.destination',
             'a.firstname', 'a.lastname'
         );
-        parent::__construct(
-            'off_campus_table', $columns, $headers, $sortable, $filter->date ? 'departuretime' : 'departuredate', $fields, $from,
-            $where, $filter, $centered, $filter->search, $searchable, array(), false
-        );
-        $this->column_class('signin', "{$this->column_class['signin']} sign-in");
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+
     }
 
     /**

@@ -35,17 +35,15 @@ class department_table extends local_mxschool_table {
      */
     public function __construct() {
         $columns = array('name');
-        $headers = array_map(function($column) {
-            return get_string("department_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'department_report', 'local_peertutoring');
+        $sortable = array('name');
+        $centered = array('name');
+        parent::__construct('department_table', $columns, $headers, $sortable, $centered);
+
         $fields = array('d.id', 'd.name');
         $from = array('{local_peertutoring_dept} d');
         $where = array('d.deleted = 0');
-        $sortable = array('name');
-        $centered = array('name');
-        parent::__construct('department_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $filter, $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

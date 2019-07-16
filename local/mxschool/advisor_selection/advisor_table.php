@@ -45,13 +45,12 @@ class advisor_table extends local_mxschool_table {
         if ($filter->keepcurrent !== '') {
             unset($columns[array_search('keepcurrent', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("advisor_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        if (!$this->is_downloading()) {
-            $columns[] = 'actions';
-            $headers[] = get_string('report_header_actions', 'local_mxschool');
-        }
+        $headers = $this->generate_headers($columns, 'advisor_report');
+        $sortable = array('student', 'current');
+        $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');
+        parent::__construct('advisor_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
+        $this->add_column_class('selected', 'selection-selected');
+
         $fields = array(
             's.id', 's.userid', 'asf.id AS asfid', "CONCAT(u.lastname, ', ', u.firstname) AS student",
             'asf.keep_current AS keepcurrent', "CONCAT(ca.lastname, ', ', ca.firstname) AS current", 'ca.id AS cid',
@@ -65,9 +64,12 @@ class advisor_table extends local_mxschool_table {
         );
         $year = (int)format_date('Y') - 1;
         $where = array(
-            'u.deleted = 0', $filter->keepcurrent !== '' ? "asf.keep_current = {$filter->keepcurrent}" : '',
+            'u.deleted = 0',
             get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? "s.admission_year = {$year}" : 's.grade <> 12'
         );
+        if ($filter->keepcurrent !== '') {
+            $where[] = "asf.keep_current = {$filter->keepcurrent}";
+        }
         switch ($filter->submitted) {
             case '1':
                 $where[] = "EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)";
@@ -76,19 +78,12 @@ class advisor_table extends local_mxschool_table {
                 $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_adv_selection} WHERE userid = u.id)";
                 break;
         }
-        $sortable = array('student', 'current');
-        $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'ca.firstname', 'ca.lastname', 'o1a.firstname', 'o1a.lastname',
             'o2a.firstname', 'o2a.lastname', 'o3a.firstname', 'o3a.lastname', 'o4a.firstname', 'o4a.lastname', 'o5a.firstname',
             'o5a.lastname', 'sa.firstname', 'sa.lastname'
         );
-        parent::__construct(
-            'advisor_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $filter, $centered, $filter->search,
-            $searchable
-        );
-
-        $this->column_class('selected', "{$this->column_class['selected']} selection-selected");
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

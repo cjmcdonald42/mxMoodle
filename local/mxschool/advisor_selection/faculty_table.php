@@ -36,19 +36,18 @@ class faculty_table extends local_mxschool_table {
      */
     public function __construct() {
         $columns = array('name', 'advisoryavailable', 'advisoryclosing');
-        $headers = array();
-        $headers = array_map(function($column) {
-            return get_string("user_management_faculty_report_header_{$column}", 'local_mxschool');
-        }, $columns);
+        $headers = $this->generate_headers($columns, 'user_management_faculty_report');
+        $sortable = array('name');
+        $centered = array('advisoryavailable', 'advisoryclosing');
+        parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, array(), false);
+
         $fields = array(
             'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'f.advisory_available AS advisoryavailable',
             'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id');
         $where = array('u.deleted = 0');
-        $sortable = array('name');
-        $centered = array('advisoryavailable', 'advisoryclosing');
-        parent::__construct('faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, array(), $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

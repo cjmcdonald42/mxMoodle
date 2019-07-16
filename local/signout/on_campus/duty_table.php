@@ -45,11 +45,12 @@ class duty_table extends local_mxschool_table {
         if ($filter->location > 0) {
             unset($columns[array_search('location', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("duty_report_header_{$column}", 'local_signout');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'duty_report', 'local_signout');
+        $sortable = array('signouttime', 'student', 'grade', 'dorm', 'location');
+        $centered = array('picture', 'grade', 'signouttime', 'confirmation');
+        parent::__construct('on_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
+        $this->add_column_class('confirmation', 'confirmation');
+
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
             "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 'l.name AS location', 'oc.other',
@@ -63,20 +64,16 @@ class duty_table extends local_mxschool_table {
         $starttime = generate_datetime('midnight')->getTimestamp();
         $where = array(
             'oc.deleted = 0', 'u.deleted = 0', '(oc.locationid = -1 OR l.deleted = 0)',
-            '(oc.confirmerid IS NULL OR c.deleted = 0)', $filter->location ? "oc.locationid = {$filter->location}" : '',
-            "oc.time_created >= {$starttime}"
+            '(oc.confirmerid IS NULL OR c.deleted = 0)', "oc.time_created >= {$starttime}"
         );
-        $sortable = array('student', 'grade', 'dorm', 'location', 'signouttime');
-        $centered = array('picture', 'grade', 'signouttime', 'confirmation');
+        if ($filter->location) {
+            $where[] = "oc.locationid = {$filter->location}";
+        }
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'd.name', 'a.firstname', 'a.lastname', 'l.name', 'oc.other',
             'c.firstname', 'c.lastname'
         );
-        parent::__construct(
-            'on_campus_table', $columns, $headers, $sortable, 'signouttime', $fields, $from, $where, $fitler, $centered,
-            $filter->search, $searchable, array(), false
-        );
-        $this->column_class('confirmation', "{$this->column_class['confirmation']} confirmation");
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

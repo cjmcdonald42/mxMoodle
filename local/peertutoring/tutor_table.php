@@ -36,21 +36,19 @@ class tutor_table extends local_mxschool_table {
     public function __construct() {
         $departments = get_department_list();
         $columns = array('tutor');
-        $headers = array_map(function($column) {
-            return get_string("tutor_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
+        $headers = $this->generate_headers($columns, 'tutor_report', 'local_peertutoring');
+        $sortable = array('tutor');
         $centered = array();
         foreach ($departments as $id => $name) {
             $columns[] = $centered[] = $id;
             $headers[] = $name;
         }
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        parent::__construct('tutor_table', $columns, $headers, $sortable, $centered);
+
         $fields = array('t.id', 't.userid', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 't.departments');
         $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
         $where = array('u.deleted = 0', 't.deleted = 0');
-        $sortable = array('tutor');
-        parent::__construct('tutor_table', $columns, $headers, $sortable, 'tutor', $fields, $from, $where, array(), $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**
