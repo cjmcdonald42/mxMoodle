@@ -40,8 +40,7 @@ function xmldb_local_signout_install() {
     set_config('off_campus_form_warning_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_signout');
     set_config('off_campus_form_warning_needparent', 'Your permissions indicate that you need a call from your parent.', 'local_signout');
     set_config('off_campus_form_warning_onlyspecific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_signout');
-    set_config('off_campus_form_confirmation', 'Have you recieved the required permissions?', 'local_signout');
-
+    set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
     set_config('off_campus_notification_warning_irregular', '[Irregular] ', 'local_signout');
     set_config('off_campus_notification_warning_driver', 'None.', 'local_signout');
     set_config('off_campus_notification_warning_any', 'None.', 'local_signout');
@@ -53,6 +52,9 @@ function xmldb_local_signout_install() {
     set_config('on_campus_form_ipenabled', '1', 'local_signout');
     set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
     set_config('on_campus_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
+    set_config('on_campus_form_warning', 'You need special permission to go to a non-academic location.', 'local_signout');
+    set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+    set_config('on_campus_refresh_rate', '60', 'local_signout');
 
     $subpackages = array(
         array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array(
@@ -60,7 +62,7 @@ function xmldb_local_signout_install() {
         ))),
         array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
-            'duty_report' => 'on_campus_duty_report.php'
+            'duty_report' => 'duty_report.php'
         )))
     );
     foreach ($subpackages as $subpackage) {

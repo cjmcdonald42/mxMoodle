@@ -34,32 +34,33 @@ class vehicle_table extends local_mxschool_table {
     /**
      * Creates a new vehicle_table.
      *
-     * @param string $search The search for the table.
+     * @param stdClass $filter Any filtering for the table - could include property search.
      */
-    public function __construct($search) {
+    public function __construct($filter) {
         $columns = array('student', 'grade', 'phone', 'license', 'make', 'model', 'color', 'registration');
-        $headers = array_map(function($column) {
-            return get_string("user_management_vehicle_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'user_management_vehicle_report');
+        $sortable = array('student', 'grade', 'license', 'make', 'model', 'color');
+        $centered = array('grade', 'license');
+        parent::__construct('vehicle_table', $columns, $headers, $sortable, $centered, $filter);
+
         $fields = array(
-            'v.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
-            's.phone_number AS phone', 'p.license_date AS license', 'v.make', 'v.model', 'v.color', 'v.registration'
+            'v.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.phone_number AS phone',
+            'p.license_date AS license', 'v.make', 'v.model', 'v.color', 'v.registration'
         );
         $from = array(
             '{local_mxschool_vehicle} v', '{user} u ON v.userid = u.id', '{local_mxschool_student} s ON v.userid = s.userid',
             '{local_mxschool_permissions} p ON v.userid = p.userid'
         );
         $where = array('v.deleted = 0', 'u.deleted = 0');
-        $sortable = array('student', 'grade', 'license', 'make', 'model', 'color');
-        $urlparams = array('search' => $search);
-        $centered = array('grade', 'license');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'v.make', 'v.model', 'v.color', 'v.registration');
-        parent::__construct(
-            'vehicle_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered, $search,
-            $searchable
-        );
+        $this->set_sql($fields, $from, $where);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

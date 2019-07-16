@@ -34,43 +34,48 @@ class weekday_table extends local_mxschool_table {
     /**
      * Creates a new weekday_table.
      *
-     * @param string $dorm the id of the currently selected dorm or '' for all dorms.
+     * @param stdClass $filter Any filtering for the table - could include property dorm.
      */
-    public function __construct($dorm) {
+    public function __construct($filter) {
         global $DB;
         $columns = array('student', 'dorm', 'room', 'grade');
-        if ($dorm) {
+        if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
-            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $dorm)) === 'Day') {
-                unset($columns[array_search('room', $columns)]);
-            }
         }
-        $headers = array_map(function($column) {
-            return get_string("checkin_weekday_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $fields = array(
-            's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'd.name AS dorm',
-            's.room', 's.grade'
-        );
+        $headers = $this->generate_headers($columns, 'checkin_weekday_report');
         for ($i = 1; $i <= 5; $i++) {
-            $columns[] = "early_$i";
-            $headers[] = get_string('checkin_weekday_report_header_early', 'local_mxschool');
-            $fields[] = "'' AS early_$i";
-            $columns[] = "late_$i";
-            $headers[] = get_string('checkin_weekday_report_header_late', 'local_mxschool');
-            $fields[] = "'' AS late_$i";
+            array_push($columns, "early_{$i}", "late_{$i}");
+            array_push(
+                $headers, get_string('checkin_weekday_report_header_early', 'local_mxschool'),
+                get_string('checkin_weekday_report_header_late', 'local_mxschool')
+            );
         }
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $dorm ? "s.dormid = {$dorm}" : '', "d.type = 'Boarding'");
         $sortable = array('student', 'dorm', 'room', 'grade');
-        if (!$dorm) {
+        if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
-        $urlparams = array('dorm' => $dorm);
         $centered = array('room', 'grade');
-        parent::__construct(
-            'weekday_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
+        parent::__construct('weekday_table', $columns, $headers, $sortable, $centered, $filter, false);
+
+        $fields = array(
+            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade'
         );
+        for ($i = 1; $i <= 5; $i++) {
+            array_push($fields, "'' AS early_{$i}", "'' AS late_{$i}");
+        }
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
+        $where = array('u.deleted = 0', "d.type = 'Boarding'");
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
+        $this->set_sql($fields, $from, $where);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
 }

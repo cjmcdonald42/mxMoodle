@@ -39,7 +39,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'on_campus', 'signout');
-$redirect = get_redirect();
 
 $queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'locationid' => 'location_select', 'other' => 'location_other', 'time_created' => 'timecreated',
@@ -47,11 +46,11 @@ $queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 
 )));
 
 if ($isstudent && !student_may_access_on_campus_signout($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_signout_on_campus', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing on-campus signout records.
@@ -65,23 +64,13 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename, s.grade
-         FROM {user} u LEFT JOIN {local_mxschool_student} s on s.userid = u.id WHERE u.id = ?", array($USER->id)
-    );
-    $record->student = $record->student . (
-        $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-    );
-}
 $data->isstudent = $isstudent ? '1' : '0';
+$data->locationwarning = get_config('local_signout', 'on_campus_form_warning');
 $students = get_on_campus_permitted_student_list();
-$locations = array(0 => get_string('form_select_default', 'local_mxschool'))
-           + get_on_campus_location_list($isstudent ? $record->grade : 12)
+$locations = array(0 => get_string('form_select_default', 'local_mxschool')) + get_on_campus_location_list()
            + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
 
 $form = new on_campus_form(array('id' => $id, 'students' => $students, 'locations' => $locations));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -99,16 +88,18 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new \local_mxschool\output\form($form);
-// $jsrenderable = new \local_mxschool\output\amd_module('local_signout/on_campus_form');
+$jsrenderable = new \local_mxschool\output\amd_module('local_signout/on_campus_form');
 
 echo $output->header();
 if (
     !$isstudent || !get_config('local_signout', 'on_campus_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
+    echo $output->heading(
+        $isstudent ? get_string('on_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
+    );
     echo $output->render($formrenderable);
-    // echo $output->render($jsrenderable);
+    echo $output->render($jsrenderable);
 } else {
     echo $output->heading(get_config('local_signout', 'on_campus_form_iperror'));
 }

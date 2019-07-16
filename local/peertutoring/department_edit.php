@@ -35,18 +35,16 @@ require_capability('local/peertutoring:manage_preferences', context_system::inst
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('department_edit', 'preferences', null, 'peertutoring');
-$redirect = get_redirect();
 
 $queryfields = array('local_peertutoring_dept' => array('abbreviation' => 'd', 'fields' => array('id', 'name')));
 
 if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "d.id = ?", array($id));
 
 $form = new department_edit_form(array('id' => $id));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

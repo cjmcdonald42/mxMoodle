@@ -26,9 +26,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/../locallib.php');
+
 class local_mxschool_dropdown {
 
-    /** @var string $name The name of the dropdown.*/
+    /** @var string $name The name of the dropdown, which serves as the url parameter from filter.*/
     public $name;
     /** @param array $options The options for the dropdown.*/
     public $options;
@@ -38,7 +40,7 @@ class local_mxschool_dropdown {
     public $nothing;
 
     /**
-     * @param string $name The name of the dropdown.
+     * @param string $name The name of the dropdown, which serves as the url parameter from filter.
      * @param array $options The options for the dropdown.
      * @param string $selected The initially selected option.
      * @param string|bool $default A 'nothing' option or false if there is no such option.
@@ -48,6 +50,20 @@ class local_mxschool_dropdown {
         $this->options = $options;
         $this->selected = $selected;
         $this->nothing = is_string($default) ? array('' => $default) : false;
+    }
+
+    /**
+     * Generates a local_mxschool_dropdown object for all dorms and optionally day houses.
+     *
+     * @param string $selected The currently selected option.
+     * @param bool $includeday Whether to include day houses or limit to boading houses.
+     * @return local_mxschool_dropdown Object with the specified properties.
+     */
+    public static function dorm_dropdown($selected, $includeday = true) {
+        return new local_mxschool_dropdown(
+            'dorm', $includeday ? get_dorm_list() : get_boarding_dorm_list(), $selected,
+            get_string($includeday ? 'report_select_dorm' : 'report_select_boarding_dorm', 'local_mxschool')
+        );
     }
 
 }

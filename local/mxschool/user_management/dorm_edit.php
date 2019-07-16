@@ -36,21 +36,19 @@ require_capability('local/mxschool:manage_dorms', context_system::instance());
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('dorm_edit', 'dorm_report', 'user_management');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fields' => array(
     'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline'
 )));
 
 if ($id && !$DB->record_exists('local_mxschool_dorm', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "d.id = ?", array($id));
 $faculty = get_faculty_list();
 
 $form = new dorm_edit_form(array('id' => $id, 'faculty' => $faculty));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

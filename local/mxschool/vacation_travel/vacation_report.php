@@ -35,22 +35,22 @@ require_login();
 require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm();
+$filter->dorm = get_param_faculty_dorm(false);
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'vacation_travel');
 
+$dorms = get_boarding_dorm_list();
 $submittedoptions = array(
     '1' => get_string('vacation_travel_report_select_submitted_true', 'local_mxschool'),
     '0' => get_string('vacation_travel_report_select_submitted_false', 'local_mxschool')
 );
-$dorms = get_boarding_dorm_list();
 
 $table = new vacation_table($filter);
 
 $dropdowns = array(
-    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool')),
+    local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
@@ -71,7 +71,7 @@ $renderable = new \local_mxschool\output\report(
 
 echo $output->header();
 echo $output->heading(
-    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? " for {$dorms[$filter->dorm]}" : '')
+    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

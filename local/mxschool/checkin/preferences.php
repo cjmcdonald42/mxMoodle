@@ -34,7 +34,6 @@ require_login();
 require_capability('local/mxschool:manage_checkin_preferences', context_system::instance());
 
 setup_mxschool_page('preferences', 'checkin');
-$redirect = get_redirect();
 
 $data = new stdClass();
 $data->dormsopen = get_config('local_mxschool', 'dorms_open_date');
@@ -61,7 +60,6 @@ $data->bottominstructions['text'] = get_config('local_mxschool', 'weekend_form_i
 $data->closedwarning['text'] = get_config('local_mxschool', 'weekend_form_warning_closed');
 
 $form = new preferences_form(array('weekends' => $weekends));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

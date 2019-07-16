@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('weekend_form', 'checkin');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
@@ -49,11 +48,11 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
 )));
 
 if ($isstudent && !student_may_access_weekend($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     if ($isstudent) { // Students cannot edit existing weekend forms.
         redirect($PAGE->url);
@@ -66,24 +65,19 @@ if ($id) {
     $data->timecreated = $data->departure_date = $data->return_date = time();
     if ($isstudent) {
         $data->student = $USER->id;
-        $record = $DB->get_record_sql(
-            "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename, d.id AS dorm,
-                    CONCAT(hoh.firstname, ' ', hoh.lastname) AS hoh, d.permissions_line AS permissionsline
-             FROM {local_mxschool_student} s
-             LEFT JOIN {user} u ON s.userid = u.id
-             LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-             LEFT JOIN {user} hoh ON d.hohid = hoh.id
-             WHERE s.userid = ?", array($USER->id)
-        );
-        $record->student = $record->student . (
-            $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-        );
-        $data->dorm = $record->dorm;
+        $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $USER->id));
     } else {
         $dorm = $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id));
         if ($dorm) {
             $data->dorm = $dorm;
         }
+    }
+    if (isset($data->dorm)) {
+        $record = $DB->get_record_sql(
+            "SELECT d.hohid AS hoh, d.permissions_line AS permissionsline
+             FROM {local_mxschool_dorm} d
+             WHERE d.id = ?", array($data->dorm)
+        );
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
@@ -94,7 +88,6 @@ $dorms = array('0' => get_string('report_select_boarding_dorm', 'local_mxschool'
 $students = get_boarding_student_list();
 
 $form = new weekend_form(array('id' => $id, 'dorms' => $dorms, 'students' => $students));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -108,12 +101,16 @@ if ($form->is_cancelled()) {
     $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
     $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
     $data->weekend = $DB->get_field_sql(
-        "SELECT id FROM {local_mxschool_weekend} WHERE ? >= sunday_time AND ? < sunday_time",
+        "SELECT id
+         FROM {local_mxschool_weekend}
+         WHERE ? >= sunday_time AND ? < sunday_time",
         array($departurestartbound->getTimestamp(), $departureendbound->getTimestamp())
     );
     $id = update_record($queryfields, $data);
     $oldrecord = $DB->get_record_sql(
-        "SELECT * FROM {local_mxschool_weekend_form} WHERE userid = ? AND weekendid = ? AND id <> ? AND active = 1",
+        "SELECT *
+         FROM {local_mxschool_weekend_form}
+         WHERE userid = ? AND weekendid = ? AND id <> ? AND active = 1",
         array($data->student, $data->weekend, $id)
     );
     if ($oldrecord) {
@@ -128,22 +125,19 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $bottominstructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
-$bottominstructions = str_replace(
-    '{hoh}', $isstudent ? $record->hoh : get_string('checkin_weekend_form_instructions_placeholder_hoh', 'local_mxschool'),
-    $bottominstructions
-);
-$bottominstructions = str_replace(
-    '{permissionsline}', $isstudent ? $record->permissionsline
-        : get_string('checkin_weekend_form_instructions_placeholder_permissionsline', 'local_mxschool'),
-    $bottominstructions
-);
+if (isset($record)) {
+    $bottominstructions = str_replace('{hoh}', format_faculty_name($record->hoh, false), $bottominstructions);
+    $bottominstructions = str_replace('{permissionsline}', $record->permissionsline, $bottominstructions);
+}
 $formrenderable = new \local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
-echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student} &ndash; {$dorms[$record->dorm]}" : ''));
+echo $output->heading(
+    $isstudent ? get_string('checkin_weekend_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

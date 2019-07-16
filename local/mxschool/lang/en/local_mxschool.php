@@ -355,6 +355,7 @@ $string['checkin_weekday_report_header_early'] = 'Early';
 $string['checkin_weekday_report_header_late'] = 'Late';
 
 // Weekend Form.
+$string['checkin_weekend_form_title'] = 'Weekend Form for {$a}';
 $string['checkin_weekend_form_dorm'] = 'Dorm';
 $string['checkin_weekend_form_student'] = 'Student';
 $string['checkin_weekend_form_departure'] = 'Departure Date and Time';
@@ -362,8 +363,6 @@ $string['checkin_weekend_form_return'] = 'Return Date and Time';
 $string['checkin_weekend_form_destination'] = 'Your Destination';
 $string['checkin_weekend_form_transportation'] = 'Transportation by';
 $string['checkin_weekend_form_phone'] = 'Phone Number<br>(even if you are going home)';
-$string['checkin_weekend_form_instructions_placeholder_hoh'] = 'your head of house';
-$string['checkin_weekend_form_instructions_placeholder_permissionsline'] = 'the house permissions line';
 $string['checkin_weekend_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
 $string['checkin_weekend_form_error_notinweekend'] = 'Your departure date must be within a valid weekend.';
 $string['checkin_weekend_form_error_indifferentweekends'] = 'Your return date must be in the same weekend as your departure date.';
@@ -395,7 +394,7 @@ $string['checkin_weekend_report_header_departurereturn'] = 'Departure Time<br>Re
 $string['checkin_weekend_comment_form_comment'] = 'Comments';
 
 // Weekend Calculator.
-$string['checkin_weekend_calculator_report_title'] = 'Weekend Calculator{$a}';
+$string['checkin_weekend_calculator_report_title'] = '{$a}Weekend Calculator';
 $string['checkin_weekend_calculator_report_header_student'] = 'Name';
 $string['checkin_weekend_calculator_report_header_grade'] = 'Grade';
 $string['checkin_weekend_calculator_report_header_total'] = 'Total';
@@ -443,20 +442,21 @@ $string['advisor_selection_preferences_text_closing_warning'] = 'Warning for Clo
 $string['advisor_selection_preferences_text_instructions'] = 'Changing Advisor Instructions';
 
 // Advisor Selection Form.
-$string['advisor_form_header_info'] = 'General Information';
-$string['advisor_form_header_options'] = 'Choices';
-$string['advisor_form_header_deans'] = 'Deans\' Selection';
-$string['advisor_form_info_student'] = 'Student';
-$string['advisor_form_info_current'] = 'Current Advisor';
-$string['advisor_form_info_keepcurrent'] = 'Keep Current Advisor';
-$string['advisor_form_options_option1'] = 'First Choice';
-$string['advisor_form_options_option2'] = 'Second Choice';
-$string['advisor_form_options_option3'] = 'Third Choice';
-$string['advisor_form_options_option4'] = 'Fourth Choice';
-$string['advisor_form_options_option5'] = 'Fifth Choice';
-$string['advisor_form_deans_selected'] = 'Chosen Advisor';
-$string['advisor_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';
-$string['advisor_form_error_incomplete'] = 'You must either select five choices, or you current advisor must be your final choice.';
+$string['advisor_selection_form_title'] = 'Advisor Selection Form for {$a}';
+$string['advisor_selection_form_header_info'] = 'General Information';
+$string['advisor_selection_form_header_options'] = 'Choices';
+$string['advisor_selection_form_header_deans'] = 'Deans\' Selection';
+$string['advisor_selection_form_info_student'] = 'Student';
+$string['advisor_selection_form_info_current'] = 'Current Advisor';
+$string['advisor_selection_form_info_keepcurrent'] = 'Keep Current Advisor';
+$string['advisor_selection_form_options_option1'] = 'First Choice';
+$string['advisor_selection_form_options_option2'] = 'Second Choice';
+$string['advisor_selection_form_options_option3'] = 'Third Choice';
+$string['advisor_selection_form_options_option4'] = 'Fourth Choice';
+$string['advisor_selection_form_options_option5'] = 'Fifth Choice';
+$string['advisor_selection_form_deans_selected'] = 'Chosen Advisor';
+$string['advisor_selection_form_error_nokeepcurrent'] = 'You must specify whether or not you wish to keep your current advisor.';
+$string['advisor_selection_form_error_incomplete'] = 'You must either select five choices, or you current advisor must be your final choice.';
 
 // Advisor Selection Report.
 $string['advisor_selection_report_select_submitted_true'] = 'Submitted';
@@ -499,6 +499,7 @@ $string['rooming_preferences_notifications_unsubmitted_body'] = 'Body for Unsubm
 $string['rooming_preferences_text_roommateinstructions'] = 'Instructions Regarding Doubles';
 
 // Rooming Form.
+$string['rooming_form_title'] = 'Rooming Requests Form for {$a}';
 $string['rooming_form_header_info'] = 'General Information';
 $string['rooming_form_header_requests'] = 'Requests';
 $string['rooming_form_info_student'] = 'Student';
@@ -576,6 +577,7 @@ $string['vacation_travel_site_edit_site_returnenabled'] = 'Available for Return'
 $string['vacation_travel_site_edit_site_defaultreturntime'] = 'Default Return Time';
 
 // Vacation Travel Form.
+$string['vacation_travel_form_title'] = 'Vacation Travel Form for {$a}';
 $string['vacation_travel_form_header_info'] = 'General Information';
 $string['vacation_travel_form_header_departure'] = 'Departure Information';
 $string['vacation_travel_form_header_return'] = 'Return Information';
@@ -657,7 +659,7 @@ $string['vacation_travel_form_error_nointernational_ret'] = 'You must specify wh
 $string['vacation_travel_form_error_outoforder'] = 'Your return date and time must be after your departure date and time.';
 
 // Vacation Travel Report.
-$string['vacation_travel_report_title'] = 'Vacation Travel Report{$a}';
+$string['vacation_travel_report_title'] = '{$a}Vacation Travel Report';
 $string['vacation_travel_report_select_submitted_true'] = 'Submitted';
 $string['vacation_travel_report_select_submitted_false'] = 'Not Submitted';
 $string['vacation_travel_report_add'] = 'New Vacation Travel Form';
@@ -673,10 +675,10 @@ $string['vacation_travel_report_header_rettype'] = 'Return Type';
 $string['vacation_travel_report_header_retinfo'] = 'Return Details';
 
 // Vacation Travel Transportation Report.
-$string['vacation_travel_transportation_report_view_departure'] = 'Departure Transportation Report';
-$string['vacation_travel_transportation_report_view_return'] = 'Return Transportation Report';
-$string['vacation_travel_transportation_report_select_view_departure'] = 'Departure';
-$string['vacation_travel_transportation_report_select_view_return'] = 'Return';
+$string['vacation_travel_transportation_report_portion_departure'] = 'Departure Transportation Report';
+$string['vacation_travel_transportation_report_portion_return'] = 'Return Transportation Report';
+$string['vacation_travel_transportation_report_select_portion_departure'] = 'Departure';
+$string['vacation_travel_transportation_report_select_portion_return'] = 'Return';
 $string['vacation_travel_transportation_report_select_type_all'] = 'All Types';
 $string['vacation_travel_transportation_report_select_type_Car'] = 'Car';
 $string['vacation_travel_transportation_report_select_type_Plane'] = 'Plane';

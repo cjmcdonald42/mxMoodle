@@ -117,9 +117,11 @@ abstract class local_mxschool_form extends moodleform {
 
     /**
      * Creates a new moodleform with custom data.
+     * Sets the fallback url to be the server's HTTP_REFERER if it is set, otherwise uses the default fallback.
      */
     public function __construct($customdata = null) {
         parent::__construct(null, $customdata);
+        $this->_form->setDefault('redirect', $_SERVER['HTTP_REFERER'] ?? get_fallback_url()->out());
     }
 
     /**
@@ -247,30 +249,25 @@ abstract class local_mxschool_form extends moodleform {
             case 'group':
                 $childelements = array();
                 foreach ($properties['children'] as $childname => $childproperties) {
-                    $childelements[] = $this->create_element(
-                        "{$name}_{$childname}", array_merge($childproperties, array('ingroup' => true)), $stringprefix, $component
-                    );
+                    $childproperties['ingroup'] = true;
+                    $childelements[] = $this->create_element("{$name}_{$childname}", $childproperties, $stringprefix, $component);
                 }
                 $result = $mform->createElement('group', $name, $displayname, $childelements, '&nbsp;', false);
                 break;
             default:
-                debugging("unsupported element type: {$properties['element']}");
+                debugging("unsupported element type: {$properties['element']}", DEBUG_DEVELOPER);
         }
         return $result;
     }
 
     /**
-     * Sets the redirect url so long as the form has been neither cancelled nor submitted.
-     * Uses the server's HTTP_REFERER if it is set, otherwise uses the fallback provided.
+     * Overrights the default fallback url so long as the form has been neither cancelled nor submitted.
      *
-     * @param moodle_url $fallback The url to use if no referer is set.
-     * @param bool $override If true, the provided url will always be used.
+     * @param moodle_url $fallback The url to fall back to after the form is submitted.
      */
-    public function set_redirect($fallback, $override = false) {
+    public function set_fallback($fallback) {
         if (!$this->is_submitted()) {
-            $this->_form->setDefault(
-                'redirect', !$override && isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback->out()
-            );
+            $this->_form->setDefault('redirect', $fallback->out());
         }
     }
 

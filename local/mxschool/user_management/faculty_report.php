@@ -40,11 +40,9 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('faculty_report', 'user_management');
 
-$dorms = get_dorm_list();
-
 $table = new faculty_table($filter);
 
-$dropdowns = array(new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_dorm', 'local_mxschool')));
+$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns);

@@ -35,20 +35,15 @@ class rating_table extends local_mxschool_table {
      */
     public function __construct() {
         $columns = array('displaytext');
-        $headers = array_map(function($column) {
-            return get_string("rating_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'rating_report', 'local_peertutoring');
+        $sortable = array('displaytext');
+        $centered = array('displaytext');
+        parent::__construct('rating_table', $columns, $headers, $sortable, $centered);
+
         $fields = array('r.id', 'r.displaytext');
         $from = array('{local_peertutoring_rating} r');
         $where = array('r.deleted = 0');
-        $sortable = array('displaytext');
-        $urlparams = array();
-        $centered = array('displaytext');
-        parent::__construct(
-            'rating_table', $columns, $headers, $sortable, 'displaytext', $fields, $from, $where, $urlparams, $centered
-        );
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

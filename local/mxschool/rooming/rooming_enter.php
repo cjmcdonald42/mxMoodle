@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'rooming');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'fields' => array(
     'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
@@ -50,11 +49,11 @@ $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'f
 )));
 
 if ($isstudent && !student_may_access_rooming($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_rooming', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "r.id = ?", array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
@@ -73,19 +72,11 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
-        array($USER->id)
-    );
-    $record->student = $record->student . (
-        $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-    );
-}
 $data->isstudent = $isstudent ? '1' : '0';
 $data->dorm = isset($data->student) ? $DB->get_field_sql(
-    "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
-    array($data->student)
+    "SELECT d.name
+     FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+     WHERE s.userid = ?", array($data->student)
 ) : '';
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
@@ -93,7 +84,6 @@ $roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + ge
 $roomtypes = array(0 => get_string('form_select_default', 'local_mxschool')) + get_roomtype_list();
 
 $form = new rooming_form(array('id' => $id, 'students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -112,7 +102,9 @@ $renderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/rooming_form');
 
 echo $output->header();
-echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
+echo $output->heading(
+    $isstudent ? get_string('rooming_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($renderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

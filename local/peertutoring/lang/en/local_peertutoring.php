@@ -140,6 +140,7 @@ $string['rating_edit_header_rating'] = 'Effectiveness Rating Information';
 $string['rating_edit_rating_displaytext'] = 'Text';
 
 // Tutoring Form.
+$string['tutoring_form_title'] = 'Peer Tutoring Form for {$a}';
 $string['tutoring_form_header_info'] = 'General Information';
 $string['tutoring_form_header_details'] = 'Details';
 $string['tutoring_form_info_tutor'] = 'Tutor';
@@ -162,6 +163,7 @@ $string['tutoring_form_error_norating'] = 'You must specify a rating.';
 $string['tutoring_report_select_tutor_all'] = 'All Tutors';
 $string['tutoring_report_select_department_all'] = 'All Departments';
 $string['tutoring_report_select_type_all'] = 'All Types';
+$string['tutoring_report_select_type_other'] = 'Other';
 $string['tutoring_report_select_date_all'] = 'All Dates';
 $string['tutoring_report_add'] = 'New Peer Tutoring Record';
 $string['tutoring_report_header_tutor'] = 'Tutor';

@@ -36,7 +36,6 @@ require_capability('local/mxschool:manage_students', context_system::instance())
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('student_edit', 'student_report', 'user_management');
-$redirect = get_redirect();
 
 $queryfields = array(
     'local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
@@ -56,7 +55,7 @@ $queryfields = array(
 );
 
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $ridingencode = array(
@@ -68,7 +67,6 @@ $dorms = get_dorm_list();
 $faculty = get_faculty_list();
 
 $form = new student_edit_form(array('id' => $id, 'dorms' => $dorms, 'faculty' => $faculty));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

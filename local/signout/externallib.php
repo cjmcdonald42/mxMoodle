@@ -135,6 +135,49 @@ class local_signout_external extends external_api {
     }
 
     /**
+     * Returns descriptions of the get_on_campus_student_options() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_on_campus_student_options() function.
+     */
+    public static function get_on_campus_student_options_parameters() {
+        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
+    }
+
+    /**
+     * Queries the database to determine the location options and permissions for a selected student.
+     *
+     * @param int $userid The user id of the student.
+     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
+     */
+    public static function get_on_campus_student_options($userid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_on_campus_student_options_parameters(), array('userid' => $userid));
+
+        global $DB;
+        $result = new stdClass();
+        $result->grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $params['userid']));
+        $result->locations = convert_associative_to_object(get_on_campus_location_list($result->grade));
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_on_campus_student_options() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_on_campus_student_options() function.
+     */
+    public static function get_on_campus_student_options_returns() {
+        return new external_single_structure(array(
+            'locations' => new external_multiple_structure(
+                new external_single_structure(array(
+                    'value' => new external_value(PARAM_INT, 'id of the location'),
+                    'text' => new external_value(PARAM_TEXT, 'name of the location')
+                ))
+            ),
+            'grade' => new external_value(PARAM_INT, 'the student\'s grade')
+        ));
+    }
+
+    /**
      * Returns descriptions of the sign_in() function's parameters.
      *
      * @return external_function_parameters Object holding array of parameters for the sign_in() function.
@@ -151,7 +194,7 @@ class local_signout_external extends external_api {
      *
      * @param int $id The id of the record to sign in.
      * @param string $table The table of the record to sign in.
-     * @return string The text to display for the sign in time.
+     * @return string The text to display for the sign-in time.
      * @throws coding_exception If the table is invalid or
      *                          if the eSignout record does not exist, doesn't belong to this user, or has already been signed in.
      */
@@ -177,8 +220,8 @@ class local_signout_external extends external_api {
             );
         }
         $record->sign_in_time = $record->time_modified = time();
-        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         $DB->update_record($params['table'], $record);
+        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         return format_date('g:i A', $record->sign_in_time);
     }
 
@@ -189,6 +232,56 @@ class local_signout_external extends external_api {
      */
     public static function sign_in_returns() {
         return new external_value(PARAM_TEXT, 'The text to display for the sign in time.');
+    }
+
+    /**
+     * Returns descriptions of the confirm_signout() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the confirm_signout() function.
+     */
+    public static function confirm_signout_parameters() {
+        return new external_function_parameters(array('id' => new external_value(PARAM_INT, 'The id of the record to confirm.')));
+    }
+
+    /**
+     * Confirms an on-campus signout record and records the timestamp.
+     *
+     * @param int $id The id of the record to confirm.
+     * @return string The text to display for the sign in time.
+     * @throws coding_exception If the on-campus signout record does not exist or has already been confirmed.
+     */
+    public static function confirm_signout($id) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::confirm_signout_parameters(), array('id' => $id));
+
+        global $DB, $USER;
+        require_capability('local/signout:confirm_on_campus', context_system::instance());
+        $record = $DB->get_record('local_signout_on_campus', array('id' => $params['id']));
+        if (!$record || $record->confirmation_time) {
+            throw new coding_exception('on-campus signout record either doesn\'t exist or has already been confirmed');
+        }
+        $record->confirmation_time = $record->time_modified = time();
+        $record->confirmerid = $USER->id;
+        $DB->update_record('local_signout_on_campus', $record);
+        \local_mxschool\event\record_updated::create(array('other' => array(
+            'page' => get_string('on_campus_duty_report', 'local_signout')
+        )))->trigger();
+        $result = new stdClass();
+        $result->confirmationtime = format_date('g:i A', $record->confirmation_time);
+        $result->confirmer = format_faculty_name($record->confirmerid);
+        return $result;
+    }
+
+    /**
+     * Returns a description of the confirm_signout() function's return value.
+     *
+     * @return external_single_structure Object describing the return value of the confirm_signout() function.
+     */
+    public static function confirm_signout_returns() {
+        return new external_single_structure(array(
+            'confirmationtime' => new external_value(PARAM_TEXT, 'The time when the record was confirmed.'),
+            'confirmer' => new external_value(PARAM_TEXT, 'The name of the user who confirmed the record.'),
+        ));
     }
 
 }

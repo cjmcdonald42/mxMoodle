@@ -34,53 +34,50 @@ class faculty_table extends local_mxschool_table {
     /**
      * Creates a new faculty_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include dorm or search.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
      */
     public function __construct($filter) {
         $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("user_management_faculty_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'user_management_faculty_report');
+        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
+        parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, $filter);
+
         $fields = array(
             'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'd.name AS dorm', 'f.may_approve_signout AS approvesignout',
             'f.advisory_available AS advisoryavailable', 'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
-        $where = array('u.deleted = 0', $filter->dorm ? "d.id = {$filter->dorm}" : '');
-        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
-        $urlparams = array('dorm' => $filter->dorm, 'search' => $filter->search);
-        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $where = array('u.deleted = 0');
+        if ($filter->dorm) {
+            $where[] = "d.id = {$filter->dorm}";
+        }
         $searchable = array('u.firstname', 'u.lastname');
-        parent::__construct(
-            'faculty_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $filter->search,
-            $searchable
-        );
+        $this->set_sql($fields, $from, $where);
     }
 
     /**
      * Formats the approve signout column.
      */
     protected function col_approvesignout($values) {
-        return boolean_to_yes_no($values->approvesignout);
+        return format_boolean($values->approvesignout);
     }
 
     /**
      * Formats the advisory available column.
      */
     protected function col_advisoryavailable($values) {
-        return boolean_to_yes_no($values->advisoryavailable);
+        return format_boolean($values->advisoryavailable);
     }
 
     /**
      * Formats the advisory closing column.
      */
     protected function col_advisoryclosing($values) {
-        return boolean_to_yes_no($values->advisoryclosing);
+        return format_boolean($values->advisoryclosing);
     }
 
     /**

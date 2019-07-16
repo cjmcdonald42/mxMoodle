@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'advisor_selection');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'asf', 'fields' => array(
     'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
@@ -49,11 +48,11 @@ $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => '
 )));
 
 if ($isstudent && !student_may_access_advisor_selection($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_adv_selection', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "asf.id = ?", array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
@@ -72,29 +71,17 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
-        array($USER->id)
-    );
-    $record->student = $record->student . (
-        $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-    );
+if (isset($data->student)) {
+    $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data->student));
+    $data->current = format_faculty_name($current);
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$data->current = isset($data->student) ? $DB->get_field_sql(
-    "SELECT CONCAT(u.lastname, ', ', u.firstname)
-     FROM {local_mxschool_student} s
-     LEFT JOIN {user} u ON s.advisorid = u.id
-     WHERE s.userid = ?", array($data->student)
-) : '';
 $data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
 $students = get_student_with_advisor_form_enabled_list();
 $faculty = array(0 => get_string('form_select_default', 'local_mxschool')) + get_faculty_list();
 
 $form = new advisor_form(array('id' => $id, 'students' => $students, 'faculty' => $faculty));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -136,7 +123,9 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
 
 echo $output->header();
-echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
+echo $output->heading(
+    $isstudent ? get_string('advisor_selection_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

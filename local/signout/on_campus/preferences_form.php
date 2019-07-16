@@ -28,7 +28,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../mxschool/classes/mx_form.php');
-require_once(__DIR__.'/../classes/notification/off_campus.php');
 
 class preferences_form extends local_mxschool_form {
 
@@ -47,11 +46,14 @@ class preferences_form extends local_mxschool_form {
                     'text' => get_string('on_campus_preferences_config_ipenabled_text', 'local_signout', array(
                         'school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR']
                     ))
-                )
+                ),
+                'refresh' => array('element' => 'text', 'type' => PARAM_INT)
             ),
             'text' => array(
                 'ipformerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'ipreporterror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'warning' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'confirmation' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
             )
         );
         $this->set_fields($fields, 'on_campus_preferences', true, 'local_signout');

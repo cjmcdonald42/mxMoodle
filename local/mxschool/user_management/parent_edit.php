@@ -36,7 +36,6 @@ require_capability('local/mxschool:manage_students', context_system::instance())
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('parent_edit', 'student_report', 'user_management');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_parent' => array('abbreviation' => 'p', 'fields' => array(
     'id', 'userid' => 'student', 'parent_name' => 'name', 'is_primary_parent' => 'isprimary', 'relationship',
@@ -44,14 +43,13 @@ $queryfields = array('local_mxschool_parent' => array('abbreviation' => 'p', 'fi
 )));
 
 if ($id && !$DB->record_exists('local_mxschool_parent', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "p.id = ?", array($id));
 $students = get_student_list();
 
 $form = new parent_edit_form(array('id' => $id, 'students' => $students));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

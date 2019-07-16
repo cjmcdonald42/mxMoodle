@@ -161,5 +161,51 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019070811, 'local', 'signout');
     }
 
+    if ($oldversion < 2019071100) {
+
+        // Rename field stop_date on table local_signout_location to end_date.
+        $table = new xmldb_table('local_signout_location');
+        $field = new xmldb_field('stop_date', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'start_date');
+
+        // Launch rename field stop_date.
+        $dbman->rename_field($table, $field, 'end_date');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071100, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019071204) {
+
+        // Add new configs for on_campus reports to refresh.
+        set_config('on_campus_refresh_rate', '60', 'local_signout');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071204, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019071208) {
+
+        // Add new configs for on_campus warnings.
+        set_config('on_campus_form_warning', 'You need special permission to go to a non-academic location.', 'local_signout');
+        set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+        set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071208, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019071209) {
+
+        $oncampus = $DB->get_record('local_mxschool_subpackage', array('subpackage' => 'on_campus'));
+        $oncampus->pages = json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
+            'duty_report' => 'duty_report.php'
+        ));
+        $DB->update_record('local_mxschool_subpackage', $oncampus);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071209, 'local', 'signout');
+    }
+
     return true;
 }

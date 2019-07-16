@@ -36,33 +36,26 @@ class tutor_table extends local_mxschool_table {
     public function __construct() {
         $departments = get_department_list();
         $columns = array('tutor');
-        $headers = array_map(function($column) {
-            return get_string("tutor_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
+        $headers = $this->generate_headers($columns, 'tutor_report', 'local_peertutoring');
+        $sortable = array('tutor');
         $centered = array();
         foreach ($departments as $id => $name) {
             $columns[] = $centered[] = $id;
             $headers[] = $name;
         }
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
-        $fields = array(
-            't.id', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 'u.firstname', 'u.alternatename', 't.departments'
-        );
+        parent::__construct('tutor_table', $columns, $headers, $sortable, $centered);
+
+        $fields = array('t.id', 't.userid', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 't.departments');
         $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
         $where = array('u.deleted = 0', 't.deleted = 0');
-        $sortable = array('tutor');
-        $urlparams = array();
-        parent::__construct('tutor_table', $columns, $headers, $sortable, 'tutor', $fields, $from, $where, $urlparams, $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**
-     * Formats the tutor column to "last, first (alternate)" or "last, first".
+     * Formats the student column to "last, first (preferred)" or "last, first".
      */
     protected function col_tutor($values) {
-        return $values->tutor . (
-            $values->alternatename && $values->alternatename !== $values->firstname ? " ($values->alternatename)" : ''
-        );
+        return format_student_name($values->userid);
     }
 
     /**

@@ -37,7 +37,7 @@ class weekend_calculator_table extends local_mxschool_table {
     /**
      * Creates a new weekend_calculator_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include a dorm or semester filter.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm and semester.
      * @param array $weekends The records of the weekends to include in the table.
      * @param bool $isstudent Whether the user is a student and only their record should be displayed.
      */
@@ -45,52 +45,57 @@ class weekend_calculator_table extends local_mxschool_table {
         global $USER;
         $this->semester = $filter->semester;
         $columns1 = array('student', 'grade');
-        $headers1 = array_map(function($column) {
-            return get_string("checkin_weekend_calculator_report_header_{$column}", 'local_mxschool');
-        }, $columns1);
+        $headers1 = $this->generate_headers($columns1, 'checkin_weekend_calculator_report');
         $columns2 = array('total', 'allowed');
-        $headers2 = array_map(function($column) {
-            return get_string("checkin_weekend_calculator_report_header_{$column}", 'local_mxschool');
-        }, $columns2);
-        $fields = array(
-            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 's.grade',
-            "'' AS total", "'' AS allowed"
-        );
+        $headers2 = $this->generate_headers($columns2, 'checkin_weekend_calculator_report');
+        $sortable = $isstudent ? array() : array('student', 'grade');
         $centered = array('grade', 'total', 'allowed');
+        foreach ($weekends as $weekend) {
+            $columns1[] = $centered[] = "weekend_{$weekend->id}";
+            $date = generate_datetime($weekend->sunday_time);
+            $date->modify("-1 day");
+            $headers1[] = $date->format('m/d');
+        }
+        $columns = array_merge($columns1, $columns2);
+        $headers = array_merge($headers1, $headers2);
+        parent::__construct('weekend_calculator_table', $columns, $headers, $sortable, $centered, $filter, false);
+        $this->add_column_class('total', 'highlight-format');
+        $this->add_column_class('allowed', 'highlight-reference');
+
+        $fields = array('s.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade');
         $offcampus = get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool');
         $free = get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool');
         $closed = get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool');
         foreach ($weekends as $weekend) {
-            $columns1[] = $centered[] = "weekend_$weekend->id";
-            $date = generate_datetime($weekend->sunday_time);
-            $date->modify("-1 day");
-            $headers1[] = $date->format('m/d');
             $fields[] = "CASE
-                WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'free' THEN '$free'
-                WHEN EXISTS (
-                    SELECT id FROM {local_mxschool_weekend_form} WHERE weekendid = $weekend->id AND userid = s.userid AND active = 1
-                ) THEN '$offcampus'
-                WHEN (SELECT type FROM {local_mxschool_weekend} WHERE id = $weekend->id) = 'closed' THEN '$closed'
-                ELSE ''
-            END AS weekend_$weekend->id";
+                            WHEN (
+                                SELECT type FROM {local_mxschool_weekend} WHERE id = {$weekend->id}
+                            ) = 'free' THEN '{$free}'
+                            WHEN EXISTS (
+                                SELECT id FROM {local_mxschool_weekend_form}
+                                WHERE weekendid = {$weekend->id} AND userid = s.userid AND active = 1
+                            ) THEN '{$offcampus}'
+                            WHEN (
+                                SELECT type FROM {local_mxschool_weekend} WHERE id = {$weekend->id}
+                            ) = 'closed' THEN '{$closed}'
+                            ELSE ''
+                        END AS weekend_{$weekend->id}";
         }
-        $columns = array_merge($columns1, $columns2);
-        $headers = array_merge($headers1, $headers2);
-        $from = array(
-            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id'
-        );
-        $where = array(
-            'u.deleted = 0', $isstudent ? "s.userid = $USER->id" : ($filter->dorm ? "s.dormid = {$filter->dorm}" : ''),
-            "d.type = 'Boarding'"
-        );
-        $sortable = array('student', 'grade');
-        $urlparams = array('dorm' => $filter->dorm, 'semester' => $filter->semester);
-        parent::__construct(
-            'weekend_calculator_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
-        );
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
+        $where = array('u.deleted = 0', "d.type = 'Boarding'");
+        if ($isstudent) {
+            $where[] = "s.userid = $USER->id";
+        } else if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
+        $this->set_sql($fields, $from, $where);
+    }
 
-        $this->column_class('total', "{$this->column_class['total']} highlight-format");
-        $this->column_class('allowed', "{$this->column_class['allowed']} highlight-reference");
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**

@@ -59,10 +59,11 @@ abstract class weekend_form_base extends notification {
             $record = $DB->get_record_sql(
                 "SELECT s.userid AS student, wf.departure_date_time AS departuretime, wf.return_date_time AS returntime,
                         wf.destination, wf.transportation, wf.phone_number AS phone, wf.time_modified AS timesubmitted,
-                        d.hohid AS hoh, CONCAT(hoh.firstname, ' ', hoh.lastname) AS hohname, d.permissions_line AS permissionsline
+                        d.hohid AS hoh, d.permissions_line AS permissionsline
                  FROM {local_mxschool_weekend_form} wf LEFT JOIN {local_mxschool_student} s ON wf.userid = s.userid
-                 LEFT JOIN {user} u ON s.userid = u.id LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-                 LEFT JOIN {user} hoh ON d.hohid = hoh.id WHERE wf.id = ?", array($id)
+                                                       LEFT JOIN {user} u ON s.userid = u.id
+                                                       LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+                 WHERE wf.id = ?", array($id)
             );
             if (!$record) {
                 throw new \coding_exception("Record with id {$id} not found.");
@@ -70,7 +71,7 @@ abstract class weekend_form_base extends notification {
             $formatter = new \NumberFormatter('en_us', \NumberFormatter::ORDINAL);
             $instructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
             $replacements = new \stdClass();
-            $replacements->hoh = $record->hohname;
+            $replacements->hoh = format_faculty_name($record->hoh);
             $replacements->permissionsline = $record->permissionsline;
 
             $this->data['departuretime'] = format_date('n/j/y g:i A', $record->departuretime);
@@ -83,8 +84,6 @@ abstract class weekend_form_base extends notification {
             $this->data['weekendordinal'] = $formatter->format($this->data['weekendnumber']);
             $this->data['weekendtotal'] = calculate_weekends_allowed($record->student, get_current_semester());
             $this->data['instructions'] = self::replace_placeholders($instructions, $replacements);
-            $this->data['hohname'] = $record->hohname;
-            $this->data['permissionsline'] = $record->permissionsline;
 
             array_push(
                 $this->recipients, $DB->get_record('user', array('id' => $record->student)),
@@ -99,7 +98,7 @@ abstract class weekend_form_base extends notification {
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
             'departuretime', 'returntime', 'destination', 'transportation', 'phone', 'timesubmitted', 'weekendnumber',
-            'weekendordinal', 'weekendtotal', 'instructions', 'hohname', 'permissionsline'
+            'weekendordinal', 'weekendtotal', 'instructions'
         ));
     }
 
@@ -121,7 +120,7 @@ class weekend_form_submitted extends weekend_form_base {
      * @param int $id The id of the weekend form which has been submitted.
      *                The default value of 0 indicates a template email that should not be sent.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         parent::__construct('weekend_form_submitted', $id);
     }
 
@@ -143,7 +142,7 @@ class weekend_form_approved extends weekend_form_base {
      * @param int $id The id of the weekend form which has been submitted.
      *                The default value of 0 indicates a template email that should not be sent.
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         parent::__construct('weekend_form_approved', $id);
     }
 

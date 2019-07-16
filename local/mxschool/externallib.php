@@ -65,7 +65,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::set_boolean_field_parameters(), array(
             'table' => $table, 'field' => $field, 'id' => $id, 'value' => $value)
         );
-        switch ($params['table']) {
+        switch ($params['table']) { // TODO: This should not be hardcoded, especially the signout case.
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
                 $page = get_string('checkin_weekend_report', 'local_mxschool');
@@ -184,7 +184,7 @@ class local_mxschool_external extends external_api {
         external_api::validate_context(context_system::instance());
         $params = self::validate_parameters(self::get_dorm_students_parameters(), array('dorm' => $dorm));
 
-        $list = $params['dorm'] ? get_dorm_student_list($params['dorm']) : get_boarding_student_list();
+        $list = $params['dorm'] ? get_student_in_dorm_list($params['dorm']) : get_boarding_student_list();
         return convert_associative_to_object($list);
     }
 
@@ -238,8 +238,9 @@ class local_mxschool_external extends external_api {
         $startbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
         $endbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
         return $DB->get_field_sql(
-            "SELECT type FROM {local_mxschool_weekend} WHERE ? >= sunday_time AND ? < sunday_time",
-            array($startbound->getTimestamp(), $endbound->getTimestamp())
+            "SELECT type
+             FROM {local_mxschool_weekend}
+             WHERE ? >= sunday_time AND ? < sunday_time", array($startbound->getTimestamp(), $endbound->getTimestamp())
         ) ?: '';
     }
 
@@ -276,20 +277,10 @@ class local_mxschool_external extends external_api {
         global $DB;
         $result = new stdClass();
         $result->students = convert_associative_to_object(get_student_without_advisor_form_list());
-        $result->current = $DB->get_record_sql(
-            "SELECT u.id AS userid, CONCAT(u.lastname, ', ', u.firstname) AS name
-             FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.advisorid = u.id
-             WHERE s.userid = ?", array($params['userid'])
-        );
-        $result->current->value = $result->current->userid; // Value is a reserved word in SQL.
-        unset($result->current->userid);
-        $result->current->text = $result->current->name; // Text is a reserved word in SQL.
-        unset($result->current->name);
-        $result->closing = $DB->get_field_sql(
-            "SELECT f.advisory_closing
-             FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_faculty} f ON s.advisorid = f.userid
-             WHERE s.userid = ?", array($params['userid'])
-        );
+        $result->current = new stdClass();
+        $result->current->value = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $params['userid']));
+        $result->current->text = format_faculty_name($result->current->value);
+        $result->closing = $DB->get_field('local_mxschool_faculty', 'advisory_closing', array('userid' => $result->current->value));
         $result->available = convert_associative_to_object(get_available_advisor_list());
         return $result;
     }
@@ -394,8 +385,10 @@ class local_mxschool_external extends external_api {
         $result = new stdClass();
         $result->students = convert_associative_to_object(get_student_without_rooming_form_list());
         $result->dorm = $DB->get_field_sql(
-            "SELECT d.name FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id WHERE s.userid = ?",
-            array($params['userid'])
+            "SELECT d.name
+             FROM {local_mxschool_student} s
+             LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+             WHERE s.userid = ?", array($params['userid'])
         );
         $gender = $DB->get_field('local_mxschool_student', 'gender', array('userid' => $params['userid']));
         $result->roomtypes = convert_associative_to_object(get_roomtype_list($gender));

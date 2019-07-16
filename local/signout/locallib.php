@@ -29,6 +29,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/../mxschool/locallib.php');
 
 /**
+ * =================================
+ * Permissions Validation Functions.
+ * =================================
+ */
+
+/**
  * Determines whether a specified user is a student who is permitted to access off-campus signout.
  * Students are permitted to participate in off-campus signout if off-campus signout is enabled and the student's grade is 11 or 12.
  *
@@ -53,13 +59,19 @@ function student_may_access_on_campus_signout($userid) {
 }
 
 /**
+ * ====================================
+ * URL Parameter Querying Abstractions.
+ * ====================================
+ */
+
+/**
  * Determines the date to be selected which corresponds to an existing off-campus signout record.
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
  * If there is not an off-campus signout record asseociated with the selected date, an empty string will be returned.
  *
- * @return string The timestamp of the midnight on the desired date.
+ * @return string The timestamp of midnight on the desired date.
  */
 function get_param_current_date_off_campus() {
     global $DB;
@@ -68,10 +80,40 @@ function get_param_current_date_off_campus() {
     $enddate = clone $startdate;
     $enddate->modify('+1 day');
     return $DB->record_exists_sql(
-        "SELECT id FROM {local_signout_off_campus} WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
+        "SELECT id
+         FROM {local_signout_off_campus}
+         WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
         array($startdate->getTimestamp(), $enddate->getTimestamp())
     ) ? $timestamp : '';
 }
+
+/**
+ * Determines the date to be selected which corresponds to an existing on-campus signout record.
+ * The priorities of this function are as follows:
+ * 1) An id specified as a 'date' GET parameter.
+ * 2) The current or date.
+ * If there is not an on-campus signout record asseociated with the selected date, an empty string will be returned.
+ *
+ * @return string The timestamp of midnight on the desired date.
+ */
+function get_param_current_date_on_campus() {
+    global $DB;
+    $timestamp = get_param_current_date();
+    $startdate = generate_datetime($timestamp);
+    $enddate = clone $startdate;
+    $enddate->modify('+1 day');
+    return $DB->record_exists_sql(
+        "SELECT id
+         FROM {local_signout_on_campus}
+         WHERE deleted = 0 AND time_created > ? AND time_created < ?", array($startdate->getTimestamp(), $enddate->getTimestamp())
+    ) ? $timestamp : '';
+}
+
+/**
+ * =========================================
+ * Database Query for Record List Functions.
+ * =========================================
+ */
 
 /**
  * Queries the database to create a list of all the students who have sufficient permissions to participate in off-campus signout.
@@ -82,11 +124,12 @@ function get_param_current_date_off_campus() {
 function get_off_campus_permitted_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
+         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12)
+         ORDER BY name"
     );
-    return convert_records_to_list($students);
+    return convert_student_records_to_list($students);
 }
 
 /**
@@ -97,13 +140,13 @@ function get_off_campus_permitted_student_list() {
 function get_permitted_passenger_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
+                                         LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
          WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
          ORDER BY name"
     );
-    return convert_records_to_list($students);
+    return convert_student_records_to_list($students);
 }
 
 /**
@@ -114,13 +157,13 @@ function get_permitted_passenger_list() {
 function get_permitted_driver_list() {
     global $DB;
     $drivers = $DB->get_records_sql(
-        "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+        "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
+                                            LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type = 'Driver' AND p.may_drive_passengers = 'Yes'
          ORDER BY name ASC, oc.time_modified DESC"
     );
-    return convert_records_to_list($drivers);
+    return convert_student_records_to_list($drivers);
 }
 
 /**
@@ -135,15 +178,15 @@ function get_current_driver_list($ignore = 0) {
     $window = get_config('local_signout', 'off_campus_trip_window');
     $time = generate_datetime("-{$window} minutes");
     $drivers = $DB->get_records_sql(
-        "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+        "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
+                                            LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type = 'Driver' AND oc.time_created >= ? AND oc.sign_in_time IS NULL
-         AND p.may_drive_passengers = 'Yes' AND u.id <> ? AND NOT EXISTS (
-             SELECT id FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = ?
-         ) ORDER BY name ASC, oc.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
+                              AND p.may_drive_passengers = 'Yes' AND u.id <> ?
+                              AND NOT EXISTS (SELECT id FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = ?)
+         ORDER BY name ASC, oc.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
     );
-    return convert_records_to_list($drivers);
+    return convert_student_records_to_list($drivers);
 }
 
 /**
@@ -155,11 +198,12 @@ function get_current_driver_list($ignore = 0) {
 function get_on_campus_permitted_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND (s.grade = 11 OR s.grade = 12) ORDER BY name"
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND (s.grade = 11 OR s.grade = 12)
+         ORDER BY name"
     );
-    return convert_records_to_list($students);
+    return convert_student_records_to_list($students);
 }
 
 /**
@@ -170,8 +214,10 @@ function get_on_campus_permitted_student_list() {
 function get_approver_list() {
     global $DB;
     $faculty = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name FROM {local_mxschool_faculty} f
-         LEFT JOIN {user} u ON f.userid = u.id WHERE u.deleted = 0 and f.may_approve_signout = 1 ORDER BY name"
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS value FROM {local_mxschool_faculty} f
+         LEFT JOIN {user} u ON f.userid = u.id
+         WHERE u.deleted = 0 AND f.may_approve_signout = 1
+         ORDER BY value"
     );
     return convert_records_to_list($faculty);
 }
@@ -187,8 +233,8 @@ function get_off_campus_type_list($userid = 0) {
     $types = array('Driver', 'Passenger', 'Parent', 'Other');
     $record = $DB->get_record_sql(
         "SELECT p.may_drive_to_town AS maydrive, p.may_ride_with AS mayridewith, s.boarding_status AS boardingstatus
-         FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid WHERE s.userid = ?",
-         array('userid' => $userid)
+         FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid
+         WHERE s.userid = ?", array('userid' => $userid)
     );
     if ($record) {
         if ($record->maydrive === 'No' || $record->boardingstatus !== 'Day') {
@@ -210,11 +256,13 @@ function get_off_campus_type_list($userid = 0) {
  */
 function get_on_campus_location_list($grade = 12) {
     global $DB;
-    $timestamp = generate_datetime()->getTimestamp();
+    $timestamp = generate_datetime('midnight')->getTimestamp(); // Set to midnight to avoid an off-by-one issue on the end date.
     $locations = $DB->get_records_sql(
-        "SELECT id, name FROM {local_signout_location} l WHERE l.deleted = 0 AND l.grade <= ? AND l.enabled = 1
-         AND (l.start_date IS NULL OR l.start_date < ?) AND (l.stop_date IS NULL OR l.stop_date > ?) ORDER BY name",
-        array($grade, $timestamp, $timestamp)
+        "SELECT id, name AS value
+         FROM {local_signout_location} l
+         WHERE l.deleted = 0 AND l.grade <= ? AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
+                             AND (l.end_date IS NULL OR l.end_date >= ?)
+         ORDER BY value", array($grade, $timestamp, $timestamp)
     );
     return convert_records_to_list($locations);
 }
@@ -229,8 +277,10 @@ function get_off_campus_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT oc.id, oc.departure_time AS signoutdate FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type <> 'Passenger' ORDER BY departure_time DESC"
+        "SELECT oc.id, oc.departure_time AS signoutdate
+         FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+         WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type <> 'Passenger'
+         ORDER BY departure_time DESC"
     );
     if ($records) {
         foreach ($records as $record) {
@@ -254,10 +304,13 @@ function get_on_campus_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT oc.id, oc.time_created AS signoutdate FROM {local_signout_on_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         LEFT JOIN {local_signout_location} l ON oc.locationid = l.id LEFT JOIN {user} c ON oc.confirmerid = c.id
+        "SELECT oc.id, oc.time_created AS signoutdate
+         FROM {local_signout_on_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+                                           LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
+                                           LEFT JOIN {user} c ON oc.confirmerid = c.id
          WHERE oc.deleted = 0 AND u.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0)
-         AND (oc.confirmerid IS NULL OR c.deleted = 0) ORDER BY signoutdate DESC"
+                              AND (oc.confirmerid IS NULL OR c.deleted = 0)
+         ORDER BY signoutdate DESC"
     );
     if ($records) {
         foreach ($records as $record) {
@@ -270,6 +323,12 @@ function get_on_campus_date_list() {
     }
     return $list;
 }
+
+/**
+ * ============================================
+ * Miscellaneous Subpackage-Specific Functions.
+ * ============================================
+ */
 
 /**
  * Retrieves the destination and departure time fields from a off-campus singout driver record.

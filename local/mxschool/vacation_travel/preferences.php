@@ -38,7 +38,6 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('preferences', 'vacation_travel');
-$redirect = get_redirect();
 
 if ($action === 'delete' && $id) {
     $record = $DB->get_record('local_mxschool_vt_site', array('id' => $id));
@@ -67,7 +66,6 @@ $data->unsubmitted_subject = $unsubmittednotification->subject;
 $data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
 
 $form = new preferences_form();
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

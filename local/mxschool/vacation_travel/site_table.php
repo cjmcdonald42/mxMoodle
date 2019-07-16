@@ -36,21 +36,18 @@ class site_table extends local_mxschool_table {
      */
     public function __construct() {
         $columns = array('name', 'type', 'departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
-        $headers = array_map(function($column) {
-            return get_string("vacation_travel_site_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'vacation_travel_site_report');
+        $sortable = array('name', 'type');
+        $centered = array('departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
+        parent::__construct('site_table', $columns, $headers, $sortable, $centered);
+
         $fields = array(
             's.id', 's.name', 's.type', 's.enabled_departure AS departureenabled', 's.enabled_return AS returnenabled',
             's.default_departure_time AS defaultdeparturetime', 's.default_return_time AS defaultreturntime'
         );
         $from = array('{local_mxschool_vt_site} s');
         $where = array('s.deleted = 0');
-        $sortable = array('name', 'type');
-        $urlparams = array();
-        $centered = array('departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
-        parent::__construct('site_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

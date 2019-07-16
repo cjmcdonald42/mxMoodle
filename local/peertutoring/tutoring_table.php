@@ -33,7 +33,7 @@ class tutoring_table extends local_mxschool_table {
     /**
      * Creates a new tutoring_table.
      *
-     * @param stdClass $filter Any filtering for the table - may include tutor, department, type, date, search.
+     * @param stdClass $filter Any filtering for the table - could include properties tutor, department, type, date, and search.
      * @param string $download Indicates whether the table is downloading.
      * @param bool $email Indicates whether the table should be generated in an email-compatible form.
      */
@@ -48,21 +48,20 @@ class tutoring_table extends local_mxschool_table {
         if ($filter->department) {
             unset($columns[array_search('department', $columns)]);
         }
-        if ($filter->type) {
+        if ($filter->type > 0) {
             unset($columns[array_search('type', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("tutoring_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
-        if (!$email && !$this->is_downloading()) {
-            $columns[] = 'actions';
-            $headers[] = get_string('report_header_actions', 'local_mxschool');
-        }
+        $headers = $this->generate_headers($columns, 'tutoring_report', 'local_peertutoring');
+        $sortable = $email ? array() : array('tutoringdate', 'tutor', 'student', 'department', 'course', 'type', 'rating');
+        $centered = array('tutoringdate', 'department', 'course');
+        parent::__construct(
+            'tutoring_table', $columns, $headers, $sortable, $centered, $filter, !$email && !$this->is_downloading(), false
+        );
+
         $fields = array(
-            's.id', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 'tu.firstname AS tfirstname',
-            'tu.alternatename AS talternatename', "CONCAT(su.lastname, ', ', su.firstname) AS student", 'su.firstname',
-            'su.alternatename', 's.tutoring_date AS tutoringdate', 'd.name AS department', 'c.name AS course', 's.topic',
-            'ty.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
+            's.id', 's.tutorid', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 's.studentid',
+            "CONCAT(su.lastname, ', ', su.firstname) AS student", 's.tutoring_date AS tutoringdate', 'd.name AS department',
+            'c.name AS course', 's.topic', 'ty.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
         );
         $from = array(
             '{local_peertutoring_session} s', '{user} tu ON s.tutorid = tu.id', '{user} su ON s.studentid = su.id',
@@ -70,40 +69,34 @@ class tutoring_table extends local_mxschool_table {
             '{local_peertutoring_dept} d ON c.departmentid = d.id', '{local_peertutoring_type} ty ON s.typeid = ty.id',
             '{local_peertutoring_rating} r ON s.ratingid = r.id'
         );
+        $where = array('s.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0');
+        if ($filter->tutor) {
+            $where[] = "tu.id = {$filter->tutor}";
+        }
+        if ($filter->department) {
+            $where[] = "s.departmentid = {$filter->department}";
+        }
+        if ($filter->type) {
+            $where[] = "s.typeid = {$filter->type}";
+        }
         if ($filter->date) {
             $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
+            array_push($where, "s.tutoring_date >= {$starttime->getTimestamp()}", "s.tutoring_date < {$endtime->getTimestamp()}");
         }
-        $where = array(
-            's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0', $filter->tutor ? "tu.id = {$filter->tutor}" : '',
-            $filter->department ? "d.id = {$filter->department}" : '', $filter->type ? "ty.id = {$filter->type}" : '',
-            $filter->date ? "s.tutoring_date >= {$starttime->getTimestamp()}" : '',
-            $filter->date ? "s.tutoring_date < {$endtime->getTimestamp()}" : ''
-        );
-        $sortable = $email ? array() : array('tutor', 'tutoringdate', 'student', 'department', 'course', 'type', 'rating');
-        $urlparams = array(
-            'tutor' => $filter->tutor, 'department' => $filter->department, 'type' => $filter->type, 'date' => $filter->date,
-            'search' => $filter->search
-        );
-        $centered = array('tutoringdate', 'department', 'course');
         $searchable = array(
             'tu.lastname', 'tu.firstname', 'tu.alternatename', 'su.lastname', 'su.firstname', 'su.alternatename', 'd.name',
-            'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext'
+            'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext', 's.notes'
         );
-        parent::__construct(
-            'tutoring_table', $columns, $headers, $sortable, 'tutoringdate', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable, array(), false
-        );
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**
-     * Formats the tutor column to "last, first (alternate)" or "last, first".
+     * Formats the tutor column to "last, first (preferred)" or "last, first".
      */
     protected function col_tutor($values) {
-        return $values->tutor . (
-            $values->talternatename && $values->talternatename !== $values->tfirstname ? " ($values->talternatename)" : ''
-        );
+        return format_student_name($values->tutorid);
     }
 
     /**
@@ -111,6 +104,13 @@ class tutoring_table extends local_mxschool_table {
      */
     protected function col_tutoringdate($values) {
         return format_date('n/j/y', $values->tutoringdate);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->studentid);
     }
 
     /**

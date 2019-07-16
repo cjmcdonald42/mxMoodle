@@ -87,7 +87,6 @@ class off_campus_form extends local_mxschool_form {
         $this->set_fields($fields, 'off_campus_form', false, 'local_signout');
 
         $mform = $this->_form;
-        $mform->setExpanded('permissions');
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
         $mform->disabledIf('type', 'id', 'neq', '0');

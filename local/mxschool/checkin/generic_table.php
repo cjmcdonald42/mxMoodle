@@ -34,35 +34,42 @@ class generic_table extends local_mxschool_table {
     /**
      * Creates a new generic_table.
      *
-     * @param string $dorm The id of the currently selected dorm or '' for all dorms.
+     * @param stdClass $filter Any filtering for the table - could include property dorm.
      */
-    public function __construct($dorm) {
+    public function __construct($filter) {
         global $DB;
         $columns = array('student', 'dorm', 'room', 'grade', 'checkin');
-        if ($dorm) {
+        if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
-            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $dorm)) === 'Day') {
+            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
                 unset($columns[array_search('room', $columns)]);
             }
         }
-        $headers = array_map(function($column) {
-            return get_string("checkin_generic_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $fields = array(
-            's.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename', 'd.name AS dorm',
-            's.room', 's.grade', "'' AS checkin"
-        );
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', $dorm ? "s.dormid = {$dorm}" : '');
+        $headers = $this->generate_headers($columns, 'checkin_generic_report');
         $sortable = array('student', 'dorm', 'room', 'grade');
-        if (!$dorm) {
+        $centered = array('room', 'grade');
+        if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
-        $urlparams = array('dorm' => $dorm);
-        $centered = array('room', 'grade');
-        parent::__construct(
-            'checkin_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered
+        parent::__construct('checkin_table', $columns, $headers, $sortable, $centered, $filter, false);
+
+        $fields = array(
+            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade',
+            "'' AS checkin"
         );
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
+        $where = array('u.deleted = 0');
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
+        $this->set_sql($fields, $from, $where);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
 }

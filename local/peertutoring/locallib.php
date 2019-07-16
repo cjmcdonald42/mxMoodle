@@ -29,6 +29,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/../mxschool/locallib.php');
 
 /**
+ * =================================
+ * Permissions Validation Functions.
+ * =================================
+ */
+
+/**
  * Determines whether a specified user is a student who is permitted to access the tutoring form.
  *
  * @param int $id The user id of the student to check.
@@ -39,6 +45,12 @@ function student_may_access_tutoring($userid) {
 }
 
 /**
+ * ==========================================
+ * Database Query for Record List Functions.
+ * ==========================================
+ */
+
+/**
  * Queries the database to create a list of all the students who are eligible to become peer tutors.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
@@ -46,10 +58,12 @@ function student_may_access_tutoring($userid) {
 function get_eligible_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
-         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id WHERE u.deleted = 0 AND s.grade >= 11 ORDER BY name"
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
+         WHERE u.deleted = 0 AND s.grade >= 11
+         ORDER BY name"
     );
-    return convert_records_to_list($students);
+    return convert_student_records_to_list($students);
 }
 
 /**
@@ -60,13 +74,13 @@ function get_eligible_student_list() {
 function get_eligible_unassigned_student_list() {
     global $DB;
     $students = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND s.grade >= 11 AND NOT EXISTS (
-             SELECT userid FROM {local_peertutoring_tutor} t WHERE userid = u.id and t.deleted = 0
-         ) ORDER BY name"
+         WHERE u.deleted = 0 AND s.grade >= 11
+                             AND NOT EXISTS (SELECT userid FROM {local_peertutoring_tutor} t WHERE userid = u.id and t.deleted = 0)
+         ORDER BY name"
     );
-    return convert_records_to_list($students);
+    return convert_student_records_to_list($students);
 }
 
 /**
@@ -76,7 +90,12 @@ function get_eligible_unassigned_student_list() {
  */
 function get_department_list() {
     global $DB;
-    $departments = $DB->get_records_sql("SELECT id, name FROM {local_peertutoring_dept} WHERE deleted = 0 ORDER BY name");
+    $departments = $DB->get_records_sql(
+        "SELECT id, name AS value
+         FROM {local_peertutoring_dept}
+         WHERE deleted = 0
+         ORDER BY value"
+    );
     return convert_records_to_list($departments);
 }
 
@@ -92,11 +111,14 @@ function get_tutor_department_list($userid) {
     if ($json) {
         $approved = json_decode($json);
         if (count($approved)) {
-            $wherestring = implode(' OR ', array_map(function($departmentid) {
-                return "id = $departmentid";
+            $where = implode(' OR ', array_map(function($departmentid) {
+                return "id = {$departmentid}";
             }, $approved));
             $departments = $DB->get_records_sql(
-                "SELECT id, name FROM {local_peertutoring_dept} WHERE deleted = 0 AND $wherestring ORDER BY name"
+                "SELECT id, name AS value
+                 FROM {local_peertutoring_dept}
+                 WHERE deleted = 0 AND {$where}
+                 ORDER BY value"
             );
             return convert_records_to_list($departments);
         }
@@ -111,7 +133,12 @@ function get_tutor_department_list($userid) {
  */
 function get_course_list() {
     global $DB;
-    $courses = $DB->get_records_sql("SELECT id, name FROM {local_peertutoring_course} WHERE deleted = 0 ORDER BY name");
+    $courses = $DB->get_records_sql(
+        "SELECT id, name AS value
+         FROM {local_peertutoring_course}
+         WHERE deleted = 0
+         ORDER BY value"
+    );
     return convert_records_to_list($courses);
 }
 
@@ -124,7 +151,10 @@ function get_course_list() {
 function get_department_course_list($departmentid) {
     global $DB;
     $courses = $DB->get_records_sql(
-        "SELECT id, name FROM {local_peertutoring_course} WHERE deleted = 0 AND departmentid = ? ORDER BY name",
+        "SELECT id, name AS value
+         FROM {local_peertutoring_course}
+         WHERE deleted = 0 AND departmentid = ?
+         ORDER BY value",
         array($departmentid)
     );
     return convert_records_to_list($courses);
@@ -133,11 +163,16 @@ function get_department_course_list($departmentid) {
 /**
  * Queries the database to create a list of all the peer tutoring types.
  *
- * @return array The types as id => displaytext, unordered.
+ * @return array The types as id => displaytext, ordered alphabetically by display text.
  */
 function get_type_list() {
     global $DB;
-    $types = $DB->get_records_sql("SELECT id, displaytext AS name FROM {local_peertutoring_type} WHERE deleted = 0");
+    $types = $DB->get_records_sql(
+        "SELECT id, displaytext AS value
+         FROM {local_peertutoring_type}
+         WHERE deleted = 0
+         ORDER BY value"
+    );
     return convert_records_to_list($types);
 }
 
@@ -149,7 +184,10 @@ function get_type_list() {
 function get_rating_list() {
     global $DB;
     $ratings = $DB->get_records_sql(
-        "SELECT id, displaytext AS name FROM {local_peertutoring_rating} WHERE deleted = 0 ORDER BY displaytext"
+        "SELECT id, displaytext AS value
+         FROM {local_peertutoring_rating}
+         WHERE deleted = 0
+         ORDER BY value"
     );
     return convert_records_to_list($ratings);
 }
@@ -162,11 +200,12 @@ function get_rating_list() {
 function get_tutor_list() {
     global $DB;
     $tutors = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name, u.firstname, u.alternatename
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_peertutoring_tutor} t LEFT JOIN {user} u ON t.userid = u.id
-         WHERE u.deleted = 0 AND t.deleted = 0 ORDER BY name"
+         WHERE u.deleted = 0 AND t.deleted = 0
+         ORDER BY name"
     );
-    return convert_records_to_list($tutors);
+    return convert_student_records_to_list($tutors);
 }
 
 /**
@@ -178,9 +217,11 @@ function get_tutoring_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT s.id, s.tutoring_date FROM {local_peertutoring_session} s LEFT JOIN {user} tu ON s.tutorid = tu.id
-         LEFT JOIN {user} su ON s.studentid = su.id LEFT JOIN {local_peertutoring_tutor} t ON s.tutorid = t.userid
-         WHERE s.deleted = 0 AND tu.deleted = 0 AND su.deleted = 0 AND t.deleted = 0 ORDER BY tutoring_date DESC"
+        "SELECT s.id, s.tutoring_date
+         FROM {local_peertutoring_session} s LEFT JOIN {user} tu ON s.tutorid = tu.id LEFT JOIN {user} su ON s.studentid = su.id
+                                             LEFT JOIN {local_peertutoring_tutor} t ON s.tutorid = t.userid
+         WHERE s.deleted = 0 AND tu.deleted = 0 AND su.deleted = 0 AND t.deleted = 0
+         ORDER BY tutoring_date DESC"
     );
     if ($records) {
         foreach ($records as $record) {

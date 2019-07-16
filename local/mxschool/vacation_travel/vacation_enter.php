@@ -41,7 +41,6 @@ $returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'vacation_travel');
-$redirect = get_redirect();
 
 $tripqueryfields = array('local_mxschool_vt_trip' => array('abbreviation' => 't', 'fields' => array(
     'id', 'userid' => 'student', 'departureid', 'returnid', 'destination', 'phone_number' => 'phone',
@@ -53,11 +52,11 @@ $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviati
 )));
 
 if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_mxschool_vt_trip', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($tripqueryfields, 't.id = ?', array($id));
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
@@ -104,15 +103,6 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
-        array($USER->id)
-    );
-    $record->student = $record->student . (
-        $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-    );
-}
 $data->isstudent = $isstudent ? '1' : '0';
 generate_time_selector_fields($data, 'dep_variable', 15);
 if ($returnenabled) {
@@ -127,7 +117,6 @@ $form = new vacation_form(array(
     'id' => $id, 'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites,
     'types' => $types
 ));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -208,7 +197,9 @@ $renderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
 
 echo $output->header();
-echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
+echo $output->heading(
+    $isstudent ? get_string('vacation_travel_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+);
 echo $output->render($renderable);
 echo $output->render($jsrenderable);
 echo $output->footer();

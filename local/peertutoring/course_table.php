@@ -35,18 +35,15 @@ class course_table extends local_mxschool_table {
      */
     public function __construct() {
         $columns = array('name', 'department');
-        $headers = array_map(function($column) {
-            return get_string("course_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'course_report', 'local_peertutoring');
+        $sortable = array('name', 'department');
+        $centered = array('name', 'department');
+        parent::__construct('course_table', $columns, $headers, $sortable, $centered);
+
         $fields = array('c.id', 'c.name', 'd.name AS department');
         $from = array('{local_peertutoring_course} c', '{local_peertutoring_dept} d ON c.departmentid = d.id');
         $where = array('c.deleted = 0', 'd.deleted = 0');
-        $sortable = array('name', 'department');
-        $urlparams = array();
-        $centered = array('name', 'department');
-        parent::__construct('course_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered);
+        $this->set_sql($fields, $from, $where);
     }
 
     /**

@@ -38,7 +38,7 @@ if (!$isstudent) {
 }
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm();
+$filter->dorm = $isstudent ? '' : get_param_faculty_dorm(false);
 $filter->semester = get_param_current_semester();
 
 setup_mxschool_page('weekend_calculator', 'checkin');
@@ -48,17 +48,19 @@ $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' =>
 $startdate = get_config('local_mxschool', $filter->semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
 $enddate = get_config('local_mxschool', $filter->semester == 1 ? 'second_semester_start_date' : 'dorms_close_date');
 $weekends = $DB->get_records_sql(
-    "SELECT id, sunday_time FROM {local_mxschool_weekend} WHERE sunday_time >= ? AND sunday_time < ? AND type <> 'Vacation'
+    "SELECT id, sunday_time
+     FROM {local_mxschool_weekend}
+     WHERE sunday_time >= ? AND sunday_time < ? AND type <> 'Vacation'
      ORDER BY sunday_time", array($startdate, $enddate)
 );
 
 $table = new weekend_calculator_table($filter, $weekends, $isstudent);
 
-$dropdowns = $isstudent ? array() : array(
-    new local_mxschool_dropdown('dorm', $dorms, $filter->dorm, get_string('report_select_boarding_dorm', 'local_mxschool'))
-);
-$dropdowns[] = new local_mxschool_dropdown('semester', $semesters, $filter->semester);
-$rows = array(
+$dropdowns = array(new local_mxschool_dropdown('semester', $semesters, $filter->semester));
+if (!$isstudent) {
+    array_unshift($dropdowns, local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
+}
+$legend = array(
     array(
         'lefttext' => get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool'),
         'righttext' => get_string('checkin_weekend_calculator_legend_offcampus', 'local_mxschool')
@@ -79,12 +81,12 @@ $rows = array(
 
 $output = $PAGE->get_renderer('local_mxschool');
 $reportrenderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
-$legendrenderable = new \local_mxschool\output\legend_table($rows);
+$legendrenderable = new \local_mxschool\output\legend_table($legend);
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 
 echo $output->header();
 echo $output->heading(
-    get_string('checkin_weekend_calculator_report_title', 'local_mxschool', $filter->dorm ? " for {$dorms[$filter->dorm]}" : '')
+    get_string('checkin_weekend_calculator_report_title', 'local_mxschool', !empty($filter->dorm) ? "{$dorms[$filter->dorm]} " : '')
 );
 echo $output->render($reportrenderable);
 echo $output->render($legendrenderable);

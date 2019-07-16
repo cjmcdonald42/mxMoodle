@@ -28,12 +28,14 @@ $string['pluginname'] = 'Middlesex School Electronic Signout';
 
 /* General */
 $string['sign_in_button'] = 'Sign In';
+$string['confirmation_button'] = 'Confirm';
 
 // Capabilities.
 $string['signout:manage_off_campus'] = 'Middlesex School Electronic Signout: View and manage student off-campus signout records';
 $string['signout:manage_off_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage off-campus signout preferences';
 $string['signout:manage_on_campus'] = 'Middlesex School Electronic Signout: View and manage student on-campus signout records';
 $string['signout:manage_on_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage on-campus signout preferences';
+$string['signout:confirm_on_campus'] = 'Middlesex School Electronic Signout: View duty report and confirm on-campus signout records';
 
 // Settings Pages.
 $string['settings'] = 'eSignout Settings';
@@ -86,7 +88,7 @@ $string['off_campus_preferences_text_bottominstructions'] = 'Instructions at the
 $string['off_campus_preferences_text_nopassengers'] = 'Warning for a Student Who May Not Drive Passengers';
 $string['off_campus_preferences_text_needparent'] = 'Warning for a Student Who May Only be a Passenger with Parent Permission';
 $string['off_campus_preferences_text_onlyspecific'] = 'Warning for a Student Who May Only be the Passenger of Specific Drivers';
-$string['off_campus_preferences_text_confirmation'] = 'Confirmation for a Passenger with Warnings';
+$string['off_campus_preferences_text_confirmation'] = 'Confirmation for a Passenger a Warning';
 $string['off_campus_preferences_emailtext_irregular'] = 'Indicator for an Irregular Signout';
 $string['off_campus_preferences_emailtext_driver'] = 'Warning for a Driver';
 $string['off_campus_preferences_emailtext_any'] = 'Warning for a Passenger with Permissions to Ride with Any Driver';
@@ -95,6 +97,7 @@ $string['off_campus_preferences_emailtext_specific'] = 'Warning for a Passenger 
 $string['off_campus_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
 
 // Form for Off-Campus Signout.
+$string['off_campus_form_title'] = 'Off-Campus Signout Form for {$a}';
 $string['off_campus_form_header_info'] = 'General Information';
 $string['off_campus_form_header_details'] = 'Details';
 $string['off_campus_form_header_permissions'] = 'Permissions Check';
@@ -151,8 +154,11 @@ $string['on_campus_preferences_header_config'] = 'Config';
 $string['on_campus_preferences_header_text'] = 'On-Campus Signout Form Permissions Warnings';
 $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable the On-Campus Signout Form';
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
+$string['on_campus_preferences_config_refresh'] = 'How often the On-Campus reports should refresh (seconds)<br>Leave blank to disable auto-refresh';
 $string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
 $string['on_campus_preferences_text_ipreporterror'] = 'Text to Display in On-Campus Signout Report When on the Wrong Network';
+$string['on_campus_preferences_text_warning'] = 'Warning for an 11th Grade Student Who Selects an \'Other\' Location';
+$string['on_campus_preferences_text_confirmation'] = 'Confirmation for a Student with a Warning';
 
 // On-Campus Location Report.
 $string['on_campus_location_report_add'] = 'New Location';
@@ -160,7 +166,7 @@ $string['on_campus_location_report_header_name'] = 'Name';
 $string['on_campus_location_report_header_grade'] = 'Minimum Grade';
 $string['on_campus_location_report_header_enabled'] = 'Enabled';
 $string['on_campus_location_report_header_start'] = 'Start Date';
-$string['on_campus_location_report_header_stop'] = 'Stop Date';
+$string['on_campus_location_report_header_end'] = 'End Date';
 
 // On-Campus Location Edit.
 $string['on_campus_location_edit_header_location'] = 'Location Information';
@@ -170,26 +176,47 @@ $string['on_campus_location_edit_location_grade_11'] = '11';
 $string['on_campus_location_edit_location_grade_12'] = '12';
 $string['on_campus_location_edit_location_enabled'] = 'Enabled';
 $string['on_campus_location_edit_location_start'] = 'Start Date';
-$string['on_campus_location_edit_location_stop'] = 'Stop Date';
+$string['on_campus_location_edit_location_end'] = 'End Date';
 
 // Form for On-Campus Signout.
+$string['on_campus_form_title'] = 'On-Campus Signout Form for {$a}';
 $string['on_campus_form_header_info'] = 'General Information';
+$string['on_campus_form_header_permissions'] = 'Permissions Check';
 $string['on_campus_form_info_student'] = 'Student';
 $string['on_campus_form_info_location'] = 'Sign-Out Location';
 $string['on_campus_form_location_select_other'] = 'Other (please specify)';
 $string['on_campus_form_error_nolocation'] = 'You must specify a location.';
 
 // Report for On-Campus Signout.
+$string['on_campus_report_title'] = '{$a}On-Campus Signout Report';
 $string['on_campus_report_select_location_all'] = 'All Locations';
 $string['on_campus_report_select_location_other'] = 'Other';
 $string['on_campus_report_select_date_all'] = 'All Dates';
 $string['on_campus_report_add'] = 'New On-Campus Signout Record';
 $string['on_campus_report_header_student'] = 'Student';
+$string['on_campus_report_header_grade'] = 'Grade';
+$string['on_campus_report_header_dorm'] = 'Dorm';
 $string['on_campus_report_header_location'] = 'Location';
 $string['on_campus_report_header_signoutdate'] = 'Date';
 $string['on_campus_report_header_signouttime'] = 'Sign Out Time';
 $string['on_campus_report_header_confirmation'] = 'Confirmation';
 $string['on_campus_report_header_signin'] = 'Sign In Time';
-$string['on_campus_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime}';
+$string['on_campus_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime} on {$a->confirmationdate}';
 
 // Duty Report for On-Campus Signout.
+$string['duty_report_title'] = 'On-Campus Duty Report for {$a}';
+$string['duty_report_select_pictures_on'] = 'Show Pictures';
+$string['duty_report_select_pictures_off'] = 'Hide Pictures';
+$string['duty_report_select_location_all'] = 'All Locations';
+$string['duty_report_select_location_other'] = 'Other';
+$string['duty_report_header_student'] = 'Student';
+$string['duty_report_header_picture'] = 'Picture';
+$string['duty_report_header_grade'] = 'Grade';
+$string['duty_report_header_dorm'] = 'Dorm';
+$string['duty_report_header_advisor'] = 'Advisor';
+$string['duty_report_header_location'] = 'Location';
+$string['duty_report_header_signouttime'] = 'Sign Out Time';
+$string['duty_report_header_confirmation'] = 'Confirmation';
+$string['duty_report_header_signin'] = 'Sign In Time';
+$string['duty_report_column_picture_notfound'] = '<i>&mdash;Picture Not Found&mdash;</i>';
+$string['duty_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime}';

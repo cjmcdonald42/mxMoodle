@@ -40,7 +40,6 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'off_campus', 'signout');
-$redirect = get_redirect();
 
 $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
@@ -48,11 +47,11 @@ $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc',
 )));
 
 if ($isstudent && !student_may_access_off_campus_signout($USER->id)) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 if ($id) {
     if (!$DB->record_exists('local_signout_off_campus', array('id' => $id))) {
-        redirect($redirect);
+        redirect_to_fallback();
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing off-campus signout records beyond the edit window.
@@ -90,15 +89,6 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if ($isstudent) {
-    $record = $DB->get_record_sql(
-        "SELECT CONCAT(u.lastname, ', ', u.firstname) AS student, u.firstname, u.alternatename FROM {user} u WHERE u.id = ?",
-        array($USER->id)
-    );
-    $record->student = $record->student . (
-        $record->alternatename && $record->alternatename !== $record->firstname ? " ({$record->alternatename})" : ''
-    );
-}
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_signout', 'off_campus_form_instructions_passenger');
 $data->passengerswarning = get_config('local_signout', 'off_campus_form_warning_nopassengers');
@@ -115,7 +105,6 @@ $form = new off_campus_form(array(
     'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,
     'approvers' => $approvers
 ));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -159,7 +148,9 @@ if (
     !$isstudent || !get_config('local_signout', 'off_campus_form_ipenabled')
     || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
 ) {
-    echo $output->heading($PAGE->title . ($isstudent ? " for {$record->student}" : ''));
+    echo $output->heading(
+        $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
+    );
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
 } else {

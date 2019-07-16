@@ -38,56 +38,67 @@ class on_campus_table extends local_mxschool_table {
     /**
      * Creates a new on_campus_table.
      *
-     * @param stdClass $filter any filtering for the table - could include location, date, and search.
+     * @param stdClass $filter any filtering for the table - could include properties dorm, location, date, and search.
      * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
     public function __construct($filter, $isstudent) {
         global $USER;
         $this->isstudent = $isstudent;
-        $columns = array('student', 'location', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        $columns = array('student', 'grade', 'dorm', 'location', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        if ($filter->dorm) {
+            unset($columns[array_search('dorm', $columns)]);
+        }
+        if ($filter->location > 0) {
+            unset($columns[array_search('location', $columns)]);
+        }
         if ($filter->date) {
             unset($columns[array_search('signoutdate', $columns)]);
         }
         if ($isstudent) {
             unset($columns[array_search('confirmation', $columns)]);
         }
-        $headers = array_map(function($column) {
-            return get_string("on_campus_report_header_{$column}", 'local_signout');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'on_campus_report', 'local_signout');
+        $sortable = array($filter->date ? 'signouttime' : 'signoutdate', 'student', 'grade', 'dorm', 'location');
+        $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');
+        parent::__construct('on_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
+        $this->add_column_class('signin', 'sign-in');
+
         $fields = array(
-            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
+            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
             'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
-            "CONCAT(c.lastname, ', ', c.firstname) AS confirmer", 'oc.confirmation_time AS confirmationtime',
-            'oc.sign_in_time AS signin'
+            'oc.confirmerid AS confirmer', 'oc.confirmation_time AS confirmationtime', 'oc.sign_in_time AS signin'
         );
         $from = array(
-            '{local_signout_on_campus} oc', '{user} u ON oc.userid = u.id', '{local_signout_location} l ON oc.locationid = l.id',
+            '{local_signout_on_campus} oc', '{user} u ON oc.userid = u.id', '{local_mxschool_student} s ON s.userid = u.id',
+            '{local_mxschool_dorm} d ON s.dormid = d.id', '{local_signout_location} l ON oc.locationid = l.id',
             '{user} c ON oc.confirmerid = c.id'
         );
-        $starttime = generate_datetime('midnight')->getTimestamp();
-        $where = array(
-            'oc.deleted = 0', 'u.deleted = 0', '(locationid = -1 OR l.deleted = 0)', '(oc.confirmerid IS NULL OR c.deleted = 0)',
-            $filter->location ? "oc.locationid = {$filter->location}" : '', $isstudent ? "oc.userid = {$USER->id}" : '',
-            $isstudent ? "oc.time_created >= {$starttime}" : ''
-        );
+        $where = array('oc.deleted = 0', 'u.deleted = 0');
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
+        if ($filter->location) {
+            $where[] = "oc.locationid = {$filter->location}";
+        }
         if ($filter->date) {
             $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
-            $where[] = "oc.time_created >= {$starttime->getTimestamp()}";
-            $where[] = "oc.time_created < {$endtime->getTimestamp()}";
+            array_push($where, "oc.time_created >= {$starttime->getTimestamp()}", "oc.time_created < {$endtime->getTimestamp()}");
         }
-        $sortable = array('student', 'location', $filter->date ? 'signouttime' : 'signoutdate');
-        $urlparams = array('location' => $filter->location, 'date' => $filter->date, 'search' => $filter->search);
-        $centered = array('signoutdate', 'signouttime', 'confirmation', 'signin');
+        if ($isstudent) {
+            $starttime = generate_datetime('midnight')->getTimestamp();
+            array_push($where, "oc.userid = {$USER->id}", "oc.time_created >= {$starttime}");
+        }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
-        parent::__construct(
-            'on_campus_table', $columns, $headers, $sortable, $filter->date ? 'signouttime' : 'signoutdate', $fields, $from, $where,
-            $urlparams, $centered, $filter->search, $searchable, array(), false
-        );
-        $this->column_class('signin', "{$this->column_class['signin']} sign-in");
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**
@@ -115,19 +126,25 @@ class on_campus_table extends local_mxschool_table {
      * Formats the confirmation column.
      */
     protected function col_confirmation($values) {
-        return isset($values->confirmationtime) ? get_string('on_campus_report_column_confirmation_text', 'local_signout', array(
-            'confirmer' => $values->confirmer, 'confirmationtime' => format_date('g:i A', $values->confirmationtime)
-        )) : '-';
+        if (!isset($values->confirmationtime)) {
+            return '-';
+        }
+        return get_string('on_campus_report_column_confirmation_text', 'local_signout', array(
+            'confirmer' => format_faculty_name($values->confirmer),
+            'confirmationtime' => format_date('g:i A', $values->confirmationtime),
+            'confirmationdate' => format_date('n/j/y', $values->confirmationtime)
+        ));
     }
 
     /**
      * Formats the sign-in time column to 'g:i A'.
      */
     protected function col_signin($values) {
-        return isset($values->signin) ? (
-            format_date('n/j/y', $values->signoutdate) === format_date('n/j/y', $values->signin)
-                ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin)
-        ) : '-';
+        if (!isset($values->signin)) {
+            return '-';
+        }
+        return format_date('n/j/y', $values->signoutdate) === format_date('n/j/y', $values->signin)
+            ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin);
     }
 
     /**

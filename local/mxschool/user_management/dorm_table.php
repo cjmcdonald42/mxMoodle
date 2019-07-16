@@ -34,35 +34,37 @@ class dorm_table extends local_mxschool_table {
     /**
      * Creates a new dorm_table.
      *
-     * @param string $search The search for the table.
+     * @param stdClass $filter Any filtering for the table - could include property search.
      */
-    public function __construct($search) {
+    public function __construct($filter) {
         $columns = array('name', 'abbreviation', 'hoh', 'permissionsline', 'type', 'gender', 'available');
-        $headers = array_map(function($column) {
-            return get_string("user_management_dorm_report_header_{$column}", 'local_mxschool');
-        }, $columns);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $headers = $this->generate_headers($columns, 'user_management_dorm_report');
+        $sortable = array('name', 'type', 'gender', 'available');
+        $centered = array('abbreviation', 'type', 'gender', 'available');
+        parent::__construct('dorm_table', $columns, $headers, $sortable, $centered, $filter);
+
         $fields = array(
-            'd.id', 'd.name', 'd.abbreviation', "CONCAT(u.lastname, ', ', u.firstname) AS hoh",
-            'd.permissions_line AS permissionsline', 'd.type', 'd.gender', 'd.available'
+            'd.id', 'd.name', 'd.abbreviation', "d.hohid AS hoh", 'd.permissions_line AS permissionsline', 'd.type', 'd.gender',
+            'd.available'
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('d.deleted = 0', 'u.deleted = 0');
-        $sortable = array('name', 'type', 'gender');
-        $urlparams = array('search' => $search);
-        $centered = array('abbreviation', 'type', 'gender', 'available');
         $searchable = array('d.name', 'd.abbreviation', 'u.lastname', 'u.firstname');
-        parent::__construct(
-            'dorm_table', $columns, $headers, $sortable, 'name', $fields, $from, $where, $urlparams, $centered, $search, $searchable
-        );
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+    }
+
+    /**
+     * Formats the hoh column to "Last, First".
+     */
+    protected function col_hoh($values) {
+        return format_faculty_name($values->hoh);
     }
 
     /**
      * Formats the available column.
      */
     protected function col_available($values) {
-        return boolean_to_yes_no($values->available);
+        return format_boolean($values->available);
     }
 
     /**

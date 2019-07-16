@@ -36,7 +36,6 @@ require_capability('local/mxschool:manage_faculty', context_system::instance());
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('faculty_edit', 'faculty_report', 'user_management');
-$redirect = get_redirect();
 
 $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'fields' => array(
     'id', 'dormid' => 'dorm', 'faculty_code' => 'facultycode', 'may_approve_signout' => 'approvesignout',
@@ -46,14 +45,13 @@ $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'f
 )));
 
 if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
-    redirect($redirect);
+    redirect_to_fallback();
 }
 
 $data = get_record($queryfields, "f.id = ?", array($id));
 $dorms = array(null => '') + get_dorm_list();
 
 $form = new faculty_edit_form(array('id' => $id, 'dorms' => $dorms));
-$form->set_redirect($redirect);
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

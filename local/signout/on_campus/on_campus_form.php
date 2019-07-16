@@ -51,6 +51,16 @@ class on_campus_form extends local_mxschool_form {
                     'select' => array('element' => 'select', 'options' => $locations),
                     'other' => self::ELEMENT_TEXT
                 ))
+            ),
+            'permissions' => array(
+                'locationwarning' => array('element' => 'static', 'name' => null),
+                'permissionssubmitbuttons' => array(
+                    'element' => 'group', 'displayname' => get_config('local_signout', 'on_campus_form_confirmation'),
+                    'children' => array(
+                        'permissionssubmityes' => array('element' => 'submit', 'text' => get_string('yes')),
+                        'permissionssubmitno' => array('element' => 'cancel', 'text' => get_string('no'))
+                    )
+                )
             )
         );
         $this->set_fields($fields, 'on_campus_form', false, 'local_signout');

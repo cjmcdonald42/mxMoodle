@@ -34,7 +34,7 @@ class weekend_table extends local_mxschool_table {
     /**
      * Creates a new weekend_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include dorm, weekend, submitted, and search keys.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm, weekend, submitted, and search.
      * @param int $start An offest for the start day.
      * @param int $end An offest for the end day.
      */
@@ -47,37 +47,41 @@ class weekend_table extends local_mxschool_table {
                 unset($columns1[array_search('room', $columns1)]);
             }
         }
-        $headers1 = array_map(function($column) {
-            return get_string("checkin_weekend_report_header_{$column}", 'local_mxschool');
-        }, $columns1);
-        $centered = array('room', 'grade', 'parent', 'invite', 'approved');
-        $fields = array(
-            's.id', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'u.firstname', 'u.alternatename',
-            'd.name AS dorm', 's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved',
-            "'' AS destinationtransportation", 'wf.destination', 'wf.transportation', 'wf.phone_number AS phone',
-            "'' AS departurereturn", 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
-        );
+        $headers1 = $this->generate_headers($columns1, 'checkin_weekend_report');
         for ($i = 1; $i <= $end - $start + 1; $i++) {
-            $columns1[] = $centered[] = "early_{$i}";
-            $headers1[] = get_string('checkin_weekend_report_header_early', 'local_mxschool');
-            $fields[] = "'' AS early_{$i}";
-            $columns1[] = $centered[] = "late_{$i}";
-            $headers1[] = get_string('checkin_weekend_report_header_late', 'local_mxschool');
-            $fields[] = "'' AS late_{$i}";
+            array_push($columns1,  "early_{$i}", "late_{$i}");
+            array_push(
+                $headers1, get_string('checkin_weekend_report_header_early', 'local_mxschool'),
+                get_string('checkin_weekend_report_header_late', 'local_mxschool')
+            );
         }
         $columns2 = array('clean', 'parent', 'invite', 'approved', 'destinationtransportation', 'phone', 'departurereturn');
-        $headers2 = array_map(function($column) {
-            return get_string("checkin_weekend_report_header_{$column}", 'local_mxschool');
-        }, $columns2);
+        $headers2 = $this->generate_headers($columns2, 'checkin_weekend_report');
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
-        $columns[] = 'actions';
-        $headers[] = get_string('report_header_actions', 'local_mxschool');
+        $sortable = array('student', 'dorm', 'room', 'grade');
+        if (!$filter->dorm) {
+            unset($sortable[array_search('room', $sortable)]);
+        }
+        $centered = array('room', 'grade', 'parent', 'invite', 'approved');
+        parent::__construct('weekend_table', $columns, $headers, $sortable, $centered, $filter);
+
+        $fields = array(
+            's.id', 's.userid', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm',
+            's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
+            'wf.phone_number AS phone', 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
+        );
+        for ($i = 1; $i <= $end - $start + 1; $i++) {
+            array_push($fields, "'' AS early_{$i}", "'' AS late_{$i}");
+        }
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
             "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = {$filter->weekend} AND wf.active = 1"
         );
-        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'", $filter->dorm ? "s.dormid = {$filter->dorm}" : '');
+        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
+        if ($filter->dorm) {
+            $where[] = "s.dormid = {$filter->dorm}";
+        }
         switch ($filter->submitted) {
             case '1':
                 $where[] = "EXISTS (
@@ -92,19 +96,15 @@ class weekend_table extends local_mxschool_table {
                 )";
                 break;
         }
-        $sortable = array('student', 'dorm', 'room', 'grade');
-        if (!$filter->dorm) {
-            unset($sortable[array_search('room', $sortable)]);
-        }
-        $urlparams = array(
-            'dorm' => $filter->dorm, 'weekend' => $filter->weekend, 'start' => $filter->start, 'end' => $filter->end,
-            'submitted' => $filter->submitted, 'search' => $filter->search
-        );
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'wf.destination', 'wf.transportation');
-        parent::__construct(
-            'weekend_table', $columns, $headers, $sortable, 'student', $fields, $from, $where, $urlparams, $centered,
-            $filter->search, $searchable
-        );
+        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
     }
 
     /**
@@ -170,8 +170,8 @@ class weekend_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->wfid)
-               . (isset($values->wfid) ? $this->delete_icon($values->wfid) : '');
+        return isset($values->wfid) ? $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->wfid)
+                                      . $this->delete_icon($values->wfid) : '';
     }
 
 }
