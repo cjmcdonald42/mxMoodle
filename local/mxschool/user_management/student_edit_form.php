@@ -39,7 +39,7 @@ class student_edit_form extends local_mxschool_form {
         $dorms = $this->_customdata['dorms'];
         $faculty = $this->_customdata['faculty'];
 
-        $dateparameters = array(
+        $dateoptions = array(
             'startyear' => 2000, // Completely arbitrary.
             'stopyear' => format_date('Y'),
             'timezone' => core_date::get_user_timezone_object(),
@@ -73,7 +73,7 @@ class student_edit_form extends local_mxschool_form {
             ),
             'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
-                'license' => array('element' => 'date_selector', 'parameters' => $dateparameters),
+                'license' => array('element' => 'date_selector', 'options' => $dateoptions),
                 'driving' => self::ELEMENT_YES_NO,
                 'passengers' => self::ELEMENT_YES_NO,
                 'riding' => array('element' => 'radio', 'options' => array('parent', '21', 'any', 'specific')),

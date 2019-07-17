@@ -50,7 +50,7 @@ class tutoring_form extends local_mxschool_form {
             ),
             'info' => array(
                 'tutor' => array('element' => 'select', 'options' => $tutors),
-                'tutoringdate' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year()),
+                'tutoringdate' => array('element' => 'date_selector', 'options' => self::date_options_school_year()),
                 'student' => array('element' => 'select', 'options' => $students)
             ),
             'details' => array(

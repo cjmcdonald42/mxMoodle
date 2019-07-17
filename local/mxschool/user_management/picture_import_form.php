@@ -15,20 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Checkin sheets index page for Middlesex's Dorm and Student Functions Plugin.
+ * Form for bulk importing student pictures for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
- * @subpackage checkin
+ * @subpackage user_management
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(__DIR__.'/../../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
-require_once(__DIR__.'/../locallib.php');
+defined('MOODLE_INTERNAL') || die();
 
-redirect_non_admin();
-admin_externalpage_setup('checkin_index');
-render_index_page('checkin');
+require_once(__DIR__.'/../classes/mx_form.php');
+
+class picture_import_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $fields = array(
+            '' => array(
+                'pictures' => array('element' => 'filemanager', 'options' => array(
+                    'subdirs' => 0, 'accepted_types' => array('.jpg'), 'return_types' => FILE_INTERNAL
+                ))
+            )
+        );
+        $this->set_fields($fields, 'user_management_picture_import');
+    }
+
+}

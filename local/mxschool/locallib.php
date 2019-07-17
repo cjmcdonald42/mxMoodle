@@ -181,6 +181,16 @@ function render_index_page($subpackage, $package = 'mxschool') {
 }
 
 /**
+ * Validates that the current user has admin access.
+ * If the user does not have the site:config capability, they will be redirected to the dashboard.
+ */
+function redirect_non_admin() {
+    if (!has_capability('moodle/site:config', context_system::instance())) {
+        redirect(new moodle_url('/'));
+    }
+}
+
+/**
  * Redirects the user with a notification and logs the event of the redirect.
  *
  * @param moodle_url $url The url to redirect to.
@@ -218,7 +228,7 @@ function logged_redirect($url, $notification, $type, $success = true) {
 function get_fallback_url() {
     global $PAGE;
     return has_capability('moodle/site:config', context_system::instance())
-        ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/my');
+        ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/');
 }
 
 /**

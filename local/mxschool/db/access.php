@@ -47,6 +47,14 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
+    'local/mxschool:manage_student_pictures' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:access_student_pictures' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
     'local/mxschool:view_checkin' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
