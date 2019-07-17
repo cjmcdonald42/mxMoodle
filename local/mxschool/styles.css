@@ -67,6 +67,9 @@ div.mx-table table.generaltable td.mx-red {
 div.legend-table table.generaltable {
     width: auto;
 }
+div.mx-table img.mx-student-picture {
+    width: 128px;
+}
 
 /**
  * Custom Element Styling.
@@ -84,13 +87,13 @@ button.mx-email-button {
  * Print Styling.
  */
 @media print {
-    body.path-local-mxschool {
+    body.mx-page {
         background-color: #fff;
     }
 
-    body.path-local-mxschool .noprint,
-    body.path-local-mxschool header,
-    body.path-local-mxschool footer,
+    body.mx-page .noprint,
+    body.mx-page header,
+    body.mx-page footer,
     div.mx-table nav,
     div.mx-table form.dataformatselector,
     div.mx-form div[data-groupname='buttonar'] {
@@ -98,12 +101,12 @@ button.mx-email-button {
     }
 
     /* Remove border around reports. */
-    body.path-local-mxschool div.card {
+    body.mx-page div.card {
         border: 0;
     }
 
     /* Smaller font size when printing reports. */
-    body.path-local-mxschool h2 {
+    body.mx-page h2 {
         font-size: 1.5rem;
     }
     div.mx-table table.generaltable th,
@@ -112,12 +115,12 @@ button.mx-email-button {
     }
 
     /** Remove excess empty space. */
-    body.path-local-mxschool #page-wrapper,
-    body.path-local-mxschool #page {
+    body.mx-page #page-wrapper,
+    body.mx-page #page {
         margin: 0;
         padding: 0;
     }
-    body.path-local-mxschool #page-wrapper::after {
+    body.mx-page #page-wrapper::after {
         content: none;
     }
 }

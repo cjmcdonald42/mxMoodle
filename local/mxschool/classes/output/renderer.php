@@ -150,4 +150,16 @@ class renderer extends \plugin_renderer_base {
         return parent::render_from_template('local_mxschool/selection_button', $data);
     }
 
+    /**
+     * Renders a student picture according to the template.
+     *
+     * @param student_picture $picture.
+     *
+     * @return string html for the picture.
+     */
+    public function render_student_picture($picture) {
+        $data = $picture->export_for_template($this);
+        return parent::render_from_template('local_mxschool/student_picture', $data);
+    }
+
 }

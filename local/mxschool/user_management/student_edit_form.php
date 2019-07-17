@@ -69,7 +69,8 @@ class student_edit_form extends local_mxschool_form {
                     'element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')
                 ),
                 'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
-                'room' => self::ELEMENT_TEXT
+                'room' => self::ELEMENT_TEXT,
+                'picture' => self::ELEMENT_TEXT
             ),
             'permissions' => array(
                 'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),

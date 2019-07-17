@@ -41,7 +41,7 @@ $queryfields = array(
     'local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
         'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
         'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
-        'dormid' => 'dorm', 'room'
+        'dormid' => 'dorm', 'room', 'picture_filename' => 'picture'
     )),
     'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
         'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
@@ -72,11 +72,11 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $ridingdecode = array(
-        'parent' => 'Parent Permission', '21' => 'Over 21', 'any' => 'Any Driver', 'specific' => 'Specific Drivers'
-    );
     if (!$data->room) {
         $data->room = null;
+    }
+    if (!$data->picture) {
+        $data->picture = null;
     }
     if (!$data->license) {
         $data->license = null;
@@ -84,7 +84,7 @@ if ($form->is_cancelled()) {
     if ($data->riding !== 'specific') {
         $data->ridingcomment = null;
     }
-    $data->riding = $ridingdecode[$data->riding];
+    $data->riding = array_flip($ridingencode)[$data->riding];
     update_record($queryfields, $data);
     logged_redirect($form->get_redirect(), get_string('user_management_student_edit_success', 'local_mxschool'), 'update');
 }

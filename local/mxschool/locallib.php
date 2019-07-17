@@ -38,7 +38,8 @@ require_once(__DIR__.'/classes/output/renderable.php');
  */
 
 /**
- * Sets the url, title, heading, and context of a page as well as logging that the page was visited.
+ * Sets the url, title, heading, and context of a page as well as adding a class to the body element for css.
+ * Also logs that the page was visited.
  * Should be called to initialize all pages.
  *
  * @param string $url The url for the page.
@@ -50,6 +51,7 @@ function setup_generic_page($url, $title) {
     $PAGE->set_context(context_system::instance());
     $PAGE->set_title($title);
     $PAGE->set_heading($title);
+    $PAGE->add_body_class('mx-page');
 
     \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
 }

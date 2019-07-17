@@ -58,5 +58,5 @@ function local_mxschool_pluginfile($course, $cm, $context, $filearea, $args, $fo
         return false;
     }
 
-    send_stored_file($file, 0, 0, $forcedownload, $options);
+    send_stored_file($file, 86400, 0, $forcedownload, $options); // 86400 for cache lifetime of 1 day.
 }

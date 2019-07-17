@@ -229,5 +229,20 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019071700, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019071703) {
+
+        // Define field picture_filename to be added to local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('picture_filename', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'birthday');
+
+        // Conditionally launch add field picture_filename.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071703, 'local', 'mxschool');
+    }
+
     return true;
 }

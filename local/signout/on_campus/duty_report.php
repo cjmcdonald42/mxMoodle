@@ -42,6 +42,7 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 setup_mxschool_page('duty_report', 'on_campus', 'signout');
 $refresh = get_config('local_signout', 'on_campus_refresh_rate');
 if ($refresh) {
+    $PAGE->set_url(new moodle_url($PAGE->url, (array) $filter));
     $PAGE->set_periodic_refresh_delay((int) $refresh);
 }
 
