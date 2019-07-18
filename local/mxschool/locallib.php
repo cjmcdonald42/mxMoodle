@@ -187,7 +187,7 @@ function render_index_page($subpackage, $package = 'mxschool') {
  * If the user does not have the site:config capability, they will be redirected to the dashboard.
  */
 function redirect_non_admin() {
-    if (!has_capability('moodle/site:config', context_system::instance())) {
+    if (!user_is_admin()) {
         redirect(new moodle_url('/'));
     }
 }
@@ -229,8 +229,7 @@ function logged_redirect($url, $notification, $type, $success = true) {
  */
 function get_fallback_url() {
     global $PAGE;
-    return has_capability('moodle/site:config', context_system::instance())
-        ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/');
+    return user_is_admin() ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/');
 }
 
 /**
@@ -554,6 +553,16 @@ function convert_associative_to_object($list) {
  */
 
 /**
+ * Determines whether the current user has admin capabilities.
+ * This function is probably unncessary, but it does make the code more compact and readable in many places.
+ *
+ * @return bool Whether the user has admin capabilities.
+ */
+function user_is_admin() {
+    return has_capability('moodle/site:config', context_system::instance());
+}
+
+/**
  * Determines whether the current user is a student.
  * If this fuction returns true, it is safe to use $USER->id to reference the current student's user id.
  *
@@ -618,6 +627,7 @@ function student_may_access_vacation_travel($userid) {
 
 /**
  * Determines the dorm id to display for a faculty.
+ *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'dorm' GET parameter, if the id is valid.
  * 2) The dorm of the currently logged in faculty member, if it exists.
@@ -652,6 +662,7 @@ function get_param_faculty_dorm($includeday = true) {
 
 /**
  * Determines the date to be selected.
+ *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
@@ -668,6 +679,7 @@ function get_param_current_date() {
 
 /**
  * Determines the weekend id to be selected.
+ *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'weekend' GET parameter.
  * 2) The current or upcoming weekend (resets Wednesday 0:00:00).
@@ -717,6 +729,7 @@ function get_param_current_weekend() {
 
 /**
  * Determines the semester ('1' or '2') to be selected.
+ *
  * The priorities of this function are as follows:
  * 1) A value specified as a 'semester' GET parameter.
  * 2) The current semster.

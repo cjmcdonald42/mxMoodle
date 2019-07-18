@@ -42,9 +42,7 @@ class block_mxschool_dorm_student extends block_base {
         }
 
         $this->content = new stdClass();
-        if (has_capability('moodle/site:config', context_system::instance()) || (
-            user_is_student() && student_may_access_weekend($USER->id))
-        ) {
+        if (user_is_admin() || (user_is_student() && student_may_access_weekend($USER->id))) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new \local_mxschool\output\index(array(
                 get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',

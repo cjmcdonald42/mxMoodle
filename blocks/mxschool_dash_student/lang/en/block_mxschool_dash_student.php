@@ -25,11 +25,15 @@
  */
 
 $string['pluginname'] = 'Student Dashboard Block';
-$string['blockname'] = 'Middlesex';
+$string['blockname'] = 'Middlesex eSignout';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Student Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Student Block to Dashboard';
 
-$string['off_campus_form'] = 'Sign Out Off-Camups';
-$string['off_campus_report'] = 'Sign In or Modify Off-Campus';
-$string['on_campus_form'] = 'Sign Out On-Campus';
-$string['on_campus_report'] = 'Sign In On-Campus';
+$string['state_text_in'] = 'You are currently signed in.';
+$string['state_text_out'] = 'You are currently signed out to {$a}.';
+$string['on_campus_button_signout'] = 'Sign Out On Campus';
+$string['off_campus_button_signout'] = 'Sign Out Off Campus';
+$string['on_campus_button_edit'] = 'Change Location';
+$string['off_campus_button_edit'] = 'Edit Signout';
+$string['on_campus_button_signin'] = 'Sign In to Dorm';
+$string['off_campus_button_signin'] = 'Sign In';

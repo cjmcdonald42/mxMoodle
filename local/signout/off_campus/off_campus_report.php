@@ -32,10 +32,7 @@ require_once(__DIR__.'/../../mxschool/classes/mx_dropdown.php');
 require_once(__DIR__.'/off_campus_table.php');
 
 require_login();
-$isstudent = user_is_student();
-if (!$isstudent) {
-    require_capability('local/signout:manage_off_campus', context_system::instance());
-}
+require_capability('local/signout:manage_off_campus', context_system::instance());
 
 $filter = new stdClass();
 $filter->type = optional_param('type', '', PARAM_RAW);
@@ -70,16 +67,12 @@ if ($action === 'delete' && $id) {
 
 $dates = get_off_campus_date_list();
 
-$table = new off_campus_table($filter, $isstudent);
+$table = new off_campus_table($filter);
 
 $dropdowns = array(
-    new local_mxschool_dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout'))
+    new local_mxschool_dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')),
+    new local_mxschool_dropdown('date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout'))
 );
-if (!$isstudent) {
-    $dropdowns[] = new local_mxschool_dropdown(
-        'date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout')
-    );
-}
 $addbutton = new stdClass();
 $addbutton->text = get_string('off_campus_report_add', 'local_signout');
 $addbutton->url = new moodle_url('/local/signout/off_campus/off_campus_enter.php');
@@ -89,11 +82,5 @@ $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdo
 
 echo $output->header();
 echo $output->heading($PAGE->title);
-if (
-    $isstudent && get_config('local_signout', 'off_campus_form_ipenabled')
-    && $_SERVER['REMOTE_ADDR'] !== get_config('local_signout', 'school_ip')
-) {
-    echo $output->heading(get_config('local_signout', 'off_campus_report_iperror'));
-}
 echo $output->render($renderable);
 echo $output->footer();

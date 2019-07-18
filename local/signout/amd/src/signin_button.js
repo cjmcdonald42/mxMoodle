@@ -25,24 +25,19 @@
  */
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
-    function signin(event) {
-        var element = $(event.target);
+    function signin() {
         var promises = ajax.call([{
             methodname: 'local_signout_sign_in',
-            args: {
-                id: element.val(),
-                table: element.attr('name')
-            }
+            args: {}
         }]);
-        promises[0].done(function(data) {
-            element.hide('slow', function() {
-                element.parent().html('&#x2705;');
-            });
-            element.parent().parent().find('td.sign-in').text(data);
+        promises[0].done(function(result) {
+            if (result) {
+                location.reload();
+            }
         }).fail(notification.exception);
     }
-    return function(value, name) {
-        var element = $('.mx-signin-button[value="' + value + '"][name="' + name + '"]');
+    return function() {
+        var element = $('.mx-signin-button');
         element.click(signin);
     };
 });

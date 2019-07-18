@@ -32,10 +32,7 @@ require_once(__DIR__.'/../../mxschool/classes/mx_dropdown.php');
 require_once(__DIR__.'/on_campus_table.php');
 
 require_login();
-$isstudent = user_is_student();
-if (!$isstudent) {
-    require_capability('local/signout:manage_on_campus', context_system::instance());
-}
+require_capability('local/signout:manage_on_campus', context_system::instance());
 
 $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm(false);
@@ -72,19 +69,15 @@ if ($action === 'delete' && $id) {
 $dorms = get_boarding_dorm_list();
 $dates = get_on_campus_date_list();
 
-$table = new on_campus_table($filter, $isstudent);
+$table = new on_campus_table($filter);
 
 $dropdowns = array(
     local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool_dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
-    )
+    ),
+    new local_mxschool_dropdown('date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout'))
 );
-if (!$isstudent) {
-    $dropdowns[] = new local_mxschool_dropdown(
-        'date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout')
-    );
-}
 $addbutton = new stdClass();
 $addbutton->text = get_string('on_campus_report_add', 'local_signout');
 $addbutton->url = new moodle_url('/local/signout/on_campus/on_campus_enter.php');
@@ -96,11 +89,5 @@ echo $output->header();
 echo $output->heading(
     get_string('on_campus_report_title', 'local_signout', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
 );
-if (
-    $isstudent && get_config('local_signout', 'on_campus_form_ipenabled')
-    && $_SERVER['REMOTE_ADDR'] !== get_config('local_signout', 'school_ip')
-) {
-    echo $output->heading(get_config('local_signout', 'on_campus_report_iperror'));
-}
 echo $output->render($renderable);
 echo $output->footer();

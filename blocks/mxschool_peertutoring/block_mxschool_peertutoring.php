@@ -43,9 +43,7 @@ class block_mxschool_peertutoring extends block_base {
         }
 
         $this->content = new stdClass();
-        if (has_capability('moodle/site:config', context_system::instance()) || (
-            user_is_student() && student_may_access_tutoring($USER->id))
-        ) {
+        if (user_is_admin() || (user_is_student() && student_may_access_tutoring($USER->id))) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new \local_mxschool\output\index(array(
                 get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'

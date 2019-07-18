@@ -151,6 +151,18 @@ class renderer extends \plugin_renderer_base {
     }
 
     /**
+     * Renders a redirect button according to the template.
+     *
+     * @param redirect_button $button.
+     *
+     * @return string html for the button.
+     */
+    public function render_redirect_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template('local_mxschool/redirect_button', $data);
+    }
+
+    /**
      * Renders a student picture according to the template.
      *
      * @param student_picture $picture.
