@@ -48,10 +48,12 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM
     ),
     'local/mxschool:manage_student_pictures' => array(
+        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
     'local/mxschool:access_student_pictures' => array(
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
     ),

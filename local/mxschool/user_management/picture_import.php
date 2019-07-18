@@ -46,7 +46,12 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     file_save_draft_area_files($data->pictures, 1, 'local_mxschool', 'student_pictures', 0);
-    logged_redirect($form->get_redirect(), get_string('user_management_picture_import_success', 'local_mxschool'), 'create');
+    if ($data->clear) {
+        clear_student_pictures();
+        logged_redirect($PAGE->url, get_string('user_management_picture_delete_success', 'local_mxschool'), 'delete');
+    } else {
+        logged_redirect($form->get_redirect(), get_string('user_management_picture_import_success', 'local_mxschool'), 'create');
+    }
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

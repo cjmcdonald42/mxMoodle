@@ -37,12 +37,19 @@ class picture_import_form extends local_mxschool_form {
     protected function definition() {
         $fields = array(
             '' => array(
+                'clear' => array(
+                    'element' => 'advcheckbox', 'name' => null,
+                    'text' => get_string('user_management_picture_import_clear', 'local_mxschool')
+                ),
                 'pictures' => array('element' => 'filemanager', 'options' => array(
                     'subdirs' => 0, 'accepted_types' => array('.jpg'), 'return_types' => FILE_INTERNAL
                 ))
             )
         );
         $this->set_fields($fields, 'user_management_picture_import');
+
+        $mform = $this->_form;
+        $mform->hideIf('pictures', 'clear', 'checked');
     }
 
 }

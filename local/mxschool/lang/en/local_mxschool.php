@@ -133,6 +133,7 @@ $string['user_management_dorm_delete_success'] = 'Dorm Record Deleted Successful
 $string['user_management_dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
 $string['user_management_vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
 $string['user_management_vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
+$string['user_management_picture_delete_success'] = 'Student Pictures Deleted Successfully';
 $string['checkin_weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
 $string['checkin_weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
 $string['vacation_travel_site_delete_success'] = 'Vacation Travel Site Record Deleted Successfully';
@@ -310,6 +311,7 @@ $string['user_management_vehicle_edit_color'] = 'Color';
 $string['user_management_vehicle_edit_registration'] = 'Vehicle Registration';
 
 // Picture Import.
+$string['user_management_picture_import_clear'] = 'Select to Delete all Student Picture Records from the Database';
 $string['user_management_picture_import_pictures'] = 'Select Pictures to Import';
 
 

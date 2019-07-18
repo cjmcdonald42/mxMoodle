@@ -346,6 +346,17 @@ function update_notification($class, $subject, $body) {
 }
 
 /**
+ * Deletes all student picture files.
+ */
+function clear_student_pictures() {
+    $fs = get_file_storage();
+    $files = $fs->get_area_files(1, 'local_mxschool', 'student_pictures', 0);
+    foreach ($files as $file) {
+        $file->delete();
+    }
+}
+
+/**
  * ===============================================
  * DateTime Abstractions and Formatting Functions.
  * ===============================================
