@@ -29,9 +29,6 @@ require('PATH_TO_PLUGIN_HOME/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once('PATH_TO_PLUGIN_HOME/locallib.php');
 
-if (!has_capability('moodle/site:config', context_system::instance())) {
-    redirect(new moodle_url('/my'));
-}
-
+redirect_non_admin();
 admin_externalpage_setup('PAGE_NAME');
 render_index_page('SUBPACKAGE_NAME');
