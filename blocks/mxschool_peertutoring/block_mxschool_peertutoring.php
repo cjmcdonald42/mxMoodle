@@ -42,16 +42,14 @@ class block_mxschool_peertutoring extends block_base {
             return $this->content;
         }
 
-        $links = has_capability('moodle/site:config', context_system::instance())
-            || (user_is_student() && student_may_access_tutoring($USER->id)) ? array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'
-        ) : array();
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index($links);
-
         $this->content = new stdClass();
-        if (count($links)) {
+        if (has_capability('moodle/site:config', context_system::instance()) || (
+            user_is_student() && student_may_access_tutoring($USER->id))
+        ) {
+            $output = $PAGE->get_renderer('local_mxschool');
+            $renderable = new \local_mxschool\output\index(array(
+                get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'
+            ));
             $this->content->text = $output->render($renderable);
         }
 

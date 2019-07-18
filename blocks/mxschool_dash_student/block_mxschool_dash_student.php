@@ -41,20 +41,19 @@ class block_mxschool_dash_student extends block_base {
             return $this->content;
         }
 
-        $links = has_capability('moodle/site:config', context_system::instance())
-                 || (user_is_student() && student_may_access_esignout($USER->id)) ? array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('esignout_form', 'block_mxschool_dash_student') => '/local/mxschool/esignout/esignout_enter.php',
-            get_string('esignout_report', 'block_mxschool_dash_student') => '/local/mxschool/esignout/esignout_report.php'
-        ) : array();
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index($links);
-
         $this->content = new stdClass();
-        if (count($links)) {
+        if (has_capability('moodle/site:config', context_system::instance()) || (
+            user_is_student() && student_may_access_esignout($USER->id)
+        )) {
+            $output = $PAGE->get_renderer('local_mxschool');
+            $renderable = new \local_mxschool\output\index(array(
+                get_string('off_campus_form', 'block_mxschool_dash_student') => '/local/signout/off_campus/off_campus_enter.php',
+                get_string('off_campus_report', 'block_mxschool_dash_student') => '/local/signout/off_campus/off_campus_report.php',
+                get_string('on_campus_form', 'block_mxschool_dash_student') => '/local/signout/on_campus/on_campus_enter.php',
+                get_string('on_campus_report', 'block_mxschool_dash_student') => '/local/signout/on_campus/on_campus_report.php'
+            ));
             $this->content->text = $output->render($renderable);
         }
-
         return $this->content;
     }
 

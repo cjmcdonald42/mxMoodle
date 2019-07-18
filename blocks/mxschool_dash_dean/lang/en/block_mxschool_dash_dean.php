@@ -43,10 +43,6 @@ $string['checkin_weekday_report'] = 'Weekday Check-In Sheet';
 $string['checkin_weekend_report'] = 'Weekend Check-In Sheet';
 $string['checkin_weekend_calculator'] = 'Weekend Calculator';
 
-$string['esignout_menu'] = 'eSignout Module';
-$string['esignout_report'] = 'eSignout Report';
-$string['esignout_preferences'] = 'eSignout Preferences';
-
 $string['advisor_selection_menu'] = 'Advisor Selection Module';
 $string['advisor_selection_report'] = 'Advisor Selection Report';
 $string['advisor_selection_preferences'] = 'Advisor Selection Preferences';
@@ -59,3 +55,10 @@ $string['vacation_travel_menu'] = 'Vacation Travel Module';
 $string['vacation_travel_report'] = 'Vacation Travel Report';
 $string['vacation_travel_transportation_report'] = 'Transportation Report';
 $string['vacation_travel_preferences'] = 'Vacation Travel Preferences';
+
+$string['esignout_menu'] = 'eSignout Module';
+$string['off_campus_report'] = 'Off-Campus Report';
+$string['off_campus_preferences'] = 'Off-Campus Preferences';
+$string['on_campus_report'] = 'On-Campus Report';
+$string['duty_report'] = 'On-Campus Duty Report';
+$string['on_campus_preferences'] = 'On-Campus Preferences';

@@ -50,10 +50,9 @@ class vacation_form extends local_mxschool_form {
         $fields = array(
             '' => array(
                 'id' => self::ELEMENT_HIDDEN_INT,
-                'dep_id' => self::ELEMENT_HIDDEN_INT,
-                'ret_id' => self::ELEMENT_HIDDEN_INT,
                 'timecreated' => self::ELEMENT_HIDDEN_INT,
-                'isstudent' => self::ELEMENT_HIDDEN_INT
+                'isstudent' => self::ELEMENT_HIDDEN_INT,
+                'dep_id' => self::ELEMENT_HIDDEN_INT
             ),
             'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
@@ -74,6 +73,7 @@ class vacation_form extends local_mxschool_form {
                 'dep_international' => self::ELEMENT_BOOLEAN
             ));
         if ($this->returnenabled) {
+            $fields['']['ret_id'] = self::ELEMENT_HIDDEN_INT;
             $fields['return'] = array(
                 'ret_mxtransportation' => self::ELEMENT_BOOLEAN,
                 'ret_type' => array('element' => 'radio', 'options' => $types),

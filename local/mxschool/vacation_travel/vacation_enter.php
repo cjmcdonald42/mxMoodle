@@ -71,19 +71,27 @@ if ($id) {
     }
     if ($returnenabled) {
         $returndata = get_record($transportqueryfields, 'dr.id = ?', array($data->returnid));
-        foreach ($returndata as $key => $value) {
-            $data->{"ret_{$key}"} = $value;
-        }
-        if (!isset($data->ret_mxtransportation)) {
+        if ($returndata) {
+            foreach ($returndata as $key => $value) {
+                $data->{"ret_{$key}"} = $value;
+            }
+            if (!isset($data->ret_mxtransportation)) {
+                $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
+            }
+            if (!isset($data->ret_international)) {
+                $data->ret_international = '-1'; // Invalid default to prevent auto selection.
+            }
+        } else {
+            $data->ret_id = '0';
             $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
-        }
-        if (!isset($data->ret_international)) {
+            $data->ret_site = '-1'; // Invalid default to prevent auto selection.
+            $data->ret_variable_date = time();
             $data->ret_international = '-1'; // Invalid default to prevent auto selection.
         }
     }
 } else {
     $data = new stdClass();
-    $data->id = $id;
+    $data->id = $data->dep_id = $data->ret_id = $id;
     $data->timecreated = time();
     $data->dep_mxtransportation = '-1'; // Invalid default to prevent auto selection.
     $data->dep_site = '-1'; // Invalid default to prevent auto selection.

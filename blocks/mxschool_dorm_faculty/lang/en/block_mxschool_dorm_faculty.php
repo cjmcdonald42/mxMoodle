@@ -37,6 +37,8 @@ $string['weekend_checkin'] = 'Weekend';
 $string['weekend_calculator'] = 'Weekend Calculator';
 
 $string['other_heading'] = 'Data and Reports';
-$string['esignout_report'] = 'eSignout Report';
+$string['off_campus_report'] = 'Off-Campus Report';
+$string['on_campus_report'] = 'On-Campus Report';
+$string['duty_report'] = 'On-Campus Duty Report';
 $string['vacation_report'] = 'Vacation Travel Report';
 $string['manage_student_data'] = 'Student Data Report';

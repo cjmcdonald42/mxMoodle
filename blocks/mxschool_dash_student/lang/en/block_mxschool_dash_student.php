@@ -29,5 +29,7 @@ $string['blockname'] = 'Middlesex';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Student Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Student Block to Dashboard';
 
-$string['esignout_form'] = 'Sign Out';
-$string['esignout_report'] = 'Sign In or Modify';
+$string['off_campus_form'] = 'Sign Out Off-Camups';
+$string['off_campus_report'] = 'Sign In or Modify Off-Campus';
+$string['on_campus_form'] = 'Sign Out On-Campus';
+$string['on_campus_report'] = 'Sign In On-Campus';
