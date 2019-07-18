@@ -27,6 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../mxschool/locallib.php');
+require_once(__DIR__.'/../mxschool/classes/event/record_updated.php');
 
 /**
  * =================================
@@ -59,6 +60,18 @@ function student_may_access_on_campus_signout($userid) {
 }
 
 /**
+ * Determines whether the current user can access a page or service that is IP protected.
+ *
+ * @param string $subpackage The name of the subpackage whose config will be checked.
+ * @return bool A value of true if ip validation is turned off or the current user is on the correct network,
+ *              a value of false otherwise.
+ */
+function validate_ip($subpackage) {
+    return !get_config('local_signout', "{$subpackage}_form_ipenabled")
+               || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip');
+}
+
+/**
  * ====================================
  * URL Parameter Querying Abstractions.
  * ====================================
@@ -66,6 +79,7 @@ function student_may_access_on_campus_signout($userid) {
 
 /**
  * Determines the date to be selected which corresponds to an existing off-campus signout record.
+ *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
@@ -89,6 +103,7 @@ function get_param_current_date_off_campus() {
 
 /**
  * Determines the date to be selected which corresponds to an existing on-campus signout record.
+ *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
  * 2) The current or date.
@@ -341,7 +356,7 @@ function get_driver_inheritable_fields($offcampusid) {
     global $DB;
     $record = $DB->get_record('local_signout_off_campus', array('id' => $offcampusid));
     if (!$record || $record->type !== 'Driver') {
-        throw new coding_exception("off-campus signout record with id {$offcampusid) is not a driver");
+        throw new coding_exception("off-campus signout record with id {$offcampusid} is not a driver");
     }
     $result = new stdClass();
     $result->destination = $record->destination;
@@ -352,4 +367,115 @@ function get_driver_inheritable_fields($offcampusid) {
     $result->departureminute = "{$minute}";
     $result->departureampm = $departuretime->format('A') === 'PM';
     return $result;
+}
+
+/**
+ * Determines the timestamp at which an off-campus record can no longer be edited by the student who created it.
+ *
+ * @param int $timecreated The timestamp of the time when the record was created.
+ * @return int The timestamp at which the student can no longer edit the record.
+ */
+function get_edit_cutoff($timecreated) {
+    $editwindow = get_config('local_signout', 'off_campus_edit_window');
+    $editcutoff = generate_datetime($timecreated);
+    $editcutoff->modify("+{$editwindow} minutes");
+    return $editcutoff->getTimestamp();
+}
+
+/**
+ * Queries the database to determine where the currently logged-in student is signed out to.
+ *
+ * The priorities of this function are as follows:
+ * 1) The student's most recent on-campus record which has not been signed in, if the student may access on-campus signout.
+ * 2) The student's least recent off-campus record which has not been signed in, if the student may access off-campus signout.
+ * If neither of these options exist, a value of false will be returned.
+ *
+ * NOTE: It should not be possible for a student to have an off-campus record and another signout record active simultaneously,
+ *       but this function is designed to handle such a scenario should it occur.
+ *
+ * @return stdClass|bool Object with properties type and location if the student has an active signout record,
+ *                       otherwise a value of false.
+ */
+function get_user_current_signout() {
+    global $DB, $USER;
+    if (!user_is_student()) {
+        return false;
+    }
+    $result = new stdClass();
+    if (student_may_access_on_campus_signout()) {
+        $record = $DB->get_record_sql(
+            "SELECT l.name AS location, oc.other
+             FROM {local_signout_on_campus} oc LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
+             WHERE oc.userid = ? AND sign_in_time = NULL
+             ORDER BY oc.time_created DESC", array($USER->id), IGNORE_MULTIPLE
+        );
+        if ($record) {
+            $result->type = 'on_campus';
+            $result->location = $record->location ?? $record->other;
+        }
+    }
+    if (student_may_access_off_campus_signout()) {
+        $destination = $DB->get_field_sql(
+            "SELECT oc.destination
+             FROM {local_signout_off_campus} oc
+             WHERE oc.userid = ? AND sign_in_time = NULL
+             ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
+        );
+        if ($destination) {
+            $result->type = 'off_campus';
+            $result->location = $destination;
+        }
+    }
+    return $result ?: false;
+}
+
+/**
+ * Signs in the appropriate record(s) for the currently logged-in student.
+ * Sign in will fail if the student is not connected to the Middlesex network and the config flags this as necessary.
+ *
+ * The function will sign in one of the following options:
+ * 1) All of the student's on-campus records which have not been signed in, if the student may access on-campus signout.
+ * 2) The student's least recent off-campus record which has not been signed in, if the student may access off-campus signout.
+ * If neither of these options exist, a value of false will be returned.
+ *
+ * NOTE: It should not be possible for a student to have an off-campus record and another signout record active simultaneously,
+ *       but this function is designed to handle such a scenario should it occur.
+ *
+ * @return bool A value of true if sign in occurs successfully, a value of false if no records are found to sign in.
+ */
+function sign_in_user() {
+    global $DB, $USER;
+    $currentsignout = get_user_current_signout();
+    if (!$currentsignout || !validate_ip($currentsignout->type)) {
+        return false;
+    }
+    if ($currentsignout->type === 'on_campus') {
+        $records = $DB->get_records('local_signout_on_campus', array('userid' => $USER->id, 'sign_in_time' => null));
+        if (!$records) {
+            return false;
+        }
+        foreach ($records as $record) {
+            $record->sign_in_time = $record->time_modified = time();
+            $DB->update_record('local_signout_on_campus', $record);
+        }
+        \local_mxschool\event\record_updated::create(array('other' => array(
+            'page' => get_string('on_campus_form', 'local_signout')
+        )))->trigger();
+    } else {
+        $record = $DB->get_record_sql(
+            "SELECT *
+             FROM {local_signout_off_campus} oc
+             WHERE oc.userid = ? AND sign_in_time = NULL
+             ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
+        );
+        if (!$record) {
+            return false;
+        }
+        $record->sign_in_time = $record->time_modified = time();
+        $DB->update_record('local_signout_off_campus', $record);
+        \local_mxschool\event\record_updated::create(array('other' => array(
+            'page' => get_string('off_campus_form', 'local_signout')
+        )))->trigger();
+    }
+    return true;
 }

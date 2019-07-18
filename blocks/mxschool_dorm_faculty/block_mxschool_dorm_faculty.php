@@ -40,25 +40,36 @@ class block_mxschool_dorm_faculty extends block_base {
             return $this->content;
         }
 
-        $output = $PAGE->get_renderer('local_mxschool');
-        $eventrenderable = new \local_mxschool\output\index(array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('checkin_sheet', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/generic_report.php',
-            get_string('weekday_checkin', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/weekday_report.php',
-            get_string('weekend_checkin', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/weekend_report.php',
-            get_string('weekend_calculator', 'block_mxschool_dorm_faculty') => '/local/mxschool/checkin/weekend_calculator.php'
-        ), get_string('event_heading', 'block_mxschool_dorm_faculty'));
-
-        $otherrenderable = new \local_mxschool\output\index(array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('esignout_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/esignout/esignout_report.php',
-            get_string('vacation_report', 'block_mxschool_dorm_faculty') => '/local/mxschool/vacation_travel/vacation_report.php',
-            get_string('manage_student_data', 'block_mxschool_dorm_faculty') => '/local/mxschool/user_management/student_report.php'
-        ), get_string('other_heading', 'block_mxschool_dorm_faculty'));
-
         $this->content = new stdClass();
         if (has_capability('block/mxschool_dorm_faculty:access', context_system::instance())) {
-            $this->content->text = $output->render($eventrenderable).$output->render($otherrenderable);
+            $output = $PAGE->get_renderer('local_mxschool');
+            $renderables = array(
+                new \local_mxschool\output\index(array(
+                    get_string('checkin_sheet', 'block_mxschool_dorm_faculty')
+                        => '/local/mxschool/checkin/generic_report.php',
+                    get_string('weekday_checkin', 'block_mxschool_dorm_faculty')
+                        => '/local/mxschool/checkin/weekday_report.php',
+                    get_string('weekend_checkin', 'block_mxschool_dorm_faculty')
+                        => '/local/mxschool/checkin/weekend_report.php',
+                    get_string('weekend_calculator', 'block_mxschool_dorm_faculty')
+                        => '/local/mxschool/checkin/weekend_calculator.php'
+                ), get_string('event_heading', 'block_mxschool_dorm_faculty')),
+                new \local_mxschool\output\index(array(
+                    get_string('off_campus_report', 'block_mxschool_dorm_faculty')
+                        => '/local/signout/off_campus/off_campus_report.php',
+                    get_string('on_campus_report', 'block_mxschool_dorm_faculty')
+                        => '/local/signout/on_campus/on_campus_report.php',
+                    get_string('duty_report', 'block_mxschool_dorm_faculty')
+                        => '/local/signout/on_campus/duty_report.php',
+                    get_string('vacation_report', 'block_mxschool_dorm_faculty')
+                        => '/local/mxschool/vacation_travel/vacation_report.php',
+                    get_string('manage_student_data', 'block_mxschool_dorm_faculty')
+                        => '/local/mxschool/user_management/student_report.php'
+                ), get_string('other_heading', 'block_mxschool_dorm_faculty'))
+            );
+            $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
+                return $html . $output->render($renderable);
+            }, '');
         }
 
         return $this->content;

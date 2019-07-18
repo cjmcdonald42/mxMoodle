@@ -40,14 +40,13 @@ class block_mxschool_manage_transportation extends block_base {
             return $this->content;
         }
 
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index(array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('tranportation_manage', 'block_mxschool_manage_transportation') => '/local/mxschool/vacation_travel/transportation_report.php'
-        ));
-
         $this->content = new stdClass();
         if (has_capability('block/mxschool_manage_transportation:access', context_system::instance())) {
+            $output = $PAGE->get_renderer('local_mxschool');
+            $renderable = new \local_mxschool\output\index(array(
+                get_string('tranportation_manage', 'block_mxschool_manage_transportation')
+                    => '/local/mxschool/vacation_travel/transportation_report.php'
+            ));
             $this->content->text = $output->render($renderable);;
         }
 

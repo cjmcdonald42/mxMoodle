@@ -492,6 +492,45 @@ class selection_button implements renderable, templatable {
 }
 
 /**
+ * Renderable class for redirect buttons.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class redirect_button implements renderable, templatable {
+
+    /** @var moodle_url The url to redirect to.*/
+    private $url;
+    /** @var string The text to display on the button.*/
+    private $displaytext;
+
+    /**
+     * @param moodle_url $url The url to redirect to.
+     * @param string $displaytext The text to display on the button.
+     */
+    public function __construct($url, $displaytext) {
+        $this->url = $url;
+        $this->displaytext = $displaytext;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties url and displaytext.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->url = $this->url->out();
+        $data->displaytext = $this->displaytext;
+        return $data;
+    }
+
+}
+
+/**
  * Renderable class for student directory pictures.
  *
  * @package    local_mxschool

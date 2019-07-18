@@ -91,10 +91,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_signout/on_campus_form');
 
 echo $output->header();
-if (
-    !$isstudent || !get_config('local_signout', 'on_campus_form_ipenabled')
-    || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
-) {
+if (!$isstudent || validate_ip('on_campus')) {
     echo $output->heading(
         $isstudent ? get_string('on_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );

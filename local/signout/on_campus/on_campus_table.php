@@ -32,18 +32,13 @@ require_once(__DIR__.'/../classes/output/renderable.php');
 
 class on_campus_table extends local_mxschool_table {
 
-    /** @var bool Whether the user is a student and only their records should be displayed. */
-    private $isstudent;
-
     /**
      * Creates a new on_campus_table.
      *
      * @param stdClass $filter any filtering for the table - could include properties dorm, location, date, and search.
-     * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
-    public function __construct($filter, $isstudent) {
+    public function __construct($filter) {
         global $USER;
-        $this->isstudent = $isstudent;
         $columns = array('student', 'grade', 'dorm', 'location', 'signoutdate', 'signouttime', 'confirmation', 'signin');
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
@@ -53,9 +48,6 @@ class on_campus_table extends local_mxschool_table {
         }
         if ($filter->date) {
             unset($columns[array_search('signoutdate', $columns)]);
-        }
-        if ($isstudent) {
-            unset($columns[array_search('confirmation', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'on_campus_report', 'local_signout');
         $sortable = array($filter->date ? 'signouttime' : 'signoutdate', 'student', 'grade', 'dorm', 'location');
@@ -85,10 +77,6 @@ class on_campus_table extends local_mxschool_table {
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
             array_push($where, "oc.time_created >= {$starttime->getTimestamp()}", "oc.time_created < {$endtime->getTimestamp()}");
-        }
-        if ($isstudent) {
-            $starttime = generate_datetime('midnight')->getTimestamp();
-            array_push($where, "oc.userid = {$USER->id}", "oc.time_created >= {$starttime}");
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
@@ -151,23 +139,7 @@ class on_campus_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        global $PAGE;
-        if (!$this->isstudent) {
-            return $this->edit_icon('/local/signout/on_campus/on_campus_enter.php', $values->id)
-                . $this->delete_icon($values->id);
-        }
-        if ($values->signin) {
-            return '&#x2705;';
-        }
-        $output = $PAGE->get_renderer('local_signout');
-        $renderable = new \local_signout\output\signin_button($values->id, 'local_signout_on_campus');
-        if (
-            !get_config('local_signout', 'on_campus_form_ipenabled')
-            || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
-        ) {
-            return $output->render($renderable);
-        }
-        return '-';
+        return $this->edit_icon('/local/signout/on_campus/on_campus_enter.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

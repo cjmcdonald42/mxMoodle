@@ -27,7 +27,6 @@
 $string['pluginname'] = 'Middlesex School Electronic Signout';
 
 /* General */
-$string['sign_in_button'] = 'Sign In';
 $string['confirmation_button'] = 'Confirm';
 
 // Capabilities.
@@ -82,7 +81,6 @@ $string['off_campus_preferences_notifications_tags'] = 'Available Tags';
 $string['off_campus_preferences_notifications_subject'] = 'Subject for Off-Campus Signout Form Submitted Email';
 $string['off_campus_preferences_notifications_body'] = 'Body for Off-Campus Signout Form Submitted Email';
 $string['off_campus_preferences_text_ipformerror'] = 'Text to Display in Off-Campus Signout Form When on the Wrong Network';
-$string['off_campus_preferences_text_ipreporterror'] = 'Text to Display in Off-Campus Signout Report When on the Wrong Network';
 $string['off_campus_preferences_text_passengerinstructions'] = 'Instructions Regarding Selecting a Driver';
 $string['off_campus_preferences_text_bottominstructions'] = 'Instructions at the Bottom of the Off-Campus Signout Form';
 $string['off_campus_preferences_text_nopassengers'] = 'Warning for a Student Who May Not Drive Passengers';
@@ -156,7 +154,6 @@ $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable 
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
 $string['on_campus_preferences_config_refresh'] = 'How often the On-Campus reports should refresh (seconds)<br>Leave blank to disable auto-refresh';
 $string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
-$string['on_campus_preferences_text_ipreporterror'] = 'Text to Display in On-Campus Signout Report When on the Wrong Network';
 $string['on_campus_preferences_text_warning'] = 'Warning for an 11th Grade Student Who Selects an \'Other\' Location';
 $string['on_campus_preferences_text_confirmation'] = 'Confirmation for a Student with a Warning';
 

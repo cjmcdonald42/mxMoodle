@@ -27,8 +27,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_peertutoring';
-$plugin->version = 2019010100;
-$plugin->release = 'v3.0';
+$plugin->version = 2019071801;
+$plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2019010100, 'local_peertutoring' => 2019010100);
+$plugin->dependencies = array(
+    'local_mxschool' => 2019071802, // Mxschool as dependency in order to use renderer.
+    'local_peertutoring' => 2019071800 // Peertutoring as dependency to link to pages.
+);

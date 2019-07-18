@@ -183,46 +183,17 @@ class local_signout_external extends external_api {
      * @return external_function_parameters Object holding array of parameters for the sign_in() function.
      */
     public static function sign_in_parameters() {
-        return new external_function_parameters(array(
-            'id' => new external_value(PARAM_INT, 'The id of the record to sign in.'),
-            'table' => new external_value(PARAM_TEXT, 'The table of the record to sign in.')
-        ));
+        return new external_function_parameters();
     }
 
     /**
      * Signs in an eSignout record and records the timestamp.
      *
-     * @param int $id The id of the record to sign in.
-     * @param string $table The table of the record to sign in.
-     * @return string The text to display for the sign-in time.
-     * @throws coding_exception If the table is invalid or
-     *                          if the eSignout record does not exist, doesn't belong to this user, or has already been signed in.
+     * @return bool A value of true if sign in occurs successfully, a value of false if no records are found to sign in.
      */
-    public static function sign_in($id, $table) {
+    public static function sign_in() {
         external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::sign_in_parameters(), array('id' => $id, 'table' => $table));
-
-        global $DB, $USER;
-        switch ($params['table']) {
-            case 'local_signout_off_campus':
-                $page = get_string('off_campus_report', 'local_signout');
-                break;
-            case 'local_signout_on_campus':
-                $page = get_string('on_campus_report', 'local_signout');
-                break;
-            default:
-                throw new coding_exception("Unsupported table: {$params['table']}.");
-        }
-        $record = $DB->get_record($params['table'], array('id' => $params['id']));
-        if (!$record || $USER->id != $record->userid || $record->sign_in_time) {
-            throw new coding_exception(
-                "eSignout record with id {$id} either doesn't exist, doesn' belong to this user, or has already been signed in"
-            );
-        }
-        $record->sign_in_time = $record->time_modified = time();
-        $DB->update_record($params['table'], $record);
-        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
-        return format_date('g:i A', $record->sign_in_time);
+        return sign_in_user();
     }
 
     /**
@@ -231,7 +202,7 @@ class local_signout_external extends external_api {
      * @return external_value Object describing the return value of the sign_in() function.
      */
     public static function sign_in_returns() {
-        return new external_value(PARAM_TEXT, 'The text to display for the sign in time.');
+        return new external_value(PARAM_BOOL, 'Whether or not the signin was successful.');
     }
 
     /**

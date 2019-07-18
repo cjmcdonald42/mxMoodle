@@ -44,29 +44,24 @@ use stdClass;
  */
 class signin_button implements renderable, templatable {
 
-    /** @var int The value attribute of the button.*/
-    private $value;
-    /** @var string The table to sign in to.*/
-    private $table;
+    /** @var string The text to display on the button.*/
+    private $displaytext;
 
     /**
-     * @param int $value The value attribute of the button.
-     * @param string $table The table to sign in to.
+     * @param string $displaytext The text to display on the button.
      */
-    public function __construct($value, $table) {
-        $this->value = $value;
-        $this->table = $table;
+    public function __construct($displaytext) {
+        $this->displaytext = $displaytext;
     }
 
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with property value.
+     * @return stdClass Object with property displaytext.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
-        $data->value = $this->value;
-        $data->table = $this->table;
+        $data->displaytext = $this->displaytext;
         return $data;
     }
 

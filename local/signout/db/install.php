@@ -34,7 +34,6 @@ function xmldb_local_signout_install() {
     set_config('off_campus_form_enabled', '1', 'local_signout');
     set_config('off_campus_form_ipenabled', '1', 'local_signout');
     set_config('off_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
-    set_config('off_campus_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
     set_config('off_campus_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_signout');
     set_config('off_campus_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_signout');
     set_config('off_campus_form_warning_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_signout');
@@ -51,7 +50,6 @@ function xmldb_local_signout_install() {
     set_config('on_campus_form_enabled', '1', 'local_signout');
     set_config('on_campus_form_ipenabled', '1', 'local_signout');
     set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
-    set_config('on_campus_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
     set_config('on_campus_form_warning', 'You need special permission to go to a non-academic location.', 'local_signout');
     set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
     set_config('on_campus_refresh_rate', '60', 'local_signout');

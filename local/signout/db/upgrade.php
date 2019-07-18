@@ -39,7 +39,7 @@ function xmldb_local_signout_upgrade($oldversion) {
         )));
         $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
 
-        // Mxschool savepoint reached.
+        // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019070801, 'local', 'signout');
     }
 
@@ -100,7 +100,7 @@ function xmldb_local_signout_upgrade($oldversion) {
         set_config('on_campus_form_enabled', '1', 'local_signout');
         set_config('on_campus_form_ipenabled', '1', 'local_signout');
 
-        // Mxschool savepoint reached.
+        // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019070805, 'local', 'signout');
     }
 
@@ -110,7 +110,7 @@ function xmldb_local_signout_upgrade($oldversion) {
         set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
         set_config('on_campus_report_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
 
-        // Mxschool savepoint reached.
+        // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019070806, 'local', 'signout');
     }
 
@@ -179,7 +179,7 @@ function xmldb_local_signout_upgrade($oldversion) {
         // Add new configs for on_campus reports to refresh.
         set_config('on_campus_refresh_rate', '60', 'local_signout');
 
-        // Mxschool savepoint reached.
+        // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019071204, 'local', 'signout');
     }
 
@@ -190,7 +190,7 @@ function xmldb_local_signout_upgrade($oldversion) {
         set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
         set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
 
-        // Mxschool savepoint reached.
+        // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019071208, 'local', 'signout');
     }
 
@@ -203,9 +203,20 @@ function xmldb_local_signout_upgrade($oldversion) {
         ));
         $DB->update_record('local_mxschool_subpackage', $oncampus);
 
-        // Mxschool savepoint reached.
+        // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019071209, 'local', 'signout');
     }
+
+    if ($oldversion < 2019071802) {
+
+        // Unset old signin warnings.
+        unset_config('off_campus_report_iperror', 'local_signout');
+        unset_config('on_campus_report_iperror', 'local_signout');
+        
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071802, 'local', 'signout');
+    }
+
 
     return true;
 }

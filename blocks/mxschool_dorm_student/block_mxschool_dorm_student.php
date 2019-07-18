@@ -41,17 +41,13 @@ class block_mxschool_dorm_student extends block_base {
             return $this->content;
         }
 
-        $links = has_capability('moodle/site:config', context_system::instance())
-            || (user_is_student() && student_may_access_weekend($USER->id)) ? array(
-            // Put any links in this array as displaytext => relative url.
-            get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
-            get_string('weekend_calculator', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'
-        ) : array();
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\index($links);
-
         $this->content = new stdClass();
-        if (count($links)) {
+        if (user_is_admin() || (user_is_student() && student_may_access_weekend($USER->id))) {
+            $output = $PAGE->get_renderer('local_mxschool');
+            $renderable = new \local_mxschool\output\index(array(
+                get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
+                get_string('weekend_calculator', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'
+            ));
             $this->content->text = $output->render($renderable);
         }
 

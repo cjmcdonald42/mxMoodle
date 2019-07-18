@@ -32,18 +32,13 @@ require_once(__DIR__.'/../classes/output/renderable.php');
 
 class off_campus_table extends local_mxschool_table {
 
-    /** @var bool Whether the user is a student and only their records should be displayed. */
-    private $isstudent;
-
     /**
      * Creates a new off_campus_table.
      *
      * @param stdClass $filter any filtering for the table - could include properties type, date, and search.
-     * @param bool $isstudent Whether the user is a student and only their records should be displayed.
      */
-    public function __construct($filter, $isstudent) {
+    public function __construct($filter) {
         global $USER;
-        $this->isstudent = $isstudent;
         $columns = array(
             'student', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'departuredate', 'departuretime',
             'approver', 'signin'
@@ -92,21 +87,11 @@ class off_campus_table extends local_mxschool_table {
             $endtime->modify('+1 day');
             array_push($where, "d.departure_time >= {$starttime->getTimestamp()}", "d.departure_time < {$endtime->getTimestamp()}");
         }
-        if ($isstudent) {
-            $include = array(
-                "oc.userid = {$USER->id}", "d.userid = {$USER->id}",
-                "(SELECT COUNT(id) FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = {$USER->id})",
-                "(SELECT COUNT(id) FROM {local_signout_off_campus} WHERE driverid = d.id AND userid = {$USER->id})"
-            );
-            $starttime = generate_datetime('midnight')->getTimestamp();
-            array_push($where, '(' . implode(' OR ', $include) . ')', "d.departure_time >= {$starttime}");
-        }
         $searchable = array(
             'u.firstname', 'u.lastname', 'u.alternatename', 'du.firstname', 'du.lastname', 'du.alternatename', 'd.destination',
             'a.firstname', 'a.lastname'
         );
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-
     }
 
     /**
@@ -185,32 +170,7 @@ class off_campus_table extends local_mxschool_table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        global $USER, $PAGE;
-        if (!$this->isstudent) {
-            return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id)
-                . $this->delete_icon($values->id);
-        }
-        if ($values->userid !== $USER->id) {
-            return '-';
-        }
-        if ($values->signin) {
-            return '&#x2705;';
-        }
-        $editwindow = get_config('local_signout', 'off_campus_edit_window');
-        $editcutoff = generate_datetime($values->timecreated);
-        $editcutoff->modify("+{$editwindow} minutes");
-        if (generate_datetime()->getTimestamp() < $editcutoff->getTimestamp()) {
-            return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id);
-        }
-        $output = $PAGE->get_renderer('local_signout');
-        $renderable = new \local_signout\output\signin_button($values->id, 'local_signout_off_campus');
-        if (
-            !get_config('local_signout', 'off_campus_form_ipenabled')
-            || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
-        ) {
-            return $output->render($renderable);
-        }
-        return '-';
+        return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

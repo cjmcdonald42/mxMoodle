@@ -55,10 +55,7 @@ if ($id) {
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing off-campus signout records beyond the edit window.
-        $editwindow = get_config('local_signout', 'off_campus_edit_window');
-        $editcutoff = generate_datetime($data->timecreated);
-        $editcutoff->modify("+{$editwindow} minutes");
-        if (generate_datetime()->getTimestamp() > $editcutoff->getTimestamp() || $data->student !== $USER->id) {
+        if (generate_datetime()->getTimestamp() > get_edit_cutoff($data->timecreated) || $data->student !== $USER->id) {
             redirect($PAGE->url);
         }
     }
@@ -144,10 +141,7 @@ $formrenderable = new \local_mxschool\output\form($form, false, $bottominstructi
 $jsrenderable = new \local_mxschool\output\amd_module('local_signout/off_campus_form');
 
 echo $output->header();
-if (
-    !$isstudent || !get_config('local_signout', 'off_campus_form_ipenabled')
-    || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip')
-) {
+if (!$isstudent || validate_ip('off_campus')) {
     echo $output->heading(
         $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );

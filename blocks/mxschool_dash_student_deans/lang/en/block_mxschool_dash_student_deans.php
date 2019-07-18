@@ -24,10 +24,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Student Deans\'s Office Dashboard Block';
+$string['pluginname'] = 'Student Deans\' Office Dashboard Block';
 $string['blockname'] = 'Middlesex';
-$string['mxschool_dash_student_deans:addinstance'] = 'Middlesex School: Add Student Deans\'s Office Block';
-$string['mxschool_dash_student_deans:myaddinstance'] = 'Middlesex School: Add Student Deans\'s Office Block to Dashboard';
+$string['mxschool_dash_student_deans:addinstance'] = 'Middlesex School: Add Student Deans\' Office Block';
+$string['mxschool_dash_student_deans:myaddinstance'] = 'Middlesex School: Add Student Deans\' Office Block to Dashboard';
 
 $string['description'] = 'Description';
 $string['description_description'] = 'Text to display above the available links for whomever has access.';

@@ -15,15 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_signout/signin_button
+    @template local_mxschool/redirect_button
 
-    The purpose of this template is to render a button with ajax functionality to signin a signout record.
+    The purpose of this template is to render a button that redirects the user to an arbitrary link.
 }}
 
-<button class="mx-signin-button btn btn-primary noprint">{{ displaytext }}</button>
-
-{{# js }}
-require(['local_signout/signin_button'], function(setup) {
-    setup();
-});
-{{/ js }}
+<button class="mx-redirect-button btn btn-secondary noprint" onclick="window.location.href='{{ url }}'">{{ displaytext }}</button>
