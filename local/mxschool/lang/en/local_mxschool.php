@@ -39,8 +39,10 @@ $string['legend_header'] = 'Legend';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
 $string['report_select_default'] = 'All';
-$string['report_select_dorm'] = 'All Houses';
-$string['report_select_boarding_dorm'] = 'All Dorms';
+$string['report_select_dorm'] = 'All Dorms';
+$string['report_select_house'] = 'All Houses';
+$string['report_select_day'] = 'All Day';
+$string['report_select_boarding'] = 'All Boarding';
 $string['form_select_default'] = 'Select';
 
 $string['first_semester'] = 'First Semester';

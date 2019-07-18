@@ -96,6 +96,6 @@ $renderable = new \local_mxschool\output\report(
 );
 
 echo $output->header();
-echo $output->heading(($filter->dorm ? "{$dorms[$filter->dorm]} " : '') . $types[$filter->type]);
+echo $output->heading(($filter->dorm > 0 ? "{$dorms[$filter->dorm]} " : '') . $types[$filter->type]);
 echo $output->render($renderable);
 echo $output->footer();

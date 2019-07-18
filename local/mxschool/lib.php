@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param array $args Extra arguments (itemid, path).
  * @param bool $forcedownload Whether or not force download.
  * @param array $options Additional options affecting the file serving.
- * @return bool|void False if the file not found, otherwise just sends the file and returns nothing.
+ * @return bool|void A value of false if the file not found, otherwise just sends the file and returns nothing.
  */
 function local_mxschool_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = array()) {
     if ($context->contextlevel != CONTEXT_SYSTEM || $filearea !== 'student_pictures') {

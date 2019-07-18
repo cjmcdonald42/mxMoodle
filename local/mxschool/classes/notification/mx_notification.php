@@ -31,6 +31,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/../../locallib.php');
 
 use \local_mxschool\event\email_sent;
+use coding_exception;
+use core_user;
 
 /**
  * Generic email notification for all of the emails sent by Middlesex's Dorm and Student Functions Plugin.
@@ -66,7 +68,7 @@ abstract class notification {
         global $DB;
         $record = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
         if (!$record) {
-            throw new \coding_exception("Invalid email class: {$emailclass}.");
+            throw new coding_exception("Invalid email class: {$emailclass}.");
         }
         $this->emailclass = $emailclass;
         $this->subject = $record->subject;
@@ -98,16 +100,17 @@ abstract class notification {
     /**
      * Sends the notification emails to all of the specified recipients.
      *
+     * @param bool $bulk Whether this notification is a member of a bulk notification.
      * @return bool A value of true if all emails send successfully, false otherwise.
      * @throws coding_exception If the primary recipient has no adresseename property
      *                          and is missing either the firstname or lastname property
      *                          or if any recipient has a non-valid email.
      */
-    final public function send() {
+    final public function send($bulk = false) {
         $primaryrecipient = $this->recipients[0];
         if (empty($primaryrecipient->addresseename)) {
             if (empty($primaryrecipient->firstname) || empty($primaryrecipient->lastname)) {
-                throw new \coding_exception('Primary recipient has no valid option for salutation.');
+                throw new coding_exception('Primary recipient has no valid option for salutation.');
             }
             $firstname = $primaryrecipient->firstname;
             $lastname = $primaryrecipient->lastname;
@@ -116,15 +119,16 @@ abstract class notification {
             $this->data['addresseelong'] = "{$lastname}, {$firstname}" . (
                 $alternatename && $alternatename !== $firstname ? " ({$alternatename})" : ''
             );
-
         } else {
-            $this->data['addresseeshort'] = $this->data['addresseelong'] = $primaryrecipient->addresseename;
+            if (!$bulk) { // If this is a bulk notification and the addresseename is set, it should not be substituted.
+                $this->data['addresseeshort'] = $this->data['addresseelong'] = $primaryrecipient->addresseename;
+            }
         }
-        $supportuser = \core_user::get_support_user();
+        $supportuser = core_user::get_support_user();
         $result = true;
         foreach ($this->recipients as $recipient) {
             if (empty($recipient->email)) {
-                throw new \coding_exception('Recipient has no email address.');
+                throw new coding_exception('Recipient has no email address.');
             }
             $recipientdata = array('email' => $recipient->email);
             $subject = $this->get_subject($recipientdata);
@@ -151,7 +155,7 @@ abstract class notification {
      * @return stdClass The deans user object.
      */
     final protected static function get_deans_user() {
-        $supportuser = \core_user::get_support_user();
+        $supportuser = core_user::get_support_user();
         $deans = clone $supportuser;
         $deans->email = get_config('local_mxschool', 'email_deans');
         $deans->addresseename = get_config('local_mxschool', 'addressee_deans');
@@ -163,7 +167,7 @@ abstract class notification {
      * @return stdClass The deans user object.
      */
     final protected static function get_transportationmanager_user() {
-        $supportuser = \core_user::get_support_user();
+        $supportuser = core_user::get_support_user();
         $transportationmanager = clone $supportuser;
         $transportationmanager->email = get_config('local_mxschool', 'email_transportationmanager');
         $transportationmanager->addresseename = get_config('local_mxschool', 'addressee_transportationmanager');
@@ -218,7 +222,7 @@ abstract class bulk_notification {
      */
     final public function send() {
         return array_reduce($this->notifications, function($acc, $notification) {
-            return $notification->send() && $acc;
+            return $notification->send(true) && $acc;
         }, true);
     }
 }

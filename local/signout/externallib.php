@@ -216,7 +216,7 @@ class local_signout_external extends external_api {
         $record = $DB->get_record($params['table'], array('id' => $params['id']));
         if (!$record || $USER->id != $record->userid || $record->sign_in_time) {
             throw new coding_exception(
-                'eSignout record either doesn\'t exist, doesn\' belong to this user, or has already been signed in'
+                "eSignout record with id {$id} either doesn't exist, doesn' belong to this user, or has already been signed in"
             );
         }
         $record->sign_in_time = $record->time_modified = time();
@@ -258,7 +258,7 @@ class local_signout_external extends external_api {
         require_capability('local/signout:confirm_on_campus', context_system::instance());
         $record = $DB->get_record('local_signout_on_campus', array('id' => $params['id']));
         if (!$record || $record->confirmation_time) {
-            throw new coding_exception('on-campus signout record either doesn\'t exist or has already been confirmed');
+            throw new coding_exception("on-campus signout record with id {$id} either doesn't exist or has already been confirmed");
         }
         $record->confirmation_time = $record->time_modified = time();
         $record->confirmerid = $USER->id;

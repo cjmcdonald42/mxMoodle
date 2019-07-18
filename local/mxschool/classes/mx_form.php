@@ -187,7 +187,7 @@ abstract class local_mxschool_form extends moodleform {
     private function create_element($name, $properties, $stringprefix, $component) {
         $mform = $this->_form;
         if (empty($properties['element'])) {
-            throw new coding_exception('required property "element" is not set');
+            throw new coding_exception("required property 'element' is not set");
         }
         $element = $properties['element'];
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
