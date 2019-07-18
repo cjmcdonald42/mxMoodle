@@ -21,7 +21,7 @@
  * @subpackage rooming
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -41,7 +41,7 @@ use \local_mxschool\local\bulk_notification;
  * @subpackage rooming
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class submitted extends notification {
@@ -103,7 +103,7 @@ class submitted extends notification {
  * @subpackage rooming
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class unsubmitted_notification extends notification {
@@ -127,7 +127,7 @@ class unsubmitted_notification extends notification {
  * @subpackage rooming
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class notify_unsubmitted extends bulk_notification {

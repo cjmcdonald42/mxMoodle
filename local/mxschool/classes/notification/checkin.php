@@ -21,7 +21,7 @@
  * @subpackage checkin
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -40,7 +40,7 @@ use \local_mxschool\local\notification;
  * @subpackage checkin
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class weekend_form_base extends notification {
@@ -111,7 +111,7 @@ abstract class weekend_form_base extends notification {
  * @subpackage checkin
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class weekend_form_submitted extends weekend_form_base {
@@ -133,7 +133,7 @@ class weekend_form_submitted extends weekend_form_base {
  * @subpackage checkin
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class weekend_form_approved extends weekend_form_base {
