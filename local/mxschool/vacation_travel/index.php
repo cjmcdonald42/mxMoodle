@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Vacation travel index page for Middlesex School's Dorm and Student Functions Plugin.
+ * Vacation travel index page for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -29,9 +29,6 @@ require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../locallib.php');
 
-if (!has_capability('moodle/site:config', context_system::instance())) {
-    redirect(new moodle_url('/my'));
-}
-
+redirect_non_admin();
 admin_externalpage_setup('vacation_travel_index');
 render_index_page('vacation_travel');

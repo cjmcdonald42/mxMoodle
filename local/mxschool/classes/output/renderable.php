@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides renderable classes for Middlesex School's Dorm and Student Functions Plugin.
+ * Provides renderable classes for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -44,9 +44,9 @@ use stdClass;
  */
 class index implements renderable, templatable {
 
-    /** @var array $links Array of links [displaytext => url] to be passed to the template.*/
+    /** @var array Array of links [displaytext => url] to be passed to the template.*/
     private $links;
-    /** @var string|bool $heading String to display as a subheading or false.*/
+    /** @var string|bool String to display as a subheading or false.*/
     private $heading;
 
     /**
@@ -84,9 +84,9 @@ class index implements renderable, templatable {
  */
 class report implements renderable, templatable {
 
-    /** @var report_table $table The table for the report.*/
+    /** @var report_table The table for the report.*/
     private $table;
-    /** @var report_filter $filter The filter for the report.*/
+    /** @var report_filter The filter for the report.*/
     private $filter;
 
     /**
@@ -131,9 +131,9 @@ class report implements renderable, templatable {
  */
 class report_table implements renderable, templatable {
 
-    /** @var local_mxschool_table $table The table object to output to the template.*/
+    /** @var local_mxschool_table The table object to output to the template.*/
     private $table;
-    /** @var array|bool $headers Array of headers as ['text', 'length'] to prepend or false.*/
+    /** @var array|bool Array of headers as ['text', 'length'] to prepend or false.*/
     private $headers;
 
     /**
@@ -172,15 +172,15 @@ class report_table implements renderable, templatable {
  */
 class report_filter implements renderable, templatable {
 
-    /** @var string $search Default search text, null if there is no search option.*/
+    /** @var string Default search text, null if there is no search option.*/
     private $search;
-    /** @param array $dropdowns Array of local_mxschool_dropdown objects.*/
+    /** @param array Array of local_mxschool_dropdown objects.*/
     private $dropdowns;
-    /** @var bool $printbutton Whether to display a print button.*/
+    /** @var bool Whether to display a print button.*/
     private $printbutton;
-    /** @var stdClass|bool $addbutton Object with text and url properties for an add button or false.*/
+    /** @var stdClass|bool Object with text and url properties for an add button or false.*/
     private $addbutton;
-    /** @var array $emailbuttons Array of email_button objects.*/
+    /** @var array Array of email_button objects.*/
     private $emailbuttons;
 
     /**
@@ -240,11 +240,11 @@ class report_filter implements renderable, templatable {
  */
 class form implements renderable, templatable {
 
-    /** @var local_mxschool_form $form The form object to render.*/
+    /** @var local_mxschool_form The form object to render.*/
     private $form;
-    /** @var string|bool $topdescription A description for the top of the form or false.*/
+    /** @var string|bool A description for the top of the form or false.*/
     private $descrption;
-    /** @var string|bool $bottomdescription A description for the bottom of the form or false.*/
+    /** @var string|bool A description for the bottom of the form or false.*/
     private $bottomdescription;
 
     /**
@@ -319,13 +319,13 @@ class amd_module implements renderable, templatable {
  */
 class checkbox implements renderable, templatable {
 
-    /** @var string $value The value attribute of the checkbox.*/
+    /** @var string The value attribute of the checkbox.*/
     private $value;
-    /** @var string $table The table in the database which the checkbox corresponds to.*/
+    /** @var string The table in the database which the checkbox corresponds to.*/
     private $table;
-    /** @var string $field The field in the database which the checkbox corresponds to.*/
+    /** @var string The field in the database which the checkbox corresponds to.*/
     private $field;
-    /** @var bool $checked Whether the checkbox should be checked by default.*/
+    /** @var bool Whether the checkbox should be checked by default.*/
     private $checked;
 
     /**
@@ -456,11 +456,11 @@ class email_button implements renderable, templatable {
  */
 class selection_button implements renderable, templatable {
 
-    /** @var int $student The user id of the affected student.*/
+    /** @var int The user id of the affected student.*/
     private $student;
-    /** @var int $option The user id of the selected option.*/
+    /** @var int The user id of the selected option.*/
     private $option;
-    /** @var string $displaytext The text to display on the button.*/
+    /** @var string The text to display on the button.*/
     private $displaytext;
 
     /**
@@ -477,7 +477,7 @@ class selection_button implements renderable, templatable {
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with properties value and display text.
+     * @return stdClass Object with properties value and displaytext.
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
@@ -486,6 +486,45 @@ class selection_button implements renderable, templatable {
         $value->choice = $this->option;
         $data->value = json_encode($value);
         $data->displaytext = $this->displaytext;
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for student directory pictures.
+ *
+ * @package    local_mxschool
+ * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class student_picture implements renderable, templatable {
+
+    /** @var moodle_url $url The url of the image file.*/
+    private $url;
+    /** @var string $name The name of the student.*/
+    private $name;
+
+    /**
+     * @param moodle_url $url The url of the image file.
+     * @param string $name The name of the student.
+     */
+    public function __construct($url, $name) {
+        $this->url = $url;
+        $this->name = $name;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties url and name.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->url = $this->url->out();
+        $data->name = $this->name;
         return $data;
     }
 

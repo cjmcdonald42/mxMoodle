@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * On-campus duty table for Middlesex School's eSignout Subplugin.
+ * On-campus duty table for Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage on_campus
@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../mxschool/classes/mx_table.php');
+require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../classes/output/renderable.php');
 
 class duty_table extends local_mxschool_table {
@@ -87,7 +88,15 @@ class duty_table extends local_mxschool_table {
      * Formats the picture column.
      */
     protected function col_picture($values) {
-        return get_string('duty_report_column_picture_notfound', 'local_signout');
+        global $DB, $PAGE;
+        $filename = $DB->get_field('local_mxschool_student', 'picture_filename', array('userid' => $values->userid));
+        if (!$filename) {
+            return get_string('duty_report_column_picture_notfound', 'local_signout');
+        }
+        $url = moodle_url::make_pluginfile_url(1, 'local_mxschool', 'student_pictures', 0, '/', $filename, false);
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new \local_mxschool\output\student_picture($url, format_student_name($values->userid));
+        return $output->render($renderable);
     }
 
     /**

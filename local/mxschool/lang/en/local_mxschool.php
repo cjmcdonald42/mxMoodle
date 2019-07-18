@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex School's Dorm and Student Functions Plugin.
+ * English language strings for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -39,8 +39,10 @@ $string['legend_header'] = 'Legend';
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
 $string['report_select_default'] = 'All';
-$string['report_select_dorm'] = 'All Houses';
-$string['report_select_boarding_dorm'] = 'All Dorms';
+$string['report_select_dorm'] = 'All Dorms';
+$string['report_select_house'] = 'All Houses';
+$string['report_select_day'] = 'All Day';
+$string['report_select_boarding'] = 'All Boarding';
 $string['form_select_default'] = 'Select';
 
 $string['first_semester'] = 'First Semester';
@@ -56,6 +58,8 @@ $string['mxschool:manage_students'] = 'Middlesex School: View and manage student
 $string['mxschool:manage_faculty'] = 'Middlesex School: View and manage faculty data';
 $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data';
 $string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
+$string['mxschool:manage_student_pictures'] = 'Middlesex School: Import directory pictures of students';
+$string['mxschool:access_student_pictures'] = 'Middlesex School: Access directory pictures of students';
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
 $string['mxschool:manage_checkin_preferences'] = 'Middlesex School: View and manage checkin preferences';
 $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend forms';
@@ -112,6 +116,7 @@ $string['user_management_dorm_create_success'] = 'Dorm Record Created Successful
 $string['user_management_dorm_edit_success'] = 'Dorm Record Updated Successfully';
 $string['user_management_vehicle_create_success'] = 'Vehicle Record Created Successfully';
 $string['user_management_vehicle_edit_success'] = 'Vehicle Record Updated Successfully';
+$string['user_management_picture_import_success'] = 'Student Pictures Imported Successfully';
 $string['checkin_preferences_edit_success'] = 'Check-in Preferences Saved Successfully';
 $string['checkin_weekend_form_success'] = 'Weekend Form Submitted Successfully';
 $string['checkin_weekend_comment_form_success'] = 'Weekend Comment Updated Successfully';
@@ -130,6 +135,7 @@ $string['user_management_dorm_delete_success'] = 'Dorm Record Deleted Successful
 $string['user_management_dorm_delete_failure'] = 'Dorm Record Not Found for Deletion';
 $string['user_management_vehicle_delete_success'] = 'Vehicle Record Deleted Successfully';
 $string['user_management_vehicle_delete_failure'] = 'Vehicle Record Not Found for Deletion';
+$string['user_management_picture_delete_success'] = 'Student Pictures Deleted Successfully';
 $string['checkin_weekend_form_delete_success'] = 'Weekend Form Record Deleted Successfully';
 $string['checkin_weekend_form_delete_failure'] = 'Weekend Form Record Not Found for Deletion';
 $string['vacation_travel_site_delete_success'] = 'Vacation Travel Site Record Deleted Successfully';
@@ -147,6 +153,7 @@ $string['user_management_parent_edit'] = 'Edit Parent Record';
 $string['user_management_faculty_edit'] = 'Edit Faculty Record';
 $string['user_management_dorm_edit'] = 'Edit Dorm Record';
 $string['user_management_vehicle_edit'] = 'Edit Student Vehicle Record';
+$string['user_management_picture_import'] = 'Import Student Pictures';
 
 // Student Report.
 $string['user_management_student_report_type_students'] = 'Student Report';
@@ -235,6 +242,7 @@ $string['user_management_student_edit_student_isboardernextyear_Boarder'] = 'Boa
 $string['user_management_student_edit_student_isboardernextyear_Day'] = 'Day';
 $string['user_management_student_edit_student_dorm'] = 'Dorm';
 $string['user_management_student_edit_student_room'] = 'Room';
+$string['user_management_student_edit_student_picture'] = 'Student Picture Filename';
 $string['user_management_student_edit_student_phonenumber'] = 'Phone Number';
 $string['user_management_student_edit_student_birthday'] = 'Birthday';
 $string['user_management_student_edit_permissions_overnight'] = 'Overnight';
@@ -303,6 +311,10 @@ $string['user_management_vehicle_edit_make'] = 'Make';
 $string['user_management_vehicle_edit_model'] = 'Model';
 $string['user_management_vehicle_edit_color'] = 'Color';
 $string['user_management_vehicle_edit_registration'] = 'Vehicle Registration';
+
+// Picture Import.
+$string['user_management_picture_import_clear'] = 'Select to Delete all Student Picture Records from the Database';
+$string['user_management_picture_import_pictures'] = 'Select Pictures to Import';
 
 
 /* Check-In Sheets and Weekend Forms. */

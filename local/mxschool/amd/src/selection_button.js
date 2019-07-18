@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Selects an option for Middlesex School's Dorm and Student Functions Plugin.
+ * Selects an option for Middlesex's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/selection_button
  * @package    local_mxschool

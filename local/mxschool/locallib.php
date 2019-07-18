@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local functions for Middlesex School's Dorm and Student Functions Plugin.
+ * Local functions for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -38,7 +38,8 @@ require_once(__DIR__.'/classes/output/renderable.php');
  */
 
 /**
- * Sets the url, title, heading, and context of a page as well as logging that the page was visited.
+ * Sets the url, title, heading, and context of a page as well as adding a class to the body element for css.
+ * Also logs that the page was visited.
  * Should be called to initialize all pages.
  *
  * @param string $url The url for the page.
@@ -50,6 +51,7 @@ function setup_generic_page($url, $title) {
     $PAGE->set_context(context_system::instance());
     $PAGE->set_title($title);
     $PAGE->set_heading($title);
+    $PAGE->add_body_class('mx-page');
 
     \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
 }
@@ -67,7 +69,7 @@ function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
     global $DB, $PAGE;
     $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
     if (!$record || !isset(json_decode($record->pages)->$page)) {
-        throw new coding_exception('page cannot be found in the subpackages table');
+        throw new coding_exception("page {$page} cannot be found in the subpackage with id {$record->id}");
     }
 
     $file = json_decode($record->pages)->$page;
@@ -102,7 +104,7 @@ function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
     global $DB, $PAGE;
     $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
     if (!$record || !isset(json_decode($record->pages)->$parent)) {
-        throw new coding_exception('parent page cannot be found in the subpackages table');
+        throw new coding_exception("parent page {$parent} cannot be found in the subpackage with id {$record->id}");
     }
 
     $url = empty($subpackage) ? "/local/{$package}/{$page}" : "/local/{$package}/{$subpackage}/{$page}";
@@ -138,7 +140,7 @@ function generate_index($id, $heading = false) {
     global $DB;
     $record = $DB->get_record('local_mxschool_subpackage', array('id' => $id));
     if (!$record) {
-        throw new coding_exception('subpackage record does not exist');
+        throw new coding_exception("subpackage record with id {$id} does not exist");
     }
     $links = array();
     foreach (json_decode($record->pages) as $string => $url) {
@@ -181,6 +183,16 @@ function render_index_page($subpackage, $package = 'mxschool') {
 }
 
 /**
+ * Validates that the current user has admin access.
+ * If the user does not have the site:config capability, they will be redirected to the dashboard.
+ */
+function redirect_non_admin() {
+    if (!has_capability('moodle/site:config', context_system::instance())) {
+        redirect(new moodle_url('/'));
+    }
+}
+
+/**
  * Redirects the user with a notification and logs the event of the redirect.
  *
  * @param moodle_url $url The url to redirect to.
@@ -218,7 +230,7 @@ function logged_redirect($url, $notification, $type, $success = true) {
 function get_fallback_url() {
     global $PAGE;
     return has_capability('moodle/site:config', context_system::instance())
-        ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/my');
+        ? $PAGE->navbar->children[count($PAGE->navbar->children) - 2]->action : new moodle_url('/');
 }
 
 /**
@@ -330,6 +342,17 @@ function update_notification($class, $subject, $body) {
         $DB->update_record('local_mxschool_notification', $record);
     } else {
         $DB->insert_record('local_mxschool_notification', $record);
+    }
+}
+
+/**
+ * Deletes all student picture files.
+ */
+function clear_student_pictures() {
+    $fs = get_file_storage();
+    $files = $fs->get_area_files(1, 'local_mxschool', 'student_pictures', 0);
+    foreach ($files as $file) {
+        $file->delete();
     }
 }
 
@@ -449,7 +472,7 @@ function format_student_name($userid) {
     global $DB;
     $record = $DB->get_record('user', array('id' => $userid));
     if (!$record) {
-        throw new coding_exception('student\'s user record could not be found');
+        throw new coding_exception("student user record with id {$id} could not be found");
     }
     if ($record->deleted) {
         return '';
@@ -470,7 +493,7 @@ function format_faculty_name($userid, $inverted = true) {
     global $DB;
     $record = $DB->get_record('user', array('id' => $userid));
     if (!$record) {
-        throw new coding_exception('faculty\'s user record could not be found');
+        throw new coding_exception("faculty user record with id {$id} could not be found");
     }
     if ($record->deleted) {
         return '';
@@ -558,8 +581,8 @@ function student_may_access_weekend($userid) {
  * @return bool Whether the specified student is permitted to access the advisor selection form.
  */
 function student_may_access_advisor_selection($userid) {
-    $start = (int) get_config('local_mxschool', 'advisor_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
-    $stop = (int) get_config('local_mxschool', 'advisor_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
+    $start = (int) (get_config('local_mxschool', 'advisor_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date'));
+    $stop = (int) (get_config('local_mxschool', 'advisor_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date'));
     return $start && $stop && time() > $start && time() < $stop
            && array_key_exists($userid, get_student_with_advisor_form_enabled_list());
 }
@@ -570,8 +593,8 @@ function student_may_access_advisor_selection($userid) {
  * @return bool Whether the specified student is permitted to access the rooming form.
  */
 function student_may_access_rooming($userid) {
-    $start = (int) get_config('local_mxschool', 'rooming_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
-    $stop = (int) get_config('local_mxschool', 'rooming_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
+    $start = (int) (get_config('local_mxschool', 'rooming_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date'));
+    $stop = (int) (get_config('local_mxschool', 'rooming_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date'));
     return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_next_year_student_list());
 }
 
@@ -582,8 +605,8 @@ function student_may_access_rooming($userid) {
  * @return bool Whether the specified student is permitted to access the vacation travel form.
  */
 function student_may_access_vacation_travel($userid) {
-    $start = (int) get_config('local_mxschool', 'vacation_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
-    $stop = (int) get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
+    $start = (int) (get_config('local_mxschool', 'vacation_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date'));
+    $stop = (int) (get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date'));
     return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_student_list());
 }
 
@@ -609,8 +632,19 @@ function student_may_access_vacation_travel($userid) {
 function get_param_faculty_dorm($includeday = true) {
     global $DB, $USER;
     if (isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm']))) {
-        if (isset(($includeday ? get_dorm_list() : get_boarding_dorm_list())[$_GET['dorm']]) || empty($_GET['dorm'])) {
-            return $_GET['dorm'];
+        $dorm = $_GET['dorm']; // The value is now safe to use.
+        if (empty($dorm)) { // An empty parameter indicates that search has taken place with the all option selected.
+            return $dorm;
+        }
+        if ($includeday) {
+            // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
+            if (isset(get_dorm_list()[$dorm]) || in_array($dorm, array(-1, -2))) {
+                return $dorm;
+            }
+        } else {
+            if (isset(get_boarding_dorm_list()[$dorm])) {
+                return $dorm;
+            }
         }
     }
     return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?? '';

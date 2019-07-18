@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Database installation steps for Middlesex School's Dorm and Student Functions Plugin.
+ * Database installation steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -44,7 +44,7 @@ function xmldb_local_mxschool_install() {
     $subpackages = array(
         array('subpackage' => 'user_management', 'pages' => json_encode(array(
             'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php',
-            'vehicle_report' => 'vehicle_report.php',
+            'vehicle_report' => 'vehicle_report.php', 'picture_import' => 'picture_import.php'
         ))),
         array('subpackage' => 'checkin', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'generic_report' => 'generic_report.php', 'weekday_report' => 'weekday_report.php',

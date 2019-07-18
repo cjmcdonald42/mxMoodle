@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Peer Tutoring index page for Middlesex School's Peer Tutoring Subplugin.
+ * Peer Tutoring index page for Middlesex's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -28,9 +28,6 @@ require(__DIR__.'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
 
-if (!has_capability('moodle/site:config', context_system::instance())) {
-    redirect(new moodle_url('/my'));
-}
-
+redirect_non_admin();
 admin_externalpage_setup('peertutoring_index');
 render_index_page(null, 'peertutoring');

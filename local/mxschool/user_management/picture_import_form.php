@@ -15,9 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Transportation Manager Block for the Dashboard.
+ * Form for bulk importing student pictures for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    block_mxschool_manage_transportation
+ * @package    local_mxschool
+ * @subpackage user_management
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019, Middlesex School, 1400 Lowell Rd, Concord MA
@@ -26,9 +27,29 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_mxschool_manage_transportation';
-$plugin->version = 2019010100;
-$plugin->release = 'v3.0';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2019010100); // Mxschool as dependency in order to use renderer.
+require_once(__DIR__.'/../classes/mx_form.php');
+
+class picture_import_form extends local_mxschool_form {
+
+    /**
+     * Form definition.
+     */
+    protected function definition() {
+        $fields = array(
+            '' => array(
+                'clear' => array(
+                    'element' => 'advcheckbox', 'name' => null,
+                    'text' => get_string('user_management_picture_import_clear', 'local_mxschool')
+                ),
+                'pictures' => array('element' => 'filemanager', 'options' => array(
+                    'subdirs' => 0, 'accepted_types' => array('.jpg'), 'return_types' => FILE_INTERNAL
+                ))
+            )
+        );
+        $this->set_fields($fields, 'user_management_picture_import');
+
+        $mform = $this->_form;
+        $mform->hideIf('pictures', 'clear', 'checked');
+    }
+
+}

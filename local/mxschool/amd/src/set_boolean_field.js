@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Sets a boolean field in the database for Middlesex School's Dorm and Student Functions Plugin.
+ * Sets a boolean field in the database for Middlesex's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/set_boolean_field
  * @package    local_mxschool

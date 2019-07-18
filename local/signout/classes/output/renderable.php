@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides renderable classes for Middlesex School's eSignout Subplugin.
+ * Provides renderable classes for Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

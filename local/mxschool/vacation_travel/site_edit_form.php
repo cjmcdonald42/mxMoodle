@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing vacation travel site data for Middlesex School's Dorm and Student Functions Plugin.
+ * Form for editing vacation travel site data for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -46,10 +46,12 @@ class site_edit_form extends local_mxschool_form {
                 'type' => array('element' => 'select', 'options' => $typeoptions, 'rules' => array('required')),
                 'departureenabled' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'defaultdeparturetime' => array(
-                    'element' => 'date_time_selector', 'parameters' => self::date_parameters_school_year(true)
+                    'element' => 'date_time_selector', 'options' => self::date_options_school_year(true)
                 ),
                 'returnenabled' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'defaultreturntime' => array('element' => 'date_time_selector', 'parameters' => self::date_parameters_school_year(true))
+                'defaultreturntime' => array(
+                    'element' => 'date_time_selector', 'options' => self::date_options_school_year(true)
+                )
             )
         );
         $this->set_fields($fields, 'vacation_travel_site_edit');

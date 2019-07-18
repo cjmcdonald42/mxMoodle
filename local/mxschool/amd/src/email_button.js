@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Sends an email for Middlesex School's Dorm and Student Functions Plugin.
+ * Sends an email for Middlesex's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/email_button
  * @package    local_mxschool

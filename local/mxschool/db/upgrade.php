@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Database updgrade steps for Middlesex School's Dorm and Student Functions Plugin.
+ * Database updgrade steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -154,12 +154,15 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
     if ($oldversion < 2019070402) {
+        // Add vehicle_report page to user_management subpackage.
         $usermanagement = $DB->get_record('local_mxschool_subpackage', array('subpackage' => 'user_management'));
         $usermanagement->pages = json_encode(array(
             'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php',
             'vehicle_report' => 'vehicle_report.php',
         ));
         $DB->update_record('local_mxschool_subpackage', $usermanagement);
+
+        // Remove vehicle_report page from esignout subpackage.
         $esignout = $DB->get_record('local_mxschool_subpackage', array('subpackage' => 'esignout'));
         $esignout->pages = json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'esignout_enter.php', 'report' => 'esignout_report.php'
@@ -211,6 +214,34 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2019070701, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2019071700) {
+        // Add picture_import page to user_management subpackage.
+        $usermanagement = $DB->get_record('local_mxschool_subpackage', array('subpackage' => 'user_management'));
+        $usermanagement->pages = json_encode(array(
+            'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php',
+            'vehicle_report' => 'vehicle_report.php', 'picture_import' => 'picture_import.php'
+        ));
+        $DB->update_record('local_mxschool_subpackage', $usermanagement);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071700, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2019071703) {
+
+        // Define field picture_filename to be added to local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('picture_filename', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'birthday');
+
+        // Conditionally launch add field picture_filename.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071703, 'local', 'mxschool');
     }
 
     return true;

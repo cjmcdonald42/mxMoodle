@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Updates the options of the new tutor form for Middlesex School's Peer Tutoring Subplugin.
+ * Updates the options of the new tutor form for Middlesex's Peer Tutoring Subplugin.
  *
  * @module     local_peertutoring/tutor_form
  * @package    local_peertutoring

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * On-campus signout report for Middlesex School's eSignout Subplugin.
+ * On-campus signout report for Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage on_campus
@@ -48,6 +48,7 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('report', 'on_campus', 'signout');
 $refresh = get_config('local_signout', 'on_campus_refresh_rate');
 if ($refresh) {
+    $PAGE->set_url(new moodle_url($PAGE->url, (array) $filter));
     $PAGE->set_periodic_refresh_delay((int) $refresh);
 }
 

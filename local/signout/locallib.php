@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local functions for Middlesex School's eSignout Subplugin.
+ * Local functions for Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -341,7 +341,7 @@ function get_driver_inheritable_fields($offcampusid) {
     global $DB;
     $record = $DB->get_record('local_signout_off_campus', array('id' => $offcampusid));
     if (!$record || $record->type !== 'Driver') {
-        throw new coding_exception('off-campus signout record is not a driver');
+        throw new coding_exception("off-campus signout record with id {$offcampusid) is not a driver");
     }
     $result = new stdClass();
     $result->destination = $record->destination;

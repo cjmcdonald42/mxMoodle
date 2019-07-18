@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Off-campus index page for Middlesex School's eSignout Subplugin.
+ * Off-campus index page for Middlesex's eSignout Subplugin.
  *
  * @package    local_signout
  * @subpackage off_campus
@@ -29,9 +29,6 @@ require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../../mxschool/locallib.php');
 
-if (!has_capability('moodle/site:config', context_system::instance())) {
-    redirect(new moodle_url('/my'));
-}
-
+redirect_non_admin();
 admin_externalpage_setup('off_campus_index');
 render_index_page('off_campus', 'signout');

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for peer tutors to submit tutoring records for Middlesex School's Peer Tutoring Subplugin.
+ * Form for peer tutors to submit tutoring records for Middlesex's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -50,7 +50,7 @@ class tutoring_form extends local_mxschool_form {
             ),
             'info' => array(
                 'tutor' => array('element' => 'select', 'options' => $tutors),
-                'tutoringdate' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year()),
+                'tutoringdate' => array('element' => 'date_selector', 'options' => self::date_options_school_year()),
                 'student' => array('element' => 'select', 'options' => $students)
             ),
             'details' => array(

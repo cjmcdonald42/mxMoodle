@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Basic reusable library functions for Middlesex School's Dorm and Student Functions Plugin.
+ * Basic reusable library functions for Middlesex's Dorm and Student Functions Plugin.
  *
  * @module     local_mxschool/locallib
  * @package    local_mxschool

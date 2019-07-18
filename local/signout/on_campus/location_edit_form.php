@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing on-campus location data for Middlesex School's Dorm and Student Functions Plugin.
+ * Form for editing on-campus location data for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_signout
  * @subpackage on_campus
@@ -43,8 +43,8 @@ class location_edit_form extends local_mxschool_form {
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(11, 12), 'rules' => array('required')),
                 'enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'start' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year(true)),
-                'end' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year(true))
+                'start' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
+                'end' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true))
             )
         );
         $this->set_fields($fields, 'on_campus_location_edit', false, 'local_signout');

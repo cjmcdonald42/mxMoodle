@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Weekend form for students to submit for Middlesex School's Dorm and Student Functions Plugin.
+ * Weekend form for students to submit for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
@@ -48,12 +48,12 @@ class weekend_form extends local_mxschool_form {
                 'student' => array('element' => 'select', 'options' => $students),
                 'departure' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(15),
-                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
                 )),
                 'warning' => array('element' => 'static', 'name' => null),
                 'return' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(15),
-                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
                 )),
                 'destination' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),
                 'transportation' => array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40)),

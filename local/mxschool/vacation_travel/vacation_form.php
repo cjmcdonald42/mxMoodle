@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for students to submit vacation travel details for Middlesex School's Dorm and Student Functions Plugin.
+ * Form for students to submit vacation travel details for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -69,7 +69,7 @@ class vacation_form extends local_mxschool_form {
                 'dep_number' => self::ELEMENT_TEXT,
                 'dep_variable' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(15),
-                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
                 )),
                 'dep_international' => self::ELEMENT_BOOLEAN
             ));
@@ -83,7 +83,7 @@ class vacation_form extends local_mxschool_form {
                 'ret_number' => self::ELEMENT_TEXT,
                 'ret_variable' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(15),
-                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
                 )),
                 'ret_international' => self::ELEMENT_BOOLEAN
             );

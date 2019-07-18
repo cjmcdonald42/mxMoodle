@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic moodleform with desired defaults to be used for Middlesex School's Dorm and Student Functions Plugin.
+ * Generic moodleform with desired defaults to be used for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -27,6 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->dirroot.'/repository/lib.php');
 
 abstract class local_mxschool_form extends moodleform {
 
@@ -88,12 +89,12 @@ abstract class local_mxschool_form extends moodleform {
     }
 
     /**
-     * Generates the parameter array for a standard date selector between the school opening and closing dates.
+     * Generates the option array for a standard date selector between the school opening and closing dates.
      *
      * @param bool $optional The value of the 'optional' parameter.
-     * @return array Associative array that specifies the parameters to the date_selector.
+     * @return array Associative array that specifies the options to the date_selector.
      */
-    protected static function date_parameters_school_year($optional = false) {
+    protected static function date_options_school_year($optional = false) {
         return array(
             'startyear' => format_date('Y', get_config('local_mxschool', 'dorms_open_date')),
             'stopyear' => format_date('Y', get_config('local_mxschool', 'dorms_close_date')),
@@ -131,6 +132,7 @@ abstract class local_mxschool_form extends moodleform {
      * @param string $stringprefix A prefix for any necessary language strings.
      * @param bool $actionstop Whether the submit and cancel buttons should appear at the top of the form as well as at the bottom.
      * @param string $component The component to get language strings from.
+     * @throws coding_exception If any of the elements is missing property element or the specified element is not supported.
      */
     protected function set_fields($fields, $stringprefix, $actionstop = false, $component = 'local_mxschool') {
         if ($actionstop) {
@@ -180,57 +182,64 @@ abstract class local_mxschool_form extends moodleform {
      * @param string $stringprefix A prefix for the language string.
      * @param string $component The component to get language strings from.
      * @return HTML_QuickForm_element The newly created element.
+     * @throws coding_exception If the element property is not set or the specified element is not supported.
      */
     private function create_element($name, $properties, $stringprefix, $component) {
         $mform = $this->_form;
+        if (empty($properties['element'])) {
+            throw new coding_exception("required property 'element' is not set");
+        }
+        $element = $properties['element'];
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
         $param = $properties['nameparam'] ?? null;
         $displayname = $properties['displayname'] ?? (
             !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : ''
         );
+        $options = $properties['options'] ?? array();
         $attributes = $properties['attributes'] ?? array();
+        $parameters = $properties['parameters'] ?? array();
         $text = $properties['text'] ?? '';
         $useradioindex = $properties['useradioindex'] ?? false;
 
-        switch ($properties['element']) {
+        switch ($element) {
             case 'hidden':
-                $result = $mform->createElement($properties['element'], $name, null);
+                $result = $mform->createElement($element, $name, $attributes);
                 break;
             case 'submit':
             case 'cancel':
-                $result = $mform->createElement($properties['element'], $name, $text);
-                break;
-            case 'editor':
-                $result = $mform->createElement($properties['element'], $name, $displayname);
+                $result = $mform->createElement($element, $name, $text);
                 break;
             case 'text':
             case 'textarea':
-                $result = $mform->createElement($properties['element'], $name, $displayname, $attributes);
+                $result = $mform->createElement($element, $name, $displayname, $attributes);
                 break;
             case 'static':
-                $result = $mform->createElement($properties['element'], $name, $displayname, $text);
+                $result = $mform->createElement($element, $name, $displayname, $text);
+                break;
+            case 'editor':
+                $result = $mform->createElement($element, $name, $displayname, $options);
+                break;
+            case 'filepicker':
+            case 'filemanager':
+                $result = $mform->createElement($element, $name, $displayname, $attributes, $options);
                 break;
             case 'checkbox':
             case 'advcheckbox':
-                $result = $mform->createElement($properties['element'], $name, $displayname, $text, $attributes);
+                $result = $mform->createElement($element, $name, $displayname, $text, $attributes);
                 break;
             case 'date_selector':
             case 'date_time_selector':
-                $result = $mform->createElement(
-                    $properties['element'], $name, $displayname, $properties['parameters'], $attributes
-                );
+                $result = $mform->createElement($element, $name, $displayname, $options, $attributes);
                 break;
             case 'select':
-                $result = $mform->createElement($properties['element'], $name, $displayname, $properties['options'], $attributes);
+                $result = $mform->createElement($element, $name, $displayname, $options, $attributes);
                 break;
             case 'autocomplete':
-                $result = $mform->createElement(
-                    $properties['element'], $name, $displayname, $properties['options'], $properties['parameters']
-                );
+                $result = $mform->createElement($element, $name, $displayname, $options, $parameters);
                 break;
             case 'radio':
                 $buttons = array();
-                foreach ($properties['options'] as $index => $option) {
+                foreach ($options as $index => $option) {
                     if ($useradioindex) {
                         $radiodisplay = $option;
                     } else {
@@ -241,7 +250,7 @@ abstract class local_mxschool_form extends moodleform {
                         ));
                     }
                     $buttons[] = $mform->createElement(
-                        $properties['element'], $name, '', $radiodisplay, $useradioindex ? $index : $option, $attributes
+                        $element, $name, '', $radiodisplay, $useradioindex ? $index : $option, $attributes
                     );
                 }
                 $result = $mform->createElement('group', $name, $displayname, $buttons, '&nbsp;', false);
@@ -252,10 +261,10 @@ abstract class local_mxschool_form extends moodleform {
                     $childproperties['ingroup'] = true;
                     $childelements[] = $this->create_element("{$name}_{$childname}", $childproperties, $stringprefix, $component);
                 }
-                $result = $mform->createElement('group', $name, $displayname, $childelements, '&nbsp;', false);
+                $result = $mform->createElement($element, $name, $displayname, $childelements, '&nbsp;', false);
                 break;
             default:
-                debugging("unsupported element type: {$properties['element']}", DEBUG_DEVELOPER);
+                throw new coding_exception("unsupported element type: {$element}");
         }
         return $result;
     }

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Daily task that emails the peer tutor admin with a summary of that day's tutoring for Middlesex School's Peer Tutoring Subplugin.
+ * Daily task that emails the peer tutor admin with a summary of that day's tutoring for Middlesex's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

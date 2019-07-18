@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing vacation travel preferences for Middlesex School's Dorm and Student Functions Plugin.
+ * Form for editing vacation travel preferences for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage vacation_travel
@@ -40,15 +40,15 @@ class preferences_form extends local_mxschool_form {
             'availability' => array(
                 'start' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(1),
-                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
                 )),
                 'stop' => array('element' => 'group', 'children' => array(
                     'time' => self::time_selector(1),
-                    'date' => array('element' => 'date_selector', 'parameters' => self::date_parameters_school_year())
+                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
                 )),
                 'returnenabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string( 'vacation_travel_preferences_availability_returnenabled_text', 'local_mxschool')
+                    'text' => get_string('vacation_travel_preferences_availability_returnenabled_text', 'local_mxschool')
                 )
             ),
             'notifications' => array(
