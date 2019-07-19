@@ -55,7 +55,8 @@ $data->oncampusenabled = get_config('local_signout', 'on_campus_form_enabled');
 $data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
 $data->refresh = get_config('local_signout', 'on_campus_refresh_rate');
 $data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
-$data->warning['text'] = get_config('local_signout', 'on_campus_form_warning');
+$data->underclassmanwarning['text'] = get_config('local_signout', 'on_campus_form_warning_underclassmen');
+$data->juniorwarning['text'] = get_config('local_signout', 'on_campus_form_warning_juniors');
 $data->confirmation['text'] = get_config('local_signout', 'on_campus_form_confirmation');
 
 $form = new preferences_form();
@@ -68,7 +69,8 @@ if ($form->is_cancelled()) {
     set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
     set_config('on_campus_refresh_rate', $data->refresh, 'local_signout');
     set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
-    set_config('on_campus_form_warning', $data->warning['text'], 'local_signout');
+    set_config('on_campus_form_warning_underclassmen', $data->underclassmanwarning['text'], 'local_signout');
+    set_config('on_campus_form_warning_juniors', $data->juniorwarning['text'], 'local_signout');
     set_config('on_campus_form_confirmation', $data->confirmation['text'], 'local_signout');
     logged_redirect(
         $form->get_redirect(), get_string('on_campus_preferences_edit_success', 'local_signout'), 'update'

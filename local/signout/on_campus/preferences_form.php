@@ -51,7 +51,8 @@ class preferences_form extends local_mxschool_form {
             ),
             'text' => array(
                 'ipformerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'warning' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'underclassmanwarning' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'juniorwarning' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'confirmation' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
             )
         );

@@ -41,7 +41,7 @@ class location_edit_form extends local_mxschool_form {
             '' => array('id' => self::ELEMENT_HIDDEN_INT),
             'location' => array(
                 'name' => self::ELEMENT_TEXT_REQUIRED,
-                'grade' => array('element' => 'radio', 'options' => array(11, 12), 'rules' => array('required')),
+                'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
                 'enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'start' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
                 'end' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true))

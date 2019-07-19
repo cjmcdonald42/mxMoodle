@@ -51,7 +51,8 @@ function xmldb_local_signout_install() {
     set_config('on_campus_form_enabled', '1', 'local_signout');
     set_config('on_campus_form_ipenabled', '1', 'local_signout');
     set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
-    set_config('on_campus_form_warning', 'You need special permission to go to a non-academic location.', 'local_signout');
+    set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any other location.', 'local_signout');
+    set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
     set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
     set_config('on_campus_refresh_rate', '60', 'local_signout');
 
@@ -69,11 +70,13 @@ function xmldb_local_signout_install() {
     }
 
     $locations = array(
+        array('name' => 'Supervised Study Hall', 'grade' => 9),
         array('name' => 'Library', 'grade' => 11),
         array('name' => 'Terry Room', 'grade' => 11),
         array('name' => 'Tech Center', 'grade' => 11),
         array('name' => 'Rachel Carson Center', 'grade' => 11),
-        array('name' => 'Clay Centenial Center Lobby', 'grade' => 11)
+        array('name' => 'Clay Centenial Center Lobby', 'grade' => 11),
+        array('name' => 'Bass Arts Pavilion', 'grade' => 11),
     );
     foreach ($locations as $location) {
         $DB->insert_record('local_signout_location', (object) $location);

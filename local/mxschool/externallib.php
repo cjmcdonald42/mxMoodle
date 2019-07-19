@@ -65,7 +65,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::set_boolean_field_parameters(), array(
             'table' => $table, 'field' => $field, 'id' => $id, 'value' => $value)
         );
-        switch ($params['table']) { // TODO: This should not be hardcoded, especially the signout case.
+        switch ($params['table']) {
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
                 $page = get_string('checkin_weekend_report', 'local_mxschool');
@@ -77,10 +77,6 @@ class local_mxschool_external extends external_api {
             case 'local_mxschool_vt_site':
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
                 $page = get_string('vacation_travel_site_report', 'local_mxschool');
-                break;
-            case 'local_signout_location':
-                require_capability('local/signout:manage_on_campus_preferences', context_system::instance());
-                $page = get_string('on_campus_location_report', 'local_signout');
                 break;
             default:
                 throw new coding_exception("Unsupported table: {$params['table']}.");

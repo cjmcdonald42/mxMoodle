@@ -155,7 +155,8 @@ $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable 
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
 $string['on_campus_preferences_config_refresh'] = 'How often the On-Campus reports should refresh (seconds)<br>Leave blank to disable auto-refresh';
 $string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
-$string['on_campus_preferences_text_warning'] = 'Warning for an 11th Grade Student Who Selects an \'Other\' Location';
+$string['on_campus_preferences_text_underclassmanwarning'] = 'Warning for a 9th or 10th Grade Student Who Selects an \'Other\' Location';
+$string['on_campus_preferences_text_juniorwarning'] = 'Warning for an 11th Grade Student Who Selects an \'Other\' Location';
 $string['on_campus_preferences_text_confirmation'] = 'Confirmation for a Student with a Warning';
 
 // On-Campus Location Report.
@@ -170,6 +171,8 @@ $string['on_campus_location_report_header_end'] = 'End Date';
 $string['on_campus_location_edit_header_location'] = 'Location Information';
 $string['on_campus_location_edit_location_name'] = 'Name';
 $string['on_campus_location_edit_location_grade'] = 'Minimum Grade';
+$string['on_campus_location_edit_location_grade_9'] = '9';
+$string['on_campus_location_edit_location_grade_10'] = '10';
 $string['on_campus_location_edit_location_grade_11'] = '11';
 $string['on_campus_location_edit_location_grade_12'] = '12';
 $string['on_campus_location_edit_location_enabled'] = 'Enabled';

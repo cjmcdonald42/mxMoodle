@@ -47,13 +47,10 @@ class location_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the enabled column to a checkbox.
+     * Formats the enabled column.
      */
     protected function col_enabled($values) {
-        global $PAGE;
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox($values->id, 'local_signout_location', 'enabled', $values->enabled);
-        return $output->render($renderable);
+        return format_boolean($values->enabled);
     }
 
     /**
