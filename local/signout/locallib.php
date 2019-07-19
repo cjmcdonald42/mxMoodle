@@ -255,7 +255,7 @@ function get_off_campus_type_list($userid = 0) {
         if ($record->maydrive === 'No' || $record->boardingstatus !== 'Day') {
             unset($types[array_search('Driver', $types)]);
         }
-        if ($record->mayridewith === null || $record->mayridewith === 'Over 21') {
+        if (empty($record->mayridewith) || $record->mayridewith === 'Over 21') {
             unset($types[array_search('Passenger', $types)]);
         }
         $types = array_values($types); // Reset the keys so that [0] can be the default option.

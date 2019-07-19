@@ -54,10 +54,10 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     if (!$data->start) {
-        $data->start = null;
+        unset($data->start);
     }
     if (!$data->end) {
-        $data->end = null;
+        unset($data->end);
     }
     update_record($queryfields, $data);
     logged_redirect(

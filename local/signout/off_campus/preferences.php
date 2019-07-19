@@ -56,6 +56,7 @@ $data->any['text'] = get_config('local_signout', 'off_campus_notification_warnin
 $data->parent['text'] = get_config('local_signout', 'off_campus_notification_warning_parent');
 $data->specific['text'] = get_config('local_signout', 'off_campus_notification_warning_specific');
 $data->over21['text'] = get_config('local_signout', 'off_campus_notification_warning_over21');
+$data->unsetpermissions['text'] = get_config('local_signout', 'off_campus_notification_warning_unsetpermissions');
 
 $form = new preferences_form();
 $form->set_data($data);
@@ -81,6 +82,7 @@ if ($form->is_cancelled()) {
     set_config('off_campus_notification_warning_parent', $data->parent['text'], 'local_signout');
     set_config('off_campus_notification_warning_specific', $data->specific['text'], 'local_signout');
     set_config('off_campus_notification_warning_over21', $data->over21['text'], 'local_signout');
+    set_config('off_campus_notification_warning_unsetpermissions', $data->unsetpermissions['text'], 'local_signout');
     logged_redirect(
         $form->get_redirect(), get_string('off_campus_preferences_edit_success', 'local_signout'), 'update'
     );

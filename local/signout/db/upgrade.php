@@ -212,11 +212,19 @@ function xmldb_local_signout_upgrade($oldversion) {
         // Unset old signin warnings.
         unset_config('off_campus_report_iperror', 'local_signout');
         unset_config('on_campus_report_iperror', 'local_signout');
-        
+
         // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019071802, 'local', 'signout');
     }
 
+    if ($oldversion < 2019071903) {
+
+        // Set no permissions warning.
+        set_config('off_campus_notification_warning_unsetpermissions', 'This student does NOT have passenger permissions on file.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071903, 'local', 'signout');
+    }
 
     return true;
 }

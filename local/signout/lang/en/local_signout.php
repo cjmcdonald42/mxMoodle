@@ -93,6 +93,7 @@ $string['off_campus_preferences_emailtext_any'] = 'Warning for a Passenger with 
 $string['off_campus_preferences_emailtext_parent'] = 'Warning for a Passenger with Permissions to Ride Only with Parent Permission';
 $string['off_campus_preferences_emailtext_specific'] = 'Warning for a Passenger with Permissions to Ride Only with Specific Drivers';
 $string['off_campus_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
+$string['off_campus_preferences_emailtext_unsetpermissions'] = 'Warning for a Passenger without any Riding Permissions on File';
 
 // Form for Off-Campus Signout.
 $string['off_campus_form_title'] = 'Off-Campus Signout Form for {$a}';

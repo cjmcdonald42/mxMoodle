@@ -62,7 +62,7 @@ $ridingencode = array(
     'Parent Permission' => 'parent', 'Over 21' => '21', 'Any Driver' => 'any', 'Specific Drivers' => 'specific'
 );
 $data = get_record($queryfields, "s.id = ?", array($id));
-$data->riding = $ridingencode[$data->riding];
+$data->riding = isset($data->riding) ? $ridingencode[$data->riding] : null;
 $dorms = get_dorm_list();
 $faculty = get_faculty_list();
 
@@ -73,18 +73,18 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     if (!$data->room) {
-        $data->room = null;
+        unset($data->room);
     }
     if (!$data->picture) {
-        $data->picture = null;
+        unset($data->picture);
     }
     if (!$data->license) {
-        $data->license = null;
+        unset($data->license);
     }
-    if ($data->riding !== 'specific') {
-        $data->ridingcomment = null;
+    if (!isset($data->riding) || $data->riding !== 'specific') {
+        unset($data->ridingcomment);
     }
-    $data->riding = array_flip($ridingencode)[$data->riding];
+    $data->riding = isset($data->riding) ? array_flip($ridingencode)[$data->riding] : null;
     update_record($queryfields, $data);
     logged_redirect($form->get_redirect(), get_string('user_management_student_edit_success', 'local_mxschool'), 'update');
 }

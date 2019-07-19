@@ -76,12 +76,12 @@ class submitted extends notification {
                 $passengers = count($passengerlist) ? implode('<br>', $passengerlist)
                     : get_string('off_campus_report_nopassengers', 'local_signout');
             }
-            $emaildeans = false;
+            $irregular = false;
             if ($record->type === 'Driver') {
                 $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_driver');
             } else {
                 if ($record->type !== 'Passenger' && $record->type !== 'Parent') {
-                    $emaildeans = true;
+                    $irregular = true;
                 }
                 switch($record->passengerpermission) {
                     case 'Any Driver':
@@ -93,11 +93,15 @@ class submitted extends notification {
                     case 'Specific Drivers':
                         $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_specific')
                             . " {$record->specificdrivers}";
-                        $emaildeans = true;
+                        $irregular = true;
+                        break;
+                    case 'Over 21':
+                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_over21');
+                        $irregular = true;
                         break;
                     default:
-                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_over21');
-                        $emaildeans = true;
+                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_unsetpermissions');
+                        $irregular = true;
                 }
             }
 
@@ -110,13 +114,13 @@ class submitted extends notification {
             $this->data['approver'] = format_faculty_name($record->approver, false);
             $this->data['permissionswarning'] = $permissionswarning;
             $this->data['timesubmitted'] = format_date('g:i A', $record->timesubmitted);
-            $this->data['irregular'] = $emaildeans ? get_config('local_signout', 'off_campus_notification_warning_irregular') : '';
+            $this->data['irregular'] = $irregular ? get_config('local_signout', 'off_campus_notification_warning_irregular') : '';
 
             array_push(
                 $this->recipients, $DB->get_record('user', array('id' => $record->student)),
                 $DB->get_record('user', array('id' => $record->approver)), $DB->get_record('user', array('id' => $record->hoh))
             );
-            if ($emaildeans) {
+            if ($irregular) {
                 $this->recipients[] = self::get_deans_user();
             }
         }

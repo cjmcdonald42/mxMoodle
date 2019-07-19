@@ -151,18 +151,18 @@ if ($form->is_cancelled()) {
         }
     }
     if (!$departuredata->mxtransportation) {
-        $departuredata->site = null;
-        $departuredata->international = null;
+        unset($departuredata->site);
+        unset($departuredata->international);
     }
     if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && $departuredata->site !== '0') {
-        $departuredata->details = null;
+        unset($departuredata->details);
     }
     if ($departuredata->type !== 'Plane' && $departuredata->type !== 'Train' && $departuredata->type !== 'Bus') {
-        $departuredata->carrier = null;
-        $departuredata->number = null;
+        unset($departuredata->carrier);
+        unset($departuredata->number);
     }
     if ($departuredata->type !== 'Plane') {
-        $departuredata->international = null;
+        unset($departuredata->international);
     }
     $data->departureid = update_record($transportqueryfields, $departuredata);
     if ($returnenabled) {
@@ -176,22 +176,22 @@ if ($form->is_cancelled()) {
             }
         }
         if (!$returndata->mxtransportation) {
-            $returndata->site = null;
-            $returndata->international = null;
+            unset($returndata->site);
+            unset($returndata->international);
         }
         if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && $returndata->site !== '0') {
-            $returndata->details = null;
+            unset($returndata->details);
         }
         if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {
-            $returndata->carrier = null;
-            $returndata->number = null;
+            unset($returndata->carrier);
+            unset($returndata->number);
         }
         if ($returndata->type !== 'Plane') {
-            $returndata->international = null;
+            unset($returndata->international);
         }
         $data->returnid = update_record($transportqueryfields, $returndata);
     } else {
-        $data->returnid = null;
+        unset($data->returnid);
     }
     $id = update_record($tripqueryfields, $data);
     $result = (new \local_mxschool\local\vacation_travel\submitted($id))->send();
