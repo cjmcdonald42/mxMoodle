@@ -393,7 +393,7 @@ function get_edit_cutoff($timecreated) {
  * NOTE: It should not be possible for a student to have an off-campus record and another signout record active simultaneously,
  *       but this function is designed to handle such a scenario should it occur.
  *
- * @return stdClass|bool Object with properties type and location if the student has an active signout record,
+ * @return stdClass|bool Object with properties id, type, location, and timecreated if the student has an active signout record,
  *                       otherwise a value of false.
  */
 function get_user_current_signout() {
@@ -402,31 +402,37 @@ function get_user_current_signout() {
         return false;
     }
     $result = new stdClass();
-    if (student_may_access_on_campus_signout()) {
+    if (student_may_access_on_campus_signout($USER->id)) {
         $record = $DB->get_record_sql(
-            "SELECT l.name AS location, oc.other
+            "SELECT oc.id, l.name AS location, oc.other, oc.time_created AS timecreated
              FROM {local_signout_on_campus} oc LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
-             WHERE oc.userid = ? AND sign_in_time = NULL
+             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0
              ORDER BY oc.time_created DESC", array($USER->id), IGNORE_MULTIPLE
         );
         if ($record) {
+            $result->id = $record->id;
             $result->type = 'on_campus';
             $result->location = $record->location ?? $record->other;
+            $result->timecreated = $record->timecreated;
+            return $result;
         }
     }
-    if (student_may_access_off_campus_signout()) {
-        $destination = $DB->get_field_sql(
-            "SELECT oc.destination
+    if (student_may_access_off_campus_signout($USER->id)) {
+        $record = $DB->get_record_sql(
+            "SELECT oc.id, oc.destination, oc.time_created AS timecreated
              FROM {local_signout_off_campus} oc
-             WHERE oc.userid = ? AND sign_in_time = NULL
+             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0
              ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
         );
-        if ($destination) {
+        if ($record) {
+            $result->id = $record->id;
             $result->type = 'off_campus';
-            $result->location = $destination;
+            $result->location = $record->destination;
+            $result->timecreated = $record->timecreated;
+            return $result;
         }
     }
-    return $result ?: false;
+    return false;
 }
 
 /**
@@ -450,7 +456,9 @@ function sign_in_user() {
         return false;
     }
     if ($currentsignout->type === 'on_campus') {
-        $records = $DB->get_records('local_signout_on_campus', array('userid' => $USER->id, 'sign_in_time' => null));
+        $records = $DB->get_records('local_signout_on_campus', array(
+            'userid' => $USER->id, 'sign_in_time' => null, 'deleted' => 0
+        ));
         if (!$records) {
             return false;
         }
@@ -465,7 +473,7 @@ function sign_in_user() {
         $record = $DB->get_record_sql(
             "SELECT *
              FROM {local_signout_off_campus} oc
-             WHERE oc.userid = ? AND sign_in_time = NULL
+             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0
              ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
         );
         if (!$record) {
