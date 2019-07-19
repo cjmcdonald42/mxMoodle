@@ -71,7 +71,8 @@ class preferences_form extends local_mxschool_form {
                 'any' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'parent' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
                 'specific' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'over21' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'over21' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'unsetpermissions' => self::ELEMENT_FORMATED_TEXT_REQUIRED
             )
         );
         $this->set_fields($fields, 'off_campus_preferences', true, 'local_signout');

@@ -46,6 +46,9 @@ if ($id && !$DB->record_exists('local_signout_location', array('id' => $id))) {
 }
 
 $data = get_record($queryfields, 'l.id = ?', array($id));
+if (!$id) {
+    $data->enabled = '-1'; // Invalid default to prevent auto selection.
+}
 
 $form = new location_edit_form(array('id' => $id));
 $form->set_data($data);
@@ -54,10 +57,10 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     if (!$data->start) {
-        $data->start = null;
+        unset($data->start);
     }
     if (!$data->end) {
-        $data->end = null;
+        unset($data->end);
     }
     update_record($queryfields, $data);
     logged_redirect(

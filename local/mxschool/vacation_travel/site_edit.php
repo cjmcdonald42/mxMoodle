@@ -55,10 +55,10 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     if (!$data->defaultdeparturetime) {
-        $data->defaultdeparturetime = null;
+        unset($data->defaultdeparturetime);
     }
     if (!$data->defaultreturntime) {
-        $data->defaultreturntime = null;
+        unset($data->defaultreturntime);
     }
     update_record($queryfields, $data);
     logged_redirect(

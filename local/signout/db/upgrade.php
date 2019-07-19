@@ -212,11 +212,45 @@ function xmldb_local_signout_upgrade($oldversion) {
         // Unset old signin warnings.
         unset_config('off_campus_report_iperror', 'local_signout');
         unset_config('on_campus_report_iperror', 'local_signout');
-        
+
         // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019071802, 'local', 'signout');
     }
 
+    if ($oldversion < 2019071903) {
+
+        // Set no permissions warning.
+        set_config('off_campus_notification_warning_unsetpermissions', 'This student does NOT have passenger permissions on file.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071903, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019071904) {
+
+        // Set on_campus form warnings.
+        unset_config('on_campus_form_warning', 'local_signout');
+        set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any other location.', 'local_signout');
+        set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071904, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019071905) {
+
+        // Add a couple more default locations.
+        $locations = array(
+            array('name' => 'Supervised Study Hall', 'grade' => 9),
+            array('name' => 'Bass Arts Pavilion', 'grade' => 11)
+        );
+        foreach ($locations as $location) {
+            $DB->insert_record('local_signout_location', (object) $location);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019071905, 'local', 'signout');
+    }
 
     return true;
 }

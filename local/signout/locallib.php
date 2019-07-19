@@ -49,7 +49,7 @@ function student_may_access_off_campus_signout($userid) {
 
 /**
  * Determines whether a specified user is a student who is permitted to access on-campus signout.
- * Students are permitted to participate in on-campus signout if on-campus signout is enabled and the student's grade is 11 or 12.
+ * Students are permitted to participate in on-campus signout if on-campus signout is enabled and the student is a boarder.
  *
  * @param int $id The user id of the student to check.
  * @return bool Whether the specified student is permitted to access on-campus signout.
@@ -206,7 +206,7 @@ function get_current_driver_list($ignore = 0) {
 
 /**
  * Queries the database to create a list of all the students who have sufficient permissions to participate in on-campus signout.
- * Students are permitted to participate in on-campus signout if their grade is 11 or 12.
+ * Students are permitted to participate in on-campus signout if they are a boarder.
  *
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
@@ -215,7 +215,7 @@ function get_on_campus_permitted_student_list() {
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
-         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder' AND (s.grade = 11 OR s.grade = 12)
+         WHERE u.deleted = 0 AND s.boarding_status = 'Boarder'
          ORDER BY name"
     );
     return convert_student_records_to_list($students);
@@ -255,7 +255,7 @@ function get_off_campus_type_list($userid = 0) {
         if ($record->maydrive === 'No' || $record->boardingstatus !== 'Day') {
             unset($types[array_search('Driver', $types)]);
         }
-        if ($record->mayridewith === null || $record->mayridewith === 'Over 21') {
+        if (empty($record->mayridewith) || $record->mayridewith === 'Over 21') {
             unset($types[array_search('Passenger', $types)]);
         }
         $types = array_values($types); // Reset the keys so that [0] can be the default option.

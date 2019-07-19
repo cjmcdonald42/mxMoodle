@@ -212,7 +212,7 @@ class report_filter implements renderable, templatable {
         $data->dropdowns = array_map(function($dropdown) {
             return \html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
         }, $this->dropdowns);
-        $data->searchable = $this->search !== null;
+        $data->searchable = isset($this->search);
         $data->search = $this->search;
         $data->filterable = $data->searchable || count($data->dropdowns);
         $data->printable = $this->printbutton;

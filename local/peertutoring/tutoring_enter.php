@@ -86,7 +86,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
     if ($data->type_select !== '-1') {
-        $data->type_other = null;
+        unset($data->type_other);
     }
     update_record($queryfields, $data);
     logged_redirect(

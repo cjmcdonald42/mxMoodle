@@ -49,9 +49,18 @@ define(
                     lib.updateSelect($('.mx-form select#id_location_select'), data.locations);
                 });
                 var permissionsFieldset = $('.mx-form fieldset#id_permissions');
-                if ($('.mx-form select#id_location_select').val() === '-1' && data.grade === 11) {
+                if ($('.mx-form select#id_location_select').val() === '-1' && data.grade < 12) {
                     permissionsFieldset.next().hide();
                     permissionsFieldset.show();
+                    var underclassmanPermissionDiv = permissionsFieldset.children().eq(1).children().eq(0);
+                    var juniorDriversDiv = permissionsFieldset.children().eq(1).children().eq(1);
+                    if (data.grade === 11) {
+                        underclassmanPermissionDiv.hide();
+                        juniorDriversDiv.show();
+                    } else {
+                        underclassmanPermissionDiv.show();
+                        juniorDriversDiv.hide();
+                    }
                 } else {
                     permissionsFieldset.next().show();
                     permissionsFieldset.hide();

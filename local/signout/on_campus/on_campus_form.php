@@ -54,6 +54,7 @@ class on_campus_form extends local_mxschool_form {
             ),
             'permissions' => array(
                 'locationwarning' => array('element' => 'static', 'name' => null),
+                'locationwarning11' => array('element' => 'static', 'name' => null),
                 'permissionssubmitbuttons' => array(
                     'element' => 'group', 'displayname' => get_config('local_signout', 'on_campus_form_confirmation'),
                     'children' => array(

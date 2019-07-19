@@ -292,7 +292,7 @@ function update_record($queryfields, $data) {
             if (is_numeric($header)) {
                 $header = $name;
             }
-            $record->$header = $data->$name;
+            $record->$header = $data->$name ?? null;
         }
         if ($record->id) {
             $DB->update_record($table, $record);
