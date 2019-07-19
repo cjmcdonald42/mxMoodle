@@ -37,7 +37,7 @@ class block_mxschool_dash_student extends block_base {
     }
 
     public function get_content() {
-        global $PAGE, $USER;
+        global $USER;
         if (isset($this->content)) {
             return $this->content;
         }
@@ -55,9 +55,9 @@ class block_mxschool_dash_student extends block_base {
                     get_string('on_campus_button_signin', 'block_mxschool_dash_student')
                 );
             } else {
-                if (generate_datetime()->getTimestamp() < get_edit_cutoff($values->timecreated)) {
+                if (generate_datetime()->getTimestamp() < get_edit_cutoff($currentsignout->timecreated)) {
                     $buttons[] = new \local_mxschool\output\redirect_button(
-                        new moodle_url('/local/signout/on_campus/on_campus_enter.php'),
+                        new moodle_url('/local/signout/off_campus/off_campus_enter.php', array('id' => $currentsignout->id)),
                         get_string('off_campus_button_edit', 'block_mxschool_dash_student')
                     );
                 } else {
@@ -83,8 +83,10 @@ class block_mxschool_dash_student extends block_base {
         }
         $this->content = new stdClass();
         if (count($buttons)) {
-            $output = $PAGE->get_renderer('local_mxschool');
-            $this->content->text = $state . '<br>' . array_reduce($buttons, function($html, $button) use($output) {
+            $this->content->text = $state . '<br>' . array_reduce($buttons, function($html, $button) {
+                global $PAGE;
+                // Extract the package name from the first element of the namespace.
+                $output = $PAGE->get_renderer(explode('\\', get_class($button))[0]);
                 return $html . $output->render($button);
             }, '');
         }

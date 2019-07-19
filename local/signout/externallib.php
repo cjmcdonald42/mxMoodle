@@ -183,7 +183,7 @@ class local_signout_external extends external_api {
      * @return external_function_parameters Object holding array of parameters for the sign_in() function.
      */
     public static function sign_in_parameters() {
-        return new external_function_parameters();
+        return new external_function_parameters(array());
     }
 
     /**
