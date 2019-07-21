@@ -1,6 +1,6 @@
 # Middlesex's Dorm and Student Functions Plugin
 
-Custom Moodle plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
+Local Moodle plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
 
@@ -16,22 +16,22 @@ This package houses the following subpackages and pages:
     - _vehicle_report, vehicle_edit_ — Student registered vehicles report and edit page.
     - _picture_import_ — Student picture bulk import page.
 - **_checkin_** — Generates dorm check-in sheets for a variety of situations and provides a way for students to sign out for the weekend with the Weekend Form.
-    - _preferences_ — Preferences page to specify when each semester starts and ends and the type of each weekend and configure the text in the email notifications.
+    - _preferences_ — Preferences page to specify when each semester starts and ends and the type of each weekend and to configure the text in email notifications.
     - _generic_report_ — Generic check-in sheet to be used for all checked events.
     - _weekday_report_ — Weekly check-in sheet to be used within the dorm.
     - _weekend_form_ — Form for students to submit weekend travel plans.
     - _weekend_report_ — Weekend check-in sheet to be used within the dorm which includes weekend form information. Also logs historical data.
     - _weekend_calculator_ — Report for students and dorm faculty to see how many weekends a student has spent off campus.
-- **_advisor_selection_** — System for students to specify their preference of advisor to the deans.
-    - _preferences_ — Preferences page to enable or disable the form and configure text in both the form and the email notifications.
+- **_advisor_selection_** — Provides a system for students to specify their preference of advisor to the deans.
+    - _preferences_ — Preferences page to enable or disable the form, configure form text as well as the text in email notifications, and specify the status of each faculty's advisory.
     - _form_ — Form for students to specify their preference of advisor.
     - _report_ — Report for deans to view and manage students' responses.
-- **_rooming_** — System for students to specify their rooming preferences to the deans.
-    - _preferences_ — Preferences page to enable or disable the form and configure text in both the form and the email notifications.
+- **_rooming_** — Provides a system for students to specify their rooming preferences to the deans.
+    - _preferences_ — Preferences page to enable or disable the form and configure form text as well as the text in email notifications.
     - _form_ — Form for students to specify their rooming preferences.
     - _report_ — Report for deans to view and manage students' responses.
-- **_vacation_travel_** — System for students to submit their vacation travel plans and transportation needs in order to coordinate with the deans, dorm faculty, and the transportation manager,
-    - _preferences_ — Preferences page to enable or disable the form, configure text email notifications, and determine the list of available sites.
+- **_vacation_travel_** — Provides a system for students to submit their vacation travel plans and transportation needs in order to coordinate with the deans, dorm faculty, and the transportation manager,
+    - _preferences_ — Preferences page to enable or disable the form, configure the text in email notifications, and manage the list of available sites.
     - _form_ — Form for students to submit their vacation travel plans and transportation needs.
     - _report_ — Report for dorm faculty to view and manage students' responses.
     - _transportation_report_ — Report for the transportation manager to view students' responses in order to organize transportation.

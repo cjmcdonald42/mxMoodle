@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page for peer tutors to submit tutoring records for Middlesex's Peer Tutoring Subplugin.
+ * Page for peer tutors to log their tutoring sessions for Middlesex's Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
