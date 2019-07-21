@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Weekend form for students to submit for Middlesex's Dorm and Student Functions Plugin.
+ * Form for students to submit weekend travel plans for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin

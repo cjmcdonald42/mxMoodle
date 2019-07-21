@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Weekend checkin sheet table for Middlesex's Dorm and Student Functions Plugin.
+ * Weekend check-in sheet table for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package    local_mxschool
  * @subpackage checkin
