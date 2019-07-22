@@ -7,6 +7,10 @@ Moodle is the world’s open source learning platform. Learn more at <https://mo
 ## Package Description
 This package defines basic information about students, faculty, and dorms and provides a number of subsystems which implement management functionality for dorm faculty and administrative functionality for the deans. The package also defines a number of abstractions and provides its own API on top of the core Moodle functionality in order to simplify development and provide consistency in all of the Middlesex Moodle Subplugins.
 
+## Dependencies
+This plugin has the following dependencies:
+- Moodle 3.4+
+
 ## Subpackages
 This package houses the following subpackages and pages:
 - **_user_management_** — Defines students, faculty, and dorms and provides an interface to edit static information used throughout the package.

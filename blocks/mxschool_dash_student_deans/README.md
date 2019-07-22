@@ -1,23 +1,16 @@
-# Middlesex's Peer Tutoring Subplugin
+# Middlesex's Dashboard Block for Students
 
-Local Moodle plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
+Moodle block plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
 
 ## Package Description
-This package provides a system for peer tutors to log their tutoring sessions in order that the Peer Tutoring Administrator can view a record of all the tutoring that takes place.
+This block provides an interface for students to access the advisor selection, rooming, and vacation travel forms defined in the local_mxschool plugin when they are made available by the deans' office.
 
 ## Dependencies
 This plugin has the following dependencies:
 - Moodle 3.4+
 - [local_mxschool v3.1](/local/mxschool/README.md)
-
-## Subpackages
-This package houses the following subpackages and pages:
-- (root)
-    - _preferences_ — Preferences page to configure text in email notifications and manage the lists of tutors, departments, courses, types, and ratings.
-    - _form_ — Form for tutors to log their tutoring sessions.
-    - _report_ — Report for the Peer Tutoring Administrator to view and manage the peer tutoring records.
 
 ## Credits
 v3.0 of this plugin was developed alongside v3.0 of the local_mxschool plugin in 2018 by:

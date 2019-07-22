@@ -24,7 +24,7 @@ The project currently includes the following plugins:
     - [blocks/mxschool_dash_student](./../blocks/mxschool_dash_student/README.md)
 
 ## Contributing
-This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started page](./getting_started.md).
+This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started page](./GETTING_STARTED.md).
 
 ## Credits
 v3.0 of the project was developed in 2018 by:

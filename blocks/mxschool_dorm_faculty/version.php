@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dean's Block for the Student Dashboard.
+ * Middlesex's Dorm Block for Faculty.
  *
  * @package    block_mxschool_dorm_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

@@ -9,7 +9,7 @@ This package provides a system for students to sign out to both on- and off-camp
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.4+ (2017111300)
+- Moodle 3.4+
 - [local_mxschool v3.1](/local/mxschool/README.md)
 
 ## Subpackages
@@ -25,7 +25,7 @@ This package houses the following subpackages and pages:
     - _report_ — Report for dorm faculty and deans to view and manage students' off-campus signouts. Also logs historical data.
 
 ## Credits
-v3.1 of this plugin was developed in 2019 by:
+v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 

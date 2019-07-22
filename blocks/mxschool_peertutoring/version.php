@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dean's Block for the Student Dashboard.
+ * Middlesex's Dashboard Block for Peer Tutors.
  *
  * @package    block_mxschool_peertutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

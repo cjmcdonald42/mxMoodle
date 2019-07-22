@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Peer Tutoring Manager Block for the Dashboard.
+ * Middlesex's Block for the Peer Tutoring Administrator.
  *
  * @package    block_mxschool_manage_tutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
