@@ -244,5 +244,515 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019071703, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019072201) {
+
+        // Define key user (foreign_unique) to be dropped form local_mxschool_adv_selection.
+        $table = new xmldb_table('local_mxschool_adv_selection');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch drop key user.
+        $dbman->drop_key($table, $key);
+
+        // Define key weekend (foreign) to be dropped form local_mxschool_comment.
+        $table = new xmldb_table('local_mxschool_comment');
+        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
+
+        // Launch drop key weekend.
+        $dbman->drop_key($table, $key);
+
+        // Define key dorm (foreign) to be dropped form local_mxschool_comment.
+        $table = new xmldb_table('local_mxschool_comment');
+        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+
+        // Launch drop key dorm.
+        $dbman->drop_key($table, $key);
+
+        // Define key hoh (foreign) to be dropped form local_mxschool_dorm.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $key = new xmldb_key('hoh', XMLDB_KEY_FOREIGN, array('hohid'), 'user', array('id'));
+
+        // Launch drop key hoh.
+        $dbman->drop_key($table, $key);
+
+        // Define key user (foreign_unique) to be dropped form local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch drop key user.
+        $dbman->drop_key($table, $key);
+
+        // Define key student (foreign) to be dropped form local_mxschool_parent.
+        $table = new xmldb_table('local_mxschool_parent');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch drop key student.
+        $dbman->drop_key($table, $key);
+
+        // Define key student (foreign_unique) to be dropped form local_mxschool_permissions.
+        $table = new xmldb_table('local_mxschool_permissions');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch drop key student.
+        $dbman->drop_key($table, $key);
+
+        // Define key user (foreign_unique) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch drop key user.
+        $dbman->drop_key($table, $key);
+
+        // Define key dormmate1 (foreign) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate1', XMLDB_KEY_FOREIGN, array('dormmate1id'), 'user', array('id'));
+
+        // Launch drop key dormmate1.
+        $dbman->drop_key($table, $key);
+
+        // Define key dormmate2 (foreign) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate2', XMLDB_KEY_FOREIGN, array('dormmate2id'), 'user', array('id'));
+
+        // Launch drop key dormmate2.
+        $dbman->drop_key($table, $key);
+
+        // Define key dormmate3 (foreign) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate3', XMLDB_KEY_FOREIGN, array('dormmate3id'), 'user', array('id'));
+
+        // Launch drop key dormmate3.
+        $dbman->drop_key($table, $key);
+
+        // Define key dormmate4 (foreign) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate4', XMLDB_KEY_FOREIGN, array('dormmate4id'), 'user', array('id'));
+
+        // Launch drop key dormmate4.
+        $dbman->drop_key($table, $key);
+
+        // Define key dormmate5 (foreign) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate5', XMLDB_KEY_FOREIGN, array('dormmate5id'), 'user', array('id'));
+
+        // Launch drop key dormmate5.
+        $dbman->drop_key($table, $key);
+
+        // Define key dormmate6 (foreign) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate6', XMLDB_KEY_FOREIGN, array('dormmate6id'), 'user', array('id'));
+
+        // Launch drop key dormmate6.
+        $dbman->drop_key($table, $key);
+
+        // Define key preferred_roommate (foreign) to be dropped form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('preferred_roommate', XMLDB_KEY_FOREIGN, array('preferred_roommateid'), 'user', array('id'));
+
+        // Launch drop key preferred_roommate.
+        $dbman->drop_key($table, $key);
+
+        // Define key user (foreign_unique) to be dropped form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch drop key user.
+        $dbman->drop_key($table, $key);
+
+        // Define key dorm (foreign) to be dropped form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+
+        // Launch drop key dorm.
+        $dbman->drop_key($table, $key);
+
+        // Define key advisor (foreign) to be dropped form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('advisor', XMLDB_KEY_FOREIGN, array('advisorid'), 'user', array('id'));
+
+        // Launch drop key advisor.
+        $dbman->drop_key($table, $key);
+
+        // Define key student (foreign) to be dropped form local_mxschool_vehicle.
+        $table = new xmldb_table('local_mxschool_vehicle');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch drop key student.
+        $dbman->drop_key($table, $key);
+
+        // Define key student (foreign_unique) to be dropped form local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'id', array('id'));
+
+        // Launch drop key student.
+        $dbman->drop_key($table, $key);
+
+        // Define key departure (foreign_unique) to be dropped form local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('departure', XMLDB_KEY_FOREIGN_UNIQUE, array('departureid'), 'local_mxschool_vt_transport', array('id'));
+
+        // Launch drop key departure.
+        $dbman->drop_key($table, $key);
+
+        // Define key return (foreign_unique) to be dropped form local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('return', XMLDB_KEY_FOREIGN_UNIQUE, array('returnid'), 'local_mxschool_vt_transport', array('id'));
+
+        // Launch drop key return.
+        $dbman->drop_key($table, $key);
+
+        // Define key user (foreign) to be dropped form local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch drop key user.
+        $dbman->drop_key($table, $key);
+
+        // Define key weekend (foreign) to be dropped form local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
+
+        // Launch drop key weekend.
+        $dbman->drop_key($table, $key);
+
+        // Changing the default of field userid on table local_mxschool_adv_selection to drop it.
+        $table = new xmldb_table('local_mxschool_adv_selection');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field weekendid on table local_mxschool_comment to drop it.
+        $table = new xmldb_table('local_mxschool_comment');
+        $field = new xmldb_field('weekendid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field weekendid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormid on table local_mxschool_comment to drop it.
+        $table = new xmldb_table('local_mxschool_comment');
+        $field = new xmldb_field('dormid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'weekendid');
+
+        // Launch change of default for field dormid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field hohid on table local_mxschool_dorm to drop it.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('hohid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field hohid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_faculty to drop it.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_parent to drop it.
+        $table = new xmldb_table('local_mxschool_parent');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_permissions to drop it.
+        $table = new xmldb_table('local_mxschool_permissions');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormmate1id on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('dormmate1id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'room_type');
+
+        // Launch change of default for field dormmate1id.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormmate2id on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('dormmate2id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'dormmate1id');
+
+        // Launch change of default for field dormmate2id.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormmate3id on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('dormmate3id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'dormmate2id');
+
+        // Launch change of default for field dormmate3id.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormmate4id on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('dormmate4id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'dormmate3id');
+
+        // Launch change of default for field dormmate4id.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormmate5id on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('dormmate5id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'dormmate4id');
+
+        // Launch change of default for field dormmate5id.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormmate6id on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('dormmate6id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'dormmate5id');
+
+        // Launch change of default for field dormmate6id.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field preferred_roommateid on table local_mxschool_rooming to drop it.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $field = new xmldb_field('preferred_roommateid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'has_lived_in_double');
+
+        // Launch change of default for field preferred_roommateid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_student to drop it.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field dormid on table local_mxschool_student to drop it.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('dormid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'userid');
+
+        // Launch change of default for field dormid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field advisorid on table local_mxschool_student to drop it.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('advisorid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'dormid');
+
+        // Launch change of default for field advisorid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_vehicle to drop it.
+        $table = new xmldb_table('local_mxschool_vehicle');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_vt_trip to drop it.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field departureid on table local_mxschool_vt_trip to drop it.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $field = new xmldb_field('departureid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'userid');
+
+        // Launch change of default for field departureid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field returnid on table local_mxschool_vt_trip to drop it.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $field = new xmldb_field('returnid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'departureid');
+
+        // Launch change of default for field returnid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_mxschool_weekend_form to drop it.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field weekendid on table local_mxschool_weekend_form to drop it.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $field = new xmldb_field('weekendid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'userid');
+
+        // Launch change of default for field weekendid.
+        $dbman->change_field_default($table, $field);
+
+        // Define key user (foreign_unique) to be added form local_mxschool_adv_selection.
+        $table = new xmldb_table('local_mxschool_adv_selection');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch add key user.
+        $dbman->add_key($table, $key);
+
+        // Define key weekend (foreign) to be added form local_mxschool_comment.
+        $table = new xmldb_table('local_mxschool_comment');
+        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
+
+        // Launch add key weekend.
+        $dbman->add_key($table, $key);
+
+        // Define key dorm (foreign) to be added form local_mxschool_comment.
+        $table = new xmldb_table('local_mxschool_comment');
+        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+
+        // Launch add key dorm.
+        $dbman->add_key($table, $key);
+
+        // Define key hoh (foreign) to be added form local_mxschool_dorm.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $key = new xmldb_key('hoh', XMLDB_KEY_FOREIGN, array('hohid'), 'user', array('id'));
+
+        // Launch add key hoh.
+        $dbman->add_key($table, $key);
+
+        // Define key user (foreign_unique) to be added form local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch add key user.
+        $dbman->add_key($table, $key);
+
+        // Define key student (foreign) to be added form local_mxschool_parent.
+        $table = new xmldb_table('local_mxschool_parent');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch add key student.
+        $dbman->add_key($table, $key);
+
+        // Define key student (foreign_unique) to be added form local_mxschool_permissions.
+        $table = new xmldb_table('local_mxschool_permissions');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch add key student.
+        $dbman->add_key($table, $key);
+
+        // Define key user (foreign_unique) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch add key user.
+        $dbman->add_key($table, $key);
+
+        // Define key dormmate1 (foreign) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate1', XMLDB_KEY_FOREIGN, array('dormmate1id'), 'user', array('id'));
+
+        // Launch add key dormmate1.
+        $dbman->add_key($table, $key);
+
+        // Define key dormmate2 (foreign) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate2', XMLDB_KEY_FOREIGN, array('dormmate2id'), 'user', array('id'));
+
+        // Launch add key dormmate2.
+        $dbman->add_key($table, $key);
+
+        // Define key dormmate3 (foreign) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate3', XMLDB_KEY_FOREIGN, array('dormmate3id'), 'user', array('id'));
+
+        // Launch add key dormmate3.
+        $dbman->add_key($table, $key);
+
+        // Define key dormmate4 (foreign) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate4', XMLDB_KEY_FOREIGN, array('dormmate4id'), 'user', array('id'));
+
+        // Launch add key dormmate4.
+        $dbman->add_key($table, $key);
+
+        // Define key dormmate5 (foreign) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate5', XMLDB_KEY_FOREIGN, array('dormmate5id'), 'user', array('id'));
+
+        // Launch add key dormmate5.
+        $dbman->add_key($table, $key);
+
+        // Define key dormmate6 (foreign) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('dormmate6', XMLDB_KEY_FOREIGN, array('dormmate6id'), 'user', array('id'));
+
+        // Launch add key dormmate6.
+        $dbman->add_key($table, $key);
+
+        // Define key preferred_roommate (foreign) to be added form local_mxschool_rooming.
+        $table = new xmldb_table('local_mxschool_rooming');
+        $key = new xmldb_key('preferred_roommate', XMLDB_KEY_FOREIGN, array('preferred_roommateid'), 'user', array('id'));
+
+        // Launch add key preferred_roommate.
+        $dbman->add_key($table, $key);
+
+        // Define key user (foreign_unique) to be added form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+
+        // Launch add key user.
+        $dbman->add_key($table, $key);
+
+        // Define key dorm (foreign) to be added form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('dorm', XMLDB_KEY_FOREIGN, array('dormid'), 'local_mxschool_dorm', array('id'));
+
+        // Launch add key dorm.
+        $dbman->add_key($table, $key);
+
+        // Define key advisor (foreign) to be added form local_mxschool_student.
+        $table = new xmldb_table('local_mxschool_student');
+        $key = new xmldb_key('advisor', XMLDB_KEY_FOREIGN, array('advisorid'), 'user', array('id'));
+
+        // Launch add key advisor.
+        $dbman->add_key($table, $key);
+
+        // Define key student (foreign) to be added form local_mxschool_vehicle.
+        $table = new xmldb_table('local_mxschool_vehicle');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch add key student.
+        $dbman->add_key($table, $key);
+
+        // Define key student (foreign_unique) to be added form local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'id', array('id'));
+
+        // Launch add key student.
+        $dbman->add_key($table, $key);
+
+        // Define key departure (foreign_unique) to be added form local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('departure', XMLDB_KEY_FOREIGN_UNIQUE, array('departureid'), 'local_mxschool_vt_transport', array('id'));
+
+        // Launch add key departure.
+        $dbman->add_key($table, $key);
+
+        // Define key return (foreign_unique) to be added form local_mxschool_vt_trip.
+        $table = new xmldb_table('local_mxschool_vt_trip');
+        $key = new xmldb_key('return', XMLDB_KEY_FOREIGN_UNIQUE, array('returnid'), 'local_mxschool_vt_transport', array('id'));
+
+        // Launch add key return.
+        $dbman->add_key($table, $key);
+
+        // Define key user (foreign) to be added form local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('user', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch add key user.
+        $dbman->add_key($table, $key);
+
+        // Define key weekend (foreign) to be added form local_mxschool_weekend_form.
+        $table = new xmldb_table('local_mxschool_weekend_form');
+        $key = new xmldb_key('weekend', XMLDB_KEY_FOREIGN, array('weekendid'), 'local_mxschool_weekend', array('id'));
+
+        // Launch add key weekend.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072201, 'local', 'mxschool');
+    }
+
     return true;
 }

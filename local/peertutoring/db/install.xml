@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/peertutoring/db" VERSION="20190310" COMMENT="XMLDB file for Moodle local/peertutoring"
+<XMLDB PATH="local/peertutoring/db" VERSION="20190722" COMMENT="XMLDB file for Moodle local/peertutoring"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -7,7 +7,7 @@
     <TABLE NAME="local_peertutoring_course" COMMENT="mxschool peer tutoring course table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="departmentid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the course's department."/>
+        <FIELD NAME="departmentid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the course's department."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the course record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="name" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the course."/>
       </FIELDS>
@@ -39,11 +39,11 @@
     <TABLE NAME="local_peertutoring_session" COMMENT="mxschool peer tutoring session table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="tutorid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the tutor."/>
-        <FIELD NAME="studentid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the student being tutored."/>
-        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the course tutored. Department is infered from this field."/>
-        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the type of help requested during the tutoring session - a value of -1 indicates that the 'other' option was slected."/>
-        <FIELD NAME="ratingid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the effectiveness rating of the tutoring session."/>
+        <FIELD NAME="tutorid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the tutor."/>
+        <FIELD NAME="studentid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student being tutored."/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the course tutored. Department is infered from this field."/>
+        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the type of help requested during the tutoring session - a value of -1 indicates that the 'other' option was slected."/>
+        <FIELD NAME="ratingid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the effectiveness rating of the tutoring session."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the session record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="tutoring_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of the date of the tutoring session."/>
         <FIELD NAME="topic" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The topic of the tutoring session."/>
@@ -64,7 +64,7 @@
     <TABLE NAME="local_peertutoring_tutor" COMMENT="mxschool peer tutoring tutor table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The user id of the peer tutor."/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the peer tutor."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the tutor record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="departments" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON formatted list of departments the tutor is approved for."/>
       </FIELDS>
