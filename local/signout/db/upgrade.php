@@ -252,5 +252,21 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019071905, 'local', 'signout');
     }
 
+    if ($oldversion < 2019072201) {
+
+        // Add a few more default locations.
+        $locations = array(
+            array('name' => 'Health Center', 'grade' => 9),
+            array('name' => 'StuFac', 'grade' => 12),
+            array('name' => 'Gym', 'grade' => 12)
+        );
+        foreach ($locations as $location) {
+            $DB->insert_record('local_signout_location', (object) $location);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072201, 'local', 'signout');
+    }
+
     return true;
 }

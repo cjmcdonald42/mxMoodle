@@ -70,6 +70,7 @@ function xmldb_local_signout_install() {
     }
 
     $locations = array(
+        array('name' => 'Health Center', 'grade' => 9),
         array('name' => 'Supervised Study Hall', 'grade' => 9),
         array('name' => 'Library', 'grade' => 11),
         array('name' => 'Terry Room', 'grade' => 11),
@@ -77,6 +78,8 @@ function xmldb_local_signout_install() {
         array('name' => 'Rachel Carson Center', 'grade' => 11),
         array('name' => 'Clay Centenial Center Lobby', 'grade' => 11),
         array('name' => 'Bass Arts Pavilion', 'grade' => 11),
+        array('name' => 'StuFac', 'grade' => 12),
+        array('name' => 'Gym', 'grade' => 12)
     );
     foreach ($locations as $location) {
         $DB->insert_record('local_signout_location', (object) $location);
