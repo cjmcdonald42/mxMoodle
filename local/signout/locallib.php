@@ -172,13 +172,16 @@ function get_permitted_passenger_list() {
 function get_permitted_driver_list() {
     global $DB;
     $drivers = $DB->get_records_sql(
-        "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT oc.id, u.id AS userid, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
                                             LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type = 'Driver' AND p.may_drive_passengers = 'Yes'
          ORDER BY name ASC, oc.time_modified DESC"
     );
-    return convert_student_records_to_list($drivers);
+    foreach ($drivers as $driver) {
+        $driver->value = format_student_name($driver->userid);
+    }
+    return convert_records_to_list($drivers);
 }
 
 /**
@@ -193,7 +196,7 @@ function get_current_driver_list($ignore = 0) {
     $window = get_config('local_signout', 'off_campus_trip_window');
     $time = generate_datetime("-{$window} minutes");
     $drivers = $DB->get_records_sql(
-        "SELECT oc.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT oc.id, u.id AS userid, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
                                             LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type = 'Driver' AND oc.time_created >= ? AND oc.sign_in_time IS NULL
@@ -201,7 +204,10 @@ function get_current_driver_list($ignore = 0) {
                               AND NOT EXISTS (SELECT id FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = ?)
          ORDER BY name ASC, oc.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
     );
-    return convert_student_records_to_list($drivers);
+    foreach ($drivers as $driver) {
+        $driver->value = format_student_name($driver->userid);
+    }
+    return convert_records_to_list($drivers);
 }
 
 /**
@@ -419,8 +425,8 @@ function get_user_current_signout() {
     }
     if (student_may_access_off_campus_signout($USER->id)) {
         $record = $DB->get_record_sql(
-            "SELECT oc.id, oc.destination, oc.time_created AS timecreated
-             FROM {local_signout_off_campus} oc
+            "SELECT oc.id, d.destination, oc.time_created AS timecreated
+             FROM {local_signout_off_campus} oc LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id
              WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0
              ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
         );
