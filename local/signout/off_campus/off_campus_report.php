@@ -47,6 +47,7 @@ $types = array(
     'Driver' => get_string('off_campus_report_select_type_driver', 'local_signout'),
     'Passenger' => get_string('off_campus_report_select_type_passenger', 'local_signout'),
     'Parent' => get_string('off_campus_report_select_type_parent', 'local_signout'),
+    'Rideshare' => get_string('off_campus_report_select_type_rideshare', 'local_signout'),
     'Other' => get_string('off_campus_report_select_type_other', 'local_signout')
 );
 if ($filter->type && !isset($types[$filter->type])) {

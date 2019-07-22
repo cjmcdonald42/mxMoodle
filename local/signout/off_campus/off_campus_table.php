@@ -40,11 +40,11 @@ class off_campus_table extends local_mxschool_table {
     public function __construct($filter) {
         global $USER;
         $columns = array(
-            'student', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'departuredate', 'departuretime',
+            'student', 'grade', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'departuredate', 'departuretime',
             'approver', 'signin'
         );
         if ($filter->type) {
-            if ($filter->type === 'Driver' || $filter->type === 'Passenger' || $filter->type === 'Parent') {
+            if (in_array($filter->type, array('Driver', 'Passenger', 'Parent', 'Rideshare'))) {
                 unset($columns[array_search('type', $columns)]);
             }
             if ($filter->type !== 'Driver') {
@@ -59,25 +59,26 @@ class off_campus_table extends local_mxschool_table {
             unset($columns[array_search('departuredate', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'off_campus_report', 'local_signout');
-        $sortable = array($filter->date ? 'departuretime' : 'departuredate', 'student', 'approver');
-        $centered = array('type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
+        $sortable = array($filter->date ? 'departuretime' : 'departuredate', 'student', 'grade', 'approver');
+        $centered = array('grade', 'type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
         parent::__construct('off_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
         $this->add_column_class('signin', 'sign-in');
 
         $fields = array(
-            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'oc.type', 'oc.passengers',
+            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'oc.type', 'oc.passengers',
             'du.id AS driverid', 'd.destination', 'd.departure_time AS departuredate', 'd.departure_time AS departuretime',
             "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'oc.sign_in_time AS signin', 'oc.time_created AS timecreated'
         );
         $from = array(
-            '{local_signout_off_campus} oc', '{user} u ON oc.userid = u.id', '{local_signout_off_campus} d ON oc.driverid = d.id',
-            '{user} du ON d.userid = du.id', '{user} a ON oc.approverid = a.id'
+            '{local_signout_off_campus} oc', '{user} u ON oc.userid = u.id', '{local_mxschool_student} s on oc.userid = s.userid',
+            '{local_signout_off_campus} d ON oc.driverid = d.id', '{user} du ON d.userid = du.id',
+            '{user} a ON oc.approverid = a.id'
         );
         $where = array('oc.deleted = 0', 'u.deleted = 0');
         if ($filter->type) {
-            $types = array('Driver', 'Passenger', 'Parent');
+            $types = array('Driver', 'Passenger', 'Parent', 'Rideshare');
             $otherstring = implode(' AND ', array_map(function($type) {
-                return "oc.type <> '{$type}'";
+                return "oc.type <> '{$type}'"; // Need to negate all types because the 'Other' text is stored in the type field.
             }, $types));
             $where[] = in_array($filter->type, $types) ? "oc.type = '{$filter->type}'" : $otherstring;
         }
@@ -159,11 +160,7 @@ class off_campus_table extends local_mxschool_table {
      * Formats the sign-in time column to 'g:i A'.
      */
     protected function col_signin($values) {
-        if (!isset($values->signin)) {
-            return '-';
-        }
-        return format_date('n/j/y', $values->departuredate) === format_date('n/j/y', $values->signin)
-            ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin);
+        return isset($values->signin) ? format_date('g:i A', $values->signin) : '-';
     }
 
     /**

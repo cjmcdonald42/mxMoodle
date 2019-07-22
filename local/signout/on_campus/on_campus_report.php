@@ -35,7 +35,7 @@ require_login();
 require_capability('local/signout:manage_on_campus', context_system::instance());
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm(false);
+$filter->dorm = get_param_faculty_dorm();
 $filter->location = optional_param('location', '', PARAM_RAW);
 $filter->date = get_param_current_date_on_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -66,13 +66,13 @@ if ($action === 'delete' && $id) {
     }
 }
 
-$dorms = get_boarding_dorm_list();
+$dorms = get_dorm_list();
 $dates = get_on_campus_date_list();
 
 $table = new on_campus_table($filter);
 
 $dropdowns = array(
-    local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
+    local_mxschool_dropdown::dorm_dropdown($filter->dorm),
     new local_mxschool_dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
     ),

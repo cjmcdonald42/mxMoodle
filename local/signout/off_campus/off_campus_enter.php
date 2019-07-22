@@ -65,14 +65,11 @@ if ($id) {
             break;
         case 'Passenger':
             $driver = get_record($queryfields, "oc.id = ?", array($data->driver));
-            if (!isset($data->destination)) {
-                $data->destination = $driver->destination;
-            }
-            if (!isset($data->departure_date)) {
-                $data->departure_date = $driver->departure_date;
-            }
+            $data->destination = $driver->destination;
+            $data->departure_date = $driver->departure_date;
             break;
         case 'Parent':
+        case 'Rideshare':
             break;
         default:
             $data->type_other = $data->type_select;
@@ -92,7 +89,7 @@ $data->passengerswarning = get_config('local_signout', 'off_campus_form_warning_
 generate_time_selector_fields($data, 'departure', 15);
 $data->parentwarning = get_config('local_signout', 'off_campus_form_warning_needparent');
 $data->specificwarning = get_config('local_signout', 'off_campus_form_warning_onlyspecific');
-$students = get_off_campus_permitted_student_list();
+$students = get_student_list();
 $types = get_off_campus_type_list();
 $passengers = get_permitted_passenger_list();
 $drivers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_permitted_driver_list();
@@ -109,19 +106,25 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
     switch ($data->type_select) {
-        case 'Passenger': // For a passenger record, the destination and departure fields are inherited.
+        case 'Driver': // For a Driver record, the passengers and departure date need to be encoded.
+            $data->driver = 0; // This field will be set once we know the id of this record.
+            $data->passengers = json_encode($data->passengers ?? array());
+            $data->departure_date = generate_timestamp($data, 'departure');
+            break;
+        case 'Passenger': // For a Passenger record, the destination and departure fields are inherited.
+            unset($data->passengers);
             unset($data->destination);
             unset($data->date);
             break;
-        case 'Other':
+        case 'Other': // For an Other record, the other text is stored in the type field.
             $data->type_select = $data->type_other;
-        default: // Driver, Parent, and Other will all save their data on their own record.
-            $data->driver = 0;
+        default: // For Parent, Rideshare, and Other records, the destination and departure fields are saved on their own record.
+            $data->driver = 0; // This field will be set once we know the id of this record.
+            unset($data->passengers);
             $data->departure_date = generate_timestamp($data, 'departure');
     }
-    $data->passengers = $data->type_select === 'Driver' ? json_encode($data->passengers ?? array()) : null;
     $id = update_record($queryfields, $data);
-    if ($data->type_select !== 'Passenger') { // For a driver, parent, or other record, the id and driverid should be the same.
+    if ($data->type_select !== 'Passenger') { // For Driver, Parent, Rideshare and Other records, driverid references the same id.
         $record = $DB->get_record('local_signout_off_campus', array('id' => $id));
         $record->driverid = $id;
         $DB->update_record('local_signout_off_campus', $record);

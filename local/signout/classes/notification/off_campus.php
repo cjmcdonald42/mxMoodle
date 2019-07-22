@@ -80,7 +80,7 @@ class submitted extends notification {
             if ($record->type === 'Driver') {
                 $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_driver');
             } else {
-                if ($record->type !== 'Passenger' && $record->type !== 'Parent') {
+                if (!in_array($record->type, array('Passenger', 'Parent', 'Rideshare'))) { // Records with an 'Other' type.
                     $irregular = true;
                 }
                 switch($record->passengerpermission) {

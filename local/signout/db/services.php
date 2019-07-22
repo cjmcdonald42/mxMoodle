@@ -27,6 +27,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = array(
+    'local_signout_get_on_campus_student_options' => array(
+        'classname' => 'local_signout_external',
+        'methodname' => 'get_on_campus_student_options',
+        'classpath' => 'local/signout/externallib.php',
+        'description' => 'Queries the database to determine the location options and permissions for a selected student.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ),
     'local_signout_get_off_campus_student_options' => array(
         'classname' => 'local_signout_external',
         'methodname' => 'get_off_campus_student_options',
@@ -41,14 +49,6 @@ $functions = array(
         'methodname' => 'get_off_campus_driver_details',
         'classpath' => 'local/signout/externallib.php',
         'description' => 'Queries the database to find the destination and departure time of an off-campus signout driver record.',
-        'type' => 'read',
-        'ajax' => 'true'
-    ),
-    'local_signout_get_on_campus_student_options' => array(
-        'classname' => 'local_signout_external',
-        'methodname' => 'get_on_campus_student_options',
-        'classpath' => 'local/signout/externallib.php',
-        'description' => 'Queries the database to determine the location options and permissions for a selected student.',
         'type' => 'read',
         'ajax' => 'true'
     ),

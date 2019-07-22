@@ -29,6 +29,14 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_signout_install() {
     global $DB;
 
+    set_config('on_campus_form_enabled', '1', 'local_signout');
+    set_config('on_campus_form_ipenabled', '1', 'local_signout');
+    set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+    set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any other location.', 'local_signout');
+    set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
+    set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+    set_config('on_campus_refresh_rate', '60', 'local_signout');
+
     set_config('off_campus_edit_window', '30', 'local_signout');
     set_config('off_campus_trip_window', '30', 'local_signout');
     set_config('off_campus_form_enabled', '1', 'local_signout');
@@ -48,21 +56,13 @@ function xmldb_local_signout_install() {
     set_config('off_campus_notification_warning_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
     set_config('off_campus_notification_warning_unsetpermissions', 'This student does NOT have passenger permissions on file.', 'local_signout');
 
-    set_config('on_campus_form_enabled', '1', 'local_signout');
-    set_config('on_campus_form_ipenabled', '1', 'local_signout');
-    set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
-    set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any other location.', 'local_signout');
-    set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
-    set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
-    set_config('on_campus_refresh_rate', '60', 'local_signout');
-
     $subpackages = array(
-        array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'form' => 'off_campus_enter.php', 'report' => 'off_campus_report.php'
-        ))),
         array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
             'duty_report' => 'duty_report.php'
+        ))),
+        array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array(
+            'preferences' => 'preferences.php', 'form' => 'off_campus_enter.php', 'report' => 'off_campus_report.php'
         )))
     );
     foreach ($subpackages as $subpackage) {

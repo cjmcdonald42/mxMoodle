@@ -32,6 +32,52 @@ require_once(__DIR__.'/locallib.php');
 class local_signout_external extends external_api {
 
     /**
+     * Returns descriptions of the get_on_campus_student_options() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_on_campus_student_options() function.
+     */
+    public static function get_on_campus_student_options_parameters() {
+        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
+    }
+
+    /**
+     * Queries the database to determine the location options and permissions for a selected student.
+     *
+     * @param int $userid The user id of the student.
+     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
+     */
+    public static function get_on_campus_student_options($userid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_on_campus_student_options_parameters(), array('userid' => $userid));
+
+        global $DB;
+        $result = new stdClass();
+        $record = $DB->get_record(
+            'local_mxschool_student', array('userid' => $params['userid']), "grade, boarding_status = 'Day' AS isday"
+        );
+        $result->grade = $record->grade;
+        $result->locations = convert_associative_to_object(get_on_campus_location_list($record->grade, $record->isday));
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_on_campus_student_options() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_on_campus_student_options() function.
+     */
+    public static function get_on_campus_student_options_returns() {
+        return new external_single_structure(array(
+            'locations' => new external_multiple_structure(
+                new external_single_structure(array(
+                    'value' => new external_value(PARAM_INT, 'id of the location'),
+                    'text' => new external_value(PARAM_TEXT, 'name of the location')
+                ))
+            ),
+            'grade' => new external_value(PARAM_INT, 'the student\'s grade')
+        ));
+    }
+
+    /**
      * Returns descriptions of the get_off_campus_student_options() function's parameters.
      *
      * @return external_function_parameters Object holding array of parameters for the get_off_campus_student_options() function.
@@ -131,49 +177,6 @@ class local_signout_external extends external_api {
             'departurehour' => new external_value(PARAM_TEXT, 'the hour of the driver\'s departure time'),
             'departureminute' => new external_value(PARAM_TEXT, 'the minute of the driver\'s departure time'),
             'departureampm' => new external_value(PARAM_BOOL, 'whether the driver\'s departure time is am (0) or pm (1)')
-        ));
-    }
-
-    /**
-     * Returns descriptions of the get_on_campus_student_options() function's parameters.
-     *
-     * @return external_function_parameters Object holding array of parameters for the get_on_campus_student_options() function.
-     */
-    public static function get_on_campus_student_options_parameters() {
-        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
-    }
-
-    /**
-     * Queries the database to determine the location options and permissions for a selected student.
-     *
-     * @param int $userid The user id of the student.
-     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
-     */
-    public static function get_on_campus_student_options($userid) {
-        external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_on_campus_student_options_parameters(), array('userid' => $userid));
-
-        global $DB;
-        $result = new stdClass();
-        $result->grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $params['userid']));
-        $result->locations = convert_associative_to_object(get_on_campus_location_list($result->grade));
-        return $result;
-    }
-
-    /**
-     * Returns a description of the get_on_campus_student_options() function's return values.
-     *
-     * @return external_single_structure Object describing the return values of the get_on_campus_student_options() function.
-     */
-    public static function get_on_campus_student_options_returns() {
-        return new external_single_structure(array(
-            'locations' => new external_multiple_structure(
-                new external_single_structure(array(
-                    'value' => new external_value(PARAM_INT, 'id of the location'),
-                    'text' => new external_value(PARAM_TEXT, 'name of the location')
-                ))
-            ),
-            'grade' => new external_value(PARAM_INT, 'the student\'s grade')
         ));
     }
 

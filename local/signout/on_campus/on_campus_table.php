@@ -67,7 +67,16 @@ class on_campus_table extends local_mxschool_table {
         );
         $where = array('oc.deleted = 0', 'u.deleted = 0');
         if ($filter->dorm) {
-            $where[] = "s.dormid = {$filter->dorm}";
+            switch ($filter->dorm) {
+                case -2:
+                    $where[] = 's.boarding_status = "Boarder"';
+                    break;
+                case -1:
+                    $where[] = 's.boarding_status = "Day"';
+                    break;
+                default:
+                    $where[] = "s.dormid = {$filter->dorm}";
+            }
         }
         if ($filter->location) {
             $where[] = "oc.locationid = {$filter->location}";
@@ -119,8 +128,7 @@ class on_campus_table extends local_mxschool_table {
         }
         return get_string('on_campus_report_column_confirmation_text', 'local_signout', array(
             'confirmer' => format_faculty_name($values->confirmer),
-            'confirmationtime' => format_date('g:i A', $values->confirmationtime),
-            'confirmationdate' => format_date('n/j/y', $values->confirmationtime)
+            'confirmationtime' => format_date('g:i A', $values->confirmationtime)
         ));
     }
 
@@ -128,11 +136,7 @@ class on_campus_table extends local_mxschool_table {
      * Formats the sign-in time column to 'g:i A'.
      */
     protected function col_signin($values) {
-        if (!isset($values->signin)) {
-            return '-';
-        }
-        return format_date('n/j/y', $values->signoutdate) === format_date('n/j/y', $values->signin)
-            ? format_date('g:i A', $values->signin) : format_date('n/j/y g:i A', $values->signin);
+        return isset($values->signin) ? format_date('g:i A', $values->signin) : '-';
     }
 
     /**
