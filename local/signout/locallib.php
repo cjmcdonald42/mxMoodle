@@ -218,12 +218,12 @@ function get_approver_list() {
  */
 function get_on_campus_location_list($grade = 12, $isday = false) {
     global $DB;
-    $where = $isday ? " OR l.name = 'Library'" : '';
+    $where = $isday ? "OR l.name = 'Library'" : '';
     $today = generate_datetime('midnight')->getTimestamp(); // Set to midnight to avoid an off-by-one issue on the end date.
     $locations = $DB->get_records_sql(
         "SELECT id, name AS value
          FROM {local_signout_location} l
-         WHERE l.deleted = 0 AND (l.grade <= ?{$where}) AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
+         WHERE l.deleted = 0 AND (l.grade <= ? {$where}) AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
                              AND (l.end_date IS NULL OR l.end_date >= ?)
          ORDER BY value", array($grade, $today, $today)
     );

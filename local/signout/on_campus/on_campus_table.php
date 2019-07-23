@@ -67,16 +67,7 @@ class on_campus_table extends local_mxschool_table {
         );
         $where = array('oc.deleted = 0', 'u.deleted = 0');
         if ($filter->dorm) {
-            switch ($filter->dorm) {
-                case -2:
-                    $where[] = 's.boarding_status = "Boarder"';
-                    break;
-                case -1:
-                    $where[] = 's.boarding_status = "Day"';
-                    break;
-                default:
-                    $where[] = "s.dormid = {$filter->dorm}";
-            }
+            $where[] = $this->get_dorm_where($filter->dorm);
         }
         if ($filter->location) {
             $where[] = "oc.locationid = {$filter->location}";

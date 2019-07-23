@@ -41,7 +41,7 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'vacation_travel');
 
-$dorms = get_boarding_dorm_list();
+$dorms = get_dorm_list(false);
 $submittedoptions = array(
     '1' => get_string('vacation_travel_report_select_submitted_true', 'local_mxschool'),
     '0' => get_string('vacation_travel_report_select_submitted_false', 'local_mxschool')

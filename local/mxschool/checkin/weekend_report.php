@@ -70,7 +70,7 @@ if (!$data) {
 }
 
 $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend));
-$dorms = get_boarding_dorm_list();
+$dorms = get_dorm_list(false);
 $weekends = get_weekend_list();
 $startdays = get_weekend_start_day_list();
 $enddays = get_weekend_end_day_list();

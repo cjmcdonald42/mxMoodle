@@ -27,10 +27,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_signout';
-$plugin->version = 2019072211;
+$plugin->version = 2019072212;
 $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_BETA;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019071800 // MXSchool v3.1.
+    'local_mxschool' => 2019072204 // MXSchool v3.1.
 );

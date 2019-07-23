@@ -53,16 +53,7 @@ class faculty_table extends local_mxschool_table {
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0');
         if ($filter->dorm) {
-            switch ($filter->dorm) {
-                case -2:
-                    $where[] = 'd.type = "Boarding"';
-                    break;
-                case -1:
-                    $where[] = 'd.type = "Day"';
-                    break;
-                default:
-                    $where[] = "d.id = {$filter->dorm}";
-            }
+            $where[] = $this->get_dorm_where($filter->dorm);
         }
         $searchable = array('u.firstname', 'u.lastname');
         $this->set_sql($fields, $from, $where);

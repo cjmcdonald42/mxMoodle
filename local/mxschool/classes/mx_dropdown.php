@@ -60,17 +60,16 @@ class local_mxschool_dropdown {
      * @return local_mxschool_dropdown Object with the specified properties.
      */
     public static function dorm_dropdown($selected, $includeday = true) {
+        $options = get_dorm_list($includeday);
         if ($includeday) {
             $options = array(
                 -2 => get_string('report_select_boarding', 'local_mxschool'),
                 -1 => get_string('report_select_day', 'local_mxschool')
-            ) + get_dorm_list();
-            $default = get_string('report_select_house', 'local_mxschool');
-        } else {
-            $options = get_boarding_dorm_list();
-            $default = get_string('report_select_dorm', 'local_mxschool');
+            ) + $options;
         }
-        return new local_mxschool_dropdown('dorm', $options, $selected, $default);
+        return new local_mxschool_dropdown(
+            'dorm', $options, $selected, get_string($includeday ? 'report_select_house' : 'report_select_dorm', 'local_mxschool')
+        );
     }
 
 }

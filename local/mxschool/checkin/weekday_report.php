@@ -39,7 +39,7 @@ $filter->dorm = get_param_faculty_dorm(false);
 
 setup_mxschool_page('weekday_report', 'checkin');
 
-$dorms = get_boarding_dorm_list();
+$dorms = get_dorm_list(false);
 
 $table = new weekday_table($filter);
 

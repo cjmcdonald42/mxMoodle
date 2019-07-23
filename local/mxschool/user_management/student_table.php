@@ -89,16 +89,7 @@ class student_table extends local_mxschool_table {
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0');
         if ($filter->dorm) {
-            switch ($filter->dorm) {
-                case -2:
-                    $where[] = 's.boarding_status = "Boarder"';
-                    break;
-                case -1:
-                    $where[] = 's.boarding_status = "Day"';
-                    break;
-                default:
-                    $where[] = "s.dormid = {$filter->dorm}";
-            }
+            $where[] = $this->get_dorm_where($filter->dorm);
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         switch ($filter->type) {

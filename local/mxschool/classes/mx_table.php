@@ -119,6 +119,31 @@ abstract class local_mxschool_table extends table_sql {
     }
 
     /**
+     * Generates a where string for the sql query based on a dorm filter parameter.
+     *
+     *  NOTE: This method assumes the local_mxschool_dorm table is referenced as 'd' in the sql query.
+     *
+     * @param int $dorm A number which specifies the filtering:
+     *                      -2 indicates all (boarding) dorms
+     *                      -1 indicates all day houses
+     *                      0 indicates all houses
+     *                      any other integer references a particular dorm's id.
+     * @return string An appropriate where string, as specified.
+     */
+    protected function get_dorm_where($dorm) {
+        switch ($dorm) {
+            case -2:
+                return 'd.type = "Boarding"';
+            case -1:
+                return 'd.type = "Day"';
+            case 0:
+                return '';
+            default:
+                return "d.id = {$dorm}";
+        }
+    }
+
+    /**
      * Creates an edit icon for the actions column of a table.
      *
      * @param string $url the url of the edit form.

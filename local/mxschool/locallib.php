@@ -643,18 +643,10 @@ function get_param_faculty_dorm($includeday = true) {
     global $DB, $USER;
     if (isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm']))) {
         $dorm = $_GET['dorm']; // The value is now safe to use.
-        if (empty($dorm)) { // An empty parameter indicates that search has taken place with the all option selected.
+        // An empty parameter indicates that search has taken place with the all option selected.
+        // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
+        if (empty($dorm) || isset(get_dorm_list($includeday)[$dorm]) || ($includeday && in_array($dorm, array(-1, -2)))) {
             return $dorm;
-        }
-        if ($includeday) {
-            // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
-            if (isset(get_dorm_list()[$dorm]) || in_array($dorm, array(-1, -2))) {
-                return $dorm;
-            }
-        } else {
-            if (isset(get_boarding_dorm_list()[$dorm])) {
-                return $dorm;
-            }
         }
     }
     return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?? '';
@@ -1001,30 +993,16 @@ function get_available_advisor_list() {
 /**
  * Queries the database to create a list of all the available dorms.
  *
+ * @param bool $includeday Whether to include day houses or limit to boading houses.
  * @return array The available dorms as id => name, ordered alphabetically by dorm name.
  */
-function get_dorm_list() {
+function get_dorm_list($includeday = true) {
     global $DB;
+    $where = $includeday ? '' : "AND type = 'Boarding'";
     $dorms = $DB->get_records_sql(
         "SELECT id, name AS value
          FROM {local_mxschool_dorm}
-         WHERE deleted = 0 AND available = 1
-         ORDER BY value"
-    );
-    return convert_records_to_list($dorms);
-}
-
-/**
- * Queries the database to create a list of all the available boarding dorms.
- *
- * @return array The available boarding dorms as id => name, ordered alphabetically by dorm name.
- */
-function get_boarding_dorm_list() {
-    global $DB;
-    $dorms = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_mxschool_dorm}
-         WHERE deleted = 0 AND available = 1 AND type = 'Boarding'
+         WHERE deleted = 0 AND available = 1 {$where}
          ORDER BY value"
     );
     return convert_records_to_list($dorms);
