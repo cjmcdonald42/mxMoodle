@@ -15,15 +15,24 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_signout/confirmation_button
+    @template   local_signout/confirmation_button
+    @package    local_signout
+    @subpacakge on_campus
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a button with ajax functionality to confirm a signout record.
+
+    Required context variables:
+    - value | int | the id of the on-campus signout record which the button interacts with
 }}
 
 <button class="mx-confirmation-button btn btn-secondary noprint" value="{{ value }}">{{# str }} confirmation_button, local_signout {{/ str }}</button>
 
 {{# js }}
-require(['local_signout/confirmation_button'], function(setup) {
-    setup({{ value }});
-});
+    require(['local_signout/confirmation_button'], function(setup) {
+        setup({{ value }});
+    });
 {{/ js }}

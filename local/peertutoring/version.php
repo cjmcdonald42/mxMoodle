@@ -17,18 +17,20 @@
 /**
  * Middlesex's Peer Tutoring Subplugin.
  *
- * @package    local_peertutoring
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    `local_peertutoring
+ * @author     `Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     `Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright  `2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license    `http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_peertutoring';
-$plugin->version = 2019072209;
+$plugin->version = 2019072211;
 $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2019071800);
+$plugin->dependencies = array(
+    'local_mxschool' => 2019071800 // MXSchool v3.1.
+);

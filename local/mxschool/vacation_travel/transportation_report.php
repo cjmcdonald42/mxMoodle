@@ -17,12 +17,12 @@
 /**
  * Vacation travel transportation report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage vacation_travel
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  vacation_travel
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');

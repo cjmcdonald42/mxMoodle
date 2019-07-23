@@ -32,6 +32,6 @@ $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019071802, // Mxschool as dependency in order to use renderer.
-    'local_signout' => 2019072204 // Signout as dependency in order to use renderer.
+    'local_mxschool' => 2019071802, // MXSchool v3.1.
+    'local_signout' => 2019072204 // eSignout v3.1.
 );

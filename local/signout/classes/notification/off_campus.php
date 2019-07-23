@@ -17,12 +17,12 @@
 /**
  * Email notifications for the off_campus subpackage of Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @subpackage off_campus
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @subpackage  off_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_signout\local\off_campus;
@@ -36,12 +36,12 @@ use \local_mxschool\local\notification;
 /**
  * Email notification for when an off-campus signout form is submitted for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @subpackage off_campus
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @subpackage  off_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class submitted extends notification {
 

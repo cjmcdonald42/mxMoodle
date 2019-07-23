@@ -17,11 +17,11 @@
 /**
  * Generic email notification classes for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_mxschool\local;
@@ -37,11 +37,11 @@ use core_user;
 /**
  * Generic email notification for all of the emails sent by Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class notification {
 
@@ -194,11 +194,11 @@ abstract class notification {
 /**
  * Generic wrapper for all bulk email notifications sent by Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class bulk_notification {
 

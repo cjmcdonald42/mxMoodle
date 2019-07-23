@@ -15,16 +15,27 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/checkbox
+    @template   local_mxschool/checkbox
+    @package    local_mxschool
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a checkbox with ajax functionality.
+
+    Required context variables:
+    - value | string | the value attribute of the checkbox
+    - table | string | the table in the database which the checkbox interacts with
+    - field | string | the field in the database which the checkbox interacts with
+    - checked | bool | whether the checkbox should be checked by default
 }}
 
 <input type="checkbox" class="mx-checkbox" name="{{ table }}:{{ field }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
 <span class="mx-checkbox-saved"> {{# str }} checkbox_saved, local_mxschool {{/ str }}</span>
 
 {{# js }}
-require(['local_mxschool/set_boolean_field'], function(setup) {
-    setup('{{ table }}:{{ field }}', {{ value }});
-});
+    require(['local_mxschool/set_boolean_field'], function(setup) {
+        setup('{{ table }}:{{ field }}', {{ value }});
+    });
 {{/ js }}

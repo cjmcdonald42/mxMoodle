@@ -17,11 +17,11 @@
 /**
  * English language strings for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Middlesex School';
@@ -34,7 +34,6 @@ $string['email_button_confirmation'] = 'Are you sure you want to send this bulk 
 $string['email_button_sending'] = 'Emails Sending...';
 $string['email_button_send_success'] = 'Emails Sent';
 $string['email_button_send_failure'] = 'Emails Failed to Send';
-$string['legend_header'] = 'Legend';
 
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
@@ -417,6 +416,7 @@ $string['checkin_weekend_calculator_abbreviation_free'] = 'free';
 $string['checkin_weekend_calculator_abbreviation_closed'] = 'camp';
 $string['checkin_weekend_calculator_abbreviation_unlimited'] = 'ALL';
 
+$string['checkin_weekend_calculator_legend_header'] = 'Legend';
 $string['checkin_weekend_calculator_legend_0_left'] = 'No weekends left';
 $string['checkin_weekend_calculator_legend_1_left'] = '1 weekend left';
 $string['checkin_weekend_calculator_legend_2_left'] = '2 weekends left';

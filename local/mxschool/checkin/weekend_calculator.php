@@ -17,12 +17,12 @@
 /**
  * Weekend calculator report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage checkin
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
@@ -60,28 +60,10 @@ $dropdowns = array(new local_mxschool_dropdown('semester', $semesters, $filter->
 if (!$isstudent) {
     array_unshift($dropdowns, local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
 }
-$legend = array(
-    array(
-        'lefttext' => get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_offcampus', 'local_mxschool')
-    ),
-    array('righttext' => get_string('checkin_weekend_calculator_legend_3_left', 'local_mxschool')),
-    array('leftclass' => 'mx-green', 'righttext' => get_string('checkin_weekend_calculator_legend_2_left', 'local_mxschool')),
-    array('leftclass' => 'mx-yellow', 'righttext' => get_string('checkin_weekend_calculator_legend_1_left', 'local_mxschool')),
-    array('leftclass' => 'mx-red', 'righttext' => get_string('checkin_weekend_calculator_legend_0_left', 'local_mxschool')),
-    array(
-        'lefttext' => get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_free', 'local_mxschool')
-    ),
-    array(
-        'lefttext' => get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_closed', 'local_mxschool')
-    )
-);
 
 $output = $PAGE->get_renderer('local_mxschool');
 $reportrenderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
-$legendrenderable = new \local_mxschool\output\legend_table($legend);
+$legendrenderable = new \local_mxschool\output\legend_table();
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 
 echo $output->header();

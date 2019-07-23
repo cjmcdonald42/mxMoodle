@@ -15,9 +15,25 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/report_filter
+    @template   local_mxschool/report_filter
+    @package    local_mxschool
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render filtering options and other interactions for a report.
+
+    Required context variables:
+    - filterable | bool | whether the filter should be rendered
+    - url | string | the action url for the filter - optional if filterable is false
+    Optional context variables:
+    - dropdowns | array | strings which are the rendered html for dropdowns
+    - searchable | bool | the action url for the filter
+    - search | string | the default search text
+    - printable | bool | whether to display a print button
+    - addbutton | object | with string properties text and url
+    - emailbuttons | array | strings which are the html for rendered email_buttons
 }}
 
 <div class="mx-filter noprint">

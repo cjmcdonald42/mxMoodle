@@ -16,12 +16,13 @@
 /**
  * Confirms an on-campus signout record for Middlesex's eSignout Subplugin.
  *
- * @module     local_signout/confirmation_button
- * @package    local_signout
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @module      local_signout/confirmation_button
+ * @package     local_signout
+ * @subpackage  on_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, ajax, str, notification) {
