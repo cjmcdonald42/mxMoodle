@@ -203,40 +203,29 @@ abstract class local_mxschool_form extends moodleform {
 
         switch ($element) {
             case 'hidden':
-                $result = $mform->createElement($element, $name, $attributes);
-                break;
+                return $mform->createElement($element, $name, $attributes);
             case 'submit':
             case 'cancel':
-                $result = $mform->createElement($element, $name, $text);
-                break;
+                return $mform->createElement($element, $name, $text);
             case 'text':
             case 'textarea':
-                $result = $mform->createElement($element, $name, $displayname, $attributes);
-                break;
+                return $mform->createElement($element, $name, $displayname, $attributes);
             case 'static':
-                $result = $mform->createElement($element, $name, $displayname, $text);
-                break;
+                return $mform->createElement($element, $name, $displayname, $text);
             case 'editor':
-                $result = $mform->createElement($element, $name, $displayname, $options);
-                break;
+                return $mform->createElement($element, $name, $displayname, $options);
             case 'filepicker':
             case 'filemanager':
-                $result = $mform->createElement($element, $name, $displayname, $attributes, $options);
-                break;
+                return $mform->createElement($element, $name, $displayname, $attributes, $options);
             case 'checkbox':
             case 'advcheckbox':
-                $result = $mform->createElement($element, $name, $displayname, $text, $attributes);
-                break;
+                return $mform->createElement($element, $name, $displayname, $text, $attributes);
             case 'date_selector':
             case 'date_time_selector':
-                $result = $mform->createElement($element, $name, $displayname, $options, $attributes);
-                break;
             case 'select':
-                $result = $mform->createElement($element, $name, $displayname, $options, $attributes);
-                break;
+                return $mform->createElement($element, $name, $displayname, $options, $attributes);
             case 'autocomplete':
-                $result = $mform->createElement($element, $name, $displayname, $options, $parameters);
-                break;
+                return $mform->createElement($element, $name, $displayname, $options, $parameters);
             case 'radio':
                 $buttons = array();
                 foreach ($options as $index => $option) {
@@ -253,20 +242,17 @@ abstract class local_mxschool_form extends moodleform {
                         $element, $name, '', $radiodisplay, $useradioindex ? $index : $option, $attributes
                     );
                 }
-                $result = $mform->createElement('group', $name, $displayname, $buttons, '&nbsp;', false);
-                break;
+                return $mform->createElement('group', $name, $displayname, $buttons, '&nbsp;', false);
             case 'group':
                 $childelements = array();
                 foreach ($properties['children'] as $childname => $childproperties) {
                     $childproperties['ingroup'] = true;
                     $childelements[] = $this->create_element("{$name}_{$childname}", $childproperties, $stringprefix, $component);
                 }
-                $result = $mform->createElement($element, $name, $displayname, $childelements, '&nbsp;', false);
-                break;
+                return $mform->createElement($element, $name, $displayname, $childelements, '&nbsp;', false);
             default:
                 throw new coding_exception("unsupported element type: {$element}");
         }
-        return $result;
     }
 
     /**
