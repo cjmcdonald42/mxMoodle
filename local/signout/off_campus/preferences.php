@@ -44,6 +44,7 @@ $notification = get_notification('off_campus_submitted');
 $data->subject = $notification->subject;
 $data->body['text'] = $notification->body_html;
 $data->ipformerror['text'] = get_config('local_signout', 'off_campus_form_iperror');
+$data->ipsigninerror['text'] = get_config('local_signout', 'off_campus_signin_iperror');
 $data->passengerinstructions['text'] = get_config('local_signout', 'off_campus_form_instructions_passenger');
 $data->bottominstructions['text'] = get_config('local_signout', 'off_campus_form_instructions_bottom');
 $data->nopassengers['text'] = get_config('local_signout', 'off_campus_form_warning_nopassengers');
@@ -70,6 +71,7 @@ if ($form->is_cancelled()) {
     set_config('off_campus_form_ipenabled', $data->ipenabled, 'local_signout');
     update_notification('off_campus_submitted', $data->subject, $data->body);
     set_config('off_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
+    set_config('off_campus_signin_iperror', $data->ipsigninerror['text'], 'local_signout');
     set_config('off_campus_form_instructions_passenger', $data->passengerinstructions['text'], 'local_signout');
     set_config('off_campus_form_instructions_bottom', $data->bottominstructions['text'], 'local_signout');
     set_config('off_campus_form_warning_nopassengers', $data->nopassengers['text'], 'local_signout');

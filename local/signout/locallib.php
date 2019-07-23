@@ -426,43 +426,56 @@ function get_user_current_signout() {
  * NOTE: It should not be possible for a student to have an off-campus record and another signout record active simultaneously,
  *       but this function is designed to handle such a scenario should it occur.
  *
- * @return bool A value of true if sign in occurs successfully, a value of false if no records are found to sign in.
+ * @return string An error message to be displayed to the user, empty string if no error occurs.
  */
 function sign_in_user() {
     global $DB, $USER;
     $currentsignout = get_user_current_signout();
     if (!$currentsignout || !validate_ip($currentsignout->type)) {
-        return false;
+        get_string('sign_in_error_norecord');
     }
-    if ($currentsignout->type === 'on_campus') {
-        $records = $DB->get_records('local_signout_on_campus', array(
-            'userid' => $USER->id, 'sign_in_time' => null, 'deleted' => 0
-        ));
-        if (!$records) {
-            return false;
-        }
-        foreach ($records as $record) {
+    switch ($currentsignout->type) {
+        case 'on_campus':
+            if (!validate_ip('on_campus')) {
+                $boardingstatus = strtolower($DB->get_field(
+                    'local_mxschool_student', 'boarding_status', array('userid' => $USER->id)
+                ));
+                return get_config('local_signout', "on_campus_signin_iperror_{$boardingstatus}");
+            }
+            $records = $DB->get_records('local_signout_on_campus', array(
+                'userid' => $USER->id, 'sign_in_time' => null, 'deleted' => 0
+            ));
+            if (!$records) {
+                return get_string('sign_in_error_invalidrecord');
+            }
+            foreach ($records as $record) {
+                $record->sign_in_time = $record->time_modified = time();
+                $DB->update_record('local_signout_on_campus', $record);
+            }
+            \local_mxschool\event\record_updated::create(array('other' => array(
+                'page' => get_string('on_campus_form', 'local_signout')
+            )))->trigger();
+            return '';
+        case 'off_campus':
+            if (!validate_ip('off_campus')) {
+                return get_config('local_signout', 'off_campus_signin_iperror');
+            }
+            $record = $DB->get_record_sql(
+                "SELECT *
+                 FROM {local_signout_off_campus} oc
+                 WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0
+                 ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
+            );
+            if (!$record) {
+                return get_string('sign_in_error_invalidrecord');
+            }
             $record->sign_in_time = $record->time_modified = time();
-            $DB->update_record('local_signout_on_campus', $record);
-        }
-        \local_mxschool\event\record_updated::create(array('other' => array(
-            'page' => get_string('on_campus_form', 'local_signout')
-        )))->trigger();
-    } else {
-        $record = $DB->get_record_sql(
-            "SELECT *
-             FROM {local_signout_off_campus} oc
-             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0
-             ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
-        );
-        if (!$record) {
-            return false;
-        }
-        $record->sign_in_time = $record->time_modified = time();
-        $DB->update_record('local_signout_off_campus', $record);
-        \local_mxschool\event\record_updated::create(array('other' => array(
-            'page' => get_string('off_campus_form', 'local_signout')
-        )))->trigger();
+            $DB->update_record('local_signout_off_campus', $record);
+            \local_mxschool\event\record_updated::create(array('other' => array(
+                'page' => get_string('off_campus_form', 'local_signout')
+            )))->trigger();
+            return '';
+        default:
+            return get_string('sign_in_error_invalidtype');
     }
-    return true;
 }

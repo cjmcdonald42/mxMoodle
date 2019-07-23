@@ -44,7 +44,7 @@ class local_signout_external extends external_api {
      * Queries the database to determine the location options and permissions for a selected student.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
+     * @return stdClass Object with properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
      */
     public static function get_on_campus_student_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -91,7 +91,7 @@ class local_signout_external extends external_api {
      * and permissions for a selected student.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
+     * @return stdClass Object with properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
      */
     public static function get_off_campus_student_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -156,7 +156,7 @@ class local_signout_external extends external_api {
      * Queries the database to find the destination and departure time of an off-campus signout driver record.
      *
      * @param int $offcampusid The id of driver record.
-     * @return stdClass With properties destination, departurehour, departureminutes, and departureampm.
+     * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
      * @throws coding_exception If the off-campus signout record is not a driver record.
      */
     public static function get_off_campus_driver_details($offcampusid) {
@@ -192,7 +192,7 @@ class local_signout_external extends external_api {
     /**
      * Signs in an eSignout record and records the timestamp.
      *
-     * @return bool A value of true if sign in occurs successfully, a value of false if no records are found to sign in.
+     * @return string An error message to be displayed to the user, empty string if no error occurs.
      */
     public static function sign_in() {
         external_api::validate_context(context_system::instance());
@@ -205,7 +205,7 @@ class local_signout_external extends external_api {
      * @return external_value Object describing the return value of the sign_in() function.
      */
     public static function sign_in_returns() {
-        return new external_value(PARAM_BOOL, 'Whether or not the signin was successful.');
+        return new external_value(PARAM_TEXT, 'An error message to be displayed to the user, empty string if no error occurs.');
     }
 
     /**
@@ -221,7 +221,7 @@ class local_signout_external extends external_api {
      * Confirms an on-campus signout record and records the timestamp.
      *
      * @param int $id The id of the record to confirm.
-     * @return string The text to display for the sign in time.
+     * @return stdClass Object with properties confirmationtime and confirmer.
      * @throws coding_exception If the on-campus signout record does not exist or has already been confirmed.
      */
     public static function confirm_signout($id) {

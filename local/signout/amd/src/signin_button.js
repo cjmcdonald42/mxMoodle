@@ -30,8 +30,10 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             methodname: 'local_signout_sign_in',
             args: {}
         }]);
-        promises[0].done(function(result) {
-            if (result) {
+        promises[0].done(function(error) {
+            if (error) {
+                alert(error);
+            } else {
                 location.reload();
             }
         }).fail(notification.exception);

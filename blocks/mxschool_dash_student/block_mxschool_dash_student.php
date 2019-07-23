@@ -51,7 +51,9 @@ class block_mxschool_dash_student extends block_base {
                     new moodle_url('/local/signout/on_campus/on_campus_enter.php'),
                     get_string('on_campus_button_edit', 'block_mxschool_dash_student')
                 );
-                $boardingstatus = $DB->get_field('local_mxschool_student', 'boarding_status', array('userid' => $USER->id));
+                $boardingstatus = strtolower($DB->get_field(
+                    'local_mxschool_student', 'boarding_status', array('userid' => $USER->id)
+                ));
                 $buttons[] = new \local_signout\output\signin_button(
                     get_string("on_campus_button_signin_{$boardingstatus}", 'block_mxschool_dash_student')
                 );

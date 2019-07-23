@@ -358,5 +358,16 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072210, 'local', 'peertutoring');
     }
 
+    if ($oldversion < 2019072213) {
+
+        // Add new config for sign in ip validation error.
+        set_config('on_campus_signin_iperror_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
+        set_config('on_campus_signin_iperror_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
+        set_config('off_campus_signin_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072213, 'local', 'signout');
+    }
+
     return true;
 }

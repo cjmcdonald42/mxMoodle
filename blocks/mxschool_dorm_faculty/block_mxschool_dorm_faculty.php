@@ -55,12 +55,12 @@ class block_mxschool_dorm_faculty extends block_base {
                         => '/local/mxschool/checkin/weekend_calculator.php'
                 ), get_string('event_heading', 'block_mxschool_dorm_faculty')),
                 new \local_mxschool\output\index(array(
-                    get_string('off_campus_report', 'block_mxschool_dorm_faculty')
-                        => '/local/signout/off_campus/off_campus_report.php',
                     get_string('on_campus_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/on_campus/on_campus_report.php',
                     get_string('duty_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/on_campus/duty_report.php',
+                    get_string('off_campus_report', 'block_mxschool_dorm_faculty')
+                        => '/local/signout/off_campus/off_campus_report.php',
                     get_string('vacation_report', 'block_mxschool_dorm_faculty')
                         => '/local/mxschool/vacation_travel/vacation_report.php',
                     get_string('manage_student_data', 'block_mxschool_dorm_faculty')

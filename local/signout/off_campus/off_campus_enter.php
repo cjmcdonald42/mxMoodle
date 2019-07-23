@@ -56,7 +56,7 @@ if ($id) {
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing off-campus signout records beyond the edit window.
         if (generate_datetime()->getTimestamp() > get_edit_cutoff($data->timecreated) || $data->student !== $USER->id) {
-            redirect($PAGE->url);
+            redirect_to_fallback();
         }
     }
     switch ($data->type_select) {

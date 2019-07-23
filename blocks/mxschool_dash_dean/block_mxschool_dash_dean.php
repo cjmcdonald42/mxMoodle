@@ -87,16 +87,16 @@ class block_mxschool_dash_dean extends block_base {
                         => '/local/mxschool/vacation_travel/preferences.php'
                 ), get_string('vacation_travel_menu', 'block_mxschool_dash_dean')),
                 new \local_mxschool\output\index(array(
-                    get_string('off_campus_report', 'block_mxschool_dash_dean')
-                        => '/local/signout/off_campus/off_campus_report.php',
-                    get_string('off_campus_preferences', 'block_mxschool_dash_dean')
-                        => '/local/signout/off_campus/preferences.php',
                     get_string('on_campus_report', 'block_mxschool_dash_dean')
                         => '/local/signout/on_campus/on_campus_report.php',
                     get_string('duty_report', 'block_mxschool_dash_dean')
                         => '/local/signout/on_campus/duty_report.php',
                     get_string('on_campus_preferences', 'block_mxschool_dash_dean')
-                        => '/local/signout/on_campus/preferences.php'
+                        => '/local/signout/on_campus/preferences.php',
+                    get_string('off_campus_report', 'block_mxschool_dash_dean')
+                        => '/local/signout/off_campus/off_campus_report.php',
+                    get_string('off_campus_preferences', 'block_mxschool_dash_dean')
+                        => '/local/signout/off_campus/preferences.php'
                 ), get_string('esignout_menu', 'block_mxschool_dash_dean'))
             );
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {

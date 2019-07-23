@@ -28,6 +28,9 @@ $string['pluginname'] = 'Middlesex School Electronic Signout';
 
 /* General */
 $string['confirmation_button'] = 'Confirm';
+$string['sign_in_error_norecord'] = 'No active signout record exists for the current user.';
+$string['sign_in_error_invalidrecord'] = 'The active record is invalid.';
+$string['sign_in_error_invalidtype'] = 'The active record type is invalid.';
 
 // Capabilities.
 $string['signout:manage_on_campus'] = 'Middlesex School Electronic Signout: View and manage student on-campus signout records';
@@ -79,6 +82,8 @@ $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable 
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
 $string['on_campus_preferences_config_refresh'] = 'How often the On-Campus reports should refresh (seconds)<br>Leave blank to disable auto-refresh';
 $string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
+$string['on_campus_preferences_text_ipsigninerrorboarder'] = 'Text to Display When a Boarder Tries to Sign in When on the Wrong Network';
+$string['on_campus_preferences_text_ipsigninerrorday'] = 'Text to Display When a Day Student Tries to Sign in When on the Wrong Network';
 $string['on_campus_preferences_text_underclassmanwarning'] = 'Warning for a 9th or 10th Grade Student Who Selects an \'Other\' Location';
 $string['on_campus_preferences_text_juniorwarning'] = 'Warning for an 11th Grade Student Who Selects an \'Other\' Location';
 $string['on_campus_preferences_text_confirmation'] = 'Confirmation for a Student with a Warning';
@@ -166,6 +171,7 @@ $string['off_campus_preferences_notifications_tags'] = 'Available Tags';
 $string['off_campus_preferences_notifications_subject'] = 'Subject for Off-Campus Signout Form Submitted Email';
 $string['off_campus_preferences_notifications_body'] = 'Body for Off-Campus Signout Form Submitted Email';
 $string['off_campus_preferences_text_ipformerror'] = 'Text to Display in Off-Campus Signout Form When on the Wrong Network';
+$string['off_campus_preferences_text_ipsigninerror'] = 'Text to Display When a Student Tries to Sign in When on the Wrong Network';
 $string['off_campus_preferences_text_passengerinstructions'] = 'Instructions Regarding Selecting a Driver';
 $string['off_campus_preferences_text_bottominstructions'] = 'Instructions at the Bottom of the Off-Campus Signout Form';
 $string['off_campus_preferences_text_nopassengers'] = 'Warning for a Student Who May Not Drive Passengers';
