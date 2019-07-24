@@ -47,8 +47,9 @@ class faculty_table extends local_mxschool_table {
         parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
-            'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'd.name AS dorm', 'f.may_approve_signout AS approvesignout',
-            'f.advisory_available AS advisoryavailable', 'f.advisory_closing AS advisoryclosing'
+            'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'f.dormid', 'd.name AS dorm',
+            'f.may_approve_signout AS approvesignout', 'f.advisory_available AS advisoryavailable',
+            'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0');
@@ -57,6 +58,13 @@ class faculty_table extends local_mxschool_table {
         }
         $searchable = array('u.firstname', 'u.lastname');
         $this->set_sql($fields, $from, $where);
+    }
+
+    /**
+     * Formats the dorm column.
+     */
+    protected function col_dorm($values) {
+        return isset($values->dormid) ? format_dorm_name($values->dormid) : '';
     }
 
     /**

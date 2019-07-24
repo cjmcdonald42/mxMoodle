@@ -53,7 +53,7 @@ class duty_table extends local_mxschool_table {
         $this->add_column_class('confirmation', 'confirmation');
 
         $fields = array(
-            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
+            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.dormid', 'd.name AS dorm',
             "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 'l.name AS location', 'oc.other',
             'oc.time_created AS signouttime', 'oc.confirmerid AS confirmer', 'oc.confirmation_time AS confirmationtime'
         );
@@ -75,13 +75,6 @@ class duty_table extends local_mxschool_table {
             'c.firstname', 'c.lastname'
         );
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

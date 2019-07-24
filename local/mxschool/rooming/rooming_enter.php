@@ -73,11 +73,6 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$data->dorm = isset($data->student) ? $DB->get_field_sql(
-    "SELECT d.name
-     FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-     WHERE s.userid = ?", array($data->student)
-) : '';
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
 $roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + get_boarding_next_year_student_list();

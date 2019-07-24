@@ -40,7 +40,7 @@ class transportation_table extends local_mxschool_table {
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Vacation Travel Transportation', $filter->portion);
         $columns = array(
-            'student', 'destination', 'phone', 'mxtransportation', 'type', 'site', 'details', 'carrier', 'number',
+            'student', 'dorm', 'destination', 'phone', 'mxtransportation', 'type', 'site', 'details', 'carrier', 'number',
             'datetime', 'international', 'timemodified', 'email'
         );
         if ($filter->mxtransportation !== '') {
@@ -80,7 +80,7 @@ class transportation_table extends local_mxschool_table {
         );
 
         $fields = array(
-            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 't.destination',
+            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 't.destination',
             't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation', 'dr.type AS type', 'drs.name AS site',
             'dr.details', 'dr.carrier', 'dr.transportation_number AS number', 'dr.date_time AS datetime', 'dr.international',
             't.time_modified AS timemodified', 'u.email'
@@ -99,13 +99,6 @@ class transportation_table extends local_mxschool_table {
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

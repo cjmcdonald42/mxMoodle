@@ -42,7 +42,7 @@ $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'f
     'default_departure_time' => 'defaultdeparturetime', 'default_return_time' => 'defaultreturntime'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_vt_site', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_mxschool_vt_site', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

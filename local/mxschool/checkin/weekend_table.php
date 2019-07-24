@@ -43,9 +43,6 @@ class weekend_table extends local_mxschool_table {
         $columns1 = array('student', 'dorm', 'room', 'grade');
         if ($filter->dorm) {
             unset($columns1[array_search('dorm', $columns1)]);
-            if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
-                unset($columns1[array_search('room', $columns1)]);
-            }
         }
         $headers1 = $this->generate_headers($columns1, 'checkin_weekend_report');
         for ($i = 1; $i <= $end - $start + 1; $i++) {
@@ -59,7 +56,7 @@ class weekend_table extends local_mxschool_table {
         $headers2 = $this->generate_headers($columns2, 'checkin_weekend_report');
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
-        $sortable = array('student', 'dorm', 'room', 'grade');
+        $sortable = array('student', 'room', 'grade');
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
@@ -67,15 +64,15 @@ class weekend_table extends local_mxschool_table {
         parent::__construct('weekend_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
-            's.id', 's.userid', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm',
-            's.room', 's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
+            's.id', 's.userid', 'wf.id AS wfid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.room',
+            's.grade', "'' AS clean", 'wf.parent', 'wf.invite', 'wf.approved', 'wf.destination', 'wf.transportation',
             'wf.phone_number AS phone', 'wf.departure_date_time AS departuretime', 'wf.return_date_time AS returntime'
         );
         for ($i = 1; $i <= $end - $start + 1; $i++) {
             array_push($fields, "'' AS early_{$i}", "'' AS late_{$i}");
         }
         $from = array(
-            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
+            '{local_mxschool_student} s', '{user} u ON s.userid = u.id',
             "{local_mxschool_weekend_form} wf ON s.userid = wf.userid AND wf.weekendid = {$filter->weekend} AND wf.active = 1"
         );
         $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
@@ -98,13 +95,6 @@ class weekend_table extends local_mxschool_table {
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'wf.destination', 'wf.transportation');
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

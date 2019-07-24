@@ -462,16 +462,17 @@ function format_boolean($boolean) {
 
 /**
  * Formats a student's name to "Last, First (Preferred)" or "Last, First" using the data in their user record.
+ * Also checks whether the user record has been deleted.
  *
  * @param int $userid The userid of the student.
- * @return string The formatted name.
+ * @return string The formatted name, an empty string if the user record has been deleted.
  * @throws coding_exception If the specified user record cannot be found.
  */
 function format_student_name($userid) {
     global $DB;
     $record = $DB->get_record('user', array('id' => $userid));
     if (!$record) {
-        throw new coding_exception("student user record with id {$id} could not be found");
+        throw new coding_exception("student user record with id {$userid} could not be found");
     }
     if ($record->deleted) {
         return '';
@@ -482,22 +483,43 @@ function format_student_name($userid) {
 
 /**
  * Formats a faculty's name to "Last, First" or "First Last" using the data in their user record.
+ * Also checks whether the user record has been deleted.
  *
  * @param int $userid The userid of the faculty.
  * @param bool $inverted Whether to format the name as "Last, First" or "First Last"
- * @return string The formatted name.
+ * @return string The formatted name, an empty string if the user record has been deleted.
  * @throws coding_exception If the specified user record cannot be found.
  */
 function format_faculty_name($userid, $inverted = true) {
     global $DB;
     $record = $DB->get_record('user', array('id' => $userid));
     if (!$record) {
-        throw new coding_exception("faculty user record with id {$id} could not be found");
+        throw new coding_exception("faculty user record with id {$userid} could not be found");
     }
     if ($record->deleted) {
         return '';
     }
     return $inverted ? "{$record->lastname}, {$record->firstname}" : "{$record->firstname} {$record->lastname}";
+}
+
+/**
+ * Formats a dorm's name using the data in its dorm record.
+ * Also checks whether the dorm record has been deleted.
+ *
+ * @param int $id The id of the dorm.
+ * @return string The formatted name, an empty string if the dorm record has been deleted.
+ * @throws coding_exception If the specified dorm record cannot be found.
+ */
+function format_dorm_name($id) {
+    global $DB;
+    $record = $DB->get_record('local_mxschool_dorm', array('id' => $id));
+    if (!$record) {
+        throw new coding_exception("dorm record with id {$id} could not be found");
+    }
+    if ($record->deleted) {
+        return '';
+    }
+    return $record->name;
 }
 
 /**

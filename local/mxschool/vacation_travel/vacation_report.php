@@ -41,7 +41,6 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'vacation_travel');
 
-$dorms = get_dorm_list(false);
 $submittedoptions = array(
     '1' => get_string('vacation_travel_report_select_submitted_true', 'local_mxschool'),
     '0' => get_string('vacation_travel_report_select_submitted_false', 'local_mxschool')
@@ -71,7 +70,7 @@ $renderable = new \local_mxschool\output\report(
 
 echo $output->header();
 echo $output->heading(
-    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
+    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

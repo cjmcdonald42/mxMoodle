@@ -41,7 +41,7 @@ $queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fiel
     'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_dorm', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_mxschool_dorm', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

@@ -354,7 +354,7 @@ $string['checkin_generic_report_header_student'] = 'Name';
 $string['checkin_generic_report_header_dorm'] = 'Dorm';
 $string['checkin_generic_report_header_room'] = 'Room';
 $string['checkin_generic_report_header_grade'] = 'Grade';
-$string['checkin_generic_report_header_checkin'] = '&emsp;&emsp;';
+$string['checkin_generic_report_header_checkin'] = '';
 
 // Weekday Check-in Sheet.
 $string['checkin_weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
@@ -407,6 +407,8 @@ $string['checkin_weekend_comment_form_comment'] = 'Comments';
 // Weekend Calculator.
 $string['checkin_weekend_calculator_report_title'] = '{$a}Weekend Calculator';
 $string['checkin_weekend_calculator_report_header_student'] = 'Name';
+$string['checkin_weekend_calculator_report_header_dorm'] = 'Dorm';
+$string['checkin_weekend_calculator_report_header_room'] = 'Room';
 $string['checkin_weekend_calculator_report_header_grade'] = 'Grade';
 $string['checkin_weekend_calculator_report_header_total'] = 'Total';
 $string['checkin_weekend_calculator_report_header_allowed'] = 'Allowed';
@@ -702,6 +704,7 @@ $string['vacation_travel_transportation_report_select_mxtransportation_true'] = 
 $string['vacation_travel_transportation_report_select_mxtransportation_false'] = 'Not School Transportation';
 $string['vacation_travel_transportation_report_add'] = 'New Vacation Travel Form';
 $string['vacation_travel_transportation_report_departure_header_student'] = 'Student';
+$string['vacation_travel_transportation_report_departure_header_dorm'] = 'Dorm';
 $string['vacation_travel_transportation_report_departure_header_destination'] = 'Destination';
 $string['vacation_travel_transportation_report_departure_header_phone'] = 'Phone Number';
 $string['vacation_travel_transportation_report_departure_header_mxtransportation'] = 'School Transportation';
@@ -715,6 +718,7 @@ $string['vacation_travel_transportation_report_departure_header_international'] 
 $string['vacation_travel_transportation_report_departure_header_timemodified'] = 'Last Modified';
 $string['vacation_travel_transportation_report_departure_header_email'] = 'Email';
 $string['vacation_travel_transportation_report_return_header_student'] = 'Student';
+$string['vacation_travel_transportation_report_return_header_dorm'] = 'Dorm';
 $string['vacation_travel_transportation_report_return_header_destination'] = 'Destination';
 $string['vacation_travel_transportation_report_return_header_phone'] = 'Phone Number';
 $string['vacation_travel_transportation_report_return_header_mxtransportation'] = 'School Transportation';

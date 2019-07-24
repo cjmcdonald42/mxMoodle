@@ -39,8 +39,6 @@ $filter->dorm = get_param_faculty_dorm();
 
 setup_mxschool_page('generic_report', 'checkin');
 
-$dorms = get_dorm_list();
-
 $table = new generic_table($filter);
 
 $dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
@@ -50,7 +48,7 @@ $renderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
 
 echo $output->header();
 echo $output->heading(
-    get_string('checkin_generic_report_title', 'local_mxschool', $filter->dorm > 0 ? "{$dorms[$filter->dorm]} " : '')
+    get_string('checkin_generic_report_title', 'local_mxschool', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

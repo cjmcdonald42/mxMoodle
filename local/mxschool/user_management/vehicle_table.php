@@ -57,13 +57,6 @@ class vehicle_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
-    }
-
-    /**
      * Formats the license column to 'n/j/y'.
      */
     protected function col_license($values) {

@@ -42,7 +42,7 @@ $queryfields = array('local_mxschool_parent' => array('abbreviation' => 'p', 'fi
     'home_phone' => 'homephone', 'cell_phone' => 'cellphone', 'work_phone' => 'workphone', 'email'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_parent', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_mxschool_parent', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

@@ -38,7 +38,7 @@ setup_edit_page('rating_edit', 'preferences', null, 'peertutoring');
 
 $queryfields = array('local_peertutoring_rating' => array('abbreviation' => 'r', 'fields' => array('id', 'displaytext')));
 
-if ($id && !$DB->record_exists('local_peertutoring_rating', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_peertutoring_rating', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

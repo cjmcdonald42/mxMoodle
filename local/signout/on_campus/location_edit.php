@@ -41,7 +41,7 @@ $queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'f
     'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'end_date' => 'end'
 )));
 
-if ($id && !$DB->record_exists('local_signout_location', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_signout_location', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

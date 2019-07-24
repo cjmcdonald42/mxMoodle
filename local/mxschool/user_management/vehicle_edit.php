@@ -41,7 +41,7 @@ $queryfields = array('local_mxschool_vehicle' => array('abbreviation' => 'v', 'f
     'id', 'userid' => 'student', 'make', 'model', 'color', 'registration'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_vehicle', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_mxschool_vehicle', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

@@ -66,7 +66,6 @@ if ($action === 'delete' && $id) {
     }
 }
 
-$dorms = get_dorm_list();
 $dates = get_on_campus_date_list();
 
 $table = new on_campus_table($filter);
@@ -86,6 +85,8 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
-echo $output->heading(get_string('on_campus_report_title', 'local_signout', $filter->dorm > 0 ? "{$dorms[$filter->dorm]} " : ''));
+echo $output->heading(
+    get_string('on_campus_report_title', 'local_signout', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
+);
 echo $output->render($renderable);
 echo $output->footer();

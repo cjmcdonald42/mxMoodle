@@ -47,20 +47,19 @@ class vacation_table extends local_mxschool_table {
             unset($columns[array_search('retinfo', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'vacation_travel_report');
-        $sortable = array('student', 'dorm', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
+        $sortable = array('student', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
         $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
         parent::__construct('vaction_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
-            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm',
+            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid',
             't.destination', 't.phone_number AS phone', 'dt.date_time AS depdatetime', 'dt.type AS deptype',
             'rt.date_time AS retdatetime', 'rt.type AS rettype', 'rt.carrier AS retcarrier',
             'rt.transportation_number AS retnumber',
         );
         $from = array(
-            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
-            '{local_mxschool_vt_trip} t ON s.userid = t.userid', '{local_mxschool_vt_transport} dt ON t.departureid = dt.id',
-            '{local_mxschool_vt_transport} rt ON t.returnid = rt.id'
+            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_vt_trip} t ON s.userid = t.userid',
+            '{local_mxschool_vt_transport} dt ON t.departureid = dt.id', '{local_mxschool_vt_transport} rt ON t.returnid = rt.id'
         );
         $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
         if ($filter->dorm) {
@@ -76,13 +75,6 @@ class vacation_table extends local_mxschool_table {
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

@@ -42,24 +42,22 @@ class generic_table extends local_mxschool_table {
         if ($filter->dorm > 0) {
             unset($columns[array_search('dorm', $columns)]);
             if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
-                unset($columns[array_search('room', $columns)]);
+                unset($columns[array_search('room', $columns)]); // Day houses don't have rooms.
             }
         }
         if ($filter->dorm == -1) {
             unset($columns[array_search('room', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'checkin_generic_report');
-        $sortable = array('student', 'dorm', 'room', 'grade');
-        $centered = array('room', 'grade');
+        $sortable = array('student', 'room', 'grade');
+        $centered = array('room', 'grade', 'checkin');
         if ($filter->dorm <= 0) {
             unset($sortable[array_search('room', $sortable)]);
         }
         parent::__construct('checkin_table', $columns, $headers, $sortable, $centered, $filter, false);
+        $this->add_column_class('student', 'align-right');
 
-        $fields = array(
-            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade',
-            "'' AS checkin"
-        );
+        $fields = array('s.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.room', 's.grade');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0');
         if ($filter->dorm) {
@@ -69,10 +67,10 @@ class generic_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
+     * Formats the checkin cloumn to an empty check box.
      */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
+    protected function col_checkin($values) {
+        return '&#8414;';
     }
 
 }

@@ -41,7 +41,7 @@ $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 
     'id', 'userid' => 'student', 'departments', 'deleted'
 )));
 
-if ($id && !$DB->record_exists('local_peertutoring_tutor', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_peertutoring_tutor', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

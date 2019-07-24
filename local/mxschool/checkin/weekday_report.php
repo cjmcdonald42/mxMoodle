@@ -39,8 +39,6 @@ $filter->dorm = get_param_faculty_dorm(false);
 
 setup_mxschool_page('weekday_report', 'checkin');
 
-$dorms = get_dorm_list(false);
-
 $table = new weekday_table($filter);
 
 $dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
@@ -56,7 +54,7 @@ $renderable = new \local_mxschool\output\report($table, null, $dropdowns, true, 
 
 echo $output->header();
 echo $output->heading(
-    get_string('checkin_weekday_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
+    get_string('checkin_weekday_report_title', 'local_mxschool', $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

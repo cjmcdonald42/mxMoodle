@@ -76,7 +76,7 @@ if ($id) {
         $record = $DB->get_record_sql(
             "SELECT d.hohid AS hoh, d.permissions_line AS permissionsline
              FROM {local_mxschool_dorm} d
-             WHERE d.id = ?", array($data->dorm)
+             WHERE d.id = ? AND d.deleted = 0", array($data->dorm)
         );
     }
 }

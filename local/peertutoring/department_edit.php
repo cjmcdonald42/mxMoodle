@@ -38,7 +38,7 @@ setup_edit_page('department_edit', 'preferences', null, 'peertutoring');
 
 $queryfields = array('local_peertutoring_dept' => array('abbreviation' => 'd', 'fields' => array('id', 'name')));
 
-if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_peertutoring_dept', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

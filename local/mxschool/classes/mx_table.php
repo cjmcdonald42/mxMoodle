@@ -63,7 +63,7 @@ abstract class local_mxschool_table extends table_sql {
                 $this->no_sorting($column);
             }
             if (in_array($column, $centered)) {
-                $this->add_column_class($column, 'centered');
+                $this->add_column_class($column, 'align-center');
             }
         }
         if ($actions) {
@@ -121,7 +121,7 @@ abstract class local_mxschool_table extends table_sql {
     /**
      * Generates a where string for the sql query based on a dorm filter parameter.
      *
-     *  NOTE: This method assumes the local_mxschool_dorm table is referenced as 'd' in the sql query.
+     * NOTE: This method assumes the local_mxschool_dorm table is referenced as 'd' in the sql query.
      *
      * @param int $dorm A number which specifies the filtering:
      *                      -2 indicates all (boarding) dorms
@@ -141,6 +141,24 @@ abstract class local_mxschool_table extends table_sql {
             default:
                 return "d.id = {$dorm}";
         }
+    }
+
+    /**
+     * Formats the student column to "last, first (preferred)" or "last, first".
+     *
+     * NOTE: This method assumes that the student's user id is stored in the property 'userid'.
+     */
+    protected function col_student($values) {
+        return format_student_name($values->userid);
+    }
+
+    /**
+     * Formats the dorm column.
+     *
+     * NOTE: This method assumes that the dorm id is stored in the property 'dormid'.
+     */
+    protected function col_dorm($values) {
+        return format_dorm_name($values->dormid);
     }
 
     /**

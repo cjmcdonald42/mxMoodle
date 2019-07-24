@@ -44,12 +44,18 @@ class weekend_calculator_table extends local_mxschool_table {
     public function __construct($filter, $weekends, $isstudent) {
         global $USER;
         $this->semester = $filter->semester;
-        $columns1 = array('student', 'grade');
+        $columns1 = array('student', 'dorm', 'room', 'grade');
+        if ($filter->dorm) {
+            unset($columns1[array_search('dorm', $columns1)]);
+        }
         $headers1 = $this->generate_headers($columns1, 'checkin_weekend_calculator_report');
         $columns2 = array('total', 'allowed');
         $headers2 = $this->generate_headers($columns2, 'checkin_weekend_calculator_report');
-        $sortable = $isstudent ? array() : array('student', 'grade');
-        $centered = array('grade', 'total', 'allowed');
+        $sortable = $isstudent ? array() : array('student', 'room', 'grade');
+        if (!$filter->dorm) {
+            unset($sortable[array_search('room', $sortable)]);
+        }
+        $centered = array('room', 'grade', 'total', 'allowed');
         foreach ($weekends as $weekend) {
             $columns1[] = $centered[] = "weekend_{$weekend->id}";
             $date = generate_datetime($weekend->sunday_time);
@@ -62,7 +68,7 @@ class weekend_calculator_table extends local_mxschool_table {
         $this->add_column_class('total', 'highlight-format');
         $this->add_column_class('allowed', 'highlight-reference');
 
-        $fields = array('s.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade');
+        $fields = array('s.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.room', 's.grade');
         $offcampus = get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool');
         $free = get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool');
         $closed = get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool');
@@ -81,21 +87,14 @@ class weekend_calculator_table extends local_mxschool_table {
                             ELSE ''
                         END AS weekend_{$weekend->id}";
         }
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', "d.type = 'Boarding'");
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id');
+        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
         if ($isstudent) {
             $where[] = "s.userid = $USER->id";
         } else if ($filter->dorm) {
             $where[] = "s.dormid = {$filter->dorm}";
         }
         $this->set_sql($fields, $from, $where);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

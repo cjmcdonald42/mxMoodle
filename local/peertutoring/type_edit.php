@@ -38,7 +38,7 @@ setup_edit_page('type_edit', 'preferences', null, 'peertutoring');
 
 $queryfields = array('local_peertutoring_type' => array('abbreviation' => 't', 'fields' => array('id', 'displaytext')));
 
-if ($id && !$DB->record_exists('local_peertutoring_type', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_peertutoring_type', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

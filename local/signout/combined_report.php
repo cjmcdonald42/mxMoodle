@@ -63,8 +63,6 @@ if ($action === 'delete' && $id && $table) {
     }
 }
 
-$dorms = get_dorm_list();
-
 $table = new combined_table($filter);
 
 $dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
@@ -78,6 +76,8 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbuttons);
 
 echo $output->header();
-echo $output->heading(get_string('combined_report_title', 'local_signout', $filter->dorm > 0 ? "{$dorms[$filter->dorm]} " : ''));
+echo $output->heading(
+    get_string('combined_report_title', 'local_signout', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
+);
 echo $output->render($renderable);
 echo $output->footer();

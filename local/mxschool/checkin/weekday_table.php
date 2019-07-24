@@ -50,7 +50,7 @@ class weekday_table extends local_mxschool_table {
                 get_string('checkin_weekday_report_header_late', 'local_mxschool')
             );
         }
-        $sortable = array('student', 'dorm', 'room', 'grade');
+        $sortable = array('student', 'room', 'grade');
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
@@ -58,24 +58,17 @@ class weekday_table extends local_mxschool_table {
         parent::__construct('weekday_table', $columns, $headers, $sortable, $centered, $filter, false);
 
         $fields = array(
-            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'd.name AS dorm', 's.room', 's.grade'
+            's.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.room', 's.grade'
         );
         for ($i = 1; $i <= 5; $i++) {
             array_push($fields, "'' AS early_{$i}", "'' AS late_{$i}");
         }
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0', "d.type = 'Boarding'");
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id');
+        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
         if ($filter->dorm) {
             $where[] = "s.dormid = {$filter->dorm}";
         }
         $this->set_sql($fields, $from, $where);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
 }

@@ -50,7 +50,7 @@ if ($isstudent && !student_may_access_tutoring($USER->id)) {
     redirect_to_fallback();
 }
 if ($id) {
-    if (!$DB->record_exists('local_peertutoring_session', array('id' => $id))) {
+    if (!$DB->record_exists('local_peertutoring_session', array('id' => $id, 'deleted' => 0))) {
         redirect_to_fallback();
     }
     if ($isstudent) { // Students cannot edit existing tutoring records.

@@ -48,7 +48,7 @@ class student_table extends local_mxschool_table {
                 if ($filter->dorm > 0) {
                     unset($columns[array_search('dorm', $columns)]);
                     if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
-                        unset($columns[array_search('room', $columns)]);
+                        unset($columns[array_search('room', $columns)]); // Day houses don't have rooms.
                     }
                 }
                 if ($filter->dorm == -1) {
@@ -96,7 +96,7 @@ class student_table extends local_mxschool_table {
             case 'students':
                 array_unshift($fields, 's.id');
                 array_push(
-                    $fields, 's.grade', "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 'd.name AS dorm', 's.room',
+                    $fields, 's.grade', "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 's.dormid', 'd.name AS dorm', 's.room',
                     's.phone_number AS phone', 's.birthday'
                 );
                 $from[] = '{user} a ON s.advisorid = a.id';
@@ -124,13 +124,6 @@ class student_table extends local_mxschool_table {
                 break;
         }
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

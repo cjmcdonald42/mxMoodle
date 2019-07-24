@@ -41,7 +41,7 @@ $queryfields = array('local_peertutoring_course' => array('abbreviation' => 'c',
     'id', 'departmentid' => 'department', 'name'
 )));
 
-if ($id && !$DB->record_exists('local_peertutoring_course', array('id' => $id))) {
+if ($id && !$DB->record_exists('local_peertutoring_course', array('id' => $id, 'deleted' => 0))) {
     redirect_to_fallback();
 }
 

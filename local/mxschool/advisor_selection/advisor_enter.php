@@ -71,10 +71,6 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if (isset($data->student)) {
-    $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data->student));
-    $data->current = format_faculty_name($current);
-}
 $data->isstudent = $isstudent ? '1' : '0';
 $data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');

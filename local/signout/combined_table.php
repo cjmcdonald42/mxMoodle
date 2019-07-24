@@ -43,13 +43,13 @@ class combined_table extends local_mxschool_table {
             unset($columns[array_search('dorm', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'combined_report', 'local_signout');
-        $sortable = array('student', 'grade', 'dorm', 'status', 'signouttime');
+        $sortable = array('student', 'grade', 'status', 'signouttime');
         $centered = array('grade', 'status', 'signouttime');
         parent::__construct('combined_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
             's.id', 's.userid', 'onc.id AS onid', 'offc.id AS offid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade',
-            'd.name AS dorm', 'l.name AS location', 'onc.other', 'dr.destination',
+            's.dormid', 'l.name AS location', 'onc.other', 'd.destination',
             "CASE
                 WHEN onc.id IS NOT NULL AND (offc.id IS NULL OR onc.time_created > offc.time_created) THEN 'signed_out_on_campus'
                 WHEN offc.id IS NOT NULL AND (onc.id IS NULL OR offc.time_created > onc.time_created) THEN 'signed_out_off_campus'
@@ -78,22 +78,14 @@ class combined_table extends local_mxschool_table {
                 ORDER BY oc.time_created DESC
                 LIMIT 1
             )",
-            '{local_mxschool_dorm} d ON s.dormid = d.id', '{local_signout_location} l ON onc.locationid = l.id',
-            '{local_signout_off_campus} dr ON offc.driverid = dr.id'
+            '{local_signout_location} l ON onc.locationid = l.id', '{local_signout_off_campus} d ON offc.driverid = d.id'
         );
         $where = array('u.deleted = 0');
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
         }
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'dr.destination');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'd.destination');
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

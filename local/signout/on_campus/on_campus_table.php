@@ -55,7 +55,7 @@ class on_campus_table extends local_mxschool_table {
         parent::__construct('on_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
 
         $fields = array(
-            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
+            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.dormid', 'd.name AS dorm',
             'l.name AS location', 'oc.other', 'oc.time_created AS signoutdate', 'oc.time_created AS signouttime',
             'oc.confirmerid AS confirmer', 'oc.confirmation_time AS confirmationtime', 'oc.sign_in_time AS signin'
         );
@@ -79,13 +79,6 @@ class on_campus_table extends local_mxschool_table {
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

@@ -380,14 +380,9 @@ class local_mxschool_external extends external_api {
         global $DB;
         $result = new stdClass();
         $result->students = convert_associative_to_object(get_student_without_rooming_form_list());
-        $result->dorm = $DB->get_field_sql(
-            "SELECT d.name
-             FROM {local_mxschool_student} s
-             LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-             WHERE s.userid = ?", array($params['userid'])
-        );
-        $gender = $DB->get_field('local_mxschool_student', 'gender', array('userid' => $params['userid']));
-        $result->roomtypes = convert_associative_to_object(get_roomtype_list($gender));
+        $record = $DB->get_record('local_mxschool_student', array('userid' => $params['userid']), 'dormid AS dorm, gender');
+        $result->dorm = format_dorm_name($record->dorm);
+        $result->roomtypes = convert_associative_to_object(get_roomtype_list($record->gender));
         $result->gradedormmates = convert_associative_to_object(get_student_possible_same_grade_dormmate_list($params['userid']));
         $result->dormmates = convert_associative_to_object(get_student_possible_dormmate_list($params['userid']));
         return $result;

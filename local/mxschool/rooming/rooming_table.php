@@ -57,7 +57,7 @@ class rooming_table extends local_mxschool_table {
 
         $fields = array(
             's.id', 's.userid', 'r.id AS rid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.gender',
-            'd.name AS dorm', 'r.has_lived_in_double AS liveddouble', 'r.room_type AS roomtype', 'ru.id as ruid',
+            's.dormid', 'd.name AS dorm', 'r.has_lived_in_double AS liveddouble', 'r.room_type AS roomtype', 'ru.id as ruid',
             'ru.deleted as rdeleted'
         );
         $from = array(
@@ -92,13 +92,6 @@ class rooming_table extends local_mxschool_table {
             array_push($searchable, "d{$i}u.firstname", "d{$i}u.lastname", "d{$i}u.alternatename");
         }
         $this->set_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the student column to "last, first (preferred)" or "last, first".
-     */
-    protected function col_student($values) {
-        return format_student_name($values->userid);
     }
 
     /**

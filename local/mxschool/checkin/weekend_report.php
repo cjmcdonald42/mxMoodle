@@ -127,7 +127,7 @@ $formrenderable = new \local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(get_string('checkin_weekend_report_title', 'local_mxschool', array(
-    'dorm' => $filter->dorm ? "{$dorms[$filter->dorm]} " : '', 'weekend' => $weekends[$filter->weekend],
+    'dorm' => $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '', 'weekend' => $weekends[$filter->weekend],
     'type' => $weekendrecord->type
 )));
 echo $output->render($reportrenderable);

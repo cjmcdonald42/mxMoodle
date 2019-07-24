@@ -41,8 +41,12 @@ div.mx-table table.generaltable th {
     text-align: center;
 }
 /* Centered cells. */
-div.mx-table table.generaltable td.centered {
+div.mx-table table.generaltable td.align-center {
     text-align: center;
+}
+/* Centered cells. */
+div.mx-table table.generaltable td.align-right {
+    text-align: right;
 }
 /* All filtering and buttons on one line. */
 div.mx-filter form,

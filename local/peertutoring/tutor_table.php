@@ -59,7 +59,7 @@ class tutor_table extends local_mxschool_table {
     }
 
     /**
-     * Formats the department columns
+     * Formats the department columns.
      */
     public function other_cols($column, $row) {
         if (is_int($column)) {
