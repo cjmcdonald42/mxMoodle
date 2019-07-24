@@ -86,8 +86,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
 
 echo $output->header();
-echo $output->heading(
-    get_string('on_campus_report_title', 'local_signout', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
-);
+echo $output->heading(get_string('on_campus_report_title', 'local_signout', $filter->dorm > 0 ? "{$dorms[$filter->dorm]} " : ''));
 echo $output->render($renderable);
 echo $output->footer();

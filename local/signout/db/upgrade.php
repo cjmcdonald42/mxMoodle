@@ -369,5 +369,14 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072213, 'local', 'signout');
     }
 
+    if ($oldversion < 2019072300) {
+
+        // Add root subpackage.
+        $DB->insert_record('local_mxschool_subpackage', (object) array('package' => 'signout', 'pages' => json_encode(array('combined_report' => 'combined_report.php'))));
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072300, 'local', 'signout');
+    }
+
     return true;
 }

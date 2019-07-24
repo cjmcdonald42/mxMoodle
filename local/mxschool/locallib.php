@@ -657,7 +657,7 @@ function get_param_faculty_dorm($includeday = true) {
  *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
- * 2) The current or date.
+ * 2) The current date.
  *
  * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the all option.
  *       Its value is only used after being checked as numeric or empty to avoid potential security issues.

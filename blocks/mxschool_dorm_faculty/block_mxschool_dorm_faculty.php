@@ -55,6 +55,8 @@ class block_mxschool_dorm_faculty extends block_base {
                         => '/local/mxschool/checkin/weekend_calculator.php'
                 ), get_string('event_heading', 'block_mxschool_dorm_faculty')),
                 new \local_mxschool\output\index(array(
+                    get_string('combined_report', 'block_mxschool_dorm_faculty')
+                        => '/local/signout/combined_report.php',
                     get_string('on_campus_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/on_campus/on_campus_report.php',
                     get_string('duty_report', 'block_mxschool_dorm_faculty')

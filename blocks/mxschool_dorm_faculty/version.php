@@ -27,11 +27,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dorm_faculty';
-$plugin->version = 2019072200;
+$plugin->version = 2019072300;
 $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
     'local_mxschool' => 2019071800, // MXSchool v3.1.
-    'local_signout' => 2019071800 // eSignout v3.1.
+    'local_signout' => 2019072303 // eSignout v3.1.
 );

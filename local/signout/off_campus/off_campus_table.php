@@ -62,7 +62,6 @@ class off_campus_table extends local_mxschool_table {
         $sortable = array($filter->date ? 'departuretime' : 'departuredate', 'student', 'grade', 'approver');
         $centered = array('grade', 'type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
         parent::__construct('off_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
-        $this->add_column_class('signin', 'sign-in');
 
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'oc.type', 'oc.passengers',
@@ -74,7 +73,7 @@ class off_campus_table extends local_mxschool_table {
             '{local_signout_off_campus} d ON oc.driverid = d.id', '{user} du ON d.userid = du.id',
             '{user} a ON oc.approverid = a.id'
         );
-        $where = array('oc.deleted = 0', 'u.deleted = 0');
+        $where = array('oc.deleted = 0', 'u.deleted = 0', 'd.deleted = 0', 'du.deleted = 0');
         if ($filter->type) {
             $types = array('Driver', 'Passenger', 'Parent', 'Rideshare');
             $otherstring = implode(' AND ', array_map(function($type) {

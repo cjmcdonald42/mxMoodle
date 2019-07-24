@@ -53,7 +53,6 @@ class on_campus_table extends local_mxschool_table {
         $sortable = array($filter->date ? 'signouttime' : 'signoutdate', 'student', 'grade', 'dorm', 'location');
         $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');
         parent::__construct('on_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
-        $this->add_column_class('signin', 'sign-in');
 
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'd.name AS dorm',
@@ -65,7 +64,7 @@ class on_campus_table extends local_mxschool_table {
             '{local_mxschool_dorm} d ON s.dormid = d.id', '{local_signout_location} l ON oc.locationid = l.id',
             '{user} c ON oc.confirmerid = c.id'
         );
-        $where = array('oc.deleted = 0', 'u.deleted = 0');
+        $where = array('oc.deleted = 0', 'u.deleted = 0', '(oc.locationid = -1 OR l.deleted = 0)');
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
         }

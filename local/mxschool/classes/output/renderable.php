@@ -94,16 +94,16 @@ class report implements renderable, templatable {
      * @param string $search Default search text, null if there is no search option.
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
      * @param bool $printbutton Whether to display a print button.
-     * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
+     * @param array?stdClass|bool $addbuttons Array of objects with text and url properties for add buttons or false.
      * @param array|bool Array of objects with properties text, value, and emailclass or false.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
     public function __construct(
-        $table, $search = null, $dropdowns = array(), $printbutton = false, $addbutton = false, $emailbuttons = false,
+        $table, $search = null, $dropdowns = array(), $printbutton = false, $addbuttons = false, $emailbuttons = false,
         $headers = false
     ) {
         $this->table = new report_table($table, $headers);
-        $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbutton, $emailbuttons);
+        $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbuttons, $emailbuttons);
     }
 
     /**
@@ -178,8 +178,8 @@ class report_filter implements renderable, templatable {
     private $dropdowns;
     /** @var bool Whether to display a print button.*/
     private $printbutton;
-    /** @var stdClass|bool Object with text and url properties for an add button or false.*/
-    private $addbutton;
+    /** @var array?stdClass|bool $addbuttons Array of objects with text and url properties for add buttons or false.*/
+    private $addbuttons;
     /** @var array Array of email_button objects.*/
     private $emailbuttons;
 
@@ -187,14 +187,14 @@ class report_filter implements renderable, templatable {
      * @param string $search Default search text, null if there is no search option.
      * @param array $dropdowns Array of local_mxschool_dropdown objects.
      * @param bool $printbutton Whether to display a print button.
-     * @param stdClass|bool $addbutton Object with text and url properties for an add button or false.
+     * @param array?stdClass|bool $addbuttons Array of objects with text and url properties for add buttons or false.
      * @param array|bool $emailbuttons Array of objects with properties text, value, and emailclass or false.
      */
-    public function __construct($search, $dropdowns, $printbutton, $addbutton, $emailbuttons) {
+    public function __construct($search, $dropdowns, $printbutton, $addbuttons, $emailbuttons) {
         $this->search = $search;
         $this->dropdowns = $dropdowns;
         $this->printbutton = $printbutton;
-        $this->addbutton = $addbutton;
+        $this->addbuttons = is_object($addbuttons) ? array($addbuttons) : $addbuttons;
         $this->emailbuttons = array_map(function($emailbutton) {
             return new email_button($emailbutton->text, $emailbutton->value ?? 0, $emailbutton->emailclass);
         }, $emailbuttons ?: array());
@@ -216,10 +216,13 @@ class report_filter implements renderable, templatable {
         $data->search = $this->search;
         $data->filterable = $data->searchable || count($data->dropdowns);
         $data->printable = $this->printbutton;
-        if ($this->addbutton) {
-            $data->addbutton = new stdClass();
-            $data->addbutton->text = $this->addbutton->text;
-            $data->addbutton->url = $this->addbutton->url->out();
+        if ($this->addbuttons) {
+            $data->addbuttons = array_map(function($button) {
+                $result = new stdClass();
+                $result->text = $button->text;
+                $result->url = $button->url->out();
+                return $result;
+            }, $this->addbuttons);
         }
         $data->emailbuttons = array_map(function($emailbutton) use($output) {
             return $output->render($emailbutton);

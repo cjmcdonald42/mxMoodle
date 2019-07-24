@@ -60,6 +60,7 @@ function xmldb_local_signout_install() {
     set_config('off_campus_notification_warning_unsetpermissions', 'This student does NOT have passenger permissions on file.', 'local_signout');
 
     $subpackages = array(
+        array('package' => 'signout', 'pages' => json_encode(array('combined_report' => 'combined_report.php'))),
         array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
             'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
             'duty_report' => 'duty_report.php'

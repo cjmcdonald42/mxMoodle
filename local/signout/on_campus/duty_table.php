@@ -65,7 +65,7 @@ class duty_table extends local_mxschool_table {
         $starttime = generate_datetime('midnight')->getTimestamp();
         $where = array(
             'oc.deleted = 0', 'u.deleted = 0', '(oc.locationid = -1 OR l.deleted = 0)',
-            '(oc.confirmerid IS NULL OR c.deleted = 0)', "oc.time_created >= {$starttime}"
+             "oc.time_created >= {$starttime}"
         );
         if ($filter->location) {
             $where[] = "oc.locationid = {$filter->location}";

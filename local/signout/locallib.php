@@ -58,15 +58,25 @@ function student_may_access_on_campus_signout($userid) {
 }
 
 /**
- * Determines whether the current user can access a page or service that is IP protected.
+ * Determines whether the current user can access an on_campus page or service that is IP protected.
  *
- * @param string $subpackage The name of the subpackage whose config will be checked.
- * @return bool A value of true if ip validation is turned off or the current user is on the correct network,
+ * @return bool A value of true if on campus ip validation is turned off or the current user is on the correct network,
  *              a value of false otherwise.
  */
-function validate_ip($subpackage) {
-    return !get_config('local_signout', "{$subpackage}_form_ipenabled")
-               || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip');
+function validate_ip_on_campus() {
+    return !get_config('local_signout', "on_campus_form_ipenabled")
+        || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip');
+}
+
+/**
+ * Determines whether the current user can access an off_campus page or service that is IP protected.
+ *
+ * @return bool A value of true if off campus ip validation is turned off or the current user is on the correct network,
+ *              a value of false otherwise.
+ */
+function validate_ip_off_campus() {
+    return !get_config('local_signout', "off_campus_form_ipenabled")
+        || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip');
 }
 
 /**
@@ -80,22 +90,14 @@ function validate_ip($subpackage) {
  *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
- * 2) The current or date.
- * If there is not an on-campus signout record asseociated with the selected date, an empty string will be returned.
+ * 2) The current date.
+ * If there is not an on-campus signout record asseociated with the determined date, an empty string will be returned.
  *
  * @return string The timestamp of midnight on the desired date.
  */
 function get_param_current_date_on_campus() {
-    global $DB;
     $timestamp = get_param_current_date();
-    $startdate = generate_datetime($timestamp);
-    $enddate = clone $startdate;
-    $enddate->modify('+1 day');
-    return $DB->record_exists_sql(
-        "SELECT id
-        FROM {local_signout_on_campus}
-        WHERE deleted = 0 AND time_created > ? AND time_created < ?", array($startdate->getTimestamp(), $enddate->getTimestamp())
-    ) ? $timestamp : '';
+    return array_key_exists($timestamp, get_on_campus_date_list()) ? $timestamp : '';
 }
 
 /**
@@ -103,23 +105,14 @@ function get_param_current_date_on_campus() {
  *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
- * 2) The current or date.
- * If there is not an off-campus signout record asseociated with the selected date, an empty string will be returned.
+ * 2) The current date.
+ * If there is not an off-campus signout record asseociated with the determined date, an empty string will be returned.
  *
  * @return string The timestamp of midnight on the desired date.
  */
 function get_param_current_date_off_campus() {
-    global $DB;
     $timestamp = get_param_current_date();
-    $startdate = generate_datetime($timestamp);
-    $enddate = clone $startdate;
-    $enddate->modify('+1 day');
-    return $DB->record_exists_sql(
-        "SELECT id
-         FROM {local_signout_off_campus}
-         WHERE deleted = 0 AND departure_time > ? AND departure_time < ?",
-        array($startdate->getTimestamp(), $enddate->getTimestamp())
-    ) ? $timestamp : '';
+    return array_key_exists($timestamp, get_off_campus_date_list()) ? $timestamp : '';
 }
 
 /**
@@ -245,8 +238,34 @@ function get_on_campus_date_list() {
                                            LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
                                            LEFT JOIN {user} c ON oc.confirmerid = c.id
          WHERE oc.deleted = 0 AND u.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0)
-                              AND (oc.confirmerid IS NULL OR c.deleted = 0)
          ORDER BY signoutdate DESC"
+    );
+    if ($records) {
+        foreach ($records as $record) {
+            $date = generate_datetime($record->signoutdate);
+            $date->modify('midnight');
+            if (!array_key_exists($date->getTimestamp(), $list)) {
+                $list[$date->getTimestamp()] = $date->format('m/d/y');
+            }
+        }
+    }
+    return $list;
+}
+
+/**
+ * Queries the database to create a list of all the dates for which there are off-campus signout records.
+ *
+ * @return array The dates for which there are off-campus signout records as timestamp => date (mm/dd/yy),
+ *               in descending order by date.
+ */
+function get_off_campus_date_list() {
+    global $DB;
+    $list = array();
+    $records = $DB->get_records_sql(
+        "SELECT oc.id, oc.time_created AS signoutdate
+         FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
+         WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type <> 'Passenger'
+         ORDER BY departure_time DESC"
     );
     if ($records) {
         foreach ($records as $record) {
@@ -288,33 +307,6 @@ function get_off_campus_type_list($userid = 0) {
         $types = array_values($types); // Reset the keys so that [0] can be the default option.
     }
     return $types;
-}
-
-/**
- * Queries the database to create a list of all the dates for which there are off-campus signout records.
- *
- * @return array The dates for which there are off-campus signout records as timestamp => date (mm/dd/yy),
- *               in descending order by date.
- */
-function get_off_campus_date_list() {
-    global $DB;
-    $list = array();
-    $records = $DB->get_records_sql(
-        "SELECT oc.id, oc.departure_time AS signoutdate
-         FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
-         WHERE oc.deleted = 0 AND u.deleted = 0 AND oc.type <> 'Passenger'
-         ORDER BY departure_time DESC"
-    );
-    if ($records) {
-        foreach ($records as $record) {
-            $date = generate_datetime($record->signoutdate);
-            $date->modify('midnight');
-            if (!array_key_exists($date->getTimestamp(), $list)) {
-                $list[$date->getTimestamp()] = $date->format('m/d/y');
-            }
-        }
-    }
-    return $list;
 }
 
 /**
@@ -400,7 +392,9 @@ function get_user_current_signout() {
         $record = $DB->get_record_sql(
             "SELECT oc.id, d.destination, oc.time_created AS timecreated
              FROM {local_signout_off_campus} oc LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id
-             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0 AND oc.time_created > ?
+                                                LEFT JOIN {user} du ON d.userid = du.id
+             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0 AND d.deleted = 0 AND du.deleted = 0
+                                 AND oc.time_created > ?
              ORDER BY oc.time_created", array($USER->id, $today), IGNORE_MULTIPLE
         );
         if ($record) {
@@ -431,12 +425,12 @@ function get_user_current_signout() {
 function sign_in_user() {
     global $DB, $USER;
     $currentsignout = get_user_current_signout();
-    if (!$currentsignout || !validate_ip($currentsignout->type)) {
+    if (!$currentsignout) {
         get_string('sign_in_error_norecord');
     }
     switch ($currentsignout->type) {
         case 'on_campus':
-            if (!validate_ip('on_campus')) {
+            if (!validate_ip_on_campus()) {
                 $boardingstatus = strtolower($DB->get_field(
                     'local_mxschool_student', 'boarding_status', array('userid' => $USER->id)
                 ));
@@ -457,7 +451,7 @@ function sign_in_user() {
             )))->trigger();
             return '';
         case 'off_campus':
-            if (!validate_ip('off_campus')) {
+            if (!validate_ip_off_campus()) {
                 return get_config('local_signout', 'off_campus_signin_iperror');
             }
             $record = $DB->get_record_sql(

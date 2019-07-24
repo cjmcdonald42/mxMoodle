@@ -58,6 +58,7 @@ $string['on_campus_location_edit_success'] = 'On-Campus Location Record Updated 
 
 $string['on_campus_success'] = 'On-Campus Signout Form Submitted Successfully';
 
+$string['table_delete_failure'] = 'Table Not Found for Record Deletion';
 $string['on_campus_location_delete_success'] = 'On-Campus Location Record Deleted Successfully';
 $string['on_campus_location_delete_failure'] = 'On-Campus Location Record Not Found for Deletion';
 $string['on_campus_delete_success'] = 'On-Campus Signout Record Deleted Successfully';
@@ -65,6 +66,22 @@ $string['on_campus_delete_failure'] = 'On-Campus Signout Record Not Found for De
 $string['off_campus_delete_success'] = 'Off-Campus Signout Record Deleted Successfully';
 $string['off_campus_delete_failure'] = 'Off-Campus Signout Record Not Found for Deletion';
 
+/* Combined */
+$string['signout'] = 'Combined Signout';
+$string['combined_report'] = 'Dorm Signout Report';
+
+$string['combined_report_title'] = '{$a}Live Signout Report';
+$string['combined_report_select_date_all'] = 'All Dates';
+$string['combined_report_header_student'] = 'Student';
+$string['combined_report_header_grade'] = 'Grade';
+$string['combined_report_header_dorm'] = 'Dorm';
+$string['combined_report_header_status'] = 'Status';
+$string['combined_report_header_location'] = 'Location';
+$string['combined_report_header_signouttime'] = 'Sign Out Time';
+$string['combined_report_status_signed_out_on_campus'] = 'On Campus';
+$string['combined_report_status_signed_out_off_campus'] = 'Off Campus';
+$string['combined_report_status_signed_in_boarder'] = 'In Dorm';
+$string['combined_report_status_signed_in_day'] = 'At Home';
 
 /* On Campus Signout */
 $string['on_campus'] = 'On-Campus Signout';

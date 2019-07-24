@@ -57,8 +57,9 @@ $string['vacation_travel_transportation_report'] = 'Transportation Report';
 $string['vacation_travel_preferences'] = 'Vacation Travel Preferences';
 
 $string['esignout_menu'] = 'eSignout Module';
-$string['off_campus_report'] = 'Off-Campus Report';
-$string['off_campus_preferences'] = 'Off-Campus Preferences';
-$string['on_campus_report'] = 'On-Campus Report';
+$string['combined_report'] = 'Dorm Signout Report';
+$string['on_campus_report'] = 'On-Campus Signout Report';
 $string['duty_report'] = 'On-Campus Duty Report';
-$string['on_campus_preferences'] = 'On-Campus Preferences';
+$string['on_campus_preferences'] = 'On-Campus Signout Preferences';
+$string['off_campus_report'] = 'Off-Campus Signout Report';
+$string['off_campus_preferences'] = 'Off-Campus Signout Preferences';

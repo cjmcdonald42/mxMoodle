@@ -32,7 +32,7 @@
     - searchable | bool | the action url for the filter
     - search | string | the default search text
     - printable | bool | whether to display a print button
-    - addbutton | object | with string properties text and url
+    - addbuttons | array | objects with string properties text and url
     - emailbuttons | array | strings which are the html for rendered email_buttons
 }}
 
@@ -54,11 +54,11 @@
     {{# printable }}
         <input type="button" class="btn btn-secondary" onclick="window.print()" value="{{# str }} print, local_mxschool {{/ str }}" />
     {{/ printable }}
-    {{# addbutton }}
-        <form action="{{ addbutton.url }}">
-            <input type="submit" class="btn btn-secondary" value="{{ addbutton.text }}" />
+    {{# addbuttons }}
+        <form action="{{ url }}">
+            <input type="submit" class="btn btn-secondary" value="{{ text }}" />
         </form>
-    {{/ addbutton }}
+    {{/ addbuttons }}
     {{# emailbuttons }}
         {{{ . }}}
     {{/ emailbuttons }}
