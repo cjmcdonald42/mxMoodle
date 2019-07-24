@@ -39,7 +39,7 @@ class preferences_form extends local_mxschool_form {
             'notifications' => array(
                 'tags' => self::email_tags(new \local_peertutoring\local\daily_summary()),
                 'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
             )
         );
         $this->set_fields($fields, 'preferences', true, 'local_peertutoring');

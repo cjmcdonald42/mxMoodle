@@ -65,8 +65,6 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$data->locationwarning = get_config('local_signout', 'on_campus_form_warning_underclassmen');
-$data->locationwarning11 = get_config('local_signout', 'on_campus_form_warning_juniors');
 $students = get_student_list();
 $locations = array(0 => get_string('form_select_default', 'local_mxschool')) + get_on_campus_location_list()
            + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
@@ -92,13 +90,13 @@ $formrenderable = new \local_mxschool\output\form($form);
 $jsrenderable = new \local_mxschool\output\amd_module('local_signout/on_campus_form');
 
 echo $output->header();
-if (!$isstudent || validate_ip_on_campus()) {
+if ($isstudent && !validate_ip_on_campus()) {
+    echo $output->heading(get_config('local_signout', 'on_campus_form_iperror'));
+} else {
     echo $output->heading(
         $isstudent ? get_string('on_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
-} else {
-    echo $output->heading(get_config('local_signout', 'on_campus_form_iperror'));
 }
 echo $output->footer();

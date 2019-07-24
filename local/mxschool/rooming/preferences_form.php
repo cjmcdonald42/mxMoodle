@@ -50,13 +50,13 @@ class preferences_form extends local_mxschool_form {
             'notifications' => array(
                 'submitted_tags' => self::email_tags(new \local_mxschool\local\rooming\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\rooming\unsubmitted_notification()),
                 'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'unsubmitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'unsubmitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'text' => array(
-                'roommateinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'roommateinstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
         $this->set_fields($fields, 'rooming_preferences', true);

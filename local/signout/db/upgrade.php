@@ -378,5 +378,24 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072300, 'local', 'signout');
     }
 
+    if ($oldversion < 2019072400) {
+
+        // Define field warning to be added to local_signout_location.
+        $table = new xmldb_table('local_signout_location');
+        $field = new xmldb_field('warning', XMLDB_TYPE_TEXT, null, null, null, null, null, 'end_date');
+
+        // Conditionally launch add field warning.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $DB->insert_record('local_signout_location', (object) array('name' => 'On Campus', 'grade' => 12, 'warning' => 'You need face-to-face permission from the person on duty in your dorm to sign out \'On Campus.\''));
+
+        set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any \'other\' location.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072400, 'local', 'signout');
+    }
+
     return true;
 }

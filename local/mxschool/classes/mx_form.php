@@ -59,8 +59,8 @@ abstract class local_mxschool_form extends moodleform {
         'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40),
         'rules' => array('required')
     );
-    protected const ELEMENT_FORMATED_TEXT = array('element' => 'editor');
-    protected const ELEMENT_FORMATED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
+    protected const ELEMENT_FORMATTED_TEXT = array('element' => 'editor');
+    protected const ELEMENT_FORMATTED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
 
     /**
      * Generates the field array for a 12-hour time selector with a particular minute step.

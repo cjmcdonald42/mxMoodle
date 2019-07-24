@@ -37,26 +37,46 @@ class local_signout_external extends external_api {
      * @return external_function_parameters Object holding array of parameters for the get_on_campus_student_options() function.
      */
     public static function get_on_campus_student_options_parameters() {
-        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
+        return new external_function_parameters(array(
+            'userid' => new external_value(PARAM_INT, 'The user id of the student.'),
+            'locationid' => new external_value(PARAM_INT, 'The id of the selected location.')
+        ));
     }
 
     /**
      * Queries the database to determine the location options and permissions for a selected student.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass Object with properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
+     * @param int $locationid The id of the selected location.
+     * @return stdClass Object with properties locations and warning.
      */
-    public static function get_on_campus_student_options($userid) {
+    public static function get_on_campus_student_options($userid, $locationid) {
         external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_on_campus_student_options_parameters(), array('userid' => $userid));
+        $params = self::validate_parameters(self::get_on_campus_student_options_parameters(), array(
+            'userid' => $userid, 'locationid' => $locationid
+        ));
 
         global $DB;
         $result = new stdClass();
         $record = $DB->get_record(
             'local_mxschool_student', array('userid' => $params['userid']), "grade, boarding_status = 'Day' AS isday"
         );
-        $result->grade = $record->grade;
         $result->locations = convert_associative_to_object(get_on_campus_location_list($record->grade, $record->isday));
+        if ($params['locationid'] === -1) {
+            switch ($record->grade) {
+                case 9:
+                case 10:
+                    $result->warning = get_config('local_signout', 'on_campus_form_warning_underclassmen');
+                    break;
+                case 11:
+                    $result->warning = get_config('local_signout', 'on_campus_form_warning_juniors');
+                    break;
+                default:
+                    $result->warning = '';
+            }
+        } else {
+            $result->warning = $DB->get_field('local_signout_location', 'warning', array('id' => $locationid)) ?: '';
+        }
         return $result;
     }
 
@@ -73,7 +93,7 @@ class local_signout_external extends external_api {
                     'text' => new external_value(PARAM_TEXT, 'name of the location')
                 ))
             ),
-            'grade' => new external_value(PARAM_INT, 'the student\'s grade')
+            'warning' => new external_value(PARAM_TEXT, 'a warning for the student')
         ));
     }
 

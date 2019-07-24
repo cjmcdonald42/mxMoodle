@@ -54,26 +54,26 @@ class preferences_form extends local_mxschool_form {
             'notifications' => array(
                 'tags' => self::email_tags(new \local_signout\local\off_campus\submitted()),
                 'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'text' => array(
-                'ipformerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'ipsigninerror' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'passengerinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'bottominstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'nopassengers' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'needparent' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'onlyspecific' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'confirmation' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'ipformerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'ipsigninerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'passengerinstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'bottominstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'nopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'needparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'onlyspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'confirmation' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'emailtext' => array(
-                'irregular' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'driver' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'any' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'parent' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'specific' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'over21' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'unsetpermissions' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'irregular' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'driver' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'any' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'parent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'specific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'over21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'unsetpermissions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
         $this->set_fields($fields, 'off_campus_preferences', true, 'local_signout');

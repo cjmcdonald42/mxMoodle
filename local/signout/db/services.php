@@ -31,7 +31,7 @@ $functions = array(
         'classname' => 'local_signout_external',
         'methodname' => 'get_on_campus_student_options',
         'classpath' => 'local/signout/externallib.php',
-        'description' => 'Queries the database to determine the location options and permissions for a selected student.',
+        'description' => 'Queries the database to determine the location options and any warnings for a selected student.',
         'type' => 'read',
         'ajax' => 'true'
     ),

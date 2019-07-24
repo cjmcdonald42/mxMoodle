@@ -71,15 +71,15 @@ class preferences_form extends local_mxschool_form {
             'notifications' => array(
                 'submitted_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'submitted_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
+                'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'approved_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_approved()),
                 'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'approved_body' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'text' => array(
-                'topinstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'bottominstructions' => self::ELEMENT_FORMATED_TEXT_REQUIRED,
-                'closedwarning' => self::ELEMENT_FORMATED_TEXT_REQUIRED
+                'topinstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'bottominstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'closedwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
         $this->set_fields($fields, 'checkin_preferences', true);

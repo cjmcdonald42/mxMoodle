@@ -144,13 +144,13 @@ $formrenderable = new \local_mxschool\output\form($form, false, $bottominstructi
 $jsrenderable = new \local_mxschool\output\amd_module('local_signout/off_campus_form');
 
 echo $output->header();
-if (!$isstudent || validate_ip_off_campus()) {
+if ($isstudent && !validate_ip_off_campus()) {
+    echo $output->heading(get_config('local_signout', 'off_campus_form_iperror'));
+} else {
     echo $output->heading(
         $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
-} else {
-    echo $output->heading(get_config('local_signout', 'off_campus_form_iperror'));
 }
 echo $output->footer();

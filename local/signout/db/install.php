@@ -34,7 +34,7 @@ function xmldb_local_signout_install() {
     set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
     set_config('on_campus_signin_iperror_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
     set_config('on_campus_signin_iperror_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
-    set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any other location.', 'local_signout');
+    set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any \'other\' location.', 'local_signout');
     set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
     set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
     set_config('on_campus_refresh_rate', '60', 'local_signout');
@@ -83,7 +83,8 @@ function xmldb_local_signout_install() {
         array('name' => 'Clay Centenial Center Lobby', 'grade' => 11),
         array('name' => 'Bass Arts Pavilion', 'grade' => 11),
         array('name' => 'StuFac', 'grade' => 12),
-        array('name' => 'Gym', 'grade' => 12)
+        array('name' => 'Gym', 'grade' => 12),
+        array('name' => 'On Campus', 'grade' => 12, 'warning' => 'You need face-to-face permission from the person on duty in your dorm to sign out \'On Campus.\'')
     );
     foreach ($locations as $location) {
         $DB->insert_record('local_signout_location', (object) $location);
