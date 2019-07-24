@@ -78,20 +78,16 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
 }
 
 $table = new student_table($filter);
-
 $dropdowns = array(
     new local_mxschool_dropdown('type', $types, $filter->type), local_mxschool_dropdown::dorm_dropdown($filter->dorm)
 );
-if ($filter->type === 'parents') {
-    $addbutton = new stdClass();
-    $addbutton->text = get_string('user_management_parent_report_add', 'local_mxschool');
-    $addbutton->url = new moodle_url('/local/mxschool/user_management/parent_edit.php');
-}
+$buttons = $filter->type === 'parents' ? $buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('user_management_parent_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/user_management/parent_edit.php')
+)) : array();
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report(
-    $table, $filter->search, $dropdowns, $filter->type !== 'parents', $addbutton ?? false
-);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, $filter->type !== 'parents');
 
 echo $output->header();
 echo $output->heading(($filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '') . $types[$filter->type]);

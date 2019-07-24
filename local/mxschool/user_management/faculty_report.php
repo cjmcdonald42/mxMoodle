@@ -41,7 +41,6 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 setup_mxschool_page('faculty_report', 'user_management');
 
 $table = new faculty_table($filter);
-
 $dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');

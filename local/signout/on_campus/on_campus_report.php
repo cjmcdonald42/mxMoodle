@@ -69,7 +69,6 @@ if ($action === 'delete' && $id) {
 $dates = get_on_campus_date_list();
 
 $table = new on_campus_table($filter);
-
 $dropdowns = array(
     local_mxschool_dropdown::dorm_dropdown($filter->dorm),
     new local_mxschool_dropdown(
@@ -77,12 +76,13 @@ $dropdowns = array(
     ),
     new local_mxschool_dropdown('date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout'))
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('on_campus_report_add', 'local_signout');
-$addbutton->url = new moodle_url('/local/signout/on_campus/on_campus_enter.php');
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('on_campus_report_add', 'local_signout'),
+    new moodle_url('/local/signout/on_campus/on_campus_enter.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading(

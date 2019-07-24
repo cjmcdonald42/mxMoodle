@@ -68,7 +68,6 @@ $departments = get_department_list();
 $dates = get_tutoring_date_list();
 
 $table = new tutoring_table($filter, $download);
-
 $dropdowns = array(
     new local_mxschool_dropdown(
         'date', $dates, $filter->date, get_string('tutoring_report_select_date_all', 'local_peertutoring')
@@ -83,9 +82,10 @@ $dropdowns = array(
         'type', $types, $filter->type, get_string('tutoring_report_select_type_all', 'local_peertutoring')
     )
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('tutoring_report_add', 'local_peertutoring');
-$addbutton->url = new moodle_url('/local/peertutoring/tutoring_enter.php');
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('tutoring_report_add', 'local_peertutoring'),
+    new moodle_url('/local/peertutoring/tutoring_enter.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
@@ -93,7 +93,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, true, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

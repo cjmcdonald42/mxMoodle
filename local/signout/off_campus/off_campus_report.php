@@ -69,17 +69,17 @@ if ($action === 'delete' && $id) {
 $dates = get_off_campus_date_list();
 
 $table = new off_campus_table($filter);
-
 $dropdowns = array(
     new local_mxschool_dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')),
     new local_mxschool_dropdown('date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout'))
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('off_campus_report_add', 'local_signout');
-$addbutton->url = new moodle_url('/local/signout/off_campus/off_campus_enter.php');
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('off_campus_report_add', 'local_signout'),
+    new moodle_url('/local/signout/off_campus/off_campus_enter.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

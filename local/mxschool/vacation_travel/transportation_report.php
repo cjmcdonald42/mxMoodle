@@ -66,7 +66,6 @@ $types = array(
 );
 
 $table = new transportation_table($filter, $download);
-
 $dropdowns = array(
     new local_mxschool_dropdown(
         'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
@@ -79,10 +78,10 @@ $dropdowns = array(
 if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
     array_unshift($dropdowns, new local_mxschool_dropdown('portion', $portions, $filter->portion));
 }
-
-$addbutton = new stdClass();
-$addbutton->text = get_string('vacation_travel_transportation_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php');
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('vacation_travel_transportation_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
@@ -90,7 +89,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading(get_string("vacation_travel_transportation_report_portion_{$filter->portion}", 'local_mxschool'));

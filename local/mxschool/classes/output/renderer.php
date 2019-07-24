@@ -33,8 +33,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders an index according to the template.
      *
-     * @param index $index.
-     *
+     * @param local_mxschool\output\index $index.
      * @return string html for the index.
      */
     public function render_index($index) {
@@ -45,8 +44,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a report according to the template.
      *
-     * @param report $report.
-     *
+     * @param local_mxschool\output\report $report.
      * @return string html for the report.
      */
     public function render_report($report) {
@@ -57,8 +55,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a report table according to the template.
      *
-     * @param report_table $table.
-     *
+     * @param local_mxschool\output\report_table $table.
      * @return string html for the table.
      */
     public function render_report_table($table) {
@@ -69,8 +66,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a report filter according to the template.
      *
-     * @param report_filter $filter.
-     *
+     * @param local_mxschool\output\report_filter $filter.
      * @return string html for the filter.
      */
     public function render_report_filter($filter) {
@@ -79,10 +75,42 @@ class renderer extends \plugin_renderer_base {
     }
 
     /**
+     * Renders a redirect button according to the template.
+     *
+     * @param local_mxschool\output\redirect_button $button.
+     * @return string html for the button.
+     */
+    public function render_redirect_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template("local_mxschool/redirect_button", $data);
+    }
+
+    /**
+     * Renders a email button according to the template.
+     *
+     * @param local_mxschool\output\email_button $button.
+     * @return string html for the button.
+     */
+    public function render_email_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template("local_mxschool/email_button", $data);
+    }
+
+    /**
+     * Renders a selection button according to the template.
+     *
+     * @param local_mxschool\output\selection_button $button.
+     * @return string html for the button.
+     */
+    public function render_selection_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template("local_mxschool/selection_button", $data);
+    }
+
+    /**
      * Renders a form according to the template.
      *
-     * @param form $form.
-     *
+     * @param local_mxschool\output\form $form.
      * @return string html for the page.
      */
     public function render_form($form) {
@@ -93,8 +121,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders an amd module according to the template.
      *
-     * @param amd_module $module.
-     *
+     * @param local_mxschool\output\amd_module $module.
      * @return string html for the script.
      */
     public function render_amd_module($module) {
@@ -105,8 +132,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a checkbox according to the template.
      *
-     * @param checkbox $checkbox.
-     *
+     * @param local_mxschool\output\checkbox $checkbox.
      * @return string html for the checkbox.
      */
     public function render_checkbox($checkbox) {
@@ -117,8 +143,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a table which serves as a legend according to the template.
      *
-     * @param legend_table $legend
-     *
+     * @param local_mxschool\output\legend_table $legend
      * @return string html for the table.
      */
     public function render_legend_table($legend) {
@@ -127,45 +152,8 @@ class renderer extends \plugin_renderer_base {
     }
 
     /**
-     * Renders am email button according to the template.
-     *
-     * @param email_button $button.
-     *
-     * @return string html for the button.
-     */
-    public function render_email_button($button) {
-        $data = $button->export_for_template($this);
-        return parent::render_from_template('local_mxschool/email_button', $data);
-    }
-
-    /**
-     * Renders a selection button according to the template.
-     *
-     * @param selection_button $button.
-     *
-     * @return string html for the button.
-     */
-    public function render_selection_button($button) {
-        $data = $button->export_for_template($this);
-        return parent::render_from_template('local_mxschool/selection_button', $data);
-    }
-
-    /**
-     * Renders a redirect button according to the template.
-     *
-     * @param redirect_button $button.
-     *
-     * @return string html for the button.
-     */
-    public function render_redirect_button($button) {
-        $data = $button->export_for_template($this);
-        return parent::render_from_template('local_mxschool/redirect_button', $data);
-    }
-
-    /**
      * Renders a student picture according to the template.
-     *
-     * @param student_picture $picture.
+     * @param local_mxschool\output\student_picture $picture.
      *
      * @return string html for the picture.
      */

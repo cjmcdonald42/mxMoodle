@@ -53,13 +53,13 @@ if ($action === 'delete' && $id) {
 }
 
 $table = new dorm_table($filter);
-
-$addbutton = new stdClass();
-$addbutton->text = get_string('user_management_dorm_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/user_management/dorm_edit.php');
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('user_management_dorm_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/user_management/dorm_edit.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, array(), false, $addbutton);
+$renderable = new \local_mxschool\output\report($table, $filter->search, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

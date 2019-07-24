@@ -82,14 +82,14 @@ if ($form->is_cancelled()) {
 }
 
 $table = new location_table();
-
-$addbutton = new stdClass();
-$addbutton->text = get_string('on_campus_location_report_add', 'local_signout');
-$addbutton->url = new moodle_url('/local/signout/on_campus/location_edit.php');
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('on_campus_location_report_add', 'local_signout'),
+    new moodle_url('/local/signout/on_campus/location_edit.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table, null, array(), false, $addbutton);
+$reportrenderable = new \local_mxschool\output\report($table, null, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

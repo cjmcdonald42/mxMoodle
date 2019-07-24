@@ -59,7 +59,6 @@ $doubleoptions = array(
 );
 
 $table = new rooming_table($filter, $download);
-
 $dropdowns = array(
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
@@ -72,13 +71,15 @@ $dropdowns = array(
     ),
     new local_mxschool_dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('rooming_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/rooming/rooming_enter.php');
-$emailbutton = new stdClass();
-$emailbutton->text = get_string('rooming_report_remind', 'local_mxschool');
-$emailbutton->emailclass = 'rooming_notify_unsubmitted';
-$emailbuttons = array($emailbutton);
+$buttons = array(
+    new \local_mxschool\output\redirect_button(
+        get_string('rooming_report_add', 'local_mxschool'),
+        new moodle_url('/local/mxschool/rooming/rooming_enter.php')
+    ),
+    new \local_mxschool\output\email_button(
+        get_string('rooming_report_remind', 'local_mxschool'), 'rooming_notify_unsubmitted'
+    )
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
@@ -86,7 +87,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

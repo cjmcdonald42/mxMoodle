@@ -25,10 +25,10 @@
     The purpose of this template is to render a button with ajax functionality to signin a signout record.
 
     Required context variables:
-    - displaytext | string | the text to display on the button
+    - text | string | the text to display on the button
 }}
 
-<button class="mx-signin-button btn btn-primary noprint">{{ displaytext }}</button>
+<button class="mx-signin-button btn btn-primary noprint">{{ text }}</button>
 
 {{# js }}
     require(['local_signout/signin_button'], function(setup) {

@@ -52,7 +52,6 @@ $keepcurrentoptions = array(
 );
 
 $table = new advisor_table($filter, $download);
-
 $dropdowns = array(
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted,
@@ -63,16 +62,18 @@ $dropdowns = array(
         get_string('report_select_default', 'local_mxschool')
     )
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('advisor_selection_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/advisor_selection/advisor_enter.php');
-$emailreminder = new stdClass();
-$emailreminder->text = get_string('advisor_selection_report_remind', 'local_mxschool');
-$emailreminder->emailclass = 'advisor_selection_notify_unsubmitted';
-$emailresults = new stdClass();
-$emailresults->text = get_string('advisor_selection_report_results', 'local_mxschool');
-$emailresults->emailclass = 'advisor_selection_notify_results';
-$emailbuttons = array($emailreminder, $emailresults);
+$buttons = array(
+    new \local_mxschool\output\redirect_button(
+        get_string('advisor_selection_report_add', 'local_mxschool'),
+        new moodle_url('/local/mxschool/advisor_selection/advisor_enter.php')
+    ),
+    new \local_mxschool\output\email_button(
+        get_string('advisor_selection_report_remind', 'local_mxschool'), 'advisor_selection_notify_unsubmitted'
+    ),
+    new \local_mxschool\output\email_button(
+        get_string('advisor_selection_report_results', 'local_mxschool'), 'advisor_selection_notify_results'
+    )
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
@@ -80,7 +81,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

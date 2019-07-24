@@ -33,8 +33,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a sign-in button according to the template.
      *
-     * @param signin_button $button.
-     *
+     * @param local\signout\output\signin_button $button.
      * @return string html for the button.
      */
     public function render_signin_button($button) {
@@ -45,8 +44,7 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a confirmation button according to the template.
      *
-     * @param confirmation_button $button.
-     *
+     * @param local\signout\output\confirmation_button $button.
      * @return string html for the button.
      */
     public function render_confirmation_button($button) {

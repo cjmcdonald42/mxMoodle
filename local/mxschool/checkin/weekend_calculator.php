@@ -54,14 +54,13 @@ $weekends = $DB->get_records_sql(
 );
 
 $table = new weekend_calculator_table($filter, $weekends, $isstudent);
-
 $dropdowns = array(new local_mxschool_dropdown('semester', $semesters, $filter->semester));
 if (!$isstudent) {
     array_unshift($dropdowns, local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
+$reportrenderable = new \local_mxschool\output\report($table, null, $dropdowns, array(), true);
 $legendrenderable = new \local_mxschool\output\legend_table();
 $jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 

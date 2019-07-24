@@ -40,11 +40,10 @@ $filter->dorm = get_param_faculty_dorm();
 setup_mxschool_page('generic_report', 'checkin');
 
 $table = new generic_table($filter);
-
 $dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
+$renderable = new \local_mxschool\output\report($table, null, $dropdowns, array(), true);
 
 echo $output->header();
 echo $output->heading(

@@ -82,14 +82,14 @@ if ($form->is_cancelled()) {
 }
 
 $table = new site_table();
-
-$addbutton = new stdClass();
-$addbutton->text = get_string('vacation_travel_site_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/vacation_travel/site_edit.php');
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('vacation_travel_site_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table, null, array(), false, $addbutton);
+$reportrenderable = new \local_mxschool\output\report($table, null, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

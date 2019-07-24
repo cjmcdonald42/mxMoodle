@@ -26,10 +26,11 @@
     The purpose of this template is to render a button with ajax functionality to confirm a signout record.
 
     Required context variables:
+    - text | string | the text to display on the button
     - value | int | the id of the on-campus signout record which the button interacts with
 }}
 
-<button class="mx-confirmation-button btn btn-secondary noprint" value="{{ value }}">{{# str }} confirmation_button, local_signout {{/ str }}</button>
+<button class="mx-confirmation-button btn btn-secondary noprint" value="{{ value }}"> {{ text }} </button>
 
 {{# js }}
     require(['local_signout/confirmation_button'], function(setup) {

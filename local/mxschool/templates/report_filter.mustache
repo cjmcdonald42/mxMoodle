@@ -31,9 +31,8 @@
     - dropdowns | array | strings which are the rendered html for dropdowns
     - searchable | bool | the action url for the filter
     - search | string | the default search text
+    - buttons | array | strings which are the html for rendered email_buttons
     - printable | bool | whether to display a print button
-    - addbuttons | array | objects with string properties text and url
-    - emailbuttons | array | strings which are the html for rendered email_buttons
 }}
 
 <div class="mx-filter noprint">
@@ -51,15 +50,10 @@
             <input type="submit" class="btn btn-secondary" value="{{# str }} reset {{/ str }}" />
         </form>
     {{/ filterable }}
+    {{# buttons }}
+        {{{ . }}}
+    {{/ buttons }}
     {{# printable }}
         <input type="button" class="btn btn-secondary" onclick="window.print()" value="{{# str }} print, local_mxschool {{/ str }}" />
     {{/ printable }}
-    {{# addbuttons }}
-        <form action="{{ url }}">
-            <input type="submit" class="btn btn-secondary" value="{{ text }}" />
-        </form>
-    {{/ addbuttons }}
-    {{# emailbuttons }}
-        {{{ . }}}
-    {{/ emailbuttons }}
 </div>

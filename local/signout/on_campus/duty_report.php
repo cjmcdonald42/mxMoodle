@@ -52,13 +52,12 @@ if ($filter->location && !isset($locations[$filter->location])) {
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 
-$table = new duty_table($filter);
-
 $pictureoptions = array(
     '1' => get_string('duty_report_select_pictures_on', 'local_signout'),
     '0' => get_string('duty_report_select_pictures_off', 'local_signout')
 );
 
+$table = new duty_table($filter);
 $dropdowns = array(
     new local_mxschool_dropdown('pictures', $pictureoptions, $filter->pictures),
     new local_mxschool_dropdown(

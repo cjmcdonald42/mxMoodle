@@ -28,9 +28,12 @@ namespace local_signout\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/../../../mxschool/classes/output/renderable.php');
+
 use renderable;
 use renderer_base;
 use templatable;
+use local_mxschool\output\button;
 use stdClass;
 
 /**
@@ -42,29 +45,8 @@ use stdClass;
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class signin_button implements renderable, templatable {
-
-    /** @var string The text to display on the button.*/
-    private $displaytext;
-
-    /**
-     * @param string $displaytext The text to display on the button.
-     */
-    public function __construct($displaytext) {
-        $this->displaytext = $displaytext;
-    }
-
-    /**
-     * Exports this data so it can be used as the context for a mustache template.
-     *
-     * @return stdClass Object with property displaytext.
-     */
-    public function export_for_template(renderer_base $output) {
-        $data = new stdClass();
-        $data->displaytext = $this->displaytext;
-        return $data;
-    }
-
+class signin_button extends button {
+    // Data is exact same as generic button.
 }
 
 /**
@@ -76,7 +58,7 @@ class signin_button implements renderable, templatable {
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class confirmation_button implements renderable, templatable {
+class confirmation_button extends button {
 
     /** @var int The id of the on-campus signout record which the button interacts with.*/
     private $value;
@@ -85,16 +67,17 @@ class confirmation_button implements renderable, templatable {
      * @param int $value The id of the on-campus signout record which the button interacts with.
      */
     public function __construct($value) {
+        parent::__construct(get_string('confirmation_button', 'local_signout'));
         $this->value = $value;
     }
 
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with property value.
+     * @return stdClass Object with properties text and value.
      */
     public function export_for_template(renderer_base $output) {
-        $data = new stdClass();
+        $data = parent::export_for_template($output);
         $data->value = $this->value;
         return $data;
     }

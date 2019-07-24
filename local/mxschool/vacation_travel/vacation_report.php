@@ -47,26 +47,24 @@ $submittedoptions = array(
 );
 
 $table = new vacation_table($filter);
-
 $dropdowns = array(
     local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool_dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('vacation_travel_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php');
-$emailbutton = new stdClass();
-$emailbutton->text = get_string('vacation_travel_report_remind', 'local_mxschool');
-$emailbutton->emailclass = 'vacation_travel_notify_unsubmitted';
-$emailbuttons = array($emailbutton);
+$buttons = array(new \local_mxschool\output\redirect_button(
+    get_string('vacation_travel_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php')
+));
+if (has_capability('local/mxschool:notify_vacation_travel', context_system::instance())) {
+    $buttons[] = new \local_mxschool\output\email_button(
+        get_string('vacation_travel_report_remind', 'local_mxschool'), 'vacation_travel_notify_unsubmitted'
+    );
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report(
-    $table, $filter->search, $dropdowns, true, $addbutton,
-    has_capability('local/mxschool:notify_vacation_travel', context_system::instance()) ? $emailbuttons : array()
-);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
 echo $output->heading(

@@ -64,16 +64,20 @@ if ($action === 'delete' && $id && $table) {
 }
 
 $table = new combined_table($filter);
-
 $dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
-$addbuttons = array(new stdClass(), new stdClass());
-$addbuttons[0]->text = get_string('on_campus_report_add', 'local_signout');
-$addbuttons[0]->url = new moodle_url('/local/signout/on_campus/on_campus_enter.php');
-$addbuttons[1]->text = get_string('off_campus_report_add', 'local_signout');
-$addbuttons[1]->url = new moodle_url('/local/signout/off_campus/off_campus_enter.php');
+$buttons = array(
+    new \local_mxschool\output\redirect_button(
+        get_string('on_campus_report_add', 'local_signout'),
+        new moodle_url('/local/signout/on_campus/on_campus_enter.php')
+    ),
+    new \local_mxschool\output\redirect_button(
+        get_string('off_campus_report_add', 'local_signout'),
+        new moodle_url('/local/signout/off_campus/off_campus_enter.php')
+    )
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbuttons);
+$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading(

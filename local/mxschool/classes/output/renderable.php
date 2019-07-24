@@ -32,6 +32,7 @@ use renderable;
 use renderer_base;
 use templatable;
 use stdClass;
+use moodle_url;
 
 /**
  * Renderable class for indexes.
@@ -67,7 +68,7 @@ class index implements renderable, templatable {
         $data = new stdClass();
         $data->heading = $this->heading;
         $data->links = array_map(function($text, $url) {
-            return array('text' => $text, 'url' => (new \moodle_url($url))->out());
+            return array('text' => $text, 'url' => (new moodle_url($url))->out());
         }, array_keys($this->links), $this->links);
         return $data;
     }
@@ -90,20 +91,18 @@ class report implements renderable, templatable {
     private $filter;
 
     /**
-     * @param local_mxschool_table $table The table object to output to the template.
+     * @param local\mxschool\local_mxschool_table $table The table object to output to the template.
      * @param string $search Default search text, null if there is no search option.
-     * @param array $dropdowns Array of local_mxschool_dropdown objects.
-     * @param bool $printbutton Whether to display a print button.
-     * @param array?stdClass|bool $addbuttons Array of objects with text and url properties for add buttons or false.
-     * @param array|bool Array of objects with properties text, value, and emailclass or false.
+     * @param array $dropdowns Array of local\mxschool\local_mxschool_dropdown objects.
+     * @param array $buttons Array of button objects.
+     * @param bool $printable Whether to display a print button.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
     public function __construct(
-        $table, $search = null, $dropdowns = array(), $printbutton = false, $addbuttons = false, $emailbuttons = false,
-        $headers = false
+        $table, $search = null, $dropdowns = array(), $buttons = array(), $printable = false, $headers = false
     ) {
         $this->table = new report_table($table, $headers);
-        $this->filter = new report_filter($search, $dropdowns, $printbutton, $addbuttons, $emailbuttons);
+        $this->filter = new report_filter($search, $dropdowns, $buttons, $printable);
     }
 
     /**
@@ -131,13 +130,13 @@ class report implements renderable, templatable {
  */
 class report_table implements renderable, templatable {
 
-    /** @var local_mxschool_table The table object to output to the template.*/
+    /** @var local\mxschool\local_mxschool_table The table object to output to the template.*/
     private $table;
     /** @var array|bool Array of headers as ['text', 'length'] to prepend or false.*/
     private $headers;
 
     /**
-     * @param local_mxschool_table $table The table object to output to the template.
+     * @param local\mxschool\local_mxschool_table $table The table object to output to the template.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
      */
     public function __construct($table, $headers = false) {
@@ -174,59 +173,210 @@ class report_filter implements renderable, templatable {
 
     /** @var string Default search text, null if there is no search option.*/
     private $search;
-    /** @param array Array of local_mxschool_dropdown objects.*/
+    /** @param array Array of local\mxschool\local_mxschool_dropdown objects.*/
     private $dropdowns;
+    /** @var array Array of button objects.*/
+    private $buttons;
     /** @var bool Whether to display a print button.*/
-    private $printbutton;
-    /** @var array?stdClass|bool $addbuttons Array of objects with text and url properties for add buttons or false.*/
-    private $addbuttons;
-    /** @var array Array of email_button objects.*/
-    private $emailbuttons;
+    private $printable;
 
     /**
      * @param string $search Default search text, null if there is no search option.
-     * @param array $dropdowns Array of local_mxschool_dropdown objects.
-     * @param bool $printbutton Whether to display a print button.
-     * @param array?stdClass|bool $addbuttons Array of objects with text and url properties for add buttons or false.
-     * @param array|bool $emailbuttons Array of objects with properties text, value, and emailclass or false.
+     * @param array $dropdowns Array of local\mxschool\local_mxschool_dropdown objects.
+     * @param array $buttons Array of button objects.
+     * @param bool $printable Whether to display a print button.
      */
-    public function __construct($search, $dropdowns, $printbutton, $addbuttons, $emailbuttons) {
+    public function __construct($search, $dropdowns, $buttons, $printable) {
         $this->search = $search;
         $this->dropdowns = $dropdowns;
-        $this->printbutton = $printbutton;
-        $this->addbuttons = is_object($addbuttons) ? array($addbuttons) : $addbuttons;
-        $this->emailbuttons = array_map(function($emailbutton) {
-            return new email_button($emailbutton->text, $emailbutton->value ?? 0, $emailbutton->emailclass);
-        }, $emailbuttons ?: array());
+        $this->buttons = $buttons;
+        $this->printable = $printable;
     }
 
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return stdClass Object with properties url, dropdowns, searchable, search, printable, addbutton, and emailbuttons.
+     * @return stdClass Object with properties url, dropdowns, searchable, search, buttons, and printable.
      */
     public function export_for_template(renderer_base $output) {
         global $PAGE;
         $data = new stdClass();
         $data->url = $PAGE->url;
         $data->dropdowns = array_map(function($dropdown) {
-            return \html_writer::select($dropdown->options, $dropdown->name, $dropdown->selected, $dropdown->nothing);
+            return $dropdown->out();
         }, $this->dropdowns);
         $data->searchable = isset($this->search);
         $data->search = $this->search;
         $data->filterable = $data->searchable || count($data->dropdowns);
-        $data->printable = $this->printbutton;
-        if ($this->addbuttons) {
-            $data->addbuttons = array_map(function($button) {
-                $result = new stdClass();
-                $result->text = $button->text;
-                $result->url = $button->url->out();
-                return $result;
-            }, $this->addbuttons);
-        }
-        $data->emailbuttons = array_map(function($emailbutton) use($output) {
-            return $output->render($emailbutton);
-        }, $this->emailbuttons);
+        $data->buttons = array_map(function($button) use($output) {
+            return $output->render($button);
+        }, $this->buttons);
+        $data->printable = $this->printable;
+        return $data;
+    }
+
+}
+
+/**
+ * Abstract renderable class for buttons.
+ *
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+abstract class button implements renderable, templatable {
+
+    /** @var string The text to display on the button.*/
+    public $text;
+
+    /**
+     * @param string $text The text to display on the button.
+     */
+    public function __construct($text) {
+        $this->text = $text;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties depending on the button type.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        $data->text = $this->text;
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for redirect buttons.
+ *
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class redirect_button extends button {
+
+    /** @var moodle_url The url that the button should link to.*/
+    private $url;
+
+    /**
+     * @param string $text The text to display on the button.
+     * @param moodle_url $url The url that the button should link to.
+     */
+    public function __construct($text, $url) {
+        parent::__construct($text);
+        $this->url = $url;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties text and url.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = parent::export_for_template($output);
+        $data->url = $this->url->out();
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for email buttons.
+ *
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class email_button extends button {
+
+    /** @var string The string identifier for the email.*/
+    private $emailclass;
+    /** @var int The value attribute of the button.*/
+    private $value;
+    /** @var bool Whether the button needs user confirmation before it sends a bulk email.*/
+    private $requireconfirmation;
+    /** @var bool Whether the button should be hidden by default and should have show/hide functionality.*/
+    private $hidden;
+
+    /**
+     * @param string $text The text to display on the button.
+     * @param int $value The value attribute of the button.
+     * @param string $emailclass The string identifier for the email.
+     * @param bool $requireconfirmation Whether the button needs user confirmation before it sends a bulk email.
+     * @param bool $hidden Whether the button should be hidden by default and should have show/hide functionality.
+     */
+    public function __construct($text, $emailclass, $value = 0, $requireconfirmation = true, $hidden = false) {
+        parent::__construct($text);
+        $this->emailclass = $emailclass;
+        $this->value = $value;
+        $this->requireconfirmation = $requireconfirmation;
+        $this->hidden = $hidden;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties text, value, emailclass, requireconfirmation, and hidden.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = parent::export_for_template($output);
+        $data->emailclass = $this->emailclass;
+        $data->value = $this->value;
+        $data->requireconfirmation = $this->requireconfirmation;
+        $data->hidden = $this->hidden;
+        return $data;
+    }
+
+}
+
+/**
+ * Renderable class for selection buttons.
+ *
+ * @package     local_mxschool
+ * @subpackage  advisor_selection
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class selection_button extends button {
+
+    /** @var int The user id of the student whose record the button interacts with.*/
+    private $student;
+    /** @var int The user id of the selected advisor.*/
+    private $option;
+
+    /**
+     * @param string $text The text to display on the button.
+     * @param int $student The user id of the student whose record the button interacts with.
+     * @param int $option The user id of the selected advisor.
+     */
+    public function __construct($text, $student, $option) {
+        parent::__construct($text);
+        $this->student = $student;
+        $this->option = $option;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Object with properties text and value and text.
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = parent::export_for_template($output);
+        $value = new stdClass();
+        $value->student = $this->student;
+        $value->choice = $this->option;
+        $data->value = json_encode($value);
         return $data;
     }
 
@@ -361,171 +511,6 @@ class checkbox implements renderable, templatable {
 }
 
 /**
- * Renderable class for tables which serve as legends.
- *
- * @package     local_mxschool
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class legend_table implements renderable, templatable {
-
-    public function __construct() {
-
-    }
-
-    /**
-     * Exports this data so it can be used as the context for a mustache template.
-     *
-     * @return stdClass Empty object.
-     */
-    public function export_for_template(renderer_base $output) {
-        return new stdClass();
-    }
-
-}
-
-/**
- * Renderable class for email buttons.
- *
- * @package     local_mxschool
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class email_button implements renderable, templatable {
-
-    /** @var string The text to display on the button.*/
-    private $text;
-    /** @var int The value attribute of the button.*/
-    private $value;
-    /** @var string The string identifier for the email.*/
-    private $emailclass;
-    /** @var bool Whether the button needs user confirmation before it sends a bulk email.*/
-    private $requireconfirmation;
-    /** @var bool Whether the button should be hidden by default and should have show/hide functionality.*/
-    private $hidden;
-
-    /**
-     * @param string $text The text to display on the button.
-     * @param int $value The value attribute of the button.
-     * @param string $emailclass The string identifier for the email.
-     * @param bool $requireconfirmation Whether the button needs user confirmation before it sends a bulk email.
-     * @param bool $hidden Whether the button should be hidden by default and should have show/hide functionality.
-     */
-    public function __construct($text, $value, $emailclass, $requireconfirmation = true, $hidden = false) {
-        $this->text = $text;
-        $this->value = $value;
-        $this->emailclass = $emailclass;
-        $this->requireconfirmation = $requireconfirmation;
-        $this->hidden = $hidden;
-    }
-
-    /**
-     * Exports this data so it can be used as the context for a mustache template.
-     *
-     * @return stdClass Object with properties value and emailclass.
-     */
-    public function export_for_template(renderer_base $output) {
-        $data = new stdClass();
-        $data->text = $this->text;
-        $data->value = $this->value;
-        $data->emailclass = $this->emailclass;
-        $data->requireconfirmation = $this->requireconfirmation;
-        $data->hidden = $this->hidden;
-        return $data;
-    }
-
-}
-
-/**
- * Renderable class for selection buttons.
- *
- * @package     local_mxschool
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class selection_button implements renderable, templatable {
-
-    /** @var int The user id of the student whose record the button interacts with.*/
-    private $student;
-    /** @var int The user id of the selected advisor.*/
-    private $option;
-    /** @var string The text to display on the button.*/
-    private $displaytext;
-
-    /**
-     * @param int $student The user id of the student whose record the button interacts with.
-     * @param int $option The user id of the selected advisor.
-     * @param string $displaytext The text to display on the button.
-     */
-    public function __construct($student, $option, $displaytext) {
-        $this->student = $student;
-        $this->option = $option;
-        $this->displaytext = $displaytext;
-    }
-
-    /**
-     * Exports this data so it can be used as the context for a mustache template.
-     *
-     * @return stdClass Object with properties value and displaytext.
-     */
-    public function export_for_template(renderer_base $output) {
-        $data = new stdClass();
-        $value = new stdClass();
-        $value->student = $this->student;
-        $value->choice = $this->option;
-        $data->value = json_encode($value);
-        $data->displaytext = $this->displaytext;
-        return $data;
-    }
-
-}
-
-/**
- * Renderable class for redirect buttons.
- *
- * @package     local_mxschool
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class redirect_button implements renderable, templatable {
-
-    /** @var moodle_url The url to redirect to.*/
-    private $url;
-    /** @var string The text to display on the button.*/
-    private $displaytext;
-
-    /**
-     * @param moodle_url $url The url to redirect to.
-     * @param string $displaytext The text to display on the button.
-     */
-    public function __construct($url, $displaytext) {
-        $this->url = $url;
-        $this->displaytext = $displaytext;
-    }
-
-    /**
-     * Exports this data so it can be used as the context for a mustache template.
-     *
-     * @return stdClass Object with properties url and displaytext.
-     */
-    public function export_for_template(renderer_base $output) {
-        $data = new stdClass();
-        $data->url = $this->url->out();
-        $data->displaytext = $this->displaytext;
-        return $data;
-    }
-
-}
-
-/**
  * Renderable class for student directory pictures.
  *
  * @package     local_mxschool
@@ -560,6 +545,33 @@ class student_picture implements renderable, templatable {
         $data->url = $this->url->out();
         $data->name = $this->name;
         return $data;
+    }
+
+}
+
+/**
+ * Renderable class for tables which serve as legends.
+ *
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class legend_table implements renderable, templatable {
+
+    public function __construct() {
+        // No data required.
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @return stdClass Empty object.
+     */
+    public function export_for_template(renderer_base $output) {
+        return new stdClass();
     }
 
 }

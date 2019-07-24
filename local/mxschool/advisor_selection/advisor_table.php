@@ -105,7 +105,7 @@ class advisor_table extends local_mxschool_table {
             return $values->current;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->cid, $values->current);
+        $renderable = new \local_mxschool\output\selection_button($values->current, $values->userid, $values->cid);
         return $output->render($renderable);
     }
 
@@ -122,7 +122,7 @@ class advisor_table extends local_mxschool_table {
             return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o1id, $text);
+        $renderable = new \local_mxschool\output\selection_button($text, $values->userid, $values->o1id);
         return $output->render($renderable);
     }
 
@@ -139,7 +139,7 @@ class advisor_table extends local_mxschool_table {
             return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o2id, $text);
+        $renderable = new \local_mxschool\output\selection_button($text, $values->userid, $values->o2id);
         return $output->render($renderable);
     }
 
@@ -156,7 +156,7 @@ class advisor_table extends local_mxschool_table {
             return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o3id, $text);
+        $renderable = new \local_mxschool\output\selection_button($text, $values->userid, $values->o3id);
         return $output->render($renderable);
     }
 
@@ -173,7 +173,7 @@ class advisor_table extends local_mxschool_table {
             return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o4id, $text);
+        $renderable = new \local_mxschool\output\selection_button($text, $values->userid, $values->o4id);
         return $output->render($renderable);
     }
 
@@ -190,7 +190,7 @@ class advisor_table extends local_mxschool_table {
             return $text;
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\selection_button($values->userid, $values->o5id, $text);
+        $renderable = new \local_mxschool\output\selection_button($text, $values->userid, $values->o5id);
         return $output->render($renderable);
     }
 

@@ -30,13 +30,13 @@ require_once(__DIR__.'/../locallib.php');
 
 class local_mxschool_dropdown {
 
-    /** @var string $name The name of the dropdown, which serves as the url parameter from filter.*/
+    /** @var string The name of the dropdown, which serves as the url parameter from filter.*/
     public $name;
-    /** @param array $options The options for the dropdown.*/
+    /** @param array The options for the dropdown.*/
     public $options;
-    /** @param string $selected The initially selected option.*/
+    /** @param string The initially selected option.*/
     public $selected;
-    /** @param array|bool $default A 'nothing' option or false if there is no such option.*/
+    /** @param array|bool A 'nothing' option or false if there is no such option.*/
     public $nothing;
 
     /**
@@ -53,7 +53,16 @@ class local_mxschool_dropdown {
     }
 
     /**
-     * Generates a local_mxschool_dropdown object for all dorms and optionally day houses.
+     * Renders the dropdown using the html writter.
+     *
+     * @return string The generated html for the select element.
+     */
+    public function out() {
+        return html_writer::select($this->options, $this->name, $this->selected, $this->nothing);
+    }
+
+    /**
+     * Generates a dropdown object for all dorms and optionally all day houses.
      *
      * @param string $selected The currently selected option.
      * @param bool $includeday Whether to include day houses or limit to boading houses.
