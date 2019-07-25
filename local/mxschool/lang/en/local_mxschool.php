@@ -147,12 +147,12 @@ $string['user_management_student_report'] = 'Student Report';
 $string['user_management_faculty_report'] = 'Faculty Report';
 $string['user_management_dorm_report'] = 'Dorm Report';
 $string['user_management_vehicle_report'] = 'Registered Student Vehicles Report';
+$string['user_management_picture_import'] = 'Import Student Pictures';
 $string['user_management_student_edit'] = 'Edit Student Record';
 $string['user_management_parent_edit'] = 'Edit Parent Record';
 $string['user_management_faculty_edit'] = 'Edit Faculty Record';
 $string['user_management_dorm_edit'] = 'Edit Dorm Record';
 $string['user_management_vehicle_edit'] = 'Edit Student Vehicle Record';
-$string['user_management_picture_import'] = 'Import Student Pictures';
 
 // Student Report.
 $string['user_management_student_report_type_students'] = 'Student Report';

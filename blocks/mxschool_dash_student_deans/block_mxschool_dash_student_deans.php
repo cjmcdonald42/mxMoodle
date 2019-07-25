@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Student Deans Menu Block for the Dashboard.
+ * Content for Middlesex's Dashboard Block for Students.
  *
  * @package    block_mxschool_dash_student_deans
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
