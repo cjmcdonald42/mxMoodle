@@ -17,19 +17,16 @@
 /**
  * Page for students to submit weekend travel plans for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage checkin
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/checkin.php');
-require_once(__DIR__.'/weekend_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -50,7 +47,7 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
 if ($isstudent && !student_may_access_weekend($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -59,7 +56,7 @@ if ($id) {
     }
     $data = get_record($queryfields, "wf.id = ?", array($id));
     $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = $data->departure_date = $data->return_date = time();
@@ -76,7 +73,7 @@ if ($id) {
         $record = $DB->get_record_sql(
             "SELECT d.hohid AS hoh, d.permissions_line AS permissionsline
              FROM {local_mxschool_dorm} d
-             WHERE d.id = ?", array($data->dorm)
+             WHERE d.id = ? AND d.deleted = 0", array($data->dorm)
         );
     }
 }
@@ -84,10 +81,10 @@ $data->isstudent = $isstudent ? '1' : '0';
 $data->warning = get_config('local_mxschool', 'weekend_form_warning_closed');
 generate_time_selector_fields($data, 'departure', 15);
 generate_time_selector_fields($data, 'return', 15);
-$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_boarding_dorm_list();
+$dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list(false);
 $students = get_boarding_student_list();
 
-$form = new weekend_form(array('id' => $id, 'dorms' => $dorms, 'students' => $students));
+$form = new local_mxschool\local\checkin\weekend_form(array('dorms' => $dorms, 'students' => $students));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -117,7 +114,7 @@ if ($form->is_cancelled()) {
         $oldrecord->active = 0; // Each student can have only one active record for a given weekend.
         $DB->update_record('local_mxschool_weekend_form', $oldrecord);
     }
-    $result = (new \local_mxschool\local\checkin\weekend_form_submitted($id))->send();
+    $result = (new local_mxschool\local\checkin\weekend_form_submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('checkin_weekend_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
@@ -129,10 +126,10 @@ if (isset($record)) {
     $bottominstructions = str_replace('{hoh}', format_faculty_name($record->hoh, false), $bottominstructions);
     $bottominstructions = str_replace('{permissionsline}', $record->permissionsline, $bottominstructions);
 }
-$formrenderable = new \local_mxschool\output\form(
+$formrenderable = new local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
 echo $output->heading(

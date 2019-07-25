@@ -15,9 +15,19 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/index
+    @template   local_mxschool/index
+    @package    local_mxschool
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render an index of links in an unordered list.
+
+    Required context variables:
+    - links | array | objects with string properties text and url
+    Optional context variables:
+    - heading | string | text for the heading of the index
 }}
 
 <div class="mx-index">

@@ -17,19 +17,16 @@
 /**
  * Rooming report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage rooming
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  rooming
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/rooming_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_rooming', context_system::instance());
@@ -58,35 +55,36 @@ $doubleoptions = array(
     '0' => get_string('rooming_report_select_double_false', 'local_mxschool')
 );
 
-$table = new rooming_table($filter, $download);
-
+$table = new local_mxschool\local\rooming\table($filter, $download);
 $dropdowns = array(
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'gender', $genderoptions, $filter->gender, get_string('rooming_report_select_gender_all', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'roomtype', $roomtypeoptions, $filter->roomtype, get_string('rooming_report_select_roomtype_all', 'local_mxschool')
     ),
-    new local_mxschool_dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
+    new local_mxschool\dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('rooming_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/rooming/rooming_enter.php');
-$emailbutton = new stdClass();
-$emailbutton->text = get_string('rooming_report_remind', 'local_mxschool');
-$emailbutton->emailclass = 'rooming_notify_unsubmitted';
-$emailbuttons = array($emailbutton);
+$buttons = array(
+    new local_mxschool\output\redirect_button(
+        get_string('rooming_report_add', 'local_mxschool'),
+        new moodle_url('/local/mxschool/rooming/rooming_enter.php')
+    ),
+    new local_mxschool\output\email_button(
+        get_string('rooming_report_remind', 'local_mxschool'), 'rooming_notify_unsubmitted'
+    )
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table);
+    $renderable = new local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

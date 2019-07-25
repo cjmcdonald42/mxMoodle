@@ -14,8 +14,8 @@ This plugin has the following dependencies:
 
 ## Subpackages
 This package houses the following subpackages and pages:
-- (root)
-    - _preferences_ — Preferences page to configure text in email notifications and manage the lists of tutors, departments, courses, types, and ratings.
+- **_null_**
+    - _preferences, tutor_edit, department_edit, course_edit, type_edit, rating_edit_ — Preferences page to configure text in email notifications and manage the lists of tutors, departments, courses, types, and ratings.
     - _form_ — Form for tutors to log their tutoring sessions.
     - _report_ — Report for the Peer Tutoring Administrator to view and manage the peer tutoring records.
 

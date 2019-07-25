@@ -17,19 +17,16 @@
 /**
  * Advisor selection report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage advisor_selection
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  advisor_selection
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/advisor_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
@@ -51,36 +48,37 @@ $keepcurrentoptions = array(
     '0' => get_string('advisor_selection_report_select_keepcurrent_false', 'local_mxschool')
 );
 
-$table = new advisor_table($filter, $download);
-
+$table = new local_mxschool\local\advisor_selection\table($filter, $download);
 $dropdowns = array(
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted,
         get_string('report_select_default', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'keepcurrent', $keepcurrentoptions, $filter->keepcurrent,
         get_string('report_select_default', 'local_mxschool')
     )
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('advisor_selection_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/advisor_selection/advisor_enter.php');
-$emailreminder = new stdClass();
-$emailreminder->text = get_string('advisor_selection_report_remind', 'local_mxschool');
-$emailreminder->emailclass = 'advisor_selection_notify_unsubmitted';
-$emailresults = new stdClass();
-$emailresults->text = get_string('advisor_selection_report_results', 'local_mxschool');
-$emailresults->emailclass = 'advisor_selection_notify_results';
-$emailbuttons = array($emailreminder, $emailresults);
+$buttons = array(
+    new local_mxschool\output\redirect_button(
+        get_string('advisor_selection_report_add', 'local_mxschool'),
+        new moodle_url('/local/mxschool/advisor_selection/advisor_enter.php')
+    ),
+    new local_mxschool\output\email_button(
+        get_string('advisor_selection_report_remind', 'local_mxschool'), 'advisor_selection_notify_unsubmitted'
+    ),
+    new local_mxschool\output\email_button(
+        get_string('advisor_selection_report_results', 'local_mxschool'), 'advisor_selection_notify_results'
+    )
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table);
+    $renderable = new local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton, $emailbuttons);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

@@ -17,19 +17,16 @@
 /**
  * Page for students to specify their preference of advisor for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage advisor_selection
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  advisor_selection
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/advisor_selection.php');
-require_once(__DIR__.'/advisor_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -50,7 +47,7 @@ $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => '
 if ($isstudent && !student_may_access_advisor_selection($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_adv_selection', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -58,7 +55,7 @@ if ($id) {
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
         redirect($PAGE->url);
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
@@ -71,17 +68,13 @@ if ($id) {
         $data->student = $USER->id;
     }
 }
-if (isset($data->student)) {
-    $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data->student));
-    $data->current = format_faculty_name($current);
-}
 $data->isstudent = $isstudent ? '1' : '0';
 $data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
 $students = get_student_with_advisor_form_enabled_list();
 $faculty = array(0 => get_string('form_select_default', 'local_mxschool')) + get_faculty_list();
 
-$form = new advisor_form(array('id' => $id, 'students' => $students, 'faculty' => $faculty));
+$form = new local_mxschool\local\advisor_selection\form(array('students' => $students, 'faculty' => $faculty));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -112,15 +105,15 @@ if ($form->is_cancelled()) {
         $data->selected = 0;
     }
     $id = update_record($queryfields, $data);
-    $result = (new \local_mxschool\local\advisor_selection\submitted($id))->send();
+    $result = (new local_mxschool\local\advisor_selection\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('advisor_selection_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
+$formrenderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
 
 echo $output->header();
 echo $output->heading(

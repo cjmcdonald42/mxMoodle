@@ -17,19 +17,16 @@
 /**
  * TODO: Description.
  *
- * @package    PACKAGE
- * @subpackage SUBPACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     PACKAGE
+ * @subpackage  SUBPACKAGE
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require('PATH_TO_PLUGIN_HOME/../../config.php');
 require_once('PATH_TO_PLUGIN_HOME/locallib.php');
-require_once('PATH_TO_PLUGIN_HOME/classes/output/renderable.php');
-require_once('PATH_TO_PLUGIN_HOME/classes/mx_dropdown.php');
-require_once('PATH_TO_TABLE_FILE');
 
 require_login();
 require_capability('CAPABILITY', context_system::instance());
@@ -41,16 +38,21 @@ setup_mxschool_page('PAGE', 'SUBPACKAGE', 'PACKAGE');
 
 // TODO: Any static querying.
 
-$table = new TABLE_CLASS($filter);
-
+$table = new PACKAGE\local\SUBPACKAGE\TABLE_CLASS($filter);
 $dropdowns = array(
-    new local_mxschool_dropdown('NAME', /* array of options */, 'SELECTED', /* default option (optional) */)
+    new local_mxschool\dropdown('NAME', /* array of options */, 'SELECTED', /* default option (optional) */)
     // ETC.
 );
-// TODO: Set up objects for any buttons.
+$buttons = array(
+    new local_mxschool\output\redirect_button('TEXT', new moodle_url('URL')),
+    new local_mxschool\output\email_button('TEXT', 'EMAIL_CLASS')
+    // ETC.
+);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, 'SEARCH', $dropdowns, /* true or false for printbutton */, /* object or false for addbutton */, /* array or false for emailbuttons */, /* array or false for second row of headers */);
+$renderable = new \local_mxschool\output\report(
+    $table, 'SEARCH', $dropdowns, $buttons, /* true or false for printbutton */, /* array or false for extra row of headers */
+);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

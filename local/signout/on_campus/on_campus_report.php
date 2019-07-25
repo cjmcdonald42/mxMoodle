@@ -17,25 +17,22 @@
 /**
  * On-campus signout report for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @subpackage on_campus
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @subpackage  on_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../../mxschool/classes/mx_dropdown.php');
-require_once(__DIR__.'/on_campus_table.php');
 
 require_login();
 require_capability('local/signout:manage_on_campus', context_system::instance());
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm(false);
+$filter->dorm = get_param_faculty_dorm();
 $filter->location = optional_param('location', '', PARAM_RAW);
 $filter->date = get_param_current_date_on_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -66,28 +63,27 @@ if ($action === 'delete' && $id) {
     }
 }
 
-$dorms = get_boarding_dorm_list();
 $dates = get_on_campus_date_list();
 
-$table = new on_campus_table($filter);
-
+$table = new local_signout\local\on_campus\table($filter);
 $dropdowns = array(
-    local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
-    new local_mxschool_dropdown(
+   local_mxschool\dropdown::dorm_dropdown($filter->dorm),
+    new local_mxschool\dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
     ),
-    new local_mxschool_dropdown('date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout'))
+    new local_mxschool\dropdown('date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout'))
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('on_campus_report_add', 'local_signout');
-$addbutton->url = new moodle_url('/local/signout/on_campus/on_campus_enter.php');
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('on_campus_report_add', 'local_signout'),
+    new moodle_url('/local/signout/on_campus/on_campus_enter.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading(
-    get_string('on_campus_report_title', 'local_signout', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
+    get_string('on_campus_report_title', 'local_signout', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

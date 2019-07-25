@@ -16,12 +16,13 @@
 /**
  * Updates the options of the on-campus signout form for Middlesex's eSignout Subplugin.
  *
- * @module     local_signout/on_campus_form
- * @package    local_signout
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @module      local_signout/on_campus_form
+ * @package     local_signout
+ * @subpackage  on_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define(
@@ -30,7 +31,8 @@ define(
             var promises = ajax.call([{
                 methodname: 'local_signout_get_on_campus_student_options',
                 args: {
-                    userid: $('.mx-form select#id_student').val()
+                    userid: $('.mx-form select#id_student').val(),
+                    locationid: $('.mx-form select#id_location_select').val()
                 }
             }]);
             promises[0].done(function(data) {
@@ -49,19 +51,12 @@ define(
                     lib.updateSelect($('.mx-form select#id_location_select'), data.locations);
                 });
                 var permissionsFieldset = $('.mx-form fieldset#id_permissions');
-                if ($('.mx-form select#id_location_select').val() === '-1' && data.grade < 12) {
+                if (data.warning) {
+                    permissionsFieldset.children().eq(1).children().eq(0).children().eq(1).children().eq(0).text(data.warning);
                     permissionsFieldset.next().hide();
                     permissionsFieldset.show();
-                    var underclassmanPermissionDiv = permissionsFieldset.children().eq(1).children().eq(0);
-                    var juniorDriversDiv = permissionsFieldset.children().eq(1).children().eq(1);
-                    if (data.grade === 11) {
-                        underclassmanPermissionDiv.hide();
-                        juniorDriversDiv.show();
-                    } else {
-                        underclassmanPermissionDiv.show();
-                        juniorDriversDiv.hide();
-                    }
                 } else {
+                    permissionsFieldset.children().eq(1).children().eq(0).children().eq(1).children().eq(0).text('');
                     permissionsFieldset.next().show();
                     permissionsFieldset.hide();
                 }

@@ -17,11 +17,11 @@
 /**
  * Admin settings for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -40,12 +40,12 @@ if ($hassiteconfig) {
         "$CFG->wwwroot/local/signout/index.php")
     );
     $ADMIN->add('indexes', new admin_externalpage(
-        'off_campus_index', new lang_string('off_campus_index', 'local_signout'),
-        "$CFG->wwwroot/local/signout/off_campus/index.php")
-    );
-    $ADMIN->add('indexes', new admin_externalpage(
         'on_campus_index', new lang_string('on_campus_index', 'local_signout'),
         "$CFG->wwwroot/local/signout/on_campus/index.php")
+    );
+    $ADMIN->add('indexes', new admin_externalpage(
+        'off_campus_index', new lang_string('off_campus_index', 'local_signout'),
+        "$CFG->wwwroot/local/signout/off_campus/index.php")
     );
 
 }

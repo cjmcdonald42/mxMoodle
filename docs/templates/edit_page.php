@@ -17,18 +17,16 @@
 /**
  * TODO: Description.
  *
- * @package    PACKAGE
- * @subpackage SUBPACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     PACKAGE
+ * @subpackage  SUBPACKAGE
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require('PATH_TO_PLUGIN_HOME/../../config.php');
 require_once('PATH_TO_PLUGIN_HOME/locallib.php');
-require_once('PATH_TO_PLUGIN_HOME/classes/output/renderable.php');
-require_once('PATH_TO_FORM_FILE');
 
 require_login();
 require_capability('CAPABILITY', context_system::instance());
@@ -43,14 +41,20 @@ $queryfields = array(
     )) // ETC.
 );
 
-if (!$DB->record_exists('TABLE', array('id' => $id))) { // NOTE: Add $id && to beginning of condidional if creation of new records is allowed.
-    redirect_to_fallback();
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('TABLE', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 'WHERE_STRING', array(/* Query parameters. */));
+    // TODO: Data transformations.
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
+    // TODO: Default data.
 }
-
-$data = get_record($queryfields, "WHERE_STRING", array(/* Query parameters. */));
 // TODO: Any other static querying.
 
-$form = new FORM_CLASS(array('id' => $id, /* TODO: Other parameters. */));
+$form = new PACKAGE\local\SUBPACKAGE\FORM_CLASS(array(/* TODO: Parameters. */));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -58,9 +62,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     // TODO: Data transformations.
     update_record($queryfields, $data);
-    logged_redirect(
-        $form->get_redirect(), get_string('SUCCESS_STRING', 'PACKAGE'), 'update' // NOTE: Replace 'update' with $data->id ? 'update' : 'create' if creation of new records is allowed.
-    );
+    logged_redirect($form->get_redirect(), get_string('SUCCESS_STRING', 'PACKAGE'), $data->id ? 'update' : 'create');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

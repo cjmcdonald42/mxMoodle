@@ -17,19 +17,16 @@
 /**
  * Weekend calculator report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage checkin
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/weekend_calculator_table.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -43,7 +40,6 @@ $filter->semester = get_param_current_semester();
 
 setup_mxschool_page('weekend_calculator', 'checkin');
 
-$dorms = get_boarding_dorm_list();
 $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));
 $startdate = get_config('local_mxschool', $filter->semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
 $enddate = get_config('local_mxschool', $filter->semester == 1 ? 'second_semester_start_date' : 'dorms_close_date');
@@ -54,40 +50,21 @@ $weekends = $DB->get_records_sql(
      ORDER BY sunday_time", array($startdate, $enddate)
 );
 
-$table = new weekend_calculator_table($filter, $weekends, $isstudent);
-
-$dropdowns = array(new local_mxschool_dropdown('semester', $semesters, $filter->semester));
+$table = new local_mxschool\local\checkin\weekend_calculator_table($filter, $weekends, $isstudent);
+$dropdowns = array(new local_mxschool\dropdown('semester', $semesters, $filter->semester));
 if (!$isstudent) {
-    array_unshift($dropdowns, local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
+    array_unshift($dropdowns, local_mxschool\dropdown::dorm_dropdown($filter->dorm, false));
 }
-$legend = array(
-    array(
-        'lefttext' => get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_offcampus', 'local_mxschool')
-    ),
-    array('righttext' => get_string('checkin_weekend_calculator_legend_3_left', 'local_mxschool')),
-    array('leftclass' => 'mx-green', 'righttext' => get_string('checkin_weekend_calculator_legend_2_left', 'local_mxschool')),
-    array('leftclass' => 'mx-yellow', 'righttext' => get_string('checkin_weekend_calculator_legend_1_left', 'local_mxschool')),
-    array('leftclass' => 'mx-red', 'righttext' => get_string('checkin_weekend_calculator_legend_0_left', 'local_mxschool')),
-    array(
-        'lefttext' => get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_free', 'local_mxschool')
-    ),
-    array(
-        'lefttext' => get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_closed', 'local_mxschool')
-    )
-);
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
-$legendrenderable = new \local_mxschool\output\legend_table($legend);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_cells');
+$reportrenderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);
+$legendrenderable = new local_mxschool\output\legend_table();
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 
 echo $output->header();
-echo $output->heading(
-    get_string('checkin_weekend_calculator_report_title', 'local_mxschool', !empty($filter->dorm) ? "{$dorms[$filter->dorm]} " : '')
-);
+echo $output->heading(get_string(
+    'checkin_weekend_calculator_report_title', 'local_mxschool', !empty($filter->dorm) ? format_dorm_name($filter->dorm) . ' ' : ''
+));
 echo $output->render($reportrenderable);
 echo $output->render($legendrenderable);
 echo $output->render($jsrenderable);

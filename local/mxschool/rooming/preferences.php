@@ -17,18 +17,16 @@
 /**
  * Rooming preferences page for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage rooming
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  rooming
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/preferences_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_rooming_preferences', context_system::instance());
@@ -48,7 +46,7 @@ $data->unsubmitted_subject = $unsubmittednotification->subject;
 $data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
 $data->roommateinstructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 
-$form = new preferences_form();
+$form = new local_mxschool\local\rooming\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -65,7 +63,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

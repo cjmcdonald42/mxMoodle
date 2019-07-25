@@ -15,9 +15,18 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/report
+    @template   local_mxschool/report
+    @package    local_mxschool
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a report with a table and filtering options.
+
+    Required context variables:
+    - filter | string | the html for the rendered report_filter
+    - table | string | the html for the rendered report_table
 }}
 
 <div class="mx-report">

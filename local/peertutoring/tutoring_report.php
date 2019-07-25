@@ -17,19 +17,15 @@
 /**
  * Tutoring Report for Middlesex's Peer Tutoring Subplugin.
  *
- * @package    local_peertutoring
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_peertutoring
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../mxschool/classes/mx_dropdown.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/tutoring_table.php');
 
 require_login();
 require_capability('local/peertutoring:manage_tutoring', context_system::instance());
@@ -67,33 +63,33 @@ $tutors = get_tutor_list();
 $departments = get_department_list();
 $dates = get_tutoring_date_list();
 
-$table = new tutoring_table($filter, $download);
-
+$table = new local_peertutoring\local\table($filter, $download);
 $dropdowns = array(
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'date', $dates, $filter->date, get_string('tutoring_report_select_date_all', 'local_peertutoring')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'tutor', $tutors, $filter->tutor, get_string('tutoring_report_select_tutor_all', 'local_peertutoring')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'department', $departments, $filter->department, get_string('tutoring_report_select_department_all', 'local_peertutoring')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'type', $types, $filter->type, get_string('tutoring_report_select_type_all', 'local_peertutoring')
     )
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('tutoring_report_add', 'local_peertutoring');
-$addbutton->url = new moodle_url('/local/peertutoring/tutoring_enter.php');
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('tutoring_report_add', 'local_peertutoring'),
+    new moodle_url('/local/peertutoring/tutoring_enter.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table);
+    $renderable = new local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, true, $addbutton);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

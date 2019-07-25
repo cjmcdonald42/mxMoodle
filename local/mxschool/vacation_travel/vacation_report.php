@@ -17,19 +17,16 @@
 /**
  * Vacation travel report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage vacation_travel
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  vacation_travel
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/vacation_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
@@ -41,37 +38,34 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'vacation_travel');
 
-$dorms = get_boarding_dorm_list();
 $submittedoptions = array(
     '1' => get_string('vacation_travel_report_select_submitted_true', 'local_mxschool'),
     '0' => get_string('vacation_travel_report_select_submitted_false', 'local_mxschool')
 );
 
-$table = new vacation_table($filter);
-
+$table = new local_mxschool\local\vacation_travel\table($filter);
 $dropdowns = array(
-    local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
-    new local_mxschool_dropdown(
+   local_mxschool\dropdown::dorm_dropdown($filter->dorm, false),
+    new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('vacation_travel_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php');
-$emailbutton = new stdClass();
-$emailbutton->text = get_string('vacation_travel_report_remind', 'local_mxschool');
-$emailbutton->emailclass = 'vacation_travel_notify_unsubmitted';
-$emailbuttons = array($emailbutton);
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('vacation_travel_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php')
+));
+if (has_capability('local/mxschool:notify_vacation_travel', context_system::instance())) {
+    $buttons[] = new local_mxschool\output\email_button(
+        get_string('vacation_travel_report_remind', 'local_mxschool'), 'vacation_travel_notify_unsubmitted'
+    );
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report(
-    $table, $filter->search, $dropdowns, true, $addbutton,
-    has_capability('local/mxschool:notify_vacation_travel', context_system::instance()) ? $emailbuttons : array()
-);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
 echo $output->heading(
-    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
+    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

@@ -17,19 +17,16 @@
 /**
  * Page for students to sign out to an off-campus location for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @subpackage off_campus
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @subpackage  off_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/off_campus.php');
-require_once(__DIR__.'/off_campus_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -49,14 +46,14 @@ $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc',
 if ($isstudent && !student_may_access_off_campus_signout($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_signout_off_campus', array('id' => $id))) {
         redirect_to_fallback();
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing off-campus signout records beyond the edit window.
         if (generate_datetime()->getTimestamp() > get_edit_cutoff($data->timecreated) || $data->student !== $USER->id) {
-            redirect($PAGE->url);
+            redirect_to_fallback();
         }
     }
     switch ($data->type_select) {
@@ -65,20 +62,17 @@ if ($id) {
             break;
         case 'Passenger':
             $driver = get_record($queryfields, "oc.id = ?", array($data->driver));
-            if (!isset($data->destination)) {
-                $data->destination = $driver->destination;
-            }
-            if (!isset($data->departure_date)) {
-                $data->departure_date = $driver->departure_date;
-            }
+            $data->destination = $driver->destination;
+            $data->departure_date = $driver->departure_date;
             break;
         case 'Parent':
+        case 'Rideshare':
             break;
         default:
             $data->type_other = $data->type_select;
             $data->type_select = 'Other';
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = $data->departure_date = time();
@@ -92,15 +86,14 @@ $data->passengerswarning = get_config('local_signout', 'off_campus_form_warning_
 generate_time_selector_fields($data, 'departure', 15);
 $data->parentwarning = get_config('local_signout', 'off_campus_form_warning_needparent');
 $data->specificwarning = get_config('local_signout', 'off_campus_form_warning_onlyspecific');
-$students = get_off_campus_permitted_student_list();
+$students = get_student_list();
 $types = get_off_campus_type_list();
 $passengers = get_permitted_passenger_list();
 $drivers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_permitted_driver_list();
 $approvers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_approver_list();
 
-$form = new off_campus_form(array(
-    'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,
-    'approvers' => $approvers
+$form = new local_signout\local\off_campus\form(array(
+    'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers, 'approvers' => $approvers
 ));
 $form->set_data($data);
 
@@ -109,24 +102,30 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
     switch ($data->type_select) {
-        case 'Passenger': // For a passenger record, the destination and departure fields are inherited.
+        case 'Driver': // For a Driver record, the passengers and departure date need to be encoded.
+            $data->driver = 0; // This field will be set once we know the id of this record.
+            $data->passengers = json_encode($data->passengers ?? array());
+            $data->departure_date = generate_timestamp($data, 'departure');
+            break;
+        case 'Passenger': // For a Passenger record, the destination and departure fields are inherited.
+            unset($data->passengers);
             unset($data->destination);
             unset($data->date);
             break;
-        case 'Other':
+        case 'Other': // For an Other record, the other text is stored in the type field.
             $data->type_select = $data->type_other;
-        default: // Driver, Parent, and Other will all save their data on their own record.
-            $data->driver = 0;
+        default: // For Parent, Rideshare, and Other records, the destination and departure fields are saved on their own record.
+            $data->driver = 0; // This field will be set once we know the id of this record.
+            unset($data->passengers);
             $data->departure_date = generate_timestamp($data, 'departure');
     }
-    $data->passengers = $data->type_select === 'Driver' ? json_encode($data->passengers ?? array()) : null;
     $id = update_record($queryfields, $data);
-    if ($data->type_select !== 'Passenger') { // For a driver, parent, or other record, the id and driverid should be the same.
+    if ($data->type_select !== 'Passenger') { // For Driver, Parent, Rideshare and Other records, driverid references the same id.
         $record = $DB->get_record('local_signout_off_campus', array('id' => $id));
         $record->driverid = $id;
         $DB->update_record('local_signout_off_campus', $record);
     }
-    $result = (new \local_signout\local\off_campus\submitted($id))->send();
+    $result = (new local_signout\local\off_campus\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('off_campus_success', 'local_signout'), $data->id ? 'update' : 'create'
     );
@@ -137,17 +136,17 @@ $bottominstructions = get_config('local_signout', 'off_campus_form_instructions_
 $bottominstructions = str_replace(
     '{minutes}', get_config('local_signout', 'off_campus_edit_window'), $bottominstructions
 );
-$formrenderable = new \local_mxschool\output\form($form, false, $bottominstructions);
-$jsrenderable = new \local_mxschool\output\amd_module('local_signout/off_campus_form');
+$formrenderable = new local_mxschool\output\form($form, false, $bottominstructions);
+$jsrenderable = new local_mxschool\output\amd_module('local_signout/off_campus_form');
 
 echo $output->header();
-if (!$isstudent || validate_ip('off_campus')) {
+if ($isstudent && !validate_ip_off_campus()) {
+    echo $output->heading(get_config('local_signout', 'off_campus_form_iperror'));
+} else {
     echo $output->heading(
         $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );
     echo $output->render($formrenderable);
     echo $output->render($jsrenderable);
-} else {
-    echo $output->heading(get_config('local_signout', 'off_campus_form_iperror'));
 }
 echo $output->footer();

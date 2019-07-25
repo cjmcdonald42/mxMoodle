@@ -17,18 +17,15 @@
 /**
  * Edit page for tutor records for Middlesex's Peer Tutoring Subplugin.
  *
- * @package    local_peertutoring
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_peertutoring
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/tutor_edit_form.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
@@ -41,14 +38,13 @@ $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 
     'id', 'userid' => 'student', 'departments', 'deleted'
 )));
 
-if ($id && !$DB->record_exists('local_peertutoring_tutor', array('id' => $id))) {
-    redirect_to_fallback();
-}
-
-$data = get_record($queryfields, "t.id = ?", array($id));
-if ($data) {
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_peertutoring_tutor', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 't.id = ?', array($id));
     $data->departments = json_decode($data->departments);
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
 }
@@ -56,7 +52,7 @@ if ($data) {
 $students = get_eligible_student_list();
 $departments = get_department_list();
 
-$form = new tutor_edit_form(array('id' => $id, 'students' => $students, 'departments' => $departments));
+$form = new local_peertutoring\local\tutor_edit_form(array('students' => $students, 'departments' => $departments));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -76,8 +72,8 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutor_form');
+$renderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_peertutoring/tutor_form');
 
 echo $output->header();
 echo $output->heading($PAGE->title);

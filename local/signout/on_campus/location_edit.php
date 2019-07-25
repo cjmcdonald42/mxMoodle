@@ -17,18 +17,16 @@
 /**
  * Edit page for on-campus location records for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @subpackage on_campus
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @subpackage  on_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
-require_once(__DIR__.'/../../mxschool/locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/location_edit_form.php');
+require_once(__DIR__.'/../locallib.php');
 
 require_login();
 require_capability('local/signout:manage_on_campus_preferences', context_system::instance());
@@ -38,19 +36,22 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_edit_page('location_edit', 'preferences', 'on_campus', 'signout');
 
 $queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'fields' => array(
-    'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'end_date' => 'end'
+    'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'warning'
 )));
 
-if ($id && !$DB->record_exists('local_signout_location', array('id' => $id))) {
-    redirect_to_fallback();
-}
-
-$data = get_record($queryfields, 'l.id = ?', array($id));
-if (!$id) {
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_signout_location', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 'l.id = ?', array($id));
+    $data->warning = array('text' => $data->warning);
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
     $data->enabled = '-1'; // Invalid default to prevent auto selection.
 }
 
-$form = new location_edit_form(array('id' => $id));
+$form = new local_signout\local\on_campus\location_edit_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -62,6 +63,11 @@ if ($form->is_cancelled()) {
     if (!$data->end) {
         unset($data->end);
     }
+    if ($data->warning['text']) {
+        $data->warning = $data->warning['text'];
+    } else {
+        unset($data->warning);
+    }
     update_record($queryfields, $data);
     logged_redirect(
         $form->get_redirect(),
@@ -71,7 +77,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

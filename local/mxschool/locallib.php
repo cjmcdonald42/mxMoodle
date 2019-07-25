@@ -17,19 +17,14 @@
 /**
  * Local functions for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-
-require_once(__DIR__.'/classes/event/page_viewed.php');
-require_once(__DIR__.'/classes/event/record_updated.php');
-require_once(__DIR__.'/classes/event/record_deleted.php');
-require_once(__DIR__.'/classes/output/renderable.php');
 
 /**
  * ========================
@@ -53,7 +48,7 @@ function setup_generic_page($url, $title) {
     $PAGE->set_heading($title);
     $PAGE->add_body_class('mx-page');
 
-    \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
+    local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
 }
 
 /**
@@ -133,7 +128,7 @@ function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
  *
  * @param int $id The id of the subpackage to be indexed.
  * @param bool $heading Whether the localized name of the subpackage should be included as the heading of the index.
- * @return \local_mxschool\output\index The specified index renderable.
+ * @returnlocal_mxschool\output\index The specified index renderable.
  * @throws coding_exception if the subpackage record does not exist.
  */
 function generate_index($id, $heading = false) {
@@ -153,7 +148,7 @@ function generate_index($id, $heading = false) {
     }
     $headingtext = empty($record->subpackage) ? get_string($record->package, "local_{$record->package}")
         : get_string($record->subpackage, "local_{$record->package}");
-    return new \local_mxschool\output\index($links, $heading ? $headingtext : false);
+    return new local_mxschool\output\index($links, $heading ? $headingtext : false);
 }
 
 /**
@@ -204,20 +199,20 @@ function logged_redirect($url, $notification, $type, $success = true) {
     if ($success) {
         switch($type) {
             case 'create':
-                \local_mxschool\event\record_created::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_created::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
             case 'update':
-                \local_mxschool\event\record_updated::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_updated::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
             case 'delete':
-                \local_mxschool\event\record_deleted::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_deleted::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
             default:
                 debugging("Invalid event type: {$type}", DEBUG_DEVELOPER);
         }
     }
     redirect(
-        $url, $notification, null, $success ? \core\output\notification::NOTIFY_SUCCESS : \core\output\notification::NOTIFY_WARNING
+        $url, $notification, null, $success ? core\output\notification::NOTIFY_SUCCESS : core\output\notification::NOTIFY_WARNING
     );
 }
 
@@ -462,16 +457,17 @@ function format_boolean($boolean) {
 
 /**
  * Formats a student's name to "Last, First (Preferred)" or "Last, First" using the data in their user record.
+ * Also checks whether the user record has been deleted.
  *
  * @param int $userid The userid of the student.
- * @return string The formatted name.
+ * @return string The formatted name, an empty string if the user record has been deleted.
  * @throws coding_exception If the specified user record cannot be found.
  */
 function format_student_name($userid) {
     global $DB;
     $record = $DB->get_record('user', array('id' => $userid));
     if (!$record) {
-        throw new coding_exception("student user record with id {$id} could not be found");
+        throw new coding_exception("student user record with id {$userid} could not be found");
     }
     if ($record->deleted) {
         return '';
@@ -482,22 +478,43 @@ function format_student_name($userid) {
 
 /**
  * Formats a faculty's name to "Last, First" or "First Last" using the data in their user record.
+ * Also checks whether the user record has been deleted.
  *
  * @param int $userid The userid of the faculty.
  * @param bool $inverted Whether to format the name as "Last, First" or "First Last"
- * @return string The formatted name.
+ * @return string The formatted name, an empty string if the user record has been deleted.
  * @throws coding_exception If the specified user record cannot be found.
  */
 function format_faculty_name($userid, $inverted = true) {
     global $DB;
     $record = $DB->get_record('user', array('id' => $userid));
     if (!$record) {
-        throw new coding_exception("faculty user record with id {$id} could not be found");
+        throw new coding_exception("faculty user record with id {$userid} could not be found");
     }
     if ($record->deleted) {
         return '';
     }
     return $inverted ? "{$record->lastname}, {$record->firstname}" : "{$record->firstname} {$record->lastname}";
+}
+
+/**
+ * Formats a dorm's name using the data in its dorm record.
+ * Also checks whether the dorm record has been deleted.
+ *
+ * @param int $id The id of the dorm.
+ * @return string The formatted name, an empty string if the dorm record has been deleted.
+ * @throws coding_exception If the specified dorm record cannot be found.
+ */
+function format_dorm_name($id) {
+    global $DB;
+    $record = $DB->get_record('local_mxschool_dorm', array('id' => $id));
+    if (!$record) {
+        throw new coding_exception("dorm record with id {$id} could not be found");
+    }
+    if ($record->deleted) {
+        return '';
+    }
+    return $record->name;
 }
 
 /**
@@ -643,18 +660,10 @@ function get_param_faculty_dorm($includeday = true) {
     global $DB, $USER;
     if (isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm']))) {
         $dorm = $_GET['dorm']; // The value is now safe to use.
-        if (empty($dorm)) { // An empty parameter indicates that search has taken place with the all option selected.
+        // An empty parameter indicates that search has taken place with the all option selected.
+        // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
+        if (empty($dorm) || isset(get_dorm_list($includeday)[$dorm]) || ($includeday && in_array($dorm, array(-1, -2)))) {
             return $dorm;
-        }
-        if ($includeday) {
-            // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
-            if (isset(get_dorm_list()[$dorm]) || in_array($dorm, array(-1, -2))) {
-                return $dorm;
-            }
-        } else {
-            if (isset(get_boarding_dorm_list()[$dorm])) {
-                return $dorm;
-            }
         }
     }
     return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?? '';
@@ -665,7 +674,7 @@ function get_param_faculty_dorm($includeday = true) {
  *
  * The priorities of this function are as follows:
  * 1) An id specified as a 'date' GET parameter.
- * 2) The current or date.
+ * 2) The current date.
  *
  * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the all option.
  *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
@@ -1001,30 +1010,16 @@ function get_available_advisor_list() {
 /**
  * Queries the database to create a list of all the available dorms.
  *
+ * @param bool $includeday Whether to include day houses or limit to boading houses.
  * @return array The available dorms as id => name, ordered alphabetically by dorm name.
  */
-function get_dorm_list() {
+function get_dorm_list($includeday = true) {
     global $DB;
+    $where = $includeday ? '' : "AND type = 'Boarding'";
     $dorms = $DB->get_records_sql(
         "SELECT id, name AS value
          FROM {local_mxschool_dorm}
-         WHERE deleted = 0 AND available = 1
-         ORDER BY value"
-    );
-    return convert_records_to_list($dorms);
-}
-
-/**
- * Queries the database to create a list of all the available boarding dorms.
- *
- * @return array The available boarding dorms as id => name, ordered alphabetically by dorm name.
- */
-function get_boarding_dorm_list() {
-    global $DB;
-    $dorms = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_mxschool_dorm}
-         WHERE deleted = 0 AND available = 1 AND type = 'Boarding'
+         WHERE deleted = 0 AND available = 1 {$where}
          ORDER BY value"
     );
     return convert_records_to_list($dorms);

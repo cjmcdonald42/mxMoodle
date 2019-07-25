@@ -15,9 +15,19 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/report_table
+    @template   local_mxschool/report_table
+    @package    local_mxschool
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-    The purpose of this template is to render a mx table.
+    The purpose of this template is to render a local_mxschool\table.
+
+    Required context variables:
+    - table | string | the html for the rendered table_sql
+    Optional context variables:
+    - headers | array | objects with string property text and int property length
 }}
 
 <div class="mx-table">
@@ -25,9 +35,9 @@
 </div>
 
 {{# headers }}
-{{# js }}
-require(['local_mxschool/prepend_table_header'], function(prepend) {
-    prepend({{{ headers }}});
-});
-{{/ js }}
+    {{# js }}
+        require(['local_mxschool/prepend_table_header'], function(prepend) {
+            prepend({{{ headers }}});
+        });
+    {{/ js }}
 {{/ headers }}

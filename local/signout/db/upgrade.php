@@ -17,11 +17,11 @@
 /**
  * Database updgrade steps for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -250,6 +250,151 @@ function xmldb_local_signout_upgrade($oldversion) {
 
         // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019071905, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019072201) {
+
+        // Add a few more default locations.
+        $locations = array(
+            array('name' => 'Health Center', 'grade' => 9),
+            array('name' => 'StuFac', 'grade' => 12),
+            array('name' => 'Gym', 'grade' => 12)
+        );
+        foreach ($locations as $location) {
+            $DB->insert_record('local_signout_location', (object) $location);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072201, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019072210) {
+
+        // Define key student (foreign) to be dropped form local_signout_off_campus.
+        $table = new xmldb_table('local_signout_off_campus');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch drop key student.
+        $dbman->drop_key($table, $key);
+
+        // Define key driver (foreign) to be dropped form local_signout_off_campus.
+        $table = new xmldb_table('local_signout_off_campus');
+        $key = new xmldb_key('driver', XMLDB_KEY_FOREIGN, array('driverid'), 'local_signout_offcampus', array('id'));
+
+        // Launch drop key driver.
+        $dbman->drop_key($table, $key);
+
+        // Define key student (foreign) to be dropped form local_signout_on_campus.
+        $table = new xmldb_table('local_signout_on_campus');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch drop key student.
+        $dbman->drop_key($table, $key);
+
+        // Define key location (foreign) to be dropped form local_signout_on_campus.
+        $table = new xmldb_table('local_signout_on_campus');
+        $key = new xmldb_key('location', XMLDB_KEY_FOREIGN, array('locationid'), 'local_signout_location', array('id'));
+
+        // Launch drop key location.
+        $dbman->drop_key($table, $key);
+
+        // Changing the default of field userid on table local_signout_off_campus to drop it.
+        $table = new xmldb_table('local_signout_off_campus');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field driverid on table local_signout_off_campus to drop it.
+        $table = new xmldb_table('local_signout_off_campus');
+        $field = new xmldb_field('driverid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'userid');
+
+        // Launch change of default for field driverid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field userid on table local_signout_on_campus to drop it.
+        $table = new xmldb_table('local_signout_on_campus');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of default for field userid.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field locationid on table local_signout_on_campus to drop it.
+        $table = new xmldb_table('local_signout_on_campus');
+        $field = new xmldb_field('locationid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'userid');
+
+        // Launch change of default for field locationid.
+        $dbman->change_field_default($table, $field);
+
+        // Define key student (foreign) to be added form local_signout_off_campus.
+        $table = new xmldb_table('local_signout_off_campus');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch add key student.
+        $dbman->add_key($table, $key);
+
+        // Define key driver (foreign) to be added form local_signout_off_campus.
+        $table = new xmldb_table('local_signout_off_campus');
+        $key = new xmldb_key('driver', XMLDB_KEY_FOREIGN, array('driverid'), 'local_signout_offcampus', array('id'));
+
+        // Launch add key driver.
+        $dbman->add_key($table, $key);
+
+        // Define key student (foreign) to be added form local_signout_on_campus.
+        $table = new xmldb_table('local_signout_on_campus');
+        $key = new xmldb_key('student', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        // Launch add key student.
+        $dbman->add_key($table, $key);
+
+        // Define key location (foreign) to be added form local_signout_on_campus.
+        $table = new xmldb_table('local_signout_on_campus');
+        $key = new xmldb_key('location', XMLDB_KEY_FOREIGN, array('locationid'), 'local_signout_location', array('id'));
+
+        // Launch add key location.
+        $dbman->add_key($table, $key);
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072210, 'local', 'peertutoring');
+    }
+
+    if ($oldversion < 2019072213) {
+
+        // Add new config for sign in ip validation error.
+        set_config('on_campus_signin_iperror_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
+        set_config('on_campus_signin_iperror_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
+        set_config('off_campus_signin_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072213, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019072300) {
+
+        // Add root subpackage.
+        $DB->insert_record('local_mxschool_subpackage', (object) array('package' => 'signout', 'pages' => json_encode(array('combined_report' => 'combined_report.php'))));
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072300, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019072400) {
+
+        // Define field warning to be added to local_signout_location.
+        $table = new xmldb_table('local_signout_location');
+        $field = new xmldb_field('warning', XMLDB_TYPE_TEXT, null, null, null, null, null, 'end_date');
+
+        // Conditionally launch add field warning.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $DB->insert_record('local_signout_location', (object) array('name' => 'On Campus', 'grade' => 12, 'warning' => 'You need face-to-face permission from the person on duty in your dorm to sign out \'On Campus.\''));
+
+        set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any \'other\' location.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072400, 'local', 'signout');
     }
 
     return true;

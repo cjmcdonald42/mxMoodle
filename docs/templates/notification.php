@@ -15,36 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * TODO: General Description.
+ * TODO: Class Description.
  *
- * @package    PACKAGE
- * @subpackage SUBPACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     PACKAGE
+ * @subpackage  SUBPACKAGE
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace PACKAGE\local\SUBPACKAGE;
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once('PATH_TO_NOTIFICATION_DIRECTORY/mx_notification.php');
-
-use local_mxschool\local\notification;
-use local_mxschool\local\bulk_notification;
-
-/**
- * TODO: Class Description.
- *
- * @package    PACKAGE
- * @subpackage SUBPACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class NOTIFICATION_NAME extends notification {
+class NOTIFICATION_NAME extends local_mxschool\notification {
 
     /**
      * TODO: Description of any parameters or exceptions.
@@ -53,9 +38,9 @@ class NOTIFICATION_NAME extends notification {
         global $DB;
         parent::__construct('EMAIL_CLASS');
 
-        // TODO: query DB
-        // TODO: populate $this->data
-        // TODO: populate $this->recipients
+        // TODO: query DB.
+        // TODO: populate $this->data.
+        // TODO: populate $this->recipients.
     }
 
     /**
@@ -65,24 +50,6 @@ class NOTIFICATION_NAME extends notification {
         return array_merge(parent::get_tags(), array(
             // TODO: List additional tags.
         ));
-    }
-
-}
-
-/**
- * Bulk wrapper for the the NOTIFICATION_NAME for PLUGIN_DESCRIPTION.
- *
- * @package    PACKAGE
- * @subpackage SUBPACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class BULK_NOTIFICATION_NAME extends bulk_notification {
-
-    public function __construct() {
-        // TODO: Populate $this->notifications.
     }
 
 }

@@ -17,19 +17,16 @@
 /**
  * Generic check-in sheet for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage checkin
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/generic_table.php');
 
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
@@ -39,18 +36,15 @@ $filter->dorm = get_param_faculty_dorm();
 
 setup_mxschool_page('generic_report', 'checkin');
 
-$dorms = get_dorm_list();
-
-$table = new generic_table($filter);
-
-$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
+$table = new local_mxschool\local\checkin\generic_table($filter);
+$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, null, $dropdowns, true);
+$renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);
 
 echo $output->header();
 echo $output->heading(
-    get_string('checkin_generic_report_title', 'local_mxschool', $filter->dorm > 0 ? "{$dorms[$filter->dorm]} " : '')
+    get_string('checkin_generic_report_title', 'local_mxschool', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

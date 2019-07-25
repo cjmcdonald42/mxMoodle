@@ -17,18 +17,16 @@
 /**
  * Student edit page for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage user_management
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  user_management
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/student_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
@@ -57,7 +55,6 @@ $queryfields = array(
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
     redirect_to_fallback();
 }
-
 $ridingencode = array(
     'Parent Permission' => 'parent', 'Over 21' => '21', 'Any Driver' => 'any', 'Specific Drivers' => 'specific'
 );
@@ -66,7 +63,7 @@ $data->riding = isset($data->riding) ? $ridingencode[$data->riding] : null;
 $dorms = get_dorm_list();
 $faculty = get_faculty_list();
 
-$form = new student_edit_form(array('id' => $id, 'dorms' => $dorms, 'faculty' => $faculty));
+$form = new local_mxschool\local\user_management\student_edit_form(array('dorms' => $dorms, 'faculty' => $faculty));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -90,7 +87,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

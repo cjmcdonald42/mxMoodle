@@ -17,11 +17,11 @@
 /**
  * Admin settings for Middlesex's Peer Tutoring Subplugin.
  *
- * @package    local_peertutoring
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_peertutoring
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -35,7 +35,7 @@ if ($hassiteconfig) {
     ));
     $settings->add(new admin_setting_configtext(
         'local_peertutoring/addressee_peertutoradmin', new lang_string('peertutoradmin_addressee', 'local_peertutoring'),
-        new lang_string('peertutoradmin_addressee_description', 'local_peertutoring'), 'peer tutoring administrator'
+        new lang_string('peertutoradmin_addressee_description', 'local_peertutoring'), 'Peer Tutoring Administrator'
     ));
     $ADMIN->add('mxschool', $settings);
 

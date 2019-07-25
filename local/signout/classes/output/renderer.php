@@ -17,11 +17,11 @@
 /**
  * Renderer for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_signout\output;
@@ -31,27 +31,25 @@ defined('MOODLE_INTERNAL') || die();
 class renderer extends \plugin_renderer_base {
 
     /**
-     * Renders a sign-in button according to the template.
-     *
-     * @param signin_button $button.
-     *
-     * @return string html for the button.
-     */
-    public function render_signin_button($button) {
-        $data = $button->export_for_template($this);
-        return parent::render_from_template('local_signout/signin_button', $data);
-    }
-
-    /**
      * Renders a confirmation button according to the template.
      *
-     * @param confirmation_button $button.
-     *
+     * @param local\signout\output\confirmation_button $button.
      * @return string html for the button.
      */
     public function render_confirmation_button($button) {
         $data = $button->export_for_template($this);
         return parent::render_from_template('local_signout/confirmation_button', $data);
+    }
+
+    /**
+     * Renders a sign-in button according to the template.
+     *
+     * @param local\signout\output\signin_button $button.
+     * @return string html for the button.
+     */
+    public function render_signin_button($button) {
+        $data = $button->export_for_template($this);
+        return parent::render_from_template('local_signout/signin_button', $data);
     }
 
 }

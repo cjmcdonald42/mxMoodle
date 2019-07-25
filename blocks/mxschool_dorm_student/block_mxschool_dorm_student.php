@@ -26,7 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
 class block_mxschool_dorm_student extends block_base {
@@ -44,7 +43,7 @@ class block_mxschool_dorm_student extends block_base {
         $this->content = new stdClass();
         if (user_is_admin() || (user_is_student() && student_may_access_weekend($USER->id))) {
             $output = $PAGE->get_renderer('local_mxschool');
-            $renderable = new \local_mxschool\output\index(array(
+            $renderable = new local_mxschool\output\index(array(
                 get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
                 get_string('weekend_calculator', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'
             ));

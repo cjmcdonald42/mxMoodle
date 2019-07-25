@@ -17,19 +17,16 @@
 /**
  * Page for students to submit vacation travel plans and transportation needs for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage vacation_travel
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  vacation_travel
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/vacation_travel.php');
-require_once(__DIR__.'/vacation_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -54,7 +51,7 @@ $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviati
 if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_vt_trip', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -89,7 +86,7 @@ if ($id) {
             $data->ret_international = '-1'; // Invalid default to prevent auto selection.
         }
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $data->dep_id = $data->ret_id = $id;
     $data->timecreated = time();
@@ -121,9 +118,8 @@ $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
 $types = get_vacation_travel_type_list();
 
-$form = new vacation_form(array(
-    'id' => $id, 'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites,
-    'types' => $types
+$form = new local_mxschool\local\vacation_travel\form(array(
+    'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites, 'types' => $types
 ));
 $form->set_data($data);
 
@@ -194,15 +190,15 @@ if ($form->is_cancelled()) {
         unset($data->returnid);
     }
     $id = update_record($tripqueryfields, $data);
-    $result = (new \local_mxschool\local\vacation_travel\submitted($id))->send();
+    $result = (new local_mxschool\local\vacation_travel\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('vacation_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
+$renderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
 
 echo $output->header();
 echo $output->heading(

@@ -17,18 +17,16 @@
 /**
  * Faculty edit page for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage user_management
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  user_management
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/faculty_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_faculty', context_system::instance());
@@ -47,11 +45,10 @@ $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'f
 if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
     redirect_to_fallback();
 }
-
 $data = get_record($queryfields, "f.id = ?", array($id));
 $dorms = array(null => '') + get_dorm_list();
 
-$form = new faculty_edit_form(array('id' => $id, 'dorms' => $dorms));
+$form = new local_mxschool\local\user_management\faculty_edit_form(array('dorms' => $dorms));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -62,7 +59,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

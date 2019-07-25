@@ -26,7 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
 class block_mxschool_dash_student_deans extends block_base {
@@ -58,7 +57,7 @@ class block_mxschool_dash_student_deans extends block_base {
         $this->content = new stdClass();
         if (count($links)) {
             $output = $PAGE->get_renderer('local_mxschool');
-            $renderable = new \local_mxschool\output\index($links);
+            $renderable = new local_mxschool\output\index($links);
             $this->content->text = get_config('block_mxschool_dash_student_deans', 'description') . $output->render($renderable);
         }
         return $this->content;

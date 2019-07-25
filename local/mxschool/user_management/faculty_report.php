@@ -17,19 +17,16 @@
 /**
  * Faculty management report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage user_management
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  user_management
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/faculty_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_faculty', context_system::instance());
@@ -40,12 +37,11 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('faculty_report', 'user_management');
 
-$table = new faculty_table($filter);
-
-$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
+$table = new local_mxschool\local\user_management\faculty_table($filter);
+$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

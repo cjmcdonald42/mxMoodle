@@ -17,18 +17,16 @@
 /**
  * Edit page for vacation travel site records for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage vacation_travel
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  vacation_travel
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/site_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
@@ -42,13 +40,17 @@ $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'f
     'default_departure_time' => 'defaultdeparturetime', 'default_return_time' => 'defaultreturntime'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_vt_site', array('id' => $id))) {
-    redirect_to_fallback();
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_mxschool_vt_site', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 's.id = ?', array($id));
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
 }
 
-$data = get_record($queryfields, 's.id = ?', array($id));
-
-$form = new site_edit_form(array('id' => $id));
+$form = new local_mxschool\local\vacation_travel\site_edit_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -69,7 +71,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

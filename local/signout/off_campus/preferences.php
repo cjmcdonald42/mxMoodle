@@ -17,18 +17,16 @@
 /**
  * Off-campus preferences page for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @subpackage off_campus
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @subpackage  off_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
-require_once(__DIR__.'/../../mxschool/locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/preferences_form.php');
+require_once(__DIR__.'/../locallib.php');
 
 require_login();
 require_capability('local/signout:manage_off_campus_preferences', context_system::instance());
@@ -44,6 +42,7 @@ $notification = get_notification('off_campus_submitted');
 $data->subject = $notification->subject;
 $data->body['text'] = $notification->body_html;
 $data->ipformerror['text'] = get_config('local_signout', 'off_campus_form_iperror');
+$data->ipsigninerror['text'] = get_config('local_signout', 'off_campus_signin_iperror');
 $data->passengerinstructions['text'] = get_config('local_signout', 'off_campus_form_instructions_passenger');
 $data->bottominstructions['text'] = get_config('local_signout', 'off_campus_form_instructions_bottom');
 $data->nopassengers['text'] = get_config('local_signout', 'off_campus_form_warning_nopassengers');
@@ -58,7 +57,7 @@ $data->specific['text'] = get_config('local_signout', 'off_campus_notification_w
 $data->over21['text'] = get_config('local_signout', 'off_campus_notification_warning_over21');
 $data->unsetpermissions['text'] = get_config('local_signout', 'off_campus_notification_warning_unsetpermissions');
 
-$form = new preferences_form();
+$form = new local_signout\local\off_campus\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -70,6 +69,7 @@ if ($form->is_cancelled()) {
     set_config('off_campus_form_ipenabled', $data->ipenabled, 'local_signout');
     update_notification('off_campus_submitted', $data->subject, $data->body);
     set_config('off_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
+    set_config('off_campus_signin_iperror', $data->ipsigninerror['text'], 'local_signout');
     set_config('off_campus_form_instructions_passenger', $data->passengerinstructions['text'], 'local_signout');
     set_config('off_campus_form_instructions_bottom', $data->bottominstructions['text'], 'local_signout');
     set_config('off_campus_form_warning_nopassengers', $data->nopassengers['text'], 'local_signout');
@@ -89,7 +89,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

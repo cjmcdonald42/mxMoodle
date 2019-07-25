@@ -17,18 +17,16 @@
 /**
  * Checkin preferences page for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage checkin
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/preferences_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_checkin_preferences', context_system::instance());
@@ -59,7 +57,7 @@ $data->topinstructions['text'] = get_config('local_mxschool', 'weekend_form_inst
 $data->bottominstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $data->closedwarning['text'] = get_config('local_mxschool', 'weekend_form_warning_closed');
 
-$form = new preferences_form(array('weekends' => $weekends));
+$form = new local_mxschool\local\checkin\preferences_form(array('weekends' => $weekends));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -86,7 +84,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

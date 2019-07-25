@@ -17,19 +17,16 @@
 /**
  * Weekday check-in sheet for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage checkin
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
-require_once(__DIR__.'/weekday_table.php');
 
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
@@ -39,11 +36,8 @@ $filter->dorm = get_param_faculty_dorm(false);
 
 setup_mxschool_page('weekday_report', 'checkin');
 
-$dorms = get_boarding_dorm_list();
-
-$table = new weekday_table($filter);
-
-$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
+$table = new local_mxschool\local\checkin\weekday_table($filter);
+$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm, false));
 $headers = array(array('text' => '', 'length' => $filter->dorm ? 3 : 4));
 $day = generate_datetime('Sunday this week');
 for ($i = 1; $i <= 5; $i++) {
@@ -52,11 +46,11 @@ for ($i = 1; $i <= 5; $i++) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, null, $dropdowns, true, false, false, $headers);
+$renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true, $headers);
 
 echo $output->header();
 echo $output->heading(
-    get_string('checkin_weekday_report_title', 'local_mxschool', $filter->dorm ? "{$dorms[$filter->dorm]} " : '')
+    get_string('checkin_weekday_report_title', 'local_mxschool', $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

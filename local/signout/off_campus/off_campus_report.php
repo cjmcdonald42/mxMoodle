@@ -17,19 +17,16 @@
 /**
  * Off-campus signout report for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @subpackage off_campus
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @subpackage  off_campus
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../../mxschool/classes/mx_dropdown.php');
-require_once(__DIR__.'/off_campus_table.php');
 
 require_login();
 require_capability('local/signout:manage_off_campus', context_system::instance());
@@ -47,6 +44,7 @@ $types = array(
     'Driver' => get_string('off_campus_report_select_type_driver', 'local_signout'),
     'Passenger' => get_string('off_campus_report_select_type_passenger', 'local_signout'),
     'Parent' => get_string('off_campus_report_select_type_parent', 'local_signout'),
+    'Rideshare' => get_string('off_campus_report_select_type_rideshare', 'local_signout'),
     'Other' => get_string('off_campus_report_select_type_other', 'local_signout')
 );
 if ($filter->type && !isset($types[$filter->type])) {
@@ -67,18 +65,18 @@ if ($action === 'delete' && $id) {
 
 $dates = get_off_campus_date_list();
 
-$table = new off_campus_table($filter);
-
+$table = new local_signout\local\off_campus\table($filter);
 $dropdowns = array(
-    new local_mxschool_dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')),
-    new local_mxschool_dropdown('date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout'))
+    new local_mxschool\dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')),
+    new local_mxschool\dropdown('date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout'))
 );
-$addbutton = new stdClass();
-$addbutton->text = get_string('off_campus_report_add', 'local_signout');
-$addbutton->url = new moodle_url('/local/signout/off_campus/off_campus_enter.php');
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('off_campus_report_add', 'local_signout'),
+    new moodle_url('/local/signout/off_campus/off_campus_enter.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, false, $addbutton);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

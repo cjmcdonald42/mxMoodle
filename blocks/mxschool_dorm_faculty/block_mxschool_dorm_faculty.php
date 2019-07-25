@@ -26,8 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
-
 class block_mxschool_dorm_faculty extends block_base {
 
     public function init() {
@@ -44,7 +42,7 @@ class block_mxschool_dorm_faculty extends block_base {
         if (has_capability('block/mxschool_dorm_faculty:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderables = array(
-                new \local_mxschool\output\index(array(
+                new local_mxschool\output\index(array(
                     get_string('checkin_sheet', 'block_mxschool_dorm_faculty')
                         => '/local/mxschool/checkin/generic_report.php',
                     get_string('weekday_checkin', 'block_mxschool_dorm_faculty')
@@ -54,13 +52,15 @@ class block_mxschool_dorm_faculty extends block_base {
                     get_string('weekend_calculator', 'block_mxschool_dorm_faculty')
                         => '/local/mxschool/checkin/weekend_calculator.php'
                 ), get_string('event_heading', 'block_mxschool_dorm_faculty')),
-                new \local_mxschool\output\index(array(
-                    get_string('off_campus_report', 'block_mxschool_dorm_faculty')
-                        => '/local/signout/off_campus/off_campus_report.php',
+                new local_mxschool\output\index(array(
+                    get_string('combined_report', 'block_mxschool_dorm_faculty')
+                        => '/local/signout/combined_report.php',
                     get_string('on_campus_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/on_campus/on_campus_report.php',
                     get_string('duty_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/on_campus/duty_report.php',
+                    get_string('off_campus_report', 'block_mxschool_dorm_faculty')
+                        => '/local/signout/off_campus/off_campus_report.php',
                     get_string('vacation_report', 'block_mxschool_dorm_faculty')
                         => '/local/mxschool/vacation_travel/vacation_report.php',
                     get_string('manage_student_data', 'block_mxschool_dorm_faculty')

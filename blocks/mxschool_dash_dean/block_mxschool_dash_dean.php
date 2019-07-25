@@ -26,8 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
-
 class block_mxschool_dash_dean extends block_base {
 
     public function init() {
@@ -44,7 +42,7 @@ class block_mxschool_dash_dean extends block_base {
         if (has_capability('block/mxschool_dash_dean:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderables = array(
-                new \local_mxschool\output\index(array(
+                new local_mxschool\output\index(array(
                     get_string('user_management_student_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/user_management/student_report.php',
                     get_string('user_management_faculty_report', 'block_mxschool_dash_dean')
@@ -54,7 +52,7 @@ class block_mxschool_dash_dean extends block_base {
                     get_string('user_management_vehicle_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/user_management/vehicle_report.php',
                 ), get_string('user_menu', 'block_mxschool_dash_dean')),
-                new \local_mxschool\output\index(array(
+                new local_mxschool\output\index(array(
                     get_string('checkin_generic_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/checkin/generic_report.php',
                     get_string('checkin_weekday_report', 'block_mxschool_dash_dean')
@@ -66,19 +64,19 @@ class block_mxschool_dash_dean extends block_base {
                     get_string('checkin_preferences', 'block_mxschool_dash_dean')
                         => '/local/mxschool/checkin/preferences.php'
                 ), get_string('checkin_menu', 'block_mxschool_dash_dean')),
-                new \local_mxschool\output\index(array(
+                new local_mxschool\output\index(array(
                     get_string('advisor_selection_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/advisor_selection/advisor_report.php',
                     get_string('advisor_selection_preferences', 'block_mxschool_dash_dean')
                         => '/local/mxschool/advisor_selection/preferences.php'
                 ), get_string('advisor_selection_menu', 'block_mxschool_dash_dean')),
-                new \local_mxschool\output\index(array(
+                new local_mxschool\output\index(array(
                     get_string('rooming_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/rooming/rooming_report.php',
                     get_string('rooming_preferences', 'block_mxschool_dash_dean')
                         => '/local/mxschool/rooming/preferences.php'
                 ), get_string('rooming_menu', 'block_mxschool_dash_dean')),
-                new \local_mxschool\output\index(array(
+                new local_mxschool\output\index(array(
                     get_string('vacation_travel_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/vacation_travel/vacation_report.php',
                     get_string('vacation_travel_transportation_report', 'block_mxschool_dash_dean')
@@ -86,17 +84,19 @@ class block_mxschool_dash_dean extends block_base {
                     get_string('vacation_travel_preferences', 'block_mxschool_dash_dean')
                         => '/local/mxschool/vacation_travel/preferences.php'
                 ), get_string('vacation_travel_menu', 'block_mxschool_dash_dean')),
-                new \local_mxschool\output\index(array(
-                    get_string('off_campus_report', 'block_mxschool_dash_dean')
-                        => '/local/signout/off_campus/off_campus_report.php',
-                    get_string('off_campus_preferences', 'block_mxschool_dash_dean')
-                        => '/local/signout/off_campus/preferences.php',
+                new local_mxschool\output\index(array(
+                    get_string('combined_report', 'block_mxschool_dash_dean')
+                        => '/local/signout/combined_report.php',
                     get_string('on_campus_report', 'block_mxschool_dash_dean')
                         => '/local/signout/on_campus/on_campus_report.php',
                     get_string('duty_report', 'block_mxschool_dash_dean')
                         => '/local/signout/on_campus/duty_report.php',
                     get_string('on_campus_preferences', 'block_mxschool_dash_dean')
-                        => '/local/signout/on_campus/preferences.php'
+                        => '/local/signout/on_campus/preferences.php',
+                    get_string('off_campus_report', 'block_mxschool_dash_dean')
+                        => '/local/signout/off_campus/off_campus_report.php',
+                    get_string('off_campus_preferences', 'block_mxschool_dash_dean')
+                        => '/local/signout/off_campus/preferences.php'
                 ), get_string('esignout_menu', 'block_mxschool_dash_dean'))
             );
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {

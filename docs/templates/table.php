@@ -17,19 +17,19 @@
 /**
  * TODO: Description.
  *
- * @package    PACKAGE
- * @subpackage SUBPACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     PACKAGE
+ * @subpackage  SUBPACKAGE
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace PACKAGE\local\SUBPACKAGE;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('PATH_TO_PLUGIN_HOME/classes/mx_table.php');
-
-class NAME_table extends local_mxschool_table {
+class NAME_table extends \local_mxschool\table {
 
     /**
      * Creates a new NAME_table.
@@ -43,6 +43,7 @@ class NAME_table extends local_mxschool_table {
         // $sortable = TODO: array of column identifiers that are sortable (first element is default);
         // $centered = TODO: array of column identifiers that are centered;
         parent::__construct('UNIQUE_ID', $columns, $headers, $sortable, $centered, $filter, /* false to turn off actions column, *//* false to sort descending (useful for timestamps) */);
+        // TODO: add any column classes with $this->add_column_class('COLUMN', 'CLASS');
 
         // $fields = TODO: array of fields from the database;
         // $from = TODO: array of database tables;

@@ -17,16 +17,24 @@
 /**
  * Services for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $functions = array(
+    'local_signout_get_on_campus_student_options' => array(
+        'classname' => 'local_signout_external',
+        'methodname' => 'get_on_campus_student_options',
+        'classpath' => 'local/signout/externallib.php',
+        'description' => 'Queries the database to determine the location options and any warnings for a selected student.',
+        'type' => 'read',
+        'ajax' => 'true'
+    ),
     'local_signout_get_off_campus_student_options' => array(
         'classname' => 'local_signout_external',
         'methodname' => 'get_off_campus_student_options',
@@ -41,14 +49,6 @@ $functions = array(
         'methodname' => 'get_off_campus_driver_details',
         'classpath' => 'local/signout/externallib.php',
         'description' => 'Queries the database to find the destination and departure time of an off-campus signout driver record.',
-        'type' => 'read',
-        'ajax' => 'true'
-    ),
-    'local_signout_get_on_campus_student_options' => array(
-        'classname' => 'local_signout_external',
-        'methodname' => 'get_on_campus_student_options',
-        'classpath' => 'local/signout/externallib.php',
-        'description' => 'Queries the database to determine the location options and permissions for a selected student.',
         'type' => 'read',
         'ajax' => 'true'
     ),

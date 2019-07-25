@@ -17,19 +17,16 @@
 /**
  * Advisor selection preferences page for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage advisor_selection
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  advisor_selection
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/preferences_form.php');
-require_once(__DIR__.'/faculty_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());
@@ -54,7 +51,7 @@ $data->results_body['text'] = $resultsnotification->body_html;
 $data->closing_warning['text'] = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions['text'] = get_config('local_mxschool', 'advisor_form_instructions');
 
-$form = new preferences_form();
+$form = new local_mxschool\local\advisor_selection\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -73,11 +70,11 @@ if ($form->is_cancelled()) {
     );
 }
 
-$table = new faculty_table();
+$table = new local_mxschool\local\advisor_selection\faculty_table();
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table);
+$formrenderable = new local_mxschool\output\form($form);
+$reportrenderable = new local_mxschool\output\report($table);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

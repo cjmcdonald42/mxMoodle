@@ -18,6 +18,7 @@
  *
  * @module     local_mxschool/advisor_selection_form
  * @package    local_mxschool
+ * @subpackage advisor_selection
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742

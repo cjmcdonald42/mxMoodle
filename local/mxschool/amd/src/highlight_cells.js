@@ -15,14 +15,15 @@
 
 /**
  * Highlighs table cells for Middlesex's Dorm and Student Functions Plugin.
- * This module is currently only intended to be used for the weekend calculator and is currently very non-reusable.
+ * This module is designed to be used for the weekend calculator and is currently very non-reusable.
  *
- * @module     local_mxschool/highlight_cells
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @module      local_mxschool/highlight_cells
+ * @package     local_mxschool
+ * @subpackage  checkin
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define(['jquery'], function($) {

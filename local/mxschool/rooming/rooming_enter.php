@@ -17,19 +17,16 @@
 /**
  * Page for students to submit rooming requests for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage rooming
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  rooming
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/rooming.php');
-require_once(__DIR__.'/rooming_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -51,7 +48,7 @@ $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'f
 if ($isstudent && !student_may_access_rooming($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_rooming', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -59,7 +56,7 @@ if ($id) {
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
         redirect($PAGE->url);
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
@@ -73,17 +70,12 @@ if ($id) {
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
-$data->dorm = isset($data->student) ? $DB->get_field_sql(
-    "SELECT d.name
-     FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-     WHERE s.userid = ?", array($data->student)
-) : '';
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
 $roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + get_boarding_next_year_student_list();
 $roomtypes = array(0 => get_string('form_select_default', 'local_mxschool')) + get_roomtype_list();
 
-$form = new rooming_form(array('id' => $id, 'students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
+$form = new local_mxschool\local\rooming\form(array('students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -91,15 +83,15 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
     $id = update_record($queryfields, $data);
-    $result = (new \local_mxschool\local\rooming\submitted($id))->send();
+    $result = (new local_mxschool\local\rooming\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('rooming_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/rooming_form');
+$renderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/rooming_form');
 
 echo $output->header();
 echo $output->heading(

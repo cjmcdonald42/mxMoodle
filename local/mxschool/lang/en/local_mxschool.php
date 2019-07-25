@@ -17,11 +17,11 @@
 /**
  * English language strings for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Middlesex School';
@@ -34,7 +34,6 @@ $string['email_button_confirmation'] = 'Are you sure you want to send this bulk 
 $string['email_button_sending'] = 'Emails Sending...';
 $string['email_button_send_success'] = 'Emails Sent';
 $string['email_button_send_failure'] = 'Emails Failed to Send';
-$string['legend_header'] = 'Legend';
 
 $string['report_header_actions'] = 'Actions';
 $string['report_delete_warning'] = 'Are you sure want to delete this record?';
@@ -355,7 +354,7 @@ $string['checkin_generic_report_header_student'] = 'Name';
 $string['checkin_generic_report_header_dorm'] = 'Dorm';
 $string['checkin_generic_report_header_room'] = 'Room';
 $string['checkin_generic_report_header_grade'] = 'Grade';
-$string['checkin_generic_report_header_checkin'] = '&emsp;&emsp;';
+$string['checkin_generic_report_header_checkin'] = '';
 
 // Weekday Check-in Sheet.
 $string['checkin_weekday_report_title'] = '{$a}Check-In Sheet for the Week of __________';
@@ -408,6 +407,8 @@ $string['checkin_weekend_comment_form_comment'] = 'Comments';
 // Weekend Calculator.
 $string['checkin_weekend_calculator_report_title'] = '{$a}Weekend Calculator';
 $string['checkin_weekend_calculator_report_header_student'] = 'Name';
+$string['checkin_weekend_calculator_report_header_dorm'] = 'Dorm';
+$string['checkin_weekend_calculator_report_header_room'] = 'Room';
 $string['checkin_weekend_calculator_report_header_grade'] = 'Grade';
 $string['checkin_weekend_calculator_report_header_total'] = 'Total';
 $string['checkin_weekend_calculator_report_header_allowed'] = 'Allowed';
@@ -417,6 +418,7 @@ $string['checkin_weekend_calculator_abbreviation_free'] = 'free';
 $string['checkin_weekend_calculator_abbreviation_closed'] = 'camp';
 $string['checkin_weekend_calculator_abbreviation_unlimited'] = 'ALL';
 
+$string['checkin_weekend_calculator_legend_header'] = 'Legend';
 $string['checkin_weekend_calculator_legend_0_left'] = 'No weekends left';
 $string['checkin_weekend_calculator_legend_1_left'] = '1 weekend left';
 $string['checkin_weekend_calculator_legend_2_left'] = '2 weekends left';
@@ -702,6 +704,7 @@ $string['vacation_travel_transportation_report_select_mxtransportation_true'] = 
 $string['vacation_travel_transportation_report_select_mxtransportation_false'] = 'Not School Transportation';
 $string['vacation_travel_transportation_report_add'] = 'New Vacation Travel Form';
 $string['vacation_travel_transportation_report_departure_header_student'] = 'Student';
+$string['vacation_travel_transportation_report_departure_header_dorm'] = 'Dorm';
 $string['vacation_travel_transportation_report_departure_header_destination'] = 'Destination';
 $string['vacation_travel_transportation_report_departure_header_phone'] = 'Phone Number';
 $string['vacation_travel_transportation_report_departure_header_mxtransportation'] = 'School Transportation';
@@ -715,6 +718,7 @@ $string['vacation_travel_transportation_report_departure_header_international'] 
 $string['vacation_travel_transportation_report_departure_header_timemodified'] = 'Last Modified';
 $string['vacation_travel_transportation_report_departure_header_email'] = 'Email';
 $string['vacation_travel_transportation_report_return_header_student'] = 'Student';
+$string['vacation_travel_transportation_report_return_header_dorm'] = 'Dorm';
 $string['vacation_travel_transportation_report_return_header_destination'] = 'Destination';
 $string['vacation_travel_transportation_report_return_header_phone'] = 'Phone Number';
 $string['vacation_travel_transportation_report_return_header_mxtransportation'] = 'School Transportation';

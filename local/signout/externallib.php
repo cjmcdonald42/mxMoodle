@@ -17,11 +17,11 @@
 /**
  * External functions for Middlesex's eSignout Subplugin.
  *
- * @package    local_signout
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_signout
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -30,6 +30,72 @@ require_once("$CFG->libdir/externallib.php");
 require_once(__DIR__.'/locallib.php');
 
 class local_signout_external extends external_api {
+
+    /**
+     * Returns descriptions of the get_on_campus_student_options() function's parameters.
+     *
+     * @return external_function_parameters Object holding array of parameters for the get_on_campus_student_options() function.
+     */
+    public static function get_on_campus_student_options_parameters() {
+        return new external_function_parameters(array(
+            'userid' => new external_value(PARAM_INT, 'The user id of the student.'),
+            'locationid' => new external_value(PARAM_INT, 'The id of the selected location.')
+        ));
+    }
+
+    /**
+     * Queries the database to determine the location options and permissions for a selected student.
+     *
+     * @param int $userid The user id of the student.
+     * @param int $locationid The id of the selected location.
+     * @return stdClass Object with properties locations and warning.
+     */
+    public static function get_on_campus_student_options($userid, $locationid) {
+        external_api::validate_context(context_system::instance());
+        $params = self::validate_parameters(self::get_on_campus_student_options_parameters(), array(
+            'userid' => $userid, 'locationid' => $locationid
+        ));
+
+        global $DB;
+        $result = new stdClass();
+        $record = $DB->get_record(
+            'local_mxschool_student', array('userid' => $params['userid']), "grade, boarding_status = 'Day' AS isday"
+        );
+        $result->locations = convert_associative_to_object(get_on_campus_location_list($record->grade, $record->isday));
+        if ($params['locationid'] === -1) {
+            switch ($record->grade) {
+                case 9:
+                case 10:
+                    $result->warning = get_config('local_signout', 'on_campus_form_warning_underclassmen');
+                    break;
+                case 11:
+                    $result->warning = get_config('local_signout', 'on_campus_form_warning_juniors');
+                    break;
+                default:
+                    $result->warning = '';
+            }
+        } else {
+            $result->warning = $DB->get_field('local_signout_location', 'warning', array('id' => $locationid)) ?: '';
+        }
+        return $result;
+    }
+
+    /**
+     * Returns a description of the get_on_campus_student_options() function's return values.
+     *
+     * @return external_single_structure Object describing the return values of the get_on_campus_student_options() function.
+     */
+    public static function get_on_campus_student_options_returns() {
+        return new external_single_structure(array(
+            'locations' => new external_multiple_structure(
+                new external_single_structure(array(
+                    'value' => new external_value(PARAM_INT, 'id of the location'),
+                    'text' => new external_value(PARAM_TEXT, 'name of the location')
+                ))
+            ),
+            'warning' => new external_value(PARAM_TEXT, 'a warning for the student')
+        ));
+    }
 
     /**
      * Returns descriptions of the get_off_campus_student_options() function's parameters.
@@ -45,7 +111,7 @@ class local_signout_external extends external_api {
      * and permissions for a selected student.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
+     * @return stdClass Object with properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
      */
     public static function get_off_campus_student_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -110,7 +176,7 @@ class local_signout_external extends external_api {
      * Queries the database to find the destination and departure time of an off-campus signout driver record.
      *
      * @param int $offcampusid The id of driver record.
-     * @return stdClass With properties destination, departurehour, departureminutes, and departureampm.
+     * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
      * @throws coding_exception If the off-campus signout record is not a driver record.
      */
     public static function get_off_campus_driver_details($offcampusid) {
@@ -135,49 +201,6 @@ class local_signout_external extends external_api {
     }
 
     /**
-     * Returns descriptions of the get_on_campus_student_options() function's parameters.
-     *
-     * @return external_function_parameters Object holding array of parameters for the get_on_campus_student_options() function.
-     */
-    public static function get_on_campus_student_options_parameters() {
-        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
-    }
-
-    /**
-     * Queries the database to determine the location options and permissions for a selected student.
-     *
-     * @param int $userid The user id of the student.
-     * @return stdClass With properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
-     */
-    public static function get_on_campus_student_options($userid) {
-        external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_on_campus_student_options_parameters(), array('userid' => $userid));
-
-        global $DB;
-        $result = new stdClass();
-        $result->grade = $DB->get_field('local_mxschool_student', 'grade', array('userid' => $params['userid']));
-        $result->locations = convert_associative_to_object(get_on_campus_location_list($result->grade));
-        return $result;
-    }
-
-    /**
-     * Returns a description of the get_on_campus_student_options() function's return values.
-     *
-     * @return external_single_structure Object describing the return values of the get_on_campus_student_options() function.
-     */
-    public static function get_on_campus_student_options_returns() {
-        return new external_single_structure(array(
-            'locations' => new external_multiple_structure(
-                new external_single_structure(array(
-                    'value' => new external_value(PARAM_INT, 'id of the location'),
-                    'text' => new external_value(PARAM_TEXT, 'name of the location')
-                ))
-            ),
-            'grade' => new external_value(PARAM_INT, 'the student\'s grade')
-        ));
-    }
-
-    /**
      * Returns descriptions of the sign_in() function's parameters.
      *
      * @return external_function_parameters Object holding array of parameters for the sign_in() function.
@@ -189,7 +212,7 @@ class local_signout_external extends external_api {
     /**
      * Signs in an eSignout record and records the timestamp.
      *
-     * @return bool A value of true if sign in occurs successfully, a value of false if no records are found to sign in.
+     * @return string An error message to be displayed to the user, empty string if no error occurs.
      */
     public static function sign_in() {
         external_api::validate_context(context_system::instance());
@@ -202,7 +225,7 @@ class local_signout_external extends external_api {
      * @return external_value Object describing the return value of the sign_in() function.
      */
     public static function sign_in_returns() {
-        return new external_value(PARAM_BOOL, 'Whether or not the signin was successful.');
+        return new external_value(PARAM_TEXT, 'An error message to be displayed to the user, empty string if no error occurs.');
     }
 
     /**
@@ -218,7 +241,7 @@ class local_signout_external extends external_api {
      * Confirms an on-campus signout record and records the timestamp.
      *
      * @param int $id The id of the record to confirm.
-     * @return string The text to display for the sign in time.
+     * @return stdClass Object with properties confirmationtime and confirmer.
      * @throws coding_exception If the on-campus signout record does not exist or has already been confirmed.
      */
     public static function confirm_signout($id) {
@@ -234,7 +257,7 @@ class local_signout_external extends external_api {
         $record->confirmation_time = $record->time_modified = time();
         $record->confirmerid = $USER->id;
         $DB->update_record('local_signout_on_campus', $record);
-        \local_mxschool\event\record_updated::create(array('other' => array(
+        local_mxschool\event\record_updated::create(array('other' => array(
             'page' => get_string('on_campus_duty_report', 'local_signout')
         )))->trigger();
         $result = new stdClass();

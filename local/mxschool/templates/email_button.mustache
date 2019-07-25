@@ -15,15 +15,27 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_mxschool/email_button
+    @template   local_mxschool/email_button
+    @package    local_mxschool
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a button with ajax functionality to send an email.
+
+    Required context variables:
+    - text | string | the text to display on the button
+    - value | int | the value attribute of the button
+    - emailclass | string | the string identifier for the email
+    - requireconfirmation | bool | whether the button needs user confirmation before it sends a bulk email
+    - hidden | bool | whether the button should be hidden by default and have show/hide functionality
 }}
 
 <button class="mx-email-button btn btn-secondary noprint" value="{{ value }}" name="{{ emailclass }}">{{ text }}</button>
 
 {{# js }}
-require(['local_mxschool/email_button'], function(setup) {
-    setup({{ value }}, '{{ emailclass }}', {{ requireconfirmation }}, {{ hidden }});
-});
+    require(['local_mxschool/email_button'], function(setup) {
+        setup({{ value }}, '{{ emailclass }}', {{ requireconfirmation }}, {{ hidden }});
+    });
 {{/ js }}

@@ -17,18 +17,16 @@
 /**
  * Student registered vehicles report for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage user_management
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  user_management
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/vehicle_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vehicles', context_system::instance());
@@ -52,14 +50,14 @@ if ($action === 'delete' && $id) {
     }
 }
 
-$table = new vehicle_table($filter);
-
-$addbutton = new stdClass();
-$addbutton->text = get_string('user_management_vehicle_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/user_management/vehicle_edit.php');
+$table = new local_mxschool\local\user_management\vehicle_table($filter);
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('user_management_vehicle_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/user_management/vehicle_edit.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, array(), false, $addbutton);
+$renderable = new local_mxschool\output\report($table, $filter->search, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

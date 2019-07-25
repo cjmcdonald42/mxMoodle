@@ -17,22 +17,17 @@
 /**
  * External functions for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/classes/event/record_updated.php');
-require_once(__DIR__.'/classes/notification/checkin.php');
-require_once(__DIR__.'/classes/notification/advisor_selection.php');
-require_once(__DIR__.'/classes/notification/rooming.php');
-require_once(__DIR__.'/classes/notification/vacation_travel.php');
 
 class local_mxschool_external extends external_api {
 
@@ -91,7 +86,7 @@ class local_mxschool_external extends external_api {
         if (isset($record->time_modified)) {
             $record->time_modified = time();
         }
-        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
+        local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         return $DB->update_record($params['table'], $record);
     }
 
@@ -134,19 +129,19 @@ class local_mxschool_external extends external_api {
         switch ($params['emailclass']) {
             case 'weekend_form_approved':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
-                return (new \local_mxschool\local\checkin\weekend_form_approved($params['emailparams']['id']))->send();
+                return (new local_mxschool\local\checkin\weekend_form_approved($params['emailparams']['id']))->send();
             case 'advisor_selection_notify_unsubmitted':
                 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
-                return (new \local_mxschool\local\advisor_selection\notify_unsubmitted())->send();
+                return (new local_mxschool\local\advisor_selection\bulk_unsubmitted())->send();
             case 'advisor_selection_notify_results':
                 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
-                return (new \local_mxschool\local\advisor_selection\notify_results())->send();
+                return (new local_mxschool\local\advisor_selection\bulk_results())->send();
             case 'rooming_notify_unsubmitted':
                 require_capability('local/mxschool:manage_rooming', context_system::instance());
-                return (new \local_mxschool\local\rooming\notify_unsubmitted())->send();
+                return (new local_mxschool\local\rooming\bulk_unsubmitted())->send();
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
-                return (new \local_mxschool\local\vacation_travel\notify_unsubmitted())->send();
+                return (new local_mxschool\local\vacation_travel\bulk_unsubmitted())->send();
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }
@@ -264,7 +259,7 @@ class local_mxschool_external extends external_api {
      * for a particular student as well as a list of students who have not completed the form.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass With properties students, current, closing, and available.
+     * @return stdClass Object with properties students, current, closing, and available.
      */
     public static function get_advisor_selection_student_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -342,7 +337,7 @@ class local_mxschool_external extends external_api {
         }
         $record->selectedid = $params['choice'];
         $record->time_modified = time();
-        \local_mxschool\event\record_updated::create(array('other' => array(
+        local_mxschool\event\record_updated::create(array('other' => array(
             'page' => get_string('advisor_selection_report', 'local_mxschool')
         )))->trigger();
         return $DB->update_record('local_mxschool_adv_selection', $record);
@@ -371,7 +366,7 @@ class local_mxschool_external extends external_api {
      * for a particular student as well as a list of students who have not completed the form.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass With properties students, dorm, roomtypes, gradedormmates, and dormmates.
+     * @return stdClass Object with properties students, dorm, roomtypes, gradedormmates, and dormmates.
      */
     public static function get_rooming_student_options($userid) {
         external_api::validate_context(context_system::instance());
@@ -380,14 +375,9 @@ class local_mxschool_external extends external_api {
         global $DB;
         $result = new stdClass();
         $result->students = convert_associative_to_object(get_student_without_rooming_form_list());
-        $result->dorm = $DB->get_field_sql(
-            "SELECT d.name
-             FROM {local_mxschool_student} s
-             LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
-             WHERE s.userid = ?", array($params['userid'])
-        );
-        $gender = $DB->get_field('local_mxschool_student', 'gender', array('userid' => $params['userid']));
-        $result->roomtypes = convert_associative_to_object(get_roomtype_list($gender));
+        $record = $DB->get_record('local_mxschool_student', array('userid' => $params['userid']), 'dormid AS dorm, gender');
+        $result->dorm = format_dorm_name($record->dorm);
+        $result->roomtypes = convert_associative_to_object(get_roomtype_list($record->gender));
         $result->gradedormmates = convert_associative_to_object(get_student_possible_same_grade_dormmate_list($params['userid']));
         $result->dormmates = convert_associative_to_object(get_student_possible_dormmate_list($params['userid']));
         return $result;
@@ -450,7 +440,7 @@ class local_mxschool_external extends external_api {
      *
      * @param stdClass $departure Object which may have properties mxtransportation, type, and site.
      * @param stdClass $return Object which may have properties mxtransportation, type, and site.
-     * @return stdClass With properties students, departure, and return.
+     * @return stdClass Object with properties students, departure, and return.
      */
     public static function get_vacation_travel_options($departure, $return) {
         external_api::validate_context(context_system::instance());

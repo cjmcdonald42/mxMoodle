@@ -15,15 +15,23 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_signout/signin_button
+    @template   local_signout/signin_button
+    @package    local_signout
+    @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+    @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a button with ajax functionality to signin a signout record.
+
+    Required context variables:
+    - text | string | the text to display on the button
 }}
 
-<button class="mx-signin-button btn btn-primary noprint">{{ displaytext }}</button>
+<button class="mx-signin-button btn btn-primary noprint">{{ text }}</button>
 
 {{# js }}
-require(['local_signout/signin_button'], function(setup) {
-    setup();
-});
+    require(['local_signout/signin_button'], function(setup) {
+        setup();
+    });
 {{/ js }}

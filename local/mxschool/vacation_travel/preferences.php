@@ -17,19 +17,16 @@
 /**
  * Vacation travel preferences page for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package    local_mxschool
- * @subpackage vacation_travel
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_mxschool
+ * @subpackage  vacation_travel
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/preferences_form.php');
-require_once(__DIR__.'/site_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
@@ -65,7 +62,7 @@ $unsubmittednotification = get_notification('vacation_travel_notify_unsubmitted'
 $data->unsubmitted_subject = $unsubmittednotification->subject;
 $data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
 
-$form = new preferences_form();
+$form = new local_mxschool\local\vacation_travel\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -81,15 +78,15 @@ if ($form->is_cancelled()) {
     );
 }
 
-$table = new site_table();
-
-$addbutton = new stdClass();
-$addbutton->text = get_string('vacation_travel_site_report_add', 'local_mxschool');
-$addbutton->url = new moodle_url('/local/mxschool/vacation_travel/site_edit.php');
+$table = new local_mxschool\local\vacation_travel\site_table();
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('vacation_travel_site_report_add', 'local_mxschool'),
+    new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
+));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table, null, array(), false, $addbutton);
+$formrenderable = new local_mxschool\output\form($form);
+$reportrenderable = new local_mxschool\output\report($table, null, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);
