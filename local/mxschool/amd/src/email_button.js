@@ -70,7 +70,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
             element.on('hideButton', function(event) {
                 $(event.target).hide('slow');
             });
-            var checkbox = element.parent().children('input.mx-checkbox');
+            var checkbox = element.parent().children('div.mx-checkbox').children().eq(0);
             if (checkbox) {
                 checkbox.on('checkboxEnabled', function() {
                     element.trigger('showButton');
@@ -79,8 +79,6 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
                     element.trigger('hideButton');
                 });
             }
-        } else {
-            element.show();
         }
     };
 });

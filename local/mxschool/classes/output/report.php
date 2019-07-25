@@ -38,7 +38,7 @@ class report implements \renderable, \templatable {
     /**
      * @param local_mxschool\table $table The table object to output to the template.
      * @param string $search Default search text, null if there is no search option.
-     * @param array $dropdowns Array of local_mxschool\dropdown objects.
+     * @param array $dropdowns Array of local_mxschool\output\dropdown objects.
      * @param array $buttons Array of button objects.
      * @param bool $printable Whether to display a print button.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.

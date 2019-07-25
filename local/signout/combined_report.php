@@ -61,7 +61,7 @@ if ($action === 'delete' && $id && $table) {
 }
 
 $table = new local_signout\local\combined_table($filter);
-$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
+$dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
 $buttons = array(
     new local_mxschool\output\redirect_button(
         get_string('on_campus_report_add', 'local_signout'),

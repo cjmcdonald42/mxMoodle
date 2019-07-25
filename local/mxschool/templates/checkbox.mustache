@@ -31,8 +31,10 @@
     - checked | bool | whether the checkbox should be checked by default
 }}
 
-<input type="checkbox" class="mx-checkbox" name="{{ table }}:{{ field }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
-<span class="mx-checkbox-saved"> {{# str }} checkbox_saved, local_mxschool {{/ str }}</span>
+<div class="mx-checkbox">
+    <input type="checkbox" name="{{ table }}:{{ field }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
+    <span class="text-success hidden"> {{# str }} checkbox_saved, local_mxschool {{/ str }}</span>
+</div>
 
 {{# js }}
     require(['local_mxschool/set_boolean_field'], function(setup) {

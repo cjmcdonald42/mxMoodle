@@ -50,11 +50,11 @@ $keepcurrentoptions = array(
 
 $table = new local_mxschool\local\advisor_selection\table($filter, $download);
 $dropdowns = array(
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'submitted', $submittedoptions, $filter->submitted,
         get_string('report_select_default', 'local_mxschool')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'keepcurrent', $keepcurrentoptions, $filter->keepcurrent,
         get_string('report_select_default', 'local_mxschool')
     )

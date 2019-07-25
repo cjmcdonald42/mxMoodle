@@ -37,7 +37,7 @@ $filter->dorm = get_param_faculty_dorm();
 setup_mxschool_page('generic_report', 'checkin');
 
 $table = new local_mxschool\local\checkin\generic_table($filter);
-$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
+$dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);

@@ -15,32 +15,25 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template   local_mxschool/form
+    @template   local_mxschool/legend_table
     @package    local_mxschool
+    @subpackage checkin
     @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
     @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-    The purpose of this template is to render a local_mxschool\form.
+    The purpose of this template is to render a row in the legend table for the weekend calculator.
 
     Required context variables:
-    - form | string | the html for the rendered moodleform
+    - lefttext | string | the text for the left cell
+    - righttext | string | the text for the right cell
     Optional context variables:
-    - topdescription | string | text for the top of the form
-    - bottomdescription | string | text for the bottom of the form
+    - leftclass | string | any class for the left cell
+    - rightclass | string | any class for the right cell
 }}
 
-<div class="mx-form">
-    {{# topdescription }}
-        <p class="topdescription text-info">
-            {{{ topdescription }}}
-        </p>
-    {{/ topdescription }}
-    {{{ form }}}
-    {{# bottomdescription }}
-        <p class="bottomdescription text-info">
-            {{{ bottomdescription }}}
-        </p>
-    {{/ bottomdescription }}
-</div>
+<tr>
+    <td {{# leftclass }}class="{{ leftclass }}"{{/ leftclass }}>{{ lefttext }}</td>
+    <td {{# rightclass }}class="{{ rightclass }}"{{/ rightclass }}>{{ righttext }}</td>
+</tr>

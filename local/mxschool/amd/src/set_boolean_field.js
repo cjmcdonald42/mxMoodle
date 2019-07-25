@@ -47,7 +47,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         }).fail(notification.exception);
     }
     return function(name, value) {
-        var element = $('.mx-checkbox[value="' + value + '"][name="' + name + '"]');
+        var element = $('.mx-checkbox>input[value="' + value + '"][name="' + name + '"]');
         element.change(update);
     };
 });

@@ -33,12 +33,14 @@ define(['jquery'], function($) {
             var referenceCell = $(element).children('.highlight-reference');
             if (formatCell && referenceCell) {
                 var difference = referenceCell.text() - formatCell.text();
-                if (difference === 2) {
-                    formatCell.addClass('mx-green');
+                if (difference >= 3) {
+                    formatCell.addClass('table-success');
+                } else if (difference === 2) {
+                    formatCell.addClass('table-info');
                 } else if (difference === 1) {
-                    formatCell.addClass('mx-yellow');
+                    formatCell.addClass('table-warning');
                 } else if (difference <= 0) {
-                    formatCell.addClass('mx-red');
+                    formatCell.addClass('table-danger');
                 }
             }
         });

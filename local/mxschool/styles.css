@@ -9,44 +9,49 @@
  */
 
 /**
- * Default Form Styling
+ * Global Styling
  */
-/* Form groups inline for better compatibility with small screens. */
+/* Text alignment is part of Bootstrap but not included in boost for some reason. */
+body.mx-page .text-left {
+    text-align: right;
+}
+body.mx-page .text-right {
+    text-align: right;
+}
+body.mx-page .text-center {
+    text-align: center;
+}
+
+/**
+ * Form Styling
+ */
+/* Form groups inline-block for better compatibility with small screens. */
 div.mx-form div.form-inline div.form-group {
     display: inline-block;
 }
 
 /**
- * Default Table Styling.
+ * Table Styling.
  */
 /* Small margin above and below tables. */
 div.mx-table {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    --mx-table-border: 1px solid #999;
-}
-/* Border around entire table */
-div.mx-table table.generaltable {
-    border: var(--mx-table-border);
 }
 /* Middle vertical align, reduced padding, and borders for all table cells. */
-div.mx-table table.generaltable th,
-div.mx-table table.generaltable td {
+div.mx-table table thead th,
+div.mx-table table tbody td {
     vertical-align: middle;
     padding: 0.25rem;
-    border: var(--mx-table-border);
+    border: 1px solid #999;
 }
-/* All header cells centered. */
-div.mx-table table.generaltable th {
+/* Table header cells centered. */
+div.mx-table table thead th {
     text-align: center;
 }
-/* Centered cells. */
-div.mx-table table.generaltable td.align-center {
-    text-align: center;
-}
-/* Centered cells. */
-div.mx-table table.generaltable td.align-right {
-    text-align: right;
+/* Small size for directory pictures. */
+div.mx-table table tbody td img.mx-student-picture {
+    width: 128px;
 }
 /* All filtering and buttons on one line. */
 div.mx-filter form,
@@ -55,47 +60,13 @@ div.mx-filter input {
 }
 
 /**
- * Custom Table Styling.
- */
-/* Cell highlighting. */
-div.mx-table table.generaltable td.mx-green {
-    background-color: #dff0d8;
-}
-div.mx-table table.generaltable td.mx-yellow {
-    background-color: #fcf8e3;
-}
-div.mx-table table.generaltable td.mx-red {
-    background-color: #f2dede;
-}
-/* Legends don't take up the full page width. */
-div.legend-table table.generaltable {
-    width: auto;
-}
-div.mx-table img.mx-student-picture {
-    width: 128px;
-}
-
-/**
- * Custom Element Styling.
- */
-/* Check box 'saved' text and email buttons default to hidden.*/
-span.mx-checkbox-saved {
-    color: #77b300;
-    display: none;
-}
-button.mx-email-button {
-    display: none;
-}
-
-/**
  * Print Styling.
  */
 @media print {
     body.mx-page {
-        background-color: #fff;
+        background-color: transparent;
     }
 
-    body.mx-page .noprint,
     body.mx-page header,
     body.mx-page footer,
     div.mx-table nav,
@@ -104,17 +75,18 @@ button.mx-email-button {
         display: none;
     }
 
-    /* Remove border around reports. */
+    /* Remove border and margin around reports. */
     body.mx-page div.card {
         border: 0;
+        margin: 0;
     }
 
-    /* Smaller font size when printing reports. */
+    /* Smaller font size. */
     body.mx-page h2 {
         font-size: 1.5rem;
     }
-    div.mx-table table.generaltable th,
-    div.mx-table table.generaltable td {
+    div.mx-table th,
+    div.mx-table td {
         font-size: 0.75rem;
     }
 

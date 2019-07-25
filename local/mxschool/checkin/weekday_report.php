@@ -37,7 +37,7 @@ $filter->dorm = get_param_faculty_dorm(false);
 setup_mxschool_page('weekday_report', 'checkin');
 
 $table = new local_mxschool\local\checkin\weekday_table($filter);
-$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm, false));
+$dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm, false));
 $headers = array(array('text' => '', 'length' => $filter->dorm ? 3 : 4));
 $day = generate_datetime('Sunday this week');
 for ($i = 1; $i <= 5; $i++) {

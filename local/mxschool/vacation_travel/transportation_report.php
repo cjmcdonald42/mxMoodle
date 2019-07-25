@@ -64,16 +64,16 @@ $types = array(
 
 $table = new local_mxschool\local\vacation_travel\transportation_table($filter, $download);
 $dropdowns = array(
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
         get_string('report_select_default', 'local_mxschool')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'type', $types, $filter->type, get_string('vacation_travel_transportation_report_select_type_all', 'local_mxschool')
     )
 );
 if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
-    array_unshift($dropdowns, new local_mxschool\dropdown('portion', $portions, $filter->portion));
+    array_unshift($dropdowns, new local_mxschool\output\dropdown('portion', $portions, $filter->portion));
 }
 $buttons = array(new local_mxschool\output\redirect_button(
     get_string('vacation_travel_transportation_report_add', 'local_mxschool'),

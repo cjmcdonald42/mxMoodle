@@ -654,7 +654,7 @@ function student_may_access_vacation_travel($userid) {
  *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
  *
  * @param bool $includeday Whether to include day houses or limit to boading houses.
- * @return string The dorm id or an empty string, as specified.
+ * @return string The dorm id or an empty string.
  */
 function get_param_faculty_dorm($includeday = true) {
     global $DB, $USER;
@@ -666,7 +666,7 @@ function get_param_faculty_dorm($includeday = true) {
             return $dorm;
         }
     }
-    return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?? '';
+    return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
 }
 
 /**

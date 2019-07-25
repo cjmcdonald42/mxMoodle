@@ -56,8 +56,8 @@ $pictureoptions = array(
 
 $table = new local_signout\local\on_campus\duty_table($filter);
 $dropdowns = array(
-    new local_mxschool\dropdown('pictures', $pictureoptions, $filter->pictures),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown('pictures', $pictureoptions, $filter->pictures),
+    new local_mxschool\output\dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
     )
 );

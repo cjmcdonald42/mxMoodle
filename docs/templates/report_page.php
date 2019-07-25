@@ -40,7 +40,7 @@ setup_mxschool_page('PAGE', 'SUBPACKAGE', 'PACKAGE');
 
 $table = new PACKAGE\local\SUBPACKAGE\TABLE_CLASS($filter);
 $dropdowns = array(
-    new local_mxschool\dropdown('NAME', /* array of options */, 'SELECTED', /* default option (optional) */)
+    new local_mxschool\output\dropdown('NAME', /* array of options */, 'SELECTED', /* default option (optional) */)
     // ETC.
 );
 $buttons = array(

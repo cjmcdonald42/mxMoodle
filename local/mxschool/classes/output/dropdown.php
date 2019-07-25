@@ -24,23 +24,23 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool;
+namespace local_mxschool\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-class dropdown {
+class dropdown implements \renderable, \templatable {
 
-    /** @var string The name of the dropdown, which serves as the url parameter from filter.*/
+    /** @var string The name of the dropdown, which serves as the url parameter from the filter.*/
     public $name;
     /** @param array The options for the dropdown.*/
     public $options;
     /** @param string The initially selected option.*/
     public $selected;
-    /** @param array|bool A 'nothing' option or false if there is no such option.*/
-    public $nothing;
+    /** @param string|bool A 'nothing' option or false if there is no such option.*/
+    public $default;
 
     /**
-     * @param string $name The name of the dropdown, which serves as the url parameter from filter.
+     * @param string $name The name of the dropdown, which serves as the url parameter from the filter.
      * @param array $options The options for the dropdown.
      * @param string $selected The initially selected option.
      * @param string|bool $default A 'nothing' option or false if there is no such option.
@@ -49,16 +49,27 @@ class dropdown {
         $this->name = $name;
         $this->options = $options;
         $this->selected = $selected;
-        $this->nothing = is_string($default) ? array('' => $default) : false;
+        $this->default = $default;
     }
 
     /**
-     * Renders the dropdown using the html_writter.
+     * Exports this data so it can be used as the context for a mustache template.
      *
-     * @return string The generated html for the select element.
+     * @param renderer_base $output The renderer which is rendering this renderable.
+     * @return stdClass Object with properties name, options, and selected.
      */
-    public function out() {
-        return \html_writer::select($this->options, $this->name, $this->selected, $this->nothing);
+    public function export_for_template($output) {
+        $data = new \stdClass();
+        $data->name = $this->name;
+        $options = $this->default ? array('' => $this->default) + $this->options : $this->options;
+        $data->options = array_map(function($value, $text) {
+            $option = new \stdClass();
+            $option->value = $value;
+            $option->text = $text;
+            $option->selected = (string) $value === $this->selected;
+            return $option;
+        }, array_keys($options), $options);
+        return $data;
     }
 
     /**

@@ -76,7 +76,7 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
 
 $table = new local_mxschool\local\user_management\student_table($filter);
 $dropdowns = array(
-    new local_mxschool\dropdown('type', $types, $filter->type), local_mxschool\dropdown::dorm_dropdown($filter->dorm)
+    new local_mxschool\output\dropdown('type', $types, $filter->type), local_mxschool\output\dropdown::dorm_dropdown($filter->dorm)
 );
 $buttons = $filter->type === 'parents' ? $buttons = array(new local_mxschool\output\redirect_button(
     get_string('user_management_parent_report_add', 'local_mxschool'),

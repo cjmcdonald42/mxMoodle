@@ -65,16 +65,16 @@ $dates = get_tutoring_date_list();
 
 $table = new local_peertutoring\local\table($filter, $download);
 $dropdowns = array(
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'date', $dates, $filter->date, get_string('tutoring_report_select_date_all', 'local_peertutoring')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'tutor', $tutors, $filter->tutor, get_string('tutoring_report_select_tutor_all', 'local_peertutoring')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'department', $departments, $filter->department, get_string('tutoring_report_select_department_all', 'local_peertutoring')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'type', $types, $filter->type, get_string('tutoring_report_select_type_all', 'local_peertutoring')
     )
 );

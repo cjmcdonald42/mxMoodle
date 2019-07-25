@@ -65,11 +65,11 @@ abstract class table extends \table_sql {
                 $this->no_sorting($column);
             }
             if (in_array($column, $centered)) {
-                $this->add_column_class($column, 'align-center');
+                $this->add_column_class($column, 'text-center');
             }
         }
         if ($actions) {
-            $this->add_column_class('actions', 'noprint');
+            $this->add_column_class('actions', 'hidden-print');
         }
 
         $this->define_baseurl(new \moodle_url($PAGE->url, (array) $filter));

@@ -57,16 +57,16 @@ $doubleoptions = array(
 
 $table = new local_mxschool\local\rooming\table($filter, $download);
 $dropdowns = array(
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'gender', $genderoptions, $filter->gender, get_string('rooming_report_select_gender_all', 'local_mxschool')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'roomtype', $roomtypeoptions, $filter->roomtype, get_string('rooming_report_select_roomtype_all', 'local_mxschool')
     ),
-    new local_mxschool\dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
+    new local_mxschool\output\dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
 );
 $buttons = array(
     new local_mxschool\output\redirect_button(

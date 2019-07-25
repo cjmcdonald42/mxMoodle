@@ -53,6 +53,17 @@ class renderer extends \plugin_renderer_base {
     }
 
     /**
+     * Renders a dropdown according to the template.
+     *
+     * @param local_mxschool\output\dropdown $dropdown.
+     * @return string html for the dropdown.
+     */
+    public function render_dropdown($dropdown) {
+        $data = $dropdown->export_for_template($this);
+        return parent::render_from_template('local_mxschool/dropdown', $data);
+    }
+
+    /**
      * Renders a email button according to the template.
      *
      * @param local_mxschool\output\email_button $button.

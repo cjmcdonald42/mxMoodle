@@ -67,8 +67,8 @@ $dates = get_off_campus_date_list();
 
 $table = new local_signout\local\off_campus\table($filter);
 $dropdowns = array(
-    new local_mxschool\dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')),
-    new local_mxschool\dropdown('date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout'))
+    new local_mxschool\output\dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')),
+    new local_mxschool\output\dropdown('date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout'))
 );
 $buttons = array(new local_mxschool\output\redirect_button(
     get_string('off_campus_report_add', 'local_signout'),

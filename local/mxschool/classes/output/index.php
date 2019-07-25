@@ -30,13 +30,13 @@ defined('MOODLE_INTERNAL') || die();
 
 class index implements \renderable, \templatable {
 
-    /** @var array Array of links [displaytext => url] to be passed to the template.*/
+    /** @var array Associative array of links [displaytext => url] to be rendered.*/
     private $links;
     /** @var string|bool String to display as a subheading or false.*/
     private $heading;
 
     /**
-     * @param array $links Array of links [displaytext => url] to be passed to the template.
+     * @param array $links Associative array of links [displaytext => url] to be rendered.
      * @param string|bool $heading String to display as a subheading or false.
      */
     public function __construct($links, $heading = false) {
