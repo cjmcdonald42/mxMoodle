@@ -38,4 +38,4 @@ v3.1 of the project was developed in 2019 by:
 ## License
 As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt).
 
-© 2018-2019 Middlesex School All Rights Reserved
+© 2018-2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
