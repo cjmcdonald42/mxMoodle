@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/vacation_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -119,7 +118,7 @@ $depsites = get_vacation_travel_departure_sites_list();
 $retsites = get_vacation_travel_return_sites_list();
 $types = get_vacation_travel_type_list();
 
-$form = new vacation_form(array(
+$form = new local_mxschool\local\vacation_travel\form(array(
     'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites, 'types' => $types
 ));
 $form->set_data($data);

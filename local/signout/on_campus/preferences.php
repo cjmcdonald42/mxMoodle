@@ -26,9 +26,7 @@
  */
 
 require(__DIR__.'/../../../config.php');
-require_once(__DIR__.'/../../mxschool/locallib.php');
-require_once(__DIR__.'/preferences_form.php');
-require_once(__DIR__.'/location_table.php');
+require_once(__DIR__.'/../locallib.php');
 
 require_login();
 require_capability('local/signout:manage_on_campus_preferences', context_system::instance());
@@ -60,7 +58,7 @@ $data->underclassmanwarning['text'] = get_config('local_signout', 'on_campus_for
 $data->juniorwarning['text'] = get_config('local_signout', 'on_campus_form_warning_juniors');
 $data->confirmation['text'] = get_config('local_signout', 'on_campus_form_confirmation');
 
-$form = new preferences_form();
+$form = new local_signout\local\on_campus\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -80,7 +78,7 @@ if ($form->is_cancelled()) {
     );
 }
 
-$table = new location_table();
+$table = new local_signout\local\on_campus\location_table();
 $buttons = array(new local_mxschool\output\redirect_button(
     get_string('on_campus_location_report_add', 'local_signout'),
     new moodle_url('/local/signout/on_campus/location_edit.php')

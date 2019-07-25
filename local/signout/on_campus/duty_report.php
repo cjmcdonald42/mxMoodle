@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/duty_table.php');
 
 require_login();
 require_capability('local/signout:confirm_on_campus', context_system::instance());
@@ -55,7 +54,7 @@ $pictureoptions = array(
     '0' => get_string('duty_report_select_pictures_off', 'local_signout')
 );
 
-$table = new duty_table($filter);
+$table = new local_signout\local\on_campus\duty_table($filter);
 $dropdowns = array(
     new local_mxschool\dropdown('pictures', $pictureoptions, $filter->pictures),
     new local_mxschool\dropdown(

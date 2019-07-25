@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/advisor_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -75,7 +74,7 @@ $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
 $students = get_student_with_advisor_form_enabled_list();
 $faculty = array(0 => get_string('form_select_default', 'local_mxschool')) + get_faculty_list();
 
-$form = new advisor_form(array('students' => $students, 'faculty' => $faculty));
+$form = new local_mxschool\local\advisor_selection\form(array('students' => $students, 'faculty' => $faculty));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

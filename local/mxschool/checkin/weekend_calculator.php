@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/weekend_calculator_table.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -51,7 +50,7 @@ $weekends = $DB->get_records_sql(
      ORDER BY sunday_time", array($startdate, $enddate)
 );
 
-$table = new weekend_calculator_table($filter, $weekends, $isstudent);
+$table = new local_mxschool\local\checkin\weekend_calculator_table($filter, $weekends, $isstudent);
 $dropdowns = array(new local_mxschool\dropdown('semester', $semesters, $filter->semester));
 if (!$isstudent) {
     array_unshift($dropdowns, local_mxschool\dropdown::dorm_dropdown($filter->dorm, false));

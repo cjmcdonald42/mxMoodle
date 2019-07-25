@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/advisor_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
@@ -49,7 +48,7 @@ $keepcurrentoptions = array(
     '0' => get_string('advisor_selection_report_select_keepcurrent_false', 'local_mxschool')
 );
 
-$table = new advisor_table($filter, $download);
+$table = new local_mxschool\local\advisor_selection\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted,

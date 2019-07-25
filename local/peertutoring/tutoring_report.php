@@ -25,9 +25,7 @@
  */
 
 require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/tutoring_table.php');
 
 require_login();
 require_capability('local/peertutoring:manage_tutoring', context_system::instance());
@@ -65,7 +63,7 @@ $tutors = get_tutor_list();
 $departments = get_department_list();
 $dates = get_tutoring_date_list();
 
-$table = new tutoring_table($filter, $download);
+$table = new local_peertutoring\local\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\dropdown(
         'date', $dates, $filter->date, get_string('tutoring_report_select_date_all', 'local_peertutoring')

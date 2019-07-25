@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/weekend_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -85,7 +84,7 @@ generate_time_selector_fields($data, 'return', 15);
 $dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list(false);
 $students = get_boarding_student_list();
 
-$form = new weekend_form(array('dorms' => $dorms, 'students' => $students));
+$form = new local_mxschool\local\checkin\weekend_form(array('dorms' => $dorms, 'students' => $students));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/off_campus_table.php');
 
 require_login();
 require_capability('local/signout:manage_off_campus', context_system::instance());
@@ -66,7 +65,7 @@ if ($action === 'delete' && $id) {
 
 $dates = get_off_campus_date_list();
 
-$table = new off_campus_table($filter);
+$table = new local_signout\local\off_campus\table($filter);
 $dropdowns = array(
     new local_mxschool\dropdown('type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')),
     new local_mxschool\dropdown('date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout'))

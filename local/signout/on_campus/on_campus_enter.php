@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/on_campus_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -68,7 +67,7 @@ $students = get_student_list();
 $locations = array(0 => get_string('form_select_default', 'local_mxschool')) + get_on_campus_location_list()
            + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
 
-$form = new on_campus_form(array('students' => $students, 'locations' => $locations));
+$form = new local_signout\local\on_campus\form(array('students' => $students, 'locations' => $locations));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

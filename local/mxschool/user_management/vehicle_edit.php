@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/vehicle_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_vehicles', context_system::instance());
@@ -51,7 +50,7 @@ if ($id) { // Updating an existing record.
 }
 $drivers = get_licensed_student_list();
 
-$form = new vehicle_edit_form(array('drivers' => $drivers));
+$form = new local_mxschool\local\user_management\vehicle_edit_form(array('drivers' => $drivers));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

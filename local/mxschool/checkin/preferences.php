@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/preferences_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_checkin_preferences', context_system::instance());
@@ -58,7 +57,7 @@ $data->topinstructions['text'] = get_config('local_mxschool', 'weekend_form_inst
 $data->bottominstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $data->closedwarning['text'] = get_config('local_mxschool', 'weekend_form_warning_closed');
 
-$form = new preferences_form(array('weekends' => $weekends));
+$form = new local_mxschool\local\checkin\preferences_form(array('weekends' => $weekends));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

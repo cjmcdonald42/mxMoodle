@@ -26,8 +26,8 @@
  */
 
 require(__DIR__.'/../../../config.php');
+require_once($CFG->dirroot.'/repository/lib.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/picture_import_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_student_pictures', context_system::instance());
@@ -38,7 +38,7 @@ $data = new stdClass();
 $data->pictures = file_get_submitted_draft_itemid('pictures');
 file_prepare_draft_area($data->pictures, context_system::instance()->id, 'local_mxschool', 'student_pictures', 0);
 
-$form = new picture_import_form();
+$form = new local_mxschool\local\user_management\picture_import_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

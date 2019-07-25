@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/vehicle_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vehicles', context_system::instance());
@@ -51,7 +50,7 @@ if ($action === 'delete' && $id) {
     }
 }
 
-$table = new vehicle_table($filter);
+$table = new local_mxschool\local\user_management\vehicle_table($filter);
 $buttons = array(new local_mxschool\output\redirect_button(
     get_string('user_management_vehicle_report_add', 'local_mxschool'),
     new moodle_url('/local/mxschool/user_management/vehicle_edit.php')

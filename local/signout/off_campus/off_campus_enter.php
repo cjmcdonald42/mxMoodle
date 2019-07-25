@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/off_campus_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -93,7 +92,7 @@ $passengers = get_permitted_passenger_list();
 $drivers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_permitted_driver_list();
 $approvers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_approver_list();
 
-$form = new off_campus_form(array(
+$form = new local_signout\local\off_campus\form(array(
     'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers, 'approvers' => $approvers
 ));
 $form->set_data($data);

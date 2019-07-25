@@ -26,7 +26,8 @@
 
 require(__DIR__.'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
+require_once(__DIR__.'/locallib.php');
+
 
 redirect_non_admin();
 admin_externalpage_setup('signout_index');

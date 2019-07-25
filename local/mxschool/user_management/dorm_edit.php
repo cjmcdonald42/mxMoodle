@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/dorm_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_dorms', context_system::instance());
@@ -51,7 +50,7 @@ if ($id) { // Updating an existing record.
 }
 $faculty = get_faculty_list();
 
-$form = new dorm_edit_form(array('faculty' => $faculty));
+$form = new local_mxschool\local\user_management\dorm_edit_form(array('faculty' => $faculty));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

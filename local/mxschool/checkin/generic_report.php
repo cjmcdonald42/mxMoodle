@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/generic_table.php');
 
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
@@ -37,7 +36,7 @@ $filter->dorm = get_param_faculty_dorm();
 
 setup_mxschool_page('generic_report', 'checkin');
 
-$table = new generic_table($filter);
+$table = new local_mxschool\local\checkin\generic_table($filter);
 $dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');

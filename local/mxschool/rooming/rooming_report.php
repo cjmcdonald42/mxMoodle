@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/rooming_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_rooming', context_system::instance());
@@ -56,7 +55,7 @@ $doubleoptions = array(
     '0' => get_string('rooming_report_select_double_false', 'local_mxschool')
 );
 
-$table = new rooming_table($filter, $download);
+$table = new local_mxschool\local\rooming\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')

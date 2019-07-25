@@ -31,10 +31,6 @@ defined('MOODLE_INTERNAL') || die();
 
 class legend_table implements \renderable, \templatable {
 
-    public function __construct() {
-        // No data required.
-    }
-
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *

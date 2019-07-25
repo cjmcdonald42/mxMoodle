@@ -29,7 +29,6 @@ namespace local_mxschool;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
-require_once($CFG->dirroot.'/repository/lib.php');
 
 abstract class form extends \moodleform {
 

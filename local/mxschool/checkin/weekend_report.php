@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/weekend_table.php');
-require_once(__DIR__.'/weekend_comment_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_weekend', context_system::instance());
@@ -79,7 +77,7 @@ $submittedoptions = array(
 $start = array_key_exists($filter->start, $startdays) ? $filter->start : $weekendrecord->start_offset;
 $end = array_key_exists($filter->end, $enddays) ? $filter->end : $weekendrecord->end_offset;
 
-$table = new weekend_table($filter, $start, $end);
+$table = new local_mxschool\local\checkin\weekend_table($filter, $start, $end);
 $dropdowns = array(
    local_mxschool\dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool\dropdown('weekend', $weekends, $filter->weekend),
@@ -106,7 +104,7 @@ for ($i = $start; $i <= $end; $i++) {
 }
 $headers[] = array('text' => '', 'length' => 9);
 
-$form = new weekend_comment_form();
+$form = new local_mxschool\local\checkin\weekend_comment_form();
 $form->set_fallback($redirect);
 $form->set_data($data);
 

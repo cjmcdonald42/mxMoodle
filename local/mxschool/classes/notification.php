@@ -29,8 +29,6 @@ namespace local_mxschool;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../locallib.php');
-
 use local_mxschool\event\email_sent;
 
 abstract class notification {

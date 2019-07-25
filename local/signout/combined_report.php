@@ -26,7 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/combined_table.php');
 
 require_login();
 require_capability('local/signout:manage_on_campus', context_system::instance());
@@ -61,7 +60,7 @@ if ($action === 'delete' && $id && $table) {
     }
 }
 
-$table = new combined_table($filter);
+$table = new local_signout\local\combined_table($filter);
 $dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 $buttons = array(
     new local_mxschool\output\redirect_button(

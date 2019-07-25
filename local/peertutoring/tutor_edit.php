@@ -25,9 +25,7 @@
  */
 
 require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/tutor_edit_form.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
@@ -54,7 +52,7 @@ if ($id) { // Updating an existing record.
 $students = get_eligible_student_list();
 $departments = get_department_list();
 
-$form = new tutor_edit_form(array('students' => $students, 'departments' => $departments));
+$form = new local_peertutoring\local\tutor_edit_form(array('students' => $students, 'departments' => $departments));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

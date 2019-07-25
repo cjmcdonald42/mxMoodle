@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/student_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
@@ -75,7 +74,7 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
     }
 }
 
-$table = new student_table($filter);
+$table = new local_mxschool\local\user_management\student_table($filter);
 $dropdowns = array(
     new local_mxschool\dropdown('type', $types, $filter->type), local_mxschool\dropdown::dorm_dropdown($filter->dorm)
 );

@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/parent_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
@@ -52,7 +51,7 @@ if ($id) { // Updating an existing record.
 }
 $students = get_student_list();
 
-$form = new parent_edit_form(array('students' => $students));
+$form = new local_mxschool\local\user_management\parent_edit_form(array('students' => $students));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

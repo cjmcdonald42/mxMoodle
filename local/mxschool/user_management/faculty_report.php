@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/faculty_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_faculty', context_system::instance());
@@ -38,7 +37,7 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('faculty_report', 'user_management');
 
-$table = new faculty_table($filter);
+$table = new local_mxschool\local\user_management\faculty_table($filter);
 $dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');

@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/vacation_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
@@ -44,7 +43,7 @@ $submittedoptions = array(
     '0' => get_string('vacation_travel_report_select_submitted_false', 'local_mxschool')
 );
 
-$table = new vacation_table($filter);
+$table = new local_mxschool\local\vacation_travel\table($filter);
 $dropdowns = array(
    local_mxschool\dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool\dropdown(

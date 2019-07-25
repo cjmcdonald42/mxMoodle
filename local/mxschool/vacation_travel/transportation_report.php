@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/transportation_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_vacation_travel_transportation', context_system::instance());
@@ -63,7 +62,7 @@ $types = array(
     'Non-MX Bus' => get_string('vacation_travel_transportation_report_select_type_Non-MXBus', 'local_mxschool')
 );
 
-$table = new transportation_table($filter, $download);
+$table = new local_mxschool\local\vacation_travel\transportation_table($filter, $download);
 $dropdowns = array(
     new local_mxschool\dropdown(
         'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,

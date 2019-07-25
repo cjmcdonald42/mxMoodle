@@ -25,9 +25,7 @@
  */
 
 require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/tutoring_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -74,7 +72,7 @@ $types = array(0 => get_string('form_select_default', 'local_mxschool')) + get_t
          + array(-1 => get_string('tutoring_form_type_select_other', 'local_peertutoring'));
 $ratings = array(0 => get_string('form_select_default', 'local_mxschool')) + get_rating_list();
 
-$form = new tutoring_form(array(
+$form = new local_peertutoring\local\form(array(
     'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses, 'types' => $types,
     'ratings' => $ratings
 ));

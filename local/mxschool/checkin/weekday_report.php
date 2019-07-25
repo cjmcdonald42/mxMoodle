@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/weekday_table.php');
 
 require_login();
 require_capability('local/mxschool:view_checkin', context_system::instance());
@@ -37,7 +36,7 @@ $filter->dorm = get_param_faculty_dorm(false);
 
 setup_mxschool_page('weekday_report', 'checkin');
 
-$table = new weekday_table($filter);
+$table = new local_mxschool\local\checkin\weekday_table($filter);
 $dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm, false));
 $headers = array(array('text' => '', 'length' => $filter->dorm ? 3 : 4));
 $day = generate_datetime('Sunday this week');

@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/student_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
@@ -64,7 +63,7 @@ $data->riding = isset($data->riding) ? $ridingencode[$data->riding] : null;
 $dorms = get_dorm_list();
 $faculty = get_faculty_list();
 
-$form = new student_edit_form(array('dorms' => $dorms, 'faculty' => $faculty));
+$form = new local_mxschool\local\user_management\student_edit_form(array('dorms' => $dorms, 'faculty' => $faculty));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

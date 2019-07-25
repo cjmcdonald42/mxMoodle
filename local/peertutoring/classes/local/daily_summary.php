@@ -28,8 +28,8 @@ namespace local_peertutoring\local;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../../mxschool/locallib.php');
-require_once(__DIR__.'/../../tutoring_table.php');
+use local_peertutoring\local\table;
+use local_mxschool\output\report_table;
 
 class daily_summary extends \local_peertutoring\notification {
 
@@ -43,10 +43,10 @@ class daily_summary extends \local_peertutoring\notification {
         $filter->type = 0;
         $filter->date = generate_datetime('-1 day')->getTimestamp();
         $filter->search = '';
-        $table = new \tutoring_table($filter, '', true);
+        $table = new table($filter, '', true);
 
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\report_table($table);
+        $renderable = new report_table($table);
 
         $this->data['total'] = $DB->count_records_select('local_peertutoring_session', "tutoring_date >= ?", array($filter->date));
         $this->data['table'] = $output->render($renderable);

@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/on_campus_table.php');
 
 require_login();
 require_capability('local/signout:manage_on_campus', context_system::instance());
@@ -66,7 +65,7 @@ if ($action === 'delete' && $id) {
 
 $dates = get_on_campus_date_list();
 
-$table = new on_campus_table($filter);
+$table = new local_signout\local\on_campus\table($filter);
 $dropdowns = array(
    local_mxschool\dropdown::dorm_dropdown($filter->dorm),
     new local_mxschool\dropdown(

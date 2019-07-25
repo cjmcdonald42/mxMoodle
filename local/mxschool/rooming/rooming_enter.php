@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/rooming_form.php');
 
 require_login();
 $isstudent = user_is_student();
@@ -76,7 +75,7 @@ $students = get_boarding_next_year_student_list();
 $roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + get_boarding_next_year_student_list();
 $roomtypes = array(0 => get_string('form_select_default', 'local_mxschool')) + get_roomtype_list();
 
-$form = new rooming_form(array('students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
+$form = new local_mxschool\local\rooming\form(array('students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

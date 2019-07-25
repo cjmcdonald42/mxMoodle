@@ -25,8 +25,7 @@
  */
 
 require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/type_edit_form.php');
+require_once(__DIR__.'/locallib.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
@@ -47,7 +46,7 @@ if ($id) { // Updating an existing record.
     $data->id = $id;
 }
 
-$form = new type_edit_form();
+$form = new local_peertutoring\local\type_edit_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

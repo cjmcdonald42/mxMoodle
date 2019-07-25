@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/faculty_edit_form.php');
 
 require_login();
 require_capability('local/mxschool:manage_faculty', context_system::instance());
@@ -49,7 +48,7 @@ if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
 $data = get_record($queryfields, "f.id = ?", array($id));
 $dorms = array(null => '') + get_dorm_list();
 
-$form = new faculty_edit_form(array('dorms' => $dorms));
+$form = new local_mxschool\local\user_management\faculty_edit_form(array('dorms' => $dorms));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

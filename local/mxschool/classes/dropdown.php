@@ -28,8 +28,6 @@ namespace local_mxschool;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../locallib.php');
-
 class dropdown {
 
     /** @var string The name of the dropdown, which serves as the url parameter from filter.*/

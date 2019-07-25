@@ -25,14 +25,7 @@
  */
 
 require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/../mxschool/locallib.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/preferences_form.php');
-require_once(__DIR__.'/tutor_table.php');
-require_once(__DIR__.'/department_table.php');
-require_once(__DIR__.'/course_table.php');
-require_once(__DIR__.'/type_table.php');
-require_once(__DIR__.'/rating_table.php');
 
 require_login();
 require_capability('local/peertutoring:manage_preferences', context_system::instance());
@@ -80,7 +73,7 @@ if ($notification) {
     $data->body['text'] = $notification->body_html;
 }
 
-$form = new preferences_form();
+$form = new local_peertutoring\local\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -92,11 +85,11 @@ if ($form->is_cancelled()) {
     );
 }
 
-$tutortable = new tutor_table();
-$departmenttable = new department_table();
-$coursetable = new course_table();
-$typetable = new type_table();
-$ratingtable = new rating_table();
+$tutortable = new local_peertutoring\local\tutor_table();
+$departmenttable = new local_peertutoring\local\department_table();
+$coursetable = new local_peertutoring\local\course_table();
+$typetable = new local_peertutoring\local\type_table();
+$ratingtable = new local_peertutoring\local\rating_table();
 $tutorbuttons = array(new local_mxschool\output\redirect_button(
     get_string('tutor_report_add', 'local_peertutoring'),
     new moodle_url('/local/peertutoring/tutor_edit.php')

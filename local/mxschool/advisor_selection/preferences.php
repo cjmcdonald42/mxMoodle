@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/preferences_form.php');
-require_once(__DIR__.'/faculty_table.php');
 
 require_login();
 require_capability('local/mxschool:manage_advisor_selection_preferences', context_system::instance());
@@ -53,7 +51,7 @@ $data->results_body['text'] = $resultsnotification->body_html;
 $data->closing_warning['text'] = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions['text'] = get_config('local_mxschool', 'advisor_form_instructions');
 
-$form = new preferences_form();
+$form = new local_mxschool\local\advisor_selection\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -72,7 +70,7 @@ if ($form->is_cancelled()) {
     );
 }
 
-$table = new faculty_table();
+$table = new local_mxschool\local\advisor_selection\faculty_table();
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new local_mxschool\output\form($form);
