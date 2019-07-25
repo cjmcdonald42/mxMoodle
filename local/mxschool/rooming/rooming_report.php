@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/rooming_table.php');
 
 require_login();
@@ -60,34 +58,34 @@ $doubleoptions = array(
 
 $table = new rooming_table($filter, $download);
 $dropdowns = array(
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'gender', $genderoptions, $filter->gender, get_string('rooming_report_select_gender_all', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'roomtype', $roomtypeoptions, $filter->roomtype, get_string('rooming_report_select_roomtype_all', 'local_mxschool')
     ),
-    new local_mxschool_dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
+    new local_mxschool\dropdown('double', $doubleoptions, $filter->double, get_string('report_select_default', 'local_mxschool'))
 );
 $buttons = array(
-    new \local_mxschool\output\redirect_button(
+    new local_mxschool\output\redirect_button(
         get_string('rooming_report_add', 'local_mxschool'),
         new moodle_url('/local/mxschool/rooming/rooming_enter.php')
     ),
-    new \local_mxschool\output\email_button(
+    new local_mxschool\output\email_button(
         get_string('rooming_report_remind', 'local_mxschool'), 'rooming_notify_unsubmitted'
     )
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table);
+    $renderable = new local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

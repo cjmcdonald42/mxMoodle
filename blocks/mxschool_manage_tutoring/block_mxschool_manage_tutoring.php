@@ -26,8 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
-
 class block_mxschool_manage_tutoring extends block_base {
 
     public function init() {
@@ -43,7 +41,7 @@ class block_mxschool_manage_tutoring extends block_base {
         $this->content = new stdClass();
         if (has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
-            $renderable = new \local_mxschool\output\index(array(
+            $renderable = new local_mxschool\output\index(array(
                 get_string('tutor_manage', 'block_mxschool_manage_tutoring') => '/local/peertutoring/tutoring_report.php'
             ));
             $this->content->text = $output->render($renderable);;

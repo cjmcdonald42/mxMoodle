@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../mxschool/classes/mx_form.php');
-
-class preferences_form extends local_mxschool_form {
+class preferences_form extends local_mxschool\form {
 
     /**
      * Form definition.

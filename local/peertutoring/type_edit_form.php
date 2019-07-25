@@ -26,19 +26,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../mxschool/classes/mx_form.php');
-
-class type_edit_form extends local_mxschool_form {
+class type_edit_form extends local_mxschool\form {
 
     /**
      * Form definition.
      */
     protected function definition() {
-        $id = $this->_customdata['id'];
-
         $fields = array(
-            '' => array('id' => self::ELEMENT_HIDDEN_INT),
-            'type' => array('displaytext' => self::ELEMENT_TEXT_REQUIRED)
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT
+            ),
+            'type' => array(
+                'displaytext' => self::ELEMENT_TEXT_REQUIRED
+            )
         );
         $this->set_fields($fields, 'type_edit', false, 'local_peertutoring');
     }

@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
-
-class vacation_form extends local_mxschool_form {
+class vacation_form extends local_mxschool\form {
 
     /**
      * @var bool $returnenabled Whether the return portion of the form should be included.
@@ -40,7 +38,6 @@ class vacation_form extends local_mxschool_form {
      * Form definition.
      */
     protected function definition() {
-        $id = $this->_customdata['id'];
         $this->returnenabled = $this->_customdata['returnenabled'];
         $students = $this->_customdata['students'];
         $depsites = $this->_customdata['depsites'];

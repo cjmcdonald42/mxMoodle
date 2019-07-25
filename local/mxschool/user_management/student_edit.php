@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/student_edit_form.php');
 
 require_login();
@@ -57,7 +56,6 @@ $queryfields = array(
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
     redirect_to_fallback();
 }
-
 $ridingencode = array(
     'Parent Permission' => 'parent', 'Over 21' => '21', 'Any Driver' => 'any', 'Specific Drivers' => 'specific'
 );
@@ -66,7 +64,7 @@ $data->riding = isset($data->riding) ? $ridingencode[$data->riding] : null;
 $dorms = get_dorm_list();
 $faculty = get_faculty_list();
 
-$form = new student_edit_form(array('id' => $id, 'dorms' => $dorms, 'faculty' => $faculty));
+$form = new student_edit_form(array('dorms' => $dorms, 'faculty' => $faculty));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -90,7 +88,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

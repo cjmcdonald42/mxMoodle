@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../../mxschool/classes/mx_dropdown.php');
 require_once(__DIR__.'/on_campus_table.php');
 
 require_login();
@@ -70,19 +68,19 @@ $dates = get_on_campus_date_list();
 
 $table = new on_campus_table($filter);
 $dropdowns = array(
-    local_mxschool_dropdown::dorm_dropdown($filter->dorm),
-    new local_mxschool_dropdown(
+   local_mxschool\dropdown::dorm_dropdown($filter->dorm),
+    new local_mxschool\dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
     ),
-    new local_mxschool_dropdown('date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout'))
+    new local_mxschool\dropdown('date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout'))
 );
-$buttons = array(new \local_mxschool\output\redirect_button(
+$buttons = array(new local_mxschool\output\redirect_button(
     get_string('on_campus_report_add', 'local_signout'),
     new moodle_url('/local/signout/on_campus/on_campus_enter.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading(

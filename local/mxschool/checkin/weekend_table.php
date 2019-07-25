@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_table.php');
-
-class weekend_table extends local_mxschool_table {
+class weekend_table extends local_mxschool\table {
 
     /**
      * Creates a new weekend_table.
@@ -106,7 +104,7 @@ class weekend_table extends local_mxschool_table {
             return '';
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'local_mxschool_weekend_form', 'parent', $values->parent);
+        $renderable = new local_mxschool\output\checkbox($values->wfid, 'local_mxschool_weekend_form', 'parent', $values->parent);
         return $output->render($renderable);
     }
 
@@ -119,7 +117,7 @@ class weekend_table extends local_mxschool_table {
             return '';
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox($values->wfid, 'local_mxschool_weekend_form', 'invite', $values->invite);
+        $renderable = new local_mxschool\output\checkbox($values->wfid, 'local_mxschool_weekend_form', 'invite', $values->invite);
         return $output->render($renderable);
     }
 
@@ -132,10 +130,10 @@ class weekend_table extends local_mxschool_table {
             return '';
         }
         $output = $PAGE->get_renderer('local_mxschool');
-        $checkboxrenderable = new \local_mxschool\output\checkbox(
+        $checkboxrenderable = new local_mxschool\output\checkbox(
             $values->wfid, 'local_mxschool_weekend_form', 'approved', $values->approved
         );
-        $buttonrenderable = new \local_mxschool\output\email_button(
+        $buttonrenderable = new local_mxschool\output\email_button(
             get_string('email_button_default', 'local_mxschool'), 'weekend_form_approved', $values->wfid, false, true
         );
         return "{$output->render($checkboxrenderable)}{$output->render($buttonrenderable)}";

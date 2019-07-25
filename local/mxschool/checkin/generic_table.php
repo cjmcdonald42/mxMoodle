@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_table.php');
-
-class generic_table extends local_mxschool_table {
+class generic_table extends local_mxschool\table {
 
     /**
      * Creates a new generic_table.

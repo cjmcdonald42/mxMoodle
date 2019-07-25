@@ -27,10 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
-require_once(__DIR__.'/../classes/notification/checkin.php');
-
-class preferences_form extends local_mxschool_form {
+class preferences_form extends local_mxschool\form {
 
     /**
      * Form definition.
@@ -69,10 +66,10 @@ class preferences_form extends local_mxschool_form {
             ),
             'weekends' => $weekendfields,
             'notifications' => array(
-                'submitted_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_submitted()),
+                'submitted_tags' => self::email_tags(new local_mxschool\local\checkin\weekend_form_submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'approved_tags' => self::email_tags(new \local_mxschool\local\checkin\weekend_form_approved()),
+                'approved_tags' => self::email_tags(new local_mxschool\local\checkin\weekend_form_approved()),
                 'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),

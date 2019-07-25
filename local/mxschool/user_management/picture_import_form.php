@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
-
-class picture_import_form extends local_mxschool_form {
+class picture_import_form extends local_mxschool\form {
 
     /**
      * Form definition.

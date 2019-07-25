@@ -27,10 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
-require_once(__DIR__.'/../classes/notification/advisor_selection.php');
-
-class preferences_form extends local_mxschool_form {
+class preferences_form extends local_mxschool\form {
 
     /**
      * Form definition.
@@ -49,13 +46,13 @@ class preferences_form extends local_mxschool_form {
                 'who' => array('element' => 'radio', 'options' => array('new', 'all'), 'rules' => array('required'))
             ),
             'notifications' => array(
-                'submitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\submitted()),
+                'submitted_tags' => self::email_tags(new local_mxschool\local\advisor_selection\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\unsubmitted_notification()),
+                'unsubmitted_tags' => self::email_tags(new local_mxschool\local\advisor_selection\unsubmitted()),
                 'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'unsubmitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'results_tags' => self::email_tags(new \local_mxschool\local\advisor_selection\results_notification()),
+                'results_tags' => self::email_tags(new local_mxschool\local\advisor_selection\results()),
                 'results_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'results_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),

@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/parent_edit_form.php');
 
 require_login();
@@ -42,14 +41,18 @@ $queryfields = array('local_mxschool_parent' => array('abbreviation' => 'p', 'fi
     'home_phone' => 'homephone', 'cell_phone' => 'cellphone', 'work_phone' => 'workphone', 'email'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_parent', array('id' => $id, 'deleted' => 0))) {
-    redirect_to_fallback();
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_mxschool_parent', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 'p.id = ?', array($id));
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
 }
-
-$data = get_record($queryfields, "p.id = ?", array($id));
 $students = get_student_list();
 
-$form = new parent_edit_form(array('id' => $id, 'students' => $students));
+$form = new parent_edit_form(array('students' => $students));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -76,7 +79,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/site_edit_form.php');
 
 require_login();
@@ -42,13 +41,17 @@ $queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'f
     'default_departure_time' => 'defaultdeparturetime', 'default_return_time' => 'defaultreturntime'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_vt_site', array('id' => $id, 'deleted' => 0))) {
-    redirect_to_fallback();
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_mxschool_vt_site', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 's.id = ?', array($id));
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
 }
 
-$data = get_record($queryfields, 's.id = ?', array($id));
-
-$form = new site_edit_form(array('id' => $id));
+$form = new site_edit_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -69,7 +72,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

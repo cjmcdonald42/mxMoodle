@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/vehicle_table.php');
 
 require_login();
@@ -53,13 +52,13 @@ if ($action === 'delete' && $id) {
 }
 
 $table = new vehicle_table($filter);
-$buttons = array(new \local_mxschool\output\redirect_button(
+$buttons = array(new local_mxschool\output\redirect_button(
     get_string('user_management_vehicle_report_add', 'local_mxschool'),
     new moodle_url('/local/mxschool/user_management/vehicle_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, array(), $buttons);
+$renderable = new local_mxschool\output\report($table, $filter->search, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

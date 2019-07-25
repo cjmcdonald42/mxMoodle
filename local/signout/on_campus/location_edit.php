@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../../mxschool/locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/location_edit_form.php');
 
 require_login();
@@ -41,17 +40,19 @@ $queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'f
     'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'warning'
 )));
 
-if ($id && !$DB->record_exists('local_signout_location', array('id' => $id, 'deleted' => 0))) {
-    redirect_to_fallback();
-}
-
-$data = get_record($queryfields, 'l.id = ?', array($id));
-if (!$id) {
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_signout_location', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 'l.id = ?', array($id));
+    $data->warning = array('text' => $data->warning);
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
     $data->enabled = '-1'; // Invalid default to prevent auto selection.
 }
-$data->warning = array('text' => $data->warning);
 
-$form = new location_edit_form(array('id' => $id));
+$form = new location_edit_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -77,7 +78,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

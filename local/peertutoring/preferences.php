@@ -26,7 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/preferences_form.php');
 require_once(__DIR__.'/tutor_table.php');
@@ -98,34 +97,34 @@ $departmenttable = new department_table();
 $coursetable = new course_table();
 $typetable = new type_table();
 $ratingtable = new rating_table();
-$tutorbuttons = array(new \local_mxschool\output\redirect_button(
+$tutorbuttons = array(new local_mxschool\output\redirect_button(
     get_string('tutor_report_add', 'local_peertutoring'),
     new moodle_url('/local/peertutoring/tutor_edit.php')
 ));
-$departmentbuttons = array(new \local_mxschool\output\redirect_button(
+$departmentbuttons = array(new local_mxschool\output\redirect_button(
     get_string('department_report_add', 'local_peertutoring'),
     new moodle_url('/local/peertutoring/department_edit.php')
 ));
-$coursebuttons = array(new \local_mxschool\output\redirect_button(
+$coursebuttons = array(new local_mxschool\output\redirect_button(
     get_string('course_report_add', 'local_peertutoring'),
     new moodle_url('/local/peertutoring/course_edit.php')
 ));
-$typebuttons = array(new \local_mxschool\output\redirect_button(
+$typebuttons = array(new local_mxschool\output\redirect_button(
     get_string('type_report_add', 'local_peertutoring'),
     new moodle_url('/local/peertutoring/type_edit.php')
 ));
-$ratingbuttons = array(new \local_mxschool\output\redirect_button(
+$ratingbuttons = array(new local_mxschool\output\redirect_button(
     get_string('rating_report_add', 'local_peertutoring'),
     new moodle_url('/local/peertutoring/rating_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$tutorrenderable = new \local_mxschool\output\report($tutortable, null, array(), $tutorbuttons);
-$departmentrenderable = new \local_mxschool\output\report($departmenttable, null, array(), $departmentbuttons);
-$courserenderable = new \local_mxschool\output\report($coursetable, null, array(), $coursebuttons);
-$typerenderable = new \local_mxschool\output\report($typetable, null, array(), $typebuttons);
-$ratingrenderable = new \local_mxschool\output\report($ratingtable, null, array(), $ratingbuttons);
+$formrenderable = new local_mxschool\output\form($form);
+$tutorrenderable = new local_mxschool\output\report($tutortable, null, array(), $tutorbuttons);
+$departmentrenderable = new local_mxschool\output\report($departmenttable, null, array(), $departmentbuttons);
+$courserenderable = new local_mxschool\output\report($coursetable, null, array(), $coursebuttons);
+$typerenderable = new local_mxschool\output\report($typetable, null, array(), $typebuttons);
+$ratingrenderable = new local_mxschool\output\report($ratingtable, null, array(), $ratingbuttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

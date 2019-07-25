@@ -26,8 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../mxschool/classes/mx_dropdown.php');
 require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/tutoring_table.php');
 
@@ -69,31 +67,31 @@ $dates = get_tutoring_date_list();
 
 $table = new tutoring_table($filter, $download);
 $dropdowns = array(
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'date', $dates, $filter->date, get_string('tutoring_report_select_date_all', 'local_peertutoring')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'tutor', $tutors, $filter->tutor, get_string('tutoring_report_select_tutor_all', 'local_peertutoring')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'department', $departments, $filter->department, get_string('tutoring_report_select_department_all', 'local_peertutoring')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'type', $types, $filter->type, get_string('tutoring_report_select_type_all', 'local_peertutoring')
     )
 );
-$buttons = array(new \local_mxschool\output\redirect_button(
+$buttons = array(new local_mxschool\output\redirect_button(
     get_string('tutoring_report_add', 'local_peertutoring'),
     new moodle_url('/local/peertutoring/tutoring_enter.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table);
+    $renderable = new local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

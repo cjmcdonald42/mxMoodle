@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_table.php');
-
-class student_table extends local_mxschool_table {
+class student_table extends local_mxschool\table {
 
     /** @var string $type the type of report - either 'students', 'permissions', or 'parents'.*/
     private $type;

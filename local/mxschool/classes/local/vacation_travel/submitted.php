@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the vacation travel subpackage of Middlesex's Dorm and Student Functions Plugin.
+ * Email notification for when a vacation travel form is submitted for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @subpackage  vacation_travel
@@ -29,22 +29,7 @@ namespace local_mxschool\local\vacation_travel;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/mx_notification.php');
-
-use \local_mxschool\local\notification;
-use \local_mxschool\local\bulk_notification;
-
-/**
- * Email notification for when a vacation travel form is submitted for Middlesex's Dorm and Student Functions Plugin.
- *
- * @package     local_mxschool
- * @subpackage  vacation_travel
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class submitted extends notification {
+class submitted extends \local_mxschool\notification {
 
     /**
      * @param int $id The id of the vacation travel form which has been submitted.
@@ -111,52 +96,4 @@ class submitted extends notification {
             'retdetails', 'retcarriercompany', 'retnumber', 'retdatetime', 'retinternational', 'timesubmitted'
         ));
     }
-}
-
-/**
- * Email notification to remind students to complete the vacation travel form
- * for Middlesex's Dorm and Student Functions Plugin.
- *
- * @package     local_mxschool
- * @subpackage  vacation_travel
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class unsubmitted_notification extends notification {
-
-    /**
-     * @param int $id The userid of the recipient.
-     *                A value of 0 indicates that the notification should be sent to the transportation manager.
-     */
-    public function __construct($id = 0) {
-        global $DB;
-        parent::__construct('vacation_travel_notify_unsubmitted');
-
-        $this->recipients[] = $id ? $DB->get_record('user', array('id' => $id)) : self::get_deans_user();
-    }
-
-}
-
-/**
- * Bulk wrapper for the the unsubmitted_notification for Middlesex's Dorm and Student Functions Plugin.
- *
- * @package     local_mxschool
- * @subpackage  vacation_travel
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class notify_unsubmitted extends bulk_notification {
-
-    public function __construct() {
-        $list = get_student_without_vacation_travel_form_list();
-        foreach ($list as $userid => $name) {
-            $this->notifications[] = new unsubmitted_notification($userid);
-        }
-        $this->notifications[] = new unsubmitted_notification();
-    }
-
 }

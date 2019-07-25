@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/off_campus.php');
 require_once(__DIR__.'/off_campus_form.php');
 
 require_login();
@@ -49,7 +47,7 @@ $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc',
 if ($isstudent && !student_may_access_off_campus_signout($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_signout_off_campus', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -75,7 +73,7 @@ if ($id) {
             $data->type_other = $data->type_select;
             $data->type_select = 'Other';
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = $data->departure_date = time();
@@ -96,8 +94,7 @@ $drivers = array(0 => get_string('form_select_default', 'local_mxschool')) + get
 $approvers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_approver_list();
 
 $form = new off_campus_form(array(
-    'id' => $id, 'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers,
-    'approvers' => $approvers
+    'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers, 'approvers' => $approvers
 ));
 $form->set_data($data);
 
@@ -129,7 +126,7 @@ if ($form->is_cancelled()) {
         $record->driverid = $id;
         $DB->update_record('local_signout_off_campus', $record);
     }
-    $result = (new \local_signout\local\off_campus\submitted($id))->send();
+    $result = (new local_signout\local\off_campus\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('off_campus_success', 'local_signout'), $data->id ? 'update' : 'create'
     );
@@ -140,8 +137,8 @@ $bottominstructions = get_config('local_signout', 'off_campus_form_instructions_
 $bottominstructions = str_replace(
     '{minutes}', get_config('local_signout', 'off_campus_edit_window'), $bottominstructions
 );
-$formrenderable = new \local_mxschool\output\form($form, false, $bottominstructions);
-$jsrenderable = new \local_mxschool\output\amd_module('local_signout/off_campus_form');
+$formrenderable = new local_mxschool\output\form($form, false, $bottominstructions);
+$jsrenderable = new local_mxschool\output\amd_module('local_signout/off_campus_form');
 
 echo $output->header();
 if ($isstudent && !validate_ip_off_campus()) {

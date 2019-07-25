@@ -27,15 +27,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
-
-class rooming_form extends local_mxschool_form {
+class rooming_form extends local_mxschool\form {
 
     /**
      * Form definition.
      */
     protected function definition() {
-        $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
         $roomable = $this->_customdata['roomable'];
         $roomtypes = $this->_customdata['roomtypes'];

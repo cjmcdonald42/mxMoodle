@@ -26,10 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../mxschool/classes/mx_table.php');
-require_once(__DIR__.'/classes/output/renderable.php');
-
-class combined_table extends local_mxschool_table {
+class combined_table extends local_mxschool\table {
 
     /**
      * Creates a new combined_table.

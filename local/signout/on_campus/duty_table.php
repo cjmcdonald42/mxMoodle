@@ -27,11 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../mxschool/classes/mx_table.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-
-class duty_table extends local_mxschool_table {
+class duty_table extends local_mxschool\table {
 
     /**
      * Creates a new duty_table.
@@ -88,7 +84,7 @@ class duty_table extends local_mxschool_table {
         }
         $url = moodle_url::make_pluginfile_url(1, 'local_mxschool', 'student_pictures', 0, '/', $filename, false);
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\student_picture($url, format_student_name($values->userid));
+        $renderable = new local_mxschool\output\student_picture($url, format_student_name($values->userid));
         return $output->render($renderable);
     }
 
@@ -128,7 +124,7 @@ class duty_table extends local_mxschool_table {
             return '&#x2705;';
         }
         $output = $PAGE->get_renderer('local_signout');
-        $renderable = new \local_signout\output\confirmation_button($values->id);
+        $renderable = new local_signout\output\confirmation_button($values->id);
         return $output->render($renderable);
     }
 

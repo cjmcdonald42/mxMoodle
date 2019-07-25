@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/advisor_table.php');
 
 require_login();
@@ -53,35 +51,35 @@ $keepcurrentoptions = array(
 
 $table = new advisor_table($filter, $download);
 $dropdowns = array(
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted,
         get_string('report_select_default', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'keepcurrent', $keepcurrentoptions, $filter->keepcurrent,
         get_string('report_select_default', 'local_mxschool')
     )
 );
 $buttons = array(
-    new \local_mxschool\output\redirect_button(
+    new local_mxschool\output\redirect_button(
         get_string('advisor_selection_report_add', 'local_mxschool'),
         new moodle_url('/local/mxschool/advisor_selection/advisor_enter.php')
     ),
-    new \local_mxschool\output\email_button(
+    new local_mxschool\output\email_button(
         get_string('advisor_selection_report_remind', 'local_mxschool'), 'advisor_selection_notify_unsubmitted'
     ),
-    new \local_mxschool\output\email_button(
+    new local_mxschool\output\email_button(
         get_string('advisor_selection_report_results', 'local_mxschool'), 'advisor_selection_notify_results'
     )
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
-    $renderable = new \local_mxschool\output\report_table($table);
+    $renderable = new local_mxschool\output\report_table($table);
     echo $output->render($renderable);
     die();
 }
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_table.php');
-
-class site_table extends local_mxschool_table {
+class site_table extends local_mxschool\table {
 
     /**
      * Creates a new site_table.
@@ -56,7 +54,7 @@ class site_table extends local_mxschool_table {
     protected function col_departureenabled($values) {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox(
+        $renderable = new local_mxschool\output\checkbox(
             $values->id, 'local_mxschool_vt_site', 'enabled_departure', $values->departureenabled
         );
         return $output->render($renderable);
@@ -75,7 +73,7 @@ class site_table extends local_mxschool_table {
     protected function col_returnenabled($values) {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox(
+        $renderable = new local_mxschool\output\checkbox(
             $values->id, 'local_mxschool_vt_site', 'enabled_return', $values->returnenabled
         );
         return $output->render($renderable);

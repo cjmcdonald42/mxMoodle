@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/rooming.php');
 require_once(__DIR__.'/rooming_form.php');
 
 require_login();
@@ -51,7 +49,7 @@ $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'f
 if ($isstudent && !student_may_access_rooming($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_rooming', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -59,7 +57,7 @@ if ($id) {
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
         redirect($PAGE->url);
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
@@ -78,7 +76,7 @@ $students = get_boarding_next_year_student_list();
 $roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + get_boarding_next_year_student_list();
 $roomtypes = array(0 => get_string('form_select_default', 'local_mxschool')) + get_roomtype_list();
 
-$form = new rooming_form(array('id' => $id, 'students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
+$form = new rooming_form(array('students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -86,15 +84,15 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
     $id = update_record($queryfields, $data);
-    $result = (new \local_mxschool\local\rooming\submitted($id))->send();
+    $result = (new local_mxschool\local\rooming\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('rooming_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/rooming_form');
+$renderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/rooming_form');
 
 echo $output->header();
 echo $output->heading(

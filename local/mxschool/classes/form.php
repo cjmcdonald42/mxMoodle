@@ -24,12 +24,14 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot.'/repository/lib.php');
 
-abstract class local_mxschool_form extends moodleform {
+abstract class form extends \moodleform {
 
     protected const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
     protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
@@ -98,7 +100,7 @@ abstract class local_mxschool_form extends moodleform {
         return array(
             'startyear' => format_date('Y', get_config('local_mxschool', 'dorms_open_date')),
             'stopyear' => format_date('Y', get_config('local_mxschool', 'dorms_close_date')),
-            'timezone' => core_date::get_user_timezone_object(),
+            'timezone' => \core_date::get_user_timezone_object(),
             'optional' => $optional
         );
     }
@@ -187,7 +189,7 @@ abstract class local_mxschool_form extends moodleform {
     private function create_element($name, $properties, $stringprefix, $component) {
         $mform = $this->_form;
         if (empty($properties['element'])) {
-            throw new coding_exception("required property 'element' is not set");
+            throw new \coding_exception("required property 'element' is not set");
         }
         $element = $properties['element'];
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
@@ -251,7 +253,7 @@ abstract class local_mxschool_form extends moodleform {
                 }
                 return $mform->createElement($element, $name, $displayname, $childelements, '&nbsp;', false);
             default:
-                throw new coding_exception("unsupported element type: {$element}");
+                throw new \coding_exception("unsupported element type: {$element}");
         }
     }
 

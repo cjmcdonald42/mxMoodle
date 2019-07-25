@@ -26,7 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/tutoring_form.php');
 
@@ -49,7 +48,7 @@ $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's'
 if ($isstudent && !student_may_access_tutoring($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_peertutoring_session', array('id' => $id, 'deleted' => 0))) {
         redirect_to_fallback();
     }
@@ -58,7 +57,7 @@ if ($id) {
     }
     $data = get_record($queryfields, "s.id = ?", array($id));
     $data->department = $DB->get_field('local_peertutoring_course', 'departmentid', array('id' => $data->course));
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
@@ -76,8 +75,8 @@ $types = array(0 => get_string('form_select_default', 'local_mxschool')) + get_t
 $ratings = array(0 => get_string('form_select_default', 'local_mxschool')) + get_rating_list();
 
 $form = new tutoring_form(array(
-    'id' => $id, 'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses,
-    'types' => $types, 'ratings' => $ratings
+    'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses, 'types' => $types,
+    'ratings' => $ratings
 ));
 $form->set_data($data);
 
@@ -95,8 +94,8 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_peertutoring/tutoring_form');
+$formrenderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_peertutoring/tutoring_form');
 
 echo $output->header();
 echo $output->heading(

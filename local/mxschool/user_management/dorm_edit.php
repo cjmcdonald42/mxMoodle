@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/dorm_edit_form.php');
 
 require_login();
@@ -41,14 +40,18 @@ $queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fiel
     'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline'
 )));
 
-if ($id && !$DB->record_exists('local_mxschool_dorm', array('id' => $id, 'deleted' => 0))) {
-    redirect_to_fallback();
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_mxschool_dorm', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 'd.id = ?', array($id));
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
 }
-
-$data = get_record($queryfields, "d.id = ?", array($id));
 $faculty = get_faculty_list();
 
-$form = new dorm_edit_form(array('id' => $id, 'faculty' => $faculty));
+$form = new dorm_edit_form(array('faculty' => $faculty));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -63,7 +66,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

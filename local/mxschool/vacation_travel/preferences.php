@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/preferences_form.php');
 require_once(__DIR__.'/site_table.php');
 
@@ -82,14 +81,14 @@ if ($form->is_cancelled()) {
 }
 
 $table = new site_table();
-$buttons = array(new \local_mxschool\output\redirect_button(
+$buttons = array(new local_mxschool\output\redirect_button(
     get_string('vacation_travel_site_report_add', 'local_mxschool'),
     new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table, null, array(), $buttons);
+$formrenderable = new local_mxschool\output\form($form);
+$reportrenderable = new local_mxschool\output\report($table, null, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

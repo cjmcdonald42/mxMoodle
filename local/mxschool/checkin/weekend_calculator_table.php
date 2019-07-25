@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_table.php');
-
-class weekend_calculator_table extends local_mxschool_table {
+class weekend_calculator_table extends local_mxschool\table {
 
     /** @var int The semester being displayed on the table. */
     private $semester;

@@ -27,10 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../mxschool/classes/mx_table.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-
-class off_campus_table extends local_mxschool_table {
+class off_campus_table extends local_mxschool\table {
 
     /**
      * Creates a new off_campus_table.

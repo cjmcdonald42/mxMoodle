@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/preferences_form.php');
 require_once(__DIR__.'/faculty_table.php');
 
@@ -76,8 +75,8 @@ if ($form->is_cancelled()) {
 $table = new faculty_table();
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$reportrenderable = new \local_mxschool\output\report($table);
+$formrenderable = new local_mxschool\output\form($form);
+$reportrenderable = new local_mxschool\output\report($table);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

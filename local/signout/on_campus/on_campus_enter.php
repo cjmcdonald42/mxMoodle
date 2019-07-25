@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/on_campus_form.php');
 
 require_login();
@@ -48,7 +47,7 @@ $queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 
 if ($isstudent && !student_may_access_on_campus_signout($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_signout_on_campus', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -56,7 +55,7 @@ if ($id) {
     if ($isstudent) { // Students cannot edit existing on-campus signout records.
         redirect($PAGE->url);
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
@@ -69,7 +68,7 @@ $students = get_student_list();
 $locations = array(0 => get_string('form_select_default', 'local_mxschool')) + get_on_campus_location_list()
            + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
 
-$form = new on_campus_form(array('id' => $id, 'students' => $students, 'locations' => $locations));
+$form = new on_campus_form(array('students' => $students, 'locations' => $locations));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -86,8 +85,8 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_signout/on_campus_form');
+$formrenderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_signout/on_campus_form');
 
 echo $output->header();
 if ($isstudent && !validate_ip_on_campus()) {

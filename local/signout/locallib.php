@@ -27,7 +27,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/event/record_updated.php');
 
 /**
  * =================================
@@ -446,7 +445,7 @@ function sign_in_user() {
                 $record->sign_in_time = $record->time_modified = time();
                 $DB->update_record('local_signout_on_campus', $record);
             }
-            \local_mxschool\event\record_updated::create(array('other' => array(
+            local_mxschool\event\record_updated::create(array('other' => array(
                 'page' => get_string('on_campus_form', 'local_signout')
             )))->trigger();
             return '';
@@ -465,7 +464,7 @@ function sign_in_user() {
             }
             $record->sign_in_time = $record->time_modified = time();
             $DB->update_record('local_signout_off_campus', $record);
-            \local_mxschool\event\record_updated::create(array('other' => array(
+            local_mxschool\event\record_updated::create(array('other' => array(
                 'page' => get_string('off_campus_form', 'local_signout')
             )))->trigger();
             return '';

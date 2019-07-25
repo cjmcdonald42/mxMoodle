@@ -27,11 +27,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_manage_tutoring';
-$plugin->version = 2019071800;
+$plugin->version = 2019072400;
 $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019071800, // MXSchool v3.1.
+    'local_mxschool' => 2019072405, // MXSchool v3.1.
     'local_peertutoring' => 2019071800 // PeerTutoring v3.1.
 );

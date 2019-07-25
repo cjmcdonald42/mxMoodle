@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../../mxschool/locallib.php');
-require_once(__DIR__.'/../../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/preferences_form.php');
 
 require_login();
@@ -91,7 +90,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

@@ -28,11 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/classes/event/record_updated.php');
-require_once(__DIR__.'/classes/notification/checkin.php');
-require_once(__DIR__.'/classes/notification/advisor_selection.php');
-require_once(__DIR__.'/classes/notification/rooming.php');
-require_once(__DIR__.'/classes/notification/vacation_travel.php');
 
 class local_mxschool_external extends external_api {
 
@@ -91,7 +86,7 @@ class local_mxschool_external extends external_api {
         if (isset($record->time_modified)) {
             $record->time_modified = time();
         }
-        \local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
+        local_mxschool\event\record_updated::create(array('other' => array('page' => $page)))->trigger();
         return $DB->update_record($params['table'], $record);
     }
 
@@ -134,19 +129,19 @@ class local_mxschool_external extends external_api {
         switch ($params['emailclass']) {
             case 'weekend_form_approved':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
-                return (new \local_mxschool\local\checkin\weekend_form_approved($params['emailparams']['id']))->send();
+                return (new local_mxschool\local\checkin\weekend_form_approved($params['emailparams']['id']))->send();
             case 'advisor_selection_notify_unsubmitted':
                 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
-                return (new \local_mxschool\local\advisor_selection\notify_unsubmitted())->send();
+                return (new local_mxschool\local\advisor_selection\bulk_unsubmitted())->send();
             case 'advisor_selection_notify_results':
                 require_capability('local/mxschool:manage_advisor_selection', context_system::instance());
-                return (new \local_mxschool\local\advisor_selection\notify_results())->send();
+                return (new local_mxschool\local\advisor_selection\bulk_results())->send();
             case 'rooming_notify_unsubmitted':
                 require_capability('local/mxschool:manage_rooming', context_system::instance());
-                return (new \local_mxschool\local\rooming\notify_unsubmitted())->send();
+                return (new local_mxschool\local\rooming\bulk_unsubmitted())->send();
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
-                return (new \local_mxschool\local\vacation_travel\notify_unsubmitted())->send();
+                return (new local_mxschool\local\vacation_travel\bulk_unsubmitted())->send();
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }
@@ -342,7 +337,7 @@ class local_mxschool_external extends external_api {
         }
         $record->selectedid = $params['choice'];
         $record->time_modified = time();
-        \local_mxschool\event\record_updated::create(array('other' => array(
+        local_mxschool\event\record_updated::create(array('other' => array(
             'page' => get_string('advisor_selection_report', 'local_mxschool')
         )))->trigger();
         return $DB->update_record('local_mxschool_adv_selection', $record);

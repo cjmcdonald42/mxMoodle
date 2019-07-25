@@ -27,19 +27,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
-
-class parent_edit_form extends local_mxschool_form {
+class parent_edit_form extends local_mxschool\form {
 
     /**
      * Form definition.
      */
     protected function definition() {
-        $id = $this->_customdata['id'];
         $students = $this->_customdata['students'];
 
         $fields = array(
-            '' => array('id' => self::ELEMENT_HIDDEN_INT),
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT
+            ),
             'parent' => array(
                 'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
                 'name' => self::ELEMENT_TEXT_REQUIRED,

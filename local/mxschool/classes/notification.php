@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic email notification classes for Middlesex's Dorm and Student Functions Plugin.
+ * Generic email notification which serves as a superclass for all email notifications sent
+ * by Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -24,25 +25,14 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool\local;
+namespace local_mxschool;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../locallib.php');
+require_once(__DIR__.'/../locallib.php');
 
-use \local_mxschool\event\email_sent;
-use coding_exception;
-use core_user;
+use local_mxschool\event\email_sent;
 
-/**
- * Generic email notification for all of the emails sent by Middlesex's Dorm and Student Functions Plugin.
- *
- * @package     local_mxschool
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 abstract class notification {
 
     /** @var string $emailclass The class of the email as specified in the local_mxschool_notification database table.*/
@@ -57,8 +47,8 @@ abstract class notification {
     protected $recipients;
 
     /**
-     * This generic constructor initializes the $emailclass, $subject, and $body fields to the appropriate values,
-     * and initializes the $data and $recipients fields to default empty values.
+     * Initializes the $emailclass, $subject, and $body fields to the appropriate values.
+     * Initializes the $data and $recipients fields to default empty values.
      * Subclasses should call this constructor then add the appropriate entries to the $data and $recipients arrays.
      *
      * @param string $emailclass The class of the email as specified in the local_mxschool_notification database table.
@@ -68,7 +58,7 @@ abstract class notification {
         global $DB;
         $record = $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
         if (!$record) {
-            throw new coding_exception("Invalid email class: {$emailclass}.");
+            throw new \coding_exception("Invalid email class: {$emailclass}.");
         }
         $this->emailclass = $emailclass;
         $this->subject = $record->subject;
@@ -110,7 +100,7 @@ abstract class notification {
         $primaryrecipient = $this->recipients[0];
         if (empty($primaryrecipient->addresseename)) {
             if (empty($primaryrecipient->firstname) || empty($primaryrecipient->lastname)) {
-                throw new coding_exception('Primary recipient has no valid option for salutation.');
+                throw new \coding_exception('Primary recipient has no valid option for salutation.');
             }
             $firstname = $primaryrecipient->firstname;
             $lastname = $primaryrecipient->lastname;
@@ -124,11 +114,11 @@ abstract class notification {
                 $this->data['addresseeshort'] = $this->data['addresseelong'] = $primaryrecipient->addresseename;
             }
         }
-        $supportuser = core_user::get_support_user();
+        $supportuser = \core_user::get_support_user();
         $result = true;
         foreach ($this->recipients as $recipient) {
             if (empty($recipient->email)) {
-                throw new coding_exception('Recipient has no email address.');
+                throw new \coding_exception('Recipient has no email address.');
             }
             $recipientdata = array('email' => $recipient->email);
             $subject = $this->get_subject($recipientdata);
@@ -155,7 +145,7 @@ abstract class notification {
      * @return stdClass The deans user object.
      */
     final protected static function get_deans_user() {
-        $supportuser = core_user::get_support_user();
+        $supportuser = \core_user::get_support_user();
         $deans = clone $supportuser;
         $deans->email = get_config('local_mxschool', 'email_deans');
         $deans->addresseename = get_config('local_mxschool', 'addressee_deans');
@@ -167,7 +157,7 @@ abstract class notification {
      * @return stdClass The deans user object.
      */
     final protected static function get_transportationmanager_user() {
-        $supportuser = core_user::get_support_user();
+        $supportuser = \core_user::get_support_user();
         $transportationmanager = clone $supportuser;
         $transportationmanager->email = get_config('local_mxschool', 'email_transportationmanager');
         $transportationmanager->addresseename = get_config('local_mxschool', 'addressee_transportationmanager');
@@ -189,40 +179,4 @@ abstract class notification {
         return $string;
     }
 
-}
-
-/**
- * Generic wrapper for all bulk email notifications sent by Middlesex's Dorm and Student Functions Plugin.
- *
- * @package     local_mxschool
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-abstract class bulk_notification {
-
-    /** @var array $notifications The array of individual notifications to be sent. */
-    protected $notifications;
-
-    /**
-     * This generic constructor initializes the $notifications field to a default empty value.
-     * Subclasses should call this constructor then add the appropriate entries to the $notifications array.
-     */
-    public function __construct() {
-        $this->notifications = array();
-    }
-
-    /**
-     * Sends all of the notification emails specified in the $notifications field.
-     *
-     * @return bool A value of true if all emails send successfully, false otherwise.
-     * @throws coding_exception If any recipient has a non-valid email or
-     *                          if the primary recipient has no adresseename and is missing either the firstname or lastname field.
-     */
-    final public function send() {
-        return array_reduce($this->notifications, function($acc, $notification) {
-            return $notification->send(true) && $acc;
-        }, true);
-    }
 }

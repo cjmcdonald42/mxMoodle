@@ -26,11 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/classes/event/page_viewed.php');
-require_once(__DIR__.'/classes/event/record_updated.php');
-require_once(__DIR__.'/classes/event/record_deleted.php');
-require_once(__DIR__.'/classes/output/renderable.php');
-
 /**
  * ========================
  * Page Setup Abstractions.
@@ -53,7 +48,7 @@ function setup_generic_page($url, $title) {
     $PAGE->set_heading($title);
     $PAGE->add_body_class('mx-page');
 
-    \local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
+    local_mxschool\event\page_viewed::create(array('other' => array('page' => $title)))->trigger();
 }
 
 /**
@@ -133,7 +128,7 @@ function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
  *
  * @param int $id The id of the subpackage to be indexed.
  * @param bool $heading Whether the localized name of the subpackage should be included as the heading of the index.
- * @return \local_mxschool\output\index The specified index renderable.
+ * @returnlocal_mxschool\output\index The specified index renderable.
  * @throws coding_exception if the subpackage record does not exist.
  */
 function generate_index($id, $heading = false) {
@@ -153,7 +148,7 @@ function generate_index($id, $heading = false) {
     }
     $headingtext = empty($record->subpackage) ? get_string($record->package, "local_{$record->package}")
         : get_string($record->subpackage, "local_{$record->package}");
-    return new \local_mxschool\output\index($links, $heading ? $headingtext : false);
+    return new local_mxschool\output\index($links, $heading ? $headingtext : false);
 }
 
 /**
@@ -204,20 +199,20 @@ function logged_redirect($url, $notification, $type, $success = true) {
     if ($success) {
         switch($type) {
             case 'create':
-                \local_mxschool\event\record_created::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_created::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
             case 'update':
-                \local_mxschool\event\record_updated::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_updated::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
             case 'delete':
-                \local_mxschool\event\record_deleted::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_deleted::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
             default:
                 debugging("Invalid event type: {$type}", DEBUG_DEVELOPER);
         }
     }
     redirect(
-        $url, $notification, null, $success ? \core\output\notification::NOTIFY_SUCCESS : \core\output\notification::NOTIFY_WARNING
+        $url, $notification, null, $success ? core\output\notification::NOTIFY_SUCCESS : core\output\notification::NOTIFY_WARNING
     );
 }
 

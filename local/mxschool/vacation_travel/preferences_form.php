@@ -27,10 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_form.php');
-require_once(__DIR__.'/../classes/notification/vacation_travel.php');
-
-class preferences_form extends local_mxschool_form {
+class preferences_form extends local_mxschool\form {
 
     /**
      * Form definition.
@@ -52,10 +49,10 @@ class preferences_form extends local_mxschool_form {
                 )
             ),
             'notifications' => array(
-                'submitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\submitted()),
+                'submitted_tags' => self::email_tags(new local_mxschool\local\vacation_travel\submitted()),
                 'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'unsubmitted_tags' => self::email_tags(new \local_mxschool\local\vacation_travel\unsubmitted_notification()),
+                'unsubmitted_tags' => self::email_tags(new local_mxschool\local\vacation_travel\unsubmitted()),
                 'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'unsubmitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )

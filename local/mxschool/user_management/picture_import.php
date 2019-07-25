@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/picture_import_form.php');
 
 require_login();
@@ -37,7 +36,7 @@ setup_mxschool_page('picture_import', 'user_management');
 
 $data = new stdClass();
 $data->pictures = file_get_submitted_draft_itemid('pictures');
-file_prepare_draft_area($data->pictures, 1, 'local_mxschool', 'student_pictures', 0);
+file_prepare_draft_area($data->pictures, context_system::instance()->id, 'local_mxschool', 'student_pictures', 0);
 
 $form = new picture_import_form();
 $form->set_data($data);
@@ -45,7 +44,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    file_save_draft_area_files($data->pictures, 1, 'local_mxschool', 'student_pictures', 0);
+    file_save_draft_area_files($data->pictures, context_system::instance()->id, 'local_mxschool', 'student_pictures', 0);
     if ($data->clear) {
         clear_student_pictures();
         logged_redirect($PAGE->url, get_string('user_management_picture_delete_success', 'local_mxschool'), 'delete');
@@ -55,7 +54,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

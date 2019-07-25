@@ -26,7 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/rating_edit_form.php');
 
 require_login();
@@ -38,13 +37,17 @@ setup_edit_page('rating_edit', 'preferences', null, 'peertutoring');
 
 $queryfields = array('local_peertutoring_rating' => array('abbreviation' => 'r', 'fields' => array('id', 'displaytext')));
 
-if ($id && !$DB->record_exists('local_peertutoring_rating', array('id' => $id, 'deleted' => 0))) {
-    redirect_to_fallback();
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_peertutoring_rating', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 'r.id = ?', array($id));
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
 }
 
-$data = get_record($queryfields, "r.id = ?", array($id));
-
-$form = new rating_edit_form(array('id' => $id));
+$form = new rating_edit_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -58,7 +61,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

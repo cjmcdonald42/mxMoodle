@@ -27,10 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../mxschool/classes/mx_form.php');
-require_once(__DIR__.'/../classes/notification/off_campus.php');
-
-class preferences_form extends local_mxschool_form {
+class preferences_form extends local_mxschool\form {
 
     /**
      * Form definition.
@@ -52,7 +49,7 @@ class preferences_form extends local_mxschool_form {
                 )
             ),
             'notifications' => array(
-                'tags' => self::email_tags(new \local_signout\local\off_campus\submitted()),
+                'tags' => self::email_tags(new local_signout\local\off_campus\submitted()),
                 'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),

@@ -28,7 +28,7 @@ namespace local_mxschool\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-use \core\event\base;
+use core\event\base;
 
 class page_viewed extends base {
 

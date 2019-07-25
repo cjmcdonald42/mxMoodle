@@ -26,7 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once(__DIR__.'/classes/output/renderable.php');
 require_once(__DIR__.'/locallib.php');
 
 redirect_non_admin();

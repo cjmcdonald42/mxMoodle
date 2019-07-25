@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/checkin.php');
 require_once(__DIR__.'/weekend_form.php');
 
 require_login();
@@ -50,7 +48,7 @@ $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'w
 if ($isstudent && !student_may_access_weekend($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_weekend_form', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -59,7 +57,7 @@ if ($id) {
     }
     $data = get_record($queryfields, "wf.id = ?", array($id));
     $data->dorm = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $data->student));
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = $data->departure_date = $data->return_date = time();
@@ -87,7 +85,7 @@ generate_time_selector_fields($data, 'return', 15);
 $dorms = array('0' => get_string('report_select_dorm', 'local_mxschool')) + get_dorm_list(false);
 $students = get_boarding_student_list();
 
-$form = new weekend_form(array('id' => $id, 'dorms' => $dorms, 'students' => $students));
+$form = new weekend_form(array('dorms' => $dorms, 'students' => $students));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -117,7 +115,7 @@ if ($form->is_cancelled()) {
         $oldrecord->active = 0; // Each student can have only one active record for a given weekend.
         $DB->update_record('local_mxschool_weekend_form', $oldrecord);
     }
-    $result = (new \local_mxschool\local\checkin\weekend_form_submitted($id))->send();
+    $result = (new local_mxschool\local\checkin\weekend_form_submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('checkin_weekend_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
@@ -129,10 +127,10 @@ if (isset($record)) {
     $bottominstructions = str_replace('{hoh}', format_faculty_name($record->hoh, false), $bottominstructions);
     $bottominstructions = str_replace('{permissionsline}', $record->permissionsline, $bottominstructions);
 }
-$formrenderable = new \local_mxschool\output\form(
+$formrenderable = new local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/weekend_form');
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
 echo $output->heading(

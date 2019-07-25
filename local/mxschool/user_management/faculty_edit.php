@@ -27,7 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
 require_once(__DIR__.'/faculty_edit_form.php');
 
 require_login();
@@ -47,11 +46,10 @@ $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'f
 if (!$DB->record_exists('local_mxschool_faculty', array('id' => $id))) {
     redirect_to_fallback();
 }
-
 $data = get_record($queryfields, "f.id = ?", array($id));
 $dorms = array(null => '') + get_dorm_list();
 
-$form = new faculty_edit_form(array('id' => $id, 'dorms' => $dorms));
+$form = new faculty_edit_form(array('dorms' => $dorms));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -62,7 +60,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

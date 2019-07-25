@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides renderable classes for Middlesex's eSignout Subplugin.
+ * Renderable class for confirmation buttons for Middlesex's eSignout Subplugin.
  *
  * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -28,26 +28,7 @@ namespace local_signout\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../../mxschool/classes/output/renderable.php');
-
-use renderable;
-use renderer_base;
-use templatable;
 use local_mxschool\output\button;
-use stdClass;
-
-/**
- * Renderable class for sign-in buttons.
- *
- * @package     local_signout
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class signin_button extends button {
-    // Data is exact same as generic button.
-}
 
 /**
  * Renderable class for confirmation buttons.

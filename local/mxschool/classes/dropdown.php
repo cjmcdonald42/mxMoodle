@@ -24,11 +24,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../locallib.php');
 
-class local_mxschool_dropdown {
+class dropdown {
 
     /** @var string The name of the dropdown, which serves as the url parameter from filter.*/
     public $name;
@@ -53,12 +55,12 @@ class local_mxschool_dropdown {
     }
 
     /**
-     * Renders the dropdown using the html writter.
+     * Renders the dropdown using the html_writter.
      *
      * @return string The generated html for the select element.
      */
     public function out() {
-        return html_writer::select($this->options, $this->name, $this->selected, $this->nothing);
+        return \html_writer::select($this->options, $this->name, $this->selected, $this->nothing);
     }
 
     /**
@@ -66,7 +68,7 @@ class local_mxschool_dropdown {
      *
      * @param string $selected The currently selected option.
      * @param bool $includeday Whether to include day houses or limit to boading houses.
-     * @return local_mxschool_dropdown Object with the specified properties.
+     * @return dropdown Object with the specified properties.
      */
     public static function dorm_dropdown($selected, $includeday = true) {
         $options = get_dorm_list($includeday);
@@ -76,7 +78,7 @@ class local_mxschool_dropdown {
                 -1 => get_string('report_select_day', 'local_mxschool')
             ) + $options;
         }
-        return new local_mxschool_dropdown(
+        return new dropdown(
             'dorm', $options, $selected, get_string($includeday ? 'report_select_house' : 'report_select_dorm', 'local_mxschool')
         );
     }

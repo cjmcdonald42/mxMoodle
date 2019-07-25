@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/faculty_table.php');
 
 require_login();
@@ -41,10 +39,10 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 setup_mxschool_page('faculty_report', 'user_management');
 
 $table = new faculty_table($filter);
-$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
+$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

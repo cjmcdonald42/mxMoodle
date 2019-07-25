@@ -26,7 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/../mxschool/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/course_edit_form.php');
 
@@ -41,14 +40,18 @@ $queryfields = array('local_peertutoring_course' => array('abbreviation' => 'c',
     'id', 'departmentid' => 'department', 'name'
 )));
 
-if ($id && !$DB->record_exists('local_peertutoring_course', array('id' => $id, 'deleted' => 0))) {
-    redirect_to_fallback();
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_peertutoring_course', array('id' => $id, 'deleted' => 0))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, 'c.id = ?', array($id));
+} else { // Creating a new record.
+    $data = new stdClass();
+    $data->id = $id;
 }
-
-$data = get_record($queryfields, "c.id = ?", array($id));
 $departments = get_department_list();
 
-$form = new course_edit_form(array('id' => $id, 'departments' => $departments));
+$form = new course_edit_form(array('departments' => $departments));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
@@ -62,7 +65,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading($PAGE->title);

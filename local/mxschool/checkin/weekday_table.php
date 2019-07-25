@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_table.php');
-
-class weekday_table extends local_mxschool_table {
+class weekday_table extends local_mxschool\table {
 
     /**
      * Creates a new weekday_table.

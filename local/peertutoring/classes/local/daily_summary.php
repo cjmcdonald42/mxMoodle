@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for Middlesex's Peer Tutoring Subplugin.
+ * Email notification to the peer tutor admin with a summary of the current day's tutoring for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -28,49 +28,10 @@ namespace local_peertutoring\local;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
-require_once(__DIR__.'/../../locallib.php');
-require_once(__DIR__.'/../../../mxschool/classes/output/renderable.php');
+require_once(__DIR__.'/../../../mxschool/locallib.php');
 require_once(__DIR__.'/../../tutoring_table.php');
 
-use \local_mxschool\local\notification as mx_notification;
-use \local_mxschool\output\report;
-
-/**
- * Generic email notification for Middlesex's Peer Tutoring Subplugin.
- *
- * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-abstract class notification extends mx_notification {
-
-    /**
-     * Generates a user object to which emails should be sent to reach the peer tutor administrator.
-     * @return stdClass The peer tutor administrator user object.
-     */
-    final protected static function get_peertutoradmin_user() {
-        $supportuser = \core_user::get_support_user();
-        $peertutoradmin = clone $supportuser;
-        $peertutoradmin->email = get_config('local_peertutoring', 'email_peertutoradmin');
-        $peertutoradmin->addresseename = get_config('local_peertutoring', 'addressee_peertutoradmin');
-        return $peertutoradmin;
-    }
-
-}
-
-/**
- * Email notification to the peer tutor admin with a summary of that day's tutoring for Middlesex's Peer Tutoring Subplugin.
- *
- * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class daily_summary extends notification {
+class daily_summary extends \local_peertutoring\notification {
 
     public function __construct() {
         global $PAGE, $DB;
@@ -83,7 +44,7 @@ class daily_summary extends notification {
         $filter->date = generate_datetime('-1 day')->getTimestamp();
         $filter->search = '';
         $table = new \tutoring_table($filter, '', true);
-        
+
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new \local_mxschool\output\report_table($table);
 

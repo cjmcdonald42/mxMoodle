@@ -27,9 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../classes/mx_table.php');
-
-class faculty_table extends local_mxschool_table {
+class faculty_table extends local_mxschool\table {
 
     /**
      * Creates a new faculty_table.
@@ -56,7 +54,7 @@ class faculty_table extends local_mxschool_table {
     protected function col_advisoryavailable($values) {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox(
+        $renderable = new local_mxschool\output\checkbox(
             $values->id, 'local_mxschool_faculty', 'advisory_available', $values->advisoryavailable
         );
         return $output->render($renderable);
@@ -68,7 +66,7 @@ class faculty_table extends local_mxschool_table {
     protected function col_advisoryclosing($values) {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new \local_mxschool\output\checkbox(
+        $renderable = new local_mxschool\output\checkbox(
             $values->id, 'local_mxschool_faculty', 'advisory_closing', $values->advisoryclosing
         );
         return $output->render($renderable);

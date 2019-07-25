@@ -26,9 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../mxschool/classes/mx_table.php');
-
-class rating_table extends local_mxschool_table {
+class rating_table extends local_mxschool\table {
 
     /**
      * Creates a new rating_table.

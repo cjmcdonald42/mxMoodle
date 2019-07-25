@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/student_table.php');
 
 require_login();
@@ -79,15 +77,15 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
 
 $table = new student_table($filter);
 $dropdowns = array(
-    new local_mxschool_dropdown('type', $types, $filter->type), local_mxschool_dropdown::dorm_dropdown($filter->dorm)
+    new local_mxschool\dropdown('type', $types, $filter->type), local_mxschool\dropdown::dorm_dropdown($filter->dorm)
 );
-$buttons = $filter->type === 'parents' ? $buttons = array(new \local_mxschool\output\redirect_button(
+$buttons = $filter->type === 'parents' ? $buttons = array(new local_mxschool\output\redirect_button(
     get_string('user_management_parent_report_add', 'local_mxschool'),
     new moodle_url('/local/mxschool/user_management/parent_edit.php')
 )) : array();
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, $filter->type !== 'parents');
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, $filter->type !== 'parents');
 
 echo $output->header();
 echo $output->heading(($filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '') . $types[$filter->type]);

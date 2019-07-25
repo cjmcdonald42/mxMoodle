@@ -29,12 +29,8 @@ namespace local_peertutoring\task;
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../../mxschool/locallib.php');
-require_once(__DIR__.'/../notification/pt_notification.php');
 
-use \core\task\scheduled_task;
-use \local_peertutoring\local\daily_summary;
-
-class summary_email extends scheduled_task {
+class summary_email extends \core\task\scheduled_task {
 
     /**
      * @return string The name of the task to be displayed in admin screens.
@@ -50,7 +46,7 @@ class summary_email extends scheduled_task {
         global $DB;
         $date = generate_datetime('-1 day')->getTimestamp();
         if ($DB->record_exists_select('local_peertutoring_session', "tutoring_date >= ?", array($date))) {
-            (new daily_summary())->send();
+            (new \local_peertutoring\local\daily_summary())->send();
         }
     }
 

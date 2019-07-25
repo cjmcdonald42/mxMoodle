@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/notification/vacation_travel.php');
 require_once(__DIR__.'/vacation_form.php');
 
 require_login();
@@ -54,7 +52,7 @@ $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviati
 if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
     redirect_to_fallback();
 }
-if ($id) {
+if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_vt_trip', array('id' => $id))) {
         redirect_to_fallback();
     }
@@ -89,7 +87,7 @@ if ($id) {
             $data->ret_international = '-1'; // Invalid default to prevent auto selection.
         }
     }
-} else {
+} else { // Creating a new record.
     $data = new stdClass();
     $data->id = $data->dep_id = $data->ret_id = $id;
     $data->timecreated = time();
@@ -122,8 +120,7 @@ $retsites = get_vacation_travel_return_sites_list();
 $types = get_vacation_travel_type_list();
 
 $form = new vacation_form(array(
-    'id' => $id, 'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites,
-    'types' => $types
+    'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites, 'types' => $types
 ));
 $form->set_data($data);
 
@@ -194,15 +191,15 @@ if ($form->is_cancelled()) {
         unset($data->returnid);
     }
     $id = update_record($tripqueryfields, $data);
-    $result = (new \local_mxschool\local\vacation_travel\submitted($id))->send();
+    $result = (new local_mxschool\local\vacation_travel\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('vacation_success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\form($form);
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
+$renderable = new local_mxschool\output\form($form);
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
 
 echo $output->header();
 echo $output->heading(

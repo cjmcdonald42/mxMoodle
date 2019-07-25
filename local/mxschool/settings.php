@@ -68,7 +68,7 @@ if ($hassiteconfig) {
     ));
     $emailsettings->add(new admin_setting_configtext(
         'local_mxschool/addressee_deans', new lang_string('deans_addressee', 'local_mxschool'),
-        new lang_string('deans_addressee_description', 'local_mxschool'), 'deans'
+        new lang_string('deans_addressee_description', 'local_mxschool'), 'Deans'
     ));
     $emailsettings->add(new admin_setting_configtext(
         'local_mxschool/email_transportationmanager', new lang_string('transportationmanager_email', 'local_mxschool'),
@@ -76,7 +76,7 @@ if ($hassiteconfig) {
     ));
     $emailsettings->add(new admin_setting_configtext(
         'local_mxschool/addressee_transportationmanager', new lang_string('transportationmanager_addressee', 'local_mxschool'),
-        new lang_string('transportationmanager_addressee_description', 'local_mxschool'), 'transportation manager'
+        new lang_string('transportationmanager_addressee_description', 'local_mxschool'), 'Transportation Manager'
     ));
     $mxschool->add('mxschool', $emailsettings);
 

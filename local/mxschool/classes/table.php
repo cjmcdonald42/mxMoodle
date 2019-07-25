@@ -24,11 +24,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/tablelib.php');
 
-abstract class local_mxschool_table extends table_sql {
+abstract class table extends \table_sql {
 
     /**
      * Creates a new table_sql with reasonable defaults.
@@ -70,7 +72,7 @@ abstract class local_mxschool_table extends table_sql {
             $this->add_column_class('actions', 'noprint');
         }
 
-        $this->define_baseurl(new moodle_url($PAGE->url, (array) $filter));
+        $this->define_baseurl(new \moodle_url($PAGE->url, (array) $filter));
         $this->collapsible(false);
     }
 
@@ -171,8 +173,8 @@ abstract class local_mxschool_table extends table_sql {
     protected function edit_icon($url, $id) {
         global $OUTPUT;
         return $OUTPUT->action_icon(
-            new moodle_url($url, array('id' => $id)),
-            new pix_icon('t/edit', get_string('edit'), 'core', array('class' => 'iconsmall'))
+            new \moodle_url($url, array('id' => $id)),
+            new \pix_icon('t/edit', get_string('edit'), 'core', array('class' => 'iconsmall'))
         );
     }
 
@@ -191,8 +193,8 @@ abstract class local_mxschool_table extends table_sql {
             $params['table'] = $table;
         }
         return $OUTPUT->action_icon(
-            new moodle_url($this->baseurl, $params),
-            new pix_icon('t/delete', get_string('delete'), 'core', array('class' => 'iconsmall')),
+            new \moodle_url($this->baseurl, $params),
+            new \pix_icon('t/delete', get_string('delete'), 'core', array('class' => 'iconsmall')),
             null, array('onclick' => "return window.confirm(\"{$warning}\")")
         );
     }

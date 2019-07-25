@@ -26,9 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../mxschool/classes/mx_table.php');
-
-class department_table extends local_mxschool_table {
+class department_table extends local_mxschool\table {
 
     /**
      * Creates a new department_table.

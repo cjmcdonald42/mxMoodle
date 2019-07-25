@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/weekend_table.php');
 require_once(__DIR__.'/weekend_comment_form.php');
 
@@ -63,7 +61,7 @@ if ($action === 'delete' && $id) {
     }
 }
 $data = get_record($queryfields, "c.weekendid = ? AND c.dormid = ?", array($filter->weekend, $filter->dorm));
-if (!$data) {
+if (!$data) { // Creating a new record.
     $data = new stdClass();
     $data->weekend = $filter->weekend;
     $data->dorm = $filter->dorm;
@@ -83,19 +81,19 @@ $end = array_key_exists($filter->end, $enddays) ? $filter->end : $weekendrecord-
 
 $table = new weekend_table($filter, $start, $end);
 $dropdowns = array(
-    local_mxschool_dropdown::dorm_dropdown($filter->dorm, false),
-    new local_mxschool_dropdown('weekend', $weekends, $filter->weekend),
-    new local_mxschool_dropdown(
+   local_mxschool\dropdown::dorm_dropdown($filter->dorm, false),
+    new local_mxschool\dropdown('weekend', $weekends, $filter->weekend),
+    new local_mxschool\dropdown(
         'start', $startdays, $filter->start, get_string('checkin_weekend_report_select_start_day_default', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'end', $enddays, $filter->end, get_string('checkin_weekend_report_select_end_day_default', 'local_mxschool')
     ),
-    new local_mxschool_dropdown(
+    new local_mxschool\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
-$buttons = array(new \local_mxschool\output\redirect_button(
+$buttons = array(new local_mxschool\output\redirect_button(
     get_string('checkin_weekend_report_add', 'local_mxschool'),
     new moodle_url('/local/mxschool/checkin/weekend_enter.php')
 ));
@@ -108,7 +106,7 @@ for ($i = $start; $i <= $end; $i++) {
 }
 $headers[] = array('text' => '', 'length' => 9);
 
-$form = new weekend_comment_form(array('id' => $id));
+$form = new weekend_comment_form();
 $form->set_fallback($redirect);
 $form->set_data($data);
 
@@ -122,8 +120,8 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true, $headers);
-$formrenderable = new \local_mxschool\output\form($form);
+$reportrenderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true, $headers);
+$formrenderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(get_string('checkin_weekend_report_title', 'local_mxschool', array(

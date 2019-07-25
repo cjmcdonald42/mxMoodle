@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notifications for the off_campus subpackage of Middlesex's eSignout Subplugin.
+ * Email notification for when an off-campus signout form is submitted for Middlesex's eSignout Subplugin.
  *
  * @package     local_signout
  * @subpackage  off_campus
@@ -29,21 +29,7 @@ namespace local_signout\local\off_campus;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../../mxschool/classes/notification/mx_notification.php');
-
-use \local_mxschool\local\notification;
-
-/**
- * Email notification for when an off-campus signout form is submitted for Middlesex's eSignout Subplugin.
- *
- * @package     local_signout
- * @subpackage  off_campus
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class submitted extends notification {
+class submitted extends \local_mxschool\notification {
 
     /**
      * @param int $id The id of the off-campus signout form which has been submitted.
@@ -67,7 +53,7 @@ class submitted extends notification {
                  WHERE oc.id = ?", array($id)
             );
             if (!$record) {
-                throw new coding_exception("Record with id {$id} not found.");
+                throw new \coding_exception("Record with id {$id} not found.");
             }
             if (isset($record->passengers)) {
                 $passengerlist = array_filter(array_map(function($passenger) use($DB) {

@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/generic_table.php');
 
 require_login();
@@ -40,10 +38,10 @@ $filter->dorm = get_param_faculty_dorm();
 setup_mxschool_page('generic_report', 'checkin');
 
 $table = new generic_table($filter);
-$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
+$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, null, $dropdowns, array(), true);
+$renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);
 
 echo $output->header();
 echo $output->heading(

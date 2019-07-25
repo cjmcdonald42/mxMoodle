@@ -35,7 +35,7 @@ if ($hassiteconfig) {
     ));
     $settings->add(new admin_setting_configtext(
         'local_peertutoring/addressee_peertutoradmin', new lang_string('peertutoradmin_addressee', 'local_peertutoring'),
-        new lang_string('peertutoradmin_addressee_description', 'local_peertutoring'), 'peer tutoring administrator'
+        new lang_string('peertutoradmin_addressee_description', 'local_peertutoring'), 'Peer Tutoring Administrator'
     ));
     $ADMIN->add('mxschool', $settings);
 

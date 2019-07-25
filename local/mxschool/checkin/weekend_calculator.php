@@ -27,8 +27,6 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
-require_once(__DIR__.'/../classes/output/renderable.php');
-require_once(__DIR__.'/../classes/mx_dropdown.php');
 require_once(__DIR__.'/weekend_calculator_table.php');
 
 require_login();
@@ -54,15 +52,15 @@ $weekends = $DB->get_records_sql(
 );
 
 $table = new weekend_calculator_table($filter, $weekends, $isstudent);
-$dropdowns = array(new local_mxschool_dropdown('semester', $semesters, $filter->semester));
+$dropdowns = array(new local_mxschool\dropdown('semester', $semesters, $filter->semester));
 if (!$isstudent) {
-    array_unshift($dropdowns, local_mxschool_dropdown::dorm_dropdown($filter->dorm, false));
+    array_unshift($dropdowns, local_mxschool\dropdown::dorm_dropdown($filter->dorm, false));
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$reportrenderable = new \local_mxschool\output\report($table, null, $dropdowns, array(), true);
-$legendrenderable = new \local_mxschool\output\legend_table();
-$jsrenderable = new \local_mxschool\output\amd_module('local_mxschool/highlight_cells');
+$reportrenderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);
+$legendrenderable = new local_mxschool\output\legend_table();
+$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 
 echo $output->header();
 echo $output->heading(get_string(

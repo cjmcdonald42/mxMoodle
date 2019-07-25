@@ -26,8 +26,6 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/../mxschool/classes/output/renderable.php');
-require_once(__DIR__.'/../mxschool/classes/mx_dropdown.php');
 require_once(__DIR__.'/combined_table.php');
 
 require_login();
@@ -64,20 +62,20 @@ if ($action === 'delete' && $id && $table) {
 }
 
 $table = new combined_table($filter);
-$dropdowns = array(local_mxschool_dropdown::dorm_dropdown($filter->dorm));
+$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
 $buttons = array(
-    new \local_mxschool\output\redirect_button(
+    new local_mxschool\output\redirect_button(
         get_string('on_campus_report_add', 'local_signout'),
         new moodle_url('/local/signout/on_campus/on_campus_enter.php')
     ),
-    new \local_mxschool\output\redirect_button(
+    new local_mxschool\output\redirect_button(
         get_string('off_campus_report_add', 'local_signout'),
         new moodle_url('/local/signout/off_campus/off_campus_enter.php')
     )
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new \local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
 echo $output->heading(

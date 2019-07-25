@@ -26,7 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/mxschool/classes/output/renderable.php');
 require_once(__DIR__.'/../../local/mxschool/locallib.php');
 require_once(__DIR__.'/../../local/peertutoring/locallib.php');
 
@@ -45,7 +44,7 @@ class block_mxschool_peertutoring extends block_base {
         $this->content = new stdClass();
         if (user_is_admin() || (user_is_student() && student_may_access_tutoring($USER->id))) {
             $output = $PAGE->get_renderer('local_mxschool');
-            $renderable = new \local_mxschool\output\index(array(
+            $renderable = new local_mxschool\output\index(array(
                 get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'
             ));
             $this->content->text = $output->render($renderable);
