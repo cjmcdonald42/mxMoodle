@@ -14,8 +14,10 @@ This plugin has the following dependencies:
 
 ## Subpackages
 This package houses the following subpackages and pages:
+- **_null_**
+    - _combined_report_ Report for dorm faculty to view and manage the active on- and off-campus records for students in their dorm.
 - **_on_campus_** — Provides a means for students to sign out of their dorms to an on-campus location during and after study hours.
-    - _preferences_ — Preferences page to enable or disable the form and configure form text.
+    - _preferences, location_edit_ — Preferences page to enable or disable the form and configure form text.
     - _form_ — Form for students to sign out to an on-campus location.
     - _report_ — Report for dorm faculty and deans to view and manage students' on-campus signouts. Also logs historical data.
     - _duty_report_ — Report for faculty on evening duty to view and confirm students' on-campus signouts on a given evening.

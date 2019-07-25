@@ -35,7 +35,7 @@ This package houses the following subpackages and pages:
     - _form_ — Form for students to specify their rooming preferences.
     - _report_ — Report for deans to view and manage students' responses.
 - **_vacation_travel_** — Provides a system for students to submit their vacation travel plans and transportation needs in order to coordinate with the deans, dorm faculty, and the transportation manager,
-    - _preferences_ — Preferences page to enable or disable the form, configure the text in email notifications, and manage the list of available sites.
+    - _preferences, site_edit_ — Preferences page to enable or disable the form, configure the text in email notifications, and manage the list of available sites.
     - _form_ — Form for students to submit their vacation travel plans and transportation needs.
     - _report_ — Report for dorm faculty to view and manage students' responses.
     - _transportation_report_ — Report for the transportation manager to view students' responses in order to organize transportation.
