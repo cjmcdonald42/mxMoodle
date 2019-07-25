@@ -15,42 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Daily task that emails the peer tutor admin with a summary of that day's tutoring for Middlesex's Peer Tutoring Subplugin.
+ * TODO: Class Description.
  *
- * @package     local_peertutoring
+ * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_peertutoring\task;
+namespace PACKAGE\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use core\task\scheduled_task;
-use local_peertutoring\local\daily_summary;
+class RENDERABLE_NAME implements \renderable, \templatable {
 
-require_once(__DIR__.'/../../locallib.php');
-
-class summary_email extends scheduled_task {
+    // TODO: List instance variables with comments.
 
     /**
-     * @return string The name of the task to be displayed in admin screens.
+     * TODO: Describe parameters
      */
-    public function get_name() {
-        return get_string('task_summary_email', 'local_peertutoring');
+    public function __construct(/* parameters */) {
+        // TODO: store parameter data in instance variables.
     }
 
     /**
-     * Emails the peer tutor admin a summary of the tutoring which took place in the last 24 hours.
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @param renderer_base $output The renderer which is rendering this renderable.
+     * @return stdClass Object with properties TODO: List properties.
      */
-    public function execute() {
-        global $DB;
-        $date = generate_datetime('-1 day')->getTimestamp();
-        if ($DB->record_exists_select('local_peertutoring_session', "tutoring_date >= ?", array($date))) {
-            (new daily_summary())->send();
-        }
+    public function export_for_template($output) {
+        $data = new \stdClass();
+        // TODO: Add data to the object.
+        return $data;
     }
 
 }

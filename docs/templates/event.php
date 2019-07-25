@@ -17,11 +17,11 @@
 /**
  * TODO: Description.
  *
- * @package    PACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     PACKAGE
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace PACKAGE\event;
@@ -29,7 +29,6 @@ namespace PACKAGE\event;
 defined('MOODLE_INTERNAL') || die;
 
 use \core\event\base;
-use \context_system;
 
 class OBJECT_VERB extends base {
 
@@ -39,7 +38,7 @@ class OBJECT_VERB extends base {
     protected function init() {
         $this->data['crud'] = 'TYPE';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->context = context_system::instance();
+        $this->context = \context_system::instance();
     }
 
     /**

@@ -17,37 +17,37 @@
 /**
  * TODO: Description.
  *
- * @package    PACKAGE
- * @subpackage SUBPACKAGE
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     PACKAGE
+ * @subpackage  SUBPACKAGE
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace PACKAGE\local\SUBPACKAGE;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('PATH_TO_PLUGIN_HOME/classes/mx_form.php');
-
-class NAME_form extends local_mxschool_form {
+class NAME_form extends \local_mxschool\form {
 
     /**
      * Form definition.
      */
     protected function definition() {
-        $id = $this->_customdata['id'];
-        // TODO: Store any other parameters.
+        // TODO: Store other parameters from $this->_custom_data.
 
         // TODO: Define any static options.
 
-        $fields = array('' => array(
-            'id' => self::ELEMENT_HIDDEN_INT
+        $fields = array(
+            '' => array(
+                'id' => self::ELEMENT_HIDDEN_INT
             // Other hidden fields.
-        ), 'HEADER' => array(
-            'FIELD' => array(
-                'ELEMENT' => 'TYPE', // ETC.
+            ), 'HEADER' => array(
+                'FIELD' => array(
+                    'ELEMENT' => 'TYPE', // ETC.
+                ) // ETC.
             ) // ETC.
-        ) // ETC.
         );
         parent::set_fields($fields, 'PREFIX', /* true or false for top actions */, 'PACKAGE');
     }
