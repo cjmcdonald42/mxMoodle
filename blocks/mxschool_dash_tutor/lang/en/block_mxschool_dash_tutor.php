@@ -17,7 +17,7 @@
 /**
  * English language strings for Middlesex's Dashboard Block for Peer Tutors.
  *
- * @package    block_mxschool_peertutoring
+ * @package    block_mxschool_dash_tutor
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
@@ -26,7 +26,7 @@
 
 $string['pluginname'] = 'Peer Tutor Block';
 $string['blockname'] = 'Peer Tutoring';
-$string['mxschool_peertutoring:addinstance'] = 'Middlesex School: Add Peer Tutoring Block';
-$string['mxschool_peertutoring:myaddinstance'] = 'Middlesex School: Add Peer Tutoring Block to Dashboard';
+$string['mxschool_dash_tutor:addinstance'] = 'Middlesex School: Add Peer Tutor Block';
+$string['mxschool_dash_tutor:myaddinstance'] = 'Middlesex School: Add Peer Tutor Block to Dashboard';
 
 $string['tutor_submit'] = 'Submit a Peer Tutoring Form';

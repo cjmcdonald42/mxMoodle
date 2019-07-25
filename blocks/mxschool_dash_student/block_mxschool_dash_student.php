@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Content for Middlesex's Signout Block for Students.
+ * Content for Middlesex's Dashboard Block for Students.
  *
  * @package    block_mxschool_dash_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,7 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/signout/locallib.php');
+require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
 class block_mxschool_dash_student extends block_base {
 
@@ -35,66 +35,39 @@ class block_mxschool_dash_student extends block_base {
     }
 
     public function get_content() {
-        global $DB, $USER;
+        global $PAGE, $USER;
         if (isset($this->content)) {
             return $this->content;
         }
 
-        $currentsignout = get_user_current_signout();
-        $buttons = array();
-        if ($currentsignout) {
-            $state = get_string('state_text_out', 'block_mxschool_dash_student', $currentsignout->location);
-            if ($currentsignout->type === 'on_campus') {
-                $buttons[] = new local_mxschool\output\redirect_button(
-                    get_string('on_campus_button_edit', 'block_mxschool_dash_student'),
-                    new moodle_url('/local/signout/on_campus/on_campus_enter.php')
-                );
-                $boardingstatus = strtolower($DB->get_field(
-                    'local_mxschool_student', 'boarding_status', array('userid' => $USER->id)
-                ));
-                $buttons[] = new local_signout\output\signin_button(
-                    get_string("on_campus_button_signin_{$boardingstatus}", 'block_mxschool_dash_student')
-                );
-            } else {
-                if (generate_datetime()->getTimestamp() < get_edit_cutoff($currentsignout->timecreated)) {
-                    $buttons[] = new local_mxschool\output\redirect_button(
-                        get_string('off_campus_button_edit', 'block_mxschool_dash_student'),
-                        new moodle_url('/local/signout/off_campus/off_campus_enter.php', array('id' => $currentsignout->id))
-                    );
-                } else {
-                    $buttons[] = new local_signout\output\signin_button(
-                        get_string('off_campus_button_signin', 'block_mxschool_dash_student')
-                    );
-                }
-            }
-        } else {
-            $state = get_string('state_text_in', 'block_mxschool_dash_student');
-            if (user_is_admin() || (user_is_student() && student_may_access_on_campus_signout($USER->id))) {
-                $buttons[] = new local_mxschool\output\redirect_button(
-                    get_string('on_campus_button_signout', 'block_mxschool_dash_student'),
-                    new moodle_url('/local/signout/on_campus/on_campus_enter.php')
-                );
-            }
-            if (user_is_admin() || (user_is_student() && student_may_access_off_campus_signout($USER->id))) {
-                $buttons[] = new local_mxschool\output\redirect_button(
-                    get_string('off_campus_button_signout', 'block_mxschool_dash_student'),
-                    new moodle_url('/local/signout/off_campus/off_campus_enter.php')
-                );
-            }
+        $links = array();
+        if (user_is_admin() || (user_is_student() && student_may_access_advisor_selection($USER->id))) {
+            $links[get_string('advisor_selection', 'block_mxschool_dash_student')]
+                = '/local/mxschool/advisor_selection/advisor_enter.php';
         }
+        if (user_is_admin() || (user_is_student() && student_may_access_rooming($USER->id))) {
+            $links[get_string('rooming', 'block_mxschool_dash_student')]
+                = '/local/mxschool/rooming/rooming_enter.php';
+        }
+        if (user_is_admin() || (user_is_student() && student_may_access_vacation_travel($USER->id))) {
+            $links[get_string('vacation', 'block_mxschool_dash_student')]
+                = '/local/mxschool/vacation_travel/vacation_enter.php';
+        }
+
         $this->content = new stdClass();
-        if (count($buttons)) {
-            $this->content->text = $state . '<br>' . array_reduce($buttons, function($html, $button) {
-                global $PAGE;
-                // Extract the package name from the first element of the namespace.
-                $output = $PAGE->get_renderer(explode('\\', get_class($button))[0]);
-                return $html . $output->render($button);
-            }, '');
+        if (count($links)) {
+            $output = $PAGE->get_renderer('local_mxschool');
+            $renderable = new local_mxschool\output\index($links);
+            $this->content->text = get_config('block_mxschool_dash_student', 'description') . $output->render($renderable);
         }
         return $this->content;
     }
 
     public function specialization() {
         $this->title = get_string('blockname', 'block_mxschool_dash_student');
+    }
+
+    public function has_config() {
+        return true;
     }
 }

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for Middlesex's Dashboard Block for Students.
+ * Capabilities for Middlesex's Signout Block for Students.
  *
- * @package    block_mxschool_dash_student_deans
+ * @package    block_mxschool_dash_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
@@ -27,11 +27,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'block/mxschool_dash_student_deans:addinstance' => array(
+    'block/mxschool_dash_signout:addinstance' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'block/mxschool_dash_student_deans:myaddinstance' => array(
+    ), 'block/mxschool_dash_signout:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     )

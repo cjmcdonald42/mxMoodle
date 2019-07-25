@@ -17,7 +17,7 @@
 /**
  * Middlesex's Dashboard Block for Peer Tutors.
  *
- * @package    block_mxschool_peertutoring
+ * @package    block_mxschool_dash_tutor
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
@@ -26,8 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_mxschool_peertutoring';
-$plugin->version = 2019072400;
+$plugin->component = 'block_mxschool_dash_tutor';
+$plugin->version = 2019072500;
 $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;

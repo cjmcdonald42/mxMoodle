@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dashboard Block for Students.
+ * Middlesex's Signout Block for Students,
  *
- * @package    block_mxschool_dash_student_deans
+ * @package    block_mxschool_dash_signout
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
@@ -26,11 +26,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_mxschool_dash_student_deans';
-$plugin->version = 2019072400;
+$plugin->component = 'block_mxschool_dash_signout';
+$plugin->version = 2019072500;
 $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019072405 // MXSchool v3.1.
+    'local_mxschool' => 2019072405, // MXSchool v3.1.
+    'local_signout' => 2019072404 // eSignout v3.1.
 );

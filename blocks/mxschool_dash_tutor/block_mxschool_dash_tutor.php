@@ -17,7 +17,7 @@
 /**
  * Content for Middlesex's Dashboard Block for Peer Tutors.
  *
- * @package    block_mxschool_peertutoring
+ * @package    block_mxschool_dash_tutor
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
@@ -26,13 +26,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__.'/../../local/mxschool/locallib.php');
 require_once(__DIR__.'/../../local/peertutoring/locallib.php');
 
-class block_mxschool_peertutoring extends block_base {
+class block_mxschool_dash_tutor extends block_base {
 
     public function init() {
-        $this->title = get_string('pluginname', 'block_mxschool_peertutoring');
+        $this->title = get_string('pluginname', 'block_mxschool_dash_tutor');
     }
 
     public function get_content() {
@@ -45,7 +44,7 @@ class block_mxschool_peertutoring extends block_base {
         if (user_is_admin() || (user_is_student() && student_may_access_tutoring($USER->id))) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
-                get_string('tutor_submit', 'block_mxschool_peertutoring') => '/local/peertutoring/tutoring_enter.php'
+                get_string('tutor_submit', 'block_mxschool_dash_tutor') => '/local/peertutoring/tutoring_enter.php'
             ));
             $this->content->text = $output->render($renderable);
         }
@@ -54,6 +53,6 @@ class block_mxschool_peertutoring extends block_base {
     }
 
     public function specialization() {
-        $this->title = get_string('blockname', 'block_mxschool_peertutoring');
+        $this->title = get_string('blockname', 'block_mxschool_dash_tutor');
     }
 }

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilites for Middlesex's Dashboard Block for Peer Tutors.
+ * Global configuration settings for Middlesex's Dashboard Block for Students.
  *
- * @package    block_mxschool_peertutoring
+ * @package    block_mxschool_dash_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
@@ -26,13 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
-    'block/mxschool_peertutoring:addinstance' => array(
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ), 'block/mxschool_peertutoring:myaddinstance' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    )
-);
+$settings->add(new admin_setting_confightmleditor(
+    'block_mxschool_dash_student/description', get_string('description', 'block_mxschool_dash_student'),
+    get_string('description_description', 'block_mxschool_dash_student'), ''
+));
