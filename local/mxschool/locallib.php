@@ -1060,7 +1060,7 @@ function get_vacation_travel_departure_sites_list($type = null) {
         "SELECT id, name AS value
          FROM {local_mxschool_vt_site}
          WHERE deleted = 0 AND enabled_departure = 1 {$where}
-         ORDER BY name",
+         ORDER BY name"
     );
     $list = convert_records_to_list($sites);
     if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
