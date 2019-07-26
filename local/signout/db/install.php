@@ -29,6 +29,36 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_signout_install() {
     global $DB;
 
+    set_config('on_campus_form_enabled', '1', 'local_signout');
+    set_config('on_campus_form_ipenabled', '1', 'local_signout');
+    set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+    set_config('on_campus_signin_iperror_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
+    set_config('on_campus_signin_iperror_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
+    set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any \'other\' location.', 'local_signout');
+    set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
+    set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+    set_config('on_campus_refresh_rate', '60', 'local_signout');
+
+    set_config('off_campus_edit_window', '30', 'local_signout');
+    set_config('off_campus_trip_window', '30', 'local_signout');
+    set_config('off_campus_form_enabled', '1', 'local_signout');
+    set_config('off_campus_form_ipenabled', '1', 'local_signout');
+    set_config('off_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+    set_config('off_campus_signin_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
+    set_config('off_campus_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_signout');
+    set_config('off_campus_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_signout');
+    set_config('off_campus_form_warning_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_signout');
+    set_config('off_campus_form_warning_needparent', 'Your permissions indicate that you need a call from your parent.', 'local_signout');
+    set_config('off_campus_form_warning_onlyspecific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_signout');
+    set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
+    set_config('off_campus_notification_warning_irregular', '[Irregular] ', 'local_signout');
+    set_config('off_campus_notification_warning_driver', 'None.', 'local_signout');
+    set_config('off_campus_notification_warning_any', 'None.', 'local_signout');
+    set_config('off_campus_notification_warning_parent', 'This student requires parent permission to be the passenger of another student.', 'local_signout');
+    set_config('off_campus_notification_warning_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_signout');
+    set_config('off_campus_notification_warning_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
+    set_config('off_campus_notification_warning_unsetpermissions', 'This student does NOT have passenger permissions on file.', 'local_signout');
+
     $subpackages = array(
         array('package' => 'signout', 'pages' => json_encode(array('combined_report'))),
         array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
