@@ -126,7 +126,7 @@ class table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return isset($values->rid) ? $this->edit_icon('/local/mxschool/rooming/rooming_enter.php', $values->rid) : '';
+        return isset($values->rid) ? $this->edit_icon('/local/mxschool/rooming/form.php', $values->rid) : '';
     }
 
 }

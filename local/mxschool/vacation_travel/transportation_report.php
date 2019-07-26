@@ -77,7 +77,7 @@ if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
 }
 $buttons = array(new local_mxschool\output\redirect_button(
     get_string('vacation_travel_transportation_report_add', 'local_mxschool'),
-    new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php')
+    new moodle_url('/local/mxschool/vacation_travel/form.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

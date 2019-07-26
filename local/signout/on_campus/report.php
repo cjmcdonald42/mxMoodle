@@ -71,11 +71,12 @@ $dropdowns = array(
     new local_mxschool\output\dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
     ),
-    new local_mxschool\output\dropdown('date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout'))
+    new local_mxschool\output\dropdown(
+        'date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout')
+    )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('on_campus_report_add', 'local_signout'),
-    new moodle_url('/local/signout/on_campus/on_campus_enter.php')
+    get_string('on_campus_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

@@ -64,12 +64,10 @@ $table = new local_signout\local\combined_table($filter);
 $dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
 $buttons = array(
     new local_mxschool\output\redirect_button(
-        get_string('on_campus_report_add', 'local_signout'),
-        new moodle_url('/local/signout/on_campus/on_campus_enter.php')
+        get_string('on_campus_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
     ),
     new local_mxschool\output\redirect_button(
-        get_string('off_campus_report_add', 'local_signout'),
-        new moodle_url('/local/signout/off_campus/off_campus_enter.php')
+        get_string('off_campus_report_add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
     )
 );
 

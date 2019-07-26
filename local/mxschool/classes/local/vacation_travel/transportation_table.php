@@ -172,7 +172,7 @@ class transportation_table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $values->tid ? $this->edit_icon('/local/mxschool/vacation_travel/vacation_enter.php', $values->tid) : '';
+        return $values->tid ? $this->edit_icon('/local/mxschool/vacation_travel/form.php', $values->tid) : '';
     }
 
 }

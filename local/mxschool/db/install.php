@@ -31,23 +31,15 @@ function xmldb_local_mxschool_install() {
 
     $subpackages = array(
         array('subpackage' => 'user_management', 'pages' => json_encode(array(
-            'student_report' => 'student_report.php', 'faculty_report' => 'faculty_report.php', 'dorm_report' => 'dorm_report.php',
-            'vehicle_report' => 'vehicle_report.php', 'picture_import' => 'picture_import.php'
+            'student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'
         ))),
         array('subpackage' => 'checkin', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'generic_report' => 'generic_report.php', 'weekday_report' => 'weekday_report.php',
-            'weekend_form' => 'weekend_enter.php', 'weekend_report' => 'weekend_report.php',
-            'weekend_calculator' => 'weekend_calculator.php'
+            'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator'
         ))),
-        array('subpackage' => 'advisor_selection', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'form' => 'advisor_enter.php', 'report' => 'advisor_report.php'
-        ))),
-        array('subpackage' => 'rooming', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'form' => 'rooming_enter.php', 'report' => 'rooming_report.php'
-        ))),
+        array('subpackage' => 'advisor_selection', 'pages' => json_encode(array('preferences', 'form', 'report'))),
+        array('subpackage' => 'rooming', 'pages' => json_encode(array('preferences', 'form', 'report'))),
         array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'form' => 'vacation_enter.php', 'report' => 'vacation_report.php',
-            'transportation_report' => 'transportation_report.php'
+            'preferences', 'form', 'report', 'transportation_report'
         )))
     );
     foreach ($subpackages as $subpackage) {

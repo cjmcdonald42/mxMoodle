@@ -61,8 +61,7 @@ $dropdowns = array(
 );
 $buttons = array(
     new local_mxschool\output\redirect_button(
-        get_string('advisor_selection_report_add', 'local_mxschool'),
-        new moodle_url('/local/mxschool/advisor_selection/advisor_enter.php')
+        get_string('advisor_selection_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/advisor_selection/form.php')
     ),
     new local_mxschool\output\email_button(
         get_string('advisor_selection_report_remind', 'local_mxschool'), 'advisor_selection_notify_unsubmitted'

@@ -158,7 +158,7 @@ class table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id) . $this->delete_icon($values->id);
+        return $this->edit_icon('/local/signout/off_campus/form.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

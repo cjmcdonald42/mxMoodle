@@ -16,7 +16,7 @@
 /**
  * Updates the options of the tutoring form for Middlesex's Peer Tutoring Subplugin.
  *
- * @module      local_peertutoring/tutoring_form
+ * @module      local_peertutoring/form
  * @package     local_peertutoring
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>

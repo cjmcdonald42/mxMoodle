@@ -63,12 +63,11 @@ function setup_generic_page($url, $title) {
 function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
     global $DB, $PAGE;
     $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
-    if (!$record || !isset(json_decode($record->pages)->$page)) {
+    if (!$record || !in_array($page, json_decode($record->pages))) {
         throw new coding_exception("page {$page} cannot be found in the subpackage with id {$record->id}");
     }
 
-    $file = json_decode($record->pages)->$page;
-    $url = empty($subpackage) ? "/local/{$package}/{$file}" : "/local/{$package}/{$subpackage}/{$file}";
+    $url = empty($subpackage) ? "/local/{$package}/{$page}.php" : "/local/{$package}/{$subpackage}/{$page}.php";
     $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
 
     setup_generic_page($url, $title);
@@ -98,17 +97,16 @@ function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
 function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
     global $DB, $PAGE;
     $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
-    if (!$record || !isset(json_decode($record->pages)->$parent)) {
+    if (!$record || !in_array($parent, json_decode($record->pages))) {
         throw new coding_exception("parent page {$parent} cannot be found in the subpackage with id {$record->id}");
     }
 
-    $url = empty($subpackage) ? "/local/{$package}/{$page}" : "/local/{$package}/{$subpackage}/{$page}";
+    $url = empty($subpackage) ? "/local/{$package}/{$page}.php" : "/local/{$package}/{$subpackage}/{$page}.php";
     $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
 
     setup_generic_page($url, $title);
 
-    $parentfile = json_decode($record->pages)->$parent;
-    $parenturl = empty($subpackage) ? "/local/{$package}/{$parentfile}" : "/local/{$package}/{$subpackage}/{$parentfile}";
+    $parenturl = empty($subpackage) ? "/local/{$package}/{$parent}.php" : "/local/{$package}/{$subpackage}/{$parent}.php";
     $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}_{$parent}", "local_{$package}");
 
     $PAGE->set_pagelayout('incourse');
@@ -138,12 +136,12 @@ function generate_index($id, $heading = false) {
         throw new coding_exception("subpackage record with id {$id} does not exist");
     }
     $links = array();
-    foreach (json_decode($record->pages) as $string => $url) {
+    foreach (json_decode($record->pages) as $page) {
         if (empty($record->subpackage)) {
-            $links[get_string($string, "local_{$record->package}")] = "/local/{$record->package}/{$url}";
+            $links[get_string($page, "local_{$record->package}")] = "/local/{$record->package}/{$page}.php";
         } else {
-            $links[get_string("{$record->subpackage}_{$string}", "local_{$record->package}")]
-                = "/local/{$record->package}/{$record->subpackage}/{$url}";
+            $links[get_string("{$record->subpackage}_{$page}", "local_{$record->package}")]
+                = "/local/{$record->package}/{$record->subpackage}/{$page}.php";
         }
     }
     $headingtext = empty($record->subpackage) ? get_string($record->package, "local_{$record->package}")
@@ -165,7 +163,7 @@ function render_index_page($subpackage, $package = 'mxschool') {
         throw new coding_exception('subpackage record does not exist');
     }
 
-    $url = empty($subpackage) ? "/local/{$package}/index.php" : "/local/{$package}/{$subpackage}/index.php";
+    $url = empty($subpackage) ? "/local/{$package}" : "/local/{$package}/{$subpackage}";
     $title = get_string(empty($subpackage) ? $package : $subpackage, "local_{$package}");
 
     setup_generic_page($url, $title);

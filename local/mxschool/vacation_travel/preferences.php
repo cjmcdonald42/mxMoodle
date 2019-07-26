@@ -80,8 +80,7 @@ if ($form->is_cancelled()) {
 
 $table = new local_mxschool\local\vacation_travel\site_table();
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('vacation_travel_site_report_add', 'local_mxschool'),
-    new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
+    get_string('vacation_travel_site_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

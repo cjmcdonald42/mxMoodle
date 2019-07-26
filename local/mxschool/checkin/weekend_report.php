@@ -92,8 +92,7 @@ $dropdowns = array(
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('checkin_weekend_report_add', 'local_mxschool'),
-    new moodle_url('/local/mxschool/checkin/weekend_enter.php')
+    get_string('checkin_weekend_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/checkin/weekend_form.php')
 ));
 $headers = array(array('text' => '', 'length' => $filter->dorm ? 3 : 4));
 $sunday = generate_datetime('Sunday this week');

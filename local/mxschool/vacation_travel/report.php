@@ -51,8 +51,7 @@ $dropdowns = array(
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('vacation_travel_report_add', 'local_mxschool'),
-    new moodle_url('/local/mxschool/vacation_travel/vacation_enter.php')
+    get_string('vacation_travel_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/form.php')
 ));
 if (has_capability('local/mxschool:notify_vacation_travel', context_system::instance())) {
     $buttons[] = new local_mxschool\output\email_button(

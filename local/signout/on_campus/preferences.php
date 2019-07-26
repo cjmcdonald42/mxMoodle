@@ -80,8 +80,7 @@ if ($form->is_cancelled()) {
 
 $table = new local_signout\local\on_campus\location_table();
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('on_campus_location_report_add', 'local_signout'),
-    new moodle_url('/local/signout/on_campus/location_edit.php')
+    get_string('on_campus_location_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/location_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

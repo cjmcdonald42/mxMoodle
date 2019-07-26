@@ -43,15 +43,15 @@ class block_mxschool_dash_student extends block_base {
         $links = array();
         if (user_is_admin() || (user_is_student() && student_may_access_advisor_selection($USER->id))) {
             $links[get_string('advisor_selection', 'block_mxschool_dash_student')]
-                = '/local/mxschool/advisor_selection/advisor_enter.php';
+                = '/local/mxschool/advisor_selection/form.php';
         }
         if (user_is_admin() || (user_is_student() && student_may_access_rooming($USER->id))) {
             $links[get_string('rooming', 'block_mxschool_dash_student')]
-                = '/local/mxschool/rooming/rooming_enter.php';
+                = '/local/mxschool/rooming/form.php';
         }
         if (user_is_admin() || (user_is_student() && student_may_access_vacation_travel($USER->id))) {
             $links[get_string('vacation', 'block_mxschool_dash_student')]
-                = '/local/mxschool/vacation_travel/vacation_enter.php';
+                = '/local/mxschool/vacation_travel/form.php';
         }
 
         $this->content = new stdClass();

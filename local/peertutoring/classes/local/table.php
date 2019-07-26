@@ -51,7 +51,7 @@ class table extends \local_mxschool\table {
         if ($filter->type > 0) {
             unset($columns[array_search('type', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'tutoring_report', 'local_peertutoring');
+        $headers = $this->generate_headers($columns, 'report', 'local_peertutoring');
         $sortable = $email ? array() : array('tutoringdate', 'tutor', 'student', 'department', 'course', 'type', 'rating');
         $centered = array('tutoringdate', 'department', 'course');
         parent::__construct(
@@ -124,7 +124,7 @@ class table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/peertutoring/tutoring_enter.php', $values->id) . $this->delete_icon($values->id);
+        return $this->edit_icon('/local/peertutoring/form.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

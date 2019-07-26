@@ -40,9 +40,9 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-setup_mxschool_page('tutoring_report', null, 'peertutoring');
+setup_mxschool_page('report', null, 'peertutoring');
 
-$types = get_type_list() + array(-1 => get_string('tutoring_report_select_type_other', 'local_peertutoring'));
+$types = get_type_list() + array(-1 => get_string('report_select_type_other', 'local_peertutoring'));
 if ($filter->type && !isset($types[$filter->type])) {
     unset($filter->type);
     redirect(new moodle_url($PAGE->url, (array) $filter));
@@ -66,21 +66,20 @@ $dates = get_tutoring_date_list();
 $table = new local_peertutoring\local\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\output\dropdown(
-        'date', $dates, $filter->date, get_string('tutoring_report_select_date_all', 'local_peertutoring')
+        'date', $dates, $filter->date, get_string('report_select_date_all', 'local_peertutoring')
     ),
     new local_mxschool\output\dropdown(
-        'tutor', $tutors, $filter->tutor, get_string('tutoring_report_select_tutor_all', 'local_peertutoring')
+        'tutor', $tutors, $filter->tutor, get_string('report_select_tutor_all', 'local_peertutoring')
     ),
     new local_mxschool\output\dropdown(
-        'department', $departments, $filter->department, get_string('tutoring_report_select_department_all', 'local_peertutoring')
+        'department', $departments, $filter->department, get_string('report_select_department_all', 'local_peertutoring')
     ),
     new local_mxschool\output\dropdown(
-        'type', $types, $filter->type, get_string('tutoring_report_select_type_all', 'local_peertutoring')
+        'type', $types, $filter->type, get_string('report_select_type_all', 'local_peertutoring')
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('tutoring_report_add', 'local_peertutoring'),
-    new moodle_url('/local/peertutoring/tutoring_enter.php')
+    get_string('report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/form.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

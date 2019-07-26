@@ -124,10 +124,10 @@ class combined_table extends \local_mxschool\table {
     protected function col_actions($values) {
         switch ($values->status) {
             case 'signed_out_on_campus':
-                return $this->edit_icon('/local/signout/on_campus/on_campus_enter.php', $values->onid)
+                return $this->edit_icon('/local/signout/on_campus/form.php', $values->onid)
                     . $this->delete_icon($values->onid, 'on_campus');
             case 'signed_out_off_campus':
-                return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->offid)
+                return $this->edit_icon('/local/signout/off_campus/form.php', $values->offid)
                     . $this->delete_icon($values->offid, 'off_campus');
             default:
                 return '';

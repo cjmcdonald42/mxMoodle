@@ -208,6 +208,16 @@ function xmldb_local_peertutoring_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072209, 'local', 'peertutoring');
     }
 
+    if ($oldversion < 2019072502) {
+
+        // Add peertutoring package in the bew format.
+        $package = array('package' => 'peertutoring', 'pages' => json_encode(array('preferences', 'form', 'report')));
+        $DB->insert_record('local_mxschool_subpackage', (object) $package);
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072502, 'local', 'peertutoring');
+    }
+
     return true;
 
 }

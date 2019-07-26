@@ -161,7 +161,7 @@ class weekend_table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return isset($values->wfid) ? $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->wfid)
+        return isset($values->wfid) ? $this->edit_icon('/local/mxschool/checkin/weekend_form.php', $values->wfid)
                                       . $this->delete_icon($values->wfid) : '';
     }
 

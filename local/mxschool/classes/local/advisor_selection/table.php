@@ -207,7 +207,7 @@ class table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return isset($values->asfid) ? $this->edit_icon('/local/mxschool/advisor_selection/advisor_enter.php', $values->asfid) : '';
+        return isset($values->asfid) ? $this->edit_icon('/local/mxschool/advisor_selection/form.php', $values->asfid) : '';
     }
 
 }

@@ -35,7 +35,7 @@ if (!$isstudent) {
 
 $id = optional_param('id', 0, PARAM_INT);
 
-setup_mxschool_page('tutoring_form', null, 'peertutoring');
+setup_mxschool_page('form', null, 'peertutoring');
 
 $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's', 'fields' => array(
     'id', 'tutorid' => 'tutor', 'tutoring_date' => 'tutoringdate', 'studentid' => 'student', 'courseid' => 'course', 'topic',
@@ -69,7 +69,7 @@ $students = get_student_list();
 $departments = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_list();
 $courses = array(0 => get_string('form_select_default', 'local_mxschool')) + get_course_list();
 $types = array(0 => get_string('form_select_default', 'local_mxschool')) + get_type_list()
-         + array(-1 => get_string('tutoring_form_type_select_other', 'local_peertutoring'));
+         + array(-1 => get_string('form_type_select_other', 'local_peertutoring'));
 $ratings = array(0 => get_string('form_select_default', 'local_mxschool')) + get_rating_list();
 
 $form = new local_peertutoring\local\form(array(
@@ -87,17 +87,17 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), get_string('tutoring_form_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('form_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
     );
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
 $formrenderable = new local_mxschool\output\form($form);
-$jsrenderable = new local_mxschool\output\amd_module('local_peertutoring/tutoring_form');
+$jsrenderable = new local_mxschool\output\amd_module('local_peertutoring/form');
 
 echo $output->header();
 echo $output->heading(
-    $isstudent ? get_string('tutoring_form_title', 'local_peertutoring', format_student_name($USER->id)) : $PAGE->title
+    $isstudent ? get_string('form_title', 'local_peertutoring', format_student_name($USER->id)) : $PAGE->title
 );
 echo $output->render($formrenderable);
 echo $output->render($jsrenderable);
