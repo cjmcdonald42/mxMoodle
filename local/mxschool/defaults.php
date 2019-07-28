@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Default config values for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,9 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2019072602;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_RC;
-$plugin->dependencies = array();
+$defaults['moodle']['alternateloginurl'] = "{$CFG->wwwroot}/local/mxschool/login.php";
+$defaults['moodle']['forcelogin'] = '1';
+$defaults['moodle']['passwordpolicy'] = '0';
+$defaults['moodle']['guestloginbutton'] = '0';
+$defaults['theme_boost']['brandcolor'] = '#CF003D';
