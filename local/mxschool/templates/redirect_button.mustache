@@ -19,7 +19,7 @@
     @package    local_mxschool
     @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a button that redirects the user to an arbitrary link.
@@ -29,4 +29,4 @@
     - text | string | the text to display on the button
 }}
 
-<button class="mx-redirect-button btn btn-secondary noprint" onclick="window.location.href='{{ url }}'">{{ text }}</button>
+<a href={{ url }} class="mx-redirect-button btn btn-secondary hidden-print">{{ text }}</a>

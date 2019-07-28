@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -70,7 +70,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
             element.on('hideButton', function(event) {
                 $(event.target).hide('slow');
             });
-            var checkbox = element.parent().children('input.mx-checkbox');
+            var checkbox = element.parent().children('div.mx-checkbox').children().eq(0);
             if (checkbox) {
                 checkbox.on('checkboxEnabled', function() {
                     element.trigger('showButton');
@@ -79,8 +79,6 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
                     element.trigger('hideButton');
                 });
             }
-        } else {
-            element.show();
         }
     };
 });

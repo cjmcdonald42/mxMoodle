@@ -19,7 +19,7 @@
     @package    local_signout
     @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a button with ajax functionality to signin a signout record.
@@ -28,7 +28,7 @@
     - text | string | the text to display on the button
 }}
 
-<button class="mx-signin-button btn btn-primary noprint">{{ text }}</button>
+<button class="mx-signin-button btn btn-primary hidden-print">{{ text }}</button>
 
 {{# js }}
     require(['local_signout/signin_button'], function(setup) {

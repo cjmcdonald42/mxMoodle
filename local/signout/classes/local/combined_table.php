@@ -20,7 +20,7 @@
  * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -124,10 +124,10 @@ class combined_table extends \local_mxschool\table {
     protected function col_actions($values) {
         switch ($values->status) {
             case 'signed_out_on_campus':
-                return $this->edit_icon('/local/signout/on_campus/on_campus_enter.php', $values->onid)
+                return $this->edit_icon('/local/signout/on_campus/form.php', $values->onid)
                     . $this->delete_icon($values->onid, 'on_campus');
             case 'signed_out_off_campus':
-                return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->offid)
+                return $this->edit_icon('/local/signout/off_campus/form.php', $values->offid)
                     . $this->delete_icon($values->offid, 'off_campus');
             default:
                 return '';

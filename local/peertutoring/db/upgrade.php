@@ -20,7 +20,7 @@
  * @package     local_peertutoring
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -206,6 +206,16 @@ function xmldb_local_peertutoring_upgrade($oldversion) {
 
         // Peertutoring savepoint reached.
         upgrade_plugin_savepoint(true, 2019072209, 'local', 'peertutoring');
+    }
+
+    if ($oldversion < 2019072502) {
+
+        // Add peertutoring package in the bew format.
+        $package = array('package' => 'peertutoring', 'pages' => json_encode(array('preferences', 'form', 'report')));
+        $DB->insert_record('local_mxschool_subpackage', (object) $package);
+
+        // Peertutoring savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072502, 'local', 'peertutoring');
     }
 
     return true;

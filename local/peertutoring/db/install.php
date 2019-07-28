@@ -20,7 +20,7 @@
  * @package     local_peertutoring
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,9 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_peertutoring_install() {
     global $DB;
 
-    $package = array('package' => 'peertutoring', 'pages' => json_encode(array(
-        'preferences' => 'preferences.php', 'tutoring_form' => 'tutoring_enter.php', 'tutoring_report' => 'tutoring_report.php'
-    )));
+    $package = array('package' => 'peertutoring', 'pages' => json_encode(array('preferences', 'form', 'report')));
     $DB->insert_record('local_mxschool_subpackage', (object) $package);
 
     $types = array(

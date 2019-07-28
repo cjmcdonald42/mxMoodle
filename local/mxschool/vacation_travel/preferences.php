@@ -21,7 +21,7 @@
  * @subpackage  vacation_travel
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -80,8 +80,7 @@ if ($form->is_cancelled()) {
 
 $table = new local_mxschool\local\vacation_travel\site_table();
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('vacation_travel_site_report_add', 'local_mxschool'),
-    new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
+    get_string('vacation_travel_site_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

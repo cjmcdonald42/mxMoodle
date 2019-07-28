@@ -21,7 +21,7 @@
  * @subpackage  checkin
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,16 +29,6 @@ namespace local_mxschool\local\checkin;
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Email notification for when a weekend form is approved for Middlesex's Dorm and Student Functions Plugin.
- *
- * @package     local_mxschool
- * @subpackage  checkin
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class weekend_form_approved extends weekend_form_notification {
 
     /**

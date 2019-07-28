@@ -20,48 +20,27 @@
     @subpackage checkin
     @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a table which serves as a legend for the weekend calculator.
+
+    Required context variables:
+    - header | string | the text for the header
+    - rows | array | data for each row with required string properties lefttext and righttext and optional string properties leftclass and rightclass
 }}
 
 <div class="legend-table mx-table">
-    <table class="generaltable">
+    <table class="table-striped">
         <thead>
             <tr>
-                <th class="header" colspan="2">{{# str }} checkin_weekend_calculator_legend_header, local_mxschool {{/ str }}</th>
+                <th colspan="2"> {{ header }} </th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="cell align-center">{{# str }} checkin_weekend_calculator_abbreviation_offcampus, local_mxschool {{/ str }}</td>
-                <td class="cell">{{# str }} checkin_weekend_calculator_legend_offcampus, local_mxschool {{/ str }}</td>
-            </tr>
-            <tr>
-                <td class="cell"></td>
-                <td class="cell">{{# str }} checkin_weekend_calculator_legend_3_left, local_mxschool {{/ str }}</td>
-            </tr>
-            <tr>
-                <td class="cell mx-green"></td>
-                <td class="cell">{{# str }} checkin_weekend_calculator_legend_2_left, local_mxschool {{/ str }}</td>
-            </tr>
-            <tr>
-                <td class="cell mx-yellow"></td>
-                <td class="cell">{{# str }} checkin_weekend_calculator_legend_1_left, local_mxschool {{/ str }}</td>
-            </tr>
-            <tr>
-                <td class="cell mx-red"></td>
-                <td class="cell">{{# str }} checkin_weekend_calculator_legend_0_left, local_mxschool {{/ str }}</td>
-            </tr>
-            <tr>
-                <td class="cell align-center">{{# str }} checkin_weekend_calculator_abbreviation_free, local_mxschool {{/ str }}</td>
-                <td class="cell">{{# str }} checkin_weekend_calculator_legend_free, local_mxschool {{/ str }}</td>
-            </tr>
-            <tr>
-                <td class="cell align-center">{{# str }} checkin_weekend_calculator_abbreviation_closed, local_mxschool {{/ str }}</td>
-                <td class="cell">{{# str }} checkin_weekend_calculator_legend_closed, local_mxschool {{/ str }}</td>
-            </tr>
+            {{# rows }}
+                {{> local_mxschool/legend_row }}
+            {{/ rows }}
         </tbody>
     </table>
 </div>

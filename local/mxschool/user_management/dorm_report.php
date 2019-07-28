@@ -21,7 +21,7 @@
  * @subpackage  user_management
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -52,8 +52,7 @@ if ($action === 'delete' && $id) {
 
 $table = new local_mxschool\local\user_management\dorm_table($filter);
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('user_management_dorm_report_add', 'local_mxschool'),
-    new moodle_url('/local/mxschool/user_management/dorm_edit.php')
+    get_string('user_management_dorm_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/user_management/dorm_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

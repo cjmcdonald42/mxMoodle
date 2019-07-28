@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -65,11 +65,11 @@ abstract class table extends \table_sql {
                 $this->no_sorting($column);
             }
             if (in_array($column, $centered)) {
-                $this->add_column_class($column, 'align-center');
+                $this->add_column_class($column, 'text-center');
             }
         }
         if ($actions) {
-            $this->add_column_class('actions', 'noprint');
+            $this->add_column_class('actions', 'hidden-print');
         }
 
         $this->define_baseurl(new \moodle_url($PAGE->url, (array) $filter));

@@ -21,7 +21,7 @@
  * @subpackage  vacation_travel
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -109,7 +109,7 @@ class table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return isset($values->tid) ? $this->edit_icon('/local/mxschool/vacation_travel/vacation_enter.php', $values->tid) : '';
+        return isset($values->tid) ? $this->edit_icon('/local/mxschool/vacation_travel/form.php', $values->tid) : '';
     }
 
 }

@@ -25,4 +25,4 @@ v3.1 of this plugin was developed alongside v3.1 of the local_peertutoring plugi
 ## License
 As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).
 
-© 2018-2019 Middlesex School All Rights Reserved
+© 2018-2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.

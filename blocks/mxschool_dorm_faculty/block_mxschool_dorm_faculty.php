@@ -20,7 +20,7 @@
  * @package    block_mxschool_dorm_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -56,11 +56,11 @@ class block_mxschool_dorm_faculty extends block_base {
                     get_string('combined_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/combined_report.php',
                     get_string('on_campus_report', 'block_mxschool_dorm_faculty')
-                        => '/local/signout/on_campus/on_campus_report.php',
+                        => '/local/signout/on_campus/report.php',
                     get_string('duty_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/on_campus/duty_report.php',
                     get_string('off_campus_report', 'block_mxschool_dorm_faculty')
-                        => '/local/signout/off_campus/off_campus_report.php',
+                        => '/local/signout/off_campus/report.php',
                     get_string('vacation_report', 'block_mxschool_dorm_faculty')
                         => '/local/mxschool/vacation_travel/vacation_report.php',
                     get_string('manage_student_data', 'block_mxschool_dorm_faculty')

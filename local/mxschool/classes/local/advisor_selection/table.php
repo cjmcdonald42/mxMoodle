@@ -21,7 +21,7 @@
  * @subpackage  advisor_selection
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -207,7 +207,7 @@ class table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return isset($values->asfid) ? $this->edit_icon('/local/mxschool/advisor_selection/advisor_enter.php', $values->asfid) : '';
+        return isset($values->asfid) ? $this->edit_icon('/local/mxschool/advisor_selection/form.php', $values->asfid) : '';
     }
 
 }

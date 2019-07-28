@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -50,6 +50,17 @@ class renderer extends \plugin_renderer_base {
     public function render_checkbox($checkbox) {
         $data = $checkbox->export_for_template($this);
         return parent::render_from_template('local_mxschool/checkbox', $data);
+    }
+
+    /**
+     * Renders a dropdown according to the template.
+     *
+     * @param local_mxschool\output\dropdown $dropdown.
+     * @return string html for the dropdown.
+     */
+    public function render_dropdown($dropdown) {
+        $data = $dropdown->export_for_template($this);
+        return parent::render_from_template('local_mxschool/dropdown', $data);
     }
 
     /**

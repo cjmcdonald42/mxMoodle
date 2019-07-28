@@ -21,7 +21,7 @@
  * @subpackage  checkin
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,7 +37,7 @@ $filter->dorm = get_param_faculty_dorm();
 setup_mxschool_page('generic_report', 'checkin');
 
 $table = new local_mxschool\local\checkin\generic_table($filter);
-$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
+$dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);

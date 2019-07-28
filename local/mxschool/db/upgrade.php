@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -752,6 +752,55 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2019072201, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 2019072512) {
+
+        // Define table local_mxschool_subpackage to be dropped.
+        $table = new xmldb_table('local_mxschool_subpackage');
+
+        // Conditionally launch drop table for local_mxschool_subpackage.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_subpackage to be created.
+        $table = new xmldb_table('local_mxschool_subpackage');
+
+        // Adding fields to table local_mxschool_subpackage.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('package', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, 'mxschool');
+        $table->add_field('subpackage', XMLDB_TYPE_CHAR, '100', null, null, null, null);
+        $table->add_field('pages', XMLDB_TYPE_TEXT, null, null, null, null, null);
+
+        // Adding keys to table local_mxschool_subpackage.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for local_mxschool_subpackage.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Add all mxschool subpackages in the bew format.
+        $subpackages = array(
+            array('subpackage' => 'user_management', 'pages' => json_encode(array(
+                'student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'
+            ))),
+            array('subpackage' => 'checkin', 'pages' => json_encode(array(
+                'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator'
+            ))),
+            array('subpackage' => 'advisor_selection', 'pages' => json_encode(array('preferences', 'form', 'report'))),
+            array('subpackage' => 'rooming', 'pages' => json_encode(array('preferences', 'form', 'report'))),
+            array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
+                'preferences', 'form', 'report', 'transportation_report'
+            )))
+        );
+        foreach ($subpackages as $subpackage) {
+            $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072512, 'local', 'mxschool');
     }
 
     return true;

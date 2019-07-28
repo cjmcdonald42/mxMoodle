@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -63,12 +63,11 @@ function setup_generic_page($url, $title) {
 function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
     global $DB, $PAGE;
     $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
-    if (!$record || !isset(json_decode($record->pages)->$page)) {
+    if (!$record || !in_array($page, json_decode($record->pages))) {
         throw new coding_exception("page {$page} cannot be found in the subpackage with id {$record->id}");
     }
 
-    $file = json_decode($record->pages)->$page;
-    $url = empty($subpackage) ? "/local/{$package}/{$file}" : "/local/{$package}/{$subpackage}/{$file}";
+    $url = empty($subpackage) ? "/local/{$package}/{$page}.php" : "/local/{$package}/{$subpackage}/{$page}.php";
     $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
 
     setup_generic_page($url, $title);
@@ -98,17 +97,16 @@ function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
 function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
     global $DB, $PAGE;
     $record = $DB->get_record('local_mxschool_subpackage', array('package' => $package, 'subpackage' => $subpackage));
-    if (!$record || !isset(json_decode($record->pages)->$parent)) {
+    if (!$record || !in_array($parent, json_decode($record->pages))) {
         throw new coding_exception("parent page {$parent} cannot be found in the subpackage with id {$record->id}");
     }
 
-    $url = empty($subpackage) ? "/local/{$package}/{$page}" : "/local/{$package}/{$subpackage}/{$page}";
+    $url = empty($subpackage) ? "/local/{$package}/{$page}.php" : "/local/{$package}/{$subpackage}/{$page}.php";
     $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
 
     setup_generic_page($url, $title);
 
-    $parentfile = json_decode($record->pages)->$parent;
-    $parenturl = empty($subpackage) ? "/local/{$package}/{$parentfile}" : "/local/{$package}/{$subpackage}/{$parentfile}";
+    $parenturl = empty($subpackage) ? "/local/{$package}/{$parent}.php" : "/local/{$package}/{$subpackage}/{$parent}.php";
     $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}_{$parent}", "local_{$package}");
 
     $PAGE->set_pagelayout('incourse');
@@ -138,12 +136,12 @@ function generate_index($id, $heading = false) {
         throw new coding_exception("subpackage record with id {$id} does not exist");
     }
     $links = array();
-    foreach (json_decode($record->pages) as $string => $url) {
+    foreach (json_decode($record->pages) as $page) {
         if (empty($record->subpackage)) {
-            $links[get_string($string, "local_{$record->package}")] = "/local/{$record->package}/{$url}";
+            $links[get_string($page, "local_{$record->package}")] = "/local/{$record->package}/{$page}.php";
         } else {
-            $links[get_string("{$record->subpackage}_{$string}", "local_{$record->package}")]
-                = "/local/{$record->package}/{$record->subpackage}/{$url}";
+            $links[get_string("{$record->subpackage}_{$page}", "local_{$record->package}")]
+                = "/local/{$record->package}/{$record->subpackage}/{$page}.php";
         }
     }
     $headingtext = empty($record->subpackage) ? get_string($record->package, "local_{$record->package}")
@@ -165,7 +163,7 @@ function render_index_page($subpackage, $package = 'mxschool') {
         throw new coding_exception('subpackage record does not exist');
     }
 
-    $url = empty($subpackage) ? "/local/{$package}/index.php" : "/local/{$package}/{$subpackage}/index.php";
+    $url = empty($subpackage) ? "/local/{$package}" : "/local/{$package}/{$subpackage}";
     $title = get_string(empty($subpackage) ? $package : $subpackage, "local_{$package}");
 
     setup_generic_page($url, $title);
@@ -381,7 +379,6 @@ function format_date($format, $time = 'now') {
     return generate_datetime($time)->format($format);
 }
 
-
 /**
  * Sets the data for a time selector based on a timstamp and a step.
  *
@@ -410,7 +407,7 @@ function generate_time_selector_fields(&$data, $prefix, $step = 1) {
  * @return int The resulting timestamp.
  */
 function generate_timestamp($data, $prefix) {
-    $data = (object)$data;
+    $data = (object) $data;
     $time = generate_datetime($data->{"{$prefix}_date"});
     $time->setTime($data->{"{$prefix}_time_hour"} % 12 + $data->{"{$prefix}_time_ampm"} * 12, $data->{"{$prefix}_time_minute"});
     return $time->getTimestamp();
@@ -612,6 +609,7 @@ function student_may_access_advisor_selection($userid) {
     return $start && $stop && time() > $start && time() < $stop
            && array_key_exists($userid, get_student_with_advisor_form_enabled_list());
 }
+
 /**
  * Determines whether a specified user is a student who is permitted to access the rooming form.
  *
@@ -654,7 +652,7 @@ function student_may_access_vacation_travel($userid) {
  *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
  *
  * @param bool $includeday Whether to include day houses or limit to boading houses.
- * @return string The dorm id or an empty string, as specified.
+ * @return string The dorm id or an empty string.
  */
 function get_param_faculty_dorm($includeday = true) {
     global $DB, $USER;
@@ -666,7 +664,7 @@ function get_param_faculty_dorm($includeday = true) {
             return $dorm;
         }
     }
-    return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?? '';
+    return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
 }
 
 /**
@@ -1062,7 +1060,7 @@ function get_vacation_travel_departure_sites_list($type = null) {
         "SELECT id, name AS value
          FROM {local_mxschool_vt_site}
          WHERE deleted = 0 AND enabled_departure = 1 {$where}
-         ORDER BY name",
+         ORDER BY name"
     );
     $list = convert_records_to_list($sites);
     if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {

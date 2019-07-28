@@ -20,7 +20,7 @@
  * @package    block_mxschool_dorm_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -44,7 +44,7 @@ class block_mxschool_dorm_student extends block_base {
         if (user_is_admin() || (user_is_student() && student_may_access_weekend($USER->id))) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
-                get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_enter.php',
+                get_string('weekend_submit', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_form.php',
                 get_string('weekend_calculator', 'block_mxschool_dorm_student') => '/local/mxschool/checkin/weekend_calculator.php'
             ));
             $this->content->text = $output->render($renderable);

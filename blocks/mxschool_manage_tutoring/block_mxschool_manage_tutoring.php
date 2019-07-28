@@ -20,7 +20,7 @@
  * @package    block_mxschool_manage_tutoring
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -42,7 +42,7 @@ class block_mxschool_manage_tutoring extends block_base {
         if (has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
-                get_string('tutor_manage', 'block_mxschool_manage_tutoring') => '/local/peertutoring/tutoring_report.php'
+                get_string('tutor_manage', 'block_mxschool_manage_tutoring') => '/local/peertutoring/report.php'
             ));
             $this->content->text = $output->render($renderable);;
         }

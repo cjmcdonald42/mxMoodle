@@ -20,7 +20,7 @@
  * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -60,14 +60,11 @@ function xmldb_local_signout_install() {
     set_config('off_campus_notification_warning_unsetpermissions', 'This student does NOT have passenger permissions on file.', 'local_signout');
 
     $subpackages = array(
-        array('package' => 'signout', 'pages' => json_encode(array('combined_report' => 'combined_report.php'))),
+        array('package' => 'signout', 'pages' => json_encode(array('combined_report'))),
         array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'form' => 'on_campus_enter.php', 'report' => 'on_campus_report.php',
-            'duty_report' => 'duty_report.php'
+            'preferences', 'form', 'report', 'duty_report'
         ))),
-        array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'form' => 'off_campus_enter.php', 'report' => 'off_campus_report.php'
-        )))
+        array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array('preferences', 'form', 'report')))
     );
     foreach ($subpackages as $subpackage) {
         $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
@@ -84,7 +81,10 @@ function xmldb_local_signout_install() {
         array('name' => 'Bass Arts Pavilion', 'grade' => 11),
         array('name' => 'StuFac', 'grade' => 12),
         array('name' => 'Gym', 'grade' => 12),
-        array('name' => 'On Campus', 'grade' => 12, 'warning' => 'You need face-to-face permission from the person on duty in your dorm to sign out \'On Campus.\'')
+        array(
+            'name' => 'On Campus', 'grade' => 12,
+            'warning' => 'You need face-to-face permission from the person on duty in your dorm to sign out \'On Campus.\''
+        )
     );
     foreach ($locations as $location) {
         $DB->insert_record('local_signout_location', (object) $location);

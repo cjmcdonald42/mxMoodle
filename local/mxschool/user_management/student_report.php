@@ -21,7 +21,7 @@
  * @subpackage  user_management
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -76,7 +76,7 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
 
 $table = new local_mxschool\local\user_management\student_table($filter);
 $dropdowns = array(
-    new local_mxschool\dropdown('type', $types, $filter->type), local_mxschool\dropdown::dorm_dropdown($filter->dorm)
+    new local_mxschool\output\dropdown('type', $types, $filter->type), local_mxschool\output\dropdown::dorm_dropdown($filter->dorm)
 );
 $buttons = $filter->type === 'parents' ? $buttons = array(new local_mxschool\output\redirect_button(
     get_string('user_management_parent_report_add', 'local_mxschool'),

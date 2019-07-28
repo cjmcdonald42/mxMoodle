@@ -21,7 +21,7 @@
  * @subpackage  off_campus
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -158,7 +158,7 @@ class table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return $this->edit_icon('/local/signout/off_campus/off_campus_enter.php', $values->id) . $this->delete_icon($values->id);
+        return $this->edit_icon('/local/signout/off_campus/form.php', $values->id) . $this->delete_icon($values->id);
     }
 
 }

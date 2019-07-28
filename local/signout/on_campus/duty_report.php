@@ -21,7 +21,7 @@
  * @subpackage  on_campus
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -56,8 +56,8 @@ $pictureoptions = array(
 
 $table = new local_signout\local\on_campus\duty_table($filter);
 $dropdowns = array(
-    new local_mxschool\dropdown('pictures', $pictureoptions, $filter->pictures),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown('pictures', $pictureoptions, $filter->pictures),
+    new local_mxschool\output\dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
     )
 );

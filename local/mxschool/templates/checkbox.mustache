@@ -19,7 +19,7 @@
     @package    local_mxschool
     @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render a checkbox with ajax functionality.
@@ -31,8 +31,10 @@
     - checked | bool | whether the checkbox should be checked by default
 }}
 
-<input type="checkbox" class="mx-checkbox" name="{{ table }}:{{ field }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
-<span class="mx-checkbox-saved"> {{# str }} checkbox_saved, local_mxschool {{/ str }}</span>
+<div class="mx-checkbox">
+    <input type="checkbox" name="{{ table }}:{{ field }}" value="{{ value }}"{{# checked }} checked {{/ checked}}>
+    <span class="text-success hidden"> {{# str }} checkbox_saved, local_mxschool {{/ str }}</span>
+</div>
 
 {{# js }}
     require(['local_mxschool/set_boolean_field'], function(setup) {

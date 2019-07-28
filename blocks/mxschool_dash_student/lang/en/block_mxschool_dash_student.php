@@ -15,26 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Signout Block for Students.
+ * English language strings for Middlesex's Dashboard Block for Students.
  *
  * @package    block_mxschool_dash_student
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Student Dashboard Block';
-$string['blockname'] = 'Middlesex eSignout';
+$string['blockname'] = 'Middlesex';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Student Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Student Block to Dashboard';
 
-$string['state_text_in'] = 'You are currently signed in.';
-$string['state_text_out'] = 'You are currently signed out to {$a}.';
-$string['on_campus_button_signout'] = 'Sign Out On Campus';
-$string['on_campus_button_edit'] = 'Change Location';
-$string['on_campus_button_signin_boarder'] = 'Sign In to Your Dorm';
-$string['on_campus_button_signin_day'] = 'Going Home';
-$string['off_campus_button_edit'] = 'Edit Signout';
-$string['off_campus_button_signout'] = 'Sign Out Off Campus';
-$string['off_campus_button_signin'] = 'Sign In';
+$string['description'] = 'Description';
+$string['description_description'] = 'Text to display above the available links for whomever has access.';
+
+$string['advisor_selection'] = 'Advisor Selection Form';
+$string['rooming'] = 'Rooming Form';
+$string['vacation'] = 'Vacation Travel Form';

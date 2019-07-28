@@ -20,7 +20,7 @@
  * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -61,15 +61,13 @@ if ($action === 'delete' && $id && $table) {
 }
 
 $table = new local_signout\local\combined_table($filter);
-$dropdowns = array(\local_mxschool\dropdown::dorm_dropdown($filter->dorm));
+$dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
 $buttons = array(
     new local_mxschool\output\redirect_button(
-        get_string('on_campus_report_add', 'local_signout'),
-        new moodle_url('/local/signout/on_campus/on_campus_enter.php')
+        get_string('on_campus_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
     ),
     new local_mxschool\output\redirect_button(
-        get_string('off_campus_report_add', 'local_signout'),
-        new moodle_url('/local/signout/off_campus/off_campus_enter.php')
+        get_string('off_campus_report_add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
     )
 );
 

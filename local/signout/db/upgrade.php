@@ -20,7 +20,7 @@
  * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -354,8 +354,8 @@ function xmldb_local_signout_upgrade($oldversion) {
         // Launch add key location.
         $dbman->add_key($table, $key);
 
-        // Peertutoring savepoint reached.
-        upgrade_plugin_savepoint(true, 2019072210, 'local', 'peertutoring');
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072210, 'local', 'signout');
     }
 
     if ($oldversion < 2019072213) {
@@ -395,6 +395,24 @@ function xmldb_local_signout_upgrade($oldversion) {
 
         // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019072400, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019072502) {
+
+        // Add all signout subpackages in the bew format.
+        $subpackages = array(
+            array('package' => 'signout', 'pages' => json_encode(array('combined_report'))),
+            array('package' => 'signout', 'subpackage' => 'on_campus', 'pages' => json_encode(array(
+                'preferences', 'form', 'report', 'duty_report'
+            ))),
+            array('package' => 'signout', 'subpackage' => 'off_campus', 'pages' => json_encode(array('preferences', 'form', 'report')))
+        );
+        foreach ($subpackages as $subpackage) {
+            $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072502, 'local', 'signout');
     }
 
     return true;

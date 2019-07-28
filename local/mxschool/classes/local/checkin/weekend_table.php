@@ -21,7 +21,7 @@
  * @subpackage  checkin
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -161,7 +161,7 @@ class weekend_table extends \local_mxschool\table {
      * Formats the actions column.
      */
     protected function col_actions($values) {
-        return isset($values->wfid) ? $this->edit_icon('/local/mxschool/checkin/weekend_enter.php', $values->wfid)
+        return isset($values->wfid) ? $this->edit_icon('/local/mxschool/checkin/weekend_form.php', $values->wfid)
                                       . $this->delete_icon($values->wfid) : '';
     }
 

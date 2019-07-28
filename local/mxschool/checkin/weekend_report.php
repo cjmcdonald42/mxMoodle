@@ -21,7 +21,7 @@
  * @subpackage  checkin
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -79,21 +79,20 @@ $end = array_key_exists($filter->end, $enddays) ? $filter->end : $weekendrecord-
 
 $table = new local_mxschool\local\checkin\weekend_table($filter, $start, $end);
 $dropdowns = array(
-   local_mxschool\dropdown::dorm_dropdown($filter->dorm, false),
-    new local_mxschool\dropdown('weekend', $weekends, $filter->weekend),
-    new local_mxschool\dropdown(
+   local_mxschool\output\dropdown::dorm_dropdown($filter->dorm, false),
+    new local_mxschool\output\dropdown('weekend', $weekends, $filter->weekend),
+    new local_mxschool\output\dropdown(
         'start', $startdays, $filter->start, get_string('checkin_weekend_report_select_start_day_default', 'local_mxschool')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'end', $enddays, $filter->end, get_string('checkin_weekend_report_select_end_day_default', 'local_mxschool')
     ),
-    new local_mxschool\dropdown(
+    new local_mxschool\output\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('checkin_weekend_report_add', 'local_mxschool'),
-    new moodle_url('/local/mxschool/checkin/weekend_enter.php')
+    get_string('checkin_weekend_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/checkin/weekend_form.php')
 ));
 $headers = array(array('text' => '', 'length' => $filter->dorm ? 3 : 4));
 $sunday = generate_datetime('Sunday this week');

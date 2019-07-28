@@ -1,5 +1,5 @@
-LENGTH="10" NOTNULL="false"<?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20190722" COMMENT="XMLDB file for Moodle local/mxschool"
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/mxschool/db" VERSION="20190725" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -182,7 +182,7 @@ LENGTH="10" NOTNULL="false"<?xml version="1.0" encoding="UTF-8" ?>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="package" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="mxschool" SEQUENCE="false" COMMENT="The package that the subpackage belongs to without the local prefix."/>
         <FIELD NAME="subpackage" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The name of the subpackage - a value of NULL indicates that the subpackage is at the package level."/>
-        <FIELD NAME="pages" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted mapping of unlocalized page name to their URL relative to subpackage directory for all pages defined by the subpackage - a value of NULL indicates that the subpackage defines no pages."/>
+        <FIELD NAME="pages" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted array of unlocalized page names which must correspond to the names of php files in the subpackage directory - a value of NULL indicates that the subpackage defines no pages."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

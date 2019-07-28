@@ -20,7 +20,7 @@
  * @package     local_peertutoring
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -91,24 +91,19 @@ $coursetable = new local_peertutoring\local\course_table();
 $typetable = new local_peertutoring\local\type_table();
 $ratingtable = new local_peertutoring\local\rating_table();
 $tutorbuttons = array(new local_mxschool\output\redirect_button(
-    get_string('tutor_report_add', 'local_peertutoring'),
-    new moodle_url('/local/peertutoring/tutor_edit.php')
+    get_string('tutor_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/tutor_edit.php')
 ));
 $departmentbuttons = array(new local_mxschool\output\redirect_button(
-    get_string('department_report_add', 'local_peertutoring'),
-    new moodle_url('/local/peertutoring/department_edit.php')
+    get_string('department_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/department_edit.php')
 ));
 $coursebuttons = array(new local_mxschool\output\redirect_button(
-    get_string('course_report_add', 'local_peertutoring'),
-    new moodle_url('/local/peertutoring/course_edit.php')
+    get_string('course_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/course_edit.php')
 ));
 $typebuttons = array(new local_mxschool\output\redirect_button(
-    get_string('type_report_add', 'local_peertutoring'),
-    new moodle_url('/local/peertutoring/type_edit.php')
+    get_string('type_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/type_edit.php')
 ));
 $ratingbuttons = array(new local_mxschool\output\redirect_button(
-    get_string('rating_report_add', 'local_peertutoring'),
-    new moodle_url('/local/peertutoring/rating_edit.php')
+    get_string('rating_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/rating_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');

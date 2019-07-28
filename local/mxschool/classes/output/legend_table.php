@@ -21,7 +21,7 @@
  * @subpackage  checkin
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,14 +31,31 @@ defined('MOODLE_INTERNAL') || die();
 
 class legend_table implements \renderable, \templatable {
 
+    /** @var string The header text for the table.*/
+    private $header;
+    /** @var array Objects with properties lefttext, righttext, leftclass, and rightclass for each row of the table.*/
+    private $rows;
+
+    /**
+     * @param string $header The header text for the table.
+     * @param array $rows Objects with properties lefttext, righttext, leftclass, and rightclass for each row of the table.
+     */
+    public function __construct($header, $rows) {
+        $this->header = $header;
+        $this->rows = $rows;
+    }
+
     /**
      * Exports this data so it can be used as the context for a mustache template.
      *
      * @param renderer_base $output The renderer which is rendering this renderable.
-     * @return stdClass Empty object.
+     * @return stdClass Object with properties header and rows.
      */
     public function export_for_template($output) {
-        return new \stdClass();
+        $data = new \stdClass();
+        $data->header = $this->header;
+        $data->rows = $this->rows;
+        return $data;
     }
 
 }

@@ -19,7 +19,7 @@
     @package    local_mxschool
     @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+    @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
     The purpose of this template is to render filtering options and other interactions for a report.
@@ -27,22 +27,22 @@
     Required context variables:
     - filterable | bool | whether the filter should be rendered
     - url | string | the action url for the filter - optional if filterable is false
+    - searchable | bool | the action url for the filter - optional if filterable is false
+    - search | string | the default search text - optional if searchable is false
+    - printable | bool | whether to display a print button
     Optional context variables:
     - dropdowns | array | strings which are the rendered html for dropdowns
-    - searchable | bool | the action url for the filter
-    - search | string | the default search text
     - buttons | array | strings which are the html for rendered email_buttons
-    - printable | bool | whether to display a print button
 }}
 
-<div class="mx-filter noprint">
+<div class="mx-filter hidden-print">
     {{# filterable }}
-        <form action="{{ url }}">
+        <form class="form-inline" action="{{ url }}">
             {{# dropdowns }}
                 {{{ . }}}
             {{/ dropdowns }}
             {{# searchable }}
-                <input type="text" name="search" placeholder="{{# str }} search {{/ str }}..." value="{{ search }}" />
+                <input type="text" class="form-control" name="search" placeholder="{{# str }} search {{/ str }}..." value="{{ search }}" />
             {{/ searchable }}
             <input type="submit" class="btn btn-primary" value="{{# str }} search {{/ str }}" />
         </form>

@@ -21,7 +21,7 @@
  * @subpackage  checkin
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -55,7 +55,7 @@ class generic_table extends \local_mxschool\table {
             unset($sortable[array_search('room', $sortable)]);
         }
         parent::__construct('checkin_table', $columns, $headers, $sortable, $centered, $filter, false);
-        $this->add_column_class('student', 'align-right');
+        $this->add_column_class('student', 'text-right');
 
         $fields = array('s.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.room', 's.grade');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');

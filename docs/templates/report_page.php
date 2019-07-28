@@ -21,7 +21,7 @@
  * @subpackage  SUBPACKAGE
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -40,7 +40,7 @@ setup_mxschool_page('PAGE', 'SUBPACKAGE', 'PACKAGE');
 
 $table = new PACKAGE\local\SUBPACKAGE\TABLE_CLASS($filter);
 $dropdowns = array(
-    new local_mxschool\dropdown('NAME', /* array of options */, 'SELECTED', /* default option (optional) */)
+    new local_mxschool\output\dropdown('NAME', /* array of options */, 'SELECTED', /* default option (optional) */)
     // ETC.
 );
 $buttons = array(

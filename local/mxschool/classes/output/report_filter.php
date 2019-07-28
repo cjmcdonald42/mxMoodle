@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,17 +32,17 @@ class report_filter implements \renderable, \templatable {
 
     /** @var string Default search text, null if there is no search option.*/
     private $search;
-    /** @param array Array of local_mxschool\dropdown objects.*/
+    /** @param array Array of local_mxschool\output\dropdown objects.*/
     private $dropdowns;
-    /** @var array Array of button objects.*/
+    /** @var array Array of local_mxschool\output\button objects.*/
     private $buttons;
     /** @var bool Whether to display a print button.*/
     private $printable;
 
     /**
      * @param string $search Default search text, null if there is no search option.
-     * @param array $dropdowns Array of local_mxschool\dropdown objects.
-     * @param array $buttons Array of button objects.
+     * @param array $dropdowns Array of local_mxschool\output\dropdown objects.
+     * @param array $buttons Array of local_mxschool\output\button objects.
      * @param bool $printable Whether to display a print button.
      */
     public function __construct($search, $dropdowns, $buttons, $printable) {
@@ -56,14 +56,14 @@ class report_filter implements \renderable, \templatable {
      * Exports this data so it can be used as the context for a mustache template.
      *
      * @param renderer_base $output The renderer which is rendering this renderable.
-     * @return stdClass Object with properties url, dropdowns, searchable, search, buttons, and printable.
+     * @return stdClass Object with properties filterable, url, dropdowns, searchable, search, buttons, and printable.
      */
     public function export_for_template($output) {
         global $PAGE;
         $data = new \stdClass();
         $data->url = $PAGE->url;
-        $data->dropdowns = array_map(function($dropdown) {
-            return $dropdown->out();
+        $data->dropdowns = array_map(function($dropdown) use($output) {
+            return $output->render($dropdown);
         }, $this->dropdowns);
         $data->searchable = isset($this->search);
         $data->search = $this->search;

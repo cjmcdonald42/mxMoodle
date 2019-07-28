@@ -20,7 +20,7 @@
  * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,15 +30,6 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\output\button;
 
-/**
- * Renderable class for confirmation buttons.
- *
- * @package     local_signout
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class confirmation_button extends button {
 
     /** @var int The id of the on-campus signout record which the button interacts with.*/
