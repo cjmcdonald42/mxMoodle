@@ -379,7 +379,6 @@ function format_date($format, $time = 'now') {
     return generate_datetime($time)->format($format);
 }
 
-
 /**
  * Sets the data for a time selector based on a timstamp and a step.
  *
@@ -408,7 +407,7 @@ function generate_time_selector_fields(&$data, $prefix, $step = 1) {
  * @return int The resulting timestamp.
  */
 function generate_timestamp($data, $prefix) {
-    $data = (object)$data;
+    $data = (object) $data;
     $time = generate_datetime($data->{"{$prefix}_date"});
     $time->setTime($data->{"{$prefix}_time_hour"} % 12 + $data->{"{$prefix}_time_ampm"} * 12, $data->{"{$prefix}_time_minute"});
     return $time->getTimestamp();
@@ -610,6 +609,7 @@ function student_may_access_advisor_selection($userid) {
     return $start && $stop && time() > $start && time() < $stop
            && array_key_exists($userid, get_student_with_advisor_form_enabled_list());
 }
+
 /**
  * Determines whether a specified user is a student who is permitted to access the rooming form.
  *
