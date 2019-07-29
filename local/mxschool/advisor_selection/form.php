@@ -37,6 +37,7 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'advisor_selection');
+$PAGE->requires->js_call_amd('local_mxschool/advisor_selection_form', 'setup');
 
 $queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'asf', 'fields' => array(
     'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
@@ -112,13 +113,11 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new local_mxschool\output\form($form);
-$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/advisor_selection_form');
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(
     $isstudent ? get_string('advisor_selection_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
 );
-echo $output->render($formrenderable);
-echo $output->render($jsrenderable);
+echo $output->render($renderable);
 echo $output->footer();

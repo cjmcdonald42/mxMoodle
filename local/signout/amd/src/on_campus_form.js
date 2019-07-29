@@ -62,10 +62,12 @@ define(
                 }
             }).fail(notification.exception);
         }
-        return function() {
-            $(document).ready(updateStudentOptions);
-            $('.mx-form select#id_student').change(updateStudentOptions);
-            $('.mx-form select#id_location_select').change(updateStudentOptions);
+        return {
+            setup: function() {
+                $(document).ready(updateStudentOptions);
+                $('.mx-form select#id_student').change(updateStudentOptions);
+                $('.mx-form select#id_location_select').change(updateStudentOptions);
+            }
         };
     }
 );

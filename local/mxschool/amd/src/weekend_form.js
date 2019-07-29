@@ -60,12 +60,14 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], 
             }
         }).fail(notification.exception);
     }
-    return function() {
-        $(document).ready(function() {
-            updateStudents();
-            updateWarning();
-        });
-        $('.mx-form select#id_dorm').change(updateStudents);
-        $('.mx-form div[data-groupname="departure"]').change(updateWarning);
+    return {
+        setup: function() {
+            $(document).ready(function() {
+                updateStudents();
+                updateWarning();
+            });
+            $('.mx-form select#id_dorm').change(updateStudents);
+            $('.mx-form div[data-groupname="departure"]').change(updateWarning);
+        }
     };
 });

@@ -37,6 +37,7 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'off_campus', 'signout');
+$PAGE->requires->js_call_amd('local_signout/off_campus_form', 'setup');
 
 $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
@@ -136,8 +137,7 @@ $bottominstructions = get_config('local_signout', 'off_campus_form_instructions_
 $bottominstructions = str_replace(
     '{minutes}', get_config('local_signout', 'off_campus_edit_window'), $bottominstructions
 );
-$formrenderable = new local_mxschool\output\form($form, false, $bottominstructions);
-$jsrenderable = new local_mxschool\output\amd_module('local_signout/off_campus_form');
+$renderable = new local_mxschool\output\form($form, false, $bottominstructions);
 
 echo $output->header();
 if ($isstudent && !validate_ip_off_campus()) {
@@ -146,7 +146,6 @@ if ($isstudent && !validate_ip_off_campus()) {
     echo $output->heading(
         $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );
-    echo $output->render($formrenderable);
-    echo $output->render($jsrenderable);
+    echo $output->render($renderable);
 }
 echo $output->footer();

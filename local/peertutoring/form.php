@@ -36,6 +36,7 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', null, 'peertutoring');
+$PAGE->requires->js_call_amd('local_peertutoring/form', 'setup');
 
 $queryfields = array('local_peertutoring_session' => array('abbreviation' => 's', 'fields' => array(
     'id', 'tutorid' => 'tutor', 'tutoring_date' => 'tutoringdate', 'studentid' => 'student', 'courseid' => 'course', 'topic',
@@ -92,13 +93,11 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new local_mxschool\output\form($form);
-$jsrenderable = new local_mxschool\output\amd_module('local_peertutoring/form');
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(
     $isstudent ? get_string('form_title', 'local_peertutoring', format_student_name($USER->id)) : $PAGE->title
 );
-echo $output->render($formrenderable);
-echo $output->render($jsrenderable);
+echo $output->render($renderable);
 echo $output->footer();

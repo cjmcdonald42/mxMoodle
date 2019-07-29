@@ -95,23 +95,25 @@ define(
                 });
             }).fail(notification.exception);
         }
-        return function() {
-            $(document).ready(function() {
-                var deansFieldset = $('.mx-form fieldset#id_deans');
-                if ($('.mx-form input[name="isstudent"]').val() === '0') {
-                    deansFieldset.show();
-                } else {
-                    deansFieldset.hide();
-                }
-                update();
-            });
-            $('.mx-form select#id_student').change(update);
-            $('.mx-form div[data-groupname="keepcurrent"]').change(update);
-            $('.mx-form select#id_option1').change(update);
-            $('.mx-form select#id_option2').change(update);
-            $('.mx-form select#id_option3').change(update);
-            $('.mx-form select#id_option4').change(update);
-            $('.mx-form select#id_option5').change(update);
+        return {
+            setup: function() {
+                $(document).ready(function() {
+                    var deansFieldset = $('.mx-form fieldset#id_deans');
+                    if ($('.mx-form input[name="isstudent"]').val() === '0') {
+                        deansFieldset.show();
+                    } else {
+                        deansFieldset.hide();
+                    }
+                    update();
+                });
+                $('.mx-form select#id_student').change(update);
+                $('.mx-form div[data-groupname="keepcurrent"]').change(update);
+                $('.mx-form select#id_option1').change(update);
+                $('.mx-form select#id_option2').change(update);
+                $('.mx-form select#id_option3').change(update);
+                $('.mx-form select#id_option4').change(update);
+                $('.mx-form select#id_option5').change(update);
+            }
         };
     }
 );

@@ -38,6 +38,7 @@ $returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'vacation_travel');
+$PAGE->requires->js_call_amd('local_mxschool/vacation_travel_form', 'setup');
 
 $tripqueryfields = array('local_mxschool_vt_trip' => array('abbreviation' => 't', 'fields' => array(
     'id', 'userid' => 'student', 'departureid', 'returnid', 'destination', 'phone_number' => 'phone',
@@ -198,12 +199,10 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
-$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/vacation_travel_form');
 
 echo $output->header();
 echo $output->heading(
     $isstudent ? get_string('vacation_travel_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
 );
 echo $output->render($renderable);
-echo $output->render($jsrenderable);
 echo $output->footer();

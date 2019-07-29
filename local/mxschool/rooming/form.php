@@ -37,6 +37,8 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'rooming');
+$PAGE->requires->js_call_amd('local_mxschool/rooming_form', 'setup');
+
 
 $queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'fields' => array(
     'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
@@ -91,12 +93,10 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
-$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/rooming_form');
 
 echo $output->header();
 echo $output->heading(
     $isstudent ? get_string('rooming_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
 );
 echo $output->render($renderable);
-echo $output->render($jsrenderable);
 echo $output->footer();

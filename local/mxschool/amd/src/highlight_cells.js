@@ -45,7 +45,9 @@ define(['jquery'], function($) {
             }
         });
     }
-    return function() {
-        $(document).ready(highlight);
+    return {
+        setup: function() {
+            $(document).ready(highlight);
+        }
     };
 });

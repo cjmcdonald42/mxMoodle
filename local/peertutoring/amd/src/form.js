@@ -48,12 +48,14 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], 
             lib.updateSelect($('.mx-form select#id_course'), data);
         }).fail(notification.exception);
     }
-    return function() {
-        $(document).ready(function() {
-            updateTutorOptions();
-            updateCourses();
-        });
-        $('.mx-form select#id_tutor').change(updateTutorOptions);
-        $('.mx-form select#id_department').change(updateCourses);
+    return {
+        setup: function() {
+            $(document).ready(function() {
+                updateTutorOptions();
+                updateCourses();
+            });
+            $('.mx-form select#id_tutor').change(updateTutorOptions);
+            $('.mx-form select#id_department').change(updateCourses);
+        }
     };
 });
