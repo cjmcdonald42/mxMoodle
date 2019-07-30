@@ -37,7 +37,9 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'off_campus', 'signout');
-$PAGE->requires->js_call_amd('local_signout/off_campus_form', 'setup');
+if (!$isstudent || validate_ip_off_campus()) {
+    $PAGE->requires->js_call_amd('local_signout/off_campus_form', 'setup');
+}
 
 $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
