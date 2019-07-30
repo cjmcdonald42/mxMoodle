@@ -55,7 +55,7 @@ if ($id) { // Updating an existing record.
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing on-campus signout records.
-        redirect($PAGE->url);
+        redirect_to_fallback();
     }
 } else { // Creating a new record.
     $data = new stdClass();
