@@ -52,7 +52,7 @@ class block_mxschool_dash_signout extends block_base {
                 $boardingstatus = strtolower($DB->get_field(
                     'local_mxschool_student', 'boarding_status', array('userid' => $USER->id)
                 ));
-                $buttons[] = new local_signout\output\signin_button(
+                $buttons[] = new local_signout\output\sign_in_button(
                     get_string("on_campus_button_signin_{$boardingstatus}", 'block_mxschool_dash_signout')
                 );
             } else {
@@ -62,7 +62,7 @@ class block_mxschool_dash_signout extends block_base {
                         new moodle_url('/local/signout/off_campus/form.php', array('id' => $currentsignout->id))
                     );
                 } else {
-                    $buttons[] = new local_signout\output\signin_button(
+                    $buttons[] = new local_signout\output\sign_in_button(
                         get_string('off_campus_button_signin', 'block_mxschool_dash_signout')
                     );
                 }

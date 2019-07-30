@@ -44,12 +44,12 @@ class renderer extends \plugin_renderer_base {
     /**
      * Renders a sign-in button according to the template.
      *
-     * @param local\signout\output\signin_button $button.
+     * @param local\signout\output\sign_in_button $button.
      * @return string html for the button.
      */
-    public function render_signin_button($button) {
+    public function render_sign_in_button($button) {
         $data = $button->export_for_template($this);
-        return parent::render_from_template('local_signout/signin_button', $data);
+        return parent::render_from_template('local_signout/sign_in_button', $data);
     }
 
 }

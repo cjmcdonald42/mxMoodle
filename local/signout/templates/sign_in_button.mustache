@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template   local_signout/signin_button
+    @template   local_signout/sign_in_button
     @package    local_signout
     @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -31,7 +31,7 @@
 <button class="mx-signin-button btn btn-primary hidden-print">{{ text }}</button>
 
 {{# js }}
-    require(['local_signout/signin_button'], function(setup) {
+    require(['local_signout/sign_in_button'], function(setup) {
         setup();
     });
 {{/ js }}

@@ -16,7 +16,7 @@
 /**
  * Signs in an eSignout record for Middlesex's eSignout Subplugin.
  *
- * @module      local_signout/signin_button
+ * @module      local_signout/sign_in_button
  * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
