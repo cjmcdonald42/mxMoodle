@@ -49,7 +49,7 @@ class confirmation_button extends button {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties text and value.
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(\renderer_base $output) {
         $data = parent::export_for_template($output);
         $data->value = $this->value;
         return $data;

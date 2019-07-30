@@ -46,7 +46,7 @@ class button implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties depending on the button type.
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(\renderer_base $output) {
         $data = new \stdClass();
         $data->text = $this->text;
         return $data;
