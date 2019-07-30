@@ -48,7 +48,7 @@ class redirect_button extends button {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties text and url.
      */
-    public function export_for_template($output) {
+    public function export_for_template(renderer_base $output) {
         $data = parent::export_for_template($output);
         $data->url = $this->url->out();
         return $data;

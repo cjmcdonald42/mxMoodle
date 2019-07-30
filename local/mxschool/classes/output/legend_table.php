@@ -51,7 +51,7 @@ class legend_table implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties header and rows.
      */
-    public function export_for_template($output) {
+    public function export_for_template(renderer_base $output) {
         $data = new \stdClass();
         $data->header = $this->header;
         $data->rows = $this->rows;

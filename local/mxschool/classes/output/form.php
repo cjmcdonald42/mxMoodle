@@ -54,7 +54,7 @@ class form implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties form, topdescription, and bottomdescription.
      */
-    public function export_for_template($output) {
+    public function export_for_template(renderer_base $output) {
         $data = new \stdClass();
         ob_start();
         $this->form->display();

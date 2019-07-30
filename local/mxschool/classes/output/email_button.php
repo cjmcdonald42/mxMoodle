@@ -60,7 +60,7 @@ class email_button extends button {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties text, value, emailclass, requireconfirmation, and hidden.
      */
-    public function export_for_template($output) {
+    public function export_for_template(renderer_base $output) {
         $data = parent::export_for_template($output);
         $data->emailclass = $this->emailclass;
         $data->value = $this->value;

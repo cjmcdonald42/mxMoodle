@@ -32,5 +32,5 @@ $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_RC;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019072600 // MXSchool v3.1.
+    'local_mxschool' => 2019072901 // MXSchool v3.1.
 );
