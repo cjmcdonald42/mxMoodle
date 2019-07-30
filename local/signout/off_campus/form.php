@@ -75,6 +75,11 @@ if ($id) { // Updating an existing record.
             $data->type_select = 'Other';
     }
 } else { // Creating a new record.
+    $currentsignout = get_user_current_signout();
+    if ($isstudent && $currentsignout && $currentsignout->type = 'off_campus') {
+        // Students cannot create a new record if they already have an active one.
+        redirect(new moodle_url($PAGE->url, array('id' => $currentsignout->id)));
+    }
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = $data->departure_date = time();
