@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm Block for Faculty.
+ * Middlesex's Dashboard Block for Faculty.
  *
- * @package    block_mxschool_dorm_faculty
+ * @package    block_mxschool_dash_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -26,12 +26,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_mxschool_dorm_faculty';
-$plugin->version = 2019073100;
+$plugin->component = 'block_mxschool_dash_faculty';
+$plugin->version = 2019073101;
 $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_RC;
 $plugin->dependencies = array(
     'local_mxschool' => 2019072902, // MXSchool v3.1.
-    'local_signout' => 2019072902 // eSignout v3.1.
+    'local_signout' => 2019073001 // eSignout v3.1.
 );

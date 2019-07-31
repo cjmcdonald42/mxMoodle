@@ -15,23 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm Block for Faculty.
+ * English language strings for Middlesex's Dashboard Block for Faculty.
  *
- * @package    block_mxschool_dorm_faculty
+ * @package    block_mxschool_dash_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Faculty Dashboard Block';
+$string['blockname'] = 'Middlesex Faculty';
+$string['mxschool_dash_faculty:addinstance'] = 'Middlesex School: Add Faculty Dashboard Block';
+$string['mxschool_dash_faculty:myaddinstance'] = 'Middlesex School: Add Faculty Dashboard Block to Dashboard';
+$string['mxschool_dash_faculty:access'] = 'Middlesex School: Access Faculty Dashboard Block';
 
-$plugin->component = 'block_mxschool_dorm_faculty';
-$plugin->version = 2019073100;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_RC;
-$plugin->dependencies = array(
-    'local_mxschool' => 2019072902, // MXSchool v3.1.
-    'local_signout' => 2019072902 // eSignout v3.1.
-);
+$string['student_report'] = 'Student Data Report';
+$string['vehicle_report'] = 'Student Vehicles Report';
+$string['duty_report'] = 'On-Campus Duty Report';
