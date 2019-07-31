@@ -36,7 +36,7 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_edit_page('dorm_edit', 'dorm_report', 'user_management');
 
 $queryfields = array('local_mxschool_dorm' => array('abbreviation' => 'd', 'fields' => array(
-    'id', 'hohid' => 'hoh', 'name', 'abbreviation', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline'
+    'id', 'hohid' => 'hoh', 'name', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline'
 )));
 
 if ($id) { // Updating an existing record.

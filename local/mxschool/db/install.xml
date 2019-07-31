@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20190725" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20190731" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -48,7 +48,6 @@
         <FIELD NAME="hohid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the dorm's head of house."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the dorm record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="name" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the dorm."/>
-        <FIELD NAME="abbreviation" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The abbreviation for the dorm."/>
         <FIELD NAME="type" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boarding dorm or a day house {&quot;Boarding&quot;, &quot;Day&quot;, &quot;All&quot;}."/>
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boys dorm or a girls dorm {&quot;Boys&quot;, &quot;Girls&quot;, &quot;All&quot;}."/>
         <FIELD NAME="available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the dorm is currently available for students to live in."/>
@@ -64,7 +63,6 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty."/>
         <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the faculty's dorm, if the faculty is a dorm faculty."/>
-        <FIELD NAME="faculty_code" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The faculty's 5 character code from Senior Systems."/>
         <FIELD NAME="may_approve_signout" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty may approve student sign out {1, 0}."/>
         <FIELD NAME="advisory_available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the faculty's advisory is accepting new advisees {1, 0}."/>
         <FIELD NAME="advisory_closing" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty's advisory is going to close and all students must switch out of it {1, 0}."/>

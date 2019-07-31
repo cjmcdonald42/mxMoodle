@@ -36,8 +36,8 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_edit_page('faculty_edit', 'faculty_report', 'user_management');
 
 $queryfields = array('local_mxschool_faculty' => array('abbreviation' => 'f', 'fields' => array(
-    'id', 'dormid' => 'dorm', 'faculty_code' => 'facultycode', 'may_approve_signout' => 'approvesignout',
-    'advisory_available' => 'advisoryavailable', 'advisory_closing' => 'advisoryclosing'
+    'id', 'dormid' => 'dorm', 'may_approve_signout' => 'approvesignout', 'advisory_available' => 'advisoryavailable',
+    'advisory_closing' => 'advisoryclosing'
 )), 'user' => array('abbreviation' => 'u', 'join' => 'f.userid = u.id', 'fields' => array(
     'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
 )));

@@ -197,7 +197,6 @@ $string['user_management_faculty_report_header_advisoryclosing'] = 'Advisory Clo
 // Dorm Report.
 $string['user_management_dorm_report_add'] = 'New Dorm';
 $string['user_management_dorm_report_header_name'] = 'Name';
-$string['user_management_dorm_report_header_abbreviation'] = 'Abbreviation';
 $string['user_management_dorm_report_header_hoh'] = 'Head of House';
 $string['user_management_dorm_report_header_permissionsline'] = 'Permissions Line';
 $string['user_management_dorm_report_header_type'] = 'Type';
@@ -282,7 +281,6 @@ $string['user_management_faculty_edit_faculty_middlename'] = 'Middle Name';
 $string['user_management_faculty_edit_faculty_lastname'] = 'Last Name';
 $string['user_management_faculty_edit_faculty_alternatename'] = 'Alternate Name';
 $string['user_management_faculty_edit_faculty_email'] = 'Email';
-$string['user_management_faculty_edit_faculty_facultycode'] = 'Faculty Code';
 $string['user_management_faculty_edit_faculty_dorm'] = 'Dorm';
 $string['user_management_faculty_edit_faculty_approvesignout'] = 'May Approve Off-Campus Signout';
 $string['user_management_faculty_edit_faculty_advisoryavailable'] = 'Advisory Available';
@@ -291,7 +289,6 @@ $string['user_management_faculty_edit_faculty_advisoryclosing'] = 'Advisory Clos
 // Dorm Edit.
 $string['user_management_dorm_edit_header_dorm'] = 'Dorm Information';
 $string['user_management_dorm_edit_dorm_name'] = 'Name';
-$string['user_management_dorm_edit_dorm_abbreviation'] = 'Abbreviation';
 $string['user_management_dorm_edit_dorm_hoh'] = 'Head of House';
 $string['user_management_dorm_edit_dorm_permissionsline'] = 'Permissions Line';
 $string['user_management_dorm_edit_dorm_type'] = 'Type';
