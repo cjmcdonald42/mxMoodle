@@ -11,9 +11,11 @@ The project currently includes the following plugins:
 - **_mxschool_** — Middlesex's Dorm and Student Functions Plugin.
     - [local/mxschool](/local/mxschool/README.md)
     - [blocks/mxschool_dash_dean](/blocks/mxschool_dash_dean/README.md)
+    - [blocks/mxschool_dash_faculty](/blocks/mxschool_dash_faculty/README.md)
     - [blocks/mxschool_dash_student](/blocks/mxschool_dash_student/README.md)
     - [blocks/mxschool_dorm_faculty](/blocks/mxschool_dorm_faculty/README.md)
     - [blocks/mxschool_dorm_student](/blocks/mxschool_dorm_student/README.md)
+    - [blocks/mxschool_dorm_proctor](/blocks/mxschool_dorm_proctor/README.md)
     - [blocks/mxschool_manage_transportation](/blocks/mxschool_manage_transportation/README.md)
 - **_peertutoring_** — Middlesex's Peer Tutoring Subplugin.
     - [local/peertutoring](/local/peertutoring/README.md)

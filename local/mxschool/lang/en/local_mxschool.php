@@ -59,6 +59,7 @@ $string['mxschool:manage_dorms'] = 'Middlesex School: View and manage dorm data'
 $string['mxschool:manage_vehicles'] = 'Middlesex School: View and manage student vehicle registration';
 $string['mxschool:manage_student_pictures'] = 'Middlesex School: Import directory pictures of students';
 $string['mxschool:access_student_pictures'] = 'Middlesex School: Access directory pictures of students';
+$string['mxschool:view_limited_checkin'] = 'Middlesex School: View checkin sheets only for the user\'s dorm (proctors)';
 $string['mxschool:view_checkin'] = 'Middlesex School: View checkin sheets';
 $string['mxschool:manage_checkin_preferences'] = 'Middlesex School: View and manage checkin preferences';
 $string['mxschool:manage_weekend'] = 'Middlesex School: View and manage weekend forms';

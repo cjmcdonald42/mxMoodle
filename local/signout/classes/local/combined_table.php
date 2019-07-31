@@ -33,18 +33,22 @@ class combined_table extends \local_mxschool\table {
     /**
      * Creates a new combined_table.
      *
-     * @param stdClass $filter any filtering for the table - could include properties dorm and search.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
+     * @param bool $isproctor Whether the user is a proctor and personal information and actions should be ommited.
      */
-    public function __construct($filter) {
+    public function __construct($filter, $isproctor) {
         global $USER;
         $columns = array('student', 'grade', 'dorm', 'status', 'location', 'signouttime');
         if ($filter->dorm > 0) {
             unset($columns[array_search('dorm', $columns)]);
         }
+        if ($isproctor) {
+            unset($columns[array_search('location', $columns)]);
+        }
         $headers = $this->generate_headers($columns, 'combined_report', 'local_signout');
         $sortable = array('student', 'grade', 'status', 'signouttime');
         $centered = array('grade', 'status', 'signouttime');
-        parent::__construct('combined_table', $columns, $headers, $sortable, $centered, $filter);
+        parent::__construct('combined_table', $columns, $headers, $sortable, $centered, $filter, !$isproctor);
 
         $fields = array(
             's.id', 's.userid', 'onc.id AS onid', 'offc.id AS offid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade',

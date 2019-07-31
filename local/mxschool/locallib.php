@@ -106,7 +106,7 @@ function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
 
     setup_generic_page($url, $title);
 
-    $parenturl = empty($subpackage) ? "/local/{$package}/{$parent}.php" : "/local/{$package}/{$subpackage}/{$parent}.php";
+    $parenturl = "{$parent}.php";
     $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}_{$parent}", "local_{$package}");
 
     $PAGE->set_pagelayout('incourse');
