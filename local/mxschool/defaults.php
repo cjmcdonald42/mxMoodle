@@ -26,8 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$defaults['moodle']['alternateloginurl'] = "{$CFG->wwwroot}/local/mxschool/login.php";
 $defaults['moodle']['forcelogin'] = '1';
 $defaults['moodle']['passwordpolicy'] = '0';
 $defaults['moodle']['guestloginbutton'] = '0';
+$defaults['moodle']['alternateloginurl'] = "{$CFG->wwwroot}/local/mxschool/login.php";
 $defaults['theme_boost']['brandcolor'] = '#CF003D';
