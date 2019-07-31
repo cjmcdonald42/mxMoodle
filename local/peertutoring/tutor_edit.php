@@ -33,6 +33,7 @@ require_capability('local/peertutoring:manage_preferences', context_system::inst
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('tutor_edit', 'preferences', null, 'peertutoring');
+$PAGE->requires->js_call_amd('local_peertutoring/tutor_form', 'setup');
 
 $queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 'fields' => array(
     'id', 'userid' => 'student', 'departments', 'deleted'
@@ -73,10 +74,8 @@ if ($form->is_cancelled()) {
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
-$jsrenderable = new local_mxschool\output\amd_module('local_peertutoring/tutor_form');
 
 echo $output->header();
 echo $output->heading($PAGE->title);
 echo $output->render($renderable);
-echo $output->render($jsrenderable);
 echo $output->footer();

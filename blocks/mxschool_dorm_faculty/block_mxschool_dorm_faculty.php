@@ -57,14 +57,10 @@ class block_mxschool_dorm_faculty extends block_base {
                         => '/local/signout/combined_report.php',
                     get_string('on_campus_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/on_campus/report.php',
-                    get_string('duty_report', 'block_mxschool_dorm_faculty')
-                        => '/local/signout/on_campus/duty_report.php',
                     get_string('off_campus_report', 'block_mxschool_dorm_faculty')
                         => '/local/signout/off_campus/report.php',
                     get_string('vacation_report', 'block_mxschool_dorm_faculty')
-                        => '/local/mxschool/vacation_travel/vacation_report.php',
-                    get_string('manage_student_data', 'block_mxschool_dorm_faculty')
-                        => '/local/mxschool/user_management/student_report.php'
+                        => '/local/mxschool/vacation_travel/vacation_report.php'
                 ), get_string('other_heading', 'block_mxschool_dorm_faculty'))
             );
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {

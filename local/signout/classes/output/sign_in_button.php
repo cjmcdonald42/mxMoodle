@@ -30,6 +30,6 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\output\button;
 
-class signin_button extends button {
+class sign_in_button extends button {
     // Data is exact same as generic button.
 }

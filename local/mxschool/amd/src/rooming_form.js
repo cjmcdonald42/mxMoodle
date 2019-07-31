@@ -85,15 +85,17 @@ define(
                 });
             }).fail(notification.exception);
         }
-        return function() {
-            $(document).ready(update);
-            $('.mx-form select#id_student').change(update);
-            $('.mx-form select#id_dormmate1').change(update);
-            $('.mx-form select#id_dormmate2').change(update);
-            $('.mx-form select#id_dormmate3').change(update);
-            $('.mx-form select#id_dormmate4').change(update);
-            $('.mx-form select#id_dormmate5').change(update);
-            $('.mx-form select#id_dormmate6').change(update);
+        return {
+            setup: function() {
+                $(document).ready(update);
+                $('.mx-form select#id_student').change(update);
+                $('.mx-form select#id_dormmate1').change(update);
+                $('.mx-form select#id_dormmate2').change(update);
+                $('.mx-form select#id_dormmate3').change(update);
+                $('.mx-form select#id_dormmate4').change(update);
+                $('.mx-form select#id_dormmate5').change(update);
+                $('.mx-form select#id_dormmate6').change(update);
+            }
         };
     }
 );

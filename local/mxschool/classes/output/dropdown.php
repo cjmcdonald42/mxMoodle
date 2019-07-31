@@ -58,7 +58,7 @@ class dropdown implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties name, options, and selected.
      */
-    public function export_for_template($output) {
+    public function export_for_template(\renderer_base $output) {
         $data = new \stdClass();
         $data->name = $this->name;
         $options = $this->default ? array('' => $this->default) + $this->options : $this->options;

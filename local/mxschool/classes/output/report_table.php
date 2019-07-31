@@ -50,7 +50,7 @@ class report_table implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties table and headers.
      */
-    public function export_for_template($output) {
+    public function export_for_template(\renderer_base $output) {
         $data = new \stdClass();
         ob_start();
         $this->table->out(get_config('local_mxschool', 'table_size'), true);

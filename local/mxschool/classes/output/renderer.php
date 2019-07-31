@@ -31,17 +31,6 @@ defined('MOODLE_INTERNAL') || die();
 class renderer extends \plugin_renderer_base {
 
     /**
-     * Renders an amd module according to the template.
-     *
-     * @param local_mxschool\output\amd_module $module.
-     * @return string html for the script.
-     */
-    public function render_amd_module($module) {
-        $data = $module->export_for_template($this);
-        return parent::render_from_template('local_mxschool/amd_module', $data);
-    }
-
-    /**
      * Renders a checkbox according to the template.
      *
      * @param local_mxschool\output\checkbox $checkbox.

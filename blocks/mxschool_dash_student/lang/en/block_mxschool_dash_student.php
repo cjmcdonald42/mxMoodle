@@ -25,7 +25,7 @@
  */
 
 $string['pluginname'] = 'Student Dashboard Block';
-$string['blockname'] = 'Middlesex';
+$string['blockname'] = 'Middlesex Student';
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Student Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Student Block to Dashboard';
 

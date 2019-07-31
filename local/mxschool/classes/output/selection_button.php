@@ -53,7 +53,7 @@ class selection_button extends button {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties text and value and text.
      */
-    public function export_for_template($output) {
+    public function export_for_template(\renderer_base $output) {
         $data = parent::export_for_template($output);
         $value = new \stdClass();
         $value->student = $this->student;

@@ -58,7 +58,7 @@ class checkbox implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties value, name, checked, and table.
      */
-    public function export_for_template($output) {
+    public function export_for_template(\renderer_base $output) {
         $data = new \stdClass();
         $data->value = $this->value;
         $data->table = $this->table;

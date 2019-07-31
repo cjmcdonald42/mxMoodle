@@ -37,6 +37,7 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('weekend_form', 'checkin');
+$PAGE->requires->js_call_amd('local_mxschool/weekend_form', 'setup');
 
 $queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
     'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
@@ -126,15 +127,13 @@ if (isset($record)) {
     $bottominstructions = str_replace('{hoh}', format_faculty_name($record->hoh, false), $bottominstructions);
     $bottominstructions = str_replace('{permissionsline}', $record->permissionsline, $bottominstructions);
 }
-$formrenderable = new local_mxschool\output\form(
+$renderable = new local_mxschool\output\form(
     $form, get_config('local_mxschool', 'weekend_form_instructions_top'), $bottominstructions
 );
-$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/weekend_form');
 
 echo $output->header();
 echo $output->heading(
     $isstudent ? get_string('checkin_weekend_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
 );
-echo $output->render($formrenderable);
-echo $output->render($jsrenderable);
+echo $output->render($renderable);
 echo $output->footer();

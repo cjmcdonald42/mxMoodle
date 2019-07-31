@@ -288,34 +288,36 @@ define(
             }
             retDateDiv.before('&nbsp;' + retDayOfWeek + '&nbsp;');
         }
-        return function() {
-            $(document).ready(function() {
-                update();
-                dayOfWeek();
-            });
-            $('div[data-groupname="dep_mxtransportation"]').change(update);
-            $('div[data-groupname="dep_type"]').change(update);
-            $('div[data-groupname="dep_site"]').change(update);
-            $('div[data-groupname="dep_variable_date"]').change(dayOfWeek);
-            $('a#id_dep_variable_date_calendar').on('click', function() {
-                setTimeout(function() {
-                    $('div#dateselector-calendar-panel td').on('click', function() {
-                        setTimeout(dayOfWeek, 100);
-                    });
-                }, 100);
-            });
-            if ($('.mx-form fieldset#id_return').length) {
-                $('div[data-groupname="ret_mxtransportation"]').change(update);
-                $('div[data-groupname="ret_type"]').change(update);
-                $('div[data-groupname="ret_site"]').change(update);
-                $('div[data-groupname="ret_variable_date"]').change(dayOfWeek);
-                $('a#id_ret_variable_date_calendar').on('click', function() {
+        return {
+            setup: function() {
+                $(document).ready(function() {
+                    update();
+                    dayOfWeek();
+                });
+                $('div[data-groupname="dep_mxtransportation"]').change(update);
+                $('div[data-groupname="dep_type"]').change(update);
+                $('div[data-groupname="dep_site"]').change(update);
+                $('div[data-groupname="dep_variable_date"]').change(dayOfWeek);
+                $('a#id_dep_variable_date_calendar').on('click', function() {
                     setTimeout(function() {
                         $('div#dateselector-calendar-panel td').on('click', function() {
                             setTimeout(dayOfWeek, 100);
                         });
                     }, 100);
                 });
+                if ($('.mx-form fieldset#id_return').length) {
+                    $('div[data-groupname="ret_mxtransportation"]').change(update);
+                    $('div[data-groupname="ret_type"]').change(update);
+                    $('div[data-groupname="ret_site"]').change(update);
+                    $('div[data-groupname="ret_variable_date"]').change(dayOfWeek);
+                    $('a#id_ret_variable_date_calendar').on('click', function() {
+                        setTimeout(function() {
+                            $('div#dateselector-calendar-panel td').on('click', function() {
+                                setTimeout(dayOfWeek, 100);
+                            });
+                        }, 100);
+                    });
+                }
             }
         };
     }

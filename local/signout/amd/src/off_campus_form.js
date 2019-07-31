@@ -121,18 +121,20 @@ define(
                 $('.mx-form select#id_departure_time_ampm > option').prop('selected', function() {return this.defaultSelected;});
             });
         }
-        return function() {
-            $(document).ready(function() {
-                updateTypeSubfields();
-                updateStudentOptions();
-                updateDriverDetails();
-            });
-            $('.mx-form select#id_student').change(updateStudentOptions);
-            $('.mx-form div[data-groupname="type_select"]').change(function() {
-                updateTypeSubfields();
-                updateStudentOptions();
-            });
-            $('.mx-form select#id_driver').change(updateDriverDetails);
+        return {
+            setup: function() {
+                $(document).ready(function() {
+                    updateTypeSubfields();
+                    updateStudentOptions();
+                    updateDriverDetails();
+                });
+                $('.mx-form select#id_student').change(updateStudentOptions);
+                $('.mx-form div[data-groupname="type_select"]').change(function() {
+                    updateTypeSubfields();
+                    updateStudentOptions();
+                });
+                $('.mx-form select#id_driver').change(updateDriverDetails);
+            }
         };
     }
 );

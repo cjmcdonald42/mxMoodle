@@ -50,7 +50,7 @@ class index implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with property links which is an array of stdClass with properties text and url.
      */
-    public function export_for_template($output) {
+    public function export_for_template(\renderer_base $output) {
         $data = new \stdClass();
         $data->heading = $this->heading;
         $data->links = array_map(function($text, $url) {

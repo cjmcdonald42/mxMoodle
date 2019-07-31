@@ -39,6 +39,7 @@ $filter->dorm = $isstudent ? '' : get_param_faculty_dorm(false);
 $filter->semester = get_param_current_semester();
 
 setup_mxschool_page('weekend_calculator', 'checkin');
+$PAGE->requires->js_call_amd('local_mxschool/highlight_cells', 'setup');
 
 $semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));
 $startdate = get_config('local_mxschool', $filter->semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
@@ -81,7 +82,6 @@ $reportrenderable = new local_mxschool\output\report($table, null, $dropdowns, a
 $legendrenderable = new local_mxschool\output\legend_table(
     get_string('checkin_weekend_calculator_legend_header', 'local_mxschool'), $rows
 );
-$jsrenderable = new local_mxschool\output\amd_module('local_mxschool/highlight_cells');
 
 echo $output->header();
 echo $output->heading(get_string(
@@ -89,5 +89,4 @@ echo $output->heading(get_string(
 ));
 echo $output->render($reportrenderable);
 echo $output->render($legendrenderable);
-echo $output->render($jsrenderable);
 echo $output->footer();

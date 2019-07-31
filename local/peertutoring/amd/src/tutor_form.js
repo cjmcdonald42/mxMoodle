@@ -35,8 +35,10 @@ define(
                 lib.updateSelect($('.mx-form select#id_student'), data.students, $('.mx-form input[name="id"]').val() !== '0');
             }).fail(notification.exception);
         }
-        return function() {
-            $(document).ready(update);
+        return {
+            setup: function() {
+                $(document).ready(update);
+            }
         };
     }
 );

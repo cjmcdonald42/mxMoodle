@@ -24,10 +24,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Dorm Faculty Block';
+$string['pluginname'] = 'Faculty Dorm Block';
 $string['blockname'] = 'Dorm Faculty Menu';
-$string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Dorm Faculty Block';
-$string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Dorm Faculty Block to Dashboard';
+$string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Faculty Dorm Block';
+$string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Faculty Dorm Block to Dashboard';
 $string['mxschool_dorm_faculty:access'] = 'Middlesex School: Access Dorm Faculty Block';
 
 $string['event_heading'] = 'Check-In Sheets';
@@ -39,7 +39,5 @@ $string['weekend_calculator'] = 'Weekend Calculator';
 $string['other_heading'] = 'Data and Reports';
 $string['combined_report'] = 'Dorm Signout Report';
 $string['on_campus_report'] = 'On-Campus Signout Report';
-$string['duty_report'] = 'On-Campus Duty Report';
 $string['off_campus_report'] = 'Off-Campus Signout Report';
 $string['vacation_report'] = 'Vacation Travel Report';
-$string['manage_student_data'] = 'Student Data Report';

@@ -37,6 +37,9 @@ if (!$isstudent) {
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'on_campus', 'signout');
+if (!$isstudent || validate_ip_on_campus()) {
+    $PAGE->requires->js_call_amd('local_signout/on_campus_form', 'setup');
+}
 
 $queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 'fields' => array(
     'id', 'userid' => 'student', 'locationid' => 'location_select', 'other' => 'location_other', 'time_created' => 'timecreated',
@@ -52,7 +55,7 @@ if ($id) { // Updating an existing record.
     }
     $data = get_record($queryfields, "oc.id = ?", array($id));
     if ($isstudent) { // Students cannot edit existing on-campus signout records.
-        redirect($PAGE->url);
+        redirect_to_fallback();
     }
 } else { // Creating a new record.
     $data = new stdClass();
@@ -84,8 +87,7 @@ if ($form->is_cancelled()) {
 }
 
 $output = $PAGE->get_renderer('local_mxschool');
-$formrenderable = new local_mxschool\output\form($form);
-$jsrenderable = new local_mxschool\output\amd_module('local_signout/on_campus_form');
+$renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 if ($isstudent && !validate_ip_on_campus()) {
@@ -94,7 +96,6 @@ if ($isstudent && !validate_ip_on_campus()) {
     echo $output->heading(
         $isstudent ? get_string('on_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );
-    echo $output->render($formrenderable);
-    echo $output->render($jsrenderable);
+    echo $output->render($renderable);
 }
 echo $output->footer();

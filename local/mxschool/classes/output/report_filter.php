@@ -58,7 +58,7 @@ class report_filter implements \renderable, \templatable {
      * @param renderer_base $output The renderer which is rendering this renderable.
      * @return stdClass Object with properties filterable, url, dropdowns, searchable, search, buttons, and printable.
      */
-    public function export_for_template($output) {
+    public function export_for_template(\renderer_base $output) {
         global $PAGE;
         $data = new \stdClass();
         $data->url = $PAGE->url;

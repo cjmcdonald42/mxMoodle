@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,41 +14,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderable class for amd modules for Middlesex's Dorm and Student Functions Plugin.
+ * Signs in an eSignout record for Middlesex's eSignout Subplugin.
  *
- * @package     local_mxschool
+ * @module      local_signout/sign_in_button
+ * @package     local_signout
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool\output;
-
-defined('MOODLE_INTERNAL') || die();
-
-class amd_module implements \renderable, \templatable {
-
-    /** @var string $module The name of the amd module.*/
-    private $module;
-
-    /**
-     * @param string $module The name of the amd module.
-     */
-    public function __construct($module) {
-        $this->module = $module;
+define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
+    function signin() {
+        var promises = ajax.call([{
+            methodname: 'local_signout_sign_in',
+            args: {}
+        }]);
+        promises[0].done(function(error) {
+            if (error) {
+                alert(error);
+            } else {
+                location.reload();
+            }
+        }).fail(notification.exception);
     }
-
-    /**
-     * Exports this data so it can be used as the context for a mustache template.
-     *
-     * @param renderer_base $output The renderer which is rendering this renderable.
-     * @return stdClass Object with property name.
-     */
-    public function export_for_template($output) {
-        $data = new \stdClass();
-        $data->module = $this->module;
-        return $data;
-    }
-
-}
+    return function() {
+        var element = $('.mx-signin-button');
+        element.click(signin);
+    };
+});
