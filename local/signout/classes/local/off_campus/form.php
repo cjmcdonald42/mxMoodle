@@ -89,7 +89,6 @@ class form extends \local_mxschool\form {
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
         $mform->disabledIf('type', 'id', 'neq', '0');
-        $mform->disabledIf('driver', 'id', 'neq', '0');
     }
 
     /**
