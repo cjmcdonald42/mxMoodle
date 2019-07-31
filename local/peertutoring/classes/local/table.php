@@ -52,11 +52,17 @@ class table extends \local_mxschool\table {
             unset($columns[array_search('type', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'report', 'local_peertutoring');
-        $sortable = $email ? array() : array('tutoringdate', 'tutor', 'student', 'department', 'course', 'type', 'rating');
+        $sortable = array('tutoringdate', 'tutor', 'student', 'department', 'course', 'type', 'rating');
         $centered = array('tutoringdate', 'department', 'course');
         parent::__construct(
             'tutoring_table', $columns, $headers, $sortable, $centered, $filter, !$email && !$this->is_downloading(), false
         );
+        if ($email) {
+            $this->sortable(false);
+            $this->column_style_all('vertical-align', 'middle');
+            $this->column_style_all('padding', '0.25rem');
+            $this->column_style_all('border', '1px solid #999');
+        }
 
         $fields = array(
             's.id', 's.tutorid', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 's.studentid',
