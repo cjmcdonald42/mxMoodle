@@ -32,36 +32,36 @@ require_once($CFG->libdir.'/formslib.php');
 
 abstract class form extends \moodleform {
 
-    const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
-    const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
-    const ELEMENT_TEXT_REQUIRED = array(
+    protected const ELEMENT_HIDDEN_INT = array('element' => 'hidden', 'name' => null, 'type' => PARAM_INT);
+    protected const ELEMENT_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20));
+    protected const ELEMENT_TEXT_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 20), 'rules' => array('required')
     );
-    const ELEMENT_LONG_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100));
-    const ELEMENT_LONG_TEXT_REQUIRED = array(
+    protected const ELEMENT_LONG_TEXT = array('element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100));
+    protected const ELEMENT_LONG_TEXT_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 100), 'rules' => array('required')
     );
-    const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
-    const ELEMENT_YES_NO_REQUIRED = array(
+    protected const ELEMENT_YES_NO = array('element' => 'radio', 'options' => array('Yes', 'No'));
+    protected const ELEMENT_YES_NO_REQUIRED = array(
         'element' => 'radio', 'options' => array('Yes', 'No'), 'rules' => array('required')
     );
-    const ELEMENT_BOOLEAN = array('element' => 'radio', 'options' => array(1, 0));
-    const ELEMENT_BOOLEAN_REQUIRED = array('element' => 'radio', 'options' => array(1, 0), 'rules' => array('required'));
-    const ELEMENT_EMAIL = array(
+    protected const ELEMENT_BOOLEAN = array('element' => 'radio', 'options' => array(1, 0));
+    protected const ELEMENT_BOOLEAN_REQUIRED = array('element' => 'radio', 'options' => array(1, 0), 'rules' => array('required'));
+    protected const ELEMENT_EMAIL = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email')
     );
-    const ELEMENT_EMAIL_REQUIRED = array(
+    protected const ELEMENT_EMAIL_REQUIRED = array(
         'element' => 'text', 'type' => PARAM_TEXT, 'attributes' => array('size' => 40), 'rules' => array('email', 'required')
     );
-    const ELEMENT_TEXT_AREA = array(
+    protected const ELEMENT_TEXT_AREA = array(
         'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40)
     );
-    const ELEMENT_TEXT_AREA_REQUIRED = array(
+    protected const ELEMENT_TEXT_AREA_REQUIRED = array(
         'element' => 'textarea', 'type' => PARAM_TEXT, 'attributes' => array('rows' => 3, 'cols' => 40),
         'rules' => array('required')
     );
-    const ELEMENT_FORMATTED_TEXT = array('element' => 'editor');
-    const ELEMENT_FORMATTED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
+    protected const ELEMENT_FORMATTED_TEXT = array('element' => 'editor');
+    protected const ELEMENT_FORMATTED_TEXT_REQUIRED = array('element' => 'editor', 'rules' => array('required'));
 
     /**
      * Generates the field array for a 12-hour time selector with a particular minute step.
