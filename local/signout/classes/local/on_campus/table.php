@@ -34,7 +34,7 @@ class table extends \local_mxschool\table {
     /**
      * Creates a new on_campus_table.
      *
-     * @param stdClass $filter any filtering for the table - could include properties dorm, location, date, and search.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm, location, date, and search.
      */
     public function __construct($filter) {
         global $USER;

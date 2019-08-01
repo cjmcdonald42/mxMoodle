@@ -57,6 +57,10 @@ $capabilities = array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
     ),
+    'local/mxschool:view_limited_checkin' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
     'local/mxschool:view_checkin' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM

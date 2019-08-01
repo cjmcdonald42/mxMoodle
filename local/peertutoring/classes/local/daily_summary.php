@@ -45,10 +45,9 @@ class daily_summary extends \local_peertutoring\notification {
         $filter->search = '';
         $table = new table($filter, '', true);
 
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new report_table($table);
-
         $this->data['total'] = $DB->count_records_select('local_peertutoring_session', "tutoring_date >= ?", array($filter->date));
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new report_table($table, false, $this->data['total']);
         $this->data['table'] = $output->render($renderable);
 
         $this->recipients[] = self::get_peertutoradmin_user();

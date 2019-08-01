@@ -37,7 +37,7 @@ class duty_table extends \local_mxschool\table {
     /**
      * Creates a new duty_table.
      *
-     * @param stdClass $filter any filtering for the table - could include properties pictures, location and search.
+     * @param stdClass $filter Any filtering for the table - could include properties pictures, location and search.
      */
     public function __construct($filter) {
         $columns = array('student', 'picture', 'grade', 'dorm', 'advisor', 'location', 'signouttime', 'confirmation');

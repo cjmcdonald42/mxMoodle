@@ -134,7 +134,7 @@ class student_table extends \local_mxschool\table {
     }
 
     /**
-     * Formats the birthday column to 'n/j/y'.
+     * Formats the birthday column to 'n/j'.
      */
     protected function col_birthday($values) {
         return generate_datetime($values->birthday)->format('n/j');

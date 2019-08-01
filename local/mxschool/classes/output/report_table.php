@@ -34,14 +34,18 @@ class report_table implements \renderable, \templatable {
     private $table;
     /** @var array|bool Array of headers as ['text', 'length'] to prepend or false.*/
     private $headers;
+    /** @var int The number of rows to output. If null, uses the default number from the admin setting.*/
+    private $rows;
 
     /**
      * @param local_mxschool\table $table The table object to output to the template.
      * @param array|bool $headers Array of headers as ['text', 'length'] to prepend or false.
+     * @param int $rows The number of rows to output. If null, uses the default number from the admin setting.
      */
-    public function __construct($table, $headers = false) {
+    public function __construct($table, $headers = false, $rows = null) {
         $this->table = $table;
         $this->headers = $headers;
+        $this->rows = $rows;
     }
 
     /**
@@ -53,7 +57,7 @@ class report_table implements \renderable, \templatable {
     public function export_for_template(\renderer_base $output) {
         $data = new \stdClass();
         ob_start();
-        $this->table->out(get_config('local_mxschool', 'table_size'), true);
+        $this->table->out(isset($this->rows) ? $this->rows : get_config('local_mxschool', 'table_size'), true);
         $data->table = ob_get_clean();
         $data->headers = $this->headers ? json_encode($this->headers) : $this->headers;
         return $data;

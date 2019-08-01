@@ -29,15 +29,25 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:view_checkin', context_system::instance());
+$isproctor = user_is_student();
+if ($isproctor) {
+    require_capability('local/mxschool:view_limited_checkin', context_system::instance());
+} else {
+    require_capability('local/mxschool:view_checkin', context_system::instance());
+}
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm();
+$filter->dorm = $isproctor ? $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $USER->id))
+    : get_param_faculty_dorm();
 
 setup_mxschool_page('generic_report', 'checkin');
 
 $table = new local_mxschool\local\checkin\generic_table($filter);
-$dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
+if ($isproctor) {
+    $dropdowns = array();
+} else {
+    $dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);

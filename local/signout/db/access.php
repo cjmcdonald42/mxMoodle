@@ -27,6 +27,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
+    'local/signout:view_limited_signout_summary' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
     'local/signout:manage_on_campus' => array(
         'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
         'captype' => 'write',

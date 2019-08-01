@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's eSignout Subplugin.
+ * Default config values for Middlesex's Dorm and Student Functions Plugin.
  *
- * @package     local_signout
+ * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -26,11 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_signout';
-$plugin->version = 2019073101;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_RC;
-$plugin->dependencies = array(
-    'local_mxschool' => 2019072902 // MXSchool v3.1.
-);
+$defaults['moodle']['forcelogin'] = '1';
+$defaults['moodle']['passwordpolicy'] = '0';
+$defaults['moodle']['guestloginbutton'] = '0';
+$defaults['moodle']['alternateloginurl'] = "{$CFG->wwwroot}/local/mxschool/login.php";
+$defaults['theme_boost']['brandcolor'] = '#CF003D';

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Content for Middlesex's Dashboard Block for Faculty.
+ * Content for Middlesex's Dorm Block for Students..
  *
- * @package    block_mxschool_dash_faculty
+ * @package    block_mxschool_dorm_proctor
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -28,10 +28,10 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
-class block_mxschool_dash_faculty extends block_base {
+class block_mxschool_dorm_proctor extends block_base {
 
     public function init() {
-        $this->title = get_string('pluginname', 'block_mxschool_dash_faculty');
+        $this->title = get_string('pluginname', 'block_mxschool_dorm_proctor');
     }
 
     public function get_content() {
@@ -44,9 +44,8 @@ class block_mxschool_dash_faculty extends block_base {
         if (has_capability('block/mxschool_dash_faculty:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
-                get_string('student_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/student_report.php',
-                get_string('vehicle_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/vehicle_report.php',
-                get_string('duty_report', 'block_mxschool_dash_faculty') => '/local/signout/on_campus/duty_report.php'
+                get_string('checkin_sheet', 'block_mxschool_dorm_proctor') => '/local/mxschool/checkin/generic_report.php',
+                get_string('dorm_signout_report', 'block_mxschool_dorm_proctor') => '/local/signout/combined_report.php'
             ));
             $this->content->text = $output->render($renderable);
         }
@@ -55,6 +54,6 @@ class block_mxschool_dash_faculty extends block_base {
     }
 
     public function specialization() {
-        $this->title = get_string('blockname', 'block_mxschool_dash_faculty');
+        $this->title = get_string('blockname', 'block_mxschool_dorm_proctor');
     }
 }

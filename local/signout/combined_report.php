@@ -28,11 +28,17 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
 
 require_login();
-require_capability('local/signout:manage_on_campus', context_system::instance());
-require_capability('local/signout:manage_off_campus', context_system::instance());
+$isproctor = user_is_student();
+if ($isproctor) {
+    require_capability('local/signout:view_limited_summary', context_system::instance());
+} else {
+    require_capability('local/signout:manage_on_campus', context_system::instance());
+    require_capability('local/signout:manage_off_campus', context_system::instance());
+}
 
 $filter = new stdClass();
-$filter->dorm = get_param_faculty_dorm();
+$filter->dorm = $isproctor ? $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $USER->id))
+    : get_param_faculty_dorm();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
@@ -60,16 +66,21 @@ if ($action === 'delete' && $id && $table) {
     }
 }
 
-$table = new local_signout\local\combined_table($filter);
-$dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
-$buttons = array(
-    new local_mxschool\output\redirect_button(
-        get_string('on_campus_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
-    ),
-    new local_mxschool\output\redirect_button(
-        get_string('off_campus_report_add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
-    )
-);
+$table = new local_signout\local\combined_table($filter, $isproctor);
+if ($isproctor) {
+    $dropdowns = array();
+    $buttons = array();
+} else {
+    $dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
+    $buttons = array(
+        new local_mxschool\output\redirect_button(
+            get_string('on_campus_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
+        ),
+        new local_mxschool\output\redirect_button(
+            get_string('off_campus_report_add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
+        )
+    );
+}
 
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);

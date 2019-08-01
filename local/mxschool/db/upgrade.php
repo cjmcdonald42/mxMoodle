@@ -803,5 +803,29 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072512, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019073100) {
+
+        // Define field abbreviation to be dropped from local_mxschool_dorm.
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('abbreviation');
+
+        // Conditionally launch drop field abbreviation.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Define field faculty_code to be dropped from local_mxschool_faculty.
+        $table = new xmldb_table('local_mxschool_faculty');
+        $field = new xmldb_field('faculty_code');
+
+        // Conditionally launch drop field faculty_code.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019073100, 'local', 'mxschool');
+    }
+
     return true;
 }
