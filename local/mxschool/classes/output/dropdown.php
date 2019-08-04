@@ -66,7 +66,7 @@ class dropdown implements \renderable, \templatable {
             $option = new \stdClass();
             $option->value = $value;
             $option->text = $text;
-            $option->selected = (string) $value === $this->selected;
+            $option->selected = (string) $value === (string) $this->selected;
             return $option;
         }, array_keys($options), $options);
         return $data;
