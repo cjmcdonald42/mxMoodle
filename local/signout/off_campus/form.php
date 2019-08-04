@@ -119,15 +119,17 @@ if ($form->is_cancelled()) {
             unset($data->destination);
             unset($data->date);
             break;
-        case 'Other': // For an Other record, the other text is stored in the type field.
-            $data->type_select = $data->type_other;
-        default: // For Parent, Rideshare, and Other records, the destination and departure fields are saved on their own record.
+        case 'Other': // For an 'Other' record, the other text is stored in the type field.
+            // We have to be careful here because the text which students enter in the 'other' field is stored directly as the type.
+            // If the internal name of a type was entered, students could bypass their permissions and not be flagged as irregular.
+            $data->type_select = in_array($data->type_other, $types) ? 'Other' : $data->type_other;
+        default: // For Parent, Rideshare, and 'Other' records, the destination and departure fields are saved on their own record.
             $data->driver = 0; // This field will be set once we know the id of this record.
             unset($data->passengers);
             $data->departure_date = generate_timestamp($data, 'departure');
     }
     $id = update_record($queryfields, $data);
-    if ($data->type_select !== 'Passenger') { // For Driver, Parent, Rideshare and Other records, driverid references the same id.
+    if ($data->type_select !== 'Passenger') { // For Driver, Parent, Rideshare and 'Other' records, driverid references the same id.
         $record = $DB->get_record('local_signout_off_campus', array('id' => $id));
         $record->driverid = $id;
         $DB->update_record('local_signout_off_campus', $record);

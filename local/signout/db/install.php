@@ -52,12 +52,12 @@ function xmldb_local_signout_install() {
     set_config('off_campus_form_warning_onlyspecific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_signout');
     set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
     set_config('off_campus_notification_warning_irregular', '[Irregular] ', 'local_signout');
-    set_config('off_campus_notification_warning_driver', 'None.', 'local_signout');
-    set_config('off_campus_notification_warning_any', 'None.', 'local_signout');
-    set_config('off_campus_notification_warning_parent', 'This student requires parent permission to be the passenger of another student.', 'local_signout');
-    set_config('off_campus_notification_warning_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_signout');
-    set_config('off_campus_notification_warning_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
-    set_config('off_campus_notification_warning_unsetpermissions', 'This student does NOT have passenger permissions on file.', 'local_signout');
+    set_config('off_campus_notification_warning_driver_passengers', 'None.', 'local_signout');
+    set_config('off_campus_notification_warning_driver_yespassengers', 'This student does NOT have permission to drive other students.', 'local_signout');
+    set_config('off_campus_notification_warning_passenger_any', 'None.', 'local_signout');
+    set_config('off_campus_notification_warning_passenger_parent', 'This student requires parent permission to be the passenger of another student.', 'local_signout');
+    set_config('off_campus_notification_warning_passenger_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_signout');
+    set_config('off_campus_notification_warning_passenger_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
 
     $subpackages = array(
         array('package' => 'signout', 'pages' => json_encode(array('combined_report'))),

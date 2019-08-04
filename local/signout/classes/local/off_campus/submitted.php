@@ -44,7 +44,8 @@ class submitted extends \local_mxschool\notification {
             $record = $DB->get_record_sql(
                 "SELECT u.id as student, d.approverid AS approver, sd.hohid AS hoh, oc.type, oc.passengers, d.userid as driver,
                         d.destination, d.departure_time AS departuretime, oc.time_modified AS timesubmitted,
-                        p.may_ride_with AS passengerpermission, p.ride_permission_details AS specificdrivers
+                        p.may_drive_passengers AS driverpermission, p.may_ride_with AS passengerpermission,
+                        p.ride_permission_details AS specificdrivers
                  FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
                                                     LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id
                                                     LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
@@ -62,33 +63,49 @@ class submitted extends \local_mxschool\notification {
                 $passengers = count($passengerlist) ? implode('<br>', $passengerlist)
                     : get_string('off_campus_report_nopassengers', 'local_signout');
             }
-            $irregular = false;
-            if ($record->type === 'Driver') {
-                $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_driver');
-            } else {
-                if (!in_array($record->type, array('Passenger', 'Parent', 'Rideshare'))) { // Records with an 'Other' type.
+            switch ($record->type) {
+                case 'Driver':
+                    switch($record->driverpermission) {
+                        case 'Yes':
+                            $permissionswarning = get_config(
+                                'local_signout', 'off_campus_notification_warning_driver_yespassengers'
+                            );
+                            $irregular = false;
+                            break;
+                        case 'No':
+                            $permissionswarning = get_config(
+                                'local_signout', 'off_campus_notification_warning_driver_nopassengers'
+                            );
+                            $irregular = false;
+                            break;
+                    }
+                    break;
+                case 'Passenger':
+                    switch($record->passengerpermission) {
+                        case 'Any Driver':
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_any');
+                            $irregular = false;
+                            break;
+                        case 'Parent Permission':
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
+                            $irregular = false;
+                            break;
+                        case 'Specific Drivers':
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_specific')
+                                . " {$record->specificdrivers}";
+                            $irregular = true;
+                            break;
+                        case 'Over 21':
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
+                            $irregular = true;
+                    }
+                    break;
+                case 'Parent':
+                case 'Rideshare':
+                    $irregular = false;
+                    break;
+                default: // Record with an 'Other' type.
                     $irregular = true;
-                }
-                switch($record->passengerpermission) {
-                    case 'Any Driver':
-                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_any');
-                        break;
-                    case 'Parent Permission':
-                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_parent');
-                        break;
-                    case 'Specific Drivers':
-                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_specific')
-                            . " {$record->specificdrivers}";
-                        $irregular = true;
-                        break;
-                    case 'Over 21':
-                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_over21');
-                        $irregular = true;
-                        break;
-                    default:
-                        $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_unsetpermissions');
-                        $irregular = true;
-                }
             }
 
             $this->data['type'] = $record->type;
