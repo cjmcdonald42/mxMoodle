@@ -102,9 +102,11 @@ class submitted extends \local_mxschool\notification {
                     break;
                 case 'Parent':
                 case 'Rideshare':
+                    $permissionswarning = '';
                     $irregular = false;
                     break;
                 default: // Record with an 'Other' type.
+                    $permissionswarning = '';
                     $irregular = true;
             }
 
