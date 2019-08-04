@@ -94,17 +94,36 @@ Now that you have installed our plugins, there are a few more very important set
     - `Guest login button`: select `Hide`
     - `Alternate login URL`: enter the root Moodle url followed by '/local/mxschool/login.php' — for example, if your root Moodle url is http://localhost:8888/moodle34, then enter http://localhost:8888/moodle34/local/mxschool/login.php
     - Click `Save Changes`
+- `Site administration` > `Appearance` > `Navigation`
+    - `Default home page for users`: select `Dashboard`
+    - Click `Save Changes`
 - `Site administration` > `Appearance` > `AJAX and Javascript`
     - `Cache Javascript`: uncheck the box
     - Click `Save Changes`
 - `Site administration` > `Appearance` > `Themes` > `Boost`
     - `Brand color`: enter '#CF003D'
     - Click `Save Changes`
+- `Site administration` > `Server` > `Support contact`
+    - `Supoort Name`: enter whatever you want — this value will appear in the from field of all mxschool emails sent from your server
+    - `Support Email`: enter 'admin@localhost.local' (or anything else that looks like an email)
+    - Click `Save Changes`
+- `Site administration` > `Server` > `Email` > `Outgoing mail configuration`
+    - `SMTP hosts`: enter 'smtp.sendgrid.net:587'
+    - `SMTP security`: select `TLS`
+    - `SMTP username`: enter 'mx-moomail'
+    - `SMTP password`: enter 'Pass1word'
+    - `Support Email`: enter 'admin@localhost.local' — this value doesn't really matter, but it needs to look like an email (i.e. have an extension)
+    - `No-reply address`: enter 'noreply@localhost.local' (or anything else that looks like an email) — this address will be the "sender" of all mxschool emails sent from your server
+    - `Email via information`: select `Never`
+    - Click `Save Changes`
 - `Site administration` > `Development` > `Debugging`
     - `Debug messages`: select `DEVELOPER: extra Moodle debug messages for developers`
     - Click `Save Changes`
+- `Site administration` > `Middlesex School` > `Email Settings`
+    - `Redirect Email`: enter your email address
+    - Click `Save Changes`
 
-Now log out and be sure that you are still able to log in successfully with the new login page and that your theme color has changed to Middlesex's red.
+Now log out and be sure that you are still able to log in successfully with the new login page. If you updated the appearance settings successfully, you should land on your dashboard when you log in, and your theme color should be Middlesex's red.
 
 ##### Installing Testing User Data
 The last step for your installation is to install users to work with. This will require that you fill data in 5 different tables. You will need to acquire test data CSVs before you proceed.
