@@ -58,6 +58,9 @@ function xmldb_local_signout_install() {
     set_config('off_campus_notification_warning_passenger_parent', 'This student requires parent permission to be the passenger of another student.', 'local_signout');
     set_config('off_campus_notification_warning_passenger_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_signout');
     set_config('off_campus_notification_warning_passenger_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
+    set_config('off_campus_notification_warning_parent', 'None.', 'local_signout');
+    set_config('off_campus_notification_warning_rideshare_yes', 'None.', 'local_signout');
+    set_config('off_campus_notification_warning_rideshare_no', 'This student does NOT have permission to use rideshare.', 'local_signout');
 
     $subpackages = array(
         array('package' => 'signout', 'pages' => json_encode(array('combined_report'))),

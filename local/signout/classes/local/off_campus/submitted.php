@@ -45,7 +45,7 @@ class submitted extends \local_mxschool\notification {
                 "SELECT u.id as student, d.approverid AS approver, sd.hohid AS hoh, oc.type, oc.passengers, d.userid as driver,
                         d.destination, d.departure_time AS departuretime, oc.time_modified AS timesubmitted,
                         p.may_drive_passengers AS driverpermission, p.may_ride_with AS passengerpermission,
-                        p.ride_permission_details AS specificdrivers
+                        p.ride_permission_details AS specificdrivers, p.ride_share AS ridesharepermission
                  FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
                                                     LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id
                                                     LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
@@ -70,15 +70,14 @@ class submitted extends \local_mxschool\notification {
                             $permissionswarning = get_config(
                                 'local_signout', 'off_campus_notification_warning_driver_yespassengers'
                             );
-                            $irregular = false;
                             break;
                         case 'No':
+                        default: // A NULL value.
                             $permissionswarning = get_config(
                                 'local_signout', 'off_campus_notification_warning_driver_nopassengers'
                             );
-                            $irregular = false;
-                            break;
                     }
+                    $irregular = false;
                     break;
                 case 'Passenger':
                     switch($record->passengerpermission) {
@@ -96,17 +95,51 @@ class submitted extends \local_mxschool\notification {
                             $irregular = true;
                             break;
                         case 'Over 21':
+                        default: // A NULL value.
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
                             $irregular = true;
                     }
                     break;
                 case 'Parent':
+                    $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_parent');
+                    $irregular = false;
+                    break;
                 case 'Rideshare':
-                    $permissionswarning = '';
+                    switch($record->ridesharepermissions) {
+                        case 'Yes':
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_yes');
+                            break;
+                        case 'No':
+                        default: // A NULL value.
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_no');
+                    }
                     $irregular = false;
                     break;
                 default: // Record with an 'Other' type.
-                    $permissionswarning = '';
+                    switch($record->passengerpermission) {
+                        case 'Any Driver':
+                            $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_any');
+                            break;
+                        case 'Parent Permission':
+                            $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
+                            break;
+                        case 'Specific Drivers':
+                            $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_specific')
+                                . " {$record->specificdrivers}";
+                            break;
+                        case 'Over 21':
+                        default: // A NULL value.
+                            $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
+                    }
+                    switch($record->ridesharepermissions) {
+                        case 'Yes':
+                            $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_yes');
+                            break;
+                        case 'No':
+                        default: // A NULL value.
+                            $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_no');
+                    }
+                    $permissionswarning = "{$passengerwarning} {$ridesharewarning}";
                     $irregular = true;
             }
 

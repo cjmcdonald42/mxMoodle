@@ -56,6 +56,9 @@ $data->passengerany['text'] = get_config('local_signout', 'off_campus_notificati
 $data->passengerparent['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
 $data->passengerspecific['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_specific');
 $data->passengerover21['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
+$data->parent['text'] = get_config('local_signout', 'off_campus_notification_warning_parent');
+$data->rideshareyes['text'] = get_config('local_signout', 'off_campus_notification_warning_rideshare_yes');
+$data->rideshareno['text'] = get_config('local_signout', 'off_campus_notification_warning_rideshare_no');
 
 $form = new local_signout\local\off_campus\preferences_form();
 $form->set_data($data);
@@ -83,6 +86,9 @@ if ($form->is_cancelled()) {
     set_config('off_campus_notification_warning_passenger_parent', $data->passengerparent['text'], 'local_signout');
     set_config('off_campus_notification_warning_passenger_specific', $data->passengerspecific['text'], 'local_signout');
     set_config('off_campus_notification_warning_passenger_over21', $data->passengerover21['text'], 'local_signout');
+    set_config('off_campus_notification_warning_parent', $data->parent['text'], 'local_signout');
+    set_config('off_campus_notification_warning_rideshare_yes', $data->rideshareyes['text'], 'local_signout');
+    set_config('off_campus_notification_warning_rideshare_no', $data->rideshareno['text'], 'local_signout');
     logged_redirect(
         $form->get_redirect(), get_string('off_campus_preferences_edit_success', 'local_signout'), 'update'
     );

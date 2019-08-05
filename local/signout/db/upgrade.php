@@ -436,5 +436,16 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080400, 'local', 'signout');
     }
 
+    if ($oldversion < 2019080402) {
+
+        // Add a few more notification warnings.
+        set_config('off_campus_notification_warning_parent', 'None.', 'local_signout');
+        set_config('off_campus_notification_warning_rideshare_yes', 'None.', 'local_signout');
+        set_config('off_campus_notification_warning_rideshare_no', 'This student does NOT have permission to use rideshare.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080402, 'local', 'signout');
+    }
+
     return true;
 }
