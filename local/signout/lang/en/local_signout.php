@@ -178,6 +178,9 @@ $string['off_campus_preferences'] = 'Off-Campus Signout Preferences';
 $string['off_campus_form'] = 'Off-Campus Signout Form';
 $string['off_campus_report'] = 'Off-Campus Signout Report';
 
+// Off-Campus Submitted Notification.
+$string['off_campus_notification_warning_other'] = '(passenger) {$a->passengerwarning} (rideshare) {$a->ridesharewarning}';
+
 // Preferences for Off-Campus Signout.
 $string['off_campus_preferences_header_config'] = 'Config';
 $string['off_campus_preferences_header_notifications'] = 'Off-Campus Signout Email Notifications';
@@ -199,12 +202,16 @@ $string['off_campus_preferences_text_needparent'] = 'Warning for a Student Who M
 $string['off_campus_preferences_text_onlyspecific'] = 'Warning for a Student Who May Only be the Passenger of Specific Drivers';
 $string['off_campus_preferences_text_confirmation'] = 'Confirmation for a Passenger a Warning';
 $string['off_campus_preferences_emailtext_irregular'] = 'Indicator for an Irregular Signout';
-$string['off_campus_preferences_emailtext_driver'] = 'Warning for a Driver';
-$string['off_campus_preferences_emailtext_any'] = 'Warning for a Passenger with Permissions to Ride with Any Driver';
-$string['off_campus_preferences_emailtext_parent'] = 'Warning for a Passenger with Permissions to Ride Only with Parent Permission';
-$string['off_campus_preferences_emailtext_specific'] = 'Warning for a Passenger with Permissions to Ride Only with Specific Drivers';
-$string['off_campus_preferences_emailtext_over21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
-$string['off_campus_preferences_emailtext_unsetpermissions'] = 'Warning for a Passenger without any Riding Permissions on File';
+$string['off_campus_preferences_emailtext_driveryespassengers'] = 'Warning for a Driver Who is Allowed to Drive Other Students';
+$string['off_campus_preferences_emailtext_drivernopassengers'] = 'Warning for a Driver Who is not Allowed to Drive Other Students';
+$string['off_campus_preferences_emailtext_passengerany'] = 'Warning for a Passenger with Permissions to Ride with Any Driver';
+$string['off_campus_preferences_emailtext_passengerparent'] = 'Warning for a Passenger with Permissions to Ride Only with Parent Permission';
+$string['off_campus_preferences_emailtext_passengerspecific'] = 'Warning for a Passenger with Permissions to Ride Only with Specific Drivers';
+$string['off_campus_preferences_emailtext_passengerover21'] = 'Warning for a Passenger with Permissions to Ride Only with Drivers Over 21';
+$string['off_campus_preferences_emailtext_parent'] = 'Warning for a Student Riding with their Parent';
+$string['off_campus_preferences_emailtext_rideshareyes'] = 'Warning for a Student Who is Allowed to Use Rideshare';
+$string['off_campus_preferences_emailtext_rideshareno'] = 'Warning for a Student Who is not Allowed to Use Rideshare';
+
 
 // Form for Off-Campus Signout.
 $string['off_campus_form_title'] = 'Off-Campus Signout Form for {$a}';

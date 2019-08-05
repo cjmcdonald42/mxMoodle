@@ -415,5 +415,37 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072502, 'local', 'signout');
     }
 
+    if ($oldversion < 2019080400) {
+
+        // Add new notification warning and rename existing ones.
+        unset_config('off_campus_notification_warning_driver', 'local_signout');
+        unset_config('off_campus_notification_warning_any', 'local_signout');
+        unset_config('off_campus_notification_warning_parent', 'local_signout');
+        unset_config('off_campus_notification_warning_specific', 'local_signout');
+        unset_config('off_campus_notification_warning_over21', 'local_signout');
+        unset_config('off_campus_notification_warning_unsetpermissions', 'local_signout');
+
+        set_config('off_campus_notification_warning_driver_yespassengers', 'None.', 'local_signout');
+        set_config('off_campus_notification_warning_driver_nopassengers', 'This student does NOT have permission to drive other students.', 'local_signout');
+        set_config('off_campus_notification_warning_passenger_any', 'None.', 'local_signout');
+        set_config('off_campus_notification_warning_passenger_parent', 'This student requires parent permission to be the passenger of another student.', 'local_signout');
+        set_config('off_campus_notification_warning_passenger_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_signout');
+        set_config('off_campus_notification_warning_passenger_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080400, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019080402) {
+
+        // Add a few more notification warnings.
+        set_config('off_campus_notification_warning_parent', 'None.', 'local_signout');
+        set_config('off_campus_notification_warning_rideshare_yes', 'None.', 'local_signout');
+        set_config('off_campus_notification_warning_rideshare_no', 'This student does NOT have permission to use rideshare.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080402, 'local', 'signout');
+    }
+
     return true;
 }

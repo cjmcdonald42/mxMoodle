@@ -69,12 +69,15 @@ class preferences_form extends \local_mxschool\form {
             ),
             'emailtext' => array(
                 'irregular' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'driver' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'any' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'driveryespassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'drivernopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'passengerany' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'passengerparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'passengerspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'passengerover21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'parent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'specific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'over21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'unsetpermissions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'rideshareyes' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'rideshareno' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
         $this->set_fields($fields, 'off_campus_preferences', true, 'local_signout');
