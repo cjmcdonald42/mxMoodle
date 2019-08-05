@@ -139,7 +139,9 @@ class submitted extends \local_mxschool\notification {
                         default: // A NULL value.
                             $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_no');
                     }
-                    $permissionswarning = "(passenger) {$passengerwarning} (rideshare) {$ridesharewarning}";
+                    $permissionswarning = get_string('off_campus_notification_warning_other', 'local_signout', array(
+                        'passengerwarning' => $passengerwarning, 'ridesharewarning' => $ridesharewarning
+                    ));
                     $irregular = true;
             }
 
