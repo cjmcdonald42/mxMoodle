@@ -94,7 +94,7 @@ class submitted extends \local_mxschool\notification {
                                 . " {$record->specificdrivers}";
                             $irregular = true;
                             break;
-                        case 'Over 21':
+                        case 'Over 21': // This should never happen.
                         default: // A NULL value.
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
                             $irregular = true;
@@ -105,11 +105,11 @@ class submitted extends \local_mxschool\notification {
                     $irregular = false;
                     break;
                 case 'Rideshare':
-                    switch($record->ridesharepermissions) {
+                    switch($record->ridesharepermission) {
                         case 'Yes':
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_yes');
                             break;
-                        case 'No':
+                        case 'No': // This should never happen.
                         default: // A NULL value.
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_no');
                     }
@@ -131,7 +131,7 @@ class submitted extends \local_mxschool\notification {
                         default: // A NULL value.
                             $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
                     }
-                    switch($record->ridesharepermissions) {
+                    switch($record->ridesharepermission) {
                         case 'Yes':
                             $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_yes');
                             break;
@@ -139,7 +139,7 @@ class submitted extends \local_mxschool\notification {
                         default: // A NULL value.
                             $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_no');
                     }
-                    $permissionswarning = "{$passengerwarning} {$ridesharewarning}";
+                    $permissionswarning = "(passenger) {$passengerwarning} (rideshare) {$ridesharewarning}";
                     $irregular = true;
             }
 
