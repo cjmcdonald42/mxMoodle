@@ -30,7 +30,7 @@ require_once(__DIR__.'/locallib.php');
 require_login();
 $isproctor = user_is_student();
 if ($isproctor) {
-    require_capability('local/signout:view_limited_summary', context_system::instance());
+    require_capability('local/signout:view_limited_signout_summary', context_system::instance());
 } else {
     require_capability('local/signout:manage_on_campus', context_system::instance());
     require_capability('local/signout:manage_off_campus', context_system::instance());
