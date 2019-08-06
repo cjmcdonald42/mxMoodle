@@ -82,7 +82,7 @@ if ($isproctor) {
     );
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();

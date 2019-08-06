@@ -28,7 +28,7 @@ namespace local_signout\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-class renderer extends \plugin_renderer_base {
+class renderer extends \local_mxschool\output\renderer {
 
     /**
      * Renders a confirmation button according to the template.

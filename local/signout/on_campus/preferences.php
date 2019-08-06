@@ -87,7 +87,7 @@ $buttons = array(new local_mxschool\output\redirect_button(
     get_string('on_campus_location_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/location_edit.php')
 ));
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\form($form);
 $reportrenderable = new local_mxschool\output\report($table, null, array(), $buttons);
 

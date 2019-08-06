@@ -65,7 +65,7 @@ if ($form->is_cancelled()) {
     logged_redirect($form->get_redirect(), get_string('SUCCESS_STRING', 'PACKAGE'), $data->id ? 'update' : 'create');
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('PACKAGE');
 $renderable = new \local_mxschool\output\form($form);
 
 echo $output->header();

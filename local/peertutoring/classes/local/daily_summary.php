@@ -46,7 +46,7 @@ class daily_summary extends \local_peertutoring\notification {
         $table = new table($filter, '', true);
 
         $this->data['total'] = $DB->count_records_select('local_peertutoring_session', "tutoring_date >= ?", array($filter->date));
-        $output = $PAGE->get_renderer('local_mxschool');
+        $output = $PAGE->get_renderer('local_peertutoring');
         $renderable = new report_table($table, false, $this->data['total']);
         $this->data['table'] = $output->render($renderable);
 

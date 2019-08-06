@@ -140,7 +140,7 @@ if ($form->is_cancelled()) {
     );
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $bottominstructions = get_config('local_signout', 'off_campus_form_instructions_bottom');
 $bottominstructions = str_replace(
     '{minutes}', get_config('local_signout', 'off_campus_edit_window'), $bottominstructions

@@ -86,8 +86,7 @@ class block_mxschool_dash_signout extends block_base {
         if (count($buttons)) {
             $this->content->text = $state . '<br>' . array_reduce($buttons, function($html, $button) {
                 global $PAGE;
-                // Extract the package name from the first element of the namespace.
-                $output = $PAGE->get_renderer(explode('\\', get_class($button))[0]);
+                $output = $PAGE->get_renderer('local_signout');
                 return $html . $output->render($button);
             }, '');
         }

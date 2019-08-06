@@ -49,7 +49,7 @@ $buttons = array(
     // ETC.
 );
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('PACKAGE');
 $renderable = new \local_mxschool\output\report(
     $table, 'SEARCH', $dropdowns, $buttons, /* true or false for printbutton */, /* array or false for extra row of headers */
 );

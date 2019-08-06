@@ -86,7 +86,7 @@ if ($form->is_cancelled()) {
     );
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();

@@ -42,7 +42,7 @@ class block_mxschool_dash_tutor extends block_base {
 
         $this->content = new stdClass();
         if (user_is_admin() || (user_is_student() && student_may_access_tutoring($USER->id))) {
-            $output = $PAGE->get_renderer('local_mxschool');
+            $output = $PAGE->get_renderer('local_peertutoring');
             $renderable = new local_mxschool\output\index(array(
                 get_string('tutor_submit', 'block_mxschool_dash_tutor') => '/local/peertutoring/form.php'
             ));

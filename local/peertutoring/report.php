@@ -82,7 +82,7 @@ $buttons = array(new local_mxschool\output\redirect_button(
     get_string('report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/form.php')
 ));
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_peertutoring');
 if ($table->is_downloading()) {
     $renderable = new local_mxschool\output\report_table($table);
     echo $output->render($renderable);

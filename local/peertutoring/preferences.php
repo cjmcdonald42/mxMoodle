@@ -106,7 +106,7 @@ $ratingbuttons = array(new local_mxschool\output\redirect_button(
     get_string('rating_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/rating_edit.php')
 ));
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_peertutoring');
 $formrenderable = new local_mxschool\output\form($form);
 $tutorrenderable = new local_mxschool\output\report($tutortable, null, array(), $tutorbuttons);
 $departmentrenderable = new local_mxschool\output\report($departmenttable, null, array(), $departmentbuttons);

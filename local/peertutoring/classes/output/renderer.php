@@ -15,22 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Peer Tutoring Subplugin.
+ * Renderer for Middlesex's Peer Tutoring Subplugin.
  *
- * @package    local_peertutoring
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_peertutoring
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace local_peertutoring\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 2019080601;
-$plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_RC;
-$plugin->dependencies = array(
-    'local_mxschool' => 2019080600 // MXSchool v3.1.
-);
+class renderer extends \local_mxschool\output\renderer {
+    // Inherits everything from local_mxschool's renderer.
+}
