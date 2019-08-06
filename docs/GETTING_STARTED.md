@@ -177,31 +177,57 @@ Once the package is installed, there are a couple of settings which you will nee
 Because you will often want to use bash scripts to manipulate your development environment, it is very useful to have a terminal embedded into your IDE. I would suggest installing the Atom package `platformio-ide-terminal`.
 
 ##### Environment Scripts
-There are a number of file manipulation operations which are common enough that you will save a lot of time by having a script that will them for you. My suggestion is to include following lines in `~/.bash_profile`, replacing `MOODLE_ROOT` with the root directory of your Moodle installation (e.g. `/Applications/MAMP/htdocs/moodle34`) and replacing `PROJECT_ROOT` with the root directory of your working copy (wherever you cloned the repository to):
+There are a number of file manipulation operations which are common enough that you will save a lot of time by having a script that will them for you. My suggestion is to include following lines in `~/.bash_profile`. You first need to export environment variables MOODLE_SERVER_ROOT and MOODLE_PROJECT_ROOT which should hold the path to your Moodle installation and working copy respectively. For example:
 
 ```bash
-alias moodleErrorLog='open /Applications/MAMP/logs/php_error.log'
-alias moodleBuild='(cd MOODLE_ROOT/; grunt; cd MOODLE_ROOT/local; rsync -R */amd/build/* PROJECT_ROOT/local)'
-alias moodlePullDBSchema='(cd MOODLE_ROOT/local; rsync -R */db/install.xml PROJECT_ROOT/local)'
-alias moodlePushPlugins='rsync -r --del PROJECT_ROOT/local/* MOODLE_ROOT/local'
-alias moodlePushBlocks='rsync -r --del PROJECT_ROOT/blocks/* MOODLE_ROOT/blocks'
+export MOODLE_SERVER_ROOT="/Applications/MAMP/htdocs/moodle34"
 ```
 
-If you have ssh access to the test server and have set up an ssh profile as `moodledev`, you can also add these:
+Then add the following lines to be able to move files back and forth as well as some other commonly used functionality which is explained below.
 
 ```bash
-alias moodleTestServerPushPlugins='rsync -r --del --rsh=ssh PROJECT_ROOT/local/* moodledev:/var/www/html/moodle/local'
-alias moodleTestServerPushBlocks='rsync -r --del --rsh=ssh PROJECT_ROOT/blocks/* moodledev:/var/www/html/moodle/blocks'
+alias moodlePullDBSchema="(cd $MOODLE_SERVER_ROOT/local; rsync -R */db/install.xml $MOODLE_PROJECT_ROOT/local)"
+alias moodlePushPlugins="rsync -r --del $MOODLE_PROJECT_ROOT/local/* $MOODLE_SERVER_ROOT/local"
+alias moodlePushBlocks="rsync -r --del $MOODLE_PROJECT_ROOT/blocks/* $MOODLE_SERVER_ROOT/blocks"
+alias moodleBuild="(cd $MOODLE_SERVER_ROOT/; grunt; cd $MOODLE_SERVER_ROOT/local; rsync -R */amd/build/* $MOODLE_PROJECT_ROOT/local)"
+alias moodleErrorLog="open /Applications/MAMP/logs/php_error.log"
+```
+
+If you have `ssh` access to the test server and have set up an `ssh` profile as `moodledev`, you can also add these:
+
+```bash
+alias moodleTestServerPushPlugins="rsync -r --del --rsh=ssh $MOODLE_PROJECT_ROOT/local/* moodledev:/var/www/html/moodle/local"
+alias moodleTestServerPushBlocks="rsync -r --del --rsh=ssh $MOODLE_PROJECT_ROOT/blocks/* moodledev:/var/www/html/moodle/blocks"
 ```
 
 ###### NOTE: You will need to restart any shells you are using for your changes to take effect.
 
-##### Global Git Ignore File
-While not specific to this project, if you are doing any git-based development on Mac OS, it is important that you have a global gitignore file set up to prevent .DS_Store files from ending up in your version control. If you don't have a global gitignore, run the following commands to create one:
+##### Build Script
+In order to minify your AMD modules, you will need to be able to use Moodle's build script. To do this you will need to install the `node` package `grunt`. Unfortunately as of the time of writing, Moodle requires a `node` version `>=8.9.0 <9.0.0`. To test your current version you can run the following command:
 
 ```bash
-echo -e "# Mac OS\n.DS_Store" > ~/.gitignore_global
-git config --global core.excludesfile ~/.gitignore_global
+brew -v
+```
+
+If you don't have an appropriate version, you will need to install it. If you do, you can skip the next two steps. You will need to have `Homebrew` installed on your computer for this installation. If you don't already have `brew`, you can install it with the following command:
+
+```bash
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+Then press `Return` to allow `brew` to be installed. Next you need to install the correct version of `node` and `npm` with the following commands:
+
+```bash
+brew install node@8
+brew link --force node@8
+```
+
+Now that you have a working version of `node`, you need to install Moodle's build tool which is called `grunt`. You will need to install the module globally so that it is on your `$PATH`. You will also need to add to your Moodle installation all of the `node` modules which Moodle uses. You can do both of these with the following commands:
+
+```bash
+npm install -g grunt-cli
+cd $MOODLE_SERVER_ROOT
+npm install
 ```
 
 ##### Error Log
@@ -209,4 +235,12 @@ While you are testing the code you write on your local server, you will undoubte
 
 ```bash
 moodleErrorLog
+```
+
+##### Global Git Ignore File
+While not specific to this project, if you are doing any git-based development on Mac OS, it is important that you have a global gitignore file set up to prevent .DS_Store files from ending up in your version control. If you don't have a global gitignore, run the following commands to create one:
+
+```bash
+echo -e "# Mac OS\n.DS_Store" > ~/.gitignore_global
+git config --global core.excludesfile ~/.gitignore_global
 ```
