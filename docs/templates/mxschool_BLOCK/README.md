@@ -16,7 +16,7 @@ TODO: List any other dependencies here.
 ## Credits
 v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+- AUTHOR
 
 ## License
 As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).

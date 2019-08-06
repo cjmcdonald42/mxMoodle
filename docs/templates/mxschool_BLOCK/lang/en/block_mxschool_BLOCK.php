@@ -18,7 +18,7 @@
  * English language strings for BLOCK_DESCRIPTION.
  *
  * @package    block_mxschool_BLOCK
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     AUTHOR
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,7 +26,13 @@
 
 $string['pluginname'] = // TODO: Plugin Name (This is the name when selecting the block to be added).
 $string['blockname'] = // TODO: Block Name (This is the header at the top of the block).
+
+// Capabilities.
 $string['mxschool_BLOCK:addinstance'] = 'Middlesex School: Add PLUGIN_NAME';
 $string['mxschool_BLOCK:myaddinstance'] = 'Middlesex School: Add PLUGIN_NAME to Dashboard';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
 // TODO: Any other language strings, such as all of the links.

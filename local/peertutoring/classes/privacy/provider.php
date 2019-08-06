@@ -28,6 +28,6 @@ namespace local_peertutoring\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
-class provider extends local_mxschool\privacy\provider {
+class provider extends \local_mxschool\privacy\provider {
     // Inherits everything from local_mxschool's provider.
 }
