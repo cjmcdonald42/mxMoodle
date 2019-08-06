@@ -85,7 +85,7 @@ abstract class table extends \table_sql {
      * @param array $searchable The database fields to search.
      * @param string $search The string to search for as a constraint, null indicates no search option.
      */
-    public function set_sql($fields, $from, $where, $searchable = array(), $search = null) {
+    public function define_sql($fields, $from, $where, $searchable = array(), $search = null) {
         if ($search) {
             $where[] = '(' . implode(' OR ', array_map(function($field) use($search) {
                 return "{$field} LIKE '%{$search}%'";

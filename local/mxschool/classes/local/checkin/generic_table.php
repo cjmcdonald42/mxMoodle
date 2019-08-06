@@ -63,7 +63,7 @@ class generic_table extends \local_mxschool\table {
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
         }
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

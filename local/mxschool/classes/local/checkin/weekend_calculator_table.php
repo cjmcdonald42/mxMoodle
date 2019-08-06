@@ -94,7 +94,7 @@ class weekend_calculator_table extends \local_mxschool\table {
         } else if ($filter->dorm) {
             $where[] = "s.dormid = {$filter->dorm}";
         }
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

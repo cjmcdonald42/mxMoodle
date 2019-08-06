@@ -49,7 +49,7 @@ class faculty_table extends \local_mxschool\table {
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id');
         $where = array('u.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

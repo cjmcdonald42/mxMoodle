@@ -43,7 +43,7 @@ class course_table extends \local_mxschool\table {
         $fields = array('c.id', 'c.name', 'd.name AS department');
         $from = array('{local_peertutoring_course} c', '{local_peertutoring_dept} d ON c.departmentid = d.id');
         $where = array('c.deleted = 0', 'd.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

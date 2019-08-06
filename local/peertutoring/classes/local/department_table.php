@@ -43,7 +43,7 @@ class department_table extends \local_mxschool\table {
         $fields = array('d.id', 'd.name');
         $from = array('{local_peertutoring_dept} d');
         $where = array('d.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

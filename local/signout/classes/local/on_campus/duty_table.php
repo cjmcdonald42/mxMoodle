@@ -78,7 +78,7 @@ class duty_table extends \local_mxschool\table {
             'u.firstname', 'u.lastname', 'u.alternatename', 'd.name', 'a.firstname', 'a.lastname', 'l.name', 'oc.other',
             'c.firstname', 'c.lastname'
         );
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

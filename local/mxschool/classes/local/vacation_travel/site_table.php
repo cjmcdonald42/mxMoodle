@@ -49,7 +49,7 @@ class site_table extends \local_mxschool\table {
         );
         $from = array('{local_mxschool_vt_site} s');
         $where = array('s.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**
