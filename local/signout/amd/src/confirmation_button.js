@@ -58,9 +58,9 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
         element.data('state', state);
         $.when(str.get_string('confirmation_button_' + state, 'local_signout')).done(function(text) {
             element.text(text);
+            element.addClass(state === 'confirm' ? 'btn-primary' : 'btn-secondary');
+            element.removeClass(state === 'confirm' ? 'btn-secondary' : 'btn-primary');
         });
-        element.addClass(state === 'confirm' ? 'btn-primary' : 'btn-secondary');
-        element.removeClass(state === 'confirm' ? 'btn-secondary' : 'btn-primary');
     }
     return function(value) {
         var element = $('.mx-confirmation-button[value="' + value + '"]');
