@@ -60,7 +60,7 @@ if ($hassiteconfig) {
     $emailsettings = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
     $emailsettings->add(new admin_setting_configtext(
         'local_mxschool/email_redirect', new lang_string('email_redirect', 'local_mxschool'),
-        new lang_string('email_redirect_description', 'local_mxschool'), 'jrdegreeff@mxschool.edu'
+        new lang_string('email_redirect_description', 'local_mxschool'), 'chuck@mxschool.edu'
     ));
     $emailsettings->add(new admin_setting_configtext(
         'local_mxschool/email_deans', new lang_string('deans_email', 'local_mxschool'),

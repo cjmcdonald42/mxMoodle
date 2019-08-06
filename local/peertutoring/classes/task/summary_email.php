@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Daily task that emails the peer tutor admin with a summary of that day's tutoring for Middlesex's Peer Tutoring Subplugin.
+ * Daily task that emails the peer tutoring manager with a summary of that day's tutoring for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -43,7 +43,7 @@ class summary_email extends scheduled_task {
     }
 
     /**
-     * Emails the peer tutor admin a summary of the tutoring which took place in the last 24 hours.
+     * Emails the peer tutoring manager a summary of the tutoring which took place in the last 24 hours.
      */
     public function execute() {
         global $DB;

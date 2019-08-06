@@ -30,12 +30,12 @@ if ($hassiteconfig) {
 
     $settings = new admin_settingpage('peer_tutoring_settings', new lang_string('settings', 'local_peertutoring'));
     $settings->add(new admin_setting_configtext(
-        'local_peertutoring/email_peertutoradmin', new lang_string('peertutoradmin_email', 'local_peertutoring'),
-        new lang_string('peertutoradmin_email_description', 'local_peertutoring'), 'kmagee@mxschool.edu'
+        'local_peertutoring/email_peertutoradmin', new lang_string('peertutoringmanager_email', 'local_peertutoring'),
+        new lang_string('peertutoringmanager_email_description', 'local_peertutoring'), 'kmagee@mxschool.edu'
     ));
     $settings->add(new admin_setting_configtext(
-        'local_peertutoring/addressee_peertutoradmin', new lang_string('peertutoradmin_addressee', 'local_peertutoring'),
-        new lang_string('peertutoradmin_addressee_description', 'local_peertutoring'), 'Peer Tutoring Administrator'
+        'local_peertutoring/addressee_peertutoradmin', new lang_string('peertutoringmanager_addressee', 'local_peertutoring'),
+        new lang_string('peertutoringmanager_addressee_description', 'local_peertutoring'), 'Peer Tutoring Administrator'
     ));
     $ADMIN->add('mxschool', $settings);
 

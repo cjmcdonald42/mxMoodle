@@ -76,26 +76,26 @@ $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View
 $string['privacy:metadata'] = 'Please contact the IT Department for more details.';
 
 // Settings.
-$string['mxschool_category'] = 'Middlesex School';
+$string['mxschool_category'] = 'Middlesex';
 
 $string['email_settings'] = 'Email Settings';
-$string['email_redirect'] = 'Redirect Email';
+$string['email_redirect'] = 'Redirect email';
 $string['email_redirect_description'] = 'The email address to redirect to for debugging - if empty emails will be sent to actual recipients.';
-$string['deans_email'] = 'Deans Email';
+$string['deans_email'] = 'Deans email';
 $string['deans_email_description'] = 'The email address to send notifications to the deans.';
-$string['deans_addressee'] = 'Deans Addressee Name';
+$string['deans_addressee'] = 'Deans addressee name';
 $string['deans_addressee_description'] = 'The name to use when addressing the deans in a email notification.';
-$string['transportationmanager_email'] = 'Transportation Manager Email';
+$string['transportationmanager_email'] = 'Transportation manager email';
 $string['transportationmanager_email_description'] = 'The email address to send notifications to the transportation manager.';
-$string['transportationmanager_addressee'] = 'Transportation Manager Addressee Name';
+$string['transportationmanager_addressee'] = 'Transportation manager addressee name';
 $string['transportationmanager_addressee_description'] = 'The name to use when addressing the transportation manager in a email notification.';
 
 $string['other_settings'] = 'General Settings';
-$string['table_size'] = 'Default Table Length';
+$string['table_size'] = 'Default table length';
 $string['table_size_description'] = 'The number of rows to display when outputting tables.';
 
 $string['indexes'] = 'Index Pages';
-$string['mxschool_index'] = 'Middlesex School Index';
+$string['mxschool_index'] = 'Middlesex Index';
 $string['user_management_index'] = 'User Management Index';
 $string['checkin_index'] = 'Checkin Sheets and Weekend Forms Index';
 $string['advisor_selection_index'] = 'Advisor Selection Index';

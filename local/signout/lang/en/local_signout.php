@@ -43,7 +43,7 @@ $string['signout:manage_off_campus_preferences'] = 'Middlesex School Electronic 
 
 // Settings.
 $string['settings'] = 'eSignout Settings';
-$string['school_ip'] = 'Middlesex Network IP';
+$string['school_ip'] = 'Middlesex network IP address';
 $string['school_ip_description'] = 'The IP to check against to confirm that someone is on campus.';
 
 $string['signout_index'] = 'Signout Index';
