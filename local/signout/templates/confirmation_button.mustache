@@ -30,7 +30,7 @@
     - value | int | the id of the on-campus signout record which the button interacts with
 }}
 
-<button class="mx-confirmation-button btn btn-secondary hidden-print" value="{{ value }}"> {{ text }} </button>
+<button class="mx-confirmation-button btn btn-primary hidden-print" value="{{ value }}"> {{ text }} </button>
 
 {{# js }}
     require(['local_signout/confirmation_button'], function(setup) {

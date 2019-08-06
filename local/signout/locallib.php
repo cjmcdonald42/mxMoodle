@@ -314,6 +314,37 @@ function get_off_campus_type_list($userid = 0) {
  * ============================================
  */
 
+ /**
+  * Confirms an on-campus signout record and records the timestamp.
+  * If the record has already been confirmed, undoes the confirmation.
+  *
+  * @param int $id The id of the record to confirm.
+  * @return stdClass The updated record.
+  * @throws coding_exception If the on-campus signout record does not exist or was confirmed by another user.
+  */
+function confirm_signout($id) {
+    global $DB, $USER;
+    $record = $DB->get_record('local_signout_on_campus', array('id' => $id));
+    if (!$record) {
+        throw new coding_exception("on-campus signout record with id {$id} doesn't exist");
+    }
+    if ($record->confirmation_time) { // Un-confirming.
+        if ($record->confirmerid !== $USER->id) {
+            throw new coding_exception("on-campus signout record with id {$id} was confirmed by another user");
+        }
+        $record->confirmation_time = null;
+        $record->confirmerid = null;
+    } else { // Confirming.
+        $record->confirmation_time = $record->time_modified = time();
+        $record->confirmerid = $USER->id;
+    }
+    $DB->update_record('local_signout_on_campus', $record);
+    local_mxschool\event\record_updated::create(array('other' => array(
+        'page' => get_string('on_campus_duty_report', 'local_signout')
+    )))->trigger();
+    return $record;
+}
+
 /**
  * Retrieves the destination and departure time fields from a off-campus singout driver record.
  *

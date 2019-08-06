@@ -27,7 +27,8 @@
 $string['pluginname'] = 'Middlesex School Electronic Signout';
 
 /* General */
-$string['confirmation_button'] = 'Confirm';
+$string['confirmation_button_confirm'] = 'Confirm';
+$string['confirmation_button_undo'] = 'Undo';
 $string['sign_in_error_norecord'] = 'No active signout record exists for the current user.';
 $string['sign_in_error_invalidrecord'] = 'The active record is invalid.';
 $string['sign_in_error_invalidtype'] = 'The active record type is invalid.';
@@ -98,7 +99,8 @@ $string['on_campus_preferences_header_config'] = 'Config';
 $string['on_campus_preferences_header_text'] = 'On-Campus Signout Form Permissions Warnings';
 $string['on_campus_preferences_config_oncampusenabled_text'] = 'Check to Enable the On-Campus Signout Form';
 $string['on_campus_preferences_config_ipenabled_text'] = 'Check to Enable IP Validation Against {$a->school} - Your Current IP is {$a->current}';
-$string['on_campus_preferences_config_refresh'] = 'How often the On-Campus reports should refresh (seconds)<br>Leave blank to disable auto-refresh';
+$string['on_campus_preferences_config_refresh'] = 'How Often the On-Campus Reports Should Refresh (seconds)<br>Leave Blank to Disable Auto-refresh';
+$string['on_campus_preferences_config_confirmationundo'] = 'How Long a Confirmer Should Have to Undo a Confirmation (seconds)<br>Leave Blank to Disable Undo Functionality';
 $string['on_campus_preferences_text_ipformerror'] = 'Text to Display in On-Campus Signout Form When on the Wrong Network';
 $string['on_campus_preferences_text_ipsigninerrorboarder'] = 'Text to Display When a Boarder Tries to Sign in When on the Wrong Network';
 $string['on_campus_preferences_text_ipsigninerrorday'] = 'Text to Display When a Day Student Tries to Sign in When on the Wrong Network';

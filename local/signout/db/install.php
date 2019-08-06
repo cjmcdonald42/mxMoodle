@@ -31,13 +31,14 @@ function xmldb_local_signout_install() {
 
     set_config('on_campus_form_enabled', '1', 'local_signout');
     set_config('on_campus_form_ipenabled', '1', 'local_signout');
+    set_config('on_campus_refresh_rate', '60', 'local_signout');
+    set_config('on_campus_confirmation_undo_window', '5', 'local_signout');
     set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
     set_config('on_campus_signin_iperror_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
     set_config('on_campus_signin_iperror_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
     set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any \'other\' location.', 'local_signout');
     set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
     set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
-    set_config('on_campus_refresh_rate', '60', 'local_signout');
 
     set_config('off_campus_edit_window', '30', 'local_signout');
     set_config('off_campus_trip_window', '30', 'local_signout');

@@ -447,5 +447,14 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080402, 'local', 'signout');
     }
 
+    if ($oldversion < 2019080501) {
+
+        // Add config for confirmation undo.
+        set_config('on_campus_confirmation_undo_window', '5', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080501, 'local', 'signout');
+    }
+
     return true;
 }

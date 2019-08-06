@@ -51,6 +51,7 @@ $data = new stdClass();
 $data->oncampusenabled = get_config('local_signout', 'on_campus_form_enabled');
 $data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
 $data->refresh = get_config('local_signout', 'on_campus_refresh_rate');
+$data->confirmationundo = get_config('local_signout', 'on_campus_confirmation_undo_window');
 $data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
 $data->ipsigninerrorboarder['text'] = get_config('local_signout', 'on_campus_signin_iperror_boarder');
 $data->ipsigninerrorday['text'] = get_config('local_signout', 'on_campus_signin_iperror_day');
@@ -67,6 +68,7 @@ if ($form->is_cancelled()) {
     set_config('on_campus_form_enabled', $data->oncampusenabled, 'local_signout');
     set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
     set_config('on_campus_refresh_rate', $data->refresh, 'local_signout');
+    set_config('on_campus_confirmation_undo_window', $data->confirmationundo, 'local_signout');
     set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
     set_config('on_campus_signin_iperror_boarder', $data->ipsigninerrorboarder['text'], 'local_signout');
     set_config('on_campus_signin_iperror_day', $data->ipsigninerrorday['text'], 'local_signout');

@@ -64,7 +64,7 @@ $functions = array(
         'methodname' => 'get_advisor_selection_student_options',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Queries the database to determine the current advisor, advisory status, and list of possible advisors'
-                         .'for a particular student as well as a list of students who have not completed the form.',
+                       . 'for a particular student as well as a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
     ),
@@ -82,9 +82,9 @@ $functions = array(
         'methodname' => 'get_rooming_student_options',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Queries the database to determine the current dorm, list of available room types,'
-                         .'list of possible dormmates in the same grade,'
-                         .'and list of possible dormmates in any grade for a particular student'
-                         .'as well as a list of students who have not completed the form.',
+                       . 'list of possible dormmates in the same grade,'
+                       . 'and list of possible dormmates in any grade for a particular student'
+                       . 'as well as a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
     ),
@@ -93,7 +93,7 @@ $functions = array(
         'methodname' => 'get_vacation_travel_options',
         'classpath' => 'local/mxschool/externallib.php',
         'description' => 'Queries the database to determine the available types and sites for a particular selection'
-                         .'as well as any default times and a list of students who have not completed the form.',
+                       . 'as well as any default times and a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
     )

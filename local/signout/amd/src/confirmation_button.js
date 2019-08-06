@@ -35,18 +35,36 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
             }
         }]);
         promises[0].done(function(data) {
-            element.hide('slow', function() {
-                element.parent().html('&#x2705;');
-            });
-            $.when(
-                str.get_string('duty_report_column_confirmation_text', 'local_signout', data)
-            ).done(function(text) {
-                element.parent().parent().find('td.confirmation').text(text);
-            });
+            if (element.data('state') === 'confirm') {
+                set_state(element, 'undo');
+                setTimeout(function() {
+                    if (element.data('state') === 'undo') {
+                        element.hide('slow', function() {
+                            element.parent().html('&#x2705;');
+                        });
+                        $.when(
+                            str.get_string('duty_report_column_confirmation_text', 'local_signout', data)
+                        ).done(function(text) {
+                            element.parent().parent().find('td.confirmation').text(text);
+                        });
+                    }
+                }, data.undowindow * 1000);
+            } else {
+                set_state(element, 'confirm');
+            }
         }).fail(notification.exception);
+    }
+    function set_state(element, state) {
+        element.data('state', state);
+        $.when(str.get_string('confirmation_button_' + state, 'local_signout')).done(function(text) {
+            element.text(text);
+        });
+        element.addClass(state === 'confirm' ? 'btn-primary' : 'btn-secondary');
+        element.removeClass(state === 'confirm' ? 'btn-secondary' : 'btn-primary');
     }
     return function(value) {
         var element = $('.mx-confirmation-button[value="' + value + '"]');
+        element.data('state', 'confirm');
         element.click(confirm_signout);
     };
 });
