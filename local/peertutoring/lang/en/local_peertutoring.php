@@ -32,7 +32,7 @@ $string['pluginname'] = 'Middlesex School Peer Tutoring';
 $string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
 $string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View and manage tutoring records';
 
-// Settings Pages.
+// Settings.
 $string['settings'] = 'Peer Tutoring Settings';
 $string['peertutoradmin_email'] = 'Peer Tutor Admin Email';
 $string['peertutoradmin_email_description'] = 'The email address to send summary emails for peer tutoring.';

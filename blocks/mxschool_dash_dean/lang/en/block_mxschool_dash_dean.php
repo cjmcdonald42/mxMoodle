@@ -26,10 +26,16 @@
 
 $string['pluginname'] = 'Deans\' Dashboard Block';
 $string['blockname'] = 'Middlesex Admin';
+
+// Capabilities.
 $string['mxschool_dash_dean:addinstance'] = 'Middlesex School: Add Deans\' Block';
 $string['mxschool_dash_dean:myaddinstance'] = 'Middlesex School: Add Deans\' Block to Dashboard';
 $string['mxschool_dash_dean:access'] = 'Middlesex School: Access Deans\' Block';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
 $string['user_menu'] = 'User Module';
 $string['user_management_student_report'] = 'Student Report';
 $string['user_management_faculty_report'] = 'Faculty Report';

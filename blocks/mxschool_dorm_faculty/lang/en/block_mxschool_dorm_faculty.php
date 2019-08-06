@@ -26,10 +26,16 @@
 
 $string['pluginname'] = 'Faculty Dorm Block';
 $string['blockname'] = 'Dorm Faculty Menu';
+
+// Capabilities.
 $string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Faculty Dorm Block';
 $string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Faculty Dorm Block to Dashboard';
 $string['mxschool_dorm_faculty:access'] = 'Middlesex School: Access Dorm Faculty Block';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
 $string['event_heading'] = 'Check-In Sheets';
 $string['checkin_sheet'] = 'Event';
 $string['weekday_checkin'] = 'Weekly';

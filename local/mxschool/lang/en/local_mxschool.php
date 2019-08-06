@@ -72,8 +72,10 @@ $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students 
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
 
+// Privacy.
+$string['privacy:metadata'] = 'Please contact the IT Department for more details.';
 
-// Settings Pages.
+// Settings.
 $string['mxschool_category'] = 'Middlesex School';
 
 $string['email_settings'] = 'Email Settings';

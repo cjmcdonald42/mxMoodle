@@ -26,11 +26,19 @@
 
 $string['pluginname'] = 'Signout Dashboard Block';
 $string['blockname'] = 'Middlesex eSignout';
+
+// Capabilities.
 $string['mxschool_dash_signout:addinstance'] = 'Middlesex School: Add Signout Block';
 $string['mxschool_dash_signout:myaddinstance'] = 'Middlesex School: Add Signout Block to Dashboard';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Text.
 $string['state_text_in'] = 'You are currently signed in.';
 $string['state_text_out'] = 'You are currently signed out to {$a}.';
+
+// Buttons.
 $string['on_campus_button_signout'] = 'Sign Out On Campus';
 $string['on_campus_button_edit'] = 'Change Location';
 $string['on_campus_button_signin_boarder'] = 'Sign In to Your Dorm';

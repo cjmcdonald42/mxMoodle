@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Event for Middlesex's Dorm and Student Functions Plugin that is triggered whenever an email notification is sent.
+ * Event that is triggered whenever an email notification is sent by Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

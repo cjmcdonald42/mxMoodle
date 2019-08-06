@@ -26,10 +26,16 @@
 
 $string['pluginname'] = 'Faculty Dashboard Block';
 $string['blockname'] = 'Middlesex Faculty';
+
+// Capabilities.
 $string['mxschool_dash_faculty:addinstance'] = 'Middlesex School: Add Faculty Dashboard Block';
 $string['mxschool_dash_faculty:myaddinstance'] = 'Middlesex School: Add Faculty Dashboard Block to Dashboard';
 $string['mxschool_dash_faculty:access'] = 'Middlesex School: Access Faculty Dashboard Block';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
 $string['student_report'] = 'Student Data Report';
 $string['vehicle_report'] = 'Student Vehicles Report';
 $string['duty_report'] = 'On-Campus Duty Report';

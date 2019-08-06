@@ -26,12 +26,19 @@
 
 $string['pluginname'] = 'Student Dashboard Block';
 $string['blockname'] = 'Middlesex Student';
+
+// Capabilities.
 $string['mxschool_dash_student:addinstance'] = 'Middlesex School: Add Student Block';
 $string['mxschool_dash_student:myaddinstance'] = 'Middlesex School: Add Student Block to Dashboard';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Settings.
 $string['description'] = 'Description';
 $string['description_description'] = 'Text to display above the available links for whomever has access.';
 
+// Links.
 $string['advisor_selection'] = 'Advisor Selection Form';
 $string['rooming'] = 'Rooming Form';
 $string['vacation'] = 'Vacation Travel Form';

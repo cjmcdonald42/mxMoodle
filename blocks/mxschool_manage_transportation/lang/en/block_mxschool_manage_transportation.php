@@ -26,8 +26,14 @@
 
 $string['pluginname'] = 'Transportation Manager Block';
 $string['blockname'] = 'Manage Transportation';
+
+// Capabilities.
 $string['mxschool_manage_transportation:addinstance'] = 'Middlesex School: Add Transportation Manager Block';
 $string['mxschool_manage_transportation:myaddinstance'] = 'Middlesex School: Add Transportation Manager Block to Dashboard';
 $string['mxschool_manage_transportation:access'] = 'Middlesex School: Access Transportation Manager Block';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
 $string['tranportation_manage'] = 'Vacation Travel Data';
