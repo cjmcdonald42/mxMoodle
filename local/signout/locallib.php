@@ -36,7 +36,7 @@ require_once(__DIR__.'/../mxschool/locallib.php');
 
 /**
  * Determines whether a specified user is a student who is permitted to access off-campus signout.
- * Students are permitted to participate in off-campus signout if off-campus signout is enabled and the student's grade is 11 or 12.
+ * Students are permitted to participate in off-campus signout if off-campus signout is enabled.
  *
  * @param int $id The user id of the student to check.
  * @return bool Whether the specified student is permitted to access off-campus signout.
@@ -47,7 +47,7 @@ function student_may_access_off_campus_signout($userid) {
 
 /**
  * Determines whether a specified user is a student who is permitted to access on-campus signout.
- * Students are permitted to participate in on-campus signout if on-campus signout is enabled and the student is a boarder.
+ * Students are permitted to participate in on-campus signout if on-campus signout is enabled.
  *
  * @param int $id The user id of the student to check.
  * @return bool Whether the specified student is permitted to access on-campus signout.
@@ -293,18 +293,28 @@ function get_off_campus_type_list($userid = 0) {
          FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid
          WHERE s.userid = ?", array('userid' => $userid)
     );
-    if ($record) {
-        if (empty($record->maydrive) || $record->maydrive === 'No' || $record->boardingstatus !== 'Day' || $record->grade < 11) {
-            unset($types[array_search('Driver', $types)]);
-        }
-        if (empty($record->mayridewith) || $record->mayridewith === 'Over 21' || $record->grade < 11) {
-            unset($types[array_search('Passenger', $types)]);
-        }
-        if (empty($record->rideshare) || $record->rideshare === 'No') {
-            unset($types[array_search('Rideshare', $types)]);
-        }
-        $types = array_values($types); // Reset the keys so that [0] can be the default option.
+    if (!$record) { // Return all types when the userid is 0.
+        return $types;
     }
+    if (
+        !get_config('local_signout', 'off_campus_form_permissions_active') || empty($record->maydrive) || $record->maydrive === 'No'
+        || $record->boardingstatus !== 'Day' || $record->grade < 11
+    ) {
+        unset($types[array_search('Driver', $types)]);
+    }
+    if (
+        !get_config('local_signout', 'off_campus_form_permissions_active') || empty($record->mayridewith)
+        || $record->mayridewith === 'Over 21' || $record->grade < 11
+    ) {
+        unset($types[array_search('Passenger', $types)]);
+    }
+    if (
+        !get_config('local_signout', 'off_campus_form_permissions_active') || empty($record->rideshare)
+        || $record->rideshare === 'No'
+    ) {
+        unset($types[array_search('Rideshare', $types)]);
+    }
+    $types = array_values($types); // Reset the keys so that [0] can be the default option.
     return $types;
 }
 

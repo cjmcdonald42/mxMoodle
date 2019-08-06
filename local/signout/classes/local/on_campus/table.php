@@ -48,6 +48,9 @@ class table extends \local_mxschool\table {
         if ($filter->date) {
             unset($columns[array_search('signoutdate', $columns)]);
         }
+        if (!get_config('local_signout', 'on_campus_confirmation_enabled')) {
+            unset($columns[array_search('confirmation', $columns)]);
+        }
         $headers = $this->generate_headers($columns, 'on_campus_report', 'local_signout');
         $sortable = array($filter->date ? 'signouttime' : 'signoutdate', 'student', 'grade', 'dorm', 'location');
         $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');

@@ -41,9 +41,13 @@ class preferences_form extends \local_mxschool\form {
             'config' => array(
                 'editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
                 'tripwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
-                'offcampusenabled' => array(
+                'enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('off_campus_preferences_config_offcampusenabled_text', 'local_signout')
+                    'text' => get_string('off_campus_preferences_config_enabled_text', 'local_signout')
+                ),
+                'permissionsactive' => array(
+                    'element' => 'advcheckbox', 'name' => null,
+                    'text' => get_string('off_campus_preferences_config_permissions_active_text', 'local_signout')
                 ),
                 'ipenabled' => array(
                     'element' => 'advcheckbox', 'name' => null,

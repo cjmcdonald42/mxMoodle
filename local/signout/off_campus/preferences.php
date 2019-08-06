@@ -36,7 +36,8 @@ setup_mxschool_page('preferences', 'off_campus', 'signout');
 $data = new stdClass();
 $data->editwindow = get_config('local_signout', 'off_campus_edit_window');
 $data->tripwindow = get_config('local_signout', 'off_campus_trip_window');
-$data->offcampusenabled = get_config('local_signout', 'off_campus_form_enabled');
+$data->enabled = get_config('local_signout', 'off_campus_form_enabled');
+$data->permissionsactive = get_config('local_signout', 'off_campus_form_permissions_active');
 $data->ipenabled = get_config('local_signout', 'off_campus_form_ipenabled');
 $notification = get_notification('off_campus_submitted');
 $data->subject = $notification->subject;
@@ -68,7 +69,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('off_campus_edit_window', $data->editwindow, 'local_signout');
     set_config('off_campus_trip_window', $data->tripwindow, 'local_signout');
-    set_config('off_campus_form_enabled', $data->offcampusenabled, 'local_signout');
+    set_config('off_campus_form_enabled', $data->enabled, 'local_signout');
+    set_config('off_campus_form_permissions_active', $data->permissionsactive, 'local_signout');
     set_config('off_campus_form_ipenabled', $data->ipenabled, 'local_signout');
     update_notification('off_campus_submitted', $data->subject, $data->body);
     set_config('off_campus_form_iperror', $data->ipformerror['text'], 'local_signout');

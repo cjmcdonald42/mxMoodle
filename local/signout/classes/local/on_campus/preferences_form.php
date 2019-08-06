@@ -37,15 +37,19 @@ class preferences_form extends \local_mxschool\form {
     protected function definition() {
         $fields = array(
             'config' => array(
-                'oncampusenabled' => array(
+                'enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('on_campus_preferences_config_oncampusenabled_text', 'local_signout')
+                    'text' => get_string('on_campus_preferences_config_enabled_text', 'local_signout')
                 ),
                 'ipenabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
                     'text' => get_string('on_campus_preferences_config_ipenabled_text', 'local_signout', array(
                         'school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR']
                     ))
+                ),
+                'confirmationenabled' => array(
+                    'element' => 'advcheckbox', 'name' => null,
+                    'text' => get_string('on_campus_preferences_config_confirmationenabled_text', 'local_signout')
                 ),
                 'refresh' => array('element' => 'text', 'type' => PARAM_INT),
                 'confirmationundo' => array('element' => 'text', 'type' => PARAM_INT)

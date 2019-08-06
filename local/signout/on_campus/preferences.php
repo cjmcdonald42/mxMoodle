@@ -48,8 +48,9 @@ if ($action === 'delete' && $id) {
 }
 
 $data = new stdClass();
-$data->oncampusenabled = get_config('local_signout', 'on_campus_form_enabled');
+$data->enabled = get_config('local_signout', 'on_campus_form_enabled');
 $data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
+$data->confirmationenabled = get_config('local_signout', 'on_campus_confirmation_enabled');
 $data->refresh = get_config('local_signout', 'on_campus_refresh_rate');
 $data->confirmationundo = get_config('local_signout', 'on_campus_confirmation_undo_window');
 $data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
@@ -65,8 +66,9 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    set_config('on_campus_form_enabled', $data->oncampusenabled, 'local_signout');
+    set_config('on_campus_form_enabled', $data->enabled, 'local_signout');
     set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
+    set_config('on_campus_confirmation_enabled', $data->confirmationenabled, 'local_signout');
     set_config('on_campus_refresh_rate', $data->refresh, 'local_signout');
     set_config('on_campus_confirmation_undo_window', $data->confirmationundo, 'local_signout');
     set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
