@@ -77,6 +77,7 @@ function xmldb_local_signout_install() {
     $locations = array(
         array('name' => 'Health Center', 'grade' => 9),
         array('name' => 'Supervised Study Hall', 'grade' => 9),
+        array('name' => 'Play Rehearsal / Tech', 'grade' => 9),
         array('name' => 'Library', 'grade' => 11),
         array('name' => 'Terry Room', 'grade' => 11),
         array('name' => 'Tech Center', 'grade' => 11),

@@ -456,5 +456,14 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080501, 'local', 'signout');
     }
 
+    if ($oldversion < 2019080603) {
+
+        // Add another default location.
+        $DB->insert_record('local_signout_location', (object) array('name' => 'Play Rehearsal / Tech', 'grade' => 9));
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080603, 'local', 'signout');
+    }
+
     return true;
 }
