@@ -34,7 +34,7 @@ $string['sign_in_error_invalidrecord'] = 'The active record is invalid.';
 $string['sign_in_error_invalidtype'] = 'The active record type is invalid.';
 
 // Capabilities.
-$string['signout:view_limited_signout_summary'] = 'Middlesex School Electronic Signout: View limited version of combined report without specific location information or actions only for the user\'s dorm (proctors)';
+$string['signout:view_limited_signout_summary'] = 'Middlesex School Electronic Signout: View limited version of combined report without personal information or actions only for the user\'s dorm (proctors)';
 $string['signout:manage_on_campus'] = 'Middlesex School Electronic Signout: View and manage student on-campus signout records';
 $string['signout:manage_on_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage on-campus signout preferences';
 $string['signout:confirm_on_campus'] = 'Middlesex School Electronic Signout: View duty report and confirm on-campus signout records';
@@ -80,10 +80,8 @@ $string['combined_report_header_dorm'] = 'Dorm';
 $string['combined_report_header_status'] = 'Status';
 $string['combined_report_header_location'] = 'Location';
 $string['combined_report_header_signouttime'] = 'Sign Out Time';
-$string['combined_report_status_signed_out_on_campus'] = 'On Campus';
-$string['combined_report_status_signed_out_off_campus'] = 'Off Campus';
-$string['combined_report_status_signed_in_boarder'] = 'In Dorm';
-$string['combined_report_status_signed_in_day'] = 'At Home';
+$string['combined_report_status_on_campus'] = 'On Campus';
+$string['combined_report_status_off_campus'] = 'Off Campus';
 
 /* On Campus Signout */
 $string['on_campus'] = 'On-Campus Signout';
