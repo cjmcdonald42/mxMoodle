@@ -63,19 +63,19 @@ if ($hassiteconfig) {
         new lang_string('email_redirect_description', 'local_mxschool'), 'chuck@mxschool.edu'
     ));
     $emailsettings->add(new admin_setting_configtext(
-        'local_mxschool/email_deans', new lang_string('deans_email', 'local_mxschool'),
+        'local_mxschool/deans_email', new lang_string('deans_email', 'local_mxschool'),
         new lang_string('deans_email_description', 'local_mxschool'), 'deans@mxschool.edu'
     ));
     $emailsettings->add(new admin_setting_configtext(
-        'local_mxschool/addressee_deans', new lang_string('deans_addressee', 'local_mxschool'),
+        'local_mxschool/deans_addressee', new lang_string('deans_addressee', 'local_mxschool'),
         new lang_string('deans_addressee_description', 'local_mxschool'), 'Deans'
     ));
     $emailsettings->add(new admin_setting_configtext(
-        'local_mxschool/email_transportationmanager', new lang_string('transportationmanager_email', 'local_mxschool'),
+        'local_mxschool/transportationmanager_email', new lang_string('transportationmanager_email', 'local_mxschool'),
         new lang_string('transportationmanager_email_description', 'local_mxschool'), 'ptorres@mxschool.edu'
     ));
     $emailsettings->add(new admin_setting_configtext(
-        'local_mxschool/addressee_transportationmanager', new lang_string('transportationmanager_addressee', 'local_mxschool'),
+        'local_mxschool/transportationmanager_addressee', new lang_string('transportationmanager_addressee', 'local_mxschool'),
         new lang_string('transportationmanager_addressee_description', 'local_mxschool'), 'Transportation Manager'
     ));
     $mxschool->add('mxschool', $emailsettings);

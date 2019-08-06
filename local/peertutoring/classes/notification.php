@@ -36,11 +36,10 @@ abstract class notification extends \local_mxschool\notification {
      * @return stdClass The peer tutoring manager user object.
      */
     final protected static function get_peertutoringmanager_user() {
-        $supportuser = \core_user::get_support_user();
-        $peertutoradmin = clone $supportuser;
-        $peertutoradmin->email = get_config('local_peertutoring', 'email_peertutoringmanager');
-        $peertutoradmin->addresseename = get_config('local_peertutoring', 'addressee_peertutoringmanager');
-        return $peertutoradmin;
+        $peertutoringmanager = \core_user::get_support_user();
+        $peertutoringmanager->email = get_config('local_peertutoring', 'peertutoringmanager_email');
+        $peertutoringmanager->addresseename = get_config('local_peertutoring', 'peertutoringmanager_addressee');
+        return $peertutoringmanager;
     }
 
 }
