@@ -155,6 +155,8 @@ $string['on_campus_report_column_confirmation_text'] = 'Confirmed by {$a->confir
 
 // Duty Report for On-Campus Signout.
 $string['duty_report_title'] = 'On-Campus Duty Report for {$a}';
+$string['duty_report_select_active_true'] = 'Currently Signed Out';
+$string['duty_report_select_active_false'] = 'All Students';
 $string['duty_report_select_pictures_on'] = 'Show Pictures';
 $string['duty_report_select_pictures_off'] = 'Hide Pictures';
 $string['duty_report_select_location_all'] = 'All Locations';

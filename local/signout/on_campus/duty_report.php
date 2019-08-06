@@ -32,6 +32,7 @@ require_login();
 require_capability('local/signout:confirm_on_campus', context_system::instance());
 
 $filter = new stdClass();
+$filter->active = optional_param('active', 1, PARAM_INT);
 $filter->pictures = optional_param('pictures', 1, PARAM_INT);
 $filter->location = optional_param('location', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -49,13 +50,18 @@ if ($filter->location && !isset($locations[$filter->location])) {
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 
+$activeoptions = array(
+    1 => get_string('duty_report_select_active_true', 'local_signout'),
+    0 => get_string('duty_report_select_active_false', 'local_signout')
+);
 $pictureoptions = array(
-    '1' => get_string('duty_report_select_pictures_on', 'local_signout'),
-    '0' => get_string('duty_report_select_pictures_off', 'local_signout')
+    1 => get_string('duty_report_select_pictures_on', 'local_signout'),
+    0 => get_string('duty_report_select_pictures_off', 'local_signout')
 );
 
 $table = new local_signout\local\on_campus\duty_table($filter);
 $dropdowns = array(
+    new local_mxschool\output\dropdown('active', $activeoptions, $filter->active),
     new local_mxschool\output\dropdown('pictures', $pictureoptions, $filter->pictures),
     new local_mxschool\output\dropdown(
         'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')

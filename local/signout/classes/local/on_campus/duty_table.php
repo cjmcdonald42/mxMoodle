@@ -37,7 +37,7 @@ class duty_table extends \local_mxschool\table {
     /**
      * Creates a new duty_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include properties pictures, location and search.
+     * @param stdClass $filter Any filtering for the table - could include properties active, pictures, location, and search.
      */
     public function __construct($filter) {
         $columns = array('student', 'picture', 'grade', 'dorm', 'advisor', 'location', 'signouttime', 'confirmation');
@@ -68,6 +68,9 @@ class duty_table extends \local_mxschool\table {
             'oc.deleted = 0', 'u.deleted = 0', '(oc.locationid = -1 OR l.deleted = 0)',
              "oc.time_created >= {$starttime}"
         );
+        if ($filter->active) {
+            $where[] = 'oc.sign_in_time IS NULL';
+        }
         if ($filter->location) {
             $where[] = "oc.locationid = {$filter->location}";
         }
