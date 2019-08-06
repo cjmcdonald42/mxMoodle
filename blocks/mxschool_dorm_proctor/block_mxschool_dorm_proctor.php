@@ -41,7 +41,7 @@ class block_mxschool_dorm_proctor extends block_base {
         }
 
         $this->content = new stdClass();
-        if (has_capability('block/mxschool_dash_faculty:access', context_system::instance())) {
+        if (has_capability('block/mxschool_dorm_proctor:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
                 get_string('checkin_sheet', 'block_mxschool_dorm_proctor') => '/local/mxschool/checkin/generic_report.php',

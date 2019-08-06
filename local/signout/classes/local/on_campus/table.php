@@ -77,7 +77,7 @@ class table extends \local_mxschool\table {
             array_push($where, "oc.time_created >= {$starttime->getTimestamp()}", "oc.time_created < {$endtime->getTimestamp()}");
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'c.firstname', 'c.lastname');
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

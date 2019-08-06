@@ -46,7 +46,7 @@ class location_table extends \local_mxschool\table {
         );
         $from = array('{local_signout_location} l');
         $where = array('l.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

@@ -43,7 +43,7 @@ class rating_table extends \local_mxschool\table {
         $fields = array('r.id', 'r.displaytext');
         $from = array('{local_peertutoring_rating} r');
         $where = array('r.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

@@ -85,7 +85,7 @@ class table extends \local_mxschool\table {
             'o2a.firstname', 'o2a.lastname', 'o3a.firstname', 'o3a.lastname', 'o4a.firstname', 'o4a.lastname', 'o5a.firstname',
             'o5a.lastname', 'sa.firstname', 'sa.lastname'
         );
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

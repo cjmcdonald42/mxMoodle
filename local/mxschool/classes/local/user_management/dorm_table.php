@@ -49,7 +49,7 @@ class dorm_table extends \local_mxschool\table {
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('d.deleted = 0', 'u.deleted = 0');
         $searchable = array('d.name', 'd.abbreviation', 'u.lastname', 'u.firstname');
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

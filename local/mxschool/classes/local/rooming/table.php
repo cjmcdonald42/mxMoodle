@@ -91,7 +91,7 @@ class table extends \local_mxschool\table {
             );
             array_push($searchable, "d{$i}u.firstname", "d{$i}u.lastname", "d{$i}u.alternatename");
         }
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

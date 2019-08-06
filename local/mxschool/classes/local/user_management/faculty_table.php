@@ -57,7 +57,7 @@ class faculty_table extends \local_mxschool\table {
             $where[] = $this->get_dorm_where($filter->dorm);
         }
         $searchable = array('u.firstname', 'u.lastname');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

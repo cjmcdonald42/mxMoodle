@@ -48,7 +48,7 @@ class tutor_table extends \local_mxschool\table {
         $fields = array('t.id', 't.userid', "CONCAT(u.lastname, ', ', u.firstname) AS tutor", 't.departments');
         $from = array('{local_peertutoring_tutor} t', '{user} u ON t.userid = u.id');
         $where = array('u.deleted = 0', 't.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

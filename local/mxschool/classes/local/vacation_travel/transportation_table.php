@@ -98,7 +98,7 @@ class transportation_table extends \local_mxschool\table {
             $where[] = "dr.type = '{$filter->type}'";
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

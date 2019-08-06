@@ -239,30 +239,22 @@ class local_signout_external extends external_api {
 
     /**
      * Confirms an on-campus signout record and records the timestamp.
+     * If the record has already been confirmed, undoes the confirmation.
      *
      * @param int $id The id of the record to confirm.
-     * @return stdClass Object with properties confirmationtime and confirmer.
-     * @throws coding_exception If the on-campus signout record does not exist or has already been confirmed.
+     * @return stdClass Object with properties undowindow, confirmationtime and confirmer.
+     * @throws coding_exception If the on-campus signout record does not exist or was confirmed by another user.
      */
     public static function confirm_signout($id) {
         external_api::validate_context(context_system::instance());
         $params = self::validate_parameters(self::confirm_signout_parameters(), array('id' => $id));
 
-        global $DB, $USER;
         require_capability('local/signout:confirm_on_campus', context_system::instance());
-        $record = $DB->get_record('local_signout_on_campus', array('id' => $params['id']));
-        if (!$record || $record->confirmation_time) {
-            throw new coding_exception("on-campus signout record with id {$id} either doesn't exist or has already been confirmed");
-        }
-        $record->confirmation_time = $record->time_modified = time();
-        $record->confirmerid = $USER->id;
-        $DB->update_record('local_signout_on_campus', $record);
-        local_mxschool\event\record_updated::create(array('other' => array(
-            'page' => get_string('on_campus_duty_report', 'local_signout')
-        )))->trigger();
+        $record = confirm_signout($params['id']);
         $result = new stdClass();
-        $result->confirmationtime = format_date('g:i A', $record->confirmation_time);
-        $result->confirmer = format_faculty_name($record->confirmerid);
+        $result->undowindow = get_config('local_signout', 'on_campus_confirmation_undo_window');
+        $result->confirmationtime = isset($record->confirmation_time) ? format_date('g:i A', $record->confirmation_time) : '';
+        $result->confirmer = isset($record->confirmerid) ? format_faculty_name($record->confirmerid) : '';
         return $result;
     }
 
@@ -273,8 +265,11 @@ class local_signout_external extends external_api {
      */
     public static function confirm_signout_returns() {
         return new external_single_structure(array(
-            'confirmationtime' => new external_value(PARAM_TEXT, 'The time when the record was confirmed.'),
-            'confirmer' => new external_value(PARAM_TEXT, 'The name of the user who confirmed the record.'),
+            'undowindow' => new external_value(
+                PARAM_INT, 'The amount of time in seconds that the user has to undo the confirmation.'
+            ),
+            'confirmationtime' => new external_value(PARAM_TEXT, "The time when the record was confirmed in 'g:i A' format."),
+            'confirmer' => new external_value(PARAM_TEXT, 'The name of the user who confirmed the record.')
         ));
     }
 

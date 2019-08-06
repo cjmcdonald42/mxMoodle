@@ -47,7 +47,8 @@ class preferences_form extends \local_mxschool\form {
                         'school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR']
                     ))
                 ),
-                'refresh' => array('element' => 'text', 'type' => PARAM_INT)
+                'refresh' => array('element' => 'text', 'type' => PARAM_INT),
+                'confirmationundo' => array('element' => 'text', 'type' => PARAM_INT)
             ),
             'text' => array(
                 'ipformerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,

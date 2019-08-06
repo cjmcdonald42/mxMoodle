@@ -53,7 +53,7 @@ class vehicle_table extends \local_mxschool\table {
         );
         $where = array('v.deleted = 0', 'u.deleted = 0');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'v.make', 'v.model', 'v.color', 'v.registration');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

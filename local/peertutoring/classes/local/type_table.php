@@ -46,7 +46,7 @@ class type_table extends \local_mxschool\table {
         $fields = array('t.id', 't.displaytext');
         $from = array('{local_peertutoring_type} t');
         $where = array('t.deleted = 0');
-        $this->set_sql($fields, $from, $where);
+        $this->define_sql($fields, $from, $where);
     }
 
     /**

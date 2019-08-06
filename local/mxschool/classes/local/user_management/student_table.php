@@ -123,7 +123,7 @@ class student_table extends \local_mxschool\table {
                 array_push($searchable, 'p.parent_name', 'p.email');
                 break;
         }
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
     /**

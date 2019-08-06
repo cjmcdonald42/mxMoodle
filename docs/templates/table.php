@@ -49,7 +49,7 @@ class NAME_table extends \local_mxschool\table {
         // $from = TODO: array of database tables;
         // $where = TODO: array of constraints;
         // $searchable = TODO: array of fields that are searchable;
-        $this->set_sql($fields, $from, $where, $searchable, $filter->search); // NOTE: remove last two parameters if the table has no search functionality.
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search); // NOTE: remove last two parameters if the table has no search functionality.
     }
 
     // TODO: any column transformations as protected functions.
