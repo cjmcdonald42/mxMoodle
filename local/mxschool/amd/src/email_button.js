@@ -28,7 +28,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
     function sendEmail(event) {
         var element = $(event.target);
         var text = element.text();
-        $.when(str.get_string('email_button_sending', 'local_mxschool')).done(function(sendingString) {
+        $.when(str.get_string('email_button:sending', 'local_mxschool')).done(function(sendingString) {
             element.text(sendingString);
         });
         var promises = ajax.call([{
@@ -41,7 +41,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
             }
         }]);
         promises[0].done(function(result) {
-            var unlocalized = 'email_button_send_' + (result ? 'success' : 'failure');
+            var unlocalized = 'email_button:' + (result ? 'success' : 'failure');
             $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(sentString) {
                 element.text(sentString);
                 setTimeout(function() {
@@ -54,7 +54,7 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
         }).fail(notification.exception);
     }
     function confirmSend(event) {
-        $.when(str.get_string('email_button_confirmation', 'local_mxschool')).done(function(cofirmationText) {
+        $.when(str.get_string('email_button:confirmation', 'local_mxschool')).done(function(cofirmationText) {
             if (confirm(cofirmationText)) {
                 sendEmail(event);
             }

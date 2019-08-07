@@ -41,7 +41,7 @@ $filter->semester = get_param_current_semester();
 setup_mxschool_page('weekend_calculator', 'checkin');
 $PAGE->requires->js_call_amd('local_mxschool/highlight_cells', 'setup');
 
-$semesters = array('1' => get_string('first_semester', 'local_mxschool'), '2' => get_string('second_semester', 'local_mxschool'));
+$semesters = array('1' => get_string('semester:1', 'local_mxschool'), '2' => get_string('semester:2', 'local_mxschool'));
 $startdate = get_config('local_mxschool', $filter->semester == 1 ? 'dorms_open_date' : 'second_semester_start_date');
 $enddate = get_config('local_mxschool', $filter->semester == 1 ? 'second_semester_start_date' : 'dorms_close_date');
 $weekends = $DB->get_records_sql(

@@ -40,9 +40,9 @@ class block_mxschool_manage_tutoring extends block_base {
 
         $this->content = new stdClass();
         if (has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
-            $output = $PAGE->get_renderer('local_mxschool');
+            $output = $PAGE->get_renderer('local_peertutoring');
             $renderable = new local_mxschool\output\index(array(
-                get_string('tutor_manage', 'block_mxschool_manage_tutoring') => '/local/peertutoring/report.php'
+                get_string('report', 'block_mxschool_manage_tutoring') => '/local/peertutoring/report.php'
             ));
             $this->content->text = $output->render($renderable);;
         }

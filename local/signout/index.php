@@ -39,7 +39,7 @@ setup_generic_page($url, $title);
 
 $subpackages = $DB->get_fieldset_select('local_mxschool_subpackage', 'id', "package = 'signout'");
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 
 echo $output->header();
 echo $output->heading($title);

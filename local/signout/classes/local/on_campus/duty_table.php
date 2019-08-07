@@ -47,10 +47,16 @@ class duty_table extends \local_mxschool\table {
         if ($filter->location > 0) {
             unset($columns[array_search('location', $columns)]);
         }
+        if (!get_config('local_signout', 'on_campus_confirmation_enabled')) {
+            unset($columns[array_search('confirmation', $columns)]);
+        }
         $headers = $this->generate_headers($columns, 'duty_report', 'local_signout');
         $sortable = array('signouttime', 'student', 'grade', 'dorm', 'location');
         $centered = array('picture', 'grade', 'signouttime', 'confirmation');
-        parent::__construct('on_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
+        parent::__construct(
+            'on_campus_table', $columns, $headers, $sortable, $centered, $filter,
+            get_config('local_signout', 'on_campus_confirmation_enabled'), false
+        );
         $this->add_column_class('confirmation', 'confirmation');
 
         $fields = array(
@@ -91,7 +97,7 @@ class duty_table extends \local_mxschool\table {
             return get_string('duty_report_column_picture_notfound', 'local_signout');
         }
         $url = \moodle_url::make_pluginfile_url(1, 'local_mxschool', 'student_pictures', 0, '/', $filename, false);
-        $output = $PAGE->get_renderer('local_mxschool');
+        $output = $PAGE->get_renderer('local_signout');
         $renderable = new student_picture($url, format_student_name($values->userid));
         return $output->render($renderable);
     }

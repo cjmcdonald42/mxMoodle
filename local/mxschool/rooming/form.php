@@ -74,8 +74,8 @@ if ($id) { // Updating an existing record.
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
-$roomable = array(0 => get_string('form_select_default', 'local_mxschool')) + get_boarding_next_year_student_list();
-$roomtypes = array(0 => get_string('form_select_default', 'local_mxschool')) + get_roomtype_list();
+$roomable = array(0 => get_string('form:select:default', 'local_mxschool')) + get_boarding_next_year_student_list();
+$roomtypes = array(0 => get_string('form:select:default', 'local_mxschool')) + get_roomtype_list();
 
 $form = new local_mxschool\local\rooming\form(array('students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
 $form->set_data($data);

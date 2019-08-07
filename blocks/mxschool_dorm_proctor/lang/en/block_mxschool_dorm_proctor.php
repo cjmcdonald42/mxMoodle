@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dorm Block for Students..
+ * English language strings for Middlesex's Dorm Block for Proctors.
  *
  * @package    block_mxschool_dorm_proctor
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -26,9 +26,15 @@
 
 $string['pluginname'] = 'Proctor Dorm Block';
 $string['blockname'] = 'Proctor Menu';
+
+// Capabilities.
 $string['mxschool_dorm_proctor:addinstance'] = 'Middlesex School: Add Proctor Dorm Block';
 $string['mxschool_dorm_proctor:myaddinstance'] = 'Middlesex School: Add Proctor Dorm Block to Dashboard';
 $string['mxschool_dorm_proctor:access'] = 'Middlesex School: Access Proctor Dorm Block';
 
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
 $string['checkin_sheet'] = 'Printable Check-In Sheet';
 $string['dorm_signout_report'] = 'Dorm Signout Report';

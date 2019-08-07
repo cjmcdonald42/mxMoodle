@@ -190,12 +190,12 @@ function redirect_non_admin() {
  *
  * @param moodle_url $url The url to redirect to.
  * @param string $notification The localized text to display on the notification.
- * @param string $type The type of the event to be logged - either create, update, or delete.
+ * @param string $action The type of action to be logged - either create, update, or delete.
  */
-function logged_redirect($url, $notification, $type, $success = true) {
+function logged_redirect($url, $notification, $action, $success = true) {
     global $PAGE;
     if ($success) {
-        switch($type) {
+        switch($action) {
             case 'create':
                 local_mxschool\event\record_created::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
@@ -206,7 +206,7 @@ function logged_redirect($url, $notification, $type, $success = true) {
                 local_mxschool\event\record_deleted::create(array('other' => array('page' => $PAGE->title)))->trigger();
                 break;
             default:
-                debugging("Invalid event type: {$type}", DEBUG_DEVELOPER);
+                debugging("Invalid action type: {$action}", DEBUG_DEVELOPER);
         }
     }
     redirect(
@@ -1218,11 +1218,11 @@ function calculate_weekends_used($userid, $semester) {
  */
 function get_roomtype_list($gender = '') {
     $roomtypes = array(
-        'Single' => get_string('room_type_single', 'local_mxschool'),
-        'Double' => get_string('room_type_double', 'local_mxschool')
+        'Single' => get_string('room_type:single', 'local_mxschool'),
+        'Double' => get_string('room_type:double', 'local_mxschool')
     );
     if ($gender !== 'M') {
-        $roomtypes['Quad'] = get_string('room_type_quad', 'local_mxschool');
+        $roomtypes['Quad'] = get_string('room_type:quad', 'local_mxschool');
     }
     return $roomtypes;
 }

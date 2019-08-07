@@ -52,11 +52,11 @@ if ($refresh) {
 }
 
 if ($action === 'delete' && $id && $table) {
-    if (!in_array($table, array('on_campus', 'off_campus'))) {
-        logged_redirect($PAGE->url, get_string('table_delete_failure', 'local_signout'), 'delete', false);
+    $redirect = new moodle_url($PAGE->url, (array) $filter);
+    if (!in_array($table, array('on_campus', 'off_campus'))) { // Invalid table.
+        redirect($redirect);
     }
     $record = $DB->get_record("local_signout_{$table}", array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, (array) $filter);
     if ($record) {
         $record->deleted = 1;
         $DB->update_record('local_signout_on_campus', $record);
@@ -82,7 +82,7 @@ if ($isproctor) {
     );
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();

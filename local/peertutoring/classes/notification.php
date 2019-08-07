@@ -32,15 +32,14 @@ defined('MOODLE_INTERNAL') || die();
 abstract class notification extends \local_mxschool\notification {
 
     /**
-     * Generates a user object to which emails should be sent to reach the peer tutor administrator.
-     * @return stdClass The peer tutor administrator user object.
+     * Generates a user object to which emails should be sent to reach the peer tutoring manager.
+     * @return stdClass The peer tutoring manager user object.
      */
-    final protected static function get_peertutoradmin_user() {
-        $supportuser = \core_user::get_support_user();
-        $peertutoradmin = clone $supportuser;
-        $peertutoradmin->email = get_config('local_peertutoring', 'email_peertutoradmin');
-        $peertutoradmin->addresseename = get_config('local_peertutoring', 'addressee_peertutoradmin');
-        return $peertutoradmin;
+    final protected static function get_peertutoringmanager_user() {
+        $peertutoringmanager = \core_user::get_support_user();
+        $peertutoringmanager->email = get_config('local_peertutoring', 'peertutoringmanager_email');
+        $peertutoringmanager->addresseename = get_config('local_peertutoring', 'peertutoringmanager_addressee');
+        return $peertutoringmanager;
     }
 
 }

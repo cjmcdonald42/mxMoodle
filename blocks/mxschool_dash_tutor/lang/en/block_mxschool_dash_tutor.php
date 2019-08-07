@@ -26,7 +26,13 @@
 
 $string['pluginname'] = 'Peer Tutor Dashboard Block';
 $string['blockname'] = 'Peer Tutoring';
+
+// Capabilities.
 $string['mxschool_dash_tutor:addinstance'] = 'Middlesex School: Add Peer Tutor Block';
 $string['mxschool_dash_tutor:myaddinstance'] = 'Middlesex School: Add Peer Tutor Block to Dashboard';
 
-$string['tutor_submit'] = 'Submit a Peer Tutoring Form';
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
+$string['form'] = 'Submit a Peer Tutoring Form';

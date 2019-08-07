@@ -37,7 +37,7 @@ define(
             }]);
             promises[0].done(function(data) {
                 $.when(
-                    str.get_string('form_select_default', 'local_mxschool'),
+                    str.get_string('form:select:default', 'local_mxschool'),
                     str.get_string('on_campus_form_location_select_other', 'local_signout')
                 ).done(function(select, other) {
                     data.locations.unshift({

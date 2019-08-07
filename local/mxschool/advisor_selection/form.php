@@ -73,7 +73,7 @@ $data->isstudent = $isstudent ? '1' : '0';
 $data->warning = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions = get_config('local_mxschool', 'advisor_form_instructions');
 $students = get_student_with_advisor_form_enabled_list();
-$faculty = array(0 => get_string('form_select_default', 'local_mxschool')) + get_faculty_list();
+$faculty = array(0 => get_string('form:select:default', 'local_mxschool')) + get_faculty_list();
 
 $form = new local_mxschool\local\advisor_selection\form(array('students' => $students, 'faculty' => $faculty));
 $form->set_data($data);

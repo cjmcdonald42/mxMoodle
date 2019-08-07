@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification to the peer tutor admin with a summary of the current day's tutoring for Middlesex's Peer Tutoring Subplugin.
+ * Email notification to the peer tutoring manager with a summary of the current day's tutoring
+ * for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -46,11 +47,11 @@ class daily_summary extends \local_peertutoring\notification {
         $table = new table($filter, '', true);
 
         $this->data['total'] = $DB->count_records_select('local_peertutoring_session', "tutoring_date >= ?", array($filter->date));
-        $output = $PAGE->get_renderer('local_mxschool');
+        $output = $PAGE->get_renderer('local_peertutoring');
         $renderable = new report_table($table, false, $this->data['total']);
         $this->data['table'] = $output->render($renderable);
 
-        $this->recipients[] = self::get_peertutoradmin_user();
+        $this->recipients[] = self::get_peertutoringmanager_user();
     }
 
     /**

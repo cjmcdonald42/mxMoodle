@@ -83,7 +83,7 @@ if ($form->is_cancelled()) {
     }
     $data->riding = isset($data->riding) ? array_flip($ridingencode)[$data->riding] : null;
     update_record($queryfields, $data);
-    logged_redirect($form->get_redirect(), get_string('user_management_student_edit_success', 'local_mxschool'), 'update');
+    logged_redirect($form->get_redirect(), get_string('user_management_student_update_success', 'local_mxschool'), 'update');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

@@ -18,7 +18,7 @@
  * Content for BLOCK_DESCRIPTION.
  *
  * @package    block_mxschool_BLOCK
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     AUTHOR
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -42,7 +42,7 @@ class block_mxschool_BLOCK extends block_base {
 
         $this->content = new stdClass();
         if (/* Permissions checks to verify that the current user can access the block. */) {
-            $output = $PAGE->get_renderer('local_mxschool');
+            $output = $PAGE->get_renderer('PRIMARY_DEPENDECY');
             $renderable = new local_mxschool\output\index(array(
                 get_string('LINK1', 'block_mxschool_BLOCK') => 'URL1',
                 get_string('LINK2', 'block_mxschool_BLOCK') => 'URL2',

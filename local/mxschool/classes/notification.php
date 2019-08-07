@@ -125,6 +125,7 @@ abstract class notification {
             if (!empty($redirect)) {
                 $recipient->email = $redirect;
             }
+            $recipient->mailformat = 1; // Force users to receive emails in HTML format, to guarantee that formatting will work.
             $result &= email_to_user($recipient, $supportuser, $subject, '', $body);
             email_sent::create(array('other' => array('emailclass' => $this->emailclass)))->trigger();
         }
@@ -143,10 +144,9 @@ abstract class notification {
      * @return stdClass The deans user object.
      */
     final protected static function get_deans_user() {
-        $supportuser = \core_user::get_support_user();
-        $deans = clone $supportuser;
-        $deans->email = get_config('local_mxschool', 'email_deans');
-        $deans->addresseename = get_config('local_mxschool', 'addressee_deans');
+        $deans = \core_user::get_support_user();
+        $deans->email = get_config('local_mxschool', 'deans_email');
+        $deans->addresseename = get_config('local_mxschool', 'deans_addressee');
         return $deans;
     }
 
@@ -155,10 +155,9 @@ abstract class notification {
      * @return stdClass The deans user object.
      */
     final protected static function get_transportationmanager_user() {
-        $supportuser = \core_user::get_support_user();
-        $transportationmanager = clone $supportuser;
-        $transportationmanager->email = get_config('local_mxschool', 'email_transportationmanager');
-        $transportationmanager->addresseename = get_config('local_mxschool', 'addressee_transportationmanager');
+        $transportationmanager = \core_user::get_support_user();
+        $transportationmanager->email = get_config('local_mxschool', 'transportationmanager_email');
+        $transportationmanager->addresseename = get_config('local_mxschool', 'transportationmanager_addressee');
         return $transportationmanager;
     }
 

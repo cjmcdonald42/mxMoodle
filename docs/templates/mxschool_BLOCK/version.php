@@ -18,7 +18,7 @@
  * BLOCK_DESCRIPTION.
  *
  * @package    block_mxschool_BLOCK
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author     AUTHOR
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -32,6 +32,6 @@ $plugin->release = 'v3.1';
 $plugin->requires = 2017111300; // Moodle 3.4+.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019072600 // MXSchool v3.1.
+    'local_mxschool' => 2019072600 // MXSchool v3.1. TODO: Remove if not the primary dependency.
     // TODO: Include any other dependencies here.
 );

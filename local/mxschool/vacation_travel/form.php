@@ -151,7 +151,9 @@ if ($form->is_cancelled()) {
         unset($departuredata->site);
         unset($departuredata->international);
     }
-    if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && $departuredata->site !== '0') {
+    if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && (
+        !isset($departuredata->site) || $departuredata->site !== '0'
+    )) {
         unset($departuredata->details);
     }
     if ($departuredata->type !== 'Plane' && $departuredata->type !== 'Train' && $departuredata->type !== 'Bus') {
@@ -176,7 +178,9 @@ if ($form->is_cancelled()) {
             unset($returndata->site);
             unset($returndata->international);
         }
-        if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && $returndata->site !== '0') {
+        if ($returndata->type !== 'Car' && $returndata->type !== 'Non-MX Bus' && (
+            !isset($departuredata->site) || $returndata->site !== '0'
+        )) {
             unset($returndata->details);
         }
         if ($returndata->type !== 'Plane' && $returndata->type !== 'Train' && $returndata->type !== 'Bus') {

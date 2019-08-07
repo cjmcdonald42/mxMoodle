@@ -88,7 +88,7 @@ $dropdowns = array(
         'end', $enddays, $filter->end, get_string('checkin_weekend_report_select_end_day_default', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
-        'submitted', $submittedoptions, $filter->submitted, get_string('report_select_default', 'local_mxschool')
+        'submitted', $submittedoptions, $filter->submitted, get_string('dropdown:default', 'local_mxschool')
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
@@ -111,9 +111,8 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
-    logged_redirect(
-        $form->get_redirect(), get_string('checkin_weekend_comment_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
-    );
+    $action = $data->id ? 'update' : 'create';
+    logged_redirect($form->get_redirect(), get_string("checkin_weekend_comment_form_{$action}_success", 'local_mxschool'), $action);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Content for Middlesex's Dorm Block for Students..
+ * Content for Middlesex's Dorm Block for Proctors.
  *
  * @package    block_mxschool_dorm_proctor
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>

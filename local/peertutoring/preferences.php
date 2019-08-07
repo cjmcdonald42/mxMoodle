@@ -53,8 +53,8 @@ if ($action === 'delete' && $id && $table) {
         case 'rating':
             $dbtable = 'local_peertutoring_rating';
             break;
-        default:
-            logged_redirect($PAGE->url, get_string('table_delete_failure', 'local_peertutoring'), 'delete', false);
+        default: // Invalid table.
+            redirect($PAGE->url);
     }
     $record = $DB->get_record($dbtable, array('id' => $id));
     if ($record) {
@@ -81,7 +81,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_notification('peer_tutor_summary', $data->subject, $data->body);
     logged_redirect(
-        $form->get_redirect(), get_string('preferences_edit_success', 'local_peertutoring'), 'update'
+        $form->get_redirect(), get_string('preferences_update_success', 'local_peertutoring'), 'update'
     );
 }
 
@@ -106,7 +106,7 @@ $ratingbuttons = array(new local_mxschool\output\redirect_button(
     get_string('rating_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/rating_edit.php')
 ));
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_peertutoring');
 $formrenderable = new local_mxschool\output\form($form);
 $tutorrenderable = new local_mxschool\output\report($tutortable, null, array(), $tutorbuttons);
 $departmentrenderable = new local_mxschool\output\report($departmenttable, null, array(), $departmentbuttons);

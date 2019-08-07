@@ -26,18 +26,24 @@
 
 $string['pluginname'] = 'Faculty Dorm Block';
 $string['blockname'] = 'Dorm Faculty Menu';
+
+// Capabilities.
 $string['mxschool_dorm_faculty:addinstance'] = 'Middlesex School: Add Faculty Dorm Block';
 $string['mxschool_dorm_faculty:myaddinstance'] = 'Middlesex School: Add Faculty Dorm Block to Dashboard';
 $string['mxschool_dorm_faculty:access'] = 'Middlesex School: Access Dorm Faculty Block';
 
-$string['event_heading'] = 'Check-In Sheets';
-$string['checkin_sheet'] = 'Event';
-$string['weekday_checkin'] = 'Weekly';
-$string['weekend_checkin'] = 'Weekend';
-$string['weekend_calculator'] = 'Weekend Calculator';
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
-$string['other_heading'] = 'Data and Reports';
-$string['combined_report'] = 'Dorm Signout Report';
-$string['on_campus_report'] = 'On-Campus Signout Report';
-$string['off_campus_report'] = 'Off-Campus Signout Report';
-$string['vacation_report'] = 'Vacation Travel Report';
+// Links.
+$string['checkin'] = 'Check-In Sheets';
+$string['checkin:generic'] = 'Event';
+$string['checkin:weekday'] = 'Weekly';
+$string['checkin:weekend'] = 'Weekend';
+$string['checkin:weekend_calculator'] = 'Weekend Calculator';
+
+$string['other'] = 'Data and Reports';
+$string['other:combined_report'] = 'Dorm Signout Report';
+$string['other:on_campus_report'] = 'On-Campus Signout Report';
+$string['other:off_campus_report'] = 'Off-Campus Signout Report';
+$string['other:vacation_report'] = 'Vacation Travel Report';

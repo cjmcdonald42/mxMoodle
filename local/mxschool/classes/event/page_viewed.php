@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Event for Middlesex's Dorm and Student Functions Plugin that is triggered whenever a page is viewed.
+ * Event that is triggered whenever a page is viewed by Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -47,7 +47,7 @@ class page_viewed extends base {
      * @return string the name of the event.
      */
     public static function get_name() {
-        return get_string('event_page_viewed', 'local_mxschool');
+        return get_string('event:page_viewed', 'local_mxschool');
     }
 
     /**

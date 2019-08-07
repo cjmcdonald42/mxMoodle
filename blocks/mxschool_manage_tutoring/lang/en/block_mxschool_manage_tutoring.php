@@ -26,8 +26,14 @@
 
 $string['pluginname'] = 'Peer Tutoring Manager Block';
 $string['blockname'] = 'Manage Peer Tutoring';
+
+// Capabilities.
 $string['mxschool_manage_tutoring:addinstance'] = 'Middlesex School: Add Peer Tutoring Manager Block';
 $string['mxschool_manage_tutoring:myaddinstance'] = 'Middlesex School: Add Peer Tutoring Manager Block to Dashboard';
 $string['mxschool_manage_tutoring:access'] = 'Middlesex School: Access Tutoring Manager Block';
 
-$string['tutor_manage'] = 'Peer Tutoring Report';
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
+$string['report'] = 'Peer Tutoring Report';

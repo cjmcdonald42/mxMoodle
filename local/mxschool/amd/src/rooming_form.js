@@ -37,7 +37,7 @@ define(
             promises[0].done(function(data) {
                 lib.updateSelect($('.mx-form select#id_student'), data.students, $('.mx-form input[name="id"]').val() !== '0');
                 $('.mx-form fieldset#id_info div.form-control-static').text(data.dorm);
-                $.when(str.get_string('form_select_default', 'local_mxschool')).done(function(text) {
+                $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
                     data.roomtypes.unshift({
                         value: 0,
                         text: text

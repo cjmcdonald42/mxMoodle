@@ -30,34 +30,34 @@ defined('MOODLE_INTERNAL') || die();
 
 class combined_table extends \local_mxschool\table {
 
+    /** @var bool Whether the user is a proctor and personal information and actions should be omitted. */
+    private $isproctor;
+
     /**
      * Creates a new combined_table.
      *
      * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
-     * @param bool $isproctor Whether the user is a proctor and personal information and actions should be ommited.
+     * @param bool $isproctor Whether the user is a proctor and personal information and actions should be omitted.
      */
     public function __construct($filter, $isproctor) {
         global $USER;
+        $this->isproctor = $isproctor;
         $columns = array('student', 'grade', 'dorm', 'status', 'location', 'signouttime');
         if ($filter->dorm > 0) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        if ($isproctor) {
-            unset($columns[array_search('location', $columns)]);
-        }
         $headers = $this->generate_headers($columns, 'combined_report', 'local_signout');
         $sortable = array('student', 'grade', 'status', 'signouttime');
-        $centered = array('grade', 'status', 'signouttime');
+        $centered = array('grade', 'status', 'location', 'signouttime');
         parent::__construct('combined_table', $columns, $headers, $sortable, $centered, $filter, !$isproctor);
 
         $fields = array(
             's.id', 's.userid', 'onc.id AS onid', 'offc.id AS offid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade',
             's.dormid', 'l.name AS location', 'onc.other', 'dr.destination',
             "CASE
-                WHEN onc.id IS NOT NULL AND (offc.id IS NULL OR onc.time_created > offc.time_created) THEN 'signed_out_on_campus'
-                WHEN offc.id IS NOT NULL AND (onc.id IS NULL OR offc.time_created > onc.time_created) THEN 'signed_out_off_campus'
-                WHEN s.boarding_status = 'Boarder' THEN 'signed_in_boarder'
-                ELSE 'signed_in_day'
+                WHEN onc.id IS NOT NULL AND (offc.id IS NULL OR onc.time_created > offc.time_created) THEN 'on_campus'
+                WHEN offc.id IS NOT NULL AND (onc.id IS NULL OR offc.time_created > onc.time_created) THEN 'off_campus'
+                ELSE NULL
             END AS status",
             "CASE
                 WHEN onc.id IS NOT NULL AND (offc.id IS NULL OR onc.time_created > offc.time_created) THEN onc.time_created
@@ -98,7 +98,14 @@ class combined_table extends \local_mxschool\table {
      * Formats the status column.
      */
     protected function col_status($values) {
-        return get_string("combined_report_status_{$values->status}", 'local_signout');
+        switch ($values->status) {
+            case 'on_campus':
+                return get_string('combined_report_status_on_campus', 'local_signout');
+            case 'off_campus':
+                return get_string('combined_report_status_off_campus', 'local_signout');
+            default:
+                return '-';
+        }
     }
 
     /**
@@ -106,12 +113,12 @@ class combined_table extends \local_mxschool\table {
      */
     protected function col_location($values) {
         switch ($values->status) {
-            case 'signed_out_on_campus':
+            case 'on_campus':
                 return $values->other ?? $values->location;
-            case 'signed_out_off_campus':
-                return $values->destination;
+            case 'off_campus':
+                return $this->isproctor ? '-' : $values->destination;
             default:
-                return '';
+                return '-';
         }
     }
 
@@ -119,7 +126,7 @@ class combined_table extends \local_mxschool\table {
      * Formats the sign out time time column to 'g:i A'.
      */
     protected function col_signouttime($values) {
-        return isset($values->signouttime) ? format_date('g:i A', $values->signouttime) : '';
+        return isset($values->signouttime) ? format_date('g:i A', $values->signouttime) : '-';
     }
 
     /**
@@ -127,10 +134,10 @@ class combined_table extends \local_mxschool\table {
      */
     protected function col_actions($values) {
         switch ($values->status) {
-            case 'signed_out_on_campus':
+            case 'on_campus':
                 return $this->edit_icon('/local/signout/on_campus/form.php', $values->onid)
                     . $this->delete_icon($values->onid, 'on_campus');
-            case 'signed_out_off_campus':
+            case 'off_campus':
                 return $this->edit_icon('/local/signout/off_campus/form.php', $values->offid)
                     . $this->delete_icon($values->offid, 'off_campus');
             default:

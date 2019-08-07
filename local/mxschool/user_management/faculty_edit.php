@@ -55,7 +55,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
-    logged_redirect($form->get_redirect(), get_string('user_management_faculty_edit_success', 'local_mxschool'), 'update');
+    logged_redirect($form->get_redirect(), get_string('user_management_faculty_update_success', 'local_mxschool'), 'update');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

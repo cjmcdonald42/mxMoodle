@@ -28,23 +28,23 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
 
-    $settings = new admin_settingpage('signout_settings', new lang_string('settings', 'local_signout'));
+    $settings = new admin_settingpage('signout_settings', new lang_string('signout_settings', 'local_signout'));
     $settings->add(new admin_setting_configtext(
-        'local_signout/school_ip', new lang_string('school_ip', 'local_signout'),
-        new lang_string('school_ip_description', 'local_signout'), '63.138.153.62'
+        'local_signout/school_ip', new lang_string('signout_settings:school_ip', 'local_signout'),
+        new lang_string('signout_settings:school_ip:description', 'local_signout'), '63.138.153.62'
     ));
     $ADMIN->add('mxschool', $settings);
 
     $ADMIN->add('indexes', new admin_externalpage(
-        'signout_index', new lang_string('signout_index', 'local_signout'),
+        'signout_index', new lang_string('indexes:signout', 'local_signout'),
         "$CFG->wwwroot/local/signout/index.php")
     );
     $ADMIN->add('indexes', new admin_externalpage(
-        'on_campus_index', new lang_string('on_campus_index', 'local_signout'),
+        'on_campus_index', new lang_string('indexes:on_campus', 'local_signout'),
         "$CFG->wwwroot/local/signout/on_campus/index.php")
     );
     $ADMIN->add('indexes', new admin_externalpage(
-        'off_campus_index', new lang_string('off_campus_index', 'local_signout'),
+        'off_campus_index', new lang_string('indexes:off_campus', 'local_signout'),
         "$CFG->wwwroot/local/signout/off_campus/index.php")
     );
 

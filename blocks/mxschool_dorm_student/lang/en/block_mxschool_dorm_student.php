@@ -26,8 +26,14 @@
 
 $string['pluginname'] = 'Student Dorm Block';
 $string['blockname'] = 'Dorm Menu';
+
+// Capabilities.
 $string['mxschool_dorm_student:addinstance'] = 'Middlesex School: Add Student Dorm Block';
 $string['mxschool_dorm_student:myaddinstance'] = 'Middlesex School: Add Student Dorm Block to Dashboard';
 
-$string['weekend_submit'] = 'Submit a Weekend Form';
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
+$string['weekend_form'] = 'Submit a Weekend Form';
 $string['weekend_calculator'] = 'View Weekend Calculator';

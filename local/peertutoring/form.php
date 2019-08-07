@@ -67,11 +67,11 @@ if ($id) { // Updating an existing record.
 $data->isstudent = $isstudent ? '1' : '0';
 $tutors = get_tutor_list();
 $students = get_student_list();
-$departments = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_list();
-$courses = array(0 => get_string('form_select_default', 'local_mxschool')) + get_course_list();
-$types = array(0 => get_string('form_select_default', 'local_mxschool')) + get_type_list()
+$departments = array(0 => get_string('form:select:default', 'local_mxschool')) + get_department_list();
+$courses = array(0 => get_string('form:select:default', 'local_mxschool')) + get_course_list();
+$types = array(0 => get_string('form:select:default', 'local_mxschool')) + get_type_list()
          + array(-1 => get_string('form_type_select_other', 'local_peertutoring'));
-$ratings = array(0 => get_string('form_select_default', 'local_mxschool')) + get_rating_list();
+$ratings = array(0 => get_string('form:select:default', 'local_mxschool')) + get_rating_list();
 
 $form = new local_peertutoring\local\form(array(
     'tutors' => $tutors, 'students' => $students, 'departments' => $departments, 'courses' => $courses, 'types' => $types,
@@ -88,11 +88,11 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), get_string('form_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('session_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
     );
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_peertutoring');
 $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();

@@ -48,8 +48,9 @@ if ($action === 'delete' && $id) {
 }
 
 $data = new stdClass();
-$data->oncampusenabled = get_config('local_signout', 'on_campus_form_enabled');
+$data->enabled = get_config('local_signout', 'on_campus_form_enabled');
 $data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
+$data->confirmationenabled = get_config('local_signout', 'on_campus_confirmation_enabled');
 $data->refresh = get_config('local_signout', 'on_campus_refresh_rate');
 $data->confirmationundo = get_config('local_signout', 'on_campus_confirmation_undo_window');
 $data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
@@ -65,8 +66,9 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    set_config('on_campus_form_enabled', $data->oncampusenabled, 'local_signout');
+    set_config('on_campus_form_enabled', $data->enabled, 'local_signout');
     set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
+    set_config('on_campus_confirmation_enabled', $data->confirmationenabled, 'local_signout');
     set_config('on_campus_refresh_rate', $data->refresh, 'local_signout');
     set_config('on_campus_confirmation_undo_window', $data->confirmationundo, 'local_signout');
     set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
@@ -76,7 +78,7 @@ if ($form->is_cancelled()) {
     set_config('on_campus_form_warning_juniors', $data->juniorwarning['text'], 'local_signout');
     set_config('on_campus_form_confirmation', $data->confirmation['text'], 'local_signout');
     logged_redirect(
-        $form->get_redirect(), get_string('on_campus_preferences_edit_success', 'local_signout'), 'update'
+        $form->get_redirect(), get_string('on_campus_preferences_update_success', 'local_signout'), 'update'
     );
 }
 
@@ -85,7 +87,7 @@ $buttons = array(new local_mxschool\output\redirect_button(
     get_string('on_campus_location_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/location_edit.php')
 ));
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\form($form);
 $reportrenderable = new local_mxschool\output\report($table, null, array(), $buttons);
 

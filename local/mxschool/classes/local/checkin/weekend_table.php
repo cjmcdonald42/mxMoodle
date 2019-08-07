@@ -137,7 +137,7 @@ class weekend_table extends \local_mxschool\table {
         $output = $PAGE->get_renderer('local_mxschool');
         $checkboxrenderable = new checkbox($values->wfid, 'local_mxschool_weekend_form', 'approved', $values->approved);
         $buttonrenderable = new email_button(
-            get_string('email_button_default', 'local_mxschool'), 'weekend_form_approved', $values->wfid, false, true
+            get_string('checkin_weekend_report_approve', 'local_mxschool'), 'weekend_form_approved', $values->wfid, false, true
         );
         return "{$output->render($checkboxrenderable)}{$output->render($buttonrenderable)}";
     }

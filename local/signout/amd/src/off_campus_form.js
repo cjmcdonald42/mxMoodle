@@ -93,7 +93,7 @@ define(
                     permissionsFieldset.hide();
                 }
                 lib.updateMultiSelect($('.mx-form select#id_passengers'), data.passengers);
-                $.when(str.get_string('form_select_default', 'local_mxschool')).done(function(text) {
+                $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
                     data.drivers.unshift({
                         value: 0,
                         text: text

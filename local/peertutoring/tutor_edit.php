@@ -66,13 +66,11 @@ if ($form->is_cancelled()) {
     }
     $data->deleted = 0;
     update_record($queryfields, $data);
-    logged_redirect(
-        $form->get_redirect(), get_string($data->id ? 'tutor_edit_success' : 'tutor_create_success', 'local_peertutoring'),
-        $data->id ? 'update' : 'create'
-    );
+    $action = $data->id ? 'update' : 'create';
+    logged_redirect($form->get_redirect(), get_string("tutor_{$action}_success", 'local_peertutoring'), $action);
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_peertutoring');
 $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();

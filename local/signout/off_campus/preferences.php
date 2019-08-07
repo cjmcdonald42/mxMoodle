@@ -36,7 +36,8 @@ setup_mxschool_page('preferences', 'off_campus', 'signout');
 $data = new stdClass();
 $data->editwindow = get_config('local_signout', 'off_campus_edit_window');
 $data->tripwindow = get_config('local_signout', 'off_campus_trip_window');
-$data->offcampusenabled = get_config('local_signout', 'off_campus_form_enabled');
+$data->enabled = get_config('local_signout', 'off_campus_form_enabled');
+$data->permissionsactive = get_config('local_signout', 'off_campus_form_permissions_active');
 $data->ipenabled = get_config('local_signout', 'off_campus_form_ipenabled');
 $notification = get_notification('off_campus_submitted');
 $data->subject = $notification->subject;
@@ -68,7 +69,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('off_campus_edit_window', $data->editwindow, 'local_signout');
     set_config('off_campus_trip_window', $data->tripwindow, 'local_signout');
-    set_config('off_campus_form_enabled', $data->offcampusenabled, 'local_signout');
+    set_config('off_campus_form_enabled', $data->enabled, 'local_signout');
+    set_config('off_campus_form_permissions_active', $data->permissionsactive, 'local_signout');
     set_config('off_campus_form_ipenabled', $data->ipenabled, 'local_signout');
     update_notification('off_campus_submitted', $data->subject, $data->body);
     set_config('off_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
@@ -90,11 +92,11 @@ if ($form->is_cancelled()) {
     set_config('off_campus_notification_warning_rideshare_yes', $data->rideshareyes['text'], 'local_signout');
     set_config('off_campus_notification_warning_rideshare_no', $data->rideshareno['text'], 'local_signout');
     logged_redirect(
-        $form->get_redirect(), get_string('off_campus_preferences_edit_success', 'local_signout'), 'update'
+        $form->get_redirect(), get_string('off_campus_preferences_update_success', 'local_signout'), 'update'
     );
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();

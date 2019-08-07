@@ -24,66 +24,39 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Middlesex School Peer Tutoring';
+$string['pluginname'] = 'Middlesex Peer Tutoring';
 
-/* General */
+/* General. */
 
 // Capabilities.
 $string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
 $string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View and manage tutoring records';
 
-// Settings Pages.
-$string['settings'] = 'Peer Tutoring Settings';
-$string['peertutoradmin_email'] = 'Peer Tutor Admin Email';
-$string['peertutoradmin_email_description'] = 'The email address to send summary emails for peer tutoring.';
-$string['peertutoradmin_addressee'] = 'Peer Tutor Admin Addressee Name';
-$string['peertutoradmin_addressee_description'] = 'The name to use when addressing the peer tutor admin in a email notification.';
+// Settings.
+$string['email_settings'] = 'Peer Tutoring Email Settings';
+$string['email_settings:peertutoringmanager_email'] = 'Peer tutoring manager email';
+$string['email_settings:peertutoringmanager_email:description'] = 'The email address to send summary emails for peer tutoring.';
+$string['email_settings:peertutoringmanager_addressee'] = 'Peer tutoring manager addressee name';
+$string['email_settings:peertutoringmanager_addressee:description'] = 'The name to use when addressing the peer tutoring manager in a email notification.';
 
-$string['peertutoring_index'] = 'Peer Tutoring Index';
+$string['indexes:peertutoring'] = 'Peer Tutoring Index';
 
 // Tasks.
-$string['task_summary_email'] = 'Daily summary email to peer tutor admin';
+$string['task:summary_email'] = 'Daily summary email to peer tutoring manager';
 
-// Notifications.
-$string['preferences_edit_success'] = 'Peer Tutoring Preferences Saved Successfully';
-$string['tutor_create_success'] = 'Tutor Record Created Successfully';
-$string['tutor_edit_success'] = 'Tutor Record Updated Successfully';
-$string['department_create_success'] = 'Department Record Created Successfully';
-$string['department_edit_success'] = 'Department Record Updated Successfully';
-$string['course_create_success'] = 'Course Record Created Successfully';
-$string['course_edit_success'] = 'Course Record Updated Successfully';
-$string['type_create_success'] = 'Type Record Created Successfully';
-$string['type_edit_success'] = 'Type Record Updated Successfully';
-$string['rating_create_success'] = 'Effectiveness Rating Record Created Successfully';
-$string['rating_edit_success'] = 'Effectiveness Rating Record Updated Successfully';
-$string['form_success'] = 'Tutoring Form Submitted Successfully';
 
-$string['table_delete_failure'] = 'Table Not Found for Record Deletion';
-$string['tutor_delete_success'] = 'Tutor Record Deleted Successfully';
-$string['tutor_delete_failure'] = 'Tutor Record Not Found for Deletion';
-$string['department_delete_success'] = 'Department Record Deleted Successfully';
-$string['department_delete_failure'] = 'Department Record Not Found for Deletion';
-$string['course_delete_success'] = 'Course Record Deleted Successfully';
-$string['course_delete_failure'] = 'Course Record Not Found for Deletion';
-$string['type_delete_success'] = 'Type Record Deleted Successfully';
-$string['type_delete_failure'] = 'Type Record Not Found for Deletion';
-$string['rating_delete_success'] = 'Effectiveness Rating Record Deleted Successfully';
-$string['rating_delete_failure'] = 'Effectiveness Rating Record Not Found for Deletion';
-$string['session_delete_success'] = 'Peer Tutoring Session Record Deleted Successfully';
-$string['session_delete_failure'] = 'Peer Tutoring Session Record Not Found for Deletion';
-
-/* Peer Tutoring */
+/* Peer Tutoring. */
 $string['peertutoring'] = 'Peer Tutoring';
 $string['preferences'] = 'Peer Tutoring Preferences';
 $string['tutor_report'] = 'Tutor Report';
-$string['department_report'] = 'Department Report';
-$string['course_report'] = 'Course Report';
-$string['type_report'] = 'Type Report';
-$string['rating_report'] = 'Effectiveness Rating Report';
 $string['tutor_edit'] = 'Edit Tutor Record';
+$string['department_report'] = 'Department Report';
 $string['department_edit'] = 'Edit Department Record';
+$string['course_report'] = 'Course Report';
 $string['course_edit'] = 'Edit Course Record';
+$string['type_report'] = 'Type Report';
 $string['type_edit'] = 'Edit Type Record';
+$string['rating_report'] = 'Effectiveness Rating Report';
 $string['rating_edit'] = 'Edit Effectiveness Rating Record';
 $string['form'] = 'Peer Tutoring Form';
 $string['report'] = 'Peer Tutoring Report';
@@ -93,27 +66,11 @@ $string['preferences_header_notifications'] = 'Email Notifications';
 $string['preferences_notifications_tags'] = 'Available Tags for Daily Summary Email';
 $string['preferences_notifications_subject'] = 'Subject for Daily Summary Email';
 $string['preferences_notifications_body'] = 'Body for Daily Summary Email';
+$string['preferences_update_success'] = 'Peer Tutoring Preferences Saved Successfully';
 
 // Tutor Report.
 $string['tutor_report_add'] = 'Add a Tutor';
 $string['tutor_report_header_tutor'] = 'Name';
-
-// Department Report.
-$string['department_report_add'] = 'Add a Department';
-$string['department_report_header_name'] = 'Name';
-
-// Course Report.
-$string['course_report_add'] = 'Add a Course';
-$string['course_report_header_department'] = 'Department';
-$string['course_report_header_name'] = 'Name';
-
-// Type Report.
-$string['type_report_add'] = 'Add a Type';
-$string['type_report_header_displaytext'] = 'Text';
-
-// Rating Report.
-$string['rating_report_add'] = 'Add an Effectiveness Rating';
-$string['rating_report_header_displaytext'] = 'Text';
 
 // Tutor Edit.
 $string['tutor_edit_header_tutor'] = 'Tutor Information';
@@ -122,24 +79,71 @@ $string['tutor_edit_tutor_departments'] = 'Approved Departments';
 $string['tutor_edit_form_departments_noselection'] = 'No Departments Selected';
 $string['tutor_edit_form_departments_placeholder'] = 'Search Departments';
 
+// Tutor notifications.
+$string['tutor_create_success'] = 'Tutor Record Created Successfully';
+$string['tutor_update_success'] = 'Tutor Record Updated Successfully';
+$string['tutor_delete_success'] = 'Tutor Record Deleted Successfully';
+$string['tutor_delete_failure'] = 'Tutor Record Not Found for Deletion';
+
+// Department Report.
+$string['department_report_add'] = 'Add a Department';
+$string['department_report_header_name'] = 'Name';
+
 // Department Edit.
 $string['department_edit_header_department'] = 'Department Information';
 $string['department_edit_department_name'] = 'Department Name';
+
+// Department Notifications.
+$string['department_create_success'] = 'Department Record Created Successfully';
+$string['department_update_success'] = 'Department Record Updated Successfully';
+$string['department_delete_success'] = 'Department Record Deleted Successfully';
+$string['department_delete_failure'] = 'Department Record Not Found for Deletion';
+
+// Course Report.
+$string['course_report_add'] = 'Add a Course';
+$string['course_report_header_department'] = 'Department';
+$string['course_report_header_name'] = 'Name';
 
 // Course Edit.
 $string['course_edit_header_course'] = 'Course Information';
 $string['course_edit_course_department'] = 'Department';
 $string['course_edit_course_name'] = 'Course Name';
 
+// Course Notifications.
+$string['course_create_success'] = 'Course Record Created Successfully';
+$string['course_update_success'] = 'Course Record Updated Successfully';
+$string['course_delete_success'] = 'Course Record Deleted Successfully';
+$string['course_delete_failure'] = 'Course Record Not Found for Deletion';
+
+// Type Report.
+$string['type_report_add'] = 'Add a Type';
+$string['type_report_header_displaytext'] = 'Text';
+
 // Type Edit.
 $string['type_edit_header_type'] = 'Type Information';
 $string['type_edit_type_displaytext'] = 'Text';
+
+// Type Notifications.
+$string['type_create_success'] = 'Type Record Created Successfully';
+$string['type_update_success'] = 'Type Record Updated Successfully';
+$string['type_delete_success'] = 'Type Record Deleted Successfully';
+$string['type_delete_failure'] = 'Type Record Not Found for Deletion';
+
+// Rating Report.
+$string['rating_report_add'] = 'Add an Effectiveness Rating';
+$string['rating_report_header_displaytext'] = 'Text';
+
+// Rating Notifications.
+$string['rating_create_success'] = 'Effectiveness Rating Record Created Successfully';
+$string['rating_update_success'] = 'Effectiveness Rating Record Updated Successfully';
+$string['rating_delete_success'] = 'Effectiveness Rating Record Deleted Successfully';
+$string['rating_delete_failure'] = 'Effectiveness Rating Record Not Found for Deletion';
 
 // Rating Edit.
 $string['rating_edit_header_rating'] = 'Effectiveness Rating Information';
 $string['rating_edit_rating_displaytext'] = 'Text';
 
-// Tutoring Form.
+// Peer Tutoring Form.
 $string['form_title'] = 'Peer Tutoring Form for {$a}';
 $string['form_header_info'] = 'General Information';
 $string['form_header_details'] = 'Details';
@@ -159,7 +163,12 @@ $string['form_error_notopic'] = 'You must specify a topic.';
 $string['form_error_notype'] = 'You must specify a type.';
 $string['form_error_norating'] = 'You must specify a rating.';
 
-// Tutoring Report.
+// Peer Tutoring Session Notifications.
+$string['session_success'] = 'Peer Tutoring Session Submitted Successfully';
+$string['session_delete_success'] = 'Peer Tutoring Session Record Deleted Successfully';
+$string['session_delete_failure'] = 'Peer Tutoring Session Record Not Found for Deletion';
+
+// Peer Tutoring Report.
 $string['report_select_tutor_all'] = 'All Tutors';
 $string['report_select_department_all'] = 'All Departments';
 $string['report_select_type_all'] = 'All Types';
