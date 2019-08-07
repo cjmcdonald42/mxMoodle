@@ -42,7 +42,7 @@ class block_mxschool_manage_transportation extends block_base {
         if (has_capability('block/mxschool_manage_transportation:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
-                get_string('tranportation_manage', 'block_mxschool_manage_transportation')
+                get_string('report', 'block_mxschool_manage_transportation')
                     => '/local/mxschool/vacation_travel/transportation_report.php'
             ));
             $this->content->text = $output->render($renderable);;

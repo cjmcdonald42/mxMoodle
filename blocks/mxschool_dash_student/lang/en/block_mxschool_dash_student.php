@@ -36,7 +36,7 @@ $string['privacy:metadata'] = 'This block only provides links to other pages and
 
 // Settings.
 $string['description'] = 'Description';
-$string['description_description'] = 'Text to display above the available links for whomever has access.';
+$string['description:description'] = 'Text to display above the available links for whomever has access.';
 
 // Links.
 $string['advisor_selection'] = 'Advisor Selection Form';

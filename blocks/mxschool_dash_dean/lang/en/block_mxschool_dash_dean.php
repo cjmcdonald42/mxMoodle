@@ -36,36 +36,36 @@ $string['mxschool_dash_dean:access'] = 'Middlesex School: Access Deans\' Block';
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['user_menu'] = 'User Module';
-$string['user_management_student_report'] = 'Student Report';
-$string['user_management_faculty_report'] = 'Faculty Report';
-$string['user_management_dorm_report'] = 'Dorm Report';
-$string['user_management_vehicle_report'] = 'Student Vehicles Report';
+$string['user_management'] = 'User Module';
+$string['user_management:student_report'] = 'Student Report';
+$string['user_management:faculty_report'] = 'Faculty Report';
+$string['user_management:dorm_report'] = 'Dorm Report';
+$string['user_management:vehicle_report'] = 'Student Vehicles Report';
 
-$string['checkin_menu'] = 'Check-In Module';
-$string['checkin_preferences'] = 'Check-In Sheets Preferences';
-$string['checkin_generic_report'] = 'Check-In Sheet';
-$string['checkin_weekday_report'] = 'Weekday Check-In Sheet';
-$string['checkin_weekend_report'] = 'Weekend Check-In Sheet';
-$string['checkin_weekend_calculator'] = 'Weekend Calculator';
+$string['checkin'] = 'Check-In Module';
+$string['checkin:generic_report'] = 'Check-In Sheet';
+$string['checkin:weekday_report'] = 'Weekday Check-In Sheet';
+$string['checkin:weekend_report'] = 'Weekend Check-In Sheet';
+$string['checkin:weekend_calculator'] = 'Weekend Calculator';
+$string['checkin:preferences'] = 'Check-In Sheets Preferences';
 
-$string['advisor_selection_menu'] = 'Advisor Selection Module';
-$string['advisor_selection_report'] = 'Advisor Selection Report';
-$string['advisor_selection_preferences'] = 'Advisor Selection Preferences';
+$string['advisor_selection'] = 'Advisor Selection Module';
+$string['advisor_selection:report'] = 'Advisor Selection Report';
+$string['advisor_selection:preferences'] = 'Advisor Selection Preferences';
 
-$string['rooming_menu'] = 'Rooming Request Module';
-$string['rooming_report'] = 'Rooming Request Report';
-$string['rooming_preferences'] = 'Rooming Request Preferences';
+$string['rooming'] = 'Rooming Request Module';
+$string['rooming:report'] = 'Rooming Request Report';
+$string['rooming:preferences'] = 'Rooming Request Preferences';
 
-$string['vacation_travel_menu'] = 'Vacation Travel Module';
-$string['vacation_travel_report'] = 'Vacation Travel Report';
-$string['vacation_travel_transportation_report'] = 'Transportation Report';
-$string['vacation_travel_preferences'] = 'Vacation Travel Preferences';
+$string['vacation_travel'] = 'Vacation Travel Module';
+$string['vacation_travel:report'] = 'Vacation Travel Report';
+$string['vacation_travel:transportation_report'] = 'Transportation Report';
+$string['vacation_travel:preferences'] = 'Vacation Travel Preferences';
 
-$string['esignout_menu'] = 'eSignout Module';
-$string['combined_report'] = 'Dorm Signout Report';
-$string['on_campus_report'] = 'On-Campus Signout Report';
-$string['duty_report'] = 'On-Campus Duty Report';
-$string['on_campus_preferences'] = 'On-Campus Signout Preferences';
-$string['off_campus_report'] = 'Off-Campus Signout Report';
-$string['off_campus_preferences'] = 'Off-Campus Signout Preferences';
+$string['signout'] = 'eSignout Module';
+$string['signout:combined_report'] = 'Dorm Signout Report';
+$string['signout:on_campus:report'] = 'On-Campus Signout Report';
+$string['signout:on_campus:duty_report'] = 'On-Campus Duty Report';
+$string['signout:on_campus:preferences'] = 'On-Campus Signout Preferences';
+$string['signout:off_campus:report'] = 'Off-Campus Signout Report';
+$string['signout:off_campus:preferences'] = 'Off-Campus Signout Preferences';

@@ -36,4 +36,4 @@ $string['mxschool_manage_tutoring:access'] = 'Middlesex School: Access Tutoring 
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['tutor_manage'] = 'Peer Tutoring Report';
+$string['report'] = 'Peer Tutoring Report';

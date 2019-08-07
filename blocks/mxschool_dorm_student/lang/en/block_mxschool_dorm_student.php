@@ -35,5 +35,5 @@ $string['mxschool_dorm_student:myaddinstance'] = 'Middlesex School: Add Student 
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['weekend_submit'] = 'Submit a Weekend Form';
+$string['weekend_form'] = 'Submit a Weekend Form';
 $string['weekend_calculator'] = 'View Weekend Calculator';

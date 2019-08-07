@@ -28,5 +28,5 @@ defined('MOODLE_INTERNAL') || die();
 
 $settings->add(new admin_setting_confightmleditor(
     'block_mxschool_dash_student/description', get_string('description', 'block_mxschool_dash_student'),
-    get_string('description_description', 'block_mxschool_dash_student'), ''
+    get_string('description:description', 'block_mxschool_dash_student'), ''
 ));

@@ -43,41 +43,41 @@ class block_mxschool_dash_signout extends block_base {
         $currentsignout = get_user_current_signout();
         $buttons = array();
         if ($currentsignout) {
-            $state = get_string('state_text_out', 'block_mxschool_dash_signout', $currentsignout->location);
+            $state = get_string('state:out', 'block_mxschool_dash_signout', $currentsignout->location);
             if ($currentsignout->type === 'on_campus') {
                 $buttons[] = new local_mxschool\output\redirect_button(
-                    get_string('on_campus_button_edit', 'block_mxschool_dash_signout'),
+                    get_string('on_campus_button:edit', 'block_mxschool_dash_signout'),
                     new moodle_url('/local/signout/on_campus/form.php')
                 );
                 $boardingstatus = strtolower($DB->get_field(
                     'local_mxschool_student', 'boarding_status', array('userid' => $USER->id)
                 ));
                 $buttons[] = new local_signout\output\sign_in_button(
-                    get_string("on_campus_button_signin_{$boardingstatus}", 'block_mxschool_dash_signout')
+                    get_string("on_campus_button:signin:{$boardingstatus}", 'block_mxschool_dash_signout')
                 );
             } else {
                 if (generate_datetime()->getTimestamp() < get_edit_cutoff($currentsignout->timecreated)) {
                     $buttons[] = new local_mxschool\output\redirect_button(
-                        get_string('off_campus_button_edit', 'block_mxschool_dash_signout'),
+                        get_string('off_campus_button:edit', 'block_mxschool_dash_signout'),
                         new moodle_url('/local/signout/off_campus/form.php', array('id' => $currentsignout->id))
                     );
                 } else {
                     $buttons[] = new local_signout\output\sign_in_button(
-                        get_string('off_campus_button_signin', 'block_mxschool_dash_signout')
+                        get_string('off_campus_button:signin', 'block_mxschool_dash_signout')
                     );
                 }
             }
         } else {
-            $state = get_string('state_text_in', 'block_mxschool_dash_signout');
+            $state = get_string('state:in', 'block_mxschool_dash_signout');
             if (user_is_admin() || (user_is_student() && student_may_access_on_campus_signout($USER->id))) {
                 $buttons[] = new local_mxschool\output\redirect_button(
-                    get_string('on_campus_button_signout', 'block_mxschool_dash_signout'),
+                    get_string('on_campus_button:signout', 'block_mxschool_dash_signout'),
                     new moodle_url('/local/signout/on_campus/form.php')
                 );
             }
             if (user_is_admin() || (user_is_student() && student_may_access_off_campus_signout($USER->id))) {
                 $buttons[] = new local_mxschool\output\redirect_button(
-                    get_string('off_campus_button_signout', 'block_mxschool_dash_signout'),
+                    get_string('off_campus_button:signout', 'block_mxschool_dash_signout'),
                     new moodle_url('/local/signout/off_campus/form.php')
                 );
             }

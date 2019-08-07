@@ -35,4 +35,4 @@ $string['mxschool_dash_tutor:myaddinstance'] = 'Middlesex School: Add Peer Tutor
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['tutor_submit'] = 'Submit a Peer Tutoring Form';
+$string['form'] = 'Submit a Peer Tutoring Form';

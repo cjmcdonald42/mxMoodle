@@ -36,4 +36,4 @@ $string['mxschool_manage_transportation:access'] = 'Middlesex School: Access Tra
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['tranportation_manage'] = 'Vacation Travel Data';
+$string['report'] = 'Vacation Travel Data';
