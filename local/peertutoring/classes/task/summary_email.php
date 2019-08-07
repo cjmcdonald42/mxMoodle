@@ -39,7 +39,7 @@ class summary_email extends scheduled_task {
      * @return string The name of the task to be displayed in admin screens.
      */
     public function get_name() {
-        return get_string('task_summary_email', 'local_peertutoring');
+        return get_string('task:summary_email', 'local_peertutoring');
     }
 
     /**

@@ -466,7 +466,7 @@ function sign_in_user() {
     global $DB, $USER;
     $currentsignout = get_user_current_signout();
     if (!$currentsignout) {
-        get_string('sign_in_error_norecord');
+        get_string('sign_in_button:error:norecord', 'local_signout');
     }
     switch ($currentsignout->type) {
         case 'on_campus':
@@ -480,7 +480,7 @@ function sign_in_user() {
                 'userid' => $USER->id, 'sign_in_time' => null, 'deleted' => 0
             ));
             if (!$records) {
-                return get_string('sign_in_error_invalidrecord');
+                return get_string('sign_in_button:error:invalidrecord', 'local_signout');
             }
             foreach ($records as $record) {
                 $record->sign_in_time = $record->time_modified = time();
@@ -501,7 +501,7 @@ function sign_in_user() {
                  ORDER BY oc.time_created", array($USER->id), IGNORE_MULTIPLE
             );
             if (!$record) {
-                return get_string('sign_in_error_invalidrecord');
+                return get_string('sign_in_button:error:invalidrecord', 'local_signout');
             }
             $record->sign_in_time = $record->time_modified = time();
             $DB->update_record('local_signout_off_campus', $record);
@@ -510,6 +510,6 @@ function sign_in_user() {
             )))->trigger();
             return '';
         default:
-            return get_string('sign_in_error_invalidtype');
+            return get_string('sign_in_button:error:invalidtype', 'local_signout');
     }
 }

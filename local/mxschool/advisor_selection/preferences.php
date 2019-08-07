@@ -66,7 +66,7 @@ if ($form->is_cancelled()) {
     set_config('advisor_form_closing_warning', $data->closing_warning['text'], 'local_mxschool');
     set_config('advisor_form_instructions', $data->instructions['text'], 'local_mxschool');
     logged_redirect(
-        $form->get_redirect(), get_string('advisor_selection_preferences_edit_success', 'local_mxschool'), 'update'
+        $form->get_redirect(), get_string('advisor_selection_preferences_update_success', 'local_mxschool'), 'update'
     );
 }
 

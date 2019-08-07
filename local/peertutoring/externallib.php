@@ -89,7 +89,7 @@ class local_peertutoring_external extends external_api {
         external_api::validate_context(context_system::instance());
         $params = self::validate_parameters(self::get_department_courses_parameters(), array('department' => $department));
 
-        $list = array(0 => get_string('form_select_default', 'local_mxschool')) + get_department_course_list($params['department']);
+        $list = array(0 => get_string('form:select:default', 'local_mxschool')) + get_department_course_list($params['department']);
         return convert_associative_to_object($list);
     }
 
@@ -127,7 +127,7 @@ class local_peertutoring_external extends external_api {
         $params = self::validate_parameters(self::get_tutor_options_parameters(), array('userid' => $userid));
 
         $result = new stdClass();
-        $list = array(0 => get_string('form_select_default', 'local_mxschool')) + get_tutor_department_list($params['userid']);
+        $list = array(0 => get_string('form:select:default', 'local_mxschool')) + get_tutor_department_list($params['userid']);
         $result->departments = convert_associative_to_object($list);
         $result->students = convert_associative_to_object(get_student_list());
         $result->students = array_filter($result->students, function($student) use($params) {

@@ -58,7 +58,7 @@ define(
                     warningDiv.hide();
                     keepcurrentDiv.show();
                 }
-                $.when(str.get_string('form_select_default', 'local_mxschool')).done(function(text) {
+                $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
                     data.available.splice(data.available.findIndex(function(faculty) {
                         return faculty.value === data.current.value;
                     }), 1);

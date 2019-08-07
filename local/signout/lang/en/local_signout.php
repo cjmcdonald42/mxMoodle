@@ -24,14 +24,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Middlesex School Electronic Signout';
+$string['pluginname'] = 'Middlesex Electronic Signout';
 
 /* General */
-$string['confirmation_button_confirm'] = 'Confirm';
-$string['confirmation_button_undo'] = 'Undo';
-$string['sign_in_error_norecord'] = 'No active signout record exists for the current user.';
-$string['sign_in_error_invalidrecord'] = 'The active record is invalid.';
-$string['sign_in_error_invalidtype'] = 'The active record type is invalid.';
 
 // Capabilities.
 $string['signout:view_limited_signout_summary'] = 'Middlesex School Electronic Signout: View limited version of combined report without personal information or actions only for the user\'s dorm (proctors)';
@@ -41,34 +36,24 @@ $string['signout:confirm_on_campus'] = 'Middlesex School Electronic Signout: Vie
 $string['signout:manage_off_campus'] = 'Middlesex School Electronic Signout: View and manage student off-campus signout records';
 $string['signout:manage_off_campus_preferences'] = 'Middlesex School Electronic Signout: View and manage off-campus signout preferences';
 
+// Renderables.
+$string['confirmation_button:confirm'] = 'Confirm';
+$string['confirmation_button:undo'] = 'Undo';
+
+$string['sign_in_button:error:norecord'] = 'No active signout record exists for the current user.';
+$string['sign_in_button:error:invalidrecord'] = 'The active record is invalid.';
+$string['sign_in_button:error:invalidtype'] = 'The active record type is invalid.';
+
 // Settings.
-$string['settings'] = 'eSignout Settings';
-$string['school_ip'] = 'Middlesex network IP address';
-$string['school_ip_description'] = 'The IP to check against to confirm that someone is on campus.';
+$string['signout_settings'] = 'eSignout Settings';
+$string['signout_settings:school_ip'] = 'Middlesex network IP address';
+$string['signout_settings:school_ip:description'] = 'The IP to check against to confirm that someone is on campus.';
 
-$string['signout_index'] = 'Signout Index';
-$string['on_campus_index'] = 'On-Campus Signout Index';
-$string['off_campus_index'] = 'Off-Campus Signout Index';
+$string['indexes:signout'] = 'Signout Index';
+$string['indexes:on_campus'] = 'On-Campus Signout Index';
+$string['indexes:off_campus'] = 'Off-Campus Signout Index';
 
-// Notifications.
-$string['on_campus_preferences_edit_success'] = 'On-Campus Signout Preferences Saved Successfully';
-$string['off_campus_preferences_edit_success'] = 'Off-Campus Signout Preferences Saved Successfully';
-$string['off_campus_success'] = 'Off-Campus Signout Form Submitted Successfully';
-
-$string['on_campus_location_create_success'] = 'On-Campus Location Record Created Successfully';
-$string['on_campus_location_edit_success'] = 'On-Campus Location Record Updated Successfully';
-
-$string['on_campus_success'] = 'On-Campus Signout Form Submitted Successfully';
-
-$string['table_delete_failure'] = 'Table Not Found for Record Deletion';
-$string['on_campus_location_delete_success'] = 'On-Campus Location Record Deleted Successfully';
-$string['on_campus_location_delete_failure'] = 'On-Campus Location Record Not Found for Deletion';
-$string['on_campus_delete_success'] = 'On-Campus Signout Record Deleted Successfully';
-$string['on_campus_delete_failure'] = 'On-Campus Signout Record Not Found for Deletion';
-$string['off_campus_delete_success'] = 'Off-Campus Signout Record Deleted Successfully';
-$string['off_campus_delete_failure'] = 'Off-Campus Signout Record Not Found for Deletion';
-
-/* Combined */
+/* Signout. */
 $string['signout'] = 'Combined Signout';
 $string['combined_report'] = 'Dorm Signout Report';
 
@@ -83,7 +68,7 @@ $string['combined_report_header_signouttime'] = 'Sign Out Time';
 $string['combined_report_status_on_campus'] = 'On Campus';
 $string['combined_report_status_off_campus'] = 'Off Campus';
 
-/* On Campus Signout */
+/* On Campus Signout. */
 $string['on_campus'] = 'On-Campus Signout';
 $string['on_campus_preferences'] = 'On-Campus Signout Preferences';
 $string['on_campus_location_report'] = 'Location Report';
@@ -92,7 +77,7 @@ $string['on_campus_form'] = 'On-Campus Signout Form';
 $string['on_campus_report'] = 'On-Campus Signout Report';
 $string['on_campus_duty_report'] = 'On-Campus Duty Report';
 
-// Preferences for On-Campus Signout.
+// On-Campus Signout Preferences.
 $string['on_campus_preferences_header_config'] = 'Config';
 $string['on_campus_preferences_header_text'] = 'On-Campus Signout Form Permissions Warnings';
 $string['on_campus_preferences_config_enabled_text'] = 'Check to Enable the On-Campus Signout Form';
@@ -106,6 +91,7 @@ $string['on_campus_preferences_text_ipsigninerrorday'] = 'Text to Display When a
 $string['on_campus_preferences_text_underclassmanwarning'] = 'Warning for a 9th or 10th Grade Student Who Selects an \'Other\' Location';
 $string['on_campus_preferences_text_juniorwarning'] = 'Warning for an 11th Grade Student Who Selects an \'Other\' Location';
 $string['on_campus_preferences_text_confirmation'] = 'Confirmation for a Student with a Warning';
+$string['on_campus_preferences_update_success'] = 'On-Campus Signout Preferences Saved Successfully';
 
 // On-Campus Location Report.
 $string['on_campus_location_report_add'] = 'New Location';
@@ -129,7 +115,14 @@ $string['on_campus_location_edit_location_start'] = 'Start Date';
 $string['on_campus_location_edit_location_end'] = 'End Date';
 $string['on_campus_location_edit_location_warning'] = 'Warning';
 
-// Form for On-Campus Signout.
+// On Campus Location Notifications.
+$string['on_campus_location_create_success'] = 'On-Campus Location Record Created Successfully';
+$string['on_campus_location_update_success'] = 'On-Campus Location Record Updated Successfully';
+$string['on_campus_location_delete_success'] = 'On-Campus Location Record Deleted Successfully';
+$string['on_campus_location_delete_failure'] = 'On-Campus Location Record Not Found for Deletion';
+
+
+// On-Campus Signout Form.
 $string['on_campus_form_title'] = 'On-Campus Signout Form for {$a}';
 $string['on_campus_form_header_info'] = 'General Information';
 $string['on_campus_form_header_permissions'] = 'Permissions Check';
@@ -138,7 +131,12 @@ $string['on_campus_form_info_location'] = 'Sign-Out Location';
 $string['on_campus_form_location_select_other'] = 'Other (please specify)';
 $string['on_campus_form_error_nolocation'] = 'You must specify a location.';
 
-// Report for On-Campus Signout.
+// On-Campus Signout Form Notifications.
+$string['on_campus_success'] = 'On-Campus Signout Form Submitted Successfully';
+$string['on_campus_delete_success'] = 'On-Campus Signout Record Deleted Successfully';
+$string['on_campus_delete_failure'] = 'On-Campus Signout Record Not Found for Deletion';
+
+// On-Campus Signout Report.
 $string['on_campus_report_title'] = '{$a}On-Campus Signout Report';
 $string['on_campus_report_select_location_all'] = 'All Locations';
 $string['on_campus_report_select_location_other'] = 'Other';
@@ -154,7 +152,7 @@ $string['on_campus_report_header_confirmation'] = 'Confirmation';
 $string['on_campus_report_header_signin'] = 'Sign In Time';
 $string['on_campus_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime}';
 
-// Duty Report for On-Campus Signout.
+// On-Campus Signout Duty Report.
 $string['duty_report_title'] = 'On-Campus Duty Report for {$a}';
 $string['duty_report_select_active_true'] = 'Currently Signed Out';
 $string['duty_report_select_active_false'] = 'All Students';
@@ -175,16 +173,16 @@ $string['duty_report_column_picture_notfound'] = '<i>&mdash;Picture Not Found&md
 $string['duty_report_column_confirmation_text'] = 'Confirmed by {$a->confirmer} at {$a->confirmationtime}';
 
 
-/* Off-Campus Signout */
+/* Off-Campus Signout. */
 $string['off_campus'] = 'Off-Campus Signout';
 $string['off_campus_preferences'] = 'Off-Campus Signout Preferences';
 $string['off_campus_form'] = 'Off-Campus Signout Form';
 $string['off_campus_report'] = 'Off-Campus Signout Report';
 
-// Off-Campus Submitted Notification.
+// Off-Campus Signout Email Notification.
 $string['off_campus_notification_warning_other'] = '(passenger) {$a->passengerwarning} (rideshare) {$a->ridesharewarning}';
 
-// Preferences for Off-Campus Signout.
+// Off-Campus Signout Preferences.
 $string['off_campus_preferences_header_config'] = 'Config';
 $string['off_campus_preferences_header_notifications'] = 'Off-Campus Signout Email Notifications';
 $string['off_campus_preferences_header_text'] = 'Off-Campus Signout Form Permissions Warnings';
@@ -215,9 +213,9 @@ $string['off_campus_preferences_emailtext_passengerover21'] = 'Warning for a Pas
 $string['off_campus_preferences_emailtext_parent'] = 'Warning for a Student Riding with their Parent';
 $string['off_campus_preferences_emailtext_rideshareyes'] = 'Warning for a Student Who is Allowed to Use Rideshare';
 $string['off_campus_preferences_emailtext_rideshareno'] = 'Warning for a Student Who is not Allowed to Use Rideshare';
+$string['off_campus_preferences_update_success'] = 'Off-Campus Signout Preferences Saved Successfully';
 
-
-// Form for Off-Campus Signout.
+// Off-Campus Signout Form.
 $string['off_campus_form_title'] = 'Off-Campus Signout Form for {$a}';
 $string['off_campus_form_header_info'] = 'General Information';
 $string['off_campus_form_header_details'] = 'Details';
@@ -241,7 +239,12 @@ $string['off_campus_form_error_nodriver'] = 'You must specify a driver.';
 $string['off_campus_form_error_nodestination'] = 'You must specify a destination.';
 $string['off_campus_form_error_noapprover'] = 'You must specify who approved your signout.';
 
-// Report for Off-Campus Signout.
+// Off-Campus Signout Form Notifications.
+$string['off_campus_success'] = 'Off-Campus Signout Form Submitted Successfully';
+$string['off_campus_delete_success'] = 'Off-Campus Signout Record Deleted Successfully';
+$string['off_campus_delete_failure'] = 'Off-Campus Signout Record Not Found for Deletion';
+
+// Off-Campus Signout Report.
 $string['off_campus_report_select_type_all'] = 'All Types';
 $string['off_campus_report_select_type_driver'] = 'Driver';
 $string['off_campus_report_select_type_passenger'] = 'Passenger';

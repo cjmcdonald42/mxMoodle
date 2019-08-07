@@ -96,8 +96,8 @@ $data->specificwarning = get_config('local_signout', 'off_campus_form_warning_on
 $students = get_student_list();
 $types = get_off_campus_type_list();
 $passengers = get_permitted_passenger_list();
-$drivers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_permitted_driver_list();
-$approvers = array(0 => get_string('form_select_default', 'local_mxschool')) + get_approver_list();
+$drivers = array(0 => get_string('form:select:default', 'local_mxschool')) + get_permitted_driver_list();
+$approvers = array(0 => get_string('form:select:default', 'local_mxschool')) + get_approver_list();
 
 $form = new local_signout\local\off_campus\form(array(
     'students' => $students, 'types' => $types, 'passengers' => $passengers, 'drivers' => $drivers, 'approvers' => $approvers

@@ -66,7 +66,7 @@ $table = new local_mxschool\local\vacation_travel\transportation_table($filter, 
 $dropdowns = array(
     new local_mxschool\output\dropdown(
         'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
-        get_string('report_select_default', 'local_mxschool')
+        get_string('dropdown:default', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
         'type', $types, $filter->type, get_string('vacation_travel_transportation_report_select_type_all', 'local_mxschool')

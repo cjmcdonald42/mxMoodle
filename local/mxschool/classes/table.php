@@ -52,7 +52,7 @@ abstract class table extends \table_sql {
 
         if ($actions) {
             $columns[] = $centered[] = 'actions';
-            $headers[] = get_string('report_header_actions', 'local_mxschool');
+            $headers[] = get_string('report:header:actions', 'local_mxschool');
         }
 
         $this->define_columns(array_values($columns));
@@ -187,7 +187,7 @@ abstract class table extends \table_sql {
      */
     protected function delete_icon($id, $table = null) {
         global $OUTPUT;
-        $warning = get_string('report_delete_warning', 'local_mxschool');
+        $warning = get_string('report:delete_icon:confirmation', 'local_mxschool');
         $params = array('action' => 'delete', 'id' => $id);
         if (isset($table)) {
             $params['table'] = $table;

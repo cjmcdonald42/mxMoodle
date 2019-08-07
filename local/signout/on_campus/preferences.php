@@ -78,7 +78,7 @@ if ($form->is_cancelled()) {
     set_config('on_campus_form_warning_juniors', $data->juniorwarning['text'], 'local_signout');
     set_config('on_campus_form_confirmation', $data->confirmation['text'], 'local_signout');
     logged_redirect(
-        $form->get_redirect(), get_string('on_campus_preferences_edit_success', 'local_signout'), 'update'
+        $form->get_redirect(), get_string('on_campus_preferences_update_success', 'local_signout'), 'update'
     );
 }
 

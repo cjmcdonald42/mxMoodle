@@ -47,7 +47,7 @@ class page_viewed extends base {
      * @return string the name of the event.
      */
     public static function get_name() {
-        return get_string('event_page_viewed', 'local_mxschool');
+        return get_string('event:page_viewed', 'local_mxschool');
     }
 
     /**

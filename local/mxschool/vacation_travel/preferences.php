@@ -74,7 +74,7 @@ if ($form->is_cancelled()) {
     update_notification('vacation_travel_submitted', $data->submitted_subject, $data->submitted_body);
     update_notification('vacation_travel_notify_unsubmitted', $data->unsubmitted_subject, $data->unsubmitted_body);
     logged_redirect(
-        $form->get_redirect(), get_string('vacation_travel_preferences_edit_success', 'local_mxschool'), 'update'
+        $form->get_redirect(), get_string('vacation_travel_preferences_update_success', 'local_mxschool'), 'update'
     );
 }
 

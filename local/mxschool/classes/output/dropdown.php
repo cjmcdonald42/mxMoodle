@@ -83,12 +83,12 @@ class dropdown implements \renderable, \templatable {
         $options = get_dorm_list($includeday);
         if ($includeday) {
             $options = array(
-                -2 => get_string('report_select_boarding', 'local_mxschool'),
-                -1 => get_string('report_select_day', 'local_mxschool')
+                -2 => get_string('dropdown:house_boarding', 'local_mxschool'),
+                -1 => get_string('dropdown:house_day', 'local_mxschool')
             ) + $options;
         }
         return new dropdown(
-            'dorm', $options, $selected, get_string($includeday ? 'report_select_house' : 'report_select_dorm', 'local_mxschool')
+            'dorm', $options, $selected, get_string($includeday ? 'dropdown:house_all' : 'dropdown:dorm', 'local_mxschool')
         );
     }
 

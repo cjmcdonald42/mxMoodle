@@ -92,7 +92,7 @@ if ($form->is_cancelled()) {
     set_config('off_campus_notification_warning_rideshare_yes', $data->rideshareyes['text'], 'local_signout');
     set_config('off_campus_notification_warning_rideshare_no', $data->rideshareno['text'], 'local_signout');
     logged_redirect(
-        $form->get_redirect(), get_string('off_campus_preferences_edit_success', 'local_signout'), 'update'
+        $form->get_redirect(), get_string('off_campus_preferences_update_success', 'local_signout'), 'update'
     );
 }
 

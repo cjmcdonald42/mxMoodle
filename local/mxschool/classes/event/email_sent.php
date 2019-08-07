@@ -47,7 +47,7 @@ class email_sent extends base {
      * @return string the name of the event.
      */
     public static function get_name() {
-        return get_string('event_email_sent', 'local_mxschool');
+        return get_string('event:email_sent', 'local_mxschool');
     }
 
     /**

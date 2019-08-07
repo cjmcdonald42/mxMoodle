@@ -62,7 +62,8 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     // TODO: Data transformations.
     update_record($queryfields, $data);
-    logged_redirect($form->get_redirect(), get_string('SUCCESS_STRING', 'PACKAGE'), $data->id ? 'update' : 'create');
+    $action = $data->id ? 'update' : 'create';
+    logged_redirect($form->get_redirect(), get_string("FORM_PREFIX_{$action}_success", 'PACKAGE'), $action);
 }
 
 $output = $PAGE->get_renderer('PACKAGE');

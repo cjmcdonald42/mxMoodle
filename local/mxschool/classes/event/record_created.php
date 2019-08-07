@@ -47,7 +47,7 @@ class record_created extends base {
      * @return string the name of the event.
      */
     public static function get_name() {
-        return get_string('event_record_created', 'local_mxschool');
+        return get_string('event:record_created', 'local_mxschool');
     }
 
     /**

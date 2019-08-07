@@ -28,19 +28,21 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
 
-    $settings = new admin_settingpage('peer_tutoring_settings', new lang_string('settings', 'local_peertutoring'));
+    $settings = new admin_settingpage('peer_tutoring_email_settings', new lang_string('email_settings', 'local_peertutoring'));
     $settings->add(new admin_setting_configtext(
-        'local_peertutoring/peertutoringmanager_email', new lang_string('peertutoringmanager_email', 'local_peertutoring'),
-        new lang_string('peertutoringmanager_email_description', 'local_peertutoring'), 'kmagee@mxschool.edu'
+        'local_peertutoring/peertutoringmanager_email',
+        new lang_string('email_settings:peertutoringmanager_email', 'local_peertutoring'),
+        new lang_string('email_settings:peertutoringmanager_email:description', 'local_peertutoring'), 'kmagee@mxschool.edu'
     ));
     $settings->add(new admin_setting_configtext(
-        'local_peertutoring/peertutoringmanager_addressee', new lang_string('peertutoringmanager_addressee', 'local_peertutoring'),
-        new lang_string('peertutoringmanager_addressee_description', 'local_peertutoring'), 'Peer Tutoring Manager'
+        'local_peertutoring/peertutoringmanager_addressee',
+        new lang_string('email_settings:peertutoringmanager_addressee', 'local_peertutoring'),
+        new lang_string('email_settings:peertutoringmanager_addressee:description', 'local_peertutoring'), 'Peer Tutoring Manager'
     ));
     $ADMIN->add('mxschool', $settings);
 
     $ADMIN->add('indexes', new admin_externalpage(
-        'peertutoring_index', new lang_string('peertutoring_index', 'local_peertutoring'),
+        'peertutoring_index', new lang_string('indexes:peertutoring', 'local_peertutoring'),
         "$CFG->wwwroot/local/peertutoring/index.php")
     );
 

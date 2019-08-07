@@ -69,11 +69,8 @@ if ($form->is_cancelled()) {
         unset($data->warning);
     }
     update_record($queryfields, $data);
-    logged_redirect(
-        $form->get_redirect(),
-        get_string($data->id ? 'on_campus_location_edit_success' : 'on_campus_location_create_success', 'local_signout'),
-        $data->id ? 'update' : 'create'
-    );
+    $action = $data->id ? 'update' : 'create';
+    logged_redirect($form->get_redirect(), get_string("on_campus_location_{$action}_success", 'local_signout'), $action);
 }
 
 $output = $PAGE->get_renderer('local_signout');

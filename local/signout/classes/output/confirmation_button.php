@@ -39,7 +39,7 @@ class confirmation_button extends button {
      * @param int $value The id of the on-campus signout record which the button interacts with.
      */
     public function __construct($value) {
-        parent::__construct(get_string('confirmation_button_confirm', 'local_signout'));
+        parent::__construct(get_string('confirmation_button:confirm', 'local_signout'));
         $this->value = $value;
     }
 
