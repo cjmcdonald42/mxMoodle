@@ -63,9 +63,9 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty."/>
         <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the faculty's dorm, if the faculty is a dorm faculty."/>
-        <FIELD NAME="may_approve_signout" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty may approve student sign out {1, 0}."/>
-        <FIELD NAME="advisory_available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the faculty's advisory is accepting new advisees {1, 0}."/>
-        <FIELD NAME="advisory_closing" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty's advisory is going to close and all students must switch out of it {1, 0}."/>
+        <FIELD NAME="may_approve_signout" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty may approve student sign out."/>
+        <FIELD NAME="advisory_available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the faculty's advisory is accepting new advisees."/>
+        <FIELD NAME="advisory_closing" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the faculty's advisory is going to close and all students must switch out of it."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -159,13 +159,13 @@
         <FIELD NAME="dormid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the student's dorm."/>
         <FIELD NAME="advisorid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student's advisor."/>
         <FIELD NAME="admission_year" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="The year the student entered Middlesex."/>
-        <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="The current grade of the student {9, 10, 11, 12}."/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="The current grade of the student."/>
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The gender of the student."/>
-        <FIELD NAME="boarding_status" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student {Boarder, Day}."/>
-        <FIELD NAME="boarding_status_next_year" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year {Boarder, Day}."/>
+        <FIELD NAME="boarding_status" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student {&quot;Boarder&quot;, &quot;Day&quot;}."/>
+        <FIELD NAME="boarding_status_next_year" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year {&quot;Boarder&quot;, &quot;Day&quot;}."/>
         <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's cell phone number."/>
-        <FIELD NAME="birthday" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate {mm/dd}."/>
+        <FIELD NAME="birthday" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate in the format &quot;mm/dd&quot;."/>
         <FIELD NAME="picture_filename" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The filename of the student's directory picture - a value of NULL indicates that the student's picture is not available."/>
       </FIELDS>
       <KEYS>
@@ -206,7 +206,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the site record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="name" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the site."/>
-        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the site. {Plane, Train, Bus, NYC Direct}"/>
+        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the site. {&quot;Plane&quot;, &quot;Train&quot;, &quot;Bus&quot;, &quot;NYC Direct&quot;}"/>
         <FIELD NAME="enabled_departure" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for departure transportation."/>
         <FIELD NAME="enabled_return" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for return transportation."/>
         <FIELD NAME="default_departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for departure transportation to the site - a value of NULL indicates that there is no default."/>
@@ -220,7 +220,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="mx_transportation" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be using Middlesex transportation."/>
-        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of transportation {Car, Plane, Bus, Train, NYC Direct, Non-MX Bus}."/>
+        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of transportation {&quot;Car&quot;, &quot;Plane&quot;, &quot;Bus&quot;, &quot;Train&quot;, &quot;NYC Direct&quot;, &quot;Non-MX Bus&quot;}."/>
         <FIELD NAME="siteid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the site which the student is traveling to or from - 0 indicates an 'other' option - a value of NULL indicates an unspecified site."/>
         <FIELD NAME="details" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text to provide more information for the student's travel"/>
         <FIELD NAME="carrier" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The carrier or company for the transportation."/>

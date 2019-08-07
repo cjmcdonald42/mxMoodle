@@ -31,7 +31,21 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/signout:manage_off_campus_preferences', context_system::instance());
 
+$action = optional_param('action', '', PARAM_RAW);
+$id = optional_param('id', 0, PARAM_INT);
+
 setup_mxschool_page('preferences', 'off_campus', 'signout');
+
+if ($action === 'delete' && $id) {
+    $record = $DB->get_record('local_signout_type', array('id' => $id));
+    if ($record) {
+        $record->deleted = 1;
+        $DB->update_record('local_signout_type', $record);
+        logged_redirect($PAGE->url, get_string('off_campus_type_delete_success', 'local_signout'), 'delete');
+    } else {
+        logged_redirect($PAGE->url, get_string('off_campus_type_delete_failure', 'local_signout'), 'delete', false);
+    }
+}
 
 $data = new stdClass();
 $data->editwindow = get_config('local_signout', 'off_campus_edit_window');
@@ -46,20 +60,20 @@ $data->ipformerror['text'] = get_config('local_signout', 'off_campus_form_iperro
 $data->ipsigninerror['text'] = get_config('local_signout', 'off_campus_signin_iperror');
 $data->passengerinstructions['text'] = get_config('local_signout', 'off_campus_form_instructions_passenger');
 $data->bottominstructions['text'] = get_config('local_signout', 'off_campus_form_instructions_bottom');
-$data->nopassengers['text'] = get_config('local_signout', 'off_campus_form_warning_nopassengers');
-$data->needparent['text'] = get_config('local_signout', 'off_campus_form_warning_needparent');
-$data->onlyspecific['text'] = get_config('local_signout', 'off_campus_form_warning_onlyspecific');
 $data->confirmation['text'] = get_config('local_signout', 'off_campus_form_confirmation');
+$data->formdrivernopassengers['text'] = get_config('local_signout', 'off_campus_form_warning_driver_nopassengers');
+$data->formpassengerparent['text'] = get_config('local_signout', 'off_campus_form_warning_passenger_parent');
+$data->formpassengerspecific['text'] = get_config('local_signout', 'off_campus_form_warning_passenger_specific');
+$data->formpassengerover21['text'] = get_config('local_signout', 'off_campus_form_warning_passenger_over21');
+$data->formrideshareparent['text'] = get_config('local_signout', 'off_campus_form_warning_rideshare_parent');
+$data->formridesharenotallowed['text'] = get_config('local_signout', 'off_campus_form_warning_rideshare_notallowed');
+$data->emaildrivernopassengers['text'] = get_config('local_signout', 'off_campus_notification_warning_driver_nopassengers');
+$data->emailpassengerparent['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
+$data->emailpassengerspecific['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_specific');
+$data->emailpassengerover21['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
+$data->emailrideshareparent['text'] = get_config('local_signout', 'off_campus_notification_warning_rideshare_parent');
+$data->emailridesharenotallowed['text'] = get_config('local_signout', 'off_campus_notification_warning_rideshare_notallowed');
 $data->irregular['text'] = get_config('local_signout', 'off_campus_notification_warning_irregular');
-$data->driveryespassengers['text'] = get_config('local_signout', 'off_campus_notification_warning_driver_yespassengers');
-$data->drivernopassengers['text'] = get_config('local_signout', 'off_campus_notification_warning_driver_nopassengers');
-$data->passengerany['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_any');
-$data->passengerparent['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
-$data->passengerspecific['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_specific');
-$data->passengerover21['text'] = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
-$data->parent['text'] = get_config('local_signout', 'off_campus_notification_warning_parent');
-$data->rideshareyes['text'] = get_config('local_signout', 'off_campus_notification_warning_rideshare_yes');
-$data->rideshareno['text'] = get_config('local_signout', 'off_campus_notification_warning_rideshare_no');
 
 $form = new local_signout\local\off_campus\preferences_form();
 $form->set_data($data);
@@ -77,29 +91,37 @@ if ($form->is_cancelled()) {
     set_config('off_campus_signin_iperror', $data->ipsigninerror['text'], 'local_signout');
     set_config('off_campus_form_instructions_passenger', $data->passengerinstructions['text'], 'local_signout');
     set_config('off_campus_form_instructions_bottom', $data->bottominstructions['text'], 'local_signout');
-    set_config('off_campus_form_warning_nopassengers', $data->nopassengers['text'], 'local_signout');
-    set_config('off_campus_form_warning_needparent', $data->needparent['text'], 'local_signout');
-    set_config('off_campus_form_warning_onlyspecific', $data->onlyspecific['text'], 'local_signout');
     set_config('off_campus_form_confirmation', $data->confirmation['text'], 'local_signout');
+    set_config('off_campus_form_warning_driver_nopassengers', $data->formdrivernopassengers['text'], 'local_signout');
+    set_config('off_campus_form_warning_passenger_parent', $data->formpassengerparent['text'], 'local_signout');
+    set_config('off_campus_form_warning_passenger_specific', $data->formpassengerspecific['text'], 'local_signout');
+    set_config('off_campus_form_warning_passenger_over21', $data->formpassengerover21['text'], 'local_signout');
+    set_config('off_campus_form_warning_rideshare_parent', $data->formrideshareparent['text'], 'local_signout');
+    set_config('off_campus_form_warning_rideshare_notallowed', $data->formridesharenotallowed['text'], 'local_signout');
+    set_config('off_campus_notification_warning_driver_nopassengers', $data->emaildrivernopassengers['text'], 'local_signout');
+    set_config('off_campus_notification_warning_passenger_parent', $data->emailpassengerparent['text'], 'local_signout');
+    set_config('off_campus_notification_warning_passenger_specific', $data->emailpassengerspecific['text'], 'local_signout');
+    set_config('off_campus_notification_warning_passenger_over21', $data->emailpassengerover21['text'], 'local_signout');
+    set_config('off_campus_notification_warning_rideshare_parent', $data->emailrideshareparent['text'], 'local_signout');
+    set_config('off_campus_notification_warning_rideshare_notallowed', $data->emailridesharenotallowed['text'], 'local_signout');
     set_config('off_campus_notification_warning_irregular', $data->irregular['text'], 'local_signout');
-    set_config('off_campus_notification_warning_driver_yespassengers', $data->driveryespassengers['text'], 'local_signout');
-    set_config('off_campus_notification_warning_driver_nopassengers', $data->drivernopassengers['text'], 'local_signout');
-    set_config('off_campus_notification_warning_passenger_any', $data->passengerany['text'], 'local_signout');
-    set_config('off_campus_notification_warning_passenger_parent', $data->passengerparent['text'], 'local_signout');
-    set_config('off_campus_notification_warning_passenger_specific', $data->passengerspecific['text'], 'local_signout');
-    set_config('off_campus_notification_warning_passenger_over21', $data->passengerover21['text'], 'local_signout');
-    set_config('off_campus_notification_warning_parent', $data->parent['text'], 'local_signout');
-    set_config('off_campus_notification_warning_rideshare_yes', $data->rideshareyes['text'], 'local_signout');
-    set_config('off_campus_notification_warning_rideshare_no', $data->rideshareno['text'], 'local_signout');
     logged_redirect(
         $form->get_redirect(), get_string('off_campus_preferences_update_success', 'local_signout'), 'update'
     );
 }
 
+$table = new local_signout\local\off_campus\type_table();
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('off_campus_type_report_add', 'local_signout'), new moodle_url('/local/signout/off_campus/type_edit.php')
+));
+
 $output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\form($form);
+$reportrenderable = new local_mxschool\output\report($table, null, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);
 echo $output->render($renderable);
+echo $output->heading(get_string('off_campus_type_report', 'local_signout'));
+echo $output->render($reportrenderable);
 echo $output->footer();

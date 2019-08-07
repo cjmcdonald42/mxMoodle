@@ -61,27 +61,27 @@ class preferences_form extends \local_mxschool\form {
                 'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
-            'text' => array(
+            'formtext' => array(
                 'ipformerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'ipsigninerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'passengerinstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'bottominstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'nopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'needparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'onlyspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'confirmation' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'confirmation' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'formdrivernopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'formpassengerparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'formpassengerspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'formpassengerover21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'formrideshareparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'formridesharenotallowed' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'emailtext' => array(
-                'irregular' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'driveryespassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'drivernopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'passengerany' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'passengerparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'passengerspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'passengerover21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'parent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'rideshareyes' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'rideshareno' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'emaildrivernopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'emailpassengerparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'emailpassengerspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'emailpassengerover21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'emailrideshareparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'emailridesharenotallowed' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'irregular' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
         $this->set_fields($fields, 'off_campus_preferences', true, 'local_signout');

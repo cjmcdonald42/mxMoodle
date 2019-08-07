@@ -475,5 +475,135 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080605, 'local', 'signout');
     }
 
+    if ($oldversion < 2019080701) {
+
+        // Define table local_signout_type to be dropped.
+        $table = new xmldb_table('local_signout_type');
+
+        // Conditionally launch drop table for local_signout_type.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_signout_type to be created.
+        $table = new xmldb_table('local_signout_type');
+
+        // Adding fields to table local_signout_type.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('required_permissions', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('name', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('grade', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '9');
+        $table->add_field('boardering_status', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+        $table->add_field('weekend_only', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('enabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1');
+        $table->add_field('start_date', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('end_date', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('form_warning', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('email_warning', XMLDB_TYPE_TEXT, null, null, null, null, null);
+
+        // Adding keys to table local_signout_type.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for local_signout_type.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Changing the default of field grade on table local_signout_location to 9.
+        $table = new xmldb_table('local_signout_location');
+        $field = new xmldb_field('grade', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '9', 'name');
+
+        // Launch change of default for field grade.
+        $dbman->change_field_default($table, $field);
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080701, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019080705) {
+
+        // Rename existing form warnings and add a couple new ones.
+        unset_config('off_campus_form_warning_nopassengers', 'local_signout');
+        unset_config('off_campus_form_warning_needparent', 'local_signout');
+        unset_config('off_campus_form_warning_onlyspecific', 'local_signout');
+
+        set_config('off_campus_form_warning_driver_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_signout');
+        set_config('off_campus_form_warning_passenger_parent', 'Your permissions indicate that you need a call from your parent to be the passenger of another student.', 'local_signout');
+        set_config('off_campus_form_warning_passenger_specific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_signout');
+        set_config('off_campus_form_warning_passenger_over21', 'Your permissions indicate that you are not allowed to be the passenger of a driver who is under 21.', 'local_signout');
+        set_config('off_campus_form_warning_rideshare_parent', 'Your permissions indicate that you need a call from your parent to use a car service.', 'local_signout');
+        set_config('off_campus_form_warning_rideshare_notallowed', 'Your permissions indicate that you are not allowed to use a car service.', 'local_signout');
+
+        // Remove and rename existing email warnings and add a new one.
+        unset_config('off_campus_notification_warning_driver_passengers', 'local_signout');
+        unset_config('off_campus_notification_warning_driver_yespassengers', 'local_signout');
+        unset_config('off_campus_notification_warning_passenger_any', 'local_signout');
+        unset_config('off_campus_notification_warning_parent', 'local_signout');
+        unset_config('off_campus_notification_warning_rideshare_yes', 'local_signout');
+        unset_config('off_campus_notification_warning_rideshare_no', 'local_signout');
+
+        set_config('off_campus_notification_warning_driver_nopassengers', 'This student does NOT have permission to drive other students.', 'local_signout');
+        set_config('off_campus_notification_warning_rideshare_parent', 'This student requires parent permission to use a car service.', 'local_signout');
+        set_config('off_campus_notification_warning_rideshare_notallowed', 'This student does NOT have permission to use a car service.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080705, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019080706) {
+
+        // Rename field boarding_status on table local_signout_type to boarding_status.
+        $table = new xmldb_table('local_signout_type');
+        $field = new xmldb_field('boardering_status', XMLDB_TYPE_CHAR, '10', null, null, null, null, 'grade');
+
+        // Launch rename field boardering_status.
+        $dbman->rename_field($table, $field, 'boarding_status');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080706, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019080709) {
+
+        // Changing the default of field boarding_status on table local_signout_type to All.
+        $table = new xmldb_table('local_signout_type');
+        $field = new xmldb_field('boarding_status', XMLDB_TYPE_CHAR, '10', null, null, null, 'All', 'grade');
+
+        // Launch change of default for field boarding_status.
+        $dbman->change_field_default($table, $field);
+
+        // Changing nullability of field boarding_status on table local_signout_type to not null.
+        $table = new xmldb_table('local_signout_type');
+        $field = new xmldb_field('boarding_status', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'All', 'grade');
+
+        // Launch change of nullability for field boarding_status.
+        $dbman->change_field_notnull($table, $field);
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080709, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019080711) {
+
+        // Populate type table with defaults.
+        $types = array(
+            array('required_permissions' => 'driver', 'name' => 'Driving', 'grade' => 11, 'boarding_status' => 'Day'),
+            array('required_permissions' => 'passenger', 'name' => 'Passenger of a Student', 'grade' => 11),
+            array('required_permissions' => 'rideshare', 'name' => 'Car Service'),
+            array('name' => 'Your Parent', 'form_warning' => 'You need face-to-face permission from your head of house, or your parents need to have called the permissions line.'),
+            array('name' => 'Town Shuttle'),
+            array('name' => 'Weekend Activity', 'weekend_only' => 1),
+            array('name' => 'Weekend Signout', 'boarding_status' => 'Boarder', 'weekend_only' => 1, 'form_warning' => 'You need to have an approved weekend form on file for this weekend.'),
+            array('name' => 'Vacation Signout', 'boarding_status' => 'Boarder', 'enabled' => 0, 'form_warning' => 'You need to have completed a vacation travel form.'),
+        );
+        foreach ($types as $type) {
+            $DB->insert_record('local_signout_type', (object) $type);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080711, 'local', 'signout');
+    }
+
     return true;
 }
