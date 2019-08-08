@@ -1,1 +1,1 @@
-# Important Steps for Creating a New Local Plugin.
+# Steps for Creating a New Local Plugin

@@ -28,6 +28,15 @@ The project currently includes the following plugins:
 ## Contributing
 This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started page](/docs/GETTING_STARTED.md).
 
+## Documentation
+Unfortunately, the [documentation](/docs) for this project is currently not exhaustive; however between our documentation, [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a sense of how things are working.
+
+This is the status of the documentation we currently have in place beyond the getting started page:
+- [Middlesex Moodle Plugins Coding Style](/docs/CODING_STYLE.md) — status: _incomplete_
+- [Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md) — status: _incomplete_
+- [Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) — status: _incomplete_
+- [Middlesex Moodle API Layer](/docs/API_LAYER.md) — status: _incomplete_
+
 ## Credits
 v3.0 of the project was developed in 2018 by:
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
