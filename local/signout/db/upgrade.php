@@ -584,27 +584,6 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080709, 'local', 'signout');
     }
 
-    if ($oldversion < 2019080711) {
-
-        // Populate type table with defaults.
-        $types = array(
-            array('required_permissions' => 'driver', 'name' => 'Driving', 'grade' => 11, 'boarding_status' => 'Day'),
-            array('required_permissions' => 'passenger', 'name' => 'Passenger of a Student', 'grade' => 11),
-            array('required_permissions' => 'rideshare', 'name' => 'Car Service'),
-            array('name' => 'Your Parent', 'form_warning' => 'You need face-to-face permission from your head of house, or your parents need to have called the permissions line.'),
-            array('name' => 'Town Shuttle'),
-            array('name' => 'Weekend Activity', 'weekend_only' => 1),
-            array('name' => 'Weekend Signout', 'boarding_status' => 'Boarder', 'weekend_only' => 1, 'form_warning' => 'You need to have an approved weekend form on file for this weekend.'),
-            array('name' => 'Vacation Signout', 'boarding_status' => 'Boarder', 'enabled' => 0, 'form_warning' => 'You need to have completed a vacation travel form.'),
-        );
-        foreach ($types as $type) {
-            $DB->insert_record('local_signout_type', (object) $type);
-        }
-
-        // Signout savepoint reached.
-        upgrade_plugin_savepoint(true, 2019080711, 'local', 'signout');
-    }
-
     if ($oldversion < 2019080715) {
 
         // Define table local_signout_off_campus to be dropped.
@@ -647,6 +626,27 @@ function xmldb_local_signout_upgrade($oldversion) {
 
         // Signout savepoint reached.
         upgrade_plugin_savepoint(true, 2019080715, 'local', 'signout');
+    }
+
+    if ($oldversion < 2019080807) {
+
+        // Populate type table with defaults.
+        $types = array(
+            array('required_permissions' => 'driver', 'name' => 'Driving', 'grade' => 11, 'boarding_status' => 'Day'),
+            array('required_permissions' => 'passenger', 'name' => 'Riding with another Student', 'grade' => 11),
+            array('required_permissions' => 'rideshare', 'name' => 'Car Service'),
+            array('name' => 'Riding with Your Parent', 'form_warning' => 'You need face-to-face permission from a one of your dorm faculty, or your parents need to have called the permissions line.'),
+            array('name' => 'Town Shuttle'),
+            array('name' => 'Weekend Activity', 'weekend_only' => 1),
+            array('name' => 'Weekend Signout', 'boarding_status' => 'Boarder', 'weekend_only' => 1, 'form_warning' => 'You need to have an approved weekend form on file for this weekend.'),
+            array('name' => 'Vacation Signout', 'boarding_status' => 'Boarder', 'enabled' => 0, 'form_warning' => 'You need to have a vacation travel form on file.'),
+        );
+        foreach ($types as $type) {
+            $DB->insert_record('local_signout_type', (object) $type);
+        }
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080807, 'local', 'signout');
     }
 
     return true;
