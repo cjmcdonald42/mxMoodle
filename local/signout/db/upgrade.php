@@ -649,11 +649,11 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080807, 'local', 'signout');
     }
 
-    if ($oldversion < 2019080808) {
+    if ($oldversion < 2019080809) {
 
         // Tweak config text.
         set_config('off_campus_form_instructions_passenger', 'Your driver must have submitted a form and selected you as a passenger to appear in the list below.', 'local_signout');
-        set_config('off_campus_form_warning_driver_nopassengers', 'Your permissions indicate that you may not drive other student.', 'local_signout');
+        set_config('off_campus_form_warning_driver_nopassengers', 'Your permissions indicate that you may not drive other students.', 'local_signout');
         set_config('off_campus_form_warning_passenger_parent', 'Your permissions indicate that you need a call from your parent to ride with another student.', 'local_signout');
         set_config('off_campus_form_warning_passenger_specific', 'Your permissions indicate that you may only ride with the following drivers:', 'local_signout');
         set_config('off_campus_form_warning_passenger_over21', 'Your permissions indicate that you are not allowed to be the ride with a driver who is under 21.', 'local_signout');
@@ -663,7 +663,7 @@ function xmldb_local_signout_upgrade($oldversion) {
 
 
         // Signout savepoint reached.
-        upgrade_plugin_savepoint(true, 2019080808, 'local', 'signout');
+        upgrade_plugin_savepoint(true, 2019080809, 'local', 'signout');
     }
 
     return true;
