@@ -145,16 +145,17 @@ function get_on_campus_location_list($grade = 12, $isday = false) {
 /**
  * Queries the database to create a list of all the students who have sufficient permissions to be another student's passenger.
  *
+ * @param int $userid The user id of a student who should not be included.
  * @return array The students as userid => name, ordered alphabetically by student name.
  */
-function get_permitted_passenger_list() {
+function get_permitted_passenger_list($userid = 0) {
     global $DB;
     $students = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
                                          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND s.grade >= 11 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
-         ORDER BY name"
+         WHERE u.deleted = 0 AND u.id <> ? AND s.grade >= 11 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
+         ORDER BY name", array($userid)
     );
     return convert_student_records_to_list($students);
 }
@@ -172,7 +173,7 @@ function get_permitted_driver_list() {
                                             LEFT JOIN {local_signout_type} t ON oc.typeid = t.id
                                             LEFT JOIN {local_mxschool_student} s ON oc.userid = s.userid
                                             LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
-         WHERE oc.deleted = 0 AND u.deleted = 0 AND (oc.typeid = -1 OR t.deleted = 0) AND t.required_permissions = 'driver'
+         WHERE oc.deleted = 0 AND u.deleted = 0 AND t.deleted = 0 AND t.required_permissions = 'driver'
                               AND p.may_drive_passengers = 'Yes' AND s.grade >= 11
          ORDER BY name ASC, oc.time_modified DESC"
     );
@@ -182,27 +183,39 @@ function get_permitted_driver_list() {
     return convert_records_to_list($drivers);
 }
 
+
 /**
- * Queries the database to create a list of currently available drivers.
- * Drivers are defined as available if today is their departure day and they have not signed in.
+ * Queries the database to create a list of currently available drivers for a given student.
+ * Drivers are defined as available if they are allowed to drive passengers, are currently in their trip window,
+ * selected the student as a passenger, and have not signed in.
  *
- * @param int $ignore The user id of a student to ignore (intended to be used to ignore the current student).
- * @return array The drivers as offcampusid => name, ordered alphabetically by name.
+ * @param int $userid The user id of the student to check for.
+ * @return array The available drivers as offcampusid => name, ordered alphabetically by name.
  */
-function get_current_driver_list($ignore = 0) {
+function get_current_driver_list($userid = 0) {
     global $DB;
     $window = get_config('local_signout', 'off_campus_trip_window');
     $time = generate_datetime("-{$window} minutes");
     $drivers = $DB->get_records_sql(
-        "SELECT oc.id, oc.userid, CONCAT(u.lastname, ', ', u.firstname) AS name
+        "SELECT oc.id, oc.userid, CONCAT(u.lastname, ', ', u.firstname) AS name, oc.passengers
          FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
                                             LEFT JOIN {local_signout_type} t ON oc.typeid = t.id
+                                            LEFT JOIN {local_mxschool_student} s ON oc.userid = s.userid
                                             LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
-         WHERE oc.deleted = 0 AND u.deleted = 0 AND (oc.typeid = -1 OR t.deleted = 0) AND t.required_permissions = 'driver'
-                              AND oc.time_created >= ? AND oc.sign_in_time IS NULL AND p.may_drive_passengers = 'Yes' AND u.id <> ?
-                              AND NOT EXISTS (SELECT id FROM {local_signout_off_campus} WHERE driverid = oc.id AND userid = ?)
-         ORDER BY name ASC, oc.time_modified DESC", array($time->getTimestamp(), $ignore, $ignore)
+         WHERE oc.deleted = 0 AND u.deleted = 0 AND t.deleted = 0 AND t.required_permissions = 'driver'
+                              AND oc.time_created >= ? AND oc.sign_in_time IS NULL AND s.grade >= 11
+                              AND p.may_drive_passengers = 'Yes' AND NOT EXISTS (
+                                  SELECT id
+                                  FROM {local_signout_off_campus}
+                                  WHERE driverid = oc.id AND userid = ? AND deleted = 0 AND sign_in_time IS NULL
+                              )
+         ORDER BY oc.time_modified DESC", array($time->getTimestamp(), $userid)
     );
+    if ($userid) {
+        $drivers = array_filter($drivers, function($driver) use ($userid) {
+            return in_array($userid, json_decode($driver->passengers));
+        });
+    }
     foreach ($drivers as $driver) {
         $driver->value = format_student_name($driver->userid);
     }
@@ -226,10 +239,11 @@ function get_approver_list() {
 }
 
 /**
- * Creates a list of the types of off-campus signout which a specified student has the permissions to perform.
+ * Creates a list of the types of off-campus signout which a particular student has the permissions to perform.
  *
  * @param int $userid The user id of the student.
- * @return array The types of off-campus signout which the student is allowed to perform.
+ * @return array The types of off-campus signout which the student has the permissions to perform as id => name,
+ *               ordered alphabetically by name.
  */
 function get_off_campus_type_list($userid = 0) {
     global $DB;
@@ -246,23 +260,20 @@ function get_off_campus_type_list($userid = 0) {
              WHERE s.userid = ?", array('userid' => $userid)
         );
         if (!get_config('local_signout', 'off_campus_form_permissions_active')) {
-            array_push(
-                $where, "t.required_permissions <> 'driver'", "t.required_permissions <> 'passenger'",
-                "t.required_permissions <> 'rideshare'"
-            );
+            $where[] = "t.required_permissions IS NULL";
         } else {
-            if (empty($record->maydrive) || $record->maydrive === 'No') {
-                $where[] = "t.required_permissions <> 'driver'";
+            if (empty($permissions->maydrive) || $permissions->maydrive === 'No') {
+                $where[] = "(t.required_permissions IS NULL OR t.required_permissions <> 'driver')";
             }
-            if (empty($record->mayridewith) || $record->mayridewith === 'Over 21') {
-                $where[] = "t.required_permissions <> 'passenger'";
+            if (empty($permissions->mayridewith) || $permissions->mayridewith === 'Over 21') {
+                $where[] = "(t.required_permissions IS NULL OR t.required_permissions <> 'passenger')";
             }
-            if (empty($record->rideshare) || $record->rideshare === 'No') {
-                $where[] = "t.required_permissions <> 'rideshare'";
+            if (empty($permissions->rideshare) || $permissions->rideshare === 'No') {
+                $where[] = "(t.required_permissions IS NULL OR t.required_permissions <> 'rideshare')";
             }
         }
-        $where[] = "t.grade < {$permissions->grade}";
-        $where[] = "(t.boarding_status = {$permissions->boardingstatus} OR t.boarding_status = 'All')";
+        $where[] = "t.grade <= {$permissions->grade}";
+        $where[] = "(t.boarding_status = '{$permissions->boardingstatus}' OR t.boarding_status = 'All')";
     }
     if (!date_is_in_weekend()) {
         $where[] = "t.weekend_only = 0";
@@ -376,14 +387,14 @@ function confirm_signout($id) {
  *
  * @param int $offcampusid The id of driver record.
  * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
- * @throws coding_exception If the off-campus signout record is not a driver record.
+ * @throws coding_exception If the off-campus signout record is not a valid driver record.
  */
 function get_driver_inheritable_fields($offcampusid) {
     global $DB;
-    $record = $DB->get_record('local_signout_off_campus', array('id' => $offcampusid));
-    if (!$record || $record->type !== 'Driver') {
-        throw new coding_exception("off-campus signout record with id {$offcampusid} is not a driver");
+    if (!array_key_exists($offcampusid, get_current_driver_list())) {
+        throw new coding_exception("off-campus signout record with id {$offcampusid} is not a valid driver record");
     }
+    $record = $DB->get_record('local_signout_off_campus', array('id' => $offcampusid));
     $result = new stdClass();
     $result->destination = $record->destination;
     $departuretime = generate_datetime($record->departure_time);

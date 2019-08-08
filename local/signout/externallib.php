@@ -103,35 +103,65 @@ class local_signout_external extends external_api {
      * @return external_function_parameters Object holding array of parameters for the get_off_campus_student_options() function.
      */
     public static function get_off_campus_student_options_parameters() {
-        return new external_function_parameters(array('userid' => new external_value(PARAM_INT, 'The user id of the student.')));
+        return new external_function_parameters(array(
+            'userid' => new external_value(PARAM_INT, 'The user id of the student.'),
+            'typeid' => new external_value(PARAM_INT, 'The id of the selected type.')
+        ));
     }
 
     /**
      * Queries the database to determine the type options, passenger list, driver list,
-     * and permissions for a selected student.
+     * and permissions for a selected student and type.
      *
      * @param int $userid The user id of the student.
-     * @return stdClass Object with properties types, passengers, drivers, maydrivepassengers, mayridewith, specificdrivers.
+     * @param int $typeid The id of the selected type.
+     * @return stdClass Object with properties type, types, passengers, drivers, maydrivepassengers, passengerwarning,
+     *                  ridesharewarning, and typewarning.
      */
-    public static function get_off_campus_student_options($userid) {
+    public static function get_off_campus_student_options($userid, $typeid) {
         external_api::validate_context(context_system::instance());
-        $params = self::validate_parameters(self::get_off_campus_student_options_parameters(), array('userid' => $userid));
+        $params = self::validate_parameters(self::get_off_campus_student_options_parameters(), array(
+            'userid' => $userid, 'typeid' => $typeid
+        ));
 
         global $DB;
         $result = new stdClass();
-        $result->types = get_off_campus_type_list($params['userid']);
-        $result->passengers = convert_associative_to_object(get_permitted_passenger_list());
+        $result->type = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $params['typeid'])) ?: '';
+        $result->types = convert_associative_to_object(get_off_campus_type_list($params['userid']));
+        $result->passengers = convert_associative_to_object(get_permitted_passenger_list($params['userid']));
         $result->passengers = array_filter($result->passengers, function($passenger) use($params) {
             return $passenger['value'] !== $params['userid'];
         });
         $result->drivers = convert_associative_to_object(get_current_driver_list($params['userid']));
-        $result->maydrivepassengers = $DB->get_field(
-            'local_mxschool_permissions', 'may_drive_passengers', array('userid' => $params['userid'])
-        ) === 'Yes';
-        $result->mayridewith = $DB->get_field('local_mxschool_permissions', 'may_ride_with', array('userid' => $params['userid']));
-        $result->specificdrivers = $DB->get_field(
-            'local_mxschool_permissions', 'ride_permission_details', array('userid' => $params['userid'])
-        ) ?: '';
+        $permissions = $DB->get_record('local_mxschool_permissions', array('userid' => $params['userid']));
+        $result->maydrivepassengers = $permissions->may_drive_passengers === 'Yes';
+        switch ($permissions->may_ride_with) {
+            case 'Any Driver':
+                $result->passengerwarning = '';
+                break;
+            case 'Parent Permission':
+                $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_parent');
+                break;
+            case 'Specific Drivers':
+                $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_specific')
+                    . $permissions->ride_permission_details;
+                break;
+            case 'Over 21':
+            default:
+                $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_over21');
+        }
+        switch ($permissions->ride_share) {
+            case 'Yes':
+                $result->ridesharewarning = '';
+                break;
+            case 'Parent':
+                $result->ridesharewarning = get_config('local_signout', 'off_campus_form_warning_rideshare_parent');
+                break;
+            case 'No':
+            default:
+                $result->ridesharewarning = get_config('local_signout', 'off_campus_form_warning_rideshare_notallowed');
+        }
+        $result->typewarning = $DB->get_field('local_signout_type', 'form_warning', array('id' => $params['typeid'])) ?: '';
         return $result;
     }
 
@@ -142,8 +172,12 @@ class local_signout_external extends external_api {
      */
     public static function get_off_campus_student_options_returns() {
         return new external_single_structure(array(
+            'type' => new external_value(PARAM_TEXT, 'required permissions for the specified type'),
             'types' => new external_multiple_structure(
-                new external_value(PARAM_TEXT, 'the identifier of the type')
+                new external_single_structure(array(
+                    'value' => new external_value(PARAM_INT, 'id of the type'),
+                    'text' => new external_value(PARAM_TEXT, 'name of the type')
+                ))
             ),
             'passengers' => new external_multiple_structure(
                 new external_single_structure(array(
@@ -158,8 +192,9 @@ class local_signout_external extends external_api {
                 ))
             ),
             'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
-            'mayridewith' => new external_value(PARAM_TEXT, 'with whom the student has permission to be a passenger'),
-            'specificdrivers' => new external_value(PARAM_TEXT, 'the comment for the student\'s riding permission')
+            'passengerwarning' => new external_value(PARAM_TEXT, 'warning text regarding the student\'s passenger permissions'),
+            'ridesharewarning' => new external_value(PARAM_TEXT, 'warning text regarding the student\'s rideshare permissions'),
+            'typewarning' => new external_value(PARAM_TEXT, 'general warning text regarding the student\'s selected type')
         ));
     }
 
@@ -177,7 +212,7 @@ class local_signout_external extends external_api {
      *
      * @param int $offcampusid The id of driver record.
      * @return stdClass Object with properties destination, departurehour, departureminutes, and departureampm.
-     * @throws coding_exception If the off-campus signout record is not a driver record.
+     * @throws coding_exception If the off-campus signout record is not a valid driver record.
      */
     public static function get_off_campus_driver_details($offcampusid) {
         external_api::validate_context(context_system::instance());

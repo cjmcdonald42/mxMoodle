@@ -51,12 +51,13 @@ define(
                     lib.updateSelect($('.mx-form select#id_location_select'), data.locations);
                 });
                 var permissionsFieldset = $('.mx-form fieldset#id_permissions');
+                var warningText = permissionsFieldset.children().eq(1).children().eq(0).children().eq(1).children().eq(0);
                 if (data.warning) {
-                    permissionsFieldset.children().eq(1).children().eq(0).children().eq(1).children().eq(0).text(data.warning);
+                    warningText.text(data.warning);
                     permissionsFieldset.next().hide();
                     permissionsFieldset.show();
                 } else {
-                    permissionsFieldset.children().eq(1).children().eq(0).children().eq(1).children().eq(0).text('');
+                    warningText.text('');
                     permissionsFieldset.next().show();
                     permissionsFieldset.hide();
                 }

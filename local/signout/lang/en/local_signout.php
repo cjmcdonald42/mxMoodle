@@ -183,7 +183,7 @@ $string['off_campus_report'] = 'Off-Campus Signout Report';
 
 // Off-Campus Signout Email Notification.
 $string['off_campus_notification_warning_default'] = 'None.';
-$string['off_campus_notification_warning_other'] = '(passenger) {$a->passengerwarning} (rideshare) {$a->ridesharewarning}';
+$string['off_campus_notification_warning_other'] = '(passenger) {$a->passengerwarning} (car service) {$a->ridesharewarning}';
 
 // Off-Campus Signout Preferences.
 $string['off_campus_preferences_header_config'] = 'Config';
@@ -264,12 +264,12 @@ $string['off_campus_form_header_details'] = 'Details';
 $string['off_campus_form_header_permissions'] = 'Permissions Check';
 $string['off_campus_form_info_student'] = 'Student';
 $string['off_campus_form_info_type'] = 'Signout Type';
-$string['off_campus_form_info_type_select_other'] = 'Other Adult (Please Specify)';
 $string['off_campus_form_info_passengers'] = 'Your Passengers';
 $string['off_campus_form_info_driver'] = 'Your Driver';
 $string['off_campus_form_details_destination'] = 'Your Destination';
 $string['off_campus_form_details_departure_time'] = 'Departure Time';
 $string['off_campus_form_details_approver'] = 'Face-to-Face Permission Granted by';
+$string['off_campus_form_type_select_other'] = 'Other Adult (Please Specify)';
 $string['off_campus_form_passengers_noselection'] = 'No Passengers Selected';
 $string['off_campus_form_passengers_placeholder'] = 'Search Passengers';
 $string['off_campus_form_error_notype'] = 'You must specify a driver type.';

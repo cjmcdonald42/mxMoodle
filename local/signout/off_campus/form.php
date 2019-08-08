@@ -38,7 +38,7 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('form', 'off_campus', 'signout');
 if (!$isstudent || validate_ip_off_campus()) {
-    // $PAGE->requires->js_call_amd('local_signout/off_campus_form', 'setup');
+    $PAGE->requires->js_call_amd('local_signout/off_campus_form', 'setup');
 }
 
 $queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
@@ -95,9 +95,16 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $data->departure_date = generate_timestamp($data, 'departure');
     $data->timemodified = time();
     $permissions = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $data->type_select));
+    if ($permissions === 'passenger') { // Only passengers have drivers.
+        $driver = $DB->get_record('local_signout_off_campus', array('id' => $data->driver));
+        $data->destination = $driver->destination;
+        $data->departure_date = $driver->departure_time;
+    } else {
+        unset($data->driver);
+        $data->departure_date = generate_timestamp($data, 'departure');
+    }
     if ($permissions === 'driver') { // Only drivers have passengers.
         $data->passengers = json_encode($data->passengers ?? array());
         $existingpassengers = $DB->get_records('local_signout_off_campus', array('driverid' => $data->id));
@@ -105,22 +112,20 @@ if ($form->is_cancelled()) {
             foreach ($existingpassengers as $passenger) {
                 $passenger->destination = $data->destination;
                 $passenger->departure_time = $data->departure_date;
+                $DB->update_record('local_signout_off_campus', $passenger);
             }
         }
     } else {
         unset($data->passengers);
     }
-    if ($permissions !== 'passenger') { // Only passengers have drivers.
-        unset($data->driverid);
-    }
     if (!$permissions && $data->type_select !== '-1') {
-        unset($data->approverid);
+        unset($data->approver);
     }
     if ($data->type_select !== '-1') { // Only keep the 'other' field if the type is 'other'.
         unset($data->type_other);
     }
     $id = update_record($queryfields, $data);
-    // $result = (new local_signout\local\off_campus\submitted($id))->send();
+    $result = (new local_signout\local\off_campus\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('off_campus_success', 'local_signout'), $data->id ? 'update' : 'create'
     );

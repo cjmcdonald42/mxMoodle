@@ -40,7 +40,7 @@ $functions = array(
         'methodname' => 'get_off_campus_student_options',
         'classpath' => 'local/signout/externallib.php',
         'description' => 'Queries the database to determine the type options, passenger list, driver list,'
-                         .'and permissions for a selected student.',
+                         .'and permissions for a selected student and type.',
         'type' => 'read',
         'ajax' => 'true'
     ),

@@ -27,79 +27,105 @@
 
 define(
     ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
-        function updateTypeSubfields() {
-            var passengersDiv = $('.mx-form select#id_passengers').parent().parent();
-            var driverDiv = $('.mx-form select#id_driver').parent().parent();
-            var otherDiv = $('.mx-form input#id_type_other').parent().parent();
-            if (!$('.mx-form input#id_type_select_Driver').prop('checked')) {
-                passengersDiv.hide();
-                passengersDiv.next().hide();
-            }
-            if ($('.mx-form input#id_type_select_Passenger').prop('checked')) {
-                driverDiv.prev().show();
-                driverDiv.show();
-            } else {
-                driverDiv.prev().hide();
-                driverDiv.hide();
-            }
-            if ($('.mx-form input#id_type_select_Other').prop('checked')) {
-                otherDiv.show();
-            } else {
-                otherDiv.hide();
-            }
-            var isPassenger = $('.mx-form input#id_type_select_Passenger').prop('checked');
-            $('.mx-form input#id_destination').prop('disabled', isPassenger);
-            $('.mx-form select#id_departure_time_hour').prop('disabled', isPassenger);
-            $('.mx-form select#id_departure_time_minute').prop('disabled', isPassenger);
-            $('.mx-form select#id_departure_time_ampm').prop('disabled', isPassenger);
-        }
         function updateStudentOptions() {
             var promises = ajax.call([{
                 methodname: 'local_signout_get_off_campus_student_options',
                 args: {
-                    userid: $('.mx-form select#id_student').val()
+                    userid: $('.mx-form select#id_student').val(),
+                    typeid: $('.mx-form select#id_type_select').val()
                 }
             }]);
             promises[0].done(function(data) {
-                lib.updateRadio($('.mx-form div[data-groupname="type_select"] input'), data.types);
+                $.when(
+                    str.get_string('form:select:default', 'local_mxschool'),
+                    str.get_string('off_campus_form_type_select_other', 'local_signout')
+                ).done(function(select, other) {
+                    data.types.unshift({
+                        value: 0,
+                        text: select
+                    });
+                    data.types.push({
+                        value: -1,
+                        text: other
+                    });
+                    lib.updateSelect($('.mx-form select#id_type_select'), data.types);
+                });
+                var permissionsFieldset = $('.mx-form fieldset#id_permissions');
+                permissionsFieldset.hide();
+                permissionsFieldset.next().show();
+                var passengerWarningDiv = permissionsFieldset.children().eq(1).children().eq(0);
+                if (data.passengerwarning && (data.type === 'passenger' || $('.mx-form select#id_type_select').val() == -1)) {
+                    permissionsFieldset.next().hide();
+                    passengerWarningDiv.children().eq(1).children().eq(0).text(data.passengerwarning);
+                    passengerWarningDiv.show();
+                    permissionsFieldset.show();
+                } else {
+                    passengerWarningDiv.hide();
+                }
+                var rideshareWarningDiv = permissionsFieldset.children().eq(1).children().eq(1);
+                if (data.ridesharewarning && (data.type === 'rideshare' || $('.mx-form select#id_type_select').val() == -1)) {
+                    permissionsFieldset.next().hide();
+                    rideshareWarningDiv.children().eq(1).children().eq(0).text(data.ridesharewarning);
+                    rideshareWarningDiv.show();
+                    permissionsFieldset.show();
+                } else {
+                    rideshareWarningDiv.hide();
+                }
+                var typeWarningDiv = permissionsFieldset.children().eq(1).children().eq(2);
+                if (data.typewarning) {
+                    permissionsFieldset.next().hide();
+                    typeWarningDiv.children().eq(1).children().eq(0).text(data.typewarning);
+                    typeWarningDiv.show();
+                    permissionsFieldset.show();
+                } else {
+                    typeWarningDiv.hide();
+                }
+
                 var passengersDiv = $('.mx-form select#id_passengers').parent().parent();
-                if ($('.mx-form input#id_type_select_Driver').prop('checked')) {
+                if (data.type === 'driver') {
                     if(data.maydrivepassengers) {
-                        passengersDiv.show();
                         passengersDiv.next().hide();
+                        passengersDiv.show();
+                        lib.updateMultiSelect($('.mx-form select#id_passengers'), data.passengers);
                     } else {
                         passengersDiv.hide();
                         passengersDiv.next().show();
                     }
-                }
-                var permissionsFieldset = $('.mx-form fieldset#id_permissions');
-                if ($('.mx-form input#id_type_select_Passenger').prop('checked') && data.mayridewith !== 'Any Driver') {
-                    permissionsFieldset.next().hide();
-                    permissionsFieldset.show();
-                    var parentPermissionDiv = permissionsFieldset.children().eq(1).children().eq(0);
-                    var specificDriversDiv = permissionsFieldset.children().eq(1).children().eq(1);
-                    if (data.mayridewith === 'Parent Permission') {
-                        parentPermissionDiv.show();
-                        specificDriversDiv.hide();
-                    } else if (data.mayridewith === 'Specific Drivers') {
-                        parentPermissionDiv.hide();
-                        var specificDriversStatic = specificDriversDiv.children().eq(1).children().eq(0);
-                        specificDriversStatic.contents().slice(1).remove();
-                        specificDriversStatic.append(data.specificdrivers);
-                        specificDriversDiv.show();
-                    }
                 } else {
-                    permissionsFieldset.next().show();
-                    permissionsFieldset.hide();
+                    passengersDiv.hide();
+                    passengersDiv.next().hide();
                 }
-                lib.updateMultiSelect($('.mx-form select#id_passengers'), data.passengers);
-                $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
-                    data.drivers.unshift({
-                        value: 0,
-                        text: text
+
+                var driverDiv = $('.mx-form select#id_driver').parent().parent();
+                if (data.type === 'passenger') {
+                    driverDiv.prev().show();
+                    driverDiv.show();
+                    $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
+                        data.drivers.unshift({
+                            value: 0,
+                            text: text
+                        });
+                        lib.updateSelect($('.mx-form select#id_driver'), data.drivers, true);
                     });
-                    lib.updateSelect($('.mx-form select#id_driver'), data.drivers, true);
-                });
+                    $('.mx-form input#id_destination').prop('disabled', true);
+                    $('.mx-form select#id_departure_time_hour').prop('disabled', true);
+                    $('.mx-form select#id_departure_time_minute').prop('disabled', true);
+                    $('.mx-form select#id_departure_time_ampm').prop('disabled', true);
+                } else {
+                    driverDiv.prev().hide();
+                    driverDiv.hide();
+                    $('.mx-form input#id_destination').prop('disabled', false);
+                    $('.mx-form select#id_departure_time_hour').prop('disabled', false);
+                    $('.mx-form select#id_departure_time_minute').prop('disabled', false);
+                    $('.mx-form select#id_departure_time_ampm').prop('disabled', false);
+                }
+
+                var approverDiv = $('.mx-form select#id_approver').parent().parent();
+                if (data.type || $('.mx-form select#id_type_select').val() == -1) {
+                    approverDiv.show();
+                } else {
+                    approverDiv.hide();
+                }
             }).fail(notification.exception);
         }
         function updateDriverDetails() {
@@ -124,15 +150,11 @@ define(
         return {
             setup: function() {
                 $(document).ready(function() {
-                    updateTypeSubfields();
                     updateStudentOptions();
                     updateDriverDetails();
                 });
                 $('.mx-form select#id_student').change(updateStudentOptions);
-                $('.mx-form div[data-groupname="type_select"]').change(function() {
-                    updateTypeSubfields();
-                    updateStudentOptions();
-                });
+                $('.mx-form select#id_type_select').change(updateStudentOptions);
                 $('.mx-form select#id_driver').change(updateDriverDetails);
             }
         };

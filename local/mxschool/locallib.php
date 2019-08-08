@@ -735,41 +735,6 @@ function get_param_current_weekend() {
 }
 
 /**
- * Queries the database to determine whether a date occurs within a valid weekend.
- *
- * @param string|int $date A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
- *                         or a timestamp.
- * @return bool Whther the timestamp is between the start and end times of a weekend in the database.
- */
-function date_is_in_weekend($date = 'now') {
-    global $DB;
-    $timestamp = generate_datetime($time)->getTimestamp();
-    $starttime = get_config('local_mxschool', 'dorms_open_date');
-    $endtime = get_config('local_mxschool', 'dorms_close_date');
-    if ($timestamp < $starttime || $timestamp >= $endtime) { // No need to query if we are outside the range of weekends.
-        return false;
-    }
-    $weekends = $DB->get_records_sql(
-        "SELECT sunday_time AS sunday, start_offset AS startoffset, end_offset AS endoffset
-         FROM {local_mxschool_weekend}
-         WHERE sunday_time >= ? AND sunday_time < ?", array($starttime, $endtime)
-    );
-    if ($weekends) {
-        foreach ($weekends as $weekend) {
-            $start = generate_datetime($weekend->sunday);
-            $start->modify("{$weekend->startoffset} days");
-            $endoffset = $weekend->endoffset + 1; // Add an additional day to get to the end of the weekend.
-            $end = generate_datetime($weekend->sunday);
-            $end->modify("{$endoffset} days");
-            if ($timestamp >= $start->getTimestamp() && $timestamp < $end->getTimestamp()) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-/**
  * Determines the semester ('1' or '2') to be selected.
  *
  * The priorities of this function are as follows:
@@ -1201,6 +1166,41 @@ function generate_weekend_records($starttime, $endtime) {
          ORDER BY sunday_time",
         array($starttime, $endtime)
     );
+}
+
+/**
+ * Queries the database to determine whether a date occurs within a valid weekend.
+ *
+ * @param string|int $date A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ *                         or a timestamp.
+ * @return bool Whther the timestamp is between the start and end times of a weekend in the database.
+ */
+function date_is_in_weekend($date = 'now') {
+    global $DB;
+    $timestamp = generate_datetime($date)->getTimestamp();
+    $starttime = get_config('local_mxschool', 'dorms_open_date');
+    $endtime = get_config('local_mxschool', 'dorms_close_date');
+    if ($timestamp < $starttime || $timestamp >= $endtime) { // No need to query if we are outside the range of weekends.
+        return false;
+    }
+    $weekends = $DB->get_records_sql(
+        "SELECT sunday_time AS sunday, start_offset AS startoffset, end_offset AS endoffset
+         FROM {local_mxschool_weekend}
+         WHERE sunday_time >= ? AND sunday_time < ?", array($starttime, $endtime)
+    );
+    if ($weekends) {
+        foreach ($weekends as $weekend) {
+            $start = generate_datetime($weekend->sunday);
+            $start->modify("{$weekend->startoffset} days");
+            $endoffset = $weekend->endoffset + 1; // Add an additional day to get to the end of the weekend.
+            $end = generate_datetime($weekend->sunday);
+            $end->modify("{$endoffset} days");
+            if ($timestamp >= $start->getTimestamp() && $timestamp < $end->getTimestamp()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 /**
