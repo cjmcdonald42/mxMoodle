@@ -144,13 +144,13 @@ class local_signout_external extends external_api {
                 break;
             case 'Specific Drivers':
                 $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_specific')
-                    . " {$permissions->ride_permission_details}";
+                    . " {$permissions->specific_drivers}";
                 break;
             case 'Over 21':
             default:
                 $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_over21');
         }
-        switch ($permissions->ride_share) {
+        switch ($permissions->may_use_rideshare) {
             case 'Yes':
                 $result->ridesharewarning = '';
                 break;

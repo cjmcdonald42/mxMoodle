@@ -254,7 +254,7 @@ function get_off_campus_type_list($userid = 0) {
     );
     if ($userid) {
         $permissions = $DB->get_record_sql(
-            "SELECT p.may_drive_to_town AS maydrive, p.may_ride_with AS mayridewith, p.ride_share AS rideshare, s.grade,
+            "SELECT p.may_drive_to_town AS maydrive, p.may_ride_with AS mayridewith, p.may_use_rideshare AS rideshare, s.grade,
                     s.boarding_status AS boardingstatus
              FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid
              WHERE s.userid = ?", array('userid' => $userid)

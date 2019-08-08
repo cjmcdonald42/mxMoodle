@@ -46,8 +46,8 @@ $queryfields = array(
     )),
     'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.userid = p.userid', 'fields' => array(
         'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
-        'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
-        'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
+        'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'specific_drivers' => 'ridingcomment',
+        'may_use_rideshare' => 'rideshare', 'may_go_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
         'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
     ))
 );

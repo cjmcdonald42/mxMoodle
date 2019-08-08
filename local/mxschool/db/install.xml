@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20190731" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20190808" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -112,9 +112,9 @@
         <FIELD NAME="may_drive_to_town" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student drive to town during the day? {&quot;Yes&quot;, &quot;No&quot;}."/>
         <FIELD NAME="may_drive_passengers" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student give rides to other students? {&quot;Yes&quot;, &quot;No&quot;}."/>
         <FIELD NAME="may_ride_with" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="With whom may the student ride? {&quot;Parent Permission&quot;, &quot;Over 21&quot;, &quot;Any Driver&quot;, &quot;Specific Drivers&quot;}."/>
-        <FIELD NAME="ride_permission_details" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Text field to be used if riding permissions are granted for specific drivers or to note other considerations."/>
-        <FIELD NAME="ride_share" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student use ride sharing services? {&quot;Yes&quot;, &quot;No&quot;, &quot;Parent&quot;}."/>
-        <FIELD NAME="may_drive_to_boston" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student go to Boston? {&quot;Yes&quot;, &quot;No&quot;, &quot;Parent&quot;}."/>
+        <FIELD NAME="specific_drivers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Text field to be used if riding permissions are granted for specific drivers or to note other considerations - a value of NULL indicates that there is nothing to note."/>
+        <FIELD NAME="may_use_rideshare" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student use car services? {&quot;Yes&quot;, &quot;No&quot;, &quot;Parent&quot;}."/>
+        <FIELD NAME="may_go_to_boston" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student go to Boston? {&quot;Yes&quot;, &quot;No&quot;, &quot;Parent&quot;}."/>
         <FIELD NAME="swim_competent" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student able to swim competently? {&quot;Yes&quot;, &quot;No&quot;}."/>
         <FIELD NAME="swim_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student allowed to swim? {&quot;Yes&quot;, &quot;No&quot;}."/>
         <FIELD NAME="boat_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student allowed in a boat? {&quot;Yes&quot;, &quot;No&quot;}."/>
