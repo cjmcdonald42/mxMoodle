@@ -33,7 +33,7 @@ require_capability('local/signout:manage_on_campus', context_system::instance())
 
 $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm();
-$filter->location = optional_param('location', '', PARAM_RAW);
+$filter->location = optional_param('location', 0, PARAM_INT);
 $filter->date = get_param_current_date_on_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
@@ -47,7 +47,7 @@ if ($refresh) {
 }
 
 $locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));
-if ($filter->location && !isset($locations[$filter->location])) {
+if ($filter->location && !isset($locations[$filter->location])) { // Invalid location.
     unset($filter->location);
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }

@@ -275,7 +275,7 @@ function get_off_campus_type_list($userid = 0) {
         $where[] = "t.grade <= {$permissions->grade}";
         $where[] = "(t.boarding_status = '{$permissions->boardingstatus}' OR t.boarding_status = 'All')";
     }
-    if (!date_is_in_weekend()) {
+    if ($userid && !date_is_in_weekend()) {
         $where[] = "t.weekend_only = 0";
     }
     $wherestring = implode(' AND ', $where);
@@ -424,7 +424,7 @@ function get_edit_cutoff($timecreated) {
  *
  * The priorities of this function are as follows:
  * 1) The student's most recent on-campus record from today which has not been signed in, if on-campus signout is enabled.
- * 2) The student's least recent off-campus record from today which has not been signed in, if off-campus signout is enabled.
+ * 2) The student's most recent off-campus record from today which has not been signed in, if off-campus signout is enabled.
  * If neither of these options exist, a value of false will be returned.
  *
  * NOTE: It should not be possible for a student to have an off-campus record and another signout record active simultaneously,
@@ -462,7 +462,7 @@ function get_user_current_signout() {
              FROM {local_signout_off_campus} oc LEFT JOIN {local_signout_type} t ON oc.typeid = t.id
              WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0 AND (oc.typeid = -1 OR t.deleted = 0)
                                  AND oc.time_created > ?
-             ORDER BY oc.time_created", array($USER->id, $today), IGNORE_MULTIPLE
+             ORDER BY oc.time_created DESC", array($USER->id, $today), IGNORE_MULTIPLE
         );
         if ($record) {
             $result->id = $record->id;
@@ -481,7 +481,7 @@ function get_user_current_signout() {
  *
  * The function will sign in one of the following options:
  * 1) All of the student's on-campus records which have not been signed in, if the student may access on-campus signout.
- * 2) The student's least recent off-campus record which has not been signed in, if the student may access off-campus signout.
+ * 2) All of the student's off-campus records which have not been signed in, if the student may access off-campus signout.
  * If neither of these options exist, a value of false will be returned.
  *
  * NOTE: It should not be possible for a student to have an off-campus record and another signout record active simultaneously,
@@ -524,7 +524,7 @@ function sign_in_user() {
             $records = $DB->get_records('local_signout_off_campus', array(
                 'userid' => $USER->id, 'sign_in_time' => null, 'deleted' => 0
             ));
-            if (!$record) {
+            if (!$records) {
                 return get_string('sign_in_button:error:invalidrecord', 'local_signout');
             }
             foreach ($records as $record) {

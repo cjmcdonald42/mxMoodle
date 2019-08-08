@@ -32,7 +32,8 @@ require_login();
 require_capability('local/signout:manage_off_campus', context_system::instance());
 
 $filter = new stdClass();
-$filter->type = optional_param('type', '', PARAM_RAW);
+$filter->dorm = get_param_faculty_dorm();
+$filter->type = optional_param('type', 0, PARAM_INT);
 $filter->date = get_param_current_date_off_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
@@ -40,14 +41,8 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('report', 'off_campus', 'signout');
 
-$types = array(
-    'Driver' => get_string('off_campus_report_select_type_driver', 'local_signout'),
-    'Passenger' => get_string('off_campus_report_select_type_passenger', 'local_signout'),
-    'Parent' => get_string('off_campus_report_select_type_parent', 'local_signout'),
-    'Rideshare' => get_string('off_campus_report_select_type_rideshare', 'local_signout'),
-    'Other' => get_string('off_campus_report_select_type_other', 'local_signout')
-);
-if ($filter->type && !isset($types[$filter->type])) {
+$types = get_off_campus_type_list() + array(-1 => get_string('off_campus_report_select_type_other', 'local_signout'));
+if ($filter->type && !isset($types[$filter->type])) { // Invalid type.
     unset($filter->type);
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
@@ -67,6 +62,7 @@ $dates = get_off_campus_date_list();
 
 $table = new local_signout\local\off_campus\table($filter);
 $dropdowns = array(
+    local_mxschool\output\dropdown::dorm_dropdown($filter->dorm),
     new local_mxschool\output\dropdown(
         'type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')
     ),

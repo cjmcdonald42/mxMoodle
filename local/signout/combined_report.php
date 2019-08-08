@@ -59,7 +59,7 @@ if ($action === 'delete' && $id && $table) {
     $record = $DB->get_record("local_signout_{$table}", array('id' => $id));
     if ($record) {
         $record->deleted = 1;
-        $DB->update_record('local_signout_on_campus', $record);
+        $DB->update_record("local_signout_{$table}", $record);
         logged_redirect($redirect, get_string("{$table}_delete_success", 'local_signout'), 'delete');
     } else {
         logged_redirect($redirect, get_string("{$table}_delete_failure", 'local_signout'), 'delete', false);

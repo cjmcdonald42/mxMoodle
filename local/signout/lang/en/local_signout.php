@@ -284,15 +284,12 @@ $string['off_campus_delete_failure'] = 'Off-Campus Signout Record Not Found for 
 
 // Off-Campus Signout Report.
 $string['off_campus_report_select_type_all'] = 'All Types';
-$string['off_campus_report_select_type_driver'] = 'Driver';
-$string['off_campus_report_select_type_passenger'] = 'Passenger';
-$string['off_campus_report_select_type_parent'] = 'Parent';
-$string['off_campus_report_select_type_rideshare'] = 'Rideshare';
 $string['off_campus_report_select_type_other'] = 'Other';
 $string['off_campus_report_select_date_all'] = 'All Dates';
 $string['off_campus_report_add'] = 'New Off-Campus Signout Record';
 $string['off_campus_report_header_student'] = 'Student';
 $string['off_campus_report_header_grade'] = 'Grade';
+$string['off_campus_report_header_dorm'] = 'Dorm';
 $string['off_campus_report_header_type'] = 'Type';
 $string['off_campus_report_header_driver'] = 'Driver';
 $string['off_campus_report_header_passengers'] = 'Passengers';
