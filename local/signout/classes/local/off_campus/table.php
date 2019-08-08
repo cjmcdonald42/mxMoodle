@@ -49,11 +49,11 @@ class table extends \local_mxschool\table {
             unset($columns[array_search('type', $columns)]);
         }
         $permissions = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $filter->type));
-        if (($filter->type && !$permissions) || $permissions !== 'driver') {
+        if ((!$permissions && $filter->type) || ($permissions && $permissions !== 'driver')) {
             unset($columns[array_search('passengers', $columns)]);
             unset($columns[array_search('passengercount', $columns)]);
         }
-        if (($filter->type && !$permissions) || $permissions !== 'passenger') {
+        if ((!$permissions && $filter->type) || ($permissions && $permissions !== 'passenger')) {
             unset($columns[array_search('driver', $columns)]);
         }
         if (!$permissions) {

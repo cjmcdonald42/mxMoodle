@@ -48,19 +48,19 @@ function xmldb_local_signout_install() {
     set_config('off_campus_form_ipenabled', '1', 'local_signout');
     set_config('off_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
     set_config('off_campus_signin_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
-    set_config('off_campus_form_instructions_passenger', 'Your driver must have submitted a form to be in the list below.', 'local_signout');
+    set_config('off_campus_form_instructions_passenger', 'Your driver must have submitted a form and selected you as a passenger to appear in the list below.', 'local_signout');
     set_config('off_campus_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_signout');
     set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
-    set_config('off_campus_form_warning_driver_nopassengers', 'Your permissions indicate that you may not drive passengers.', 'local_signout');
-    set_config('off_campus_form_warning_passenger_parent', 'Your permissions indicate that you need a call from your parent to be the passenger of another student.', 'local_signout');
-    set_config('off_campus_form_warning_passenger_specific', 'Your permissions indicate that you may only be the passenger of the following drivers: ', 'local_signout');
-    set_config('off_campus_form_warning_passenger_over21', 'Your permissions indicate that you are not allowed to be the passenger of a driver who is under 21.', 'local_signout');
+    set_config('off_campus_form_warning_driver_nopassengers', 'Your permissions indicate that you may not drive other student.', 'local_signout');
+    set_config('off_campus_form_warning_passenger_parent', 'Your permissions indicate that you need a call from your parent to ride with another student.', 'local_signout');
+    set_config('off_campus_form_warning_passenger_specific', 'Your permissions indicate that you may only ride with the following drivers:', 'local_signout');
+    set_config('off_campus_form_warning_passenger_over21', 'Your permissions indicate that you are not allowed to ride with a driver who is under 21.', 'local_signout');
     set_config('off_campus_form_warning_rideshare_parent', 'Your permissions indicate that you need a call from your parent to use a car service.', 'local_signout');
     set_config('off_campus_form_warning_rideshare_notallowed', 'Your permissions indicate that you are not allowed to use a car service.', 'local_signout');
     set_config('off_campus_notification_warning_driver_nopassengers', 'This student does NOT have permission to drive other students.', 'local_signout');
-    set_config('off_campus_notification_warning_passenger_parent', 'This student requires parent permission to be the passenger of another student.', 'local_signout');
-    set_config('off_campus_notification_warning_passenger_specific', 'This student only has permission to the be the passenger of the following drivers: ', 'local_signout');
-    set_config('off_campus_notification_warning_passenger_over21', 'This student does NOT have permission to be the passenger of anyone under 21.', 'local_signout');
+    set_config('off_campus_notification_warning_passenger_parent', 'This student requires parent permission to ride with another student.', 'local_signout');
+    set_config('off_campus_notification_warning_passenger_specific', 'This student only has permission to ride with of the following drivers:', 'local_signout');
+    set_config('off_campus_notification_warning_passenger_over21', 'This student does NOT have permission to ride with anyone under 21.', 'local_signout');
     set_config('off_campus_notification_warning_rideshare_parent', 'This student requires parent permission to use a car service.', 'local_signout');
     set_config('off_campus_notification_warning_rideshare_notallowed', 'This student does NOT have permission to use a car service.', 'local_signout');
     set_config('off_campus_notification_warning_irregular', '[Irregular] ', 'local_signout');
@@ -99,13 +99,13 @@ function xmldb_local_signout_install() {
 
     $types = array(
         array('required_permissions' => 'driver', 'name' => 'Driving', 'grade' => 11, 'boarding_status' => 'Day'),
-        array('required_permissions' => 'passenger', 'name' => 'Riding with another Student', 'grade' => 11),
+        array('required_permissions' => 'passenger', 'name' => 'Riding with Another Student', 'grade' => 11),
         array('required_permissions' => 'rideshare', 'name' => 'Car Service'),
-        array('name' => 'Riding with Your Parent', 'form_warning' => 'You need face-to-face permission from a one of your dorm faculty, or your parents need to have called the permissions line.'),
+        array('name' => 'Riding with Your Parent', 'form_warning' => 'You need face-to-face permission from one of your dorm faculty, or your parents need to have called the permissions line.'),
         array('name' => 'Town Shuttle'),
         array('name' => 'Weekend Activity', 'weekend_only' => 1),
-        array('name' => 'Weekend Signout', 'boarding_status' => 'Boarder', 'weekend_only' => 1, 'form_warning' => 'You need to have an approved weekend form on file for this weekend.'),
-        array('name' => 'Vacation Signout', 'boarding_status' => 'Boarder', 'enabled' => 0, 'form_warning' => 'You need to have a vacation travel form on file.'),
+        array('name' => 'Weekend Signout', 'boarding_status' => 'Boarder', 'weekend_only' => 1, 'form_warning' => 'You need to have an approved weekend form for this weekend on file.'),
+        array('name' => 'Vacation Signout', 'boarding_status' => 'Boarder', 'enabled' => 0, 'form_warning' => 'You need to have a vacation travel form on file.')
     );
     foreach ($types as $type) {
         $DB->insert_record('local_signout_type', (object) $type);
