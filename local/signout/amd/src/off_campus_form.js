@@ -27,6 +27,14 @@
 
 define(
     ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
+        function addClasses() {
+            $('.mx-form select#id_passengers').parent().parent().next().children().eq(1).children().eq(0).addClass('text-info');
+            $('.mx-form select#id_driver').parent().parent().prev().children().eq(1).children().eq(0).addClass('text-info');
+            var permissionsContainer = $('.mx-form fieldset#id_permissions').children().eq(1);
+            permissionsContainer.children().eq(0).children().eq(1).children().eq(0).addClass('text-warning');
+            permissionsContainer.children().eq(1).children().eq(1).children().eq(0).addClass('text-warning');
+            permissionsContainer.children().eq(2).children().eq(1).children().eq(0).addClass('text-warning');
+        }
         function updateStudentOptions() {
             var promises = ajax.call([{
                 methodname: 'local_signout_get_off_campus_student_options',
@@ -150,6 +158,7 @@ define(
         return {
             setup: function() {
                 $(document).ready(function() {
+                    addClasses();
                     updateStudentOptions();
                     updateDriverDetails();
                 });
