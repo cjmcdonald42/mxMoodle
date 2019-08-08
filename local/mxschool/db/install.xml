@@ -166,7 +166,7 @@
         <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The student's cell phone number."/>
         <FIELD NAME="birthday" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's birthdate in the format &quot;mm/dd&quot;."/>
-        <FIELD NAME="picture_filename" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The filename of the student's directory picture - a value of NULL indicates that the student's picture is not available."/>
+        <FIELD NAME="picture_filename" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The filename of the student's directory picture — a value of NULL indicates that the student's picture is not available."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -179,8 +179,8 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="package" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="mxschool" SEQUENCE="false" COMMENT="The package that the subpackage belongs to without the local prefix."/>
-        <FIELD NAME="subpackage" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The name of the subpackage - a value of NULL indicates that the subpackage is at the package level."/>
-        <FIELD NAME="pages" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted array of unlocalized page names which must correspond to the names of php files in the subpackage directory - a value of NULL indicates that the subpackage defines no pages."/>
+        <FIELD NAME="subpackage" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The name of the subpackage — a value of NULL indicates that the subpackage is at the package level."/>
+        <FIELD NAME="pages" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted array of unlocalized page names which must correspond to the names of php files in the subpackage directory — a value of NULL indicates that the subpackage defines no pages."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -209,8 +209,8 @@
         <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the site. {&quot;Plane&quot;, &quot;Train&quot;, &quot;Bus&quot;, &quot;NYC Direct&quot;}"/>
         <FIELD NAME="enabled_departure" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for departure transportation."/>
         <FIELD NAME="enabled_return" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the site is enabled for return transportation."/>
-        <FIELD NAME="default_departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for departure transportation to the site - a value of NULL indicates that there is no default."/>
-        <FIELD NAME="default_return_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for return transportation from the site - a value of NULL indicates that there is no default."/>
+        <FIELD NAME="default_departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for departure transportation to the site — a value of NULL indicates that there is no default."/>
+        <FIELD NAME="default_return_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for the default time for return transportation from the site — a value of NULL indicates that there is no default."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -221,7 +221,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="mx_transportation" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be using Middlesex transportation."/>
         <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of transportation {&quot;Car&quot;, &quot;Plane&quot;, &quot;Bus&quot;, &quot;Train&quot;, &quot;NYC Direct&quot;, &quot;Non-MX Bus&quot;}."/>
-        <FIELD NAME="siteid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the site which the student is traveling to or from - 0 indicates an 'other' option - a value of NULL indicates an unspecified site."/>
+        <FIELD NAME="siteid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the site which the student is traveling to or from - 0 indicates an 'other' option — a value of NULL indicates an unspecified site."/>
         <FIELD NAME="details" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text to provide more information for the student's travel"/>
         <FIELD NAME="carrier" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The carrier or company for the transportation."/>
         <FIELD NAME="transportation_number" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The flight, train, or bus number of the transportation."/>
@@ -238,7 +238,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
         <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the departure record associated with the record - 0 indicates no departure record."/>
-        <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the return record associated with the record - a value of NULL indicates no return record."/>
+        <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the return record associated with the record — a value of NULL indicates no return record."/>
         <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>

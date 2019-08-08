@@ -11,9 +11,9 @@
         <FIELD NAME="name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the on-campus location."/>
         <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="9" SEQUENCE="false" COMMENT="The minimum grade of a student who is permitted to sign out to the on-campus location."/>
         <FIELD NAME="enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the on-campus location is available for sign-out."/>
-        <FIELD NAME="start_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the on-campus location should first be available - a value of NULL indicates that the location should always be available."/>
-        <FIELD NAME="end_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the on-campus location should stop being available - a value of NULL indicates that the location should always be available."/>
-        <FIELD NAME="warning" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A warning to display to a student about to sign out to the on-campus location - a value of NULL indicates that the location has no special warning."/>
+        <FIELD NAME="start_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the on-campus location should first be available — a value of NULL indicates that the location should always be available."/>
+        <FIELD NAME="end_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the on-campus location should stop being available — a value of NULL indicates that the location should always be available."/>
+        <FIELD NAME="warning" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A warning to display to a student about to sign out to the on-campus location — a value of NULL indicates that the location has no special warning."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -23,34 +23,36 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
-        <FIELD NAME="driverid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The off-campus signout id of driver record associated with the record - an equal id value and driverid value indicate that the record is a driver record."/>
-        <FIELD NAME="approverid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the record."/>
+        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the off-campus signout type associated with the record — a value of -1 indicates that the 'other' option was selected."/>
+        <FIELD NAME="driverid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The off-campus signout id of the driver record associated with the record - a value of NULL indicates that this record is not associated with a separate driver record."/>
+        <FIELD NAME="approverid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the record — a value of NULL indicates that the record has no approver."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the off-campus signout record has been deleted and shouldn't be displayed."/>
-        <FIELD NAME="type" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The type of the off-campus signout record. {&quot;Driver&quot;, &quot;Passenger&quot;, &quot;Parent&quot;, &quot;Rideshare&quot;, entered string}"/>
-        <FIELD NAME="passengers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted array of passengers for a driver record - a value of NULL indicates that the record is not a driver."/>
-        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The student's destination - a value of NULL indicates a passenger inheriting the value from the driver."/>
-        <FIELD NAME="departure_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for departure date and time - a value of NULL indicates a passenger inheriting the value from the driver."/>
-        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signed in - a value of NULL indicates that the student has not signed in."/>
+        <FIELD NAME="other" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text as an 'other' option for the type of the off-campus signout — a value of NULL indicates that the 'other' option was not selected."/>
+        <FIELD NAME="passengers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON-formatted array of passengers for a driver record — a value of NULL indicates that the record is not a driver."/>
+        <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
+        <FIELD NAME="departure_time" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for the student's departure date and time."/>
+        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signed in — a value of NULL indicates that the student has not signed in."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
         <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
-        <KEY NAME="driver" TYPE="foreign" FIELDS="driverid" REFTABLE="local_signout_offcampus" REFFIELDS="id" COMMENT="The off-campus signout record of the driver associated with the record."/>
-        <KEY NAME="approver" TYPE="foreign" FIELDS="approverid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved the record."/>
+        <KEY NAME="type" TYPE="foreign" FIELDS="typeid" REFTABLE="local_signout_type" REFFIELDS="id" COMMENT="The off-campus signout type record associated with the record."/>
+        <KEY NAME="driver" TYPE="foreign" FIELDS="driverid" REFTABLE="local_signout_off_campus" REFFIELDS="id" COMMENT="The off-campus signout record of the driver associated with the record."/>
+        <KEY NAME="approver" TYPE="foreign" FIELDS="approverid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the faculty who approved the record, if it exists."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_signout_on_campus" COMMENT="mxschool on-campus signout table - stores the data from on-campus signout forms.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
-        <FIELD NAME="locationid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the location associated with the record - a value of -1 indicates that the 'other' option was slected."/>
-        <FIELD NAME="confirmerid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user id of the duty-person who has confirmed the record - a value of NULL indicates that the record has not been confirmed."/>
+        <FIELD NAME="locationid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the on-campus location associated with the record — a value of -1 indicates that the 'other' option was selected."/>
+        <FIELD NAME="confirmerid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user id of the duty-person who has confirmed the record — a value of NULL indicates that the record has not been confirmed."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the on-campus signout record has been deleted and shouldn't be displayed."/>
-        <FIELD NAME="other" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text as an 'other' option for the location of the on-campus signout - a value of NULL indicates that the 'other' option was not selected."/>
-        <FIELD NAME="confirmation_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when a duty-person confirmed the record - a value of NULL indicates that the duty-person has not confirmed the record."/>
-        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signed in - a value of NULL indicates that the student has not signed in."/>
+        <FIELD NAME="other" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text as an 'other' option for the location of the on-campus signout — a value of NULL indicates that the 'other' option was not selected."/>
+        <FIELD NAME="confirmation_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when a duty-person confirmed the record — a value of NULL indicates that the duty-person has not confirmed the record."/>
+        <FIELD NAME="sign_in_time" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp for when the student signed in — a value of NULL indicates that the student has not signed in."/>
         <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was first created."/>
         <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp for when the record was last modified."/>
       </FIELDS>
@@ -65,16 +67,16 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the off-campus signout type has been deleted and shouldn't be displayed."/>
-        <FIELD NAME="required_permissions" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="What permissions are required for the off-campus signout type {&quot;driver&quot;, &quot;passenger&quot;, &quot;rideshare&quot;} - a value of NULL indicates that no permissions are required"/>
+        <FIELD NAME="required_permissions" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="What permissions are required for the off-campus signout type {&quot;driver&quot;, &quot;passenger&quot;, &quot;rideshare&quot;} — a value of NULL indicates that no permissions are required"/>
         <FIELD NAME="name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the off-campus signout type."/>
         <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="9" SEQUENCE="false" COMMENT="The minimum grade of a student for the off-campus signout type to be available."/>
         <FIELD NAME="boarding_status" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="All" SEQUENCE="false" COMMENT="The boarding status that is required for the off-campus signout type to be available {&quot;Boarder&quot;, &quot;Day&quot;, &quot;All&quot;}."/>
         <FIELD NAME="weekend_only" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the option should only be displayed on a registered weekend."/>
         <FIELD NAME="enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the off-campus signout type is available for sign-out."/>
-        <FIELD NAME="start_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the off-campus signout type should first be available - a value of NULL indicates that the type should always be available."/>
-        <FIELD NAME="end_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the off-campus signout type should stop being available - a value of NULL indicates that the type should always be available."/>
-        <FIELD NAME="form_warning" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A warning to display to a student about to sign out with the off-campus signout type - a value of NULL indicates that the type has no special warning. Types which reference permissions will ignore this field."/>
-        <FIELD NAME="email_warning" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A warning to include in the email confirmation after a student signs out with the off-campus signout type - a value of NULL indicates that the type has no special warning and the default warning should be used. Types which reference student permissions will ignore this field."/>
+        <FIELD NAME="start_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the off-campus signout type should first be available — a value of NULL indicates that the type should always be available."/>
+        <FIELD NAME="end_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the off-campus signout type should stop being available — a value of NULL indicates that the type should always be available."/>
+        <FIELD NAME="form_warning" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A warning to display to a student about to sign out with the off-campus signout type — a value of NULL indicates that the type has no special warning. Types which reference permissions will ignore this field."/>
+        <FIELD NAME="email_warning" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A warning to include in the email confirmation after a student signs out with the off-campus signout type — a value of NULL indicates that the type has no special warning and the default warning should be used. Types which reference student permissions will ignore this field."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

@@ -67,11 +67,9 @@ if ($action === 'delete' && $id && $table) {
 }
 
 $data = new stdClass();
-$notification = $DB->get_record('local_mxschool_notification', array('class' => 'peer_tutor_summary'));
-if ($notification) {
-    $data->subject = $notification->subject;
-    $data->body['text'] = $notification->body_html;
-}
+$notification = get_notification('peer_tutor_summary');
+$data->subject = $notification->subject;
+$data->body['text'] = $notification->body_html;
 
 $form = new local_peertutoring\local\preferences_form();
 $form->set_data($data);

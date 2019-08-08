@@ -61,7 +61,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    if (empty($data->permissions)) {
+    if (!$data->permissions) {
         unset($data->permissions);
     }
     if (!$data->start) {

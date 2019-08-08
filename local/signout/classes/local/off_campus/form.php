@@ -56,13 +56,13 @@ class form extends \local_mxschool\form {
             'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'type' => array('element' => 'group', 'children' => array(
-                    'select' => array('element' => 'radio', 'options' => $types),
+                    'select' => array('element' => 'select', 'options' => $types),
                     'other' => self::ELEMENT_TEXT
                 )),
                 'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
                 ),
-                'passengerswarning' => array('element' => 'static', 'name' => 'passengers'),
+                'driverwarning' => array('element' => 'static', 'name' => 'passengers'),
                 'instructions' => array('element' => 'static', 'name' => null),
                 'driver' => array('element' => 'select', 'options' => $drivers)
             ),
@@ -72,8 +72,8 @@ class form extends \local_mxschool\form {
                 'approver' => array('element' => 'select', 'options' => $approvers)
             ),
             'permissions' => array(
-                'parentwarning' => array('element' => 'static', 'name' => null),
-                'specificwarning' => array('element' => 'static', 'name' => null),
+                'passengerwarning' => array('element' => 'static', 'name' => null),
+                'ridesharewarning' => array('element' => 'static', 'name' => null),
                 'permissionssubmitbuttons' => array(
                     'element' => 'group', 'displayname' => get_config('local_signout', 'off_campus_form_confirmation'),
                     'children' => array(
@@ -88,6 +88,7 @@ class form extends \local_mxschool\form {
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
+        $mform->hideIf('type_other', 'type_select', 'neq', '-1');
         $mform->disabledIf('type', 'id', 'neq', '0');
     }
 
@@ -101,20 +102,17 @@ class form extends \local_mxschool\form {
     public function validation($data, $files) {
         global $DB;
         $errors = parent::validation($data, $files);
-        if (!isset($data['type_select'])) {
+        if (!$data['type_select'] || ($data['type_select'] === '-1' && empty($data['type_other']))) {
             $errors['type'] = get_string('off_campus_form_error_notype', 'local_signout');
-        } else {
-            if ($data['type_select'] === 'Other' && empty($data['type_other'])) {
-                $errors['type'] = get_string('off_campus_form_error_notype', 'local_signout');
-            }
-            if ($data['type_select'] === 'Passenger' && !$data['driver']) {
-                $errors['driver'] = get_string('off_campus_form_error_nodriver', 'local_signout');
-            }
-            if ($data['type_select'] !== 'Passenger' && empty($data['destination'])) {
-                $errors['destination'] = get_string('off_campus_form_error_nodestination', 'local_signout');
-            }
         }
-        if (!$data['approver']) {
+        if (empty($data['destination'])) {
+            $errors['destination'] = get_string('off_campus_form_error_nodestination', 'local_signout');
+        }
+        $permissions = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $data['type_select']));
+        if ($permissions === 'passenger' && !$data['driver']) {
+            $errors['driver'] = get_string('off_campus_form_error_nodriver', 'local_signout');
+        }
+        if ($permissions || $data['type_select'] === '-1') {
             $errors['approver'] = get_string('off_campus_form_error_noapprover', 'local_signout');
         }
         return $errors;

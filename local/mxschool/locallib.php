@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local functions for Middlesex's Dorm and Student Functions Plugin.
+ * Local library functions for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -732,6 +732,41 @@ function get_param_current_weekend() {
         return $weekend;
     }
     throw new moodle_exception('there are no valid weekend records in the database');
+}
+
+/**
+ * Queries the database to determine whether a date occurs within a valid weekend.
+ *
+ * @param string|int $date A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ *                         or a timestamp.
+ * @return bool Whther the timestamp is between the start and end times of a weekend in the database.
+ */
+function date_is_in_weekend($date = 'now') {
+    global $DB;
+    $timestamp = generate_datetime($time)->getTimestamp();
+    $starttime = get_config('local_mxschool', 'dorms_open_date');
+    $endtime = get_config('local_mxschool', 'dorms_close_date');
+    if ($timestamp < $starttime || $timestamp >= $endtime) { // No need to query if we are outside the range of weekends.
+        return false;
+    }
+    $weekends = $DB->get_records_sql(
+        "SELECT sunday_time AS sunday, start_offset AS startoffset, end_offset AS endoffset
+         FROM {local_mxschool_weekend}
+         WHERE sunday_time >= ? AND sunday_time < ?", array($starttime, $endtime)
+    );
+    if ($weekends) {
+        foreach ($weekends as $weekend) {
+            $start = generate_datetime($weekend->sunday);
+            $start->modify("{$weekend->startoffset} days");
+            $endoffset = $weekend->endoffset + 1; // Add an additional day to get to the end of the weekend.
+            $end = generate_datetime($weekend->sunday);
+            $end->modify("{$endoffset} days");
+            if ($timestamp >= $start->getTimestamp() && $timestamp < $end->getTimestamp()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 /**
