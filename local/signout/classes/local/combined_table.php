@@ -93,7 +93,7 @@ class combined_table extends \local_mxschool\table {
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
         }
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'offc.destination');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'onc.other', 'offc.destination');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
