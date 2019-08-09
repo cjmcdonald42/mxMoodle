@@ -35,18 +35,26 @@ class location_table extends \local_mxschool\table {
      * Creates a new location_table.
      */
     public function __construct() {
-        $columns = array('name', 'grade', 'enabled', 'start', 'end', 'warning');
+        $columns = array('name', 'grade', 'allday', 'enabled', 'start', 'end', 'warning');
         $headers = $this->generate_headers($columns, 'on_campus_location_report', 'local_signout');
-        $sortable = array('name', 'grade', 'enabled', 'start', 'end');
-        $centered = array('grade', 'enabled', 'start', 'end');
+        $sortable = array('name', 'grade', 'allday', 'enabled', 'start', 'end');
+        $centered = array('grade', 'allday', 'enabled', 'start', 'end');
         parent::__construct('location_table', $columns, $headers, $sortable, $centered);
 
         $fields = array(
-            'l.id', 'l.name', 'l.grade', 'l.enabled', 'l.start_date AS start', 'l.end_date AS end', 'l.warning AS warning'
+            'l.id', 'l.name', 'l.grade', 'l.all_day AS allday', 'l.enabled', 'l.start_date AS start', 'l.end_date AS end',
+            'l.warning AS warning'
         );
         $from = array('{local_signout_location} l');
         $where = array('l.deleted = 0');
         $this->define_sql($fields, $from, $where);
+    }
+
+    /**
+     * Formats the allday column.
+     */
+    protected function col_allday($values) {
+        return format_boolean($values->allday);
     }
 
     /**

@@ -55,10 +55,7 @@ class selection_button extends button {
      */
     public function export_for_template(\renderer_base $output) {
         $data = parent::export_for_template($output);
-        $value = new \stdClass();
-        $value->student = $this->student;
-        $value->choice = $this->option;
-        $data->value = json_encode($value);
+        $data->value = json_encode(array('student' => $this->student, 'choice' => $this->option));
         return $data;
     }
 

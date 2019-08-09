@@ -90,12 +90,7 @@ function get_eligible_unassigned_student_list() {
  */
 function get_department_list() {
     global $DB;
-    $departments = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_peertutoring_dept}
-         WHERE deleted = 0
-         ORDER BY value"
-    );
+    $departments = $DB->get_records_select('local_peertutoring_dept', 'deleted = 0', null, 'value', 'id, name AS value');
     return convert_records_to_list($departments);
 }
 
@@ -114,11 +109,8 @@ function get_tutor_department_list($userid) {
             $where = implode(' OR ', array_map(function($departmentid) {
                 return "id = {$departmentid}";
             }, $approved));
-            $departments = $DB->get_records_sql(
-                "SELECT id, name AS value
-                 FROM {local_peertutoring_dept}
-                 WHERE deleted = 0 AND {$where}
-                 ORDER BY value"
+            $departments = $DB->get_records_select(
+                'local_peertutoring_dept', "deleted = 0 AND ({$where})", null, 'value', 'id, name AS value'
             );
             return convert_records_to_list($departments);
         }
@@ -133,12 +125,7 @@ function get_tutor_department_list($userid) {
  */
 function get_course_list() {
     global $DB;
-    $courses = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_peertutoring_course}
-         WHERE deleted = 0
-         ORDER BY value"
-    );
+    $courses = $DB->get_records_select('local_peertutoring_course', 'deleted = 0', null, 'value', 'id, name AS value');
     return convert_records_to_list($courses);
 }
 
@@ -150,12 +137,8 @@ function get_course_list() {
  */
 function get_department_course_list($departmentid) {
     global $DB;
-    $courses = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_peertutoring_course}
-         WHERE deleted = 0 AND departmentid = ?
-         ORDER BY value",
-        array($departmentid)
+    $courses = $DB->get_records_select(
+        'local_peertutoring_course', 'deleted = 0 AND departmentid = ?', array($departmentid), 'value', 'id, name AS value'
     );
     return convert_records_to_list($courses);
 }
@@ -167,12 +150,7 @@ function get_department_course_list($departmentid) {
  */
 function get_type_list() {
     global $DB;
-    $types = $DB->get_records_sql(
-        "SELECT id, displaytext AS value
-         FROM {local_peertutoring_type}
-         WHERE deleted = 0
-         ORDER BY value"
-    );
+    $types = $DB->get_records_select('local_peertutoring_type', 'deleted = 0', null, 'value', 'id, displaytext AS value');
     return convert_records_to_list($types);
 }
 
@@ -183,12 +161,7 @@ function get_type_list() {
  */
 function get_rating_list() {
     global $DB;
-    $ratings = $DB->get_records_sql(
-        "SELECT id, displaytext AS value
-         FROM {local_peertutoring_rating}
-         WHERE deleted = 0
-         ORDER BY value"
-    );
+    $ratings = $DB->get_records_select('local_peertutoring_rating', 'deleted = 0', null, 'value', 'id, displaytext AS value');
     return convert_records_to_list($ratings);
 }
 

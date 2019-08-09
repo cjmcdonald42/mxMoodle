@@ -80,7 +80,7 @@ function xmldb_local_signout_install() {
         array('name' => 'Health Center'),
         array('name' => 'Supervised Study Hall'),
         array('name' => 'Play Rehearsal / Tech'),
-        array('name' => 'Library', 'grade' => 11),
+        array('name' => 'Library', 'grade' => 11, 'all_day' => 1),
         array('name' => 'Terry Room', 'grade' => 11),
         array('name' => 'Tech Center', 'grade' => 11),
         array('name' => 'Rachel Carson Center', 'grade' => 11),

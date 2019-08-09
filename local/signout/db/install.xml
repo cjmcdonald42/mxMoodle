@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/signout/db" VERSION="20190807" COMMENT="XMLDB file for Moodle local/signout"
+<XMLDB PATH="local/signout/db" VERSION="20190809" COMMENT="XMLDB file for Moodle local/signout"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -10,6 +10,7 @@
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the on-campus location record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the on-campus location."/>
         <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="9" SEQUENCE="false" COMMENT="The minimum grade of a student who is permitted to sign out to the on-campus location."/>
+        <FIELD NAME="all_day" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the on-campus location is available for all day students, regardless of grade."/>
         <FIELD NAME="enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the on-campus location is available for sign-out."/>
         <FIELD NAME="start_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the on-campus location should first be available — a value of NULL indicates that the location should always be available."/>
         <FIELD NAME="end_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when the on-campus location should stop being available — a value of NULL indicates that the location should always be available."/>
@@ -24,7 +25,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
         <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the off-campus signout type associated with the record — a value of -1 indicates that the 'other' option was selected."/>
-        <FIELD NAME="driverid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The off-campus signout id of the driver record associated with the record - a value of NULL indicates that this record is not associated with a separate driver record."/>
+        <FIELD NAME="driverid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The off-campus signout id of the driver record associated with the record — a value of NULL indicates that this record is not associated with a separate driver record."/>
         <FIELD NAME="approverid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user id of the faculty granting permission for the record — a value of NULL indicates that the record has no approver."/>
         <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the off-campus signout record has been deleted and shouldn't be displayed."/>
         <FIELD NAME="other" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Text as an 'other' option for the type of the off-campus signout — a value of NULL indicates that the 'other' option was not selected."/>

@@ -58,10 +58,7 @@ class local_signout_external extends external_api {
 
         global $DB;
         $result = new stdClass();
-        $record = $DB->get_record(
-            'local_mxschool_student', array('userid' => $params['userid']), "grade, boarding_status = 'Day' AS isday"
-        );
-        $result->locations = convert_associative_to_object(get_on_campus_location_list($record->grade, $record->isday));
+        $result->locations = convert_associative_to_object(get_on_campus_location_list($params['userid']));
         if ($params['locationid'] === -1) {
             switch ($record->grade) {
                 case 9:
@@ -231,7 +228,7 @@ class local_signout_external extends external_api {
             'destination' => new external_value(PARAM_TEXT, 'the driver\'s destination'),
             'departurehour' => new external_value(PARAM_TEXT, 'the hour of the driver\'s departure time'),
             'departureminute' => new external_value(PARAM_TEXT, 'the minute of the driver\'s departure time'),
-            'departureampm' => new external_value(PARAM_BOOL, 'whether the driver\'s departure time is am (0) or pm (1)')
+            'departureampm' => new external_value(PARAM_TEXT, 'the AM/PM of the driver\'s departure time')
         ));
     }
 

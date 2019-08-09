@@ -51,27 +51,12 @@ if (!isset($types[$filter->type])) {
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 if ($filter->type === 'parents' && $action === 'delete' && $id) {
-    $record = $DB->get_record('local_mxschool_parent', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, (array) $filter);
-    if ($record) {
-        $record->deleted = 1;
-        if ($record->is_primary_parent) { // Each student must have a primary parent.
-            $record->is_primary_parent = false;
-            $newprimary = $DB->get_record_sql(
-                "SELECT id, is_primary_parent
-                 FROM {local_mxschool_parent}
-                 WHERE userid = ? AND id <> ? AND deleted = 0", array($record->userid, $record->id), IGNORE_MULTIPLE
-            );
-            if ($newprimary) {
-                $newprimary->is_primary_parent = true;
-                $DB->update_record('local_mxschool_parent', $newprimary);
-            }
-        }
-        $DB->update_record('local_mxschool_parent', $record);
-        logged_redirect($redirect, get_string('user_management_parent_delete_success', 'local_mxschool'), 'delete');
-    } else {
-        logged_redirect($redirect, get_string('user_management_parent_delete_failure', 'local_mxschool'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_mxschool_parent', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_mxschool_parent', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("user_management_parent_delete_{$result}", 'local_mxschool'),
+        'delete', $result === 'success'
+    );
 }
 
 $table = new local_mxschool\local\user_management\student_table($filter);

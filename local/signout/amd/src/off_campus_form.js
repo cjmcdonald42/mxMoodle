@@ -147,7 +147,7 @@ define(
                 $('.mx-form input#id_destination').val(data.destination);
                 $('.mx-form select#id_departure_time_hour').val(data.departurehour);
                 $('.mx-form select#id_departure_time_minute').val(data.departureminute);
-                $('.mx-form select#id_departure_time_ampm').val(data.departureampm ? 1 : 0);
+                $('.mx-form select#id_departure_time_ampm').val(data.departureampm === 'PM' ? 1 : 0);
             }).fail(function() {
                 $('.mx-form input#id_destination').val(function() {return this.defaultValue;});
                 $('.mx-form select#id_departure_time_hour > option').prop('selected', function() {return this.defaultSelected;});

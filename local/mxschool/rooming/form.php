@@ -40,12 +40,17 @@ setup_mxschool_page('form', 'rooming');
 $PAGE->requires->js_call_amd('local_mxschool/rooming_form', 'setup');
 
 
-$queryfields = array('local_mxschool_rooming' => array('abbreviation' => 'r', 'fields' => array(
-    'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
-    'dormmate3id' => 'dormmate3', 'dormmate4id' => 'dormmate4', 'dormmate5id' => 'dormmate5', 'dormmate6id' => 'dormmate6',
-    'has_lived_in_double' => 'liveddouble', 'preferred_roommateid' => 'roommate', 'time_created' => 'timecreated',
-    'time_modified' => 'timemodified'
-)));
+$queryfields = array(
+    'local_mxschool_rooming' => array(
+        'abbreviation' => 'r',
+        'fields' => array(
+            'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
+            'dormmate3id' => 'dormmate3', 'dormmate4id' => 'dormmate4', 'dormmate5id' => 'dormmate5', 'dormmate6id' => 'dormmate6',
+            'has_lived_in_double' => 'liveddouble', 'preferred_roommateid' => 'roommate', 'time_created' => 'timecreated',
+            'time_modified' => 'timemodified'
+        )
+    )
+);
 
 if ($isstudent && !student_may_access_rooming($USER->id)) {
     redirect_to_fallback();

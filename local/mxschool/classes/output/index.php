@@ -51,12 +51,12 @@ class index implements \renderable, \templatable {
      * @return stdClass Object with property links which is an array of stdClass with properties text and url.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
-        $data->heading = $this->heading;
-        $data->links = array_map(function($text, $url) {
-            return array('text' => $text, 'url' => (new \moodle_url($url))->out());
-        }, array_keys($this->links), $this->links);
-        return $data;
+        return (object) array(
+            'heading' => $this->heading,
+            'links' => array_map(function($text, $url) {
+                return array('text' => $text, 'url' => (new \moodle_url($url))->out());
+            }, array_keys($this->links), $this->links)
+        );
     }
 
 }

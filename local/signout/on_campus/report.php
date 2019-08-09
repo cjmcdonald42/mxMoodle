@@ -52,15 +52,12 @@ if ($filter->location && !isset($locations[$filter->location])) { // Invalid loc
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_signout_on_campus', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, (array) $filter);
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_signout_on_campus', $record);
-        logged_redirect($redirect, get_string('on_campus_delete_success', 'local_signout'), 'delete');
-    } else {
-        logged_redirect($redirect, get_string('on_campus_delete_failure', 'local_signout'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_signout_on_campus', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_signout_on_campus', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus_delete_{$result}", 'local_signout'), 'delete',
+        $result === 'success'
+    );
 }
 
 $dates = get_on_campus_date_list();

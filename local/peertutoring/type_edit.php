@@ -34,7 +34,12 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('type_edit', 'preferences', null, 'peertutoring');
 
-$queryfields = array('local_peertutoring_type' => array('abbreviation' => 't', 'fields' => array('id', 'displaytext')));
+$queryfields = array(
+    'local_peertutoring_type' => array(
+        'abbreviation' => 't',
+        'fields' => array('id', 'displaytext')
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_peertutoring_type', array('id' => $id, 'deleted' => 0))) {

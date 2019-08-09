@@ -35,9 +35,12 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_edit_page('tutor_edit', 'preferences', null, 'peertutoring');
 $PAGE->requires->js_call_amd('local_peertutoring/tutor_form', 'setup');
 
-$queryfields = array('local_peertutoring_tutor' => array('abbreviation' => 't', 'fields' => array(
-    'id', 'userid' => 'student', 'departments', 'deleted'
-)));
+$queryfields = array(
+    'local_peertutoring_tutor' => array(
+        'abbreviation' => 't',
+        'fields' => array('id', 'userid' => 'student', 'departments', 'deleted')
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_peertutoring_tutor', array('id' => $id, 'deleted' => 0))) {

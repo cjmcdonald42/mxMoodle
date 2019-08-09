@@ -56,7 +56,7 @@ class table extends \local_mxschool\table {
         if ((!$permissions && $filter->type) || ($permissions && $permissions !== 'passenger')) {
             unset($columns[array_search('driver', $columns)]);
         }
-        if (!$permissions) {
+        if ((!$permissions && $filter->type && $filter->type != -1)) {
             unset($columns[array_search('approver', $columns)]);
         }
         if ($filter->date) {

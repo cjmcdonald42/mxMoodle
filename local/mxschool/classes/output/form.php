@@ -55,13 +55,13 @@ class form implements \renderable, \templatable {
      * @return stdClass Object with properties form, topdescription, and bottomdescription.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
         ob_start();
         $this->form->display();
-        $data->form = ob_get_clean();
-        $data->topdescription = $this->topdescription;
-        $data->bottomdescription = $this->bottomdescription;
-        return $data;
+        return (object) array(
+            'form' => ob_get_clean(),
+            'topdescription' => $this->topdescription,
+            'bottomdescription' => $this->bottomdescription
+        );
     }
 
 }

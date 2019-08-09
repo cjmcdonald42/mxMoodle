@@ -41,11 +41,16 @@ if (!$isstudent || validate_ip_off_campus()) {
     $PAGE->requires->js_call_amd('local_signout/off_campus_form', 'setup');
 }
 
-$queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
-    'id', 'userid' => 'student', 'typeid' => 'type_select', 'other' => 'type_other', 'driverid' => 'driver',
-    'approverid' => 'approver', 'passengers', 'destination', 'departure_time' => 'departure_date', 'time_created' => 'timecreated',
-    'time_modified' => 'timemodified'
-)));
+$queryfields = array(
+    'local_signout_off_campus' => array(
+        'abbreviation' => 'oc',
+        'fields' => array(
+            'id', 'userid' => 'student', 'typeid' => 'type_select', 'other' => 'type_other', 'driverid' => 'driver',
+            'approverid' => 'approver', 'passengers', 'destination', 'departure_time' => 'departure_date',
+            'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+        )
+    )
+);
 
 if ($isstudent && !student_may_access_off_campus_signout($USER->id)) {
     redirect_to_fallback();

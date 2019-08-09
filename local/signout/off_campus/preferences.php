@@ -37,14 +37,12 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('preferences', 'off_campus', 'signout');
 
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_signout_type', array('id' => $id));
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_signout_type', $record);
-        logged_redirect($PAGE->url, get_string('off_campus_type_delete_success', 'local_signout'), 'delete');
-    } else {
-        logged_redirect($PAGE->url, get_string('off_campus_type_delete_failure', 'local_signout'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_signout_type', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_signout_type', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("off_campus_type_delete_{$result}", 'local_signout'), 'delete',
+        $result === 'success'
+    );
 }
 
 $data = new stdClass();
@@ -53,9 +51,7 @@ $data->tripwindow = get_config('local_signout', 'off_campus_trip_window');
 $data->enabled = get_config('local_signout', 'off_campus_form_enabled');
 $data->permissionsactive = get_config('local_signout', 'off_campus_form_permissions_active');
 $data->ipenabled = get_config('local_signout', 'off_campus_form_ipenabled');
-$notification = get_notification('off_campus_submitted');
-$data->subject = $notification->subject;
-$data->body['text'] = $notification->body_html;
+generate_email_preference_fields('off_campus_submitted', $data);
 $data->ipformerror['text'] = get_config('local_signout', 'off_campus_form_iperror');
 $data->ipsigninerror['text'] = get_config('local_signout', 'off_campus_signin_iperror');
 $data->passengerinstructions['text'] = get_config('local_signout', 'off_campus_form_instructions_passenger');
@@ -86,7 +82,7 @@ if ($form->is_cancelled()) {
     set_config('off_campus_form_enabled', $data->enabled, 'local_signout');
     set_config('off_campus_form_permissions_active', $data->permissionsactive, 'local_signout');
     set_config('off_campus_form_ipenabled', $data->ipenabled, 'local_signout');
-    update_notification('off_campus_submitted', $data->subject, $data->body);
+    update_notification('off_campus_submitted', $data);
     set_config('off_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
     set_config('off_campus_signin_iperror', $data->ipsigninerror['text'], 'local_signout');
     set_config('off_campus_form_instructions_passenger', $data->passengerinstructions['text'], 'local_signout');

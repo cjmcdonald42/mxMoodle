@@ -38,12 +38,9 @@ class daily_summary extends \local_peertutoring\notification {
         global $PAGE, $DB;
         parent::__construct('peer_tutor_summary');
 
-        $filter = new \stdClass();
-        $filter->tutor = 0;
-        $filter->department = 0;
-        $filter->type = 0;
-        $filter->date = generate_datetime('-1 day')->getTimestamp();
-        $filter->search = '';
+        $filter = (object) array(
+            'tutor' => 0, 'department' => 0, 'type' => 0, 'date' => generate_datetime('-1 day')->getTimestamp(), 'search' => ''
+        );
         $table = new table($filter, '', true);
 
         $this->data['total'] = $DB->count_records_select('local_peertutoring_session', "tutoring_date >= ?", array($filter->date));

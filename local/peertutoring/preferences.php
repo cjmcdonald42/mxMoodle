@@ -56,20 +56,16 @@ if ($action === 'delete' && $id && $table) {
         default: // Invalid table.
             redirect($PAGE->url);
     }
-    $record = $DB->get_record($dbtable, array('id' => $id));
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record($dbtable, $record);
-        logged_redirect($PAGE->url, get_string("{$table}_delete_success", 'local_peertutoring'), 'delete');
-    } else {
-        logged_redirect($PAGE->url, get_string("{$table}_delete_failure", 'local_peertutoring'), 'delete', false);
-    }
+    $result = $DB->record_exists($dbtable, array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field($dbtable, 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("{$table}_delete_{$result}", 'local_peertutoring'), 'delete',
+        $result === 'success'
+    );
 }
 
 $data = new stdClass();
-$notification = get_notification('peer_tutor_summary');
-$data->subject = $notification->subject;
-$data->body['text'] = $notification->body_html;
+generate_email_preference_fields('peer_tutor_summary', $data);
 
 $form = new local_peertutoring\local\preferences_form();
 $form->set_data($data);
@@ -77,7 +73,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    update_notification('peer_tutor_summary', $data->subject, $data->body);
+    update_notification('peer_tutor_summary', $data);
     logged_redirect(
         $form->get_redirect(), get_string('preferences_update_success', 'local_peertutoring'), 'update'
     );

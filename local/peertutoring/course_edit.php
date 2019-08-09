@@ -34,9 +34,11 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('course_edit', 'preferences', null, 'peertutoring');
 
-$queryfields = array('local_peertutoring_course' => array('abbreviation' => 'c', 'fields' => array(
-    'id', 'departmentid' => 'department', 'name'
-)));
+$queryfields = array(
+    'local_peertutoring_course' => array(
+        'abbreviation' => 'c', 'fields' => array('id', 'departmentid' => 'department', 'name')
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_peertutoring_course', array('id' => $id, 'deleted' => 0))) {

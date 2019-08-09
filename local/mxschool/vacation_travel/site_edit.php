@@ -35,10 +35,15 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('site_edit', 'preferences', 'vacation_travel');
 
-$queryfields = array('local_mxschool_vt_site' => array('abbreviation' => 's', 'fields' => array(
-    'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled',
-    'default_departure_time' => 'defaultdeparturetime', 'default_return_time' => 'defaultreturntime'
-)));
+$queryfields = array(
+    'local_mxschool_vt_site' => array(
+        'abbreviation' => 's',
+        'fields' => array(
+            'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled',
+            'default_departure_time' => 'defaultdeparturetime', 'default_return_time' => 'defaultreturntime'
+        )
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_vt_site', array('id' => $id, 'deleted' => 0))) {

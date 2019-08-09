@@ -35,11 +35,16 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('type_edit', 'preferences', 'off_campus', 'signout');
 
-$queryfields = array('local_signout_type' => array('abbreviation' => 't', 'fields' => array(
-    'id', 'required_permissions' => 'permissions', 'name', 'grade', 'boarding_status' => 'boardingstatus',
-    'weekend_only' => 'weekend', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'form_warning' => 'formwarning',
-    'email_warning' => 'emailwarning'
-)));
+$queryfields = array(
+    'local_signout_type' => array(
+        'abbreviation' => 't',
+        'fields' => array(
+            'id', 'required_permissions' => 'permissions', 'name', 'grade', 'boarding_status' => 'boardingstatus',
+            'weekend_only' => 'weekend', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'form_warning' => 'formwarning',
+            'email_warning' => 'emailwarning'
+        )
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_signout_type', array('id' => $id, 'deleted' => 0))) {

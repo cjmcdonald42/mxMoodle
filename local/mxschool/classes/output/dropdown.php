@@ -56,20 +56,20 @@ class dropdown implements \renderable, \templatable {
      * Exports this data so it can be used as the context for a mustache template.
      *
      * @param renderer_base $output The renderer which is rendering this renderable.
-     * @return stdClass Object with properties name, options, and selected.
+     * @return stdClass Object with properties name and options.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
-        $data->name = $this->name;
         $options = $this->default ? array('' => $this->default) + $this->options : $this->options;
-        $data->options = array_map(function($value, $text) {
-            $option = new \stdClass();
-            $option->value = $value;
-            $option->text = $text;
-            $option->selected = (string) $value === (string) $this->selected;
-            return $option;
-        }, array_keys($options), $options);
-        return $data;
+        return (object) array(
+            'name' => $this->name,
+            'options' => array_map(function($value, $text) {
+                return (object) array(
+                    'value' => $value,
+                    'text' => $text,
+                    'selected' => (string) $value === (string) $this->selected
+                );
+            }, array_keys($options), $options)
+        );
     }
 
     /**

@@ -57,10 +57,7 @@ class report implements \renderable, \templatable {
      * @return stdClass Object with properties filter and table.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
-        $data->filter = $output->render($this->filter);
-        $data->table = $output->render($this->table);
-        return $data;
+        return (object) array('filter' => $output->render($this->filter), 'table' => $output->render($this->table));
     }
 
 }

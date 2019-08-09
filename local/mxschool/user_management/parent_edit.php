@@ -35,10 +35,15 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('parent_edit', 'student_report', 'user_management');
 
-$queryfields = array('local_mxschool_parent' => array('abbreviation' => 'p', 'fields' => array(
-    'id', 'userid' => 'student', 'parent_name' => 'name', 'is_primary_parent' => 'isprimary', 'relationship',
-    'home_phone' => 'homephone', 'cell_phone' => 'cellphone', 'work_phone' => 'workphone', 'email'
-)));
+$queryfields = array(
+    'local_mxschool_parent' => array(
+        'abbreviation' => 'p',
+        'fields' => array(
+            'id', 'userid' => 'student', 'parent_name' => 'name', 'is_primary_parent' => 'isprimary', 'relationship',
+            'home_phone' => 'homephone', 'cell_phone' => 'cellphone', 'work_phone' => 'workphone', 'email'
+        )
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_parent', array('id' => $id, 'deleted' => 0))) {
@@ -48,6 +53,7 @@ if ($id) { // Updating an existing record.
 } else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
+    $data->isprimary = '-1'; // Invalid default to prevent auto selection.
 }
 $students = get_student_list();
 
@@ -57,18 +63,6 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $wasprimary = $DB->get_field('local_mxschool_parent', 'is_primary_parent', array('id' => $data->id)); // False if new record.
-    if ($wasprimary && !$data->isprimary) { // Primary --> not primary - each student should have exactly one primary parent.
-        $DB->set_field_select(
-            'local_mxschool_parent', 'is_primary_parent', 1, "userid = ? AND is_primary_parent = 0 AND id <> ? AND deleted = 0",
-            array($data->student, $data->id)
-        );
-    } else if (!$wasprimary && $data->isprimary) { // Not primary --> primary - Each student should have exactly one primary parent.
-        $DB->set_field_select(
-            'local_mxschool_parent', 'is_primary_parent', 0, "userid = ? AND is_primary_parent = 1 AND deleted = 0",
-            array($data->student)
-        );
-    }
     update_record($queryfields, $data);
     $action = $data->id ? 'update' : 'create';
     logged_redirect($form->get_redirect(), get_string("user_management_parent_{$action}_success", 'local_mxschool'), $action);

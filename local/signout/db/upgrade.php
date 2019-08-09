@@ -666,5 +666,22 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080809, 'local', 'signout');
     }
 
+    if ($oldversion < 2019080815) {
+
+        // Define field all_day to be added to local_signout_location.
+        $table = new xmldb_table('local_signout_location');
+        $field = new xmldb_field('all_day', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'grade');
+
+        // Conditionally launch add field all_day.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $DB->set_field('local_signout_location', 'all_day', 1, array('name' => 'Library'));
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080815, 'local', 'signout');
+    }
+
     return true;
 }

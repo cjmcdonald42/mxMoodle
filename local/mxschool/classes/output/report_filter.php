@@ -60,19 +60,19 @@ class report_filter implements \renderable, \templatable {
      */
     public function export_for_template(\renderer_base $output) {
         global $PAGE;
-        $data = new \stdClass();
-        $data->url = $PAGE->url;
-        $data->dropdowns = array_map(function($dropdown) use($output) {
-            return $output->render($dropdown);
-        }, $this->dropdowns);
-        $data->searchable = isset($this->search);
-        $data->search = $this->search;
-        $data->filterable = $data->searchable || count($data->dropdowns);
-        $data->buttons = array_map(function($button) use($output) {
-            return $output->render($button);
-        }, $this->buttons);
-        $data->printable = $this->printable;
-        return $data;
+        return (object) array(
+            'url' => $PAGE->url,
+            'dropdowns' => array_map(function($dropdown) use($output) {
+                return $output->render($dropdown);
+            }, $this->dropdowns),
+            'searchable' => isset($this->search),
+            'search' => $this->search,
+            'filterable' => isset($this->search) || count($data->dropdowns),
+            'buttons' => array_map(function($button) use($output) {
+                return $output->render($button);
+            }, $this->buttons),
+            'printable' => $this->printable
+        );
     }
 
 }

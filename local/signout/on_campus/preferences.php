@@ -37,14 +37,12 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('preferences', 'on_campus', 'signout');
 
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_signout_location', array('id' => $id));
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_signout_location', $record);
-        logged_redirect($PAGE->url, get_string('on_campus_location_delete_success', 'local_signout'), 'delete');
-    } else {
-        logged_redirect($PAGE->url, get_string('on_campus_location_delete_failure', 'local_signout'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_signout_location', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_signout_location', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus_location_delete_{$result}", 'local_signout'), 'delete',
+        $result === 'success'
+    );
 }
 
 $data = new stdClass();

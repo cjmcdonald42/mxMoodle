@@ -56,14 +56,9 @@ if ($action === 'delete' && $id && $table) {
     if (!in_array($table, array('on_campus', 'off_campus'))) { // Invalid table.
         redirect($redirect);
     }
-    $record = $DB->get_record("local_signout_{$table}", array('id' => $id));
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record("local_signout_{$table}", $record);
-        logged_redirect($redirect, get_string("{$table}_delete_success", 'local_signout'), 'delete');
-    } else {
-        logged_redirect($redirect, get_string("{$table}_delete_failure", 'local_signout'), 'delete', false);
-    }
+    $result = $DB->record_exists("local_signout_{$table}", array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field("local_signout_{$table}", 'deleted', 1, array('id' => $id));
+    logged_redirect($redirect, get_string("{$table}_delete_{$result}", 'local_signout'), 'delete', $result === 'success');
 }
 
 $table = new local_signout\local\combined_table($filter, $isproctor);

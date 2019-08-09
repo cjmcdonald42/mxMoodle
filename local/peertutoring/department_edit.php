@@ -34,7 +34,12 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('department_edit', 'preferences', null, 'peertutoring');
 
-$queryfields = array('local_peertutoring_dept' => array('abbreviation' => 'd', 'fields' => array('id', 'name')));
+$queryfields = array(
+    'local_peertutoring_dept' => array(
+        'abbreviation' => 'd',
+        'fields' => array('id', 'name')
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_peertutoring_dept', array('id' => $id, 'deleted' => 0))) {

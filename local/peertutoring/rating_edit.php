@@ -34,7 +34,12 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('rating_edit', 'preferences', null, 'peertutoring');
 
-$queryfields = array('local_peertutoring_rating' => array('abbreviation' => 'r', 'fields' => array('id', 'displaytext')));
+$queryfields = array(
+    'local_peertutoring_rating' => array(
+        'abbreviation' => 'r',
+        'fields' => array('id', 'displaytext')
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_peertutoring_rating', array('id' => $id, 'deleted' => 0))) {

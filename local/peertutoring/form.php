@@ -38,11 +38,16 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('form', null, 'peertutoring');
 $PAGE->requires->js_call_amd('local_peertutoring/form', 'setup');
 
-$queryfields = array('local_peertutoring_session' => array('abbreviation' => 's', 'fields' => array(
-    'id', 'tutorid' => 'tutor', 'tutoring_date' => 'tutoringdate', 'studentid' => 'student', 'courseid' => 'course', 'topic',
-    'typeid' => 'type_select', 'other' => 'type_other', 'ratingid' => 'rating', 'notes', 'time_created' => 'timecreated',
-    'time_modified' => 'timemodified'
-)));
+$queryfields = array(
+    'local_peertutoring_session' => array(
+        'abbreviation' => 's',
+        'fields' => array(
+            'id', 'tutorid' => 'tutor', 'tutoring_date' => 'tutoringdate', 'studentid' => 'student', 'courseid' => 'course',
+            'topic', 'typeid' => 'type_select', 'other' => 'type_other', 'ratingid' => 'rating', 'notes',
+            'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+        )
+    )
+);
 
 if ($isstudent && !student_may_access_tutoring($USER->id)) {
     redirect_to_fallback();

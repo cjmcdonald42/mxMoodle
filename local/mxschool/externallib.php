@@ -60,7 +60,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::set_boolean_field_parameters(), array(
             'table' => $table, 'field' => $field, 'id' => $id, 'value' => $value)
         );
-        switch ($params['table']) {
+        switch ($params['table']) { // HACK: These capabilities should really not be hardcoded because it is not expandable.
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
                 $page = get_string('checkin_weekend_report', 'local_mxschool');
@@ -126,7 +126,7 @@ class local_mxschool_external extends external_api {
         $params = self::validate_parameters(self::send_email_parameters(), array(
             'emailclass' => $emailclass, 'emailparams' => $emailparams
         ));
-        switch ($params['emailclass']) {
+        switch ($params['emailclass']) { // HACK: These capabilities should really not be hardcoded because it is not expandable.
             case 'weekend_form_approved':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
                 return (new local_mxschool\local\checkin\weekend_form_approved($params['emailparams']['id']))->send();
@@ -228,10 +228,9 @@ class local_mxschool_external extends external_api {
         $endbound = clone $startbound;
         $startbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
         $endbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
-        return $DB->get_field_sql(
-            "SELECT type
-             FROM {local_mxschool_weekend}
-             WHERE ? >= sunday_time AND ? < sunday_time", array($startbound->getTimestamp(), $endbound->getTimestamp())
+        return $DB->get_field_select(
+            'local_mxschool_weekend', 'type', '? >= sunday_time AND ? < sunday_time',
+            array($startbound->getTimestamp(), $endbound->getTimestamp())
         ) ?: '';
     }
 
@@ -448,6 +447,7 @@ class local_mxschool_external extends external_api {
             'departure' => $departure, 'return' => $return
         ));
 
+        global $DB;
         $result = new stdClass();
         $result->students = convert_associative_to_object(get_student_without_vacation_travel_form_list());
         $result->departure = new stdClass();
@@ -456,14 +456,30 @@ class local_mxschool_external extends external_api {
         $result->departure->sites = array_map(function($id) {
             return (string) $id;
         }, array_keys($list));
-        $result->departure->default = get_site_default_departure_time($params['departure']['site'] ?? null);
+        if (isset($params['departure']['site'])) {
+            $default = $DB->get_field_select(
+                'local_mxschool_vt_site', 'default_departure_time', 'id = ? AND deleted = 0 AND enabled_departure = 1',
+                array($params['departure']['site'])
+            );
+            $result->departure->default = enumerate_timestamp($default, 15);
+        } else {
+            $result->departure->default = enumerate_timestamp(false);
+        }
         $result->return = new stdClass();
         $result->return->types = get_vacation_travel_type_list($params['return']['mxtransportation'] ?? null);
         $list = get_vacation_travel_return_sites_list($params['return']['type'] ?? null);
         $result->return->sites = array_map(function($id) {
             return (string) $id;
         }, array_keys($list));
-        $result->return->default = get_site_default_return_time($params['return']['site'] ?? null);
+        if (isset($params['return']['site'])) {
+            $default = $DB->get_field_select(
+                'local_mxschool_vt_site', 'default_return_time', 'id = ? AND deleted = 0 AND enabled_return = 1',
+                array($params['return']['site'])
+            );
+            $result->return->default = enumerate_timestamp($default, 15);
+        } else {
+            $result->return->default = enumerate_timestamp(false);
+        }
         return $result;
     }
 
@@ -486,24 +502,16 @@ class local_mxschool_external extends external_api {
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
                 ),
                 'default' => new external_single_structure(array(
-                    'year' => new external_value(
-                        PARAM_TEXT, 'the year of the default time for the transportation if applicable'
-                    ),
+                    'year' => new external_value(PARAM_TEXT, 'the year of the default time for the transportation, if applicable'),
                     'month' => new external_value(
-                        PARAM_TEXT, 'the month of the default time for the transportation if applicable'
+                        PARAM_TEXT, 'the month of the default time for the transportation, if applicable'
                     ),
-                    'day' => new external_value(
-                        PARAM_TEXT, 'the day of the default time for the transportation if applicable'
-                    ),
-                    'hour' => new external_value(
-                        PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
-                    ),
+                    'day' => new external_value(PARAM_TEXT, 'the day of the default time for the transportation, if applicable'),
+                    'hour' => new external_value(PARAM_TEXT, 'the hour of the default time for the transportation, if applicable'),
                     'minute' => new external_value(
-                        PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
+                        PARAM_TEXT, 'the minute of the default time for the transportation, if applicable'
                     ),
-                    'ampm' => new external_value(
-                        PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
-                    )
+                    'ampm' => new external_value(PARAM_TEXT, 'the AM/PM of the default time for the transportation, if applicable')
                 ))
             )),
             'return' => new external_single_structure(array(
@@ -514,24 +522,16 @@ class local_mxschool_external extends external_api {
                     new external_value(PARAM_TEXT, 'the id of the site which is available given the filter')
                 ),
                 'default' => new external_single_structure(array(
-                    'year' => new external_value(
-                        PARAM_TEXT, 'the year of the default time for the transportation if applicable'
-                    ),
+                    'year' => new external_value(PARAM_TEXT, 'the year of the default time for the transportation, if applicable'),
                     'month' => new external_value(
-                        PARAM_TEXT, 'the month of the default time for the transportation if applicable'
+                        PARAM_TEXT, 'the month of the default time for the transportation, if applicable'
                     ),
-                    'day' => new external_value(
-                        PARAM_TEXT, 'the day of the default time for the transportation if applicable'
-                    ),
-                    'hour' => new external_value(
-                        PARAM_TEXT, 'the hour of the default time for the transportation if applicable'
-                    ),
+                    'day' => new external_value(PARAM_TEXT, 'the day of the default time for the transportation, if applicable'),
+                    'hour' => new external_value(PARAM_TEXT, 'the hour of the default time for the transportation, if applicable'),
                     'minute' => new external_value(
-                        PARAM_TEXT, 'the minute of the default time for the transportation if applicable'
+                        PARAM_TEXT, 'the minute of the default time for the transportation, if applicable'
                     ),
-                    'ampm' => new external_value(
-                        PARAM_BOOL, 'whether the default time for the transportation is am (0) or pm (1)'
-                    )
+                    'ampm' => new external_value(PARAM_TEXT, 'the AM/PM of the default time for the transportation, if applicable')
                 ))
             ))
         ));

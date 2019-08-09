@@ -36,9 +36,13 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_edit_page('PAGE', 'PARENT', 'SUBPACKAGE', 'PACKAGE');
 
 $queryfields = array(
-    'TABLE' => array('abbreviation' => 'ABBREVIATION', 'fields' => array(
-        'DATABASE_FIELD' => 'FORM_FIELD' // ETC.
-    )) // ETC.
+    'TABLE' => array(
+        'abbreviation' => 'ABBREVIATION',
+        'fields' => array(
+            'DATABASE_FIELD' => 'FORM_FIELD' // ETC.
+        )
+    )
+    // ETC.
 );
 
 if ($id) { // Updating an existing record.

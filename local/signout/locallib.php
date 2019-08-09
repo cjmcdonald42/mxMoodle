@@ -123,21 +123,27 @@ function get_param_current_date_off_campus() {
 /**
  * Queries the database to create a list of all locations which are available to a student for on-campus signout.
  *
- * @param int $grade The grade of the student. A value of 0 indicates that all locations should be returned.
- * @param bool $isday Whether the student is a day student.
- *                    A value of 1 indicates that the "Library" location should be returned no matter what the $grade parameter is.
- * @return array The locations which are available to a student of the specified grade for on-campus signout.
+ * @param int $userid The user id of the student.
+ * @return array The locations which are available to the specified student.
  */
-function get_on_campus_location_list($grade = 12, $isday = false) {
+function get_on_campus_location_list($userid = 0) {
     global $DB;
-    $where = $isday ? "OR l.name = 'Library'" : '';
+    $record = $DB->get_record(
+        'local_mxschool_student', array('userid' => $userid), "grade, boarding_status = 'Day' AS isday"
+    );
+    if ($record) {
+        $allday = $record->isday ? "OR l.all_day = 1" : '';
+        $where = "AND (l.grade <= {$record->grade} {$allday})";
+    } else {
+        $where = '';
+    }
     $today = generate_datetime('midnight')->getTimestamp(); // Set to midnight to avoid an off-by-one issue on the end date.
     $locations = $DB->get_records_sql(
         "SELECT id, name AS value
          FROM {local_signout_location} l
-         WHERE l.deleted = 0 AND (l.grade <= ? {$where}) AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
-                             AND (l.end_date IS NULL OR l.end_date >= ?)
-         ORDER BY value", array($grade, $today, $today)
+         WHERE l.deleted = 0 {$where} AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
+                                      AND (l.end_date IS NULL OR l.end_date >= ?)
+         ORDER BY value", array($record->grade, $today, $today)
     );
     return convert_records_to_list($locations);
 }
@@ -230,8 +236,8 @@ function get_current_driver_list($userid = 0) {
 function get_approver_list() {
     global $DB;
     $faculty = $DB->get_records_sql(
-        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS value FROM {local_mxschool_faculty} f
-         LEFT JOIN {user} u ON f.userid = u.id
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS value
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
          WHERE u.deleted = 0 AND f.may_approve_signout = 1
          ORDER BY value"
     );
@@ -249,8 +255,8 @@ function get_off_campus_type_list($userid = 0) {
     global $DB;
     $today = generate_datetime('midnight')->getTimestamp(); // Set to midnight to avoid an off-by-one issue on the end date.
     $where = array(
-        "t.deleted = 0", "t.enabled = 1", "(t.start_date IS NULL OR t.start_date <= {$today})",
-        "(t.end_date IS NULL OR t.end_date >= {$today})"
+        "deleted = 0", "enabled = 1", "(start_date IS NULL OR start_date <= {$today})",
+        "(end_date IS NULL OR end_date >= {$today})"
     );
     if ($userid) {
         $permissions = $DB->get_record_sql(
@@ -260,31 +266,26 @@ function get_off_campus_type_list($userid = 0) {
              WHERE s.userid = ?", array('userid' => $userid)
         );
         if (!get_config('local_signout', 'off_campus_form_permissions_active')) {
-            $where[] = "t.required_permissions IS NULL";
+            $where[] = "required_permissions IS NULL";
         } else {
             if (empty($permissions->maydrive) || $permissions->maydrive === 'No') {
-                $where[] = "(t.required_permissions IS NULL OR t.required_permissions <> 'driver')";
+                $where[] = "(required_permissions IS NULL OR required_permissions <> 'driver')";
             }
             if (empty($permissions->mayridewith) || $permissions->mayridewith === 'Over 21') {
-                $where[] = "(t.required_permissions IS NULL OR t.required_permissions <> 'passenger')";
+                $where[] = "(required_permissions IS NULL OR required_permissions <> 'passenger')";
             }
             if (empty($permissions->rideshare) || $permissions->rideshare === 'No') {
-                $where[] = "(t.required_permissions IS NULL OR t.required_permissions <> 'rideshare')";
+                $where[] = "(required_permissions IS NULL OR required_permissions <> 'rideshare')";
             }
         }
-        $where[] = "t.grade <= {$permissions->grade}";
-        $where[] = "(t.boarding_status = '{$permissions->boardingstatus}' OR t.boarding_status = 'All')";
+        $where[] = "grade <= {$permissions->grade}";
+        $where[] = "(boarding_status = '{$permissions->boardingstatus}' OR boarding_status = 'All')";
     }
     if ($userid && !date_is_in_weekend()) {
-        $where[] = "t.weekend_only = 0";
+        $where[] = "weekend_only = 0";
     }
     $wherestring = implode(' AND ', $where);
-    $types = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_signout_type} t
-         WHERE {$wherestring}
-         ORDER BY value", array()
-    );
+    $types = $DB->get_records_select('local_signout_type', $wherestring, null, 'value', 'id, name AS value');
     return convert_records_to_list($types);
 }
 
@@ -395,15 +396,13 @@ function get_driver_inheritable_fields($offcampusid) {
         throw new coding_exception("off-campus signout record with id {$offcampusid} is not a valid driver record");
     }
     $record = $DB->get_record('local_signout_off_campus', array('id' => $offcampusid));
-    $result = new stdClass();
-    $result->destination = $record->destination;
     $departuretime = generate_datetime($record->departure_time);
-    $result->departurehour = $departuretime->format('g');
-    $minute = $departuretime->format('i');
-    $minute -= $minute % 15;
-    $result->departureminute = "{$minute}";
-    $result->departureampm = $departuretime->format('A') === 'PM';
-    return $result;
+    return (object) array(
+        'destination' => $record->destination,
+        'departurehour' => $departuretime->format('g'),
+        'departureminute' => (string) ((int) ($departuretime->format('i') / 15) * 15),
+        'departureampm' => $departuretime->format('A')
+    );
 }
 
 /**
@@ -439,7 +438,6 @@ function get_user_current_signout() {
         return false;
     }
     $today = generate_datetime('midnight')->getTimestamp();
-    $result = new stdClass();
     if (student_may_access_on_campus_signout($USER->id)) {
         $record = $DB->get_record_sql(
             "SELECT oc.id, l.name AS location, oc.other, oc.time_created AS timecreated
@@ -449,11 +447,12 @@ function get_user_current_signout() {
              ORDER BY oc.time_created DESC", array($USER->id, $today), IGNORE_MULTIPLE
         );
         if ($record) {
-            $result->id = $record->id;
-            $result->type = 'on_campus';
-            $result->location = $record->location ?? $record->other;
-            $result->timecreated = $record->timecreated;
-            return $result;
+            return (object) array(
+                'id' => $record->id,
+                'type' => 'on_campus',
+                'location' => $record->location ?? $record->other,
+                'timecreated' => $record->timecreated
+            );
         }
     }
     if (student_may_access_off_campus_signout($USER->id)) {
@@ -465,10 +464,12 @@ function get_user_current_signout() {
              ORDER BY oc.time_created DESC", array($USER->id, $today), IGNORE_MULTIPLE
         );
         if ($record) {
-            $result->id = $record->id;
-            $result->type = 'off_campus';
-            $result->location = $record->destination;
-            $result->timecreated = $record->timecreated;
+            return (object) array(
+                'id' => $record->id,
+                'type' => 'off_campus',
+                'location' => $record->destination,
+                'timecreated' => $record->timecreated
+            );
             return $result;
         }
     }
@@ -480,8 +481,8 @@ function get_user_current_signout() {
  * Sign in will fail if the student is not connected to the Middlesex network and the config flags this as necessary.
  *
  * The function will sign in one of the following options:
- * 1) All of the student's on-campus records which have not been signed in, if the student may access on-campus signout.
- * 2) All of the student's off-campus records which have not been signed in, if the student may access off-campus signout.
+ * 1) All of the student's on-campus records from today which have not been signed in, if on-campus signout is enabled.
+ * 2) All of the student's off-campus records from today which have not been signed in, if off-campus signout is enabled.
  * If neither of these options exist, a value of false will be returned.
  *
  * NOTE: It should not be possible for a student to have an off-campus record and another signout record active simultaneously,
@@ -503,39 +504,28 @@ function sign_in_user() {
                 ));
                 return get_config('local_signout', "on_campus_signin_iperror_{$boardingstatus}");
             }
-            $records = $DB->get_records('local_signout_on_campus', array(
-                'userid' => $USER->id, 'sign_in_time' => null, 'deleted' => 0
-            ));
-            if (!$records) {
-                return get_string('sign_in_button:error:invalidrecord', 'local_signout');
-            }
-            foreach ($records as $record) {
-                $record->sign_in_time = $record->time_modified = time();
-                $DB->update_record('local_signout_on_campus', $record);
-            }
-            local_mxschool\event\record_updated::create(array('other' => array(
-                'page' => get_string('on_campus_form', 'local_signout')
-            )))->trigger();
-            return '';
         case 'off_campus':
             if (!validate_ip_off_campus()) {
                 return get_config('local_signout', 'off_campus_signin_iperror');
             }
-            $records = $DB->get_records('local_signout_off_campus', array(
-                'userid' => $USER->id, 'sign_in_time' => null, 'deleted' => 0
-            ));
-            if (!$records) {
-                return get_string('sign_in_button:error:invalidrecord', 'local_signout');
-            }
-            foreach ($records as $record) {
-                $record->sign_in_time = $record->time_modified = time();
-                $DB->update_record('local_signout_off_campus', $record);
-            }
-            local_mxschool\event\record_updated::create(array('other' => array(
-                'page' => get_string('off_campus_form', 'local_signout')
-            )))->trigger();
             return '';
         default:
             return get_string('sign_in_button:error:invalidtype', 'local_signout');
     }
+    $today = generate_datetime('midnight')->getTimestamp();
+    $records = $DB->get_records_select(
+        "local_signout_{$currentsignout->type}", 'userid = ? AND sign_in_time IS NULL AND deleted = 0 AND AND time_created > ?',
+        array($USER->id, $today)
+    );
+    if (!$records) {
+        return get_string('sign_in_button:error:invalidrecord', 'local_signout');
+    }
+    foreach ($records as $record) {
+        $record->sign_in_time = $record->time_modified = time();
+        $DB->update_record("local_signout_{$currentsignout->type}", $record);
+    }
+    local_mxschool\event\record_updated::create(array('other' => array(
+        'page' => get_string("{$currentsignout->type}_form", 'local_signout')
+    )))->trigger();
+    return '';
 }
