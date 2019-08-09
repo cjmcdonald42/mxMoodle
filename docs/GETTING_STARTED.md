@@ -64,7 +64,7 @@ Once you have cloned the repository, you will need to copy our plugins into your
 
 While you are adding our plugins, you should also take a moment to add Moodle's `code checker` plugin which will be useful during development. All you need to do is download the plugin [here](https://github.com/moodlehq/moodle-local_codechecker/zipball/master) then move the entire directory into the same /local directory of your server. Lastly, you need to rename the directory to codechecker.
 
-Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and select `Upgrade Moodle database now,` and the plugins will be ready to go.
+Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes. Now click `Save Changes`, and you are ready to move to the next step.
 
 ##### Site Configuration
 Now that you have installed our plugins, there are a few more very important settings which you will need to configure for your development site. To get to these settings, select `Site administration` in the sidebar. Moodle has a lot of settings, so follow these steps carefully as you navigate through the settings tree to find the appropriate ones.
@@ -78,7 +78,7 @@ Now that you have installed our plugins, there are a few more very important set
 - `Site administration` > `Language` > `Language Settings`
     - `Default language`: set to `English - United States (en_us)`
     - Click `Save Changes`
-- `Site administration` > `Front page`
+- `Site administration` > `Front page` > `Front page settings`
     - `Full site name`: set to whatever you want
     - `Short name for site`: set to an abbreviated version of the full site name
     - Click `Save Changes`
@@ -91,7 +91,7 @@ Now that you have installed our plugins, there are a few more very important set
     - Disable `MNet authentication`
     - `Allow accounts with same email`: check the box
     - `Guest login button`: select `Hide`
-    - `Alternate login URL`: enter the root Moodle url followed by `/local/mxschool/login.php` — for example, if your root Moodle url is `http://localhost:8888/moodle34`, then enter `http://localhost:8888/moodle34/local/mxschool/login.php`
+    - `Alternate login URL`: enter the root Moodle url followed by `/local/mxschool/login.php` — for example, if your root Moodle url is `http://localhost:8888/moodle37`, then enter `http://localhost:8888/moodle37/local/mxschool/login.php`
     - Click `Save Changes`
 - `Site administration` > `Appearance` > `Navigation`
     - `Default home page for users`: select `Dashboard`
@@ -111,18 +111,14 @@ Now that you have installed our plugins, there are a few more very important set
     - `SMTP security`: select `TLS`
     - `SMTP username`: enter `mx-moomail`
     - `SMTP password`: enter `Pass1word`
-    - `Support Email`: enter `admin@localhost.local` — this value doesn't really matter, but it needs to look like an email (i.e. have an extension)
     - `No-reply address`: enter `noreply@localhost.local` (or anything else that looks like an email) — this address will be the "sender" of all mxschool emails sent from your server
     - `Email via information`: select `Never`
     - Click `Save Changes`
 - `Site administration` > `Development` > `Debugging`
     - `Debug messages`: select `DEVELOPER: extra Moodle debug messages for developers`
     - Click `Save Changes`
-- `Site administration` > `Middlesex School` > `Email Settings`
-    - `Redirect Email`: enter your email address
-    - Click `Save Changes`
 
-Now log out and be sure that you are still able to log in successfully with the new login page. If you updated the appearance settings successfully, you should land on your dashboard when you log in, and your theme color should be Middlesex's red.
+Now log out and be sure that you are still able to log in successfully with the new login page. If your server fails to load the login page, you probably entered the url incorrectly in the settings. You can manually enter the correct version in your browser's search bar to regain access to the site. You should land on your dashboard when you log in, and if you updated the appearance settings successfully, your theme color should be Middlesex's red.
 
 ##### Installing Testing User Data
 The last step for your installation is to install users to work with. This will require that you fill data in 5 different tables. You will need to acquire test data CSVs before you proceed.
@@ -132,6 +128,7 @@ The first table contains the basic user data, such as the user's First name, Las
 - `Settings` > `Prevent email address duplicates`: select `No`
 - `Default Values` > `City/town`: clear this field if there is any default
 - `Default Values` > `Preferred language`: make sure this is set to `English - United States (en_us)`
+Now click `Upload Users`, and you are ready to move to the next table.
 
 The other data which you need to enter, can be imported directly through Sequel Pro. To connect to your local server, initiate a socket connection from the Sequel Pro connection interface with the following information:
 
@@ -140,9 +137,9 @@ The other data which you need to enter, can be imported directly through Sequel 
     Database: moodle##
     Socket: Applications/MAMP/tmp/mysql/mysql.sock
 
-Where ## is replaced with the version of Moodle you are running. For example, for Moodle 3.4, you would use:
+Where ## is replaced with the version of Moodle you are running. For example, for Moodle 3.7, you would use:
 
-    Database: moodle34
+    Database: moodle37
 
 While you are here, I would suggest that you add a name and color then save this configuration as a favorite by selecting the `Add to Favorites` option before you connect.
 
@@ -167,8 +164,8 @@ Atom is highly configurable, and there are a few editor settings which you shoul
 Atom is generally a great IDE, but by default, it won't tell you about syntactical or stylistic errors as you are writing. Moodle has some specific and somewhat non-standard style guidelines (See our [Style Guidelines](CODING_STYLE.md) documentation) that you will need to follow. Luckily, they provide a way to automatically check your code against many of the guidelines with PHP_CodeSniffer. In Atom's package installation menu, search for `linter-phpcs` and install it. A pop-up will appear asking you to install the necessary dependencies if you do not already have them. These dependencies also have their own dependencies, so keep selecting `Yes` whenever you are asked if you want to install another package. In total you will need to install 5 packages. If you aren't prompted to install all of the dependencies, restarting Atom should trigger any additional prompts.
 
 Once the package is installed, there are a couple of settings which you will need to change in order for the linter to function properly:
-- Set `Executable Path` to the root of your Moodle installation followed by `/local/codechecker/pear/PHP/scripts/phpcs` — for example if you are running Moodle 3.4 use `/Applications/MAMP/htdocs/moodle34/local/codechecker/pear/PHP/scripts/phpcs`
-- Set `Code Standard or Config File` to the root of your Moodle installation followed by `/local/codechecker/moodle/ruleset.xml` — for example if you are running Moodle 3.4 use `/Applications/MAMP/htdocs/moodle34/local/codechecker/moodle/ruleset.xml`
+- Set `Executable Path` to the root of your Moodle installation followed by `/local/codechecker/pear/PHP/scripts/phpcs` — for example if you are running Moodle 3.7 use `/Applications/MAMP/htdocs/moodle37/local/codechecker/pear/PHP/scripts/phpcs`
+- Set `Code Standard or Config File` to the root of your Moodle installation followed by `/local/codechecker/moodle/ruleset.xml` — for example if you are running Moodle 3.7 use `/Applications/MAMP/htdocs/moodle37/local/codechecker/moodle/ruleset.xml`
 - Set `Tab Width` to `4`.
 
 ###### NOTE: The linter sometimes seems to get overwhelmed with certain files and starts reporting indentation issues everywhere. The codechecker page on your local site (`Site administration` > `Development` > `Code checker`) can check all of your files simultaneously and does not have this issue.
@@ -177,10 +174,10 @@ Once the package is installed, there are a couple of settings which you will nee
 Because you will often want to use bash scripts to manipulate your development environment, it is very useful to have a terminal embedded into your IDE. I would suggest installing the Atom package `platformio-ide-terminal`.
 
 ##### Environment Scripts
-There are a number of file manipulation operations which are common enough that you will save a lot of time by having a script that will them for you. My suggestion is to include following lines in `~/.bash_profile`. You first need to export environment variables MOODLE_SERVER_ROOT and MOODLE_PROJECT_ROOT which should hold the path to your Moodle installation and working copy respectively. For example:
+There are a number of file manipulation operations which are common enough that you will save a lot of time by having a script that will them for you. My suggestion is to include following lines in `~/.bash_profile`. You first need to export environment variables `MOODLE_SERVER_ROOT` and `MOODLE_PROJECT_ROOT` which should hold the path to your Moodle installation and working copy respectively. For example, if you are running Moodle 3.7 add this line for your `MOODLE_SERVER_ROOT`:
 
 ```bash
-export MOODLE_SERVER_ROOT="/Applications/MAMP/htdocs/moodle34"
+export MOODLE_SERVER_ROOT="/Applications/MAMP/htdocs/moodle37"
 ```
 
 Then add the following lines to be able to move files back and forth as well as some other commonly used functionality which is explained below.
@@ -203,7 +200,7 @@ alias moodleTestServerPushBlocks="rsync -r --del --rsh=ssh $MOODLE_PROJECT_ROOT/
 ###### NOTE: You will need to restart any shells you are using for your changes to take effect.
 
 ##### Build Script
-In order to minify your AMD modules, you will need to be able to use Moodle's build script. To do this you will need to install the `node` package `grunt`. Unfortunately as of the time of writing, Moodle requires a `node` version `>=8.9.0 <9.0.0`. To test your current version you can run the following command:
+In order to minify your AMD modules, you will need to be able to use Moodle's build script. To do this you will need to install the `node` package `grunt`. Unfortunately Moodle currently requires a `node` version `>=8.9.0 <9.0.0`. To test your current version you can run the following command:
 
 ```bash
 brew -v
