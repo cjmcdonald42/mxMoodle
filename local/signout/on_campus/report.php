@@ -33,7 +33,7 @@ require_capability('local/signout:manage_on_campus', context_system::instance())
 
 $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm();
-$filter->location = optional_param('location', '', PARAM_RAW);
+$filter->location = optional_param('location', 0, PARAM_INT);
 $filter->date = get_param_current_date_on_campus();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
@@ -47,20 +47,17 @@ if ($refresh) {
 }
 
 $locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));
-if ($filter->location && !isset($locations[$filter->location])) {
+if ($filter->location && !isset($locations[$filter->location])) { // Invalid location.
     unset($filter->location);
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_signout_on_campus', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, (array) $filter);
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_signout_on_campus', $record);
-        logged_redirect($redirect, get_string('on_campus_delete_success', 'local_signout'), 'delete');
-    } else {
-        logged_redirect($redirect, get_string('on_campus_delete_failure', 'local_signout'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_signout_on_campus', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_signout_on_campus', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus_delete_{$result}", 'local_signout'), 'delete',
+        $result === 'success'
+    );
 }
 
 $dates = get_on_campus_date_list();

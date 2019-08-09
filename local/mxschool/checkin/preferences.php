@@ -47,12 +47,8 @@ if ($data->dormsopen && $data->dormsclose) {
         $data->{"{$identifier}_end"} = $weekend->end_offset;
     }
 }
-$submittednotification = get_notification('weekend_form_submitted');
-$data->submitted_subject = $submittednotification->subject;
-$data->submitted_body['text'] = $submittednotification->body_html;
-$approvednotification = get_notification('weekend_form_approved');
-$data->approved_subject = $approvednotification->subject;
-$data->approved_body['text'] = $approvednotification->body_html;
+generate_email_preference_fields('weekend_form_submitted', $data, 'submitted');
+generate_email_preference_fields('weekend_form_approved', $data, 'approved');
 $data->topinstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_top');
 $data->bottominstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $data->closedwarning['text'] = get_config('local_mxschool', 'weekend_form_warning_closed');
@@ -73,8 +69,8 @@ if ($form->is_cancelled()) {
         $weekend->end_offset = $data->{"{$identifier}_end"};
         $DB->update_record('local_mxschool_weekend', $weekend);
     }
-    update_notification('weekend_form_submitted', $data->submitted_subject, $data->submitted_body);
-    update_notification('weekend_form_approved', $data->approved_subject, $data->approved_body);
+    update_notification('weekend_form_submitted', $data, 'submitted');
+    update_notification('weekend_form_approved', $data, 'approved');
     set_config('weekend_form_instructions_top', $data->topinstructions['text'], 'local_mxschool');
     set_config('weekend_form_instructions_bottom', $data->bottominstructions['text'], 'local_mxschool');
     set_config('weekend_form_warning_closed', $data->closedwarning['text'], 'local_mxschool');

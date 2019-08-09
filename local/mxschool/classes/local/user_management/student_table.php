@@ -107,7 +107,7 @@ class student_table extends \local_mxschool\table {
                 array_push(
                     $fields, 'p.overnight', 'p.license_date AS license', 'p.may_drive_to_town AS driving',
                     'p.may_drive_passengers AS passengers', 'p.may_ride_with AS riding',
-                    'p.ride_permission_details AS ridingcomment', 'p.ride_share AS rideshare', 'p.may_drive_to_boston AS boston',
+                    'p.specific_drivers AS ridingcomment', 'p.may_use_rideshare AS rideshare', 'p.may_go_to_boston AS boston',
                     'p.swim_competent AS swimcompetent', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
                 );
                 $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';

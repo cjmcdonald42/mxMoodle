@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing on-campus location data for Middlesex's Dorm and Student Functions Plugin.
+ * Form for editing off-campus signout type data for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_signout
- * @subpackage  on_campus
+ * @subpackage  off_campus
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_signout\local\on_campus;
+namespace local_signout\local\off_campus;
 
 defined('MOODLE_INTERNAL') || die();
 
-class location_edit_form extends \local_mxschool\form {
+class type_edit_form extends \local_mxschool\form {
 
     /**
      * Form definition.
@@ -39,16 +39,21 @@ class location_edit_form extends \local_mxschool\form {
             '' => array(
                 'id' => self::ELEMENT_HIDDEN_INT
             ),
-            'location' => array(
+            'type' => array(
+                'permissions' => self::ELEMENT_TEXT,
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
-                'allday' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'boardingstatus' => array(
+                    'element' => 'radio', 'options' => array('Boarder', 'Day', 'All'), 'rules' => array('required')
+                ),
+                'weekend' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'start' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
                 'end' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
-                'warning' => self::ELEMENT_FORMATTED_TEXT
+                'formwarning' => self::ELEMENT_FORMATTED_TEXT,
+                'emailwarning' => self::ELEMENT_FORMATTED_TEXT
             )
         );
-        $this->set_fields($fields, 'on_campus_location_edit', false, 'local_signout');
+        $this->set_fields($fields, 'off_campus_type_edit', false, 'local_signout');
     }
 }

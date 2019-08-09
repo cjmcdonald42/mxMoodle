@@ -53,7 +53,7 @@ class combined_table extends \local_mxschool\table {
 
         $fields = array(
             's.id', 's.userid', 'onc.id AS onid', 'offc.id AS offid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade',
-            's.dormid', 'l.name AS location', 'onc.other', 'dr.destination',
+            's.dormid', 'l.name AS location', 'onc.other', 'offc.destination',
             "CASE
                 WHEN onc.id IS NOT NULL AND (offc.id IS NULL OR onc.time_created > offc.time_created) THEN 'on_campus'
                 WHEN offc.id IS NOT NULL AND (onc.id IS NULL OR offc.time_created > onc.time_created) THEN 'off_campus'
@@ -78,9 +78,12 @@ class combined_table extends \local_mxschool\table {
             )",
             "{local_signout_off_campus} offc ON offc.id = (
                 SELECT oc.id
-                FROM {local_signout_off_campus} oc LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id
-                WHERE s.userid = oc.userid AND oc.time_created >= {$starttime} AND oc.sign_in_time IS NULL AND oc.deleted = 0
-                                           AND d.deleted = 0
+                FROM {local_signout_off_campus} oc LEFT JOIN {local_signout_type} t ON oc.typeid = t.id
+                                                   LEFT JOIN {local_signout_off_campus} d ON oc.driverid = d.id
+                                                   LEFT JOIN {user} du ON d.userid = du.id
+                WHERE s.userid = oc.userid AND oc.deleted = 0 AND oc.time_created >= {$starttime} AND oc.sign_in_time IS NULL
+                                           AND (oc.typeid = -1 OR t.deleted = 0)
+                                           AND (oc.driverid IS NULL OR d.deleted = 0 AND du.deleted = 0)
                 ORDER BY oc.time_created DESC
                 LIMIT 1
             )",
@@ -90,7 +93,7 @@ class combined_table extends \local_mxschool\table {
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
         }
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'oc.other', 'dr.destination');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'onc.other', 'offc.destination');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 

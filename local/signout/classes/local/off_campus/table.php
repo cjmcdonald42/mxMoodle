@@ -34,63 +34,81 @@ class table extends \local_mxschool\table {
     /**
      * Creates a new off_campus_table.
      *
-     * @param stdClass $filter Any filtering for the table - could include properties type, date, and search.
+     * @param stdClass $filter Any filtering for the table - could include properties dorm, type, date, and search.
      */
     public function __construct($filter) {
-        global $USER;
+        global $DB, $USER;
         $columns = array(
-            'student', 'grade', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'departuredate', 'departuretime',
-            'approver', 'signin'
+            'student', 'grade', 'dorm', 'type', 'passengers', 'passengercount', 'driver', 'destination', 'departuredate',
+            'departuretime', 'approver', 'signin'
         );
-        if ($filter->type) {
-            if (in_array($filter->type, array('Driver', 'Passenger', 'Parent', 'Rideshare'))) {
-                unset($columns[array_search('type', $columns)]);
-            }
-            if ($filter->type !== 'Driver') {
-                unset($columns[array_search('passengers', $columns)]);
-                unset($columns[array_search('passengercount', $columns)]);
-            }
-            if ($filter->type !== 'Passenger') {
-                unset($columns[array_search('driver', $columns)]);
-            }
+        if ($filter->dorm) {
+            unset($columns[array_search('dorm', $columns)]);
+        }
+        if ($filter->type && $filter->type != -1) {
+            unset($columns[array_search('type', $columns)]);
+        }
+        $permissions = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $filter->type));
+        if ((!$permissions && $filter->type) || ($permissions && $permissions !== 'driver')) {
+            unset($columns[array_search('passengers', $columns)]);
+            unset($columns[array_search('passengercount', $columns)]);
+        }
+        if ((!$permissions && $filter->type) || ($permissions && $permissions !== 'passenger')) {
+            unset($columns[array_search('driver', $columns)]);
+        }
+        if ((!$permissions && $filter->type && $filter->type != -1)) {
+            unset($columns[array_search('approver', $columns)]);
         }
         if ($filter->date) {
             unset($columns[array_search('departuredate', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'off_campus_report', 'local_signout');
-        $sortable = array($filter->date ? 'departuretime' : 'departuredate', 'student', 'grade', 'approver');
+        $sortable = array($filter->date ? 'departuretime' : 'departuredate', 'student', 'grade', 'dorm', 'approver');
         $centered = array('grade', 'type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
         parent::__construct('off_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
 
         $fields = array(
-            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 'oc.type', 'oc.passengers',
-            'du.id AS driverid', 'd.destination', 'd.departure_time AS departuredate', 'd.departure_time AS departuretime',
+            'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.dormid', 'd.name AS dorm',
+            't.required_permissions AS permissions', 't.name AS type', 'oc.other', 'oc.passengers', 'du.id AS driverid',
+            'oc.destination', 'oc.departure_time AS departuredate', 'oc.departure_time AS departuretime',
             "CONCAT(a.lastname, ', ', a.firstname) AS approver", 'oc.sign_in_time AS signin', 'oc.time_created AS timecreated'
         );
         $from = array(
             '{local_signout_off_campus} oc', '{user} u ON oc.userid = u.id', '{local_mxschool_student} s on oc.userid = s.userid',
-            '{local_signout_off_campus} d ON oc.driverid = d.id', '{user} du ON d.userid = du.id',
+            '{local_mxschool_dorm} d ON s.dormid = d.id', '{local_signout_type} t ON oc.typeid = t.id',
+            '{local_signout_off_campus} dr ON oc.driverid = dr.id', '{user} du ON dr.userid = du.id',
             '{user} a ON oc.approverid = a.id'
         );
-        $where = array('oc.deleted = 0', 'u.deleted = 0', 'd.deleted = 0', 'du.deleted = 0');
+        $where = array(
+            'oc.deleted = 0', 'u.deleted = 0', '(oc.typeid = -1 OR t.deleted = 0)',
+            '(oc.driverid IS NULL OR dr.deleted = 0 AND du.deleted = 0)'
+        );
+        if ($filter->dorm) {
+            $where[] = $this->get_dorm_where($filter->dorm);
+        }
         if ($filter->type) {
-            $types = array('Driver', 'Passenger', 'Parent', 'Rideshare');
-            $otherstring = implode(' AND ', array_map(function($type) {
-                return "oc.type <> '{$type}'"; // Need to negate all types because the 'Other' text is stored in the type field.
-            }, $types));
-            $where[] = in_array($filter->type, $types) ? "oc.type = '{$filter->type}'" : $otherstring;
+            $where[] = "oc.typeid = {$filter->type}";
         }
         if ($filter->date) {
             $starttime = generate_datetime($filter->date);
             $endtime = clone $starttime;
             $endtime->modify('+1 day');
-            array_push($where, "d.departure_time >= {$starttime->getTimestamp()}", "d.departure_time < {$endtime->getTimestamp()}");
+            array_push(
+                $where, "oc.departure_time >= {$starttime->getTimestamp()}", "oc.departure_time < {$endtime->getTimestamp()}"
+            );
         }
         $searchable = array(
-            'u.firstname', 'u.lastname', 'u.alternatename', 'du.firstname', 'du.lastname', 'du.alternatename', 'd.destination',
+            'u.firstname', 'u.lastname', 'u.alternatename', 'du.firstname', 'du.lastname', 'du.alternatename', 'oc.destination',
             'a.firstname', 'a.lastname'
         );
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
+    }
+
+    /**
+     * Formats the type column.
+     */
+    protected function col_type($values) {
+        return $values->type ?? $values->other;
     }
 
     /**
@@ -98,7 +116,7 @@ class table extends \local_mxschool\table {
      */
     protected function col_passengers($values) {
         global $DB;
-        if ($values->type !== 'Driver') {
+        if (!isset($values->permissions) || $values->permissions !== 'driver') {
             return '-';
         }
         $passengers = array_filter(array_map(function($passenger) use($DB) {
@@ -112,14 +130,14 @@ class table extends \local_mxschool\table {
      */
     protected function col_passengercount($values) {
         global $DB;
-        if ($values->type !== 'Driver') {
+        if (!isset($values->permissions) || $values->permissions !== 'driver') {
             return '-';
         }
         $submitted = $DB->count_records_sql(
             "SELECT COUNT(oc.id)
              FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
              WHERE oc.driverid = ? AND oc.deleted = 0 AND u.deleted = 0", array($values->id)
-        ) - 1;
+        );
         $count = count(array_filter(json_decode($values->passengers), function($passenger) use ($DB) {
             return !$DB->get_field('user', 'deleted', array('id' => $passenger));
         }));
@@ -130,7 +148,7 @@ class table extends \local_mxschool\table {
      * Formats the driver column to "last, first (alternate)" or "last, first".
      */
     protected function col_driver($values) {
-        return $values->type === 'Passenger' ? format_student_name($values->driverid) : '-';
+        return isset($values->permissions) && $values->permissions === 'passenger' ? format_student_name($values->driverid) : '-';
     }
 
     /**

@@ -49,6 +49,11 @@ div.mx-table table tbody td {
 div.mx-table table thead th {
     text-align: center;
 }
+/* Less margin for edit and delete icons. */
+div.mx-table table tbody td a i.icon {
+    margin-left: .25rem;
+    margin-right: .25rem;
+}
 /* Small size for directory pictures. */
 div.mx-table table tbody td img.mx-student-picture {
     width: 128px;

@@ -47,9 +47,7 @@ class button implements \renderable, \templatable {
      * @return stdClass Object with properties depending on the button type.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
-        $data->text = $this->text;
-        return $data;
+        return (object) array('text' => $this->text);
     }
 
 }

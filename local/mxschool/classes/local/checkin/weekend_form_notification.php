@@ -56,9 +56,10 @@ abstract class weekend_form_notification extends \local_mxschool\notification {
             }
             $formatter = new \NumberFormatter('en_us', \NumberFormatter::ORDINAL);
             $instructions = get_config('local_mxschool', 'weekend_form_instructions_bottom');
-            $replacements = new \stdClass();
-            $replacements->hoh = format_faculty_name($record->hoh);
-            $replacements->permissionsline = $record->permissionsline;
+            $replacements = (object) array(
+                'hoh' => format_faculty_name($record->hoh),
+                'permissionsline' => $record->permissionsline
+            );
 
             $this->data['departuretime'] = format_date('n/j/y g:i A', $record->departuretime);
             $this->data['returntime'] = format_date('n/j/y g:i A', $record->returntime);

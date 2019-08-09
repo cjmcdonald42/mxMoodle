@@ -35,9 +35,12 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('vehicle_edit', 'vehicle_report', 'user_management');
 
-$queryfields = array('local_mxschool_vehicle' => array('abbreviation' => 'v', 'fields' => array(
-    'id', 'userid' => 'student', 'make', 'model', 'color', 'registration'
-)));
+$queryfields = array(
+    'local_mxschool_vehicle' => array(
+        'abbreviation' => 'v',
+        'fields' => array('id', 'userid' => 'student', 'make', 'model', 'color', 'registration')
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_mxschool_vehicle', array('id' => $id, 'deleted' => 0))) {

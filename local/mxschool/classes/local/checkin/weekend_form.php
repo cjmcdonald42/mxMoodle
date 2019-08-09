@@ -86,20 +86,18 @@ class weekend_form extends \local_mxschool\form {
         $departureendbound = clone $departurestartbound;
         $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
         $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
-        $weekend = $DB->get_record_sql(
-            "SELECT *
-             FROM {local_mxschool_weekend}
-             WHERE ? >= sunday_time AND ? < sunday_time",
+        $weekend = $DB->get_field_select(
+            'local_mxschool_weekend', 'sunday_time', '? >= sunday_time AND ? < sunday_time',
             array($departurestartbound->getTimestamp(), $departureendbound->getTimestamp())
         );
         if ($weekend) {
             $returnstartbound = generate_datetime($return);
-            $returnendbound = clone $returnstartbound;
             $returnstartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
+            $returnendbound = generate_datetime($return);
             $returnendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
             if (
-                $returnstartbound->getTimestamp() < (int)$weekend->sunday_time
-                || $returnendbound->getTimestamp() >= (int)$weekend->sunday_time
+                $returnstartbound->getTimestamp() < (int) $weekend
+                || $returnendbound->getTimestamp() >= (int) $weekend
             ) {
                 $errors['return'] = get_string('checkin_weekend_form_error_indifferentweekends', 'local_mxschool');
             }

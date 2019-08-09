@@ -827,5 +827,32 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019073100, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2019080801) {
+
+        // Rename field ride_share on table local_mxschool_permissions to may_use_rideshare.
+        $table = new xmldb_table('local_mxschool_permissions');
+        $field = new xmldb_field('ride_share', XMLDB_TYPE_CHAR, '10', null, null, null, null, 'ride_permission_details');
+
+        // Launch rename field ride_share.
+        $dbman->rename_field($table, $field, 'may_use_rideshare');
+
+        // Rename field may_drive_to_boston on table local_mxschool_permissions to may_go_to_boston.
+        $table = new xmldb_table('local_mxschool_permissions');
+        $field = new xmldb_field('may_drive_to_boston', XMLDB_TYPE_CHAR, '10', null, null, null, null, 'may_use_rideshare');
+
+        // Launch rename field may_go_to_boston.
+        $dbman->rename_field($table, $field, 'may_go_to_boston');
+
+        // Rename field ride_permission_details on table local_mxschool_permissions to specific_drivers.
+        $table = new xmldb_table('local_mxschool_permissions');
+        $field = new xmldb_field('ride_permission_details', XMLDB_TYPE_TEXT, null, null, null, null, null, 'may_ride_with');
+
+        // Launch rename field ride_permission_details.
+        $dbman->rename_field($table, $field, 'specific_drivers');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080801, 'local', 'mxschool');
+    }
+
     return true;
 }

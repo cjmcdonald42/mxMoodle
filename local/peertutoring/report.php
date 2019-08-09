@@ -48,15 +48,12 @@ if ($filter->type && !isset($types[$filter->type])) {
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_peertutoring_session', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, (array) $filter);
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_peertutoring_session', $record);
-        logged_redirect($redirect, get_string('session_delete_success', 'local_peertutoring'), 'delete');
-    } else {
-        logged_redirect($redirect, get_string('session_delete_failure', 'local_peertutoring'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_peertutoring_session', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_peertutoring_session', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("session_delete_{$result}", 'local_peertutoring'), 'delete',
+        $result === 'success'
+    );
 }
 
 $tutors = get_tutor_list();

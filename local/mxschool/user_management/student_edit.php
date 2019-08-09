@@ -36,20 +36,29 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_edit_page('student_edit', 'student_report', 'user_management');
 
 $queryfields = array(
-    'local_mxschool_student' => array('abbreviation' => 's', 'fields' => array(
-        'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
-        'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
-        'dormid' => 'dorm', 'room', 'picture_filename' => 'picture'
-    )),
-    'user' => array('abbreviation' => 'u', 'join' => 's.userid = u.id', 'fields' => array(
-        'id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email'
-    )),
-    'local_mxschool_permissions' => array('abbreviation' => 'p', 'join' => 's.userid = p.userid', 'fields' => array(
-        'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
-        'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'ride_permission_details' => 'ridingcomment',
-        'ride_share' => 'rideshare', 'may_drive_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
-        'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
-    ))
+    'local_mxschool_student' => array(
+        'abbreviation' => 's',
+        'fields' => array(
+            'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
+            'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
+            'dormid' => 'dorm', 'room', 'picture_filename' => 'picture'
+        )
+    ),
+    'user' => array(
+        'abbreviation' => 'u',
+        'join' => 's.userid = u.id',
+        'fields' => array('id' => 'userid', 'firstname', 'middlename', 'lastname', 'alternatename', 'email')
+    ),
+    'local_mxschool_permissions' => array(
+        'abbreviation' => 'p',
+        'join' => 's.userid = p.userid',
+        'fields' => array(
+            'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
+            'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'specific_drivers' => 'ridingcomment',
+            'may_use_rideshare' => 'rideshare', 'may_go_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
+            'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
+        )
+    )
 );
 
 if (!$DB->record_exists('local_mxschool_student', array('id' => $id))) {
@@ -60,8 +69,8 @@ $ridingencode = array(
 );
 $data = get_record($queryfields, "s.id = ?", array($id));
 $data->riding = isset($data->riding) ? $ridingencode[$data->riding] : null;
-$dorms = get_dorm_list();
 $faculty = get_faculty_list();
+$dorms = get_dorm_list();
 
 $form = new local_mxschool\local\user_management\student_edit_form(array('dorms' => $dorms, 'faculty' => $faculty));
 $form->set_data($data);

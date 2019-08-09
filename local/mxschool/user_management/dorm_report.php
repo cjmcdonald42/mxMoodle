@@ -39,15 +39,12 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('dorm_report', 'user_management');
 
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_mxschool_dorm', array('id' => $id));
-    $redirect = new moodle_url($PAGE->url, (array) $filter);
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_mxschool_dorm', $record);
-        logged_redirect($redirect, get_string('user_management_dorm_delete_success', 'local_mxschool'), 'delete');
-    } else {
-        logged_redirect($redirect, get_string('user_management_dorm_delete_failure', 'local_mxschool'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_mxschool_dorm', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_mxschool_dorm', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("user_management_dorm_delete_{$result}", 'local_mxschool'),
+        'delete', $result === 'success'
+    );
 }
 
 $table = new local_mxschool\local\user_management\dorm_table($filter);

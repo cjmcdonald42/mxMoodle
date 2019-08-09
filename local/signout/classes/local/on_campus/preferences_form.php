@@ -58,9 +58,9 @@ class preferences_form extends \local_mxschool\form {
                 'ipformerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'ipsigninerrorboarder' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'ipsigninerrorday' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'underclassmanwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'juniorwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'confirmation' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'underclassmanwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'juniorwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
         $this->set_fields($fields, 'on_campus_preferences', true, 'local_signout');

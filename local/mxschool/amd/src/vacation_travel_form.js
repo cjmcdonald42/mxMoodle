@@ -128,7 +128,7 @@ define(
                         if (data.departure.default.year) {
                             depHourSelect.val(data.departure.default.hour);
                             depMinuteSelect.val(data.departure.default.minute);
-                            depAMPMSelect.val(data.departure.default.ampm ? 1 : 0);
+                            depAMPMSelect.val(data.departure.default.ampm === 'PM' ? 1 : 0);
                             depDaySelect.val(data.departure.default.day);
                             depMonthSelect.val(data.departure.default.month);
                             depYearSelect.val(data.departure.default.year);

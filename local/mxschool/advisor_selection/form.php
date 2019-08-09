@@ -39,11 +39,16 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('form', 'advisor_selection');
 $PAGE->requires->js_call_amd('local_mxschool/advisor_selection_form', 'setup');
 
-$queryfields = array('local_mxschool_adv_selection' => array('abbreviation' => 'asf', 'fields' => array(
-    'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
-    'option3id' => 'option3', 'option4id' => 'option4', 'option5id' => 'option5', 'selectedid' => 'selected',
-    'time_created' => 'timecreated', 'time_modified' => 'timemodified'
-)));
+$queryfields = array(
+    'local_mxschool_adv_selection' => array(
+        'abbreviation' => 'asf',
+        'fields' => array(
+            'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
+            'option3id' => 'option3', 'option4id' => 'option4', 'option5id' => 'option5', 'selectedid' => 'selected',
+            'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+        )
+    )
+);
 
 if ($isstudent && !student_may_access_advisor_selection($USER->id)) {
     redirect_to_fallback();

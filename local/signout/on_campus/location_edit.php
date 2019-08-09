@@ -35,9 +35,14 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_edit_page('location_edit', 'preferences', 'on_campus', 'signout');
 
-$queryfields = array('local_signout_location' => array('abbreviation' => 'l', 'fields' => array(
-    'id', 'name', 'grade', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'warning'
-)));
+$queryfields = array(
+    'local_signout_location' => array(
+        'abbreviation' => 'l',
+        'fields' => array(
+            'id', 'name', 'grade', 'all_day' => 'allday', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'warning'
+        )
+    )
+);
 
 if ($id) { // Updating an existing record.
     if (!$DB->record_exists('local_signout_location', array('id' => $id, 'deleted' => 0))) {
@@ -48,6 +53,7 @@ if ($id) { // Updating an existing record.
 } else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
+    $data->allday = '-1'; // Invalid default to prevent auto selection.
     $data->enabled = '-1'; // Invalid default to prevent auto selection.
 }
 

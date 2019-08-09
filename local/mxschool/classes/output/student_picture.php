@@ -51,10 +51,7 @@ class student_picture implements \renderable, \templatable {
      * @return stdClass Object with properties url and name.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
-        $data->url = $this->url->out();
-        $data->name = $this->name;
-        return $data;
+        return (object) array('url' => $this->url->out(), 'name' => $this->name);
     }
 
 }

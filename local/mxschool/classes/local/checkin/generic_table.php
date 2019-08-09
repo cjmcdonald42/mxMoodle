@@ -70,7 +70,7 @@ class generic_table extends \local_mxschool\table {
      * Formats the checkin cloumn to an empty check box.
      */
     protected function col_checkin($values) {
-        return '&ensp;&#8414;&ensp;';
+        return '&#9634;';
     }
 
 }

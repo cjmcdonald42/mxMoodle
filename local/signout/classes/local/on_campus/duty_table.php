@@ -57,7 +57,9 @@ class duty_table extends \local_mxschool\table {
             'on_campus_table', $columns, $headers, $sortable, $centered, $filter,
             get_config('local_signout', 'on_campus_confirmation_enabled'), false
         );
-        $this->add_column_class('confirmation', 'confirmation');
+        if (get_config('local_signout', 'on_campus_confirmation_enabled')) {
+            $this->add_column_class('confirmation', 'confirmation');
+        }
 
         $fields = array(
             'oc.id', 'oc.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade', 's.dormid', 'd.name AS dorm',

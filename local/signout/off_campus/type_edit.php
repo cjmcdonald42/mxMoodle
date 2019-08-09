@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Edit page for vacation travel site records for Middlesex's Dorm and Student Functions Plugin.
+ * Edit page for off-campus signout type records for Middlesex's eSignout Subplugin.
  *
- * @package     local_mxschool
- * @subpackage  vacation_travel
+ * @package     local_signout
+ * @subpackage  off_campus
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -29,50 +29,68 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
+require_capability('local/signout:manage_off_campus_preferences', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
-setup_edit_page('site_edit', 'preferences', 'vacation_travel');
+setup_edit_page('type_edit', 'preferences', 'off_campus', 'signout');
 
 $queryfields = array(
-    'local_mxschool_vt_site' => array(
-        'abbreviation' => 's',
+    'local_signout_type' => array(
+        'abbreviation' => 't',
         'fields' => array(
-            'id', 'name', 'type', 'enabled_departure' => 'departureenabled', 'enabled_return' => 'returnenabled',
-            'default_departure_time' => 'defaultdeparturetime', 'default_return_time' => 'defaultreturntime'
+            'id', 'required_permissions' => 'permissions', 'name', 'grade', 'boarding_status' => 'boardingstatus',
+            'weekend_only' => 'weekend', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'form_warning' => 'formwarning',
+            'email_warning' => 'emailwarning'
         )
     )
 );
 
 if ($id) { // Updating an existing record.
-    if (!$DB->record_exists('local_mxschool_vt_site', array('id' => $id, 'deleted' => 0))) {
+    if (!$DB->record_exists('local_signout_type', array('id' => $id, 'deleted' => 0))) {
         redirect_to_fallback();
     }
-    $data = get_record($queryfields, 's.id = ?', array($id));
+    $data = get_record($queryfields, 't.id = ?', array($id));
+    $data->formwarning = array('text' => $data->formwarning);
+    $data->emailwarning = array('text' => $data->emailwarning);
 } else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
+    $data->weekend = '-1'; // Invalid default to prevent auto selection.
+    $data->enabled = '-1'; // Invalid default to prevent auto selection.
 }
 
-$form = new local_mxschool\local\vacation_travel\site_edit_form();
+$form = new local_signout\local\off_campus\type_edit_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    if (!$data->defaultdeparturetime) {
-        unset($data->defaultdeparturetime);
+    if (!$data->permissions) {
+        unset($data->permissions);
     }
-    if (!$data->defaultreturntime) {
-        unset($data->defaultreturntime);
+    if (!$data->start) {
+        unset($data->start);
+    }
+    if (!$data->end) {
+        unset($data->end);
+    }
+    if ($data->formwarning['text']) {
+        $data->formwarning = $data->formwarning['text'];
+    } else {
+        unset($data->formwarning);
+    }
+    if ($data->emailwarning['text']) {
+        $data->emailwarning = $data->emailwarning['text'];
+    } else {
+        unset($data->emailwarning);
     }
     update_record($queryfields, $data);
     $action = $data->id ? 'update' : 'create';
-    logged_redirect($form->get_redirect(), get_string("vacation_travel_site_{$action}_success", 'local_mxschool'), $action);
+    logged_redirect($form->get_redirect(), get_string("off_campus_type_{$action}_success", 'local_signout'), $action);
 }
 
-$output = $PAGE->get_renderer('local_mxschool');
+$output = $PAGE->get_renderer('local_signout');
 $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();

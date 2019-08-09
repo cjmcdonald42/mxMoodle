@@ -39,15 +39,9 @@ generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'advisor_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
 $data->who = get_config('local_mxschool', 'advisor_form_enabled_who');
-$submittednotification = get_notification('advisor_selection_submitted');
-$data->submitted_subject = $submittednotification->subject;
-$data->submitted_body['text'] = $submittednotification->body_html;
-$unsubmittednotification = get_notification('advisor_selection_notify_unsubmitted');
-$data->unsubmitted_subject = $unsubmittednotification->subject;
-$data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
-$resultsnotification = get_notification('advisor_selection_notify_results');
-$data->results_subject = $resultsnotification->subject;
-$data->results_body['text'] = $resultsnotification->body_html;
+generate_email_preference_fields('advisor_selection_submitted', $data, 'submitted');
+generate_email_preference_fields('advisor_selection_notify_unsubmitted', $data, 'unsubmitted');
+generate_email_preference_fields('advisor_selection_notify_results', $data, 'results');
 $data->closing_warning['text'] = get_config('local_mxschool', 'advisor_form_closing_warning');
 $data->instructions['text'] = get_config('local_mxschool', 'advisor_form_instructions');
 
@@ -60,9 +54,9 @@ if ($form->is_cancelled()) {
     set_config('advisor_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
     set_config('advisor_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
     set_config('advisor_form_enabled_who', $data->who, 'local_mxschool');
-    update_notification('advisor_selection_submitted', $data->submitted_subject, $data->submitted_body);
-    update_notification('advisor_selection_notify_unsubmitted', $data->unsubmitted_subject, $data->unsubmitted_body);
-    update_notification('advisor_selection_notify_results', $data->results_subject, $data->results_body);
+    update_notification('advisor_selection_submitted', $data, 'submitted');
+    update_notification('advisor_selection_notify_unsubmitted', $data, 'unsubmitted');
+    update_notification('advisor_selection_notify_results', $data, 'results');
     set_config('advisor_form_closing_warning', $data->closing_warning['text'], 'local_mxschool');
     set_config('advisor_form_instructions', $data->instructions['text'], 'local_mxschool');
     logged_redirect(

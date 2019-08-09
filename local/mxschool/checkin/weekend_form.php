@@ -39,11 +39,16 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('weekend_form', 'checkin');
 $PAGE->requires->js_call_amd('local_mxschool/weekend_form', 'setup');
 
-$queryfields = array('local_mxschool_weekend_form' => array('abbreviation' => 'wf', 'fields' => array(
-    'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
-    'return_date_time' => 'return_date', 'destination', 'transportation', 'phone_number' => 'phone',
-    'time_created' => 'timecreated', 'time_modified' => 'timemodified'
-)));
+$queryfields = array(
+    'local_mxschool_weekend_form' => array(
+        'abbreviation' => 'wf',
+        'fields' => array(
+            'id', 'userid' => 'student', 'weekendid' => 'weekend', 'departure_date_time' => 'departure_date',
+            'return_date_time' => 'return_date', 'destination', 'transportation', 'phone_number' => 'phone',
+            'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+        )
+    )
+);
 
 if ($isstudent && !student_may_access_weekend($USER->id)) {
     redirect_to_fallback();
@@ -71,10 +76,8 @@ if ($id) { // Updating an existing record.
         }
     }
     if (isset($data->dorm)) {
-        $record = $DB->get_record_sql(
-            "SELECT d.hohid AS hoh, d.permissions_line AS permissionsline
-             FROM {local_mxschool_dorm} d
-             WHERE d.id = ? AND d.deleted = 0", array($data->dorm)
+        $record = $DB->get_record_select(
+            'local_mxschool_dorm', 'id = ? AND deleted = 0', array($data->dorm), 'hohid AS hoh, permissions_line AS permissionsline'
         );
     }
 }
@@ -98,23 +101,15 @@ if ($form->is_cancelled()) {
     $departureendbound = clone $departurestartbound;
     $departurestartbound->modify('+4 days'); // Map 0:00:00 Wednesday to 0:00:00 Sunday.
     $departureendbound->modify('-3 days'); // Map 0:00:00 Tuesday to 0:00:00 Sunday.
-    $data->weekend = $DB->get_field_sql(
-        "SELECT id
-         FROM {local_mxschool_weekend}
-         WHERE ? >= sunday_time AND ? < sunday_time",
+    $data->weekend = $DB->get_field_select(
+        'local_mxschool_weekend', 'id', '? >= sunday_time AND ? < sunday_time',
         array($departurestartbound->getTimestamp(), $departureendbound->getTimestamp())
     );
     $id = update_record($queryfields, $data);
-    $oldrecord = $DB->get_record_sql(
-        "SELECT *
-         FROM {local_mxschool_weekend_form}
-         WHERE userid = ? AND weekendid = ? AND id <> ? AND active = 1",
+    $DB->set_field_select(
+        'local_mxschool_weekend_form', 'active', 0, 'userid = ? AND weekendid = ? AND id <> ? AND active = 1',
         array($data->student, $data->weekend, $id)
     );
-    if ($oldrecord) {
-        $oldrecord->active = 0; // Each student can have only one active record for a given weekend.
-        $DB->update_record('local_mxschool_weekend_form', $oldrecord);
-    }
     $result = (new local_mxschool\local\checkin\weekend_form_submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('checkin_weekend_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'

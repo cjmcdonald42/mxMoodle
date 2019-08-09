@@ -41,10 +41,16 @@ if (!$isstudent || validate_ip_off_campus()) {
     $PAGE->requires->js_call_amd('local_signout/off_campus_form', 'setup');
 }
 
-$queryfields = array('local_signout_off_campus' => array('abbreviation' => 'oc', 'fields' => array(
-    'id', 'userid' => 'student', 'driverid' => 'driver', 'approverid' => 'approver', 'type' => 'type_select', 'passengers',
-    'destination', 'departure_time' => 'departure_date', 'time_created' => 'timecreated', 'time_modified' => 'timemodified'
-)));
+$queryfields = array(
+    'local_signout_off_campus' => array(
+        'abbreviation' => 'oc',
+        'fields' => array(
+            'id', 'userid' => 'student', 'typeid' => 'type_select', 'other' => 'type_other', 'driverid' => 'driver',
+            'approverid' => 'approver', 'passengers', 'destination', 'departure_time' => 'departure_date',
+            'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+        )
+    )
+);
 
 if ($isstudent && !student_may_access_off_campus_signout($USER->id)) {
     redirect_to_fallback();
@@ -58,21 +64,9 @@ if ($id) { // Updating an existing record.
         // Students cannot edit existing off-campus signout records beyond the edit window.
         redirect_to_fallback();
     }
-    switch ($data->type_select) {
-        case 'Driver':
-            $data->passengers = json_decode($data->passengers);
-            break;
-        case 'Passenger':
-            $driver = get_record($queryfields, "oc.id = ?", array($data->driver));
-            $data->destination = $driver->destination;
-            $data->departure_date = $driver->departure_date;
-            break;
-        case 'Parent':
-        case 'Rideshare':
-            break;
-        default:
-            $data->type_other = $data->type_select;
-            $data->type_select = 'Other';
+    $permissions = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $data->type_select));
+    if ($permissions === 'driver') {
+        $data->passengers = json_decode($data->passengers);
     }
 } else { // Creating a new record.
     $currentsignout = get_user_current_signout();
@@ -89,12 +83,11 @@ if ($id) { // Updating an existing record.
 }
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_signout', 'off_campus_form_instructions_passenger');
-$data->passengerswarning = get_config('local_signout', 'off_campus_form_warning_nopassengers');
+$data->driverwarning = get_config('local_signout', 'off_campus_form_warning_driver_nopassengers');
 generate_time_selector_fields($data, 'departure', 15);
-$data->parentwarning = get_config('local_signout', 'off_campus_form_warning_needparent');
-$data->specificwarning = get_config('local_signout', 'off_campus_form_warning_onlyspecific');
 $students = get_student_list();
-$types = get_off_campus_type_list();
+$types = array(0 => get_string('form:select:default', 'local_mxschool')) + get_off_campus_type_list()
+       + array(-1 => get_string('off_campus_form_type_select_other', 'local_signout'));
 $passengers = get_permitted_passenger_list();
 $drivers = array(0 => get_string('form:select:default', 'local_mxschool')) + get_permitted_driver_list();
 $approvers = array(0 => get_string('form:select:default', 'local_mxschool')) + get_approver_list();
@@ -108,32 +101,35 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    switch ($data->type_select) {
-        case 'Driver': // For a Driver record, the passengers and departure date need to be encoded.
-            $data->driver = 0; // This field will be set once we know the id of this record.
-            $data->passengers = json_encode($data->passengers ?? array());
-            $data->departure_date = generate_timestamp($data, 'departure');
-            break;
-        case 'Passenger': // For a Passenger record, the destination and departure fields are inherited.
-            unset($data->passengers);
-            unset($data->destination);
-            unset($data->date);
-            break;
-        case 'Other': // For an 'Other' record, the other text is stored in the type field.
-            // We have to be careful here because the text which students enter in the 'other' field is stored directly as the type.
-            // If the internal name of a type was entered, students could bypass their permissions and not be flagged as irregular.
-            $data->type_select = in_array($data->type_other, $types) ? 'Other' : $data->type_other;
-        default: // For Parent, Rideshare, and 'Other' records, the destination and departure fields are saved on their own record.
-            $data->driver = 0; // This field will be set once we know the id of this record.
-            unset($data->passengers);
-            $data->departure_date = generate_timestamp($data, 'departure');
+    $permissions = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $data->type_select));
+    if ($permissions === 'passenger') { // Only passengers have drivers.
+        $driver = $DB->get_record('local_signout_off_campus', array('id' => $data->driver));
+        $data->destination = $driver->destination;
+        $data->departure_date = $driver->departure_time;
+    } else {
+        unset($data->driver);
+        $data->departure_date = generate_timestamp($data, 'departure');
+    }
+    if ($permissions === 'driver') { // Only drivers have passengers.
+        $data->passengers = json_encode($data->passengers ?? array());
+        $existingpassengers = $DB->get_records('local_signout_off_campus', array('driverid' => $data->id));
+        if ($existingpassengers) { // Update any existing passengers when the driver is updated.
+            foreach ($existingpassengers as $passenger) {
+                $passenger->destination = $data->destination;
+                $passenger->departure_time = $data->departure_date;
+                $DB->update_record('local_signout_off_campus', $passenger);
+            }
+        }
+    } else {
+        unset($data->passengers);
+    }
+    if (!$permissions && $data->type_select !== '-1') {
+        unset($data->approver);
+    }
+    if ($data->type_select !== '-1') { // Only keep the 'other' field if the type is 'other'.
+        unset($data->type_other);
     }
     $id = update_record($queryfields, $data);
-    if ($data->type_select !== 'Passenger') { // For Driver, Parent, Rideshare and 'Other' records, driverid references the same id.
-        $record = $DB->get_record('local_signout_off_campus', array('id' => $id));
-        $record->driverid = $id;
-        $DB->update_record('local_signout_off_campus', $record);
-    }
     $result = (new local_signout\local\off_campus\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('off_campus_success', 'local_signout'), $data->id ? 'update' : 'create'
@@ -149,7 +145,7 @@ $renderable = new local_mxschool\output\form($form, false, $bottominstructions);
 
 echo $output->header();
 if ($isstudent && !validate_ip_off_campus()) {
-    echo $output->heading(get_config('local_signout', 'off_campus_form_iperror'));
+    echo $output->heading(get_config('local_signout', 'off_campus_form_ipvalidation_error'));
 } else {
     echo $output->heading(
         $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title

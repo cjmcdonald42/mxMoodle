@@ -55,12 +55,9 @@ class report_table implements \renderable, \templatable {
      * @return stdClass Object with properties table and headers.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
         ob_start();
         $this->table->out(isset($this->rows) ? $this->rows : get_config('local_mxschool', 'table_size'), true);
-        $data->table = ob_get_clean();
-        $data->headers = $this->headers ? json_encode($this->headers) : $this->headers;
-        return $data;
+        return (object) array('table' => ob_get_clean(), 'headers' => $this->headers ? json_encode($this->headers) : $this->headers);
     }
 
 }

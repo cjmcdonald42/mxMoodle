@@ -37,28 +37,26 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('preferences', 'on_campus', 'signout');
 
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_signout_location', array('id' => $id));
-    if ($record) {
-        $record->deleted = 1;
-        $DB->update_record('local_signout_location', $record);
-        logged_redirect($PAGE->url, get_string('on_campus_location_delete_success', 'local_signout'), 'delete');
-    } else {
-        logged_redirect($PAGE->url, get_string('on_campus_location_delete_failure', 'local_signout'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_signout_location', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_signout_location', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus_location_delete_{$result}", 'local_signout'), 'delete',
+        $result === 'success'
+    );
 }
 
 $data = new stdClass();
 $data->enabled = get_config('local_signout', 'on_campus_form_enabled');
-$data->ipenabled = get_config('local_signout', 'on_campus_form_ipenabled');
+$data->ipenabled = get_config('local_signout', 'on_campus_ipvalidation_enabled');
 $data->confirmationenabled = get_config('local_signout', 'on_campus_confirmation_enabled');
 $data->refresh = get_config('local_signout', 'on_campus_refresh_rate');
 $data->confirmationundo = get_config('local_signout', 'on_campus_confirmation_undo_window');
-$data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_iperror');
-$data->ipsigninerrorboarder['text'] = get_config('local_signout', 'on_campus_signin_iperror_boarder');
-$data->ipsigninerrorday['text'] = get_config('local_signout', 'on_campus_signin_iperror_day');
+$data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_ipvalidation_error');
+$data->ipsigninerrorboarder['text'] = get_config('local_signout', 'on_campus_signin_ipvalidation_error_boarder');
+$data->ipsigninerrorday['text'] = get_config('local_signout', 'on_campus_signin_ipvalidation_error_day');
+$data->confirmation['text'] = get_config('local_signout', 'on_campus_form_confirmation');
 $data->underclassmanwarning['text'] = get_config('local_signout', 'on_campus_form_warning_underclassmen');
 $data->juniorwarning['text'] = get_config('local_signout', 'on_campus_form_warning_juniors');
-$data->confirmation['text'] = get_config('local_signout', 'on_campus_form_confirmation');
 
 $form = new local_signout\local\on_campus\preferences_form();
 $form->set_data($data);
@@ -67,16 +65,16 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     set_config('on_campus_form_enabled', $data->enabled, 'local_signout');
-    set_config('on_campus_form_ipenabled', $data->ipenabled, 'local_signout');
+    set_config('on_campus_ipvalidation_enabled', $data->ipenabled, 'local_signout');
     set_config('on_campus_confirmation_enabled', $data->confirmationenabled, 'local_signout');
     set_config('on_campus_refresh_rate', $data->refresh, 'local_signout');
     set_config('on_campus_confirmation_undo_window', $data->confirmationundo, 'local_signout');
-    set_config('on_campus_form_iperror', $data->ipformerror['text'], 'local_signout');
-    set_config('on_campus_signin_iperror_boarder', $data->ipsigninerrorboarder['text'], 'local_signout');
-    set_config('on_campus_signin_iperror_day', $data->ipsigninerrorday['text'], 'local_signout');
+    set_config('on_campus_form_ipvalidation_error', $data->ipformerror['text'], 'local_signout');
+    set_config('on_campus_signin_ipvalidation_error_boarder', $data->ipsigninerrorboarder['text'], 'local_signout');
+    set_config('on_campus_signin_ipvalidation_error_day', $data->ipsigninerrorday['text'], 'local_signout');
+    set_config('on_campus_form_confirmation', $data->confirmation['text'], 'local_signout');
     set_config('on_campus_form_warning_underclassmen', $data->underclassmanwarning['text'], 'local_signout');
     set_config('on_campus_form_warning_juniors', $data->juniorwarning['text'], 'local_signout');
-    set_config('on_campus_form_confirmation', $data->confirmation['text'], 'local_signout');
     logged_redirect(
         $form->get_redirect(), get_string('on_campus_preferences_update_success', 'local_signout'), 'update'
     );

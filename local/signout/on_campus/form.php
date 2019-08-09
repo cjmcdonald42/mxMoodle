@@ -41,10 +41,15 @@ if (!$isstudent || validate_ip_on_campus()) {
     $PAGE->requires->js_call_amd('local_signout/on_campus_form', 'setup');
 }
 
-$queryfields = array('local_signout_on_campus' => array('abbreviation' => 'oc', 'fields' => array(
-    'id', 'userid' => 'student', 'locationid' => 'location_select', 'other' => 'location_other', 'time_created' => 'timecreated',
-    'time_modified' => 'timemodified'
-)));
+$queryfields = array(
+    'local_signout_on_campus' => array(
+        'abbreviation' => 'oc',
+        'fields' => array(
+            'id', 'userid' => 'student', 'locationid' => 'location_select', 'other' => 'location_other',
+            'time_created' => 'timecreated', 'time_modified' => 'timemodified'
+        )
+    )
+);
 
 if ($isstudent && !student_may_access_on_campus_signout($USER->id)) {
     redirect_to_fallback();
@@ -77,7 +82,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    if ($data->location_select !== '-1') {
+    if ($data->location_select !== '-1') { // Only keep the 'other' field if the location is 'other'.
         unset($data->location_other);
     }
     update_record($queryfields, $data);
@@ -91,7 +96,7 @@ $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 if ($isstudent && !validate_ip_on_campus()) {
-    echo $output->heading(get_config('local_signout', 'on_campus_form_iperror'));
+    echo $output->heading(get_config('local_signout', 'on_campus_form_ipvalidation_error'));
 } else {
     echo $output->heading(
         $isstudent ? get_string('on_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title

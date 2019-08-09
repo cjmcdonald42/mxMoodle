@@ -46,9 +46,9 @@ class RENDERABLE_NAME implements \renderable, \templatable {
      * @return stdClass Object with properties TODO: List properties.
      */
     public function export_for_template(\renderer_base $output) {
-        $data = new \stdClass();
-        // TODO: Add data to the object.
-        return $data;
+        return (object) array(
+            // TODO: Add data to the array.
+        );
     }
 
 }

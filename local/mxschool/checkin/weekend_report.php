@@ -44,23 +44,24 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('weekend_report', 'checkin');
 $redirect = new moodle_url($PAGE->url, (array) $filter);
 
-$queryfields = array('local_mxschool_comment' => array('abbreviation' => 'c', 'fields' => array(
-    'id', 'weekendid' => 'weekend', 'dormid' => 'dorm', 'comment'
-)));
+$queryfields = array(
+    'local_mxschool_comment' => array(
+        'abbreviation' => 'c',
+        'fields' => array('id', 'weekendid' => 'weekend', 'dormid' => 'dorm', 'comment')
+    )
+);
 
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_mxschool_weekend_form', array('id' => $id));
-    if ($record) {
-        $record->active = 0;
-        $DB->update_record('local_mxschool_weekend_form', $record);
-        logged_redirect($redirect, get_string('checkin_weekend_form_delete_success', 'local_mxschool'), 'delete');
-    } else {
-        logged_redirect($redirect, get_string('checkin_weekend_form_delete_failure', 'local_mxschool'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_mxschool_weekend_form', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_mxschool_weekend_form', 'active', 0, array('id' => $id));
+    logged_redirect(
+        $redirect, get_string("checkin_weekend_form_delete_{$result}", 'local_mxschool'), 'delete', $result === 'success'
+    );
 }
 $data = get_record($queryfields, "c.weekendid = ? AND c.dormid = ?", array($filter->weekend, $filter->dorm));
 if (!$data) { // Creating a new record.
     $data = new stdClass();
+    $data->id = $id;
     $data->weekend = $filter->weekend;
     $data->dorm = $filter->dorm;
 }

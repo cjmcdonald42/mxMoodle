@@ -58,7 +58,7 @@ class weekend_calculator_table extends \local_mxschool\table {
         $centered = array('room', 'grade', 'total', 'allowed');
         foreach ($weekends as $weekend) {
             $columns1[] = $centered[] = "weekend_{$weekend->id}";
-            $date = generate_datetime($weekend->sunday_time);
+            $date = generate_datetime($weekend->sunday);
             $date->modify("-1 day");
             $headers1[] = $date->format('m/d');
         }

@@ -37,16 +37,12 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('preferences', 'vacation_travel');
 
 if ($action === 'delete' && $id) {
-    $record = $DB->get_record('local_mxschool_vt_site', array('id' => $id));
-    if ($record) {
-        $record->deleted = 1;
-        $record->enabled_departure = 0;
-        $record->enabled_return = 0;
-        $DB->update_record('local_mxschool_vt_site', $record);
-        logged_redirect($PAGE->url, get_string('vacation_travel_site_delete_success', 'local_mxschool'), 'delete');
-    } else {
-        logged_redirect($PAGE->url, get_string('vacation_travel_site_delete_failure', 'local_mxschool'), 'delete', false);
-    }
+    $result = $DB->record_exists('local_mxschool_vt_site', array('id' => $id)) ? 'success' : 'failure';
+    $DB->set_field('local_mxschool_vt_site', 'deleted', 1, array('id' => $id));
+    logged_redirect(
+        new moodle_url($PAGE->url, (array) $filter), get_string("vacation_travel_site_delete_{$result}", 'local_mxschool'),
+        'delete', $result === 'success'
+    );
 }
 
 $data = new stdClass();
@@ -55,12 +51,8 @@ generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
 $data->returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
-$submittednotification = get_notification('vacation_travel_submitted');
-$data->submitted_subject = $submittednotification->subject;
-$data->submitted_body['text'] = $submittednotification->body_html;
-$unsubmittednotification = get_notification('vacation_travel_notify_unsubmitted');
-$data->unsubmitted_subject = $unsubmittednotification->subject;
-$data->unsubmitted_body['text'] = $unsubmittednotification->body_html;
+generate_email_preference_fields('vacation_travel_submitted', $data, 'submitted');
+generate_email_preference_fields('vacation_travel_notify_unsubmitted', $data, 'unsubmitted');
 
 $form = new local_mxschool\local\vacation_travel\preferences_form();
 $form->set_data($data);
@@ -71,8 +63,8 @@ if ($form->is_cancelled()) {
     set_config('vacation_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
     set_config('vacation_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
     set_config('vacation_form_returnenabled', $data->returnenabled, 'local_mxschool');
-    update_notification('vacation_travel_submitted', $data->submitted_subject, $data->submitted_body);
-    update_notification('vacation_travel_notify_unsubmitted', $data->unsubmitted_subject, $data->unsubmitted_body);
+    update_notification('vacation_travel_submitted', $data, 'submitted');
+    update_notification('vacation_travel_notify_unsubmitted', $data, 'unsubmitted');
     logged_redirect(
         $form->get_redirect(), get_string('vacation_travel_preferences_update_success', 'local_mxschool'), 'update'
     );

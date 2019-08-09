@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local functions for Middlesex's Dorm and Student Functions Plugin.
+ * Local library functions for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
@@ -195,15 +195,16 @@ function redirect_non_admin() {
 function logged_redirect($url, $notification, $action, $success = true) {
     global $PAGE;
     if ($success) {
+        $params = array('other' => array('page' => $PAGE->title));
         switch($action) {
             case 'create':
-                local_mxschool\event\record_created::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_created::create($params)->trigger();
                 break;
             case 'update':
-                local_mxschool\event\record_updated::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_updated::create($params)->trigger();
                 break;
             case 'delete':
-                local_mxschool\event\record_deleted::create(array('other' => array('page' => $PAGE->title)))->trigger();
+                local_mxschool\event\record_deleted::create($params)->trigger();
                 break;
             default:
                 debugging("Invalid action type: {$action}", DEBUG_DEVELOPER);
@@ -298,42 +299,50 @@ function update_record($queryfields, $data) {
 }
 
 /**
- * Retrieves the notification record of a particular class from the database.
- * Creates the record if it does not exist already.
+ * Sets the data for email prefence text fields for a particular email class.
  *
- * @param string $emailclass The class of the email to be retrieved.
- * @return stdClass The notification record object.
+ * @param string $class The class identifier of the notification.
+ * @param stdClass $data The data object.
+ * @param string $prefix A prefix for the properties to be set.
+ *                       - The properties set will be "{$prefix}_subject" and "{$prefix}_body['text']".
  */
-function get_notification($emailclass) {
+function generate_email_preference_fields($class, &$data, $prefix = '') {
     global $DB;
-    if (!$DB->record_exists('local_mxschool_notification', array('class' => $emailclass))) {
-        $record = new stdClass();
-        $record->class = $emailclass;
-        $record->body_html = '';
-        $DB->insert_record('local_mxschool_notification', $record);
+    if (!$DB->record_exists('local_mxschool_notification', array('class' => $class))) {
+        $default = array('class' => $class, 'body_html' => '');
+        $DB->insert_record('local_mxschool_notification', (object) $default);
     }
-    return $DB->get_record('local_mxschool_notification', array('class' => $emailclass));
+    $notification = $DB->get_record('local_mxschool_notification', array('class' => $class));
+    if ($prefix) {
+        $data->{"{$prefix}_subject"} = $notification->subject;
+        $data->{"{$prefix}_body"}['text'] = $notification->body_html;
+    } else {
+        $data->subject = $notification->subject;
+        $data->body['text'] = $notification->body_html;
+    }
 }
 
 /**
  * Updates a notification record in the database or inserts it if it doesn't already exist.
  *
  * @param string $class The class identifier of the notification.
- * @param string $subject The new subject for the notification.
- * @param string $body The new body for the notification.
+ * @param stdClass $data The data object.
+ * @param string $prefix A prefix for the properties to be set.
+ *                       - The properties set will be "{$prefix}_subject" and "{$prefix}_body['text']".
  */
-function update_notification($class, $subject, $body) {
+function update_notification($class, $data, $prefix = '') {
     global $DB;
-    $record = new stdClass();
-    $record->class = $class;
-    $record->subject = $subject;
-    $record->body_html = $body['text'];
+    $record = array(
+        'class' => $class,
+        'subject' => $prefix ? $data->{"{$prefix}_subject"} : $data->subject,
+        'body_html' => $prefix ? $data->{"{$prefix}_body"}['text'] : $data->body['text']
+    );
     $id = $DB->get_field('local_mxschool_notification', 'id', array('class' => $class));
     if ($id) {
-        $record->id = $id;
-        $DB->update_record('local_mxschool_notification', $record);
+        $record['id'] = $id;
+        $DB->update_record('local_mxschool_notification', (object) $record);
     } else {
-        $DB->insert_record('local_mxschool_notification', $record);
+        $DB->insert_record('local_mxschool_notification', (object) $record);
     }
 }
 
@@ -386,13 +395,12 @@ function format_date($format, $time = 'now') {
  * @param string $prefix A prefix for the properties to be set.
  *                       - The properties set will be "{$prefix}_time_hour", "{$prefix}_time_minute", and "{$prefix}_time_ampm".
  *                       - The timestamp used will be from "{$prefix}_date".
- * @param int $step An increment indicating the available minute values.
+ * @param int $step The resolution of the time in minutes.
  */
 function generate_time_selector_fields(&$data, $prefix, $step = 1) {
     $time = generate_datetime($data->{"{$prefix}_date"});
     $data->{"{$prefix}_time_hour"} = $time->format('g');
-    $minute = $time->format('i');
-    $data->{"{$prefix}_time_minute"} = $minute - $minute % $step;
+    $data->{"{$prefix}_time_minute"} = (string) ((int) ($time->format('i') / $step) * $step);
     $data->{"{$prefix}_time_ampm"} = $time->format('A') === 'PM';
 }
 
@@ -417,29 +425,22 @@ function generate_timestamp($data, $prefix) {
  * Helper method to convert a timestamp into an object.
  *
  * @param int $timestamp The timestamp to convert.
+ * @param int $step The resolution of the time in minutes.
  * @return stdClass Object with properties year, month, day, hour, minute, ampm.
  */
-function enumerate_timestamp($timestamp) {
-    $result = new stdClass();
+function enumerate_timestamp($timestamp, $step = 1) {
     if ($timestamp) {
         $time = generate_datetime($timestamp);
-        $result->year = $time->format('Y');
-        $result->month = $time->format('n');
-        $result->day = $time->format('j');
-        $result->hour = $time->format('g');
-        $minute = $time->format('i');
-        $minute -= $minute % 15;
-        $result->minute = "{$minute}";
-        $result->ampm = $time->format('A') === 'PM';
-    } else {
-        $result->year = '';
-        $result->month = '';
-        $result->day = '';
-        $result->hour = '';
-        $result->minute = '';
-        $result->ampm = false;
+        return (object) array(
+            'year' => $time->format('Y'),
+            'month' => $time->format('n'),
+            'day' => $time->format('j'),
+            'hour' => $time->format('g'),
+            'minute' => (string) ((int) ($time->format('i') / $step) * $step),
+            'ampm' => $time->format('A')
+        );
     }
-    return $result;
+    return (object) array('year' => '', 'month' => '', 'day' => '', 'hour' => '', 'minute' => '', 'ampm' => '');
 }
 
 /**
@@ -1014,11 +1015,8 @@ function get_available_advisor_list() {
 function get_dorm_list($includeday = true) {
     global $DB;
     $where = $includeday ? '' : "AND type = 'Boarding'";
-    $dorms = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_mxschool_dorm}
-         WHERE deleted = 0 AND available = 1 {$where}
-         ORDER BY value"
+    $dorms = $DB->get_records_select(
+        'local_mxschool_dorm', "deleted = 0 AND available = 1 {$where}", null, 'value', 'id, name AS value'
     );
     return convert_records_to_list($dorms);
 }
@@ -1030,16 +1028,14 @@ function get_dorm_list($includeday = true) {
  */
 function get_weekend_list() {
     global $DB;
-    $weekends = $DB->get_records_sql(
-        "SELECT id, sunday_time
-         FROM {local_mxschool_weekend}
-         WHERE sunday_time >= ? AND sunday_time < ?
-         ORDER BY sunday_time",
-         array(get_config('local_mxschool', 'dorms_open_date'), get_config('local_mxschool', 'dorms_close_date'))
+    $weekends = $DB->get_records_select(
+        'local_mxschool_weekend', 'sunday_time >= ? AND sunday_time < ?',
+        array(get_config('local_mxschool', 'dorms_open_date'), get_config('local_mxschool', 'dorms_close_date')), 'sunday',
+        'id, sunday_time AS sunday'
     );
     if ($weekends) {
         foreach ($weekends as $weekend) {
-            $time = generate_datetime($weekend->sunday_time);
+            $time = generate_datetime($weekend->sunday);
             $time->modify("-1 day");
             $weekend->value = $time->format('m/d/y');
         }
@@ -1056,11 +1052,8 @@ function get_weekend_list() {
 function get_vacation_travel_departure_sites_list($type = null) {
     global $DB;
     $where = $type ? "AND type = '{$type}'" : '';
-    $sites = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_mxschool_vt_site}
-         WHERE deleted = 0 AND enabled_departure = 1 {$where}
-         ORDER BY name"
+    $sites = $DB->get_records_select(
+        'local_mxschool_vt_site', "deleted = 0 AND enabled_departure = 1 {$where}", null, 'value', 'id, name AS value'
     );
     $list = convert_records_to_list($sites);
     if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
@@ -1078,11 +1071,8 @@ function get_vacation_travel_departure_sites_list($type = null) {
 function get_vacation_travel_return_sites_list($type = null) {
     global $DB;
     $where = $type ? "AND type = '{$type}'" : '';
-    $sites = $DB->get_records_sql(
-        "SELECT id, name AS value
-         FROM {local_mxschool_vt_site}
-         WHERE deleted = 0 AND enabled_return = 1 {$where}
-         ORDER BY name"
+    $sites = $DB->get_records_select(
+        'local_mxschool_vt_site', "deleted = 0 AND enabled_return = 1 {$where}", null, 'value', 'id, name AS value'
     );
     $list = convert_records_to_list($sites);
     if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
@@ -1140,32 +1130,57 @@ function get_weekend_end_day_list() {
  */
 function generate_weekend_records($starttime, $endtime) {
     global $DB;
-    $weekends = $DB->get_records_sql(
-        "SELECT sunday_time
-         FROM {local_mxschool_weekend}
-         WHERE sunday_time >= ? AND sunday_time < ?", array($starttime, $endtime)
+    $weekends = $DB->get_records_select(
+        'local_mxschool_weekend', 'sunday_time >= ? AND sunday_time < ?', array($starttime, $endtime), '', 'sunday_time AS sunday'
     );
     $sorted = array();
     foreach ($weekends as $weekend) {
-        $sorted[$weekend->sunday_time] = $weekend;
+        $sorted[$weekend->sunday] = $weekend;
     }
     $date = generate_datetime($starttime);
     $date->modify('Sunday this week');
     while ($date->getTimestamp() < $endtime) {
-        if (!isset($sorted[$date->getTimestamp()])) {
-            $newweekend = new stdClass();
-            $newweekend->sunday_time = $date->getTimestamp();
-            $DB->insert_record('local_mxschool_weekend', $newweekend);
+        if (empty($sorted[$date->getTimestamp()])) {
+            $DB->insert_record('local_mxschool_weekend', (object) array('sunday_time' => $date->getTimestamp()));
         }
         $date->modify('+1 week');
     }
-    return $DB->get_records_sql(
-        "SELECT *
-         FROM {local_mxschool_weekend}
-         WHERE sunday_time >= ? AND sunday_time < ?
-         ORDER BY sunday_time",
-        array($starttime, $endtime)
+    return $DB->get_records_select(
+        'local_mxschool_weekend', 'sunday_time >= ? AND sunday_time < ?', array($starttime, $endtime), 'sunday_time'
     );
+}
+
+/**
+ * Queries the database to determine whether a date occurs within a valid weekend.
+ *
+ * @param string|int $date A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ *                         or a timestamp.
+ * @return bool Whther the timestamp is between the start and end times of a weekend in the database.
+ */
+function date_is_in_weekend($date = 'now') {
+    global $DB;
+    $timestamp = generate_datetime($date)->getTimestamp();
+    $starttime = get_config('local_mxschool', 'dorms_open_date');
+    $endtime = get_config('local_mxschool', 'dorms_close_date');
+    if ($timestamp < $starttime || $timestamp >= $endtime) { // No need to query if we are outside the range of weekends.
+        return false;
+    }
+    $weekends = $DB->get_records_select(
+        'local_mxschool_weekend', 'sunday_time >= ? AND sunday_time < ?', array($starttime, $endtime)
+    );
+    if ($weekends) {
+        foreach ($weekends as $weekend) {
+            $start = generate_datetime($weekend->sunday_time);
+            $start->modify("{$weekend->start_offset} days");
+            $endoffset = $weekend->end_offset + 1; // Add an additional day to get to the end of the weekend.
+            $end = generate_datetime($weekend->sunday_time);
+            $end->modify("{$endoffset} days");
+            if ($timestamp >= $start->getTimestamp() && $timestamp < $end->getTimestamp()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 /**
@@ -1239,37 +1254,4 @@ function get_vacation_travel_type_list($mxtransportation = null) {
     return isset($mxtransportation) ? (
         $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
     ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
-}
-
-/**
- * Retrieves the default departure time for a vacation travel site.
- *
- * @param int $site The id of the site.
- * @return stdClass Object with properties year, month, day, hour, minute, ampm.
- */
-function get_site_default_departure_time($site) {
-    global $DB;
-    $default = $DB->get_field_sql(
-        "SELECT default_departure_time
-         FROM {local_mxschool_vt_site}
-         WHERE id = ? AND deleted = 0 AND enabled_departure = 1", array($site)
-    );
-    return enumerate_timestamp($default);
-}
-
-/**
- * Retrieves the default return time for a vacation travel site.
- *
- * @param int $site The id of the site.
- * @return stdClass Object with properties year, month, day, hour, minute, ampm.
- */
-function get_site_default_return_time($site) {
-    global $DB;
-    $default = $DB->get_field_sql(
-        "SELECT default_return_time
-         FROM {local_mxschool_vt_site}
-         WHERE id = ? AND deleted = 0 AND enabled_return = 1",
-        array($site)
-    );
-    return enumerate_timestamp($default);
 }
