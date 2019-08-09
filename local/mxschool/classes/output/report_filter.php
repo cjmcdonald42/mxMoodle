@@ -67,7 +67,7 @@ class report_filter implements \renderable, \templatable {
             }, $this->dropdowns),
             'searchable' => isset($this->search),
             'search' => $this->search,
-            'filterable' => isset($this->search) || count($data->dropdowns),
+            'filterable' => isset($this->search) || count($this->dropdowns),
             'buttons' => array_map(function($button) use($output) {
                 return $output->render($button);
             }, $this->buttons),
