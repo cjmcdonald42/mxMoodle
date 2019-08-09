@@ -504,17 +504,18 @@ function sign_in_user() {
                 ));
                 return get_config('local_signout', "on_campus_signin_iperror_{$boardingstatus}");
             }
+            break;
         case 'off_campus':
             if (!validate_ip_off_campus()) {
                 return get_config('local_signout', 'off_campus_signin_iperror');
             }
-            return '';
+            break;
         default:
             return get_string('sign_in_button:error:invalidtype', 'local_signout');
     }
     $today = generate_datetime('midnight')->getTimestamp();
     $records = $DB->get_records_select(
-        "local_signout_{$currentsignout->type}", 'userid = ? AND sign_in_time IS NULL AND deleted = 0 AND AND time_created > ?',
+        "local_signout_{$currentsignout->type}", 'userid = ? AND sign_in_time IS NULL AND deleted = 0 AND time_created > ?',
         array($USER->id, $today)
     );
     if (!$records) {
