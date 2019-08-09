@@ -30,8 +30,8 @@
     - displaytext | string | the text to display on the button
 }}
 
-<button class="mx-selection-button btn btn-secondary hidden-print" value='{{ value }}'>{{ text }}</button>
-<span class="visible-print-block">{{ text }}</span>
+<button class="mx-selection-button btn btn-secondary d-print-none" value='{{ value }}'>{{ text }}</button>
+<span class="d-none d-print-block">{{ text }}</span>
 
 {{# js }}
     require(['local_mxschool/selection_button'], function(setup) {

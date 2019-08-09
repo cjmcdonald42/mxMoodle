@@ -29,6 +29,8 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
         var element = $(event.target);
         var text = element.text();
         $.when(str.get_string('email_button:sending', 'local_mxschool')).done(function(sendingString) {
+            element.removeClass('btn-secondary');
+            element.addClass('btn-info');
             element.text(sendingString);
         });
         var promises = ajax.call([{
@@ -43,10 +45,14 @@ define(['jquery', 'core/str', 'core/ajax', 'core/notification'], function($, str
         promises[0].done(function(result) {
             var unlocalized = 'email_button:' + (result ? 'success' : 'failure');
             $.when(str.get_string(unlocalized, 'local_mxschool')).done(function(sentString) {
+                element.removeClass('btn-info');
+                element.addClass(result ? 'btn-success' : 'btn-warning');
                 element.text(sentString);
                 setTimeout(function() {
                     element.trigger('hideButton');
                     setTimeout(function() {
+                        element.removeClass(result ? 'btn-success' : 'btn-warning');
+                        element.addClass('btn-secondary');
                         element.text(text);
                     }, 4000);
                 }, 1000);

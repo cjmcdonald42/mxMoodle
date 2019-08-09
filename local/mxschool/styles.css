@@ -8,19 +8,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Global Styling
- */
-/* Text alignment is part of Bootstrap but not included in boost for some reason. */
-body.mx-page .text-left {
-    text-align: right;
-}
-body.mx-page .text-right {
-    text-align: right;
-}
-body.mx-page .text-center {
-    text-align: center;
-}
 
 /**
  * Form Styling
@@ -68,10 +55,8 @@ div.mx-filter input {
  * Print Styling.
  */
 @media print {
-    body.mx-page {
-        background-color: transparent;
-    }
 
+    /* Hide Moodle elements that shouldn't be printed. */
     body.mx-page header,
     body.mx-page footer,
     div.mx-table nav,
@@ -95,13 +80,16 @@ div.mx-filter input {
         font-size: 0.75rem;
     }
 
-    /** Remove excess empty space. */
-    body.mx-page #page-wrapper,
-    body.mx-page #page {
+    /* Remove excess empty space. */
+    body.mx-page #page,
+    body.mx-page #page-content,
+    body.mx-page #region-main-box {
         margin: 0;
         padding: 0;
     }
-    body.mx-page #page-wrapper::after {
-        content: none;
+
+    /* Remove border around page. */
+    body.mx-page #region-main {
+        border: none;
     }
 }

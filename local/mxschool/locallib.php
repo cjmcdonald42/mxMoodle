@@ -1090,6 +1090,20 @@ function get_vacation_travel_return_sites_list($type = null) {
 /* Check-In Sheets and Weekend Forms. */
 
 /**
+ * Creates a list of all the weekend types.
+ *
+ * @return array The weekend types as internal_name => localized_name, in order by type.
+ */
+function get_weekend_type_list() {
+    return array(
+        'Open' => get_string('weekend_type:open', 'local_mxschool'),
+        'Closed' => get_string('weekend_type:closed', 'local_mxschool'),
+        'Free' => get_string('weekend_type:free', 'local_mxschool'),
+        'Vacation' => get_string('weekend_type:vacation', 'local_mxschool'),
+    );
+}
+
+/**
  * Creates a list of all possible start days for a weekend.
  *
  * @return array The possible start days for the weekend as offset => name in accending order.
@@ -1231,7 +1245,7 @@ function calculate_weekends_used($userid, $semester) {
  * @param string $gender The gender to check for - either 'M', 'F', or ''.
  * @return array The room types as internal_name => localized_name, in order by type.
  */
-function get_roomtype_list($gender = '') {
+function get_room_type_list($gender = '') {
     $roomtypes = array(
         'Single' => get_string('room_type:single', 'local_mxschool'),
         'Double' => get_string('room_type:double', 'local_mxschool')

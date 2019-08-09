@@ -9,7 +9,7 @@ This block provides an interface for peer tutors to access the tutoring form def
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.4+
+- Moodle 3.7 (2019052000)
 - [local_mxschool v3.1](/local/mxschool/README.md)
 - [local_peertutoring v3.1](/local/peertutoring/README.md)
 

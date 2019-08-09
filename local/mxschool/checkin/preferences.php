@@ -52,8 +52,13 @@ generate_email_preference_fields('weekend_form_approved', $data, 'approved');
 $data->topinstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_top');
 $data->bottominstructions['text'] = get_config('local_mxschool', 'weekend_form_instructions_bottom');
 $data->closedwarning['text'] = get_config('local_mxschool', 'weekend_form_warning_closed');
+$weekendtypes = get_weekend_type_list();
+$startoptions = get_weekend_start_day_list();
+$endoptions = get_weekend_end_day_list();
 
-$form = new local_mxschool\local\checkin\preferences_form(array('weekends' => $weekends));
+$form = new local_mxschool\local\checkin\preferences_form(array(
+    'weekends' => $weekends, 'weekendtypes' => $weekendtypes, 'startoptions' => $startoptions, 'endoptions' => $endoptions
+));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

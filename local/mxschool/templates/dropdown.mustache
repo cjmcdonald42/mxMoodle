@@ -29,7 +29,7 @@
     - options | array | the options for the dropdown as objects with string properties value and text and boolean property selected
 }}
 
-<select class="mx-dropdown form-control" name="{{ name }}">
+<select class="mx-dropdown custom-select" name="{{ name }}">
     {{# options }}
         <option {{# selected}}selected="selected"{{/ selected}} value="{{ value }}">{{ text }}</option>
     {{/ options }}

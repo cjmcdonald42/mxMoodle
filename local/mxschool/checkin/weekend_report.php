@@ -69,6 +69,7 @@ if (!$data) { // Creating a new record.
 $weekendrecord = $DB->get_record('local_mxschool_weekend', array('id' => $filter->weekend));
 $dorms = get_dorm_list(false);
 $weekends = get_weekend_list();
+$weekendtypes = get_weekend_type_list();
 $startdays = get_weekend_start_day_list();
 $enddays = get_weekend_end_day_list();
 $submittedoptions = array(
@@ -123,7 +124,7 @@ $formrenderable = new local_mxschool\output\form($form);
 echo $output->header();
 echo $output->heading(get_string('checkin_weekend_report_title', 'local_mxschool', array(
     'dorm' => $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '', 'weekend' => $weekends[$filter->weekend],
-    'type' => $weekendrecord->type
+    'type' => $weekendtypes[$weekendrecord->type]
 )));
 echo $output->render($reportrenderable);
 echo $output->render($formrenderable);

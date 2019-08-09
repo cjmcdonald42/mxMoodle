@@ -49,7 +49,7 @@ $genderoptions = array(
     'M' => get_string('rooming_report_select_gender_M', 'local_mxschool'),
     'F' => get_string('rooming_report_select_gender_F', 'local_mxschool')
 );
-$roomtypeoptions = get_roomtype_list();
+$roomtypeoptions = get_room_type_list();
 $doubleoptions = array(
     '1' => get_string('rooming_report_select_double_true', 'local_mxschool'),
     '0' => get_string('rooming_report_select_double_false', 'local_mxschool')

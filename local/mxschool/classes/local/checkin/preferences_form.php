@@ -39,18 +39,17 @@ class preferences_form extends \local_mxschool\form {
      */
     protected function definition() {
         $weekends = $this->_customdata['weekends'];
+        $weekendtypes = $this->_customdata['weekendtypes'];
+        $startoptions = $this->_customdata['startoptions'];
+        $endoptions = $this->_customdata['endoptions'];
 
         $weekendfields = array();
         foreach ($weekends as $weekend) {
-            $startoptions = get_weekend_start_day_list();
-            $endoptions = get_weekend_end_day_list();
             $date = generate_datetime($weekend->sunday_time);
             $date->modify("-1 day");
-            $weekendfields["weekend_$weekend->id"] = array(
+            $weekendfields["weekend_{$weekend->id}"] = array(
                 'element' => 'group', 'name' => 'label', 'nameparam' => $date->format('m/d/y'), 'children' => array(
-                    'type' => array('element' => 'radio', 'name' => 'type', 'options' => array(
-                        'Open', 'Closed', 'Free', 'Vacation'
-                    )),
+                    'type' => array('element' => 'select', 'options' => $weekendtypes),
                     'start' => array('element' => 'select', 'options' => $startoptions),
                     'end' => array('element' => 'select', 'options' => $endoptions)
                 )

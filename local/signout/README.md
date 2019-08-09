@@ -9,7 +9,7 @@ This package provides a system for students to sign out to both on- and off-camp
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.4+
+- Moodle 3.7 (2019052000)
 - [local_mxschool v3.1](/local/mxschool/README.md)
 
 ## Subpackages

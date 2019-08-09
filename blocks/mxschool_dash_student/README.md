@@ -9,7 +9,7 @@ This block provides an interface for students to access the advisor selection, r
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.4+
+- Moodle 3.7 (2019052000)
 - [local_mxschool v3.1](/local/mxschool/README.md)
 
 ## Credits
