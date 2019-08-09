@@ -683,5 +683,28 @@ function xmldb_local_signout_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080815, 'local', 'signout');
     }
 
+    if ($oldversion < 2019080822) {
+
+        // Rename some of the configs.
+        unset_config('on_campus_form_ipenabled', 'local_signout');
+        unset_config('on_campus_form_iperror', 'local_signout');
+        unset_config('on_campus_signin_iperror_boarder', 'local_signout');
+        unset_config('on_campus_signin_iperror_day', 'local_signout');
+        unset_config('off_campus_form_ipenabled', 'local_signout');
+        unset_config('off_campus_form_iperror', 'local_signout');
+        unset_config('off_campus_signin_iperror', 'local_signout');
+
+        set_config('on_campus_ipvalidation_enabled', '1', 'local_signout');
+        set_config('on_campus_form_ipvalidation_error', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+        set_config('on_campus_signin_ipvalidation_error_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
+        set_config('on_campus_signin_ipvalidation_error_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
+        set_config('off_campus_ipvalidation_enabled', '1', 'local_signout');
+        set_config('off_campus_form_ipvalidation_error', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+        set_config('off_campus_signin_ipvalidation_error', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
+
+        // Signout savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080822, 'local', 'signout');
+    }
+
     return true;
 }

@@ -63,7 +63,7 @@ function student_may_access_on_campus_signout($userid) {
  *              a value of false otherwise.
  */
 function validate_ip_on_campus() {
-    return !get_config('local_signout', "on_campus_form_ipenabled")
+    return !get_config('local_signout', "on_campus_ipvalidation_enabled")
         || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip');
 }
 
@@ -74,7 +74,7 @@ function validate_ip_on_campus() {
  *              a value of false otherwise.
  */
 function validate_ip_off_campus() {
-    return !get_config('local_signout', "off_campus_form_ipenabled")
+    return !get_config('local_signout', "off_campus_ipvalidation_enabled")
         || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip');
 }
 
@@ -502,12 +502,12 @@ function sign_in_user() {
                 $boardingstatus = strtolower($DB->get_field(
                     'local_mxschool_student', 'boarding_status', array('userid' => $USER->id)
                 ));
-                return get_config('local_signout', "on_campus_signin_iperror_{$boardingstatus}");
+                return get_config('local_signout', "on_campus_signin_ipvalidation_error_{$boardingstatus}");
             }
             break;
         case 'off_campus':
             if (!validate_ip_off_campus()) {
-                return get_config('local_signout', 'off_campus_signin_iperror');
+                return get_config('local_signout', 'off_campus_signin_ipvalidation_error');
             }
             break;
         default:

@@ -96,7 +96,7 @@ $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 if ($isstudent && !validate_ip_on_campus()) {
-    echo $output->heading(get_config('local_signout', 'on_campus_form_iperror'));
+    echo $output->heading(get_config('local_signout', 'on_campus_form_ipvalidation_error'));
 } else {
     echo $output->heading(
         $isstudent ? get_string('on_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title

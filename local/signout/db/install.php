@@ -30,13 +30,13 @@ function xmldb_local_signout_install() {
     global $DB;
 
     set_config('on_campus_form_enabled', '1', 'local_signout');
-    set_config('on_campus_form_ipenabled', '1', 'local_signout');
+    set_config('on_campus_ipvalidation_enabled', '1', 'local_signout');
     set_config('on_campus_confirmation_enabled', '0', 'local_signout');
     set_config('on_campus_refresh_rate', '60', 'local_signout');
     set_config('on_campus_confirmation_undo_window', '5', 'local_signout');
-    set_config('on_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
-    set_config('on_campus_signin_iperror_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
-    set_config('on_campus_signin_iperror_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
+    set_config('on_campus_form_ipvalidation_error', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+    set_config('on_campus_signin_ipvalidation_error_boarder', 'You must be on Middlesex\'s network to sign back in to your dorm.', 'local_signout');
+    set_config('on_campus_signin_ipvalidation_error_day', 'You must be on Middlesex\'s network to be going home.', 'local_signout');
     set_config('on_campus_form_warning_underclassmen', 'You need special permission to go to any \'other\' location.', 'local_signout');
     set_config('on_campus_form_warning_juniors', 'You need special permission to go to a non-academic location.', 'local_signout');
     set_config('on_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
@@ -45,9 +45,9 @@ function xmldb_local_signout_install() {
     set_config('off_campus_trip_window', '30', 'local_signout');
     set_config('off_campus_form_enabled', '1', 'local_signout');
     set_config('off_campus_form_permissions_active', '0', 'local_signout');
-    set_config('off_campus_form_ipenabled', '1', 'local_signout');
-    set_config('off_campus_form_iperror', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
-    set_config('off_campus_signin_iperror', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
+    set_config('off_campus_ipvalidation_enabled', '1', 'local_signout');
+    set_config('off_campus_form_ipvalidation_error', 'You must be on Middlesex\'s network to access this form.', 'local_signout');
+    set_config('off_campus_signin_ipvalidation_error', 'You must be on Middlesex\'s network to sign in.', 'local_signout');
     set_config('off_campus_form_instructions_passenger', 'Your driver must have submitted a form and selected you as a passenger to appear in the list below.', 'local_signout');
     set_config('off_campus_form_instructions_bottom', 'You will have {minutes} minutes to edit your form once you have submitted it.', 'local_signout');
     set_config('off_campus_form_confirmation', 'Have you received the required permissions?', 'local_signout');
