@@ -143,7 +143,7 @@ function get_on_campus_location_list($userid = 0) {
          FROM {local_signout_location} l
          WHERE l.deleted = 0 {$where} AND l.enabled = 1 AND (l.start_date IS NULL OR l.start_date <= ?)
                                       AND (l.end_date IS NULL OR l.end_date >= ?)
-         ORDER BY value", array($record->grade, $today, $today)
+         ORDER BY value", array($today, $today)
     );
     return convert_records_to_list($locations);
 }
