@@ -71,8 +71,8 @@ class combined_table extends \local_mxschool\table {
             "{local_signout_on_campus} onc ON onc.id = (
                 SELECT oc.id
                 FROM {local_signout_on_campus} oc LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
-                WHERE s.userid = oc.userid AND oc.time_created >= {$starttime} AND oc.sign_in_time IS NULL AND oc.deleted = 0
-                                           AND l.deleted = 0
+                WHERE s.userid = oc.userid AND oc.deleted = 0 AND oc.time_created >= {$starttime} AND oc.sign_in_time IS NULL
+                                           AND (oc.locationid = -1 OR l.deleted = 0)
                 ORDER BY oc.time_created DESC
                 LIMIT 1
             )",

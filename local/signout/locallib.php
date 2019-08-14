@@ -442,7 +442,7 @@ function get_user_current_signout() {
         $record = $DB->get_record_sql(
             "SELECT oc.id, l.name AS location, oc.other, oc.time_created AS timecreated
              FROM {local_signout_on_campus} oc LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
-             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0)
+             WHERE oc.userid = ? AND oc.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0) AND oc.sign_in_time IS NULL
                                  AND oc.time_created > ?
              ORDER BY oc.time_created DESC", array($USER->id, $today), IGNORE_MULTIPLE
         );
@@ -459,7 +459,7 @@ function get_user_current_signout() {
         $record = $DB->get_record_sql(
             "SELECT oc.id, oc.destination, oc.time_created AS timecreated
              FROM {local_signout_off_campus} oc LEFT JOIN {local_signout_type} t ON oc.typeid = t.id
-             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0 AND (oc.typeid = -1 OR t.deleted = 0)
+             WHERE oc.userid = ? AND oc.deleted = 0 AND (oc.typeid = -1 OR t.deleted = 0) AND oc.sign_in_time IS NULL
                                  AND oc.time_created > ?
              ORDER BY oc.time_created DESC", array($USER->id, $today), IGNORE_MULTIPLE
         );

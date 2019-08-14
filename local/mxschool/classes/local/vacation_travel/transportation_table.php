@@ -90,7 +90,7 @@ class transportation_table extends \local_mxschool\table {
             "{local_mxschool_vt_transport} dr ON t.{$filter->portion}id = dr.id",
             '{local_mxschool_vt_site} drs ON dr.siteid = drs.id'
         );
-        $where = array('u.deleted = 0', "s.boarding_status = 'Boarder'");
+        $where = array('u.deleted = 0', '(dr.siteid IS NULL OR dr.siteid = 0 OR drs.deleted = 0)', "s.boarding_status = 'Boarder'");
         if ($filter->mxtransportation !== '') {
             $where[] = "dr.mx_transportation = '{$filter->mxtransportation}'";
         }
