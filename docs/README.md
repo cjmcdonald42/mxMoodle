@@ -30,12 +30,12 @@ This project offers a context for students to apply computer science skills to b
 
 ## Credits
 v3.0 of the project was developed in 2018 by:
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 v3.1 of the project was developed in 2019 by:
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 ## License
 As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt).

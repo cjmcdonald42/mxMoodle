@@ -58,10 +58,7 @@ if ($action === 'delete' && $id && $table) {
     }
     $result = $DB->record_exists($dbtable, array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field($dbtable, 'deleted', 1, array('id' => $id));
-    logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("{$table}:delete:{$result}", 'local_peertutoring'), 'delete',
-        $result === 'success'
-    );
+    logged_redirect($PAGE->url, get_string("{$table}:delete:{$result}", 'local_peertutoring'), 'delete', $result === 'success');
 }
 
 $data = new stdClass();

@@ -42,12 +42,12 @@ This package houses the following subpackages and pages:
 
 ## Credits
 v3.0 of this plugin was developed in 2018 by:
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 v3.1 of this plugin was developed in 2019 by:
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 ## License
 As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).

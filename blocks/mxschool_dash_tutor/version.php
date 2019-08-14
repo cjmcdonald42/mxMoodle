@@ -27,10 +27,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_tutor';
-$plugin->version = 2019080800;
+$plugin->version = 2019081400;
 $plugin->release = 'v3.1';
 $plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_RC;
+$plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_peertutoring' => 2019080601 // PeerTutoring v3.1.
+    'local_peertutoring' => 2019081400 // PeerTutoring v3.1.
 );
