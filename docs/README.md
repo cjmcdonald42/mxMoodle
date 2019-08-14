@@ -29,13 +29,17 @@ The project currently includes the following plugins:
 This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started page](/docs/GETTING_STARTED.md).
 
 ## Documentation
-Unfortunately, the documentation for this project is currently not exhaustive; however between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a sense of how things are working.
+Unfortunately, in its current state, the documentation for this project doesn't cover everything there is to know about the project; however between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a sense of how things are working.
 
 This is the status of the documentation we currently have in place beyond the getting started page:
-- [Middlesex Moodle Plugins Coding Style](/docs/CODING_STYLE.md) — status: _incomplete_
-- [Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md) — status: _incomplete_
-- [Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) — status: _incomplete_
-- [Middlesex Moodle API Layer](/docs/API_LAYER.md) — status: _incomplete_
+
+Documentation Page | Status
+--- | ---
+[Middlesex Moodle Plugins Coding Style](/docs/CODING_STYLE.md) | _incomplete_
+[Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md) | _incomplete_
+[Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) | _incomplete_
+[Middlesex Moodle Common File Structure](/docs/COMMON_FILE_STRUCTURE.md) | _incomplete_
+[Middlesex Moodle API Layer](/docs/API_LAYER.md) | _incomplete_
 
 ## Credits
 v3.0 of the project was developed in 2018 by:
