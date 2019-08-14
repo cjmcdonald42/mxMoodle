@@ -102,6 +102,9 @@ Now that you have installed our plugins, there are a few more very important set
 - `Site administration` > `Appearance` > `Themes` > `Boost`
     - `Brand color`: enter `#CF003D`
     - Click `Save Changes`
+- `Site administration` > `Server` > `System paths`
+    - `Path to PHP CLI`: enter `/usr/bin/php`
+    - Click `Save Changes`
 - `Site administration` > `Server` > `Support contact`
     - `Supoort Name`: enter whatever you want — this value will appear in the from field of all mxschool emails sent from your server
     - `Support Email`: enter `admin@localhost.local` (or anything else that looks like an email)
@@ -110,7 +113,7 @@ Now that you have installed our plugins, there are a few more very important set
     - `SMTP hosts`: enter `smtp.sendgrid.net:587`
     - `SMTP security`: select `TLS`
     - `SMTP username`: enter `mx-moomail`
-    - `SMTP password`: enter `Pass1word`
+    - `SMTP password`: _ask someone for our password and enter it here_
     - `No-reply address`: enter `noreply@localhost.local` (or anything else that looks like an email) — this address will be the "sender" of all mxschool emails sent from your server
     - `Email via information`: select `Never`
     - Click `Save Changes`
