@@ -47,16 +47,16 @@ class weekend_table extends \local_mxschool\table {
         if ($filter->dorm) {
             unset($columns1[array_search('dorm', $columns1)]);
         }
-        $headers1 = $this->generate_headers($columns1, 'checkin_weekend_report');
+        $headers1 = $this->generate_headers($columns1, 'checkin:weekend_report');
         for ($i = 1; $i <= $end - $start + 1; $i++) {
             array_push($columns1,  "early_{$i}", "late_{$i}");
             array_push(
-                $headers1, get_string('checkin_weekend_report_header_early', 'local_mxschool'),
-                get_string('checkin_weekend_report_header_late', 'local_mxschool')
+                $headers1, get_string('checkin:weekend_report:header:early', 'local_mxschool'),
+                get_string('checkin:weekend_report:header:late', 'local_mxschool')
             );
         }
         $columns2 = array('clean', 'parent', 'invite', 'approved', 'destinationtransportation', 'phone', 'departurereturn');
-        $headers2 = $this->generate_headers($columns2, 'checkin_weekend_report');
+        $headers2 = $this->generate_headers($columns2, 'checkin:weekend_report');
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
         $sortable = array('student', 'room', 'grade');
@@ -137,7 +137,8 @@ class weekend_table extends \local_mxschool\table {
         $output = $PAGE->get_renderer('local_mxschool');
         $checkboxrenderable = new checkbox($values->wfid, 'local_mxschool_weekend_form', 'approved', $values->approved);
         $buttonrenderable = new email_button(
-            get_string('checkin_weekend_report_approve', 'local_mxschool'), 'weekend_form_approved', $values->wfid, false, true
+            get_string('checkin:weekend_report:cell:approve_button', 'local_mxschool'), 'weekend_form_approved', $values->wfid,
+            false, true
         );
         return "{$output->render($checkboxrenderable)}{$output->render($buttonrenderable)}";
     }

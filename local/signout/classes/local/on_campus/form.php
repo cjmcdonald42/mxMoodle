@@ -52,17 +52,17 @@ class form extends \local_mxschool\form {
                 ))
             ),
             'permissions' => array(
-                'locationwarning' => array('element' => 'static', 'name' => null),
-                'permissionssubmitbuttons' => array(
+                'location_warning' => array('element' => 'static', 'name' => null),
+                'permissions_submit_buttons' => array(
                     'element' => 'group', 'displayname' => get_config('local_signout', 'on_campus_form_confirmation'),
                     'children' => array(
-                        'permissionssubmityes' => array('element' => 'submit', 'text' => get_string('yes')),
-                        'permissionssubmitno' => array('element' => 'cancel', 'text' => get_string('no'))
+                        'permissions_submit_yes' => array('element' => 'submit', 'text' => get_string('yes')),
+                        'permissions_submit_no' => array('element' => 'cancel', 'text' => get_string('no'))
                     )
                 )
             )
         );
-        $this->set_fields($fields, 'on_campus_form', false, 'local_signout');
+        $this->set_fields($fields, 'on_campus:form', false, 'local_signout');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
@@ -81,7 +81,7 @@ class form extends \local_mxschool\form {
         global $DB;
         $errors = parent::validation($data, $files);
         if (!$data['location_select'] || ($data['location_select'] === '-1' && empty($data['location_other']))) {
-            $errors['location'] = get_string('on_campus_form_error_nolocation', 'local_signout');
+            $errors['location'] = get_string('on_campus:form:error:no_location', 'local_signout');
         }
         return $errors;
     }

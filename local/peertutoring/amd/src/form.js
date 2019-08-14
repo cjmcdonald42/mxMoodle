@@ -24,7 +24,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], function($, ajax, notification, lib) {
+define(
+    ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
     function updateTutorOptions() {
         var promises = ajax.call([{
             methodname: 'local_peertutoring_get_tutor_options',
@@ -34,7 +35,13 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], 
         }]);
         promises[0].done(function(data) {
             lib.updateSelect($('.mx-form select#id_student'), data.students);
-            lib.updateSelect($('.mx-form select#id_department'), data.departments);
+            $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
+                data.departments.unshift({
+                    value: 0,
+                    text: text
+                });
+                lib.updateSelect($('.mx-form select#id_department'), data.departments);
+            });
         }).fail(notification.exception);
     }
     function updateCourses() {
@@ -45,7 +52,13 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], 
             }
         }]);
         promises[0].done(function(data) {
-            lib.updateSelect($('.mx-form select#id_course'), data);
+            $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
+                data.unshift({
+                    value: 0,
+                    text: text
+                });
+                lib.updateSelect($('.mx-form select#id_course'), data);
+            });
         }).fail(notification.exception);
     }
     return {

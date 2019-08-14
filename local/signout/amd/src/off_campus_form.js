@@ -28,12 +28,11 @@
 define(
     ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
         function addClasses() {
-            $('.mx-form select#id_passengers').parent().parent().next().children().eq(1).children().eq(0).addClass('text-info');
-            $('.mx-form select#id_driver').parent().parent().prev().children().eq(1).children().eq(0).addClass('text-info');
-            var permissionsContainer = $('.mx-form fieldset#id_permissions').children().eq(1);
-            permissionsContainer.children().eq(0).children().eq(1).children().eq(0).addClass('text-warning');
-            permissionsContainer.children().eq(1).children().eq(1).children().eq(0).addClass('text-warning');
-            permissionsContainer.children().eq(2).children().eq(1).children().eq(0).addClass('text-warning');
+            $('.mx-form div#fitem_id_driver_warning').children().eq(1).children().eq(0).addClass('text-info');
+            $('.mx-form div#fitem_id_instructions').children().eq(1).children().eq(0).addClass('text-info');
+            $('.mx-form div#fitem_id_passenger_warning').children().eq(1).children().eq(0).addClass('text-warning');
+            $('.mx-form div#fitem_id_rideshare_warning').children().eq(1).children().eq(0).addClass('text-warning');
+            $('.mx-form div#fitem_id_type_warning').children().eq(1).children().eq(0).addClass('text-warning');
         }
         function updateStudentOptions() {
             var promises = ajax.call([{
@@ -46,7 +45,7 @@ define(
             promises[0].done(function(data) {
                 $.when(
                     str.get_string('form:select:default', 'local_mxschool'),
-                    str.get_string('off_campus_form_type_select_other', 'local_signout')
+                    str.get_string('off_campus:form:info:type_select:other', 'local_signout')
                 ).done(function(select, other) {
                     data.types.unshift({
                         value: 0,

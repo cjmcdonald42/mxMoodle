@@ -48,9 +48,9 @@ class weekend_calculator_table extends \local_mxschool\table {
         if ($filter->dorm) {
             unset($columns1[array_search('dorm', $columns1)]);
         }
-        $headers1 = $this->generate_headers($columns1, 'checkin_weekend_calculator_report');
+        $headers1 = $this->generate_headers($columns1, 'checkin:weekend_calculator');
         $columns2 = array('total', 'allowed');
-        $headers2 = $this->generate_headers($columns2, 'checkin_weekend_calculator_report');
+        $headers2 = $this->generate_headers($columns2, 'checkin:weekend_calculator');
         $sortable = $isstudent ? array() : array('student', 'room', 'grade');
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
@@ -69,9 +69,9 @@ class weekend_calculator_table extends \local_mxschool\table {
         $this->add_column_class('allowed', 'highlight-reference');
 
         $fields = array('s.id', 's.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.room', 's.grade');
-        $offcampus = get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool');
-        $free = get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool');
-        $closed = get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool');
+        $offcampus = get_string('checkin:weekend_calculator:cell:off_campus', 'local_mxschool');
+        $free = get_string('checkin:weekend_calculator:cell:free', 'local_mxschool');
+        $closed = get_string('checkin:weekend_calculator:cell:closed', 'local_mxschool');
         foreach ($weekends as $weekend) {
             $fields[] = "CASE
                             WHEN (
@@ -109,7 +109,7 @@ class weekend_calculator_table extends \local_mxschool\table {
      */
     protected function col_allowed($values) {
         return calculate_weekends_allowed($values->userid, $this->semester)
-            ?: get_string('checkin_weekend_calculator_abbreviation_unlimited', 'local_mxschool');
+            ?: get_string('checkin:weekend_calculator:cell:unlimited', 'local_mxschool');
     }
 
 }

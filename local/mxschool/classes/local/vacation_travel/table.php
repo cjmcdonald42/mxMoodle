@@ -46,7 +46,7 @@ class table extends \local_mxschool\table {
             unset($columns[array_search('rettype', $columns)]);
             unset($columns[array_search('retinfo', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'vacation_travel_report');
+        $headers = $this->generate_headers($columns, 'vacation_travel:report');
         $sortable = array('student', 'destination', 'depdatetime', 'deptype', 'retdatetime', 'rettype');
         $centered = array('depdatetime', 'deptype', 'retdatetime', 'rettype', 'retinfo');
         parent::__construct('vaction_table', $columns, $headers, $sortable, $centered, $filter);

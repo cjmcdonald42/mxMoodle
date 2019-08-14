@@ -62,7 +62,7 @@ class form extends \local_mxschool\form {
                 'roommate' => array('element' => 'select', 'options' => $roomable)
             )
         );
-        $this->set_fields($fields, 'rooming_form');
+        $this->set_fields($fields, 'rooming:form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
@@ -81,20 +81,20 @@ class form extends \local_mxschool\form {
         global $DB;
         $errors = parent::validation($data, $files);
         if (!isset($data['liveddouble'])) {
-            $errors['liveddouble'] = get_string('rooming_form_error_noliveddouble', 'local_mxschool');
+            $errors['liveddouble'] = get_string('rooming:form:error:no_lived_double', 'local_mxschool');
         }
         if (!$data['roomtype']) {
-            $errors['roomtype'] = get_string('rooming_form_error_noroomtype', 'local_mxschool');
+            $errors['roomtype'] = get_string('rooming:form:error:no_room_type', 'local_mxschool');
         }
         for ($i = 1; $i <= 7; $i++) {
             if ($i <= 3 && !$data["dormmate{$i}"]) {
-                $errors["dormmate{$i}"] = get_string('rooming_form_error_gradedormmates', 'local_mxschool');
+                $errors["dormmate{$i}"] = get_string('rooming:form:error:grade_dormmates', 'local_mxschool');
                 break;
             } else if ($i <= 6 && !$data["dormmate{$i}"]) {
-                $errors["dormmate{$i}"] = get_string('rooming_form_error_dormmates', 'local_mxschool');
+                $errors["dormmate{$i}"] = get_string('rooming:form:error:dormmates', 'local_mxschool');
                 break;
             } else if ($i === 7 && !$data["roommate"]) {
-                $errors["roommate"] = get_string('rooming_form_error_roommate', 'local_mxschool');
+                $errors["roommate"] = get_string('rooming:form:error:roommate', 'local_mxschool');
                 break;
             }
         }

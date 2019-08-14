@@ -92,7 +92,7 @@ if ($form->is_cancelled()) {
     $id = update_record($queryfields, $data);
     $result = (new local_mxschool\local\rooming\submitted($id))->send();
     logged_redirect(
-        $form->get_redirect(), get_string('rooming_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('rooming:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

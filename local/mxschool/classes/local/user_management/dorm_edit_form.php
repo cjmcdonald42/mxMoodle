@@ -44,13 +44,13 @@ class dorm_edit_form extends \local_mxschool\form {
             'dorm' => array(
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'hoh' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
-                'permissionsline' => self::ELEMENT_TEXT_REQUIRED,
+                'permissions_line' => self::ELEMENT_TEXT_REQUIRED,
                 'type' => array('element' => 'radio', 'options' => array('Boarding', 'Day', 'All'), 'rules' => array('required')),
                 'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'All'), 'rules' => array('required')),
                 'available' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );
-        $this->set_fields($fields, 'user_management_dorm_edit');
+        $this->set_fields($fields, 'user_management:dorm_edit');
     }
 
 }

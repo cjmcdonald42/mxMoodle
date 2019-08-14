@@ -50,7 +50,7 @@ class table extends \local_mxschool\table {
         if ($filter->double !== '') {
             unset($columns[array_search('liveddouble', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'rooming_report');
+        $headers = $this->generate_headers($columns, 'rooming:report');
         $sortable = array('student', 'grade', 'dorm');
         $centered = array('grade', 'gender', 'liveddouble', 'roomtype');
         parent::__construct('rooming_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());

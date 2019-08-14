@@ -35,9 +35,6 @@ class type_table extends \local_mxschool\table {
      */
     public function __construct() {
         $columns = array('displaytext');
-        $headers = array_map(function($column) {
-            return get_string("type_report_header_{$column}", 'local_peertutoring');
-        }, $columns);
         $headers = $this->generate_headers($columns, 'type_report', 'local_peertutoring');
         $sortable = array('displaytext');
         $centered = array('displaytext');

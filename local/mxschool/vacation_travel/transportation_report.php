@@ -42,24 +42,24 @@ $download = optional_param('download', '', PARAM_ALPHA);
 setup_mxschool_page('transportation_report', 'vacation_travel');
 
 $portions = array(
-    'departure' => get_string('vacation_travel_transportation_report_select_portion_departure', 'local_mxschool'),
-    'return' => get_string('vacation_travel_transportation_report_select_portion_return', 'local_mxschool')
+    'departure' => get_string('vacation_travel:transportation_report:select_portion:departure', 'local_mxschool'),
+    'return' => get_string('vacation_travel:transportation_report:select_portion:return', 'local_mxschool')
 );
 if (!isset($portions[$filter->portion])) {
     unset($filter->portion);
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 $mxtransportationoptions = array(
-    '1' => get_string('vacation_travel_transportation_report_select_mxtransportation_true', 'local_mxschool'),
-    '0' => get_string('vacation_travel_transportation_report_select_mxtransportation_false', 'local_mxschool')
+    '1' => get_string('vacation_travel:transportation_report:select_mxtransportation:true', 'local_mxschool'),
+    '0' => get_string('vacation_travel:transportation_report:select_mxtransportation:false', 'local_mxschool')
 );
 $types = array(
-    'Car' => get_string('vacation_travel_transportation_report_select_type_Car', 'local_mxschool'),
-    'Plane' => get_string('vacation_travel_transportation_report_select_type_Plane', 'local_mxschool'),
-    'Bus' => get_string('vacation_travel_transportation_report_select_type_Bus', 'local_mxschool'),
-    'Train' => get_string('vacation_travel_transportation_report_select_type_Train', 'local_mxschool'),
-    'NYC Direct' => get_string('vacation_travel_transportation_report_select_type_NYCDirect', 'local_mxschool'),
-    'Non-MX Bus' => get_string('vacation_travel_transportation_report_select_type_Non-MXBus', 'local_mxschool')
+    'Car' => get_string('vacation_travel:transportation_report:select_type:Car', 'local_mxschool'),
+    'Plane' => get_string('vacation_travel:transportation_report:select_type:Plane', 'local_mxschool'),
+    'Bus' => get_string('vacation_travel:transportation_report:select_type:Bus', 'local_mxschool'),
+    'Train' => get_string('vacation_travel:transportation_report:select_type:Train', 'local_mxschool'),
+    'NYC Direct' => get_string('vacation_travel:transportation_report:select_type:NYCDirect', 'local_mxschool'),
+    'Non-MX Bus' => get_string('vacation_travel:transportation_report:select_type:Non-MXBus', 'local_mxschool')
 );
 
 $table = new local_mxschool\local\vacation_travel\transportation_table($filter, $download);
@@ -69,14 +69,14 @@ $dropdowns = array(
         get_string('dropdown:default', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
-        'type', $types, $filter->type, get_string('vacation_travel_transportation_report_select_type_all', 'local_mxschool')
+        'type', $types, $filter->type, get_string('vacation_travel:transportation_report:select_type:all', 'local_mxschool')
     )
 );
 if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
     array_unshift($dropdowns, new local_mxschool\output\dropdown('portion', $portions, $filter->portion));
 }
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('vacation_travel_transportation_report_add', 'local_mxschool'),
+    get_string('vacation_travel:transportation_report:add', 'local_mxschool'),
     new moodle_url('/local/mxschool/vacation_travel/form.php')
 ));
 
@@ -89,6 +89,6 @@ if ($table->is_downloading()) {
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons);
 
 echo $output->header();
-echo $output->heading(get_string("vacation_travel_transportation_report_portion_{$filter->portion}", 'local_mxschool'));
+echo $output->heading(get_string("vacation_travel:transportation_report:title:{$filter->portion}", 'local_mxschool'));
 echo $output->render($renderable);
 echo $output->footer();

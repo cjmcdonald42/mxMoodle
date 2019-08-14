@@ -44,19 +44,20 @@ if ($refresh) {
     $PAGE->set_periodic_refresh_delay((int) $refresh);
 }
 
-$locations = get_on_campus_location_list() + array(-1 => get_string('duty_report_select_location_other', 'local_signout'));
+$locations = get_on_campus_location_list()
+    + array(-1 => get_string('on_campus:duty_report:select_location:other', 'local_signout'));
 if ($filter->location && !isset($locations[$filter->location])) {
     unset($filter->location);
     redirect(new moodle_url($PAGE->url, (array) $filter));
 }
 
 $activeoptions = array(
-    1 => get_string('duty_report_select_active_true', 'local_signout'),
-    0 => get_string('duty_report_select_active_false', 'local_signout')
+    1 => get_string('on_campus:duty_report:select_active:true', 'local_signout'),
+    0 => get_string('on_campus:duty_report:select_active:false', 'local_signout')
 );
 $pictureoptions = array(
-    1 => get_string('duty_report_select_pictures_on', 'local_signout'),
-    0 => get_string('duty_report_select_pictures_off', 'local_signout')
+    1 => get_string('on_campus:duty_report:select_pictures:on', 'local_signout'),
+    0 => get_string('on_campus:duty_report:select_pictures:off', 'local_signout')
 );
 
 $table = new local_signout\local\on_campus\duty_table($filter);
@@ -64,7 +65,7 @@ $dropdowns = array(
     new local_mxschool\output\dropdown('active', $activeoptions, $filter->active),
     new local_mxschool\output\dropdown('pictures', $pictureoptions, $filter->pictures),
     new local_mxschool\output\dropdown(
-        'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
+        'location', $locations, $filter->location, get_string('on_campus:duty_report:select_location:all', 'local_signout')
     )
 );
 
@@ -73,7 +74,7 @@ $renderable = new local_mxschool\output\report($table, $filter->search, $dropdow
 
 echo $output->header();
 echo $output->heading(
-    $filter->location ? get_string('duty_report_title', 'local_signout', $locations[$filter->location]) : $PAGE->title
+    $filter->location ? get_string('on_campus:duty_report:title', 'local_signout', $locations[$filter->location]) : $PAGE->title
 );
 echo $output->render($renderable);
 echo $output->footer();

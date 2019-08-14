@@ -59,7 +59,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     $action = $data->id ? 'update' : 'create';
-    logged_redirect($form->get_redirect(), get_string("course_{$action}_success", 'local_peertutoring'), $action);
+    logged_redirect($form->get_redirect(), get_string("course:{$action}:success", 'local_peertutoring'), $action);
 }
 
 $output = $PAGE->get_renderer('local_peertutoring');

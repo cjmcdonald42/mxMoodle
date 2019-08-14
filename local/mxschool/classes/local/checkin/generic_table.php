@@ -48,7 +48,7 @@ class generic_table extends \local_mxschool\table {
         if ($filter->dorm == -1) {
             unset($columns[array_search('room', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'checkin_generic_report');
+        $headers = $this->generate_headers($columns, 'checkin:generic_report');
         $sortable = array('student', 'room', 'grade');
         $centered = array('room', 'grade', 'checkin');
         if ($filter->dorm <= 0) {

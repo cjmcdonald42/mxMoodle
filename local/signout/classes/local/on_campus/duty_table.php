@@ -50,7 +50,7 @@ class duty_table extends \local_mxschool\table {
         if (!get_config('local_signout', 'on_campus_confirmation_enabled')) {
             unset($columns[array_search('confirmation', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'duty_report', 'local_signout');
+        $headers = $this->generate_headers($columns, 'on_campus:duty_report', 'local_signout');
         $sortable = array('signouttime', 'student', 'grade', 'dorm', 'location');
         $centered = array('picture', 'grade', 'signouttime', 'confirmation');
         parent::__construct(
@@ -96,7 +96,7 @@ class duty_table extends \local_mxschool\table {
         global $DB, $PAGE;
         $filename = $DB->get_field('local_mxschool_student', 'picture_filename', array('userid' => $values->userid));
         if (!$filename) {
-            return get_string('duty_report_column_picture_notfound', 'local_signout');
+            return get_string('on_campus:duty_report:cell:picture:not_found', 'local_signout');
         }
         $url = \moodle_url::make_pluginfile_url(1, 'local_mxschool', 'student_pictures', 0, '/', $filename, false);
         $output = $PAGE->get_renderer('local_signout');
@@ -125,7 +125,7 @@ class duty_table extends \local_mxschool\table {
         if (!isset($values->confirmationtime)) {
             return '-';
         }
-        return get_string('duty_report_column_confirmation_text', 'local_signout', array(
+        return get_string('on_campus:duty_report:cell:confirmation', 'local_signout', array(
             'confirmer' => format_faculty_name($values->confirmer),
             'confirmationtime' => format_date('g:i A', $values->confirmationtime)
         ));

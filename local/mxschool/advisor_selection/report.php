@@ -40,12 +40,12 @@ $download = optional_param('download', '', PARAM_ALPHA);
 setup_mxschool_page('report', 'advisor_selection');
 
 $submittedoptions = array(
-    '1' => get_string('advisor_selection_report_select_submitted_true', 'local_mxschool'),
-    '0' => get_string('advisor_selection_report_select_submitted_false', 'local_mxschool')
+    '1' => get_string('advisor_selection:report:select_submitted:true', 'local_mxschool'),
+    '0' => get_string('advisor_selection:report:select_submitted:false', 'local_mxschool')
 );
 $keepcurrentoptions = array(
-    '1' => get_string('advisor_selection_report_select_keepcurrent_true', 'local_mxschool'),
-    '0' => get_string('advisor_selection_report_select_keepcurrent_false', 'local_mxschool')
+    '1' => get_string('advisor_selection:report:select_keepcurrent:true', 'local_mxschool'),
+    '0' => get_string('advisor_selection:report:select_keepcurrent:false', 'local_mxschool')
 );
 
 $table = new local_mxschool\local\advisor_selection\table($filter, $download);
@@ -61,13 +61,13 @@ $dropdowns = array(
 );
 $buttons = array(
     new local_mxschool\output\redirect_button(
-        get_string('advisor_selection_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/advisor_selection/form.php')
+        get_string('advisor_selection:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/advisor_selection/form.php')
     ),
     new local_mxschool\output\email_button(
-        get_string('advisor_selection_report_remind', 'local_mxschool'), 'advisor_selection_notify_unsubmitted'
+        get_string('advisor_selection:report:remind', 'local_mxschool'), 'advisor_selection_notify_unsubmitted'
     ),
     new local_mxschool\output\email_button(
-        get_string('advisor_selection_report_results', 'local_mxschool'), 'advisor_selection_notify_results'
+        get_string('advisor_selection:report:results', 'local_mxschool'), 'advisor_selection_notify_results'
     )
 );
 

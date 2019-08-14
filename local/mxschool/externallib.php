@@ -63,15 +63,15 @@ class local_mxschool_external extends external_api {
         switch ($params['table']) { // HACK: These capabilities should really not be hardcoded because it is not expandable.
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
-                $page = get_string('checkin_weekend_report', 'local_mxschool');
+                $page = get_string('checkin:weekend_report', 'local_mxschool');
                 break;
             case 'local_mxschool_faculty':
                 require_capability('local/mxschool:manage_faculty', context_system::instance());
-                $page = get_string('user_management_faculty_report', 'local_mxschool');
+                $page = get_string('user_management:faculty_report', 'local_mxschool');
                 break;
             case 'local_mxschool_vt_site':
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
-                $page = get_string('vacation_travel_site_report', 'local_mxschool');
+                $page = get_string('vacation_travel:site_report', 'local_mxschool');
                 break;
             default:
                 throw new coding_exception("Unsupported table: {$params['table']}.");
@@ -337,7 +337,7 @@ class local_mxschool_external extends external_api {
         $record->selectedid = $params['choice'];
         $record->time_modified = time();
         local_mxschool\event\record_updated::create(array('other' => array(
-            'page' => get_string('advisor_selection_report', 'local_mxschool')
+            'page' => get_string('advisor_selection:report', 'local_mxschool')
         )))->trigger();
         return $DB->update_record('local_mxschool_adv_selection', $record);
     }

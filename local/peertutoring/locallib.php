@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../mxschool/locallib.php');
 
-/**
+/*
  * =================================
  * Permissions Validation Functions.
  * =================================
@@ -44,7 +44,7 @@ function student_may_access_tutoring($userid) {
     return array_key_exists($userid, get_tutor_list());
 }
 
-/**
+/*
  * ==========================================
  * Database Query for Record List Functions.
  * ==========================================

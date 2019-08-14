@@ -38,7 +38,7 @@ class site_table extends \local_mxschool\table {
      */
     public function __construct() {
         $columns = array('name', 'type', 'departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
-        $headers = $this->generate_headers($columns, 'vacation_travel_site_report');
+        $headers = $this->generate_headers($columns, 'vacation_travel:site_report');
         $sortable = array('name', 'type');
         $centered = array('departureenabled', 'defaultdeparturetime', 'returnenabled', 'defaultreturntime');
         parent::__construct('site_table', $columns, $headers, $sortable, $centered);

@@ -41,7 +41,7 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('report', 'off_campus', 'signout');
 
-$types = get_off_campus_type_list() + array(-1 => get_string('off_campus_report_select_type_other', 'local_signout'));
+$types = get_off_campus_type_list() + array(-1 => get_string('off_campus:report:select_type:other', 'local_signout'));
 if ($filter->type && !isset($types[$filter->type])) { // Invalid type.
     unset($filter->type);
     redirect(new moodle_url($PAGE->url, (array) $filter));
@@ -50,7 +50,7 @@ if ($action === 'delete' && $id) {
     $result = $DB->record_exists('local_signout_off_campus', array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field('local_signout_off_campus', 'deleted', 1, array('id' => $id));
     logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("off_campus_delete_{$result}", 'local_signout'), 'delete',
+        new moodle_url($PAGE->url, (array) $filter), get_string("off_campus:form:delete:{$result}", 'local_signout'), 'delete',
         $result === 'success'
     );
 }
@@ -61,14 +61,14 @@ $table = new local_signout\local\off_campus\table($filter);
 $dropdowns = array(
     local_mxschool\output\dropdown::dorm_dropdown($filter->dorm),
     new local_mxschool\output\dropdown(
-        'type', $types, $filter->type, get_string('off_campus_report_select_type_all', 'local_signout')
+        'type', $types, $filter->type, get_string('off_campus:report:select_type:all', 'local_signout')
     ),
     new local_mxschool\output\dropdown(
-        'date', $dates, $filter->date, get_string('off_campus_report_select_date_all', 'local_signout')
+        'date', $dates, $filter->date, get_string('off_campus:report:select_date:all', 'local_signout')
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('off_campus_report_add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
+    get_string('off_campus:report:add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
 ));
 
 $output = $PAGE->get_renderer('local_signout');

@@ -69,7 +69,7 @@ class transportation_table extends \local_mxschool\table {
         if (!$this->is_downloading()) {
             unset($columns[array_search('email', $columns)]);
         }
-        $headers = $this->generate_headers($columns, "vacation_travel_transportation_report_{$filter->portion}");
+        $headers = $this->generate_headers($columns, "vacation_travel:transportation_report:{$filter->portion}");
         $sortable = array(
             'timemodified', 'student', 'destination', 'mxtransportation', 'type', 'site', 'carrier', 'number', 'datetime',
             'international'
@@ -121,7 +121,7 @@ class transportation_table extends \local_mxschool\table {
     protected function col_site($values) {
         return $values->tid ? (
             isset($values->site) ? (
-                $values->site ?: get_string('vacation_travel_transportation_report_site_other', 'local_mxschool')
+                $values->site ?: get_string('vacation_travel:transportation_report:cell:site_other', 'local_mxschool')
             ) : '-'
         ) : '';
     }

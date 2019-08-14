@@ -38,7 +38,7 @@ class vehicle_table extends \local_mxschool\table {
      */
     public function __construct($filter) {
         $columns = array('student', 'grade', 'phone', 'license', 'make', 'model', 'color', 'registration');
-        $headers = $this->generate_headers($columns, 'user_management_vehicle_report');
+        $headers = $this->generate_headers($columns, 'user_management:vehicle_report');
         $sortable = array('student', 'grade', 'license', 'make', 'model', 'color');
         $centered = array('grade', 'license');
         parent::__construct('vehicle_table', $columns, $headers, $sortable, $centered, $filter);

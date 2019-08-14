@@ -103,9 +103,9 @@ class combined_table extends \local_mxschool\table {
     protected function col_status($values) {
         switch ($values->status) {
             case 'on_campus':
-                return get_string('combined_report_status_on_campus', 'local_signout');
+                return get_string('combined_report:cell:status:on_campus', 'local_signout');
             case 'off_campus':
-                return get_string('combined_report_status_off_campus', 'local_signout');
+                return get_string('combined_report:cell:status:off_campus', 'local_signout');
             default:
                 return '-';
         }

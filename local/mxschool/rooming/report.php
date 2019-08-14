@@ -42,17 +42,17 @@ $download = optional_param('download', '', PARAM_ALPHA);
 setup_mxschool_page('report', 'rooming');
 
 $submittedoptions = array(
-    '1' => get_string('rooming_report_select_submitted_true', 'local_mxschool'),
-    '0' => get_string('rooming_report_select_submitted_false', 'local_mxschool')
+    '1' => get_string('rooming:report:select_submitted:true', 'local_mxschool'),
+    '0' => get_string('rooming:report:select_submitted:false', 'local_mxschool')
 );
 $genderoptions = array(
-    'M' => get_string('rooming_report_select_gender_M', 'local_mxschool'),
-    'F' => get_string('rooming_report_select_gender_F', 'local_mxschool')
+    'M' => get_string('rooming:report:select_gender:M', 'local_mxschool'),
+    'F' => get_string('rooming:report:select_gender:F', 'local_mxschool')
 );
 $roomtypeoptions = get_room_type_list();
 $doubleoptions = array(
-    '1' => get_string('rooming_report_select_double_true', 'local_mxschool'),
-    '0' => get_string('rooming_report_select_double_false', 'local_mxschool')
+    '1' => get_string('rooming:report:select_double:true', 'local_mxschool'),
+    '0' => get_string('rooming:report:select_double:false', 'local_mxschool')
 );
 
 $table = new local_mxschool\local\rooming\table($filter, $download);
@@ -61,10 +61,10 @@ $dropdowns = array(
         'submitted', $submittedoptions, $filter->submitted, get_string('dropdown:default', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
-        'gender', $genderoptions, $filter->gender, get_string('rooming_report_select_gender_all', 'local_mxschool')
+        'gender', $genderoptions, $filter->gender, get_string('rooming:report:select_gender:all', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
-        'roomtype', $roomtypeoptions, $filter->roomtype, get_string('rooming_report_select_roomtype_all', 'local_mxschool')
+        'roomtype', $roomtypeoptions, $filter->roomtype, get_string('rooming:report:select_roomtype:all', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
         'double', $doubleoptions, $filter->double, get_string('dropdown:default', 'local_mxschool')
@@ -72,9 +72,9 @@ $dropdowns = array(
 );
 $buttons = array(
     new local_mxschool\output\redirect_button(
-        get_string('rooming_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/rooming/form.php')
+        get_string('rooming:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/rooming/form.php')
     ),
-    new local_mxschool\output\email_button(get_string('rooming_report_remind', 'local_mxschool'), 'rooming_notify_unsubmitted')
+    new local_mxschool\output\email_button(get_string('rooming:report:remind', 'local_mxschool'), 'rooming_notify_unsubmitted')
 );
 
 $output = $PAGE->get_renderer('local_mxschool');

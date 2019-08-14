@@ -218,13 +218,13 @@ function xmldb_local_peertutoring_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072502, 'local', 'peertutoring');
     }
 
-    if ($oldversion < 2019080801) {
+    if ($oldversion < 2019081306) {
 
         // Get rid of old default.
         $DB->delete_records('local_peertutoring_type', array('displaytext' => 'Other (please speficy)'));
 
         // Peertutoring savepoint reached.
-        upgrade_plugin_savepoint(true, 2019080801, 'local', 'peertutoring');
+        upgrade_plugin_savepoint(true, 2019081306, 'local', 'peertutoring');
     }
 
     return true;

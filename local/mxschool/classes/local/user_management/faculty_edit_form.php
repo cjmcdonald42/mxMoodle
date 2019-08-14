@@ -49,12 +49,12 @@ class faculty_edit_form extends \local_mxschool\form {
                 'alternatename' => self::ELEMENT_TEXT,
                 'email' => self::ELEMENT_EMAIL_REQUIRED,
                 'dorm' => array('element' => 'select', 'options' => $dorms),
-                'approvesignout' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'advisoryavailable' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'advisoryclosing' => self::ELEMENT_BOOLEAN_REQUIRED
+                'approve_signout' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'advisory_available' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'advisory_closing' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );
-        $this->set_fields($fields, 'user_management_faculty_edit');
+        $this->set_fields($fields, 'user_management:faculty_edit');
     }
 
 }

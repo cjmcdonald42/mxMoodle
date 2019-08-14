@@ -59,7 +59,7 @@ if ($action === 'delete' && $id && $table) {
     $result = $DB->record_exists($dbtable, array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field($dbtable, 'deleted', 1, array('id' => $id));
     logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("{$table}_delete_{$result}", 'local_peertutoring'), 'delete',
+        new moodle_url($PAGE->url, (array) $filter), get_string("{$table}:delete:{$result}", 'local_peertutoring'), 'delete',
         $result === 'success'
     );
 }
@@ -75,7 +75,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_notification('peer_tutor_summary', $data);
     logged_redirect(
-        $form->get_redirect(), get_string('preferences_update_success', 'local_peertutoring'), 'update'
+        $form->get_redirect(), get_string('preferences:update:success', 'local_peertutoring'), 'update'
     );
 }
 
@@ -85,19 +85,19 @@ $coursetable = new local_peertutoring\local\course_table();
 $typetable = new local_peertutoring\local\type_table();
 $ratingtable = new local_peertutoring\local\rating_table();
 $tutorbuttons = array(new local_mxschool\output\redirect_button(
-    get_string('tutor_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/tutor_edit.php')
+    get_string('tutor_report:add', 'local_peertutoring'), new moodle_url('/local/peertutoring/tutor_edit.php')
 ));
 $departmentbuttons = array(new local_mxschool\output\redirect_button(
-    get_string('department_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/department_edit.php')
+    get_string('department_report:add', 'local_peertutoring'), new moodle_url('/local/peertutoring/department_edit.php')
 ));
 $coursebuttons = array(new local_mxschool\output\redirect_button(
-    get_string('course_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/course_edit.php')
+    get_string('course_report:add', 'local_peertutoring'), new moodle_url('/local/peertutoring/course_edit.php')
 ));
 $typebuttons = array(new local_mxschool\output\redirect_button(
-    get_string('type_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/type_edit.php')
+    get_string('type_report:add', 'local_peertutoring'), new moodle_url('/local/peertutoring/type_edit.php')
 ));
 $ratingbuttons = array(new local_mxschool\output\redirect_button(
-    get_string('rating_report_add', 'local_peertutoring'), new moodle_url('/local/peertutoring/rating_edit.php')
+    get_string('rating_report:add', 'local_peertutoring'), new moodle_url('/local/peertutoring/rating_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_peertutoring');

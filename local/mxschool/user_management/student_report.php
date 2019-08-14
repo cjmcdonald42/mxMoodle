@@ -41,9 +41,9 @@ $id = optional_param('id', 0, PARAM_INT);
 setup_mxschool_page('student_report', 'user_management');
 
 $types = array(
-    'students' => get_string('user_management_student_report_type_students', 'local_mxschool'),
-    'permissions' => get_string('user_management_student_report_type_permissions', 'local_mxschool'),
-    'parents' => get_string('user_management_student_report_type_parents', 'local_mxschool')
+    'students' => get_string('user_management:student_report:type:students', 'local_mxschool'),
+    'permissions' => get_string('user_management:student_report:type:permissions', 'local_mxschool'),
+    'parents' => get_string('user_management:student_report:type:parents', 'local_mxschool')
 );
 
 if (!isset($types[$filter->type])) {
@@ -54,7 +54,7 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
     $result = $DB->record_exists('local_mxschool_parent', array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field('local_mxschool_parent', 'deleted', 1, array('id' => $id));
     logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("user_management_parent_delete_{$result}", 'local_mxschool'),
+        new moodle_url($PAGE->url, (array) $filter), get_string("user_management:parent:delete:{$result}", 'local_mxschool'),
         'delete', $result === 'success'
     );
 }
@@ -64,7 +64,7 @@ $dropdowns = array(
     new local_mxschool\output\dropdown('type', $types, $filter->type), local_mxschool\output\dropdown::dorm_dropdown($filter->dorm)
 );
 $buttons = $filter->type === 'parents' ? $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('user_management_parent_report_add', 'local_mxschool'),
+    get_string('user_management:student_report:add_parent', 'local_mxschool'),
     new moodle_url('/local/mxschool/user_management/parent_edit.php')
 )) : array();
 

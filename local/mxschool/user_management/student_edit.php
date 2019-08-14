@@ -39,9 +39,9 @@ $queryfields = array(
     'local_mxschool_student' => array(
         'abbreviation' => 's',
         'fields' => array(
-            'id', 'phone_number' => 'phonenumber', 'birthday', 'admission_year' => 'admissionyear', 'grade', 'gender',
-            'advisorid' => 'advisor', 'boarding_status' => 'isboarder', 'boarding_status_next_year' => 'isboardernextyear',
-            'dormid' => 'dorm', 'room', 'picture_filename' => 'picture'
+            'id', 'phone_number', 'birthday', 'admission_year', 'grade', 'gender', 'advisorid' => 'advisor',
+            'boarding_status' => 'is_boarder', 'boarding_status_next_year' => 'is_boarder_next_year', 'dormid' => 'dorm', 'room',
+            'picture_filename' => 'picture'
         )
     ),
     'user' => array(
@@ -54,9 +54,9 @@ $queryfields = array(
         'join' => 's.userid = p.userid',
         'fields' => array(
             'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
-            'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'specific_drivers' => 'ridingcomment',
-            'may_use_rideshare' => 'rideshare', 'may_go_to_boston' => 'boston', 'swim_competent' => 'swimcompetent',
-            'swim_allowed' => 'swimallowed', 'boat_allowed' => 'boatallowed'
+            'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'specific_drivers' => 'riding_comment',
+            'may_use_rideshare' => 'rideshare', 'may_go_to_boston' => 'boston', 'swim_competent' => 'swim_competent',
+            'swim_allowed' => 'swim_allowed', 'boat_allowed' => 'boat_allowed'
         )
     )
 );
@@ -92,7 +92,7 @@ if ($form->is_cancelled()) {
     }
     $data->riding = isset($data->riding) ? array_flip($ridingencode)[$data->riding] : null;
     update_record($queryfields, $data);
-    logged_redirect($form->get_redirect(), get_string('user_management_student_update_success', 'local_mxschool'), 'update');
+    logged_redirect($form->get_redirect(), get_string('user_management:student:update:success', 'local_mxschool'), 'update');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

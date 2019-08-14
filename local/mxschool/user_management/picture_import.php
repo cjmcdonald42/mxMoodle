@@ -47,9 +47,9 @@ if ($form->is_cancelled()) {
     file_save_draft_area_files($data->pictures, context_system::instance()->id, 'local_mxschool', 'student_pictures', 0);
     if ($data->clear) {
         clear_student_pictures();
-        logged_redirect($PAGE->url, get_string('user_management_picture_delete_success', 'local_mxschool'), 'delete');
+        logged_redirect($PAGE->url, get_string('user_management:picture_import:delete:success', 'local_mxschool'), 'delete');
     } else {
-        logged_redirect($form->get_redirect(), get_string('user_management_picture_import_success', 'local_mxschool'), 'create');
+        logged_redirect($form->get_redirect(), get_string('user_management:picture_import:success', 'local_mxschool'), 'create');
     }
 }
 

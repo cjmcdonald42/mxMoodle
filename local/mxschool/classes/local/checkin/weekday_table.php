@@ -42,12 +42,12 @@ class weekday_table extends \local_mxschool\table {
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'checkin_weekday_report');
+        $headers = $this->generate_headers($columns, 'checkin:weekday_report');
         for ($i = 1; $i <= 5; $i++) {
             array_push($columns, "early_{$i}", "late_{$i}");
             array_push(
-                $headers, get_string('checkin_weekday_report_header_early', 'local_mxschool'),
-                get_string('checkin_weekday_report_header_late', 'local_mxschool')
+                $headers, get_string('checkin:weekday_report:header:early', 'local_mxschool'),
+                get_string('checkin:weekday_report:header:late', 'local_mxschool')
             );
         }
         $sortable = array('student', 'room', 'grade');

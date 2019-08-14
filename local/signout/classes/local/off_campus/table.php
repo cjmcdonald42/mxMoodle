@@ -62,7 +62,7 @@ class table extends \local_mxschool\table {
         if ($filter->date) {
             unset($columns[array_search('departuredate', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'off_campus_report', 'local_signout');
+        $headers = $this->generate_headers($columns, 'off_campus:report', 'local_signout');
         $sortable = array($filter->date ? 'departuretime' : 'departuredate', 'student', 'grade', 'dorm', 'approver');
         $centered = array('grade', 'type', 'driver', 'passengers', 'passengercount', 'departuredate', 'departuretime', 'signin');
         parent::__construct('off_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
@@ -122,7 +122,8 @@ class table extends \local_mxschool\table {
         $passengers = array_filter(array_map(function($passenger) use($DB) {
             return format_student_name($passenger);
         }, json_decode($values->passengers)));
-        return count($passengers) ? implode('<br>', $passengers) : get_string('off_campus_report_nopassengers', 'local_signout');
+        return count($passengers) ? implode('<br>', $passengers)
+            : get_string('off_campus:report:cell:passengers:none', 'local_signout');
     }
 
     /**

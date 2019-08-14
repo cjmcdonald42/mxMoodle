@@ -75,7 +75,7 @@ $students = get_student_list();
 $departments = array(0 => get_string('form:select:default', 'local_mxschool')) + get_department_list();
 $courses = array(0 => get_string('form:select:default', 'local_mxschool')) + get_course_list();
 $types = array(0 => get_string('form:select:default', 'local_mxschool')) + get_type_list()
-         + array(-1 => get_string('form_type_select_other', 'local_peertutoring'));
+         + array(-1 => get_string('form:details:type_select:other', 'local_peertutoring'));
 $ratings = array(0 => get_string('form:select:default', 'local_mxschool')) + get_rating_list();
 
 $form = new local_peertutoring\local\form(array(
@@ -93,7 +93,7 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), get_string('session_success', 'local_peertutoring'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('session:success', 'local_peertutoring'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -102,7 +102,7 @@ $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(
-    $isstudent ? get_string('form_title', 'local_peertutoring', format_student_name($USER->id)) : $PAGE->title
+    $isstudent ? get_string('form:title', 'local_peertutoring', format_student_name($USER->id)) : $PAGE->title
 );
 echo $output->render($renderable);
 echo $output->footer();

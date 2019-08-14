@@ -44,16 +44,16 @@ class site_edit_form extends \local_mxschool\form {
             'site' => array(
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'type' => array('element' => 'select', 'options' => $typeoptions, 'rules' => array('required')),
-                'departureenabled' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'defaultdeparturetime' => array(
+                'departure_enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'default_departure_time' => array(
                     'element' => 'date_time_selector', 'options' => self::date_options_school_year(true)
                 ),
-                'returnenabled' => self::ELEMENT_BOOLEAN_REQUIRED,
-                'defaultreturntime' => array(
+                'return_enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'default_return_time' => array(
                     'element' => 'date_time_selector', 'options' => self::date_options_school_year(true)
                 )
             )
         );
-        $this->set_fields($fields, 'vacation_travel_site_edit');
+        $this->set_fields($fields, 'vacation_travel:site_edit');
     }
 }

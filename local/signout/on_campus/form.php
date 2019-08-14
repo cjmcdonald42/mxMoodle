@@ -73,7 +73,7 @@ if ($id) { // Updating an existing record.
 $data->isstudent = $isstudent ? '1' : '0';
 $students = get_student_list();
 $locations = array(0 => get_string('form:select:default', 'local_mxschool')) + get_on_campus_location_list()
-           + array(-1 => get_string('on_campus_form_location_select_other', 'local_signout'));
+           + array(-1 => get_string('on_campus:form:info:location_select:other', 'local_signout'));
 
 $form = new local_signout\local\on_campus\form(array('students' => $students, 'locations' => $locations));
 $form->set_data($data);
@@ -87,7 +87,7 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     logged_redirect(
-        $form->get_redirect(), get_string('on_campus_success', 'local_signout'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('on_campus:form:success', 'local_signout'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -99,7 +99,7 @@ if ($isstudent && !validate_ip_on_campus()) {
     echo $output->heading(get_config('local_signout', 'on_campus_form_ipvalidation_error'));
 } else {
     echo $output->heading(
-        $isstudent ? get_string('on_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
+        $isstudent ? get_string('on_campus:form:title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );
     echo $output->render($renderable);
 }

@@ -27,7 +27,7 @@
 
 define(['jquery', 'core/ajax', 'core/notification', 'local_mxschool/locallib'], function($, ajax, notification, lib) {
     function addClasses() {
-        $('.mx-form div[data-groupname="departure"]').next().children().eq(1).children().eq(0).addClass('text-warning');
+        $('.mx-form div#fitem_id_warning').children().eq(1).children().eq(0).addClass('text-warning');
     }
     function updateStudents() {
         var promises = ajax.call([{

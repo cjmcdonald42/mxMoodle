@@ -40,7 +40,7 @@ if ($action === 'delete' && $id) {
     $result = $DB->record_exists('local_mxschool_vt_site', array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field('local_mxschool_vt_site', 'deleted', 1, array('id' => $id));
     logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("vacation_travel_site_delete_{$result}", 'local_mxschool'),
+        new moodle_url($PAGE->url, (array) $filter), get_string("vacation_travel:site:delete:{$result}", 'local_mxschool'),
         'delete', $result === 'success'
     );
 }
@@ -50,7 +50,7 @@ $data->start_date = get_config('local_mxschool', 'vacation_form_start_date') ?: 
 generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
-$data->returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
+$data->return_enabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 generate_email_preference_fields('vacation_travel_submitted', $data, 'submitted');
 generate_email_preference_fields('vacation_travel_notify_unsubmitted', $data, 'unsubmitted');
 
@@ -62,17 +62,17 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('vacation_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
     set_config('vacation_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
-    set_config('vacation_form_returnenabled', $data->returnenabled, 'local_mxschool');
+    set_config('vacation_form_returnenabled', $data->return_enabled, 'local_mxschool');
     update_notification('vacation_travel_submitted', $data, 'submitted');
     update_notification('vacation_travel_notify_unsubmitted', $data, 'unsubmitted');
     logged_redirect(
-        $form->get_redirect(), get_string('vacation_travel_preferences_update_success', 'local_mxschool'), 'update'
+        $form->get_redirect(), get_string('vacation_travel:preferences:update:success', 'local_mxschool'), 'update'
     );
 }
 
 $table = new local_mxschool\local\vacation_travel\site_table();
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('vacation_travel_site_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
+    get_string('vacation_travel:site_report:add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/site_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_mxschool');
@@ -82,6 +82,6 @@ $reportrenderable = new local_mxschool\output\report($table, null, array(), $but
 echo $output->header();
 echo $output->heading($PAGE->title);
 echo $output->render($formrenderable);
-echo $output->heading(get_string('vacation_travel_site_report', 'local_mxschool'));
+echo $output->heading(get_string('vacation_travel:site_report', 'local_mxschool'));
 echo $output->render($reportrenderable);
 echo $output->footer();

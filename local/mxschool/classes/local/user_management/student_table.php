@@ -82,7 +82,7 @@ class student_table extends \local_mxschool\table {
                 $centered = array('primaryparent');
                 break;
         }
-        $headers = $this->generate_headers($columns, "user_management_student_report_{$filter->type}");
+        $headers = $this->generate_headers($columns, "user_management:student_report:{$filter->type}");
         parent::__construct('student_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student");

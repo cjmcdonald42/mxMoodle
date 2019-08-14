@@ -43,7 +43,7 @@ $queryfields = array(
     'local_mxschool_adv_selection' => array(
         'abbreviation' => 'asf',
         'fields' => array(
-            'id', 'userid' => 'student', 'keep_current' => 'keepcurrent', 'option1id' => 'option1', 'option2id' => 'option2',
+            'id', 'userid' => 'student', 'keep_current', 'option1id' => 'option1', 'option2id' => 'option2',
             'option3id' => 'option3', 'option4id' => 'option4', 'option5id' => 'option5', 'selectedid' => 'selected',
             'time_created' => 'timecreated', 'time_modified' => 'timemodified'
         )
@@ -65,7 +65,7 @@ if ($id) { // Updating an existing record.
     $data = new stdClass();
     $data->id = $id;
     $data->timecreated = time();
-    $data->keepcurrent = 1;
+    $data->keep_current = 1;
     if ($isstudent) {
         $existingid = $DB->get_field('local_mxschool_adv_selection', 'id', array('userid' => $USER->id));
         if ($existingid) { // There can only be one advisor selection form per student.
@@ -88,7 +88,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data->student));
     $data->timemodified = time();
-    if ($data->keepcurrent) {
+    if ($data->keep_current) {
         $discardfrom = 1;
     } else {
         for ($i = 1; $i <= 5; $i++) {
@@ -113,7 +113,7 @@ if ($form->is_cancelled()) {
     $id = update_record($queryfields, $data);
     $result = (new local_mxschool\local\advisor_selection\submitted($id))->send();
     logged_redirect(
-        $form->get_redirect(), get_string('advisor_selection_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('advisor_selection:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 

@@ -38,7 +38,7 @@ class faculty_table extends \local_mxschool\table {
      */
     public function __construct() {
         $columns = array('name', 'advisoryavailable', 'advisoryclosing');
-        $headers = $this->generate_headers($columns, 'user_management_faculty_report');
+        $headers = $this->generate_headers($columns, 'advisor_selection:faculty_report');
         $sortable = array('name');
         $centered = array('advisoryavailable', 'advisoryclosing');
         parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, array(), false);

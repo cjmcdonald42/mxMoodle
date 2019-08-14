@@ -47,7 +47,7 @@ class form extends \local_mxschool\form {
             'info' => array(
                 'student' => array('element' => 'select', 'options' => $students),
                 'current' => array('element' => 'static'),
-                'keepcurrent' => self::ELEMENT_BOOLEAN,
+                'keep_current' => self::ELEMENT_BOOLEAN,
                 'warning' => array('element' => 'static', 'name' => null)
             ),
             'options' => array(
@@ -62,7 +62,7 @@ class form extends \local_mxschool\form {
                 'selected' => array('element' => 'select', 'options' => $faculty)
             )
         );
-        $this->set_fields($fields, 'advisor_selection_form');
+        $this->set_fields($fields, 'advisor_selection:form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
@@ -79,14 +79,14 @@ class form extends \local_mxschool\form {
     public function validation($data, $files) {
         global $DB;
         $errors = parent::validation($data, $files);
-        if ($data['keepcurrent'] === '') {
-            $errors['keepcurrent'] = get_string('advisor_form_error_nokeepcurrent', 'local_mxschool');
+        if ($data['keep_current'] === '') {
+            $errors['keep_current'] = get_string('advisor:form:error:no_keep_current', 'local_mxschool');
         }
-        if ($data['keepcurrent'] === '0') {
+        if ($data['keep_current'] === '0') {
             $current = $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $data['student']));
             for ($i = 1; $i <= 5; $i++) {
                 if (!$data["option{$i}"]) {
-                    $errors["option{$i}"] = get_string('advisor_form_error_incomplete', 'local_mxschool');
+                    $errors["option{$i}"] = get_string('advisor:form:error:incomplete', 'local_mxschool');
                     break;
                 }
                 if ($data["option{$i}"] === $current) {

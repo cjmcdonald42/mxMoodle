@@ -38,7 +38,7 @@ class dorm_table extends \local_mxschool\table {
      */
     public function __construct($filter) {
         $columns = array('name', 'hoh', 'permissionsline', 'type', 'gender', 'available');
-        $headers = $this->generate_headers($columns, 'user_management_dorm_report');
+        $headers = $this->generate_headers($columns, 'user_management:dorm_report');
         $sortable = array('name', 'type', 'gender', 'available');
         $centered = array('abbreviation', 'type', 'gender', 'available');
         parent::__construct('dorm_table', $columns, $headers, $sortable, $centered, $filter);

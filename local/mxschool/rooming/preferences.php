@@ -40,7 +40,7 @@ $data->stop_date = get_config('local_mxschool', 'rooming_form_stop_date') ?: get
 generate_time_selector_fields($data, 'stop');
 generate_email_preference_fields('rooming_submitted', $data, 'submitted');
 generate_email_preference_fields('rooming_notify_unsubmitted', $data, 'unsubmitted');
-$data->roommateinstructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
+$data->roommate_instructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 
 $form = new local_mxschool\local\rooming\preferences_form();
 $form->set_data($data);
@@ -52,9 +52,9 @@ if ($form->is_cancelled()) {
     set_config('rooming_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
     update_notification('rooming_submitted', $data, 'submitted');
     update_notification('rooming_notify_unsubmitted', $data, 'unsubmitted');
-    set_config('rooming_form_roommate_instructions', $data->roommateinstructions['text'], 'local_mxschool');
+    set_config('rooming_form_roommate_instructions', $data->roommate_instructions['text'], 'local_mxschool');
     logged_redirect(
-        $form->get_redirect(), get_string('rooming_preferences_update_success', 'local_mxschool'), 'update'
+        $form->get_redirect(), get_string('rooming:preferences:update:success', 'local_mxschool'), 'update'
     );
 }
 

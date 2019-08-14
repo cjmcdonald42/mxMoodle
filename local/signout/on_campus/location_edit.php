@@ -38,9 +38,7 @@ setup_edit_page('location_edit', 'preferences', 'on_campus', 'signout');
 $queryfields = array(
     'local_signout_location' => array(
         'abbreviation' => 'l',
-        'fields' => array(
-            'id', 'name', 'grade', 'all_day' => 'allday', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'warning'
-        )
+        'fields' => array('id', 'name', 'grade', 'all_day', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'warning')
     )
 );
 
@@ -53,7 +51,7 @@ if ($id) { // Updating an existing record.
 } else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
-    $data->allday = '-1'; // Invalid default to prevent auto selection.
+    $data->all_day = '-1'; // Invalid default to prevent auto selection.
     $data->enabled = '-1'; // Invalid default to prevent auto selection.
 }
 
@@ -76,7 +74,7 @@ if ($form->is_cancelled()) {
     }
     update_record($queryfields, $data);
     $action = $data->id ? 'update' : 'create';
-    logged_redirect($form->get_redirect(), get_string("on_campus_location_{$action}_success", 'local_signout'), $action);
+    logged_redirect($form->get_redirect(), get_string("on_campus:location:{$action}:success", 'local_signout'), $action);
 }
 
 $output = $PAGE->get_renderer('local_signout');

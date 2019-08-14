@@ -39,8 +39,8 @@ $queryfields = array(
     'local_mxschool_parent' => array(
         'abbreviation' => 'p',
         'fields' => array(
-            'id', 'userid' => 'student', 'parent_name' => 'name', 'is_primary_parent' => 'isprimary', 'relationship',
-            'home_phone' => 'homephone', 'cell_phone' => 'cellphone', 'work_phone' => 'workphone', 'email'
+            'id', 'userid' => 'student', 'parent_name' => 'name', 'is_primary_parent' => 'is_primary', 'relationship', 'home_phone',
+            'cell_phone', 'work_phone', 'email'
         )
     )
 );
@@ -53,7 +53,7 @@ if ($id) { // Updating an existing record.
 } else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
-    $data->isprimary = '-1'; // Invalid default to prevent auto selection.
+    $data->is_primary = '-1'; // Invalid default to prevent auto selection.
 }
 $students = get_student_list();
 
@@ -65,7 +65,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     $action = $data->id ? 'update' : 'create';
-    logged_redirect($form->get_redirect(), get_string("user_management_parent_{$action}_success", 'local_mxschool'), $action);
+    logged_redirect($form->get_redirect(), get_string("user_management:parent:{$action}:success", 'local_mxschool'), $action);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

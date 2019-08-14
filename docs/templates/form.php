@@ -29,7 +29,7 @@ namespace PACKAGE\local\SUBPACKAGE;
 
 defined('MOODLE_INTERNAL') || die();
 
-class NAME_form extends \local_mxschool\form {
+class FORM_NAME extends \local_mxschool\form {
 
     /**
      * Form definition.
@@ -49,6 +49,6 @@ class NAME_form extends \local_mxschool\form {
                 ) // ETC.
             ) // ETC.
         );
-        parent::set_fields($fields, 'PREFIX', /* true or false for top actions */, 'PACKAGE');
+        parent::set_fields($fields, 'SUBPACKAGE:FORM_PREFIX', /* true or false for top actions */, 'PACKAGE');
     }
 }
