@@ -51,7 +51,7 @@ class table extends \local_mxschool\table {
         if (!get_config('local_signout', 'on_campus_confirmation_enabled')) {
             unset($columns[array_search('confirmation', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'on_campus_report', 'local_signout');
+        $headers = $this->generate_headers($columns, 'on_campus:report', 'local_signout');
         $sortable = array($filter->date ? 'signouttime' : 'signoutdate', 'student', 'grade', 'dorm', 'location');
         $centered = array('grade', 'signoutdate', 'signouttime', 'confirmation', 'signin');
         parent::__construct('on_campus_table', $columns, $headers, $sortable, $centered, $filter, true, false);
@@ -111,7 +111,7 @@ class table extends \local_mxschool\table {
         if (!isset($values->confirmationtime)) {
             return '-';
         }
-        return get_string('on_campus_report_column_confirmation_text', 'local_signout', array(
+        return get_string('on_campus:report:cell:confirmation', 'local_signout', array(
             'confirmer' => format_faculty_name($values->confirmer),
             'confirmationtime' => format_date('g:i A', $values->confirmationtime)
         ));

@@ -36,7 +36,7 @@ class location_table extends \local_mxschool\table {
      */
     public function __construct() {
         $columns = array('name', 'grade', 'allday', 'enabled', 'start', 'end', 'warning');
-        $headers = $this->generate_headers($columns, 'on_campus_location_report', 'local_signout');
+        $headers = $this->generate_headers($columns, 'on_campus:location_report', 'local_signout');
         $sortable = array('name', 'grade', 'allday', 'enabled', 'start', 'end');
         $centered = array('grade', 'allday', 'enabled', 'start', 'end');
         parent::__construct('location_table', $columns, $headers, $sortable, $centered);

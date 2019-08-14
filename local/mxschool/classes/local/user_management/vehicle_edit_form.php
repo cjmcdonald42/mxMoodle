@@ -39,14 +39,18 @@ class vehicle_edit_form extends \local_mxschool\form {
 
         $fields = array(
             '' => array(
-                'id' => self::ELEMENT_HIDDEN_INT,
+                'id' => self::ELEMENT_HIDDEN_INT
+            ),
+            'info' => array(
                 'student' => array('element' => 'select', 'options' => $drivers, 'rules' => array('required')),
+            ),
+            'vehicle' => array(
                 'make' => self::ELEMENT_TEXT_REQUIRED,
                 'model' => self::ELEMENT_TEXT_REQUIRED,
                 'color' => self::ELEMENT_TEXT_REQUIRED,
                 'registration' => self::ELEMENT_TEXT_REQUIRED
             )
         );
-        $this->set_fields($fields, 'user_management_vehicle_edit');
+        $this->set_fields($fields, 'user_management:vehicle_edit');
     }
 }

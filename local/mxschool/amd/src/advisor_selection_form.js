@@ -27,10 +27,14 @@
 
 define(
     ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
+        function addClasses() {
+            $('.mx-form div#fitem_id_warning').children().eq(1).children().eq(0).addClass('text-warning');
+            $('.mx-form div#fitem_id_instructions').children().eq(1).children().eq(0).addClass('text-info');
+        }
         function update() {
-            var keepcurrent0 = $('.mx-form input#id_keepcurrent_0');
+            var keepCurrent0 = $('.mx-form input#id_keep_current_0');
             var optionsFieldset = $('.mx-form fieldset#id_options');
-            if (keepcurrent0.prop('checked')) {
+            if (keepCurrent0.prop('checked')) {
                 optionsFieldset.show();
             } else {
                 optionsFieldset.hide();
@@ -44,24 +48,27 @@ define(
             promises[0].done(function(data) {
                 lib.updateSelect($('.mx-form select#id_student'), data.students, $('.mx-form input[name="id"]').val() !== '0');
                 $('.mx-form fieldset#id_info div.form-control-static').eq(0).text(data.current.text);
-                var keepcurrentDiv = $('.mx-form div[data-groupname="keepcurrent"]');
-                var keepcurrent0 = $('.mx-form input#id_keepcurrent_0');
+                var keepCurrentDiv = $('.mx-form div[data-groupname="keep_current"]');
+                var keepCurrent0 = $('.mx-form input#id_keep_current_0');
                 var warningDiv = $('.mx-form fieldset#id_info div.form-control-static').eq(1).parent().parent();
                 if (data.closing) {
-                    keepcurrentDiv.hide();
-                    if (!keepcurrent0.prop('checked')) {
-                        keepcurrent0.prop('checked', true);
-                        keepcurrentDiv.change();
+                    keepCurrentDiv.hide();
+                    if (!keepCurrent0.prop('checked')) {
+                        keepCurrent0.prop('checked', true);
+                        keepCurrentDiv.change();
                     }
                     warningDiv.show();
                 } else {
                     warningDiv.hide();
-                    keepcurrentDiv.show();
+                    keepCurrentDiv.show();
                 }
                 $.when(str.get_string('form:select:default', 'local_mxschool')).done(function(text) {
-                    data.available.splice(data.available.findIndex(function(faculty) {
+                    var currentIndex = data.available.findIndex(function(faculty) {
                         return faculty.value === data.current.value;
-                    }), 1);
+                    });
+                    if (currentIndex !== -1) {
+                        data.available.splice(currentIndex, 1);
+                    }
                     data.available.unshift({
                         value: 0,
                         text: text
@@ -98,6 +105,7 @@ define(
         return {
             setup: function() {
                 $(document).ready(function() {
+                    addClasses();
                     var deansFieldset = $('.mx-form fieldset#id_deans');
                     if ($('.mx-form input[name="isstudent"]').val() === '0') {
                         deansFieldset.show();
@@ -107,7 +115,7 @@ define(
                     update();
                 });
                 $('.mx-form select#id_student').change(update);
-                $('.mx-form div[data-groupname="keepcurrent"]').change(update);
+                $('.mx-form div[data-groupname="keep_current"]').change(update);
                 $('.mx-form select#id_option1').change(update);
                 $('.mx-form select#id_option2').change(update);
                 $('.mx-form select#id_option3').change(update);

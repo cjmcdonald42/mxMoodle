@@ -39,31 +39,31 @@ class preferences_form extends \local_mxschool\form {
             'config' => array(
                 'enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('on_campus_preferences_config_enabled_text', 'local_signout')
+                    'text' => get_string('on_campus:preferences:config:enabled:text', 'local_signout')
                 ),
-                'ipenabled' => array(
+                'ip_enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('on_campus_preferences_config_ipenabled_text', 'local_signout', array(
+                    'text' => get_string('on_campus:preferences:config:ip_enabled:text', 'local_signout', array(
                         'school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR']
                     ))
                 ),
-                'confirmationenabled' => array(
+                'confirmation_enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('on_campus_preferences_config_confirmationenabled_text', 'local_signout')
+                    'text' => get_string('on_campus:preferences:config:confirmation_enabled:text', 'local_signout')
                 ),
                 'refresh' => array('element' => 'text', 'type' => PARAM_INT),
-                'confirmationundo' => array('element' => 'text', 'type' => PARAM_INT)
+                'confirmation_undo' => array('element' => 'text', 'type' => PARAM_INT)
             ),
             'text' => array(
-                'ipformerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'ipsigninerrorboarder' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'ipsigninerrorday' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'ip_form_error' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'ip_sign_in_error_boarder' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'ip_sign_in_error_day' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'confirmation' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'underclassmanwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'juniorwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'underclassman_warning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'junior_warning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
-        $this->set_fields($fields, 'on_campus_preferences', true, 'local_signout');
+        $this->set_fields($fields, 'on_campus:preferences', true, 'local_signout');
     }
 
 }

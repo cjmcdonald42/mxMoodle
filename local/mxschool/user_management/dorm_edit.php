@@ -38,7 +38,7 @@ setup_edit_page('dorm_edit', 'dorm_report', 'user_management');
 $queryfields = array(
     'local_mxschool_dorm' => array(
         'abbreviation' => 'd',
-        'fields' => array('id', 'hohid' => 'hoh', 'name', 'type', 'gender', 'available', 'permissions_line' => 'permissionsline')
+        'fields' => array('id', 'hohid' => 'hoh', 'name', 'type', 'gender', 'available', 'permissions_line')
     )
 );
 
@@ -61,7 +61,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
     $action = $data->id ? 'update' : 'create';
-    logged_redirect($form->get_redirect(), get_string("user_management_dorm_{$action}_success", 'local_mxschool'), $action);
+    logged_redirect($form->get_redirect(), get_string("user_management:dorm:{$action}:success", 'local_mxschool'), $action);
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

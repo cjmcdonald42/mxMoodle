@@ -81,19 +81,19 @@ class form extends \local_mxschool\form {
         global $DB;
         $errors = parent::validation($data, $files);
         if (!$data['department']) {
-            $errors['department'] = get_string('form_error_nodepartment', 'local_peertutoring');
+            $errors['department'] = get_string('form:error:no_department', 'local_peertutoring');
         }
         if (!$data['course']) {
-            $errors['course'] = get_string('form_error_nocourse', 'local_peertutoring');
+            $errors['course'] = get_string('form:error:no_course', 'local_peertutoring');
         }
         if (!$data['topic']) {
-            $errors['topic'] = get_string('form_error_notopic', 'local_peertutoring');
+            $errors['topic'] = get_string('form:error:no_topic', 'local_peertutoring');
         }
         if (!$data['type_select'] || ($data['type_select'] === '-1' && empty($data['type_other']))) {
-            $errors['type'] = get_string('form_error_notype', 'local_peertutoring');
+            $errors['type'] = get_string('form:error:no_type', 'local_peertutoring');
         }
         if (!$data['rating']) {
-            $errors['rating'] = get_string('form_error_norating', 'local_peertutoring');
+            $errors['rating'] = get_string('form:error:no_rating', 'local_peertutoring');
         }
         return $errors;
     }

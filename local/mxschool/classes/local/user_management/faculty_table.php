@@ -41,7 +41,7 @@ class faculty_table extends \local_mxschool\table {
         if ($filter->dorm > 0) {
             unset($columns[array_search('dorm', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'user_management_faculty_report');
+        $headers = $this->generate_headers($columns, 'user_management:faculty_report');
         $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
         $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
         parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, $filter);

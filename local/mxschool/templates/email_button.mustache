@@ -32,7 +32,7 @@
     - hidden | bool | whether the button should be hidden by default and have show/hide functionality
 }}
 
-<button class="mx-email-button btn btn-secondary {{# hidden }}hidden{{/ hidden }} hidden-print" value="{{ value }}" name="{{ emailclass }}">{{ text }}</button>
+<button class="mx-email-button btn btn-secondary {{# hidden }}hidden{{/ hidden }} d-print-none" value="{{ value }}" name="{{ emailclass }}">{{ text }}</button>
 
 {{# js }}
     require(['local_mxschool/email_button'], function(setup) {

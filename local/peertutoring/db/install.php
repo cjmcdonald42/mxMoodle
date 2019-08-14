@@ -36,8 +36,7 @@ function xmldb_local_peertutoring_install() {
         array('displaytext' => 'Homework help'),
         array('displaytext' => 'Study strategies'),
         array('displaytext' => 'Understanding a concept'),
-        array('displaytext' => 'Help with a project'),
-        array('displaytext' => 'Other (please speficy)')
+        array('displaytext' => 'Help with a project')
     );
     foreach ($types as $type) {
         $DB->insert_record('local_peertutoring_type', (object) $type);

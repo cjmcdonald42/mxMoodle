@@ -67,7 +67,7 @@ class preferences_form extends \local_mxschool\form {
                 'instructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
-        $this->set_fields($fields, 'advisor_selection_preferences', true);
+        $this->set_fields($fields, 'advisor_selection:preferences', true);
     }
 
 }

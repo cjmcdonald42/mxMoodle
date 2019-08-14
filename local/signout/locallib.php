@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../mxschool/locallib.php');
 
-/**
+/*
  * =================================
  * Permissions Validation Functions.
  * =================================
@@ -78,7 +78,7 @@ function validate_ip_off_campus() {
         || $_SERVER['REMOTE_ADDR'] === get_config('local_signout', 'school_ip');
 }
 
-/**
+/*
  * ====================================
  * URL Parameter Querying Abstractions.
  * ====================================
@@ -114,7 +114,7 @@ function get_param_current_date_off_campus() {
     return array_key_exists($timestamp, get_off_campus_date_list()) ? $timestamp : '';
 }
 
-/**
+/*
  * =========================================
  * Database Query for Record List Functions.
  * =========================================
@@ -346,7 +346,7 @@ function get_off_campus_date_list() {
     return $list;
 }
 
-/**
+/*
  * ============================================
  * Miscellaneous Subpackage-Specific Functions.
  * ============================================
@@ -378,7 +378,7 @@ function confirm_signout($id) {
     }
     $DB->update_record('local_signout_on_campus', $record);
     local_mxschool\event\record_updated::create(array('other' => array(
-        'page' => get_string('on_campus_duty_report', 'local_signout')
+        'page' => get_string('on_campus:duty_report', 'local_signout')
     )))->trigger();
     return $record;
 }
@@ -442,7 +442,7 @@ function get_user_current_signout() {
         $record = $DB->get_record_sql(
             "SELECT oc.id, l.name AS location, oc.other, oc.time_created AS timecreated
              FROM {local_signout_on_campus} oc LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
-             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0)
+             WHERE oc.userid = ? AND oc.deleted = 0 AND (oc.locationid = -1 OR l.deleted = 0) AND oc.sign_in_time IS NULL
                                  AND oc.time_created > ?
              ORDER BY oc.time_created DESC", array($USER->id, $today), IGNORE_MULTIPLE
         );
@@ -459,7 +459,7 @@ function get_user_current_signout() {
         $record = $DB->get_record_sql(
             "SELECT oc.id, oc.destination, oc.time_created AS timecreated
              FROM {local_signout_off_campus} oc LEFT JOIN {local_signout_type} t ON oc.typeid = t.id
-             WHERE oc.userid = ? AND oc.sign_in_time IS NULL AND oc.deleted = 0 AND (oc.typeid = -1 OR t.deleted = 0)
+             WHERE oc.userid = ? AND oc.deleted = 0 AND (oc.typeid = -1 OR t.deleted = 0) AND oc.sign_in_time IS NULL
                                  AND oc.time_created > ?
              ORDER BY oc.time_created DESC", array($USER->id, $today), IGNORE_MULTIPLE
         );
@@ -526,7 +526,7 @@ function sign_in_user() {
         $DB->update_record("local_signout_{$currentsignout->type}", $record);
     }
     local_mxschool\event\record_updated::create(array('other' => array(
-        'page' => get_string("{$currentsignout->type}_form", 'local_signout')
+        'page' => get_string("{$currentsignout->type}:form", 'local_signout')
     )))->trigger();
     return '';
 }

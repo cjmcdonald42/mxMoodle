@@ -58,32 +58,32 @@ if (!$isstudent) {
 $rows = array(
     array(
         'leftclass' => 'text-center',
-        'lefttext' => get_string('checkin_weekend_calculator_abbreviation_offcampus', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_offcampus', 'local_mxschool')
+        'lefttext' => get_string('checkin:weekend_calculator:cell:off_campus', 'local_mxschool'),
+        'righttext' => get_string('checkin:weekend_calculator:legend:off_campus', 'local_mxschool')
     ),
-    array('leftclass' => 'table-success', 'righttext' => get_string('checkin_weekend_calculator_legend_3_left', 'local_mxschool')),
-    array('leftclass' => 'table-info', 'righttext' => get_string('checkin_weekend_calculator_legend_2_left', 'local_mxschool')),
-    array('leftclass' => 'table-warning', 'righttext' => get_string('checkin_weekend_calculator_legend_1_left', 'local_mxschool')),
-    array('leftclass' => 'table-danger', 'righttext' => get_string('checkin_weekend_calculator_legend_0_left', 'local_mxschool')),
+    array('leftclass' => 'table-success', 'righttext' => get_string('checkin:weekend_calculator:legend:3_left', 'local_mxschool')),
+    array('leftclass' => 'table-info', 'righttext' => get_string('checkin:weekend_calculator:legend:2_left', 'local_mxschool')),
+    array('leftclass' => 'table-warning', 'righttext' => get_string('checkin:weekend_calculator:legend:1_left', 'local_mxschool')),
+    array('leftclass' => 'table-danger', 'righttext' => get_string('checkin:weekend_calculator:legend:0_left', 'local_mxschool')),
     array(
-        'leftclass' => 'text-center', 'lefttext' => get_string('checkin_weekend_calculator_abbreviation_free', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_free', 'local_mxschool')
+        'leftclass' => 'text-center', 'lefttext' => get_string('checkin:weekend_calculator:cell:free', 'local_mxschool'),
+        'righttext' => get_string('checkin:weekend_calculator:legend:free', 'local_mxschool')
     ),
     array(
-        'leftclass' => 'text-center', 'lefttext' => get_string('checkin_weekend_calculator_abbreviation_closed', 'local_mxschool'),
-        'righttext' => get_string('checkin_weekend_calculator_legend_closed', 'local_mxschool')
+        'leftclass' => 'text-center', 'lefttext' => get_string('checkin:weekend_calculator:cell:closed', 'local_mxschool'),
+        'righttext' => get_string('checkin:weekend_calculator:legend:closed', 'local_mxschool')
     )
 );
 
 $output = $PAGE->get_renderer('local_mxschool');
 $reportrenderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);
 $legendrenderable = new local_mxschool\output\legend_table(
-    get_string('checkin_weekend_calculator_legend_header', 'local_mxschool'), $rows
+    get_string('checkin:weekend_calculator:legend:header', 'local_mxschool'), $rows
 );
 
 echo $output->header();
 echo $output->heading(get_string(
-    'checkin_weekend_calculator_report_title', 'local_mxschool', !empty($filter->dorm) ? format_dorm_name($filter->dorm) . ' ' : ''
+    'checkin:weekend_calculator:title', 'local_mxschool', !empty($filter->dorm) ? format_dorm_name($filter->dorm) . ' ' : ''
 ));
 echo $output->render($reportrenderable);
 echo $output->render($legendrenderable);

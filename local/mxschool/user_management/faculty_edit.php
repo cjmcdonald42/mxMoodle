@@ -39,8 +39,7 @@ $queryfields = array(
     'local_mxschool_faculty' => array(
         'abbreviation' => 'f',
         'fields' => array(
-            'id', 'dormid' => 'dorm', 'may_approve_signout' => 'approvesignout', 'advisory_available' => 'advisoryavailable',
-            'advisory_closing' => 'advisoryclosing'
+            'id', 'dormid' => 'dorm', 'may_approve_signout' => 'approve_signout', 'advisory_available', 'advisory_closing'
         )
     ),
     'user' => array(
@@ -63,7 +62,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_record($queryfields, $data);
-    logged_redirect($form->get_redirect(), get_string('user_management_faculty_update_success', 'local_mxschool'), 'update');
+    logged_redirect($form->get_redirect(), get_string('user_management:faculty:update:success', 'local_mxschool'), 'update');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

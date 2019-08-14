@@ -144,12 +144,12 @@ abstract class form extends \moodleform {
         $mform->setType('redirect', PARAM_TEXT);
         foreach ($fields as $category => $categoryfields) {
             if ($category) {
-                $mform->addElement('header', $category, get_string("{$stringprefix}_header_{$category}", $component));
+                $mform->addElement('header', $category, get_string("{$stringprefix}:{$category}", $component));
                 $mform->setExpanded($category);
-                $category = "_{$category}";
+                $category = ":{$category}";
             }
             foreach ($categoryfields as $name => $properties) {
-                $mform->addElement($this->create_element($name, $properties, $stringprefix.$category, $component));
+                $mform->addElement($this->create_element($name, $properties, $stringprefix . $category, $component));
                 if (isset($properties['type'])) {
                     $mform->setType($name, $properties['type']);
                 }
@@ -194,7 +194,7 @@ abstract class form extends \moodleform {
         $tag = array_key_exists('name', $properties) ? $properties['name'] : $name;
         $param = $properties['nameparam'] ?? null;
         $displayname = $properties['displayname'] ?? (
-            !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}_{$tag}", $component, $param) : ''
+            !isset($properties['ingroup']) && $tag ? get_string("{$stringprefix}:{$tag}", $component, $param) : ''
         );
         $options = $properties['options'] ?? array();
         $attributes = $properties['attributes'] ?? array();
@@ -236,7 +236,7 @@ abstract class form extends \moodleform {
                         $optiontext = is_string($option) ? str_replace(' ', '', $option) : $option;
                         $radiodisplay = $optiontext === 'Yes' || $option === 1 ? get_string('yes') : (
                             $optiontext === 'No' || $option === 0 ? get_string('no') : (
-                            $tag ? get_string("{$stringprefix}_{$tag}_{$optiontext}", $component, $param) : ''
+                            $tag ? get_string("{$stringprefix}:{$tag}:{$optiontext}", $component, $param) : ''
                         ));
                     }
                     $buttons[] = $mform->createElement(

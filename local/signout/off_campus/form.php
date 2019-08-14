@@ -83,11 +83,11 @@ if ($id) { // Updating an existing record.
 }
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_signout', 'off_campus_form_instructions_passenger');
-$data->driverwarning = get_config('local_signout', 'off_campus_form_warning_driver_nopassengers');
+$data->driver_warning = get_config('local_signout', 'off_campus_form_warning_driver_nopassengers');
 generate_time_selector_fields($data, 'departure', 15);
 $students = get_student_list();
 $types = array(0 => get_string('form:select:default', 'local_mxschool')) + get_off_campus_type_list()
-       + array(-1 => get_string('off_campus_form_type_select_other', 'local_signout'));
+       + array(-1 => get_string('off_campus:form:info:type_select:other', 'local_signout'));
 $passengers = get_permitted_passenger_list();
 $drivers = array(0 => get_string('form:select:default', 'local_mxschool')) + get_permitted_driver_list();
 $approvers = array(0 => get_string('form:select:default', 'local_mxschool')) + get_approver_list();
@@ -132,7 +132,7 @@ if ($form->is_cancelled()) {
     $id = update_record($queryfields, $data);
     $result = (new local_signout\local\off_campus\submitted($id))->send();
     logged_redirect(
-        $form->get_redirect(), get_string('off_campus_success', 'local_signout'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('off_campus:form:success', 'local_signout'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -148,7 +148,7 @@ if ($isstudent && !validate_ip_off_campus()) {
     echo $output->heading(get_config('local_signout', 'off_campus_form_ipvalidation_error'));
 } else {
     echo $output->heading(
-        $isstudent ? get_string('off_campus_form_title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
+        $isstudent ? get_string('off_campus:form:title', 'local_signout', format_student_name($USER->id)) : $PAGE->title
     );
     echo $output->render($renderable);
 }

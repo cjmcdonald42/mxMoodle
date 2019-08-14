@@ -75,7 +75,10 @@ class table extends \local_mxschool\table {
             '{local_peertutoring_dept} d ON c.departmentid = d.id', '{local_peertutoring_type} ty ON s.typeid = ty.id',
             '{local_peertutoring_rating} r ON s.ratingid = r.id'
         );
-        $where = array('s.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0');
+        $where = array(
+            's.deleted = 0', 'tu.deleted = 0', 'su.deleted = 0', 't.deleted = 0', 'c.deleted = 0', 'd.deleted = 0',
+            'ty.deleted = 0', 'r.deleted = 0'
+        );
         if ($filter->tutor) {
             $where[] = "tu.id = {$filter->tutor}";
         }

@@ -39,9 +39,8 @@ $queryfields = array(
     'local_signout_type' => array(
         'abbreviation' => 't',
         'fields' => array(
-            'id', 'required_permissions' => 'permissions', 'name', 'grade', 'boarding_status' => 'boardingstatus',
-            'weekend_only' => 'weekend', 'enabled', 'start_date' => 'start', 'end_date' => 'end', 'form_warning' => 'formwarning',
-            'email_warning' => 'emailwarning'
+            'id', 'required_permissions' => 'permissions', 'name', 'grade', 'boarding_status', 'weekend_only' => 'weekend',
+            'enabled', 'start_date' => 'start', 'end_date' => 'end', 'form_warning', 'email_warning'
         )
     )
 );
@@ -51,8 +50,8 @@ if ($id) { // Updating an existing record.
         redirect_to_fallback();
     }
     $data = get_record($queryfields, 't.id = ?', array($id));
-    $data->formwarning = array('text' => $data->formwarning);
-    $data->emailwarning = array('text' => $data->emailwarning);
+    $data->form_warning = array('text' => $data->form_warning);
+    $data->email_warning = array('text' => $data->email_warning);
 } else { // Creating a new record.
     $data = new stdClass();
     $data->id = $id;
@@ -75,19 +74,19 @@ if ($form->is_cancelled()) {
     if (!$data->end) {
         unset($data->end);
     }
-    if ($data->formwarning['text']) {
-        $data->formwarning = $data->formwarning['text'];
+    if ($data->form_warning['text']) {
+        $data->form_warning = $data->form_warning['text'];
     } else {
-        unset($data->formwarning);
+        unset($data->form_warning);
     }
-    if ($data->emailwarning['text']) {
-        $data->emailwarning = $data->emailwarning['text'];
+    if ($data->email_warning['text']) {
+        $data->email_warning = $data->email_warning['text'];
     } else {
-        unset($data->emailwarning);
+        unset($data->email_warning);
     }
     update_record($queryfields, $data);
     $action = $data->id ? 'update' : 'create';
-    logged_redirect($form->get_redirect(), get_string("off_campus_type_{$action}_success", 'local_signout'), $action);
+    logged_redirect($form->get_redirect(), get_string("off_campus:type:{$action}:success", 'local_signout'), $action);
 }
 
 $output = $PAGE->get_renderer('local_signout');

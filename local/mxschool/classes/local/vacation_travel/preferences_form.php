@@ -48,9 +48,9 @@ class preferences_form extends \local_mxschool\form {
                     'time' => self::time_selector(1),
                     'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
                 )),
-                'returnenabled' => array(
+                'return_enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('vacation_travel_preferences_availability_returnenabled_text', 'local_mxschool')
+                    'text' => get_string('vacation_travel:preferences:availability:return_enabled:text', 'local_mxschool')
                 )
             ),
             'notifications' => array(
@@ -62,7 +62,7 @@ class preferences_form extends \local_mxschool\form {
                 'unsubmitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
-        $this->set_fields($fields, 'vacation_travel_preferences', true);
+        $this->set_fields($fields, 'vacation_travel:preferences', true);
     }
 
 }

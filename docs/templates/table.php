@@ -39,7 +39,7 @@ class NAME_table extends \local_mxschool\table {
      */
     public function __construct($filter) {
         // $columns = TODO: array of column identifiers;
-        $headers = $this->generate_headers($columns, 'NAME_report');
+        $headers = $this->generate_headers($columns, 'NAME:report');
         // $sortable = TODO: array of column identifiers that are sortable (first element is default);
         // $centered = TODO: array of column identifiers that are centered;
         parent::__construct('UNIQUE_ID', $columns, $headers, $sortable, $centered, $filter, /* false to turn off actions column, *//* false to sort descending (useful for timestamps) */);

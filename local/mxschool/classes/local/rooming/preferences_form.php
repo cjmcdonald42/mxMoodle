@@ -58,9 +58,9 @@ class preferences_form extends \local_mxschool\form {
                 'unsubmitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'text' => array(
-                'roommateinstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'roommate_instructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
-        $this->set_fields($fields, 'rooming_preferences', true);
+        $this->set_fields($fields, 'rooming:preferences', true);
     }
 }

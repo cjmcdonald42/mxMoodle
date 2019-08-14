@@ -59,6 +59,7 @@ abstract class table extends \table_sql {
         $this->define_headers(array_values($headers));
         if ($sortable) {
             $this->sortable(true, $sortable[0], $ascending ? SORT_ASC : SORT_DESC);
+            $this->define_baseurl(new \moodle_url($PAGE->url, (array) $filter));
         }
         foreach ($columns as $column) {
             if (!in_array($column, $sortable)) {
@@ -72,7 +73,6 @@ abstract class table extends \table_sql {
             $this->add_column_class('actions', 'hidden-print');
         }
 
-        $this->define_baseurl(new \moodle_url($PAGE->url, (array) $filter));
         $this->collapsible(false);
     }
 
@@ -106,7 +106,7 @@ abstract class table extends \table_sql {
      */
     protected function generate_headers($columns, $prefix, $plugin = 'local_mxschool') {
         return array_map(function($column) use($prefix, $plugin) {
-            return get_string("{$prefix}_header_{$column}", $plugin);
+            return get_string("{$prefix}:header:{$column}", $plugin);
         }, $columns);
     }
 

@@ -43,7 +43,7 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
                             element.parent().html('&#x2705;');
                         });
                         $.when(
-                            str.get_string('duty_report_column_confirmation_text', 'local_signout', data)
+                            str.get_string('duty_report:cell:confirmation_text', 'local_signout', data)
                         ).done(function(text) {
                             element.parent().parent().find('td.confirmation').text(text);
                         });

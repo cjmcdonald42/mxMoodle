@@ -60,7 +60,7 @@ class local_signout_external extends external_api {
         $result = new stdClass();
         $result->locations = convert_associative_to_object(get_on_campus_location_list($params['userid']));
         if ($params['locationid'] === -1) {
-            switch ($record->grade) {
+            switch ($DB->get_field('local_mxschool_student', 'grade', array('userid' => $params['userid']))) {
                 case 9:
                 case 10:
                     $result->warning = get_config('local_signout', 'on_campus_form_warning_underclassmen');

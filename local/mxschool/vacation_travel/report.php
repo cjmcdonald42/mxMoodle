@@ -39,8 +39,8 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 setup_mxschool_page('report', 'vacation_travel');
 
 $submittedoptions = array(
-    '1' => get_string('vacation_travel_report_select_submitted_true', 'local_mxschool'),
-    '0' => get_string('vacation_travel_report_select_submitted_false', 'local_mxschool')
+    '1' => get_string('vacation_travel:report:select_submitted:true', 'local_mxschool'),
+    '0' => get_string('vacation_travel:report:select_submitted:false', 'local_mxschool')
 );
 
 $table = new local_mxschool\local\vacation_travel\table($filter);
@@ -51,11 +51,11 @@ $dropdowns = array(
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('vacation_travel_report_add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/form.php')
+    get_string('vacation_travel:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/form.php')
 ));
 if (has_capability('local/mxschool:notify_vacation_travel', context_system::instance())) {
     $buttons[] = new local_mxschool\output\email_button(
-        get_string('vacation_travel_report_remind', 'local_mxschool'), 'vacation_travel_notify_unsubmitted'
+        get_string('vacation_travel:report:remind', 'local_mxschool'), 'vacation_travel_notify_unsubmitted'
     );
 }
 
@@ -64,7 +64,7 @@ $renderable = new local_mxschool\output\report($table, $filter->search, $dropdow
 
 echo $output->header();
 echo $output->heading(
-    get_string('vacation_travel_report_title', 'local_mxschool', $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '')
+    get_string('vacation_travel:report:title', 'local_mxschool', $filter->dorm ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

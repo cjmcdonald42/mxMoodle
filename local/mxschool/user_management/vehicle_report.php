@@ -42,14 +42,14 @@ if ($action === 'delete' && $id) {
     $result = $DB->record_exists('local_mxschool_vehicle', array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field('local_mxschool_vehicle', 'deleted', 1, array('id' => $id));
     logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("user_management_vehicle_delete_{$result}", 'local_mxschool'),
+        new moodle_url($PAGE->url, (array) $filter), get_string("user_management:vehicle:delete:{$result}", 'local_mxschool'),
         'delete', $result === 'success'
     );
 }
 
 $table = new local_mxschool\local\user_management\vehicle_table($filter);
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('user_management_vehicle_report_add', 'local_mxschool'),
+    get_string('user_management:vehicle_report:add', 'local_mxschool'),
     new moodle_url('/local/mxschool/user_management/vehicle_edit.php')
 ));
 

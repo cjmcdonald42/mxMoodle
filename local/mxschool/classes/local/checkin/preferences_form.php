@@ -39,18 +39,17 @@ class preferences_form extends \local_mxschool\form {
      */
     protected function definition() {
         $weekends = $this->_customdata['weekends'];
+        $weekendtypes = $this->_customdata['weekendtypes'];
+        $startoptions = $this->_customdata['startoptions'];
+        $endoptions = $this->_customdata['endoptions'];
 
         $weekendfields = array();
         foreach ($weekends as $weekend) {
-            $startoptions = get_weekend_start_day_list();
-            $endoptions = get_weekend_end_day_list();
             $date = generate_datetime($weekend->sunday_time);
             $date->modify("-1 day");
-            $weekendfields["weekend_$weekend->id"] = array(
+            $weekendfields["weekend_{$weekend->id}"] = array(
                 'element' => 'group', 'name' => 'label', 'nameparam' => $date->format('m/d/y'), 'children' => array(
-                    'type' => array('element' => 'radio', 'name' => 'type', 'options' => array(
-                        'Open', 'Closed', 'Free', 'Vacation'
-                    )),
+                    'type' => array('element' => 'select', 'options' => $weekendtypes),
                     'start' => array('element' => 'select', 'options' => $startoptions),
                     'end' => array('element' => 'select', 'options' => $endoptions)
                 )
@@ -65,9 +64,9 @@ class preferences_form extends \local_mxschool\form {
 
         $fields = array(
             'dates' => array(
-                'dormsopen' => array('element' => 'date_selector', 'options' => $dateoptions),
-                'secondsemester' => array('element' => 'date_selector', 'options' => $dateoptions),
-                'dormsclose' => array('element' => 'date_selector', 'options' => $dateoptions)
+                'dorms_open' => array('element' => 'date_selector', 'options' => $dateoptions),
+                'second_semester' => array('element' => 'date_selector', 'options' => $dateoptions),
+                'dorms_close' => array('element' => 'date_selector', 'options' => $dateoptions)
             ),
             'weekends' => $weekendfields,
             'notifications' => array(
@@ -79,12 +78,12 @@ class preferences_form extends \local_mxschool\form {
                 'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'text' => array(
-                'topinstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'bottominstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'closedwarning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'top_instructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'bottom_instructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'closed_warning' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
-        $this->set_fields($fields, 'checkin_preferences', true);
+        $this->set_fields($fields, 'checkin:preferences', true);
     }
 
 }

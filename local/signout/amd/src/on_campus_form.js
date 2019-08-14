@@ -27,6 +27,9 @@
 
 define(
     ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
+        function addClasses() {
+            $('.mx-form div#fitem_id_location_warning').children().eq(1).children().eq(0).addClass('text-warning');
+        }
         function updateStudentOptions() {
             var promises = ajax.call([{
                 methodname: 'local_signout_get_on_campus_student_options',
@@ -38,7 +41,7 @@ define(
             promises[0].done(function(data) {
                 $.when(
                     str.get_string('form:select:default', 'local_mxschool'),
-                    str.get_string('on_campus_form_location_select_other', 'local_signout')
+                    str.get_string('on_campus:form:info:location_select:other', 'local_signout')
                 ).done(function(select, other) {
                     data.locations.unshift({
                         value: 0,
@@ -65,7 +68,10 @@ define(
         }
         return {
             setup: function() {
-                $(document).ready(updateStudentOptions);
+                $(document).ready(function() {
+                    addClasses();
+                    updateStudentOptions();
+                });
                 $('.mx-form select#id_student').change(updateStudentOptions);
                 $('.mx-form select#id_location_select').change(updateStudentOptions);
             }

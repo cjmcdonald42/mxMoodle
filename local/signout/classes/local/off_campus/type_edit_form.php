@@ -43,17 +43,17 @@ class type_edit_form extends \local_mxschool\form {
                 'permissions' => self::ELEMENT_TEXT,
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
-                'boardingstatus' => array(
+                'boarding_status' => array(
                     'element' => 'radio', 'options' => array('Boarder', 'Day', 'All'), 'rules' => array('required')
                 ),
                 'weekend' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'start' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
                 'end' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
-                'formwarning' => self::ELEMENT_FORMATTED_TEXT,
-                'emailwarning' => self::ELEMENT_FORMATTED_TEXT
+                'form_warning' => self::ELEMENT_FORMATTED_TEXT,
+                'email_warning' => self::ELEMENT_FORMATTED_TEXT
             )
         );
-        $this->set_fields($fields, 'off_campus_type_edit', false, 'local_signout');
+        $this->set_fields($fields, 'off_campus:type_edit', false, 'local_signout');
     }
 }

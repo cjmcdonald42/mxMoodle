@@ -58,7 +58,7 @@ if ($action === 'delete' && $id && $table) {
     }
     $result = $DB->record_exists("local_signout_{$table}", array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field("local_signout_{$table}", 'deleted', 1, array('id' => $id));
-    logged_redirect($redirect, get_string("{$table}_delete_{$result}", 'local_signout'), 'delete', $result === 'success');
+    logged_redirect($redirect, get_string("{$table}:delete:{$result}", 'local_signout'), 'delete', $result === 'success');
 }
 
 $table = new local_signout\local\combined_table($filter, $isproctor);
@@ -69,10 +69,10 @@ if ($isproctor) {
     $dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
     $buttons = array(
         new local_mxschool\output\redirect_button(
-            get_string('on_campus_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
+            get_string('on_campus:report:add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
         ),
         new local_mxschool\output\redirect_button(
-            get_string('off_campus_report_add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
+            get_string('off_campus:report:add', 'local_signout'), new moodle_url('/local/signout/off_campus/form.php')
         )
     );
 }
@@ -82,7 +82,7 @@ $renderable = new local_mxschool\output\report($table, $filter->search, $dropdow
 
 echo $output->header();
 echo $output->heading(
-    get_string('combined_report_title', 'local_signout', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
+    get_string('combined_report:title', 'local_signout', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

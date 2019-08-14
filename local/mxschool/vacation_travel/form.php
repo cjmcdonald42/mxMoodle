@@ -197,7 +197,7 @@ if ($form->is_cancelled()) {
     $id = update_record($tripqueryfields, $data);
     $result = (new local_mxschool\local\vacation_travel\submitted($id))->send();
     logged_redirect(
-        $form->get_redirect(), get_string('vacation_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('vacation_travel:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -206,7 +206,7 @@ $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(
-    $isstudent ? get_string('vacation_travel_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+    $isstudent ? get_string('vacation_travel:form:title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
 );
 echo $output->render($renderable);
 echo $output->footer();

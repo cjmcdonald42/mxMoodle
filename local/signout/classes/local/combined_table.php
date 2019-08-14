@@ -71,8 +71,8 @@ class combined_table extends \local_mxschool\table {
             "{local_signout_on_campus} onc ON onc.id = (
                 SELECT oc.id
                 FROM {local_signout_on_campus} oc LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
-                WHERE s.userid = oc.userid AND oc.time_created >= {$starttime} AND oc.sign_in_time IS NULL AND oc.deleted = 0
-                                           AND l.deleted = 0
+                WHERE s.userid = oc.userid AND oc.deleted = 0 AND oc.time_created >= {$starttime} AND oc.sign_in_time IS NULL
+                                           AND (oc.locationid = -1 OR l.deleted = 0)
                 ORDER BY oc.time_created DESC
                 LIMIT 1
             )",
@@ -103,9 +103,9 @@ class combined_table extends \local_mxschool\table {
     protected function col_status($values) {
         switch ($values->status) {
             case 'on_campus':
-                return get_string('combined_report_status_on_campus', 'local_signout');
+                return get_string('combined_report:cell:status:on_campus', 'local_signout');
             case 'off_campus':
-                return get_string('combined_report_status_off_campus', 'local_signout');
+                return get_string('combined_report:cell:status:off_campus', 'local_signout');
             default:
                 return '-';
         }

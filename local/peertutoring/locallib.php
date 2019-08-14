@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../mxschool/locallib.php');
 
-/**
+/*
  * =================================
  * Permissions Validation Functions.
  * =================================
@@ -44,7 +44,7 @@ function student_may_access_tutoring($userid) {
     return array_key_exists($userid, get_tutor_list());
 }
 
-/**
+/*
  * ==========================================
  * Database Query for Record List Functions.
  * ==========================================
@@ -175,7 +175,7 @@ function get_tutor_list() {
     $tutors = $DB->get_records_sql(
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_peertutoring_tutor} t LEFT JOIN {user} u ON t.userid = u.id
-         WHERE u.deleted = 0 AND t.deleted = 0
+         WHERE t.deleted = 0 AND u.deleted = 0
          ORDER BY name"
     );
     return convert_student_records_to_list($tutors);
@@ -190,15 +190,20 @@ function get_tutoring_date_list() {
     global $DB;
     $list = array();
     $records = $DB->get_records_sql(
-        "SELECT s.id, s.tutoring_date
+        "SELECT s.id, s.tutoring_date AS tutoringdate
          FROM {local_peertutoring_session} s LEFT JOIN {user} tu ON s.tutorid = tu.id LEFT JOIN {user} su ON s.studentid = su.id
                                              LEFT JOIN {local_peertutoring_tutor} t ON s.tutorid = t.userid
-         WHERE s.deleted = 0 AND tu.deleted = 0 AND su.deleted = 0 AND t.deleted = 0
+                                             LEFT JOIN {local_peertutoring_course} c ON s.courseid = c.id
+                                             LEFT JOIN {local_peertutoring_dept} d ON c.departmentid = d.id
+                                             LEFT JOIN {local_peertutoring_type} ty ON s.typeid = ty.id
+                                             LEFT JOIN {local_peertutoring_rating} r ON s.ratingid = r.id
+         WHERE s.deleted = 0 AND tu.deleted = 0 AND su.deleted = 0 AND t.deleted = 0 AND c.deleted = 0 AND d.deleted = 0
+                             AND ty.deleted = 0 AND r.deleted = 0
          ORDER BY tutoring_date DESC"
     );
     if ($records) {
         foreach ($records as $record) {
-            $date = generate_datetime($record->tutoring_date);
+            $date = generate_datetime($record->tutoringdate);
             $date->modify('midnight');
             if (!array_key_exists($date->getTimestamp(), $list)) {
                 $list[$date->getTimestamp()] = $date->format('m/d/y');

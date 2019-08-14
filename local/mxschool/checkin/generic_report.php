@@ -54,7 +54,7 @@ $renderable = new local_mxschool\output\report($table, null, $dropdowns, array()
 
 echo $output->header();
 echo $output->heading(
-    get_string('checkin_generic_report_title', 'local_mxschool', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
+    get_string('checkin:generic_report:title', 'local_mxschool', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

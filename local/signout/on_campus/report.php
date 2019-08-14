@@ -46,7 +46,7 @@ if ($refresh) {
     $PAGE->set_periodic_refresh_delay((int) $refresh);
 }
 
-$locations = get_on_campus_location_list() + array(-1 => get_string('on_campus_report_select_location_other', 'local_signout'));
+$locations = get_on_campus_location_list() + array(-1 => get_string('on_campus:report:select_location:other', 'local_signout'));
 if ($filter->location && !isset($locations[$filter->location])) { // Invalid location.
     unset($filter->location);
     redirect(new moodle_url($PAGE->url, (array) $filter));
@@ -55,7 +55,7 @@ if ($action === 'delete' && $id) {
     $result = $DB->record_exists('local_signout_on_campus', array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field('local_signout_on_campus', 'deleted', 1, array('id' => $id));
     logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus_delete_{$result}", 'local_signout'), 'delete',
+        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus:form:delete:{$result}", 'local_signout'), 'delete',
         $result === 'success'
     );
 }
@@ -66,14 +66,14 @@ $table = new local_signout\local\on_campus\table($filter);
 $dropdowns = array(
    local_mxschool\output\dropdown::dorm_dropdown($filter->dorm),
     new local_mxschool\output\dropdown(
-        'location', $locations, $filter->location, get_string('on_campus_report_select_location_all', 'local_signout')
+        'location', $locations, $filter->location, get_string('on_campus:report:select_location:all', 'local_signout')
     ),
     new local_mxschool\output\dropdown(
-        'date', $dates, $filter->date, get_string('on_campus_report_select_date_all', 'local_signout')
+        'date', $dates, $filter->date, get_string('on_campus:report:select_date:all', 'local_signout')
     )
 );
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('on_campus_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
+    get_string('on_campus:report:add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')
 ));
 
 $output = $PAGE->get_renderer('local_signout');
@@ -81,7 +81,7 @@ $renderable = new local_mxschool\output\report($table, $filter->search, $dropdow
 
 echo $output->header();
 echo $output->heading(
-    get_string('on_campus_report_title', 'local_signout', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
+    get_string('on_campus:report:title', 'local_signout', $filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '')
 );
 echo $output->render($renderable);
 echo $output->footer();

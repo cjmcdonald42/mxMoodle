@@ -44,15 +44,15 @@ class parent_edit_form extends \local_mxschool\form {
             'parent' => array(
                 'student' => array('element' => 'select', 'options' => $students, 'rules' => array('required')),
                 'name' => self::ELEMENT_TEXT_REQUIRED,
-                'isprimary' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'is_primary' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'relationship' => self::ELEMENT_TEXT_REQUIRED,
-                'homephone' => self::ELEMENT_TEXT,
-                'cellphone' => self::ELEMENT_TEXT,
-                'workphone' => self::ELEMENT_TEXT,
+                'home_phone' => self::ELEMENT_TEXT,
+                'cell_phone' => self::ELEMENT_TEXT,
+                'work_phone' => self::ELEMENT_TEXT,
                 'email' => self::ELEMENT_EMAIL_REQUIRED
             )
         );
-        $this->set_fields($fields, 'user_management_parent_edit');
+        $this->set_fields($fields, 'user_management:parent_edit');
     }
 
 }

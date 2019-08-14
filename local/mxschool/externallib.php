@@ -63,15 +63,15 @@ class local_mxschool_external extends external_api {
         switch ($params['table']) { // HACK: These capabilities should really not be hardcoded because it is not expandable.
             case 'local_mxschool_weekend_form':
                 require_capability('local/mxschool:manage_weekend', context_system::instance());
-                $page = get_string('checkin_weekend_report', 'local_mxschool');
+                $page = get_string('checkin:weekend_report', 'local_mxschool');
                 break;
             case 'local_mxschool_faculty':
                 require_capability('local/mxschool:manage_faculty', context_system::instance());
-                $page = get_string('user_management_faculty_report', 'local_mxschool');
+                $page = get_string('user_management:faculty_report', 'local_mxschool');
                 break;
             case 'local_mxschool_vt_site':
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
-                $page = get_string('vacation_travel_site_report', 'local_mxschool');
+                $page = get_string('vacation_travel:site_report', 'local_mxschool');
                 break;
             default:
                 throw new coding_exception("Unsupported table: {$params['table']}.");
@@ -337,7 +337,7 @@ class local_mxschool_external extends external_api {
         $record->selectedid = $params['choice'];
         $record->time_modified = time();
         local_mxschool\event\record_updated::create(array('other' => array(
-            'page' => get_string('advisor_selection_report', 'local_mxschool')
+            'page' => get_string('advisor_selection:report', 'local_mxschool')
         )))->trigger();
         return $DB->update_record('local_mxschool_adv_selection', $record);
     }
@@ -376,7 +376,7 @@ class local_mxschool_external extends external_api {
         $result->students = convert_associative_to_object(get_student_without_rooming_form_list());
         $record = $DB->get_record('local_mxschool_student', array('userid' => $params['userid']), 'dormid AS dorm, gender');
         $result->dorm = format_dorm_name($record->dorm);
-        $result->roomtypes = convert_associative_to_object(get_roomtype_list($record->gender));
+        $result->roomtypes = convert_associative_to_object(get_room_type_list($record->gender));
         $result->gradedormmates = convert_associative_to_object(get_student_possible_same_grade_dormmate_list($params['userid']));
         $result->dormmates = convert_associative_to_object(get_student_possible_dormmate_list($params['userid']));
         return $result;

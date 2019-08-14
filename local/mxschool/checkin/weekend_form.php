@@ -85,7 +85,7 @@ $data->isstudent = $isstudent ? '1' : '0';
 $data->warning = get_config('local_mxschool', 'weekend_form_warning_closed');
 generate_time_selector_fields($data, 'departure', 15);
 generate_time_selector_fields($data, 'return', 15);
-$dorms = array('0' => get_string('checkin_weekend_form_dorm_default', 'local_mxschool')) + get_dorm_list(false);
+$dorms = array('0' => get_string('checkin:weekend_form:dorm:default', 'local_mxschool')) + get_dorm_list(false);
 $students = get_boarding_student_list();
 
 $form = new local_mxschool\local\checkin\weekend_form(array('dorms' => $dorms, 'students' => $students));
@@ -112,7 +112,7 @@ if ($form->is_cancelled()) {
     );
     $result = (new local_mxschool\local\checkin\weekend_form_submitted($id))->send();
     logged_redirect(
-        $form->get_redirect(), get_string('checkin_weekend_form_success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('checkin:weekend_form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -128,7 +128,7 @@ $renderable = new local_mxschool\output\form(
 
 echo $output->header();
 echo $output->heading(
-    $isstudent ? get_string('checkin_weekend_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+    $isstudent ? get_string('checkin:weekend_form:title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
 );
 echo $output->render($renderable);
 echo $output->footer();

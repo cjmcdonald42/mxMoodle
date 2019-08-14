@@ -26,7 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
+/*
  * ========================
  * Page Setup Abstractions.
  * ========================
@@ -68,7 +68,7 @@ function setup_mxschool_page($page, $subpackage, $package = 'mxschool') {
     }
 
     $url = empty($subpackage) ? "/local/{$package}/{$page}.php" : "/local/{$package}/{$subpackage}/{$page}.php";
-    $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
+    $title = get_string(empty($subpackage) ? $page : "{$subpackage}:{$page}", "local_{$package}");
 
     setup_generic_page($url, $title);
 
@@ -102,12 +102,12 @@ function setup_edit_page($page, $parent, $subpackage, $package = 'mxschool') {
     }
 
     $url = empty($subpackage) ? "/local/{$package}/{$page}.php" : "/local/{$package}/{$subpackage}/{$page}.php";
-    $title = get_string(empty($subpackage) ? $page : "{$subpackage}_{$page}", "local_{$package}");
+    $title = get_string(empty($subpackage) ? $page : "{$subpackage}:{$page}", "local_{$package}");
 
     setup_generic_page($url, $title);
 
     $parenturl = "{$parent}.php";
-    $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}_{$parent}", "local_{$package}");
+    $parenttitle = get_string(empty($subpackage) ? $parent : "{$subpackage}:{$parent}", "local_{$package}");
 
     $PAGE->set_pagelayout('incourse');
     $PAGE->navbar->add(get_string('pluginname', 'local_mxschool'), new moodle_url('/local/mxschool'));
@@ -140,7 +140,7 @@ function generate_index($id, $heading = false) {
         if (empty($record->subpackage)) {
             $links[get_string($page, "local_{$record->package}")] = "/local/{$record->package}/{$page}.php";
         } else {
-            $links[get_string("{$record->subpackage}_{$page}", "local_{$record->package}")]
+            $links[get_string("{$record->subpackage}:{$page}", "local_{$record->package}")]
                 = "/local/{$record->package}/{$record->subpackage}/{$page}.php";
         }
     }
@@ -234,7 +234,7 @@ function redirect_to_fallback() {
     redirect(get_fallback_url());
 }
 
-/**
+/*
  * ===================================
  * Database Manipulation Abstractions.
  * ===================================
@@ -357,7 +357,7 @@ function clear_student_pictures() {
     }
 }
 
-/**
+/*
  * ===============================================
  * DateTime Abstractions and Formatting Functions.
  * ===============================================
@@ -561,7 +561,7 @@ function convert_associative_to_object($list) {
     }, array_keys($list), $list);
 }
 
-/**
+/*
  * =================================
  * Permissions Validation Functions.
  * =================================
@@ -635,7 +635,7 @@ function student_may_access_vacation_travel($userid) {
     return $start && $stop && time() > $start && time() < $stop && array_key_exists($userid, get_boarding_student_list());
 }
 
-/**
+/*
  * ====================================
  * URL Parameter Querying Abstractions.
  * ====================================
@@ -759,7 +759,7 @@ function get_current_semester() {
     return generate_datetime()->getTimestamp() < get_config('local_mxschool', 'second_semester_start_date') ? '1' : '2';
 }
 
-/**
+/*
  * ==========================================
  * Database Query for Record List Functions.
  * ==========================================
@@ -1057,7 +1057,7 @@ function get_vacation_travel_departure_sites_list($type = null) {
     );
     $list = convert_records_to_list($sites);
     if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
-        $list += array(0 => get_string('vacation_travel_form_departure_dep_site_other', 'local_mxschool'));
+        $list += array(0 => get_string('vacation_travel:form:departure:dep_site:other', 'local_mxschool'));
     }
     return $list;
 }
@@ -1076,18 +1076,32 @@ function get_vacation_travel_return_sites_list($type = null) {
     );
     $list = convert_records_to_list($sites);
     if (!$type || $type === 'Plane' || $type === 'Train' || $type === 'Bus') {
-        $list += array(0 => get_string('vacation_travel_form_return_ret_site_other', 'local_mxschool'));
+        $list += array(0 => get_string('vacation_travel:form:return:ret_site:other', 'local_mxschool'));
     }
     return $list;
 }
 
-/**
+/*
  * ============================================
  * Miscellaneous Subpackage-Specific Functions.
  * ============================================
  */
 
 /* Check-In Sheets and Weekend Forms. */
+
+/**
+ * Creates a list of all the weekend types.
+ *
+ * @return array The weekend types as internal_name => localized_name, in order by type.
+ */
+function get_weekend_type_list() {
+    return array(
+        'Open' => get_string('weekend_type:open', 'local_mxschool'),
+        'Closed' => get_string('weekend_type:closed', 'local_mxschool'),
+        'Free' => get_string('weekend_type:free', 'local_mxschool'),
+        'Vacation' => get_string('weekend_type:vacation', 'local_mxschool'),
+    );
+}
 
 /**
  * Creates a list of all possible start days for a weekend.
@@ -1231,7 +1245,7 @@ function calculate_weekends_used($userid, $semester) {
  * @param string $gender The gender to check for - either 'M', 'F', or ''.
  * @return array The room types as internal_name => localized_name, in order by type.
  */
-function get_roomtype_list($gender = '') {
+function get_room_type_list($gender = '') {
     $roomtypes = array(
         'Single' => get_string('room_type:single', 'local_mxschool'),
         'Double' => get_string('room_type:double', 'local_mxschool')

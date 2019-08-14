@@ -40,23 +40,23 @@ if ($action === 'delete' && $id) {
     $result = $DB->record_exists('local_signout_location', array('id' => $id)) ? 'success' : 'failure';
     $DB->set_field('local_signout_location', 'deleted', 1, array('id' => $id));
     logged_redirect(
-        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus_location_delete_{$result}", 'local_signout'), 'delete',
+        new moodle_url($PAGE->url, (array) $filter), get_string("on_campus:location:delete:{$result}", 'local_signout'), 'delete',
         $result === 'success'
     );
 }
 
 $data = new stdClass();
 $data->enabled = get_config('local_signout', 'on_campus_form_enabled');
-$data->ipenabled = get_config('local_signout', 'on_campus_ipvalidation_enabled');
-$data->confirmationenabled = get_config('local_signout', 'on_campus_confirmation_enabled');
+$data->ip_enabled = get_config('local_signout', 'on_campus_ipvalidation_enabled');
+$data->confirmation_enabled = get_config('local_signout', 'on_campus_confirmation_enabled');
 $data->refresh = get_config('local_signout', 'on_campus_refresh_rate');
-$data->confirmationundo = get_config('local_signout', 'on_campus_confirmation_undo_window');
-$data->ipformerror['text'] = get_config('local_signout', 'on_campus_form_ipvalidation_error');
-$data->ipsigninerrorboarder['text'] = get_config('local_signout', 'on_campus_signin_ipvalidation_error_boarder');
-$data->ipsigninerrorday['text'] = get_config('local_signout', 'on_campus_signin_ipvalidation_error_day');
+$data->confirmation_undo = get_config('local_signout', 'on_campus_confirmation_undo_window');
+$data->ip_form_error['text'] = get_config('local_signout', 'on_campus_form_ipvalidation_error');
+$data->ip_sign_in_error_boarder['text'] = get_config('local_signout', 'on_campus_signin_ipvalidation_error_boarder');
+$data->ip_sign_in_error_day['text'] = get_config('local_signout', 'on_campus_signin_ipvalidation_error_day');
 $data->confirmation['text'] = get_config('local_signout', 'on_campus_form_confirmation');
-$data->underclassmanwarning['text'] = get_config('local_signout', 'on_campus_form_warning_underclassmen');
-$data->juniorwarning['text'] = get_config('local_signout', 'on_campus_form_warning_juniors');
+$data->underclassman_warning['text'] = get_config('local_signout', 'on_campus_form_warning_underclassmen');
+$data->junior_warning['text'] = get_config('local_signout', 'on_campus_form_warning_juniors');
 
 $form = new local_signout\local\on_campus\preferences_form();
 $form->set_data($data);
@@ -65,24 +65,24 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     set_config('on_campus_form_enabled', $data->enabled, 'local_signout');
-    set_config('on_campus_ipvalidation_enabled', $data->ipenabled, 'local_signout');
-    set_config('on_campus_confirmation_enabled', $data->confirmationenabled, 'local_signout');
+    set_config('on_campus_ipvalidation_enabled', $data->ip_enabled, 'local_signout');
+    set_config('on_campus_confirmation_enabled', $data->confirmation_enabled, 'local_signout');
     set_config('on_campus_refresh_rate', $data->refresh, 'local_signout');
-    set_config('on_campus_confirmation_undo_window', $data->confirmationundo, 'local_signout');
-    set_config('on_campus_form_ipvalidation_error', $data->ipformerror['text'], 'local_signout');
-    set_config('on_campus_signin_ipvalidation_error_boarder', $data->ipsigninerrorboarder['text'], 'local_signout');
-    set_config('on_campus_signin_ipvalidation_error_day', $data->ipsigninerrorday['text'], 'local_signout');
+    set_config('on_campus_confirmation_undo_window', $data->confirmation_undo, 'local_signout');
+    set_config('on_campus_form_ipvalidation_error', $data->ip_form_error['text'], 'local_signout');
+    set_config('on_campus_signin_ipvalidation_error_boarder', $data->ip_sign_in_error_boarder['text'], 'local_signout');
+    set_config('on_campus_signin_ipvalidation_error_day', $data->ip_sign_in_error_day['text'], 'local_signout');
     set_config('on_campus_form_confirmation', $data->confirmation['text'], 'local_signout');
-    set_config('on_campus_form_warning_underclassmen', $data->underclassmanwarning['text'], 'local_signout');
-    set_config('on_campus_form_warning_juniors', $data->juniorwarning['text'], 'local_signout');
+    set_config('on_campus_form_warning_underclassmen', $data->underclassman_warning['text'], 'local_signout');
+    set_config('on_campus_form_warning_juniors', $data->junior_warning['text'], 'local_signout');
     logged_redirect(
-        $form->get_redirect(), get_string('on_campus_preferences_update_success', 'local_signout'), 'update'
+        $form->get_redirect(), get_string('on_campus:preferences:update:success', 'local_signout'), 'update'
     );
 }
 
 $table = new local_signout\local\on_campus\location_table();
 $buttons = array(new local_mxschool\output\redirect_button(
-    get_string('on_campus_location_report_add', 'local_signout'), new moodle_url('/local/signout/on_campus/location_edit.php')
+    get_string('on_campus:location_report:add', 'local_signout'), new moodle_url('/local/signout/on_campus/location_edit.php')
 ));
 
 $output = $PAGE->get_renderer('local_signout');
@@ -92,6 +92,6 @@ $reportrenderable = new local_mxschool\output\report($table, null, array(), $but
 echo $output->header();
 echo $output->heading($PAGE->title);
 echo $output->render($renderable);
-echo $output->heading(get_string('on_campus_location_report', 'local_signout'));
+echo $output->heading(get_string('on_campus:location_report', 'local_signout'));
 echo $output->render($reportrenderable);
 echo $output->footer();

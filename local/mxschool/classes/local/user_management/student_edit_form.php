@@ -57,14 +57,14 @@ class student_edit_form extends \local_mxschool\form {
                 'lastname' => self::ELEMENT_TEXT_REQUIRED,
                 'alternatename' => self::ELEMENT_TEXT,
                 'email' => self::ELEMENT_EMAIL_REQUIRED,
-                'phonenumber' => self::ELEMENT_TEXT,
+                'phone_number' => self::ELEMENT_TEXT,
                 'birthday' => self::ELEMENT_TEXT_REQUIRED,
-                'admissionyear' => self::ELEMENT_TEXT_REQUIRED,
+                'admission_year' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
                 'gender' => array('element' => 'radio', 'options' => array('M', 'F'), 'rules' => array('required')),
                 'advisor' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
-                'isboarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
-                'isboardernextyear' => array(
+                'is_boarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
+                'is_boarder_next_year' => array(
                     'element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')
                 ),
                 'dorm' => array('element' => 'select', 'options' => $dorms, 'rules' => array('required')),
@@ -77,15 +77,15 @@ class student_edit_form extends \local_mxschool\form {
                 'driving' => self::ELEMENT_YES_NO,
                 'passengers' => self::ELEMENT_YES_NO,
                 'riding' => array('element' => 'radio', 'options' => array('parent', '21', 'any', 'specific')),
-                'ridingcomment' => self::ELEMENT_TEXT_AREA,
+                'riding_comment' => self::ELEMENT_TEXT_AREA,
                 'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
-                'swimcompetent' => self::ELEMENT_YES_NO,
-                'swimallowed' => self::ELEMENT_YES_NO,
-                'boatallowed' => self::ELEMENT_YES_NO
+                'swim_competent' => self::ELEMENT_YES_NO,
+                'swim_allowed' => self::ELEMENT_YES_NO,
+                'boat_allowed' => self::ELEMENT_YES_NO
             )
         );
-        $this->set_fields($fields, 'user_management_student_edit', true);
+        $this->set_fields($fields, 'user_management:student_edit', true);
 
         $mform = $this->_form;
         $mform->hideIf('ridingcomment', 'riding', 'neq', 'specific');

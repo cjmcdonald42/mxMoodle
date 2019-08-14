@@ -42,13 +42,13 @@ class location_edit_form extends \local_mxschool\form {
             'location' => array(
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
-                'allday' => self::ELEMENT_BOOLEAN_REQUIRED,
+                'all_day' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'enabled' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'start' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
                 'end' => array('element' => 'date_selector', 'options' => self::date_options_school_year(true)),
                 'warning' => self::ELEMENT_FORMATTED_TEXT
             )
         );
-        $this->set_fields($fields, 'on_campus_location_edit', false, 'local_signout');
+        $this->set_fields($fields, 'on_campus:location_edit', false, 'local_signout');
     }
 }

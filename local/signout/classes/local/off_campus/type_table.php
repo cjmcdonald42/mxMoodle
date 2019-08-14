@@ -38,7 +38,7 @@ class type_table extends \local_mxschool\table {
         $columns = array(
             'name', 'permissions', 'grade', 'boardingstatus', 'weekend', 'enabled', 'start', 'end', 'formwarning', 'emailwarning'
         );
-        $headers = $this->generate_headers($columns, 'off_campus_type_report', 'local_signout');
+        $headers = $this->generate_headers($columns, 'off_campus:type_report', 'local_signout');
         $sortable = array('name', 'permissions', 'grade', 'boardingstatus', 'weekend', 'enabled', 'start', 'end');
         $centered = array(
             'permissions', 'grade', 'boardingstatus', 'weekend', 'enabled', 'start', 'end', 'formwarning', 'emailwarning'
@@ -102,7 +102,7 @@ class type_table extends \local_mxschool\table {
      */
     protected function col_emailwarning($values) {
         return isset($values->permissions) ? '-' : (
-            $values->emailwarning ?? get_string('off_campus_notification_warning_default', 'local_signout')
+            $values->emailwarning ?? get_string('off_campus:notification:warning:default', 'local_signout')
         );
     }
 

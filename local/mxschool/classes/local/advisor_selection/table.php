@@ -47,7 +47,7 @@ class table extends \local_mxschool\table {
         if ($filter->keepcurrent !== '') {
             unset($columns[array_search('keepcurrent', $columns)]);
         }
-        $headers = $this->generate_headers($columns, 'advisor_report');
+        $headers = $this->generate_headers($columns, 'advisor_selection:report');
         $sortable = array('student', 'current');
         $centered = array('current', 'keepcurrent', 'option1', 'option2', 'option3', 'option4', 'option5');
         parent::__construct('advisor_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());

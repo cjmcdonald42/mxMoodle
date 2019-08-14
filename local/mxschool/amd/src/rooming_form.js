@@ -27,6 +27,9 @@
 
 define(
     ['jquery', 'core/ajax', 'core/str', 'core/notification', 'local_mxschool/locallib'], function($, ajax, str, notification, lib) {
+        function addClasses() {
+            $('.mx-form div#fitem_id_instructions').children().eq(1).children().eq(0).addClass('text-info');
+        }
         function update() {
             var promises = ajax.call([{
                 methodname: 'local_mxschool_get_rooming_student_options',
@@ -56,11 +59,11 @@ define(
                     for (var i = 1; i <= 6; i++) {
                         var select = $('.mx-form select#id_dormmate' + i);
                         lib.updateSelect(select, i <= 3 ? data.gradedormmates : data.dormmates);
-                        var selectDiv = select.parent().parent();
+                        var dormmateDiv = select.parent().parent();
                         if (show) {
-                            selectDiv.show();
+                            dormmateDiv.show();
                         } else {
-                            selectDiv.hide();
+                            dormmateDiv.hide();
                         }
                         var selected = select.val();
                         if (selected == 0) {
@@ -74,20 +77,23 @@ define(
                     }
                     var select = $('.mx-form select#id_roommate');
                     lib.updateSelect($('.mx-form select#id_roommate'), dormmates);
-                    var selectDiv = select.parent().parent();
+                    var roomateDiv = select.parent().parent();
                     if (show) {
-                        selectDiv.prev().show();
-                        selectDiv.show();
+                        roomateDiv.prev().show();
+                        roomateDiv.show();
                     } else {
-                        selectDiv.prev().hide();
-                        selectDiv.hide();
+                        roomateDiv.prev().hide();
+                        roomateDiv.hide();
                     }
                 });
             }).fail(notification.exception);
         }
         return {
             setup: function() {
-                $(document).ready(update);
+                $(document).ready(function() {
+                    addClasses();
+                    update();
+                });
                 $('.mx-form select#id_student').change(update);
                 $('.mx-form select#id_dormmate1').change(update);
                 $('.mx-form select#id_dormmate2').change(update);

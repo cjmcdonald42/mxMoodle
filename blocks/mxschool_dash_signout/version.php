@@ -27,11 +27,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_signout';
-$plugin->version = 2019080602;
+$plugin->version = 2019081400;
 $plugin->release = 'v3.1';
-$plugin->requires = 2017111300; // Moodle 3.4+.
-$plugin->maturity = MATURITY_RC;
+$plugin->requires = 2019052000; // Moodle 3.7.
+$plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019072902, // MXSchool v3.1.
-    'local_signout' => 2019080607 // eSignout v3.1.
+    'local_mxschool' => 2019081400, // MXSchool v3.1.
+    'local_signout' => 2019081400 // eSignout v3.1.
 );

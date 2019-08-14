@@ -60,7 +60,7 @@ if ($form->is_cancelled()) {
     set_config('advisor_form_closing_warning', $data->closing_warning['text'], 'local_mxschool');
     set_config('advisor_form_instructions', $data->instructions['text'], 'local_mxschool');
     logged_redirect(
-        $form->get_redirect(), get_string('advisor_selection_preferences_update_success', 'local_mxschool'), 'update'
+        $form->get_redirect(), get_string('advisor_selection:preferences:update:success', 'local_mxschool'), 'update'
     );
 }
 
@@ -73,6 +73,6 @@ $reportrenderable = new local_mxschool\output\report($table);
 echo $output->header();
 echo $output->heading($PAGE->title);
 echo $output->render($formrenderable);
-echo $output->heading(get_string('user_management_faculty_report', 'local_mxschool'));
+echo $output->heading(get_string('advisor_selection:faculty_report', 'local_mxschool'));
 echo $output->render($reportrenderable);
 echo $output->footer();

@@ -39,19 +39,19 @@ class preferences_form extends \local_mxschool\form {
     protected function definition() {
         $fields = array(
             'config' => array(
-                'editwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
-                'tripwindow' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
+                'edit_window' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
+                'trip_window' => array('element' => 'text', 'type' => PARAM_INT, 'rules' => array('required')),
                 'enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('off_campus_preferences_config_enabled_text', 'local_signout')
+                    'text' => get_string('off_campus:preferences:config:enabled:text', 'local_signout')
                 ),
-                'permissionsactive' => array(
+                'permissions_active' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('off_campus_preferences_config_permissions_active_text', 'local_signout')
+                    'text' => get_string('off_campus:preferences:config:permissions_active:text', 'local_signout')
                 ),
-                'ipenabled' => array(
+                'ip_enabled' => array(
                     'element' => 'advcheckbox', 'name' => null,
-                    'text' => get_string('off_campus_preferences_config_ipenabled_text', 'local_signout', array(
+                    'text' => get_string('off_campus:preferences:config:ip_enabled:text', 'local_signout', array(
                         'school' => get_config('local_signout', 'school_ip'), 'current' => $_SERVER['REMOTE_ADDR']
                     ))
                 )
@@ -62,29 +62,29 @@ class preferences_form extends \local_mxschool\form {
                 'body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'formtext' => array(
-                'ipformerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'ipsigninerror' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'passengerinstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'bottominstructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'ip_form_error' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'ip_sign_in_error' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'passenger_instructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'bottom_instructions' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'confirmation' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'formdrivernopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'formpassengerparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'formpassengerspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'formpassengerover21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'formrideshareparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'formridesharenotallowed' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'form_driver_no_passengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'form_passenger_parent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'form_passenger_specific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'form_passenger_over_21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'form_rideshare_parent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'form_rideshare_not_allowed' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'emailtext' => array(
-                'emaildrivernopassengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'emailpassengerparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'emailpassengerspecific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'emailpassengerover21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'emailrideshareparent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-                'emailridesharenotallowed' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'email_driver_no_passengers' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'email_passenger_parent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'email_passenger_specific' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'email_passenger_over_21' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'email_rideshare_parent' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+                'email_rideshare_not_allowed' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
                 'irregular' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             )
         );
-        $this->set_fields($fields, 'off_campus_preferences', true, 'local_signout');
+        $this->set_fields($fields, 'off_campus:preferences', true, 'local_signout');
     }
 
 }

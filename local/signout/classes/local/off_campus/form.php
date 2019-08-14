@@ -42,8 +42,9 @@ class form extends \local_mxschool\form {
         $approvers = $this->_customdata['approvers'];
 
         $passengerparameters = array(
-            'multiple' => true, 'noselectionstring' => get_string('off_campus_form_passengers_noselection', 'local_signout'),
-            'placeholder' => get_string('off_campus_form_passengers_placeholder', 'local_signout')
+            'multiple' => true,
+            'noselectionstring' => get_string('off_campus:form:info:passengers:no_selection', 'local_signout'),
+            'placeholder' => get_string('off_campus:form:info:passengers:placeholder', 'local_signout')
         );
 
         $fields = array(
@@ -62,7 +63,7 @@ class form extends \local_mxschool\form {
                 'passengers' => array(
                     'element' => 'autocomplete', 'options' => $passengers, 'parameters' => $passengerparameters
                 ),
-                'driverwarning' => array('element' => 'static', 'name' => 'passengers'),
+                'driver_warning' => array('element' => 'static', 'name' => 'passengers'),
                 'instructions' => array('element' => 'static', 'name' => null),
                 'driver' => array('element' => 'select', 'options' => $drivers)
             ),
@@ -72,19 +73,19 @@ class form extends \local_mxschool\form {
                 'approver' => array('element' => 'select', 'options' => $approvers)
             ),
             'permissions' => array(
-                'passengerwarning' => array('element' => 'static', 'name' => null),
-                'ridesharewarning' => array('element' => 'static', 'name' => null),
-                'typewarning' => array('element' => 'static', 'name' => null),
-                'permissionssubmitbuttons' => array(
+                'passenger_warning' => array('element' => 'static', 'name' => null),
+                'rideshare_warning' => array('element' => 'static', 'name' => null),
+                'type_warning' => array('element' => 'static', 'name' => null),
+                'permissions_submit_buttons' => array(
                     'element' => 'group', 'displayname' => get_config('local_signout', 'off_campus_form_confirmation'),
                     'children' => array(
-                        'permissionssubmityes' => array('element' => 'submit', 'text' => get_string('yes')),
-                        'permissionssubmitno' => array('element' => 'cancel', 'text' => get_string('no'))
+                        'permissions_submit_yes' => array('element' => 'submit', 'text' => get_string('yes')),
+                        'permissions_submit_no' => array('element' => 'cancel', 'text' => get_string('no'))
                     )
                 )
             )
         );
-        $this->set_fields($fields, 'off_campus_form', false, 'local_signout');
+        $this->set_fields($fields, 'off_campus:form', false, 'local_signout');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
@@ -104,17 +105,17 @@ class form extends \local_mxschool\form {
         global $DB;
         $errors = parent::validation($data, $files);
         if (!$data['type_select'] || ($data['type_select'] === '-1' && empty($data['type_other']))) {
-            $errors['type'] = get_string('off_campus_form_error_notype', 'local_signout');
+            $errors['type'] = get_string('off_campus:form:error:no_type', 'local_signout');
         }
         $permissions = $DB->get_field('local_signout_type', 'required_permissions', array('id' => $data['type_select']));
         if ($permissions === 'passenger' && empty($data['driver'])) {
-            $errors['driver'] = get_string('off_campus_form_error_nodriver', 'local_signout');
+            $errors['driver'] = get_string('off_campus:form:error:no_driver', 'local_signout');
         }
         if ($permissions !== 'passenger' && empty($data['destination'])) {
-            $errors['destination'] = get_string('off_campus_form_error_nodestination', 'local_signout');
+            $errors['destination'] = get_string('off_campus:form:error:no_destination', 'local_signout');
         }
         if (($permissions || $data['type_select'] === '-1') && !$data['approver']) {
-            $errors['approver'] = get_string('off_campus_form_error_noapprover', 'local_signout');
+            $errors['approver'] = get_string('off_campus:form:error:no_approver', 'local_signout');
         }
         return $errors;
     }
