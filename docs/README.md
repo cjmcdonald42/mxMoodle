@@ -25,13 +25,13 @@ The project currently includes the following plugins:
     - [local/signout](/local/signout/README.md)
     - [blocks/mxschool_dash_signout](/blocks/mxschool_dash_signout/README.md)
 
-###### Note: v3.1 of all of these plugins have been developed for `Moodle 3.7.1` and the `Boost` theme and have not been tested on other versions of Moodle or with other themes.
+###### Note: v3.1 of all of these plugins have been developed for `Moodle 3.7.1` and tested exclusively on the default `Boost` theme.
 
 ## Contributing
 This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started page](/docs/GETTING_STARTED.md).
 
 ## Documentation
-Unfortunately, in its current state, the documentation for this project doesn't cover everything there is to know about the project; however between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a sense of how things are working.
+Unfortunately, in its current state, the documentation for this project doesn't cover everything there is to know; however between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a sense of how things are working.
 
 This is the status of the documentation we currently have in place beyond the getting started page:
 
