@@ -1,4 +1,4 @@
-# ![Middlesex Shield](/assets/mx_shield.png) Middlesex Moodle Plugins
+# ![Middlesex Shield](/assets/mx_shield.png) Middlesex Moodle Plugins ![Middlesex Shield](/assets/mx_shield.png)
 
 Custom Moodle plugins written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
