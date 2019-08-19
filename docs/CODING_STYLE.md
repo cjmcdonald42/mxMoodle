@@ -2,6 +2,8 @@
 
 Moodle has a large number of coding standards regarding all aspects of plugin development. These standards are listed on [this MoodleDocs page](https://docs.moodle.org/dev/Coding).
 
+___
+
 ## PHP
 
 Before you write anything for our plugins, you should read through Moodle's [coding style page](https://docs.moodle.org/dev/Coding_style) in its entirety. This document contains important information about how you should structure and format your PHP code.
@@ -28,13 +30,19 @@ There are a few places where we have deliberately chosen to deviate from Moodle'
 
 - For more on how we have chosen to define subpackages and use namespaces, please refer to the [Plugin Structure Documentation](/docs/PLUGIN_STRUCTURE.md)
 
+___
+
 ## JavaScript
 
 The ideas of Moodle's JS coding style are very similar to the PHP coding style. However, if you are planning to write any JavaScript for the project, you should read through [this page](https://docs.moodle.org/dev/Javascript/Coding_Style) before proceeding.
 
+___
+
 ## CSS
 
 In general, you should try to write as little custom CSS as possible and rely primarily on the [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) classes which are already automatically included on every page. If you do need to write custom CSS for any reason, you need to follow Moodle's [CSS Style Guidelines](https://docs.moodle.org/dev/CSS_Coding_Style).
+
+___
 
 ## Testing
 

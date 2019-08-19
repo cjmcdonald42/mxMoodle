@@ -1,5 +1,7 @@
 # Getting Started with Moodle Programming
 
+___
+
 ## Prerequisites
 Moodle is a web application which is built on a variety of technologies. Before working on this project, it will be necessary for you to know each of these technologies to a varying degree:
 
@@ -23,7 +25,7 @@ CSS _(Cascading Style Sheets)_ is what determines how a webpage is ultimately di
 
 Once you feel you have a sufficient grip in these technologies, you are almost ready to start working on our Moodle plugins. Before you begin, you should familiarize yourself with [MoodleDocs](https://docs.moodle.org/dev/Main_Page). Moodle's Documentation is incomplete in some areas and not always up to date, but it definitely a useful resource nonetheless. The documentation for this project will frequently reference the MoodleDocs pages of any relevant APIs.
 
----
+___
 
 ## Development Environment
 You will need to install and set up a variety of software packages on your computer before you can begin developing Moodle plugins and running a server locally.
