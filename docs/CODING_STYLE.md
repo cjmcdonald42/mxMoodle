@@ -18,6 +18,8 @@ There are a few places where we have deliberately chosen to deviate from Moodle'
 
 - We have not prefixed library function names with the plugin's Frankenstyle prefix as this tended to make the functions feel needlessly verbose. See our [local library file](/local/mxschool/locallib.php) for examples. The argument to change this would be to avoid potential conflicts with functions added by future plugins. See [#5](https://github.com/mxschool/MXMoodle/issues/5).
 
+- We use a very specific structure to organize internal (unlocalized) strings because these are often generated an so need to be of a consistent form. The general format we use is to prefix all strings with `SUBPACKAGE:PAGE:` and then use something of the form `SECTION:SPECIFIC`, sometimes adding more colon-separated elements to increase specificity from there if necessary. Within each element use underscores to delimit words where appropriate. For more information about subpacakges, refer to our [Plugin Structure documentation](/docs/PLUGIN_STRUCTURE.md#subpackages-abstraction). [This language file](/local/mxschool/lang/en/local_mxschool.php) has plenty of good examples.
+
 - We often choose to capitalize all words in language strings unless the string is a complete sentence and clearly should be in sentence case. This is mostly a design decision where we treat most language strings as title or headers of some sort. A notable exception is that all language strings which are integrated directly within Moodle's admin settings should conform to Moodle's standard capitalization practices.
 
 - We initialize arrays with the `array()` syntax rather than the `[]` literal in all cases. This is slightly more verbose, but easier to read in certain situations.
@@ -28,7 +30,7 @@ There are a few places where we have deliberately chosen to deviate from Moodle'
 
 - We don't usually specify parameter types or return types in function headers because this was not supported on previous versions of PHP. Now that the current version of Moodle requires PHP 7.1+, this is something that we may want to add in the future. See [#7](https://github.com/mxschool/MXMoodle/issues/7).
 
-- For more on how we have chosen to define subpackages and use namespaces, please refer to the [Plugin Structure Documentation](/docs/PLUGIN_STRUCTURE.md)
+- For more on how we have chosen to define subpackages and use namespaces, please refer to our [Plugin Structure documentation](/docs/PLUGIN_STRUCTURE.md)
 
 ___
 

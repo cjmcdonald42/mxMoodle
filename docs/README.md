@@ -1,10 +1,10 @@
-# Middlesex Moodle Plugins
+# ![Middlesex Shield](/assets/mx_shield.png) Middlesex Moodle Plugins
 
 Custom Moodle plugins written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
 
-The plugins have been through many iterations, but work on the current version began in 2018.
+This project began over a decade ago, and the plugins have been through many iterations, but work on the current version began in 2018.
 
 ## Packages
 The project currently includes the following plugins:
@@ -28,18 +28,18 @@ The project currently includes the following plugins:
 ###### NOTE: v3.1 of all of these plugins have been developed for `Moodle 3.7.1` and tested exclusively on the default `Boost` theme.
 
 ## Contributing
-This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started page](/docs/GETTING_STARTED.md).
+This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started guide](/docs/GETTING_STARTED.md).
 
 ## Documentation
-Unfortunately, in its current state, the documentation for this project doesn't cover everything there is to know; however between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a sense of how things are working.
+Unfortunately, the documentation for this project doesn't cover everything there is to know; however between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a good sense of how things are working.
 
-This is the status of the documentation we currently have in place beyond the getting started page:
+This is the status of the documentation we currently have in place beyond the getting started guide:
 
 Documentation Page | Status
 --- | ---
 [Middlesex Moodle Plugins Coding Style](/docs/CODING_STYLE.md) | _complete_
 [Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md) | _complete_
-[Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) | _incomplete_
+[Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) | _complete_
 [Middlesex Moodle Common File Structure](/docs/COMMON_FILE_STRUCTURE.md) | _incomplete_
 [Middlesex Moodle API Layer](/docs/API_LAYER.md) | _incomplete_
 

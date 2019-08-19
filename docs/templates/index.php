@@ -31,4 +31,4 @@ require_once('PATH_TO_PLUGIN_HOME/locallib.php');
 
 redirect_non_admin();
 admin_externalpage_setup('PAGE_NAME');
-render_index_page('SUBPACKAGE_NAME');
+render_index_page('SUBPACKAGE', 'PACKAGE');

@@ -23,7 +23,7 @@ Rather than writing HTML directly or building up the page within the PHP itself,
 #### CSS
 CSS _(Cascading Style Sheets)_ is what determines how a webpage is ultimately displayed in the client's browser. Moodle is designed to allow for theme plugins which can change how the site looks dramatically. As such, we don't have to worry much about CSS when writing other types of plugins. There is a small amount of CSS in the repository, but it is not something that will need to change as the project expands. Moodle's current default theme, Boost, is built on Twitter's [Bootstrap API](https://getbootstrap.com/docs/4.3/getting-started/introduction), so if you want to use any Bootstrap elements, all you need to do is add the appropriate class in your mustache file or in the PHP.
 
-Once you feel you have a sufficient grip in these technologies, you are almost ready to start working on our Moodle plugins. Before you begin, you should familiarize yourself with [MoodleDocs](https://docs.moodle.org/dev/Main_Page). Moodle's Documentation is incomplete in some areas and not always up to date, but it definitely a useful resource nonetheless. The documentation for this project will frequently reference the MoodleDocs pages of any relevant APIs.
+Once you feel you have a sufficient grip in these technologies, you are almost ready to start working on our Moodle plugins. Before you begin, you should familiarize yourself with [MoodleDocs](https://docs.moodle.org/dev/Main_Page). Moodle's documentation is incomplete in some areas and not always up to date, but it definitely a useful resource nonetheless. The documentation for this project will frequently reference the MoodleDocs pages of any relevant APIs.
 
 ___
 
