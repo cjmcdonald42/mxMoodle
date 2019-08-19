@@ -25,14 +25,14 @@ $DB->insert_record('local_mxschool_subpackage', (object) array(
     'package' => 'PACKAGE',
     'subpackage' => 'SUBPACKAGE',
     'pages' => json_encode(array(
-        'PAGE1', 'PAGE2', // Etc.
+        'PAGE1', 'PAGE2', // ETC.
     ))
 ));
 ```
 
 If the file is in the _null_ subpackage, simply omit the `subpackage` key and put the referenced file in the root package directory.
 
-###### NOTE: Pages whose purpose is to edit a record and can only be accessed from a report page as well as index pages should _not_ be included in the subpackage record. These pages use a separate page-setup function, as explained in our [File Structure documentation](/docs/COMMON_FILE_STRUCTURE.md).
+###### NOTE: Pages whose purpose is to edit a record and can only be accessed from a report page as well as index pages should _not_ be included in the subpackage record. These pages use a separate page-setup function, as explained in our [File Structure documentation](/docs/GENERAL_FILE_STRUCTURE.md).
 
 ### Generating Index Pages
 
@@ -46,7 +46,7 @@ ___
 
 Moodle provides an automatic classloader which finds all PHP classes defined in the correct files and namespaces and loads them for us so that we do not have to mess around with numerous `require_once` statements in every file. In particular all files which define a PHP class must have the same name as the class they define (only one class per file) and must be somewhere in the `classes/` directory of the plugin. You can read Moodle's [Automatic class loading documentation](https://docs.moodle.org/dev/Automatic_class_loading), but this section will explain the specific choices we have made regard the ACL for our plugins in greater detail.
 
-The `classes/` directory also needs to have a specific structure. We have chosen to reserve the root `classes/` directory for abstract classes that are extended by subpackage-specific classes within the plugin and subplugins. Certain Moodle subsystems such as the [task](https://docs.moodle.org/dev/Task_API), [event](https://docs.moodle.org/dev/Event_2), and [output](https://docs.moodle.org/dev/Output_API) APIs look for classes under the respective directories `classes/task/`, `classes/event/`, `classes/output/`, etc. We don't have specific documentation for these APIs, but Moodle's documentation is generally sufficient. All other classes should go in the `classes/local/` directory or a subdirectory therein. The root level of the `classes/local/` directory should correspond to pages without a subpackage, and all other class files should be in a subdirectory with the same name as that file's subpackage. You can use [`local_mxschool`'s `classes/` directory](/local/mxschool/classes/) as an example.
+The `classes/` directory also needs to have a specific structure. We have chosen to reserve the root `classes/` directory for abstract classes that are extended by subpackage-specific classes within the plugin and subplugins. Certain Moodle subsystems such as the [task](https://docs.moodle.org/dev/Task_API), [event](https://docs.moodle.org/dev/Event_2), and [output](https://docs.moodle.org/dev/Output_API) APIs look for classes under the respective directories `classes/task/`, `classes/event/`, `classes/output/`, etc. We don't have specific documentation for these APIs, but we do have templates for each in our [tempates directory](/docs/templates), and Moodle's documentation is generally sufficient. All other classes should go in the `classes/local/` directory or a subdirectory therein. The root level of the `classes/local/` directory should correspond to pages without a subpackage, and all other class files should be in a subdirectory with the same name as that file's subpackage. You can use [`local_mxschool`'s `classes/` directory](/local/mxschool/classes/) as an example.
 
 Lastly, all classes must be namespaced according to the directory they are in. For example, the file `local/mxschool/classes/output/renderer.php` would include the following line:
 

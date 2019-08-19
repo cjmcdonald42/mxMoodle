@@ -64,7 +64,7 @@ $dates = get_on_campus_date_list();
 
 $table = new local_signout\local\on_campus\table($filter);
 $dropdowns = array(
-   local_mxschool\output\dropdown::dorm_dropdown($filter->dorm),
+    local_mxschool\output\dropdown::dorm_dropdown($filter->dorm),
     new local_mxschool\output\dropdown(
         'location', $locations, $filter->location, get_string('on_campus:report:select_location:all', 'local_signout')
     ),

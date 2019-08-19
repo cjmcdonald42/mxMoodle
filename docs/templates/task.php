@@ -18,7 +18,7 @@
  * TODO: Description.
  *
  * @package     PACKAGE
- * @author      AUTHOR
+ * @author      PRIMARY AUTHOR
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die;
 
 use \core\task\scheduled_task;
 
-require_once('PATH_TO_PLUGIN_HOME/locallib.php');
+require_once('PATH_TO_PLUGIN_ROOT/locallib.php');
 
 class TASK_NAME extends scheduled_task {
 

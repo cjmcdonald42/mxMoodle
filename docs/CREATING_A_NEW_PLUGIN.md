@@ -14,7 +14,7 @@ ___
 
 There are a number of files and directories that should be added immediately when you create your plugin, even if you don't have anything to add to them right away.
 
-###### NOTE: All of these internal Moodle files must begin with a standard licensing comment, a header comment, and the `MOODLE_INTERNAL` check. See our [File Structure documentation](/docs/COMMON_FILE_STRUCTURE.md) for more information.
+###### NOTE: All of these internal Moodle files must begin with a standard licensing comment, a header comment, and the `MOODLE_INTERNAL` check. See our [File Structure documentation](/docs/GENERAL_FILE_STRUCTURE.md#header-comments) for more information.
 
 ### Version File
 
@@ -71,6 +71,10 @@ The classes directory will contain all of the PHP classes which your plugin uses
 ##### Privacy File
 
 To be compliant with the EU's GDPR regulations, Moodle added a Privacy API in version 3.5 which all plugins must integrate with. We have made the deliberate choice not to comply with these regulations because they allow students more access to their data than we want to provide. As such, we have come up a method of circumventing this requirement. Your plugin must have a file `classes/privacy/provider.php`. In this file you should copy the contents of [this template file](/docs/templates/provider.php) and replace `PACKAGE` with the Frankenstyle name of your plugin (the component name in your version file).
+
+##### Renderer File
+
+Your plugin must also provide a boilerplate renderer so that its pages can inherit all of the `local_mxschool` renderables. Create the file `classes/output/renderer.php`. In this file, copy the contents of [this template file](/docs/templates/renderer.php) and replace `PACKAGE` with the Frankenstyle name of your plugin (the component name in your version file).
 
 ### Settings File
 

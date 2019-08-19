@@ -45,7 +45,7 @@ $submittedoptions = array(
 
 $table = new local_mxschool\local\vacation_travel\table($filter);
 $dropdowns = array(
-   local_mxschool\output\dropdown::dorm_dropdown($filter->dorm, false),
+    local_mxschool\output\dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool\output\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('dropdown:default', 'local_mxschool')
     )

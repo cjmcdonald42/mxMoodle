@@ -19,14 +19,14 @@
  *
  * @package     PACKAGE
  * @subpackage  SUBPACKAGE
- * @author      AUTHOR
+ * @author      PRIMARY AUTHOR
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('PATH_TO_PLUGIN_HOME/../../config.php');
-require_once('PATH_TO_PLUGIN_HOME/locallib.php');
+require('PATH_TO_PLUGIN_ROOT/../../config.php');
+require_once('PATH_TO_PLUGIN_ROOT/locallib.php');
 
 require_login();
 require_capability('CAPABILITY', context_system::instance());

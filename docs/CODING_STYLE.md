@@ -30,7 +30,7 @@ There are a few places where we have deliberately chosen to deviate from Moodle'
 
 - We don't usually specify parameter types or return types in function headers because this was not supported on previous versions of PHP. Now that the current version of Moodle requires PHP 7.1+, this is something that we may want to add in the future. See [#7](https://github.com/mxschool/MXMoodle/issues/7).
 
-- For more on how we have chosen to define subpackages and use namespaces, please refer to our [Plugin Structure documentation](/docs/PLUGIN_STRUCTURE.md)
+- For more on how we have chosen to define subpackages and use namespaces, refer to our [Plugin Structure documentation](/docs/PLUGIN_STRUCTURE.md)
 
 ___
 

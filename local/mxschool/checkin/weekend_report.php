@@ -81,7 +81,7 @@ $end = array_key_exists($filter->end, $enddays) ? $filter->end : $weekendrecord-
 
 $table = new local_mxschool\local\checkin\weekend_table($filter, $start, $end);
 $dropdowns = array(
-   local_mxschool\output\dropdown::dorm_dropdown($filter->dorm, false),
+    local_mxschool\output\dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool\output\dropdown('weekend', $weekends, $filter->weekend),
     new local_mxschool\output\dropdown(
         'start', $startdays, $filter->start, get_string('checkin:weekend_report:select_start_day:default', 'local_mxschool')

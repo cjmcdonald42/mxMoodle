@@ -15,7 +15,7 @@ TODO: List any other dependencies here.
 
 ## Credits
 v3.1 of this plugin was developed alongside v3.1 of the PRIMARY_DEPENDENCY plugin in 2019 by:
-- AUTHOR
+- PRIMARY AUTHOR
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 ## License

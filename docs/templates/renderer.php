@@ -15,41 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * TODO: Class Description.
+ * Renderer for Middlesex's Peer Tutoring Subplugin.
  *
- * @package     PACKAGE
- * @subpackage  SUBPACKAGE
- * @author      PRIMARY AUTHOR
+ * @package     local_peertutoring
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace PACKAGE\local\SUBPACKAGE;
+namespace local_peertutoring\output;
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-class NOTIFICATION_NAME extends local_mxschool\notification {
-
-    /**
-     * TODO: Description of any parameters or exceptions.
-     */
-    public function __construct() {
-        global $DB;
-        parent::__construct('EMAIL_CLASS');
-
-        // TODO: query DB.
-        // TODO: populate $this->data.
-        // TODO: populate $this->recipients.
-    }
-
-    /**
-     * @return array The list of strings which can serve as tags for the notification.
-     */
-    public function get_tags() {
-        return array_merge(parent::get_tags(), array(
-            // TODO: List additional tags.
-        ));
-    }
-
+class renderer extends \local_mxschool\output\renderer {
+    // Inherits everything from local_mxschool's renderer.
 }

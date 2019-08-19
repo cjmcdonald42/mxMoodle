@@ -40,7 +40,7 @@ Documentation Page | Status
 [Middlesex Moodle Plugins Coding Style](/docs/CODING_STYLE.md) | _complete_
 [Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md) | _complete_
 [Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) | _complete_
-[Middlesex Moodle Common File Structure](/docs/COMMON_FILE_STRUCTURE.md) | _incomplete_
+[Middlesex Moodle General File Structure](/docs/GENERAL_FILE_STRUCTURE.md) | _incomplete_
 [Middlesex Moodle API Layer](/docs/API_LAYER.md) | _incomplete_
 
 ## Credits
