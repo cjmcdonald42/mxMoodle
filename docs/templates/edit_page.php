@@ -39,7 +39,8 @@ $queryfields = array(
     'TABLE' => array(
         'abbreviation' => 'ABBREVIATION',
         'fields' => array(
-            'DATABASE_FIELD' => 'FORM_FIELD' // ETC.
+            'DATABASE_FIELD' => 'FORM_FIELD'
+            // ETC.
         )
     )
     // ETC.

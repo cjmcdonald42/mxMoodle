@@ -71,9 +71,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_notification('peer_tutor_summary', $data);
-    logged_redirect(
-        $form->get_redirect(), get_string('preferences:update:success', 'local_peertutoring'), 'update'
-    );
+    logged_redirect($form->get_redirect(), get_string('preferences:update:success', 'local_peertutoring'), 'update');
 }
 
 $tutortable = new local_peertutoring\local\tutor_table();

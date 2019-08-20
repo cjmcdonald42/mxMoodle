@@ -79,9 +79,7 @@ if ($form->is_cancelled()) {
     set_config('weekend_form_instructions_top', $data->top_instructions['text'], 'local_mxschool');
     set_config('weekend_form_instructions_bottom', $data->bottom_instructions['text'], 'local_mxschool');
     set_config('weekend_form_warning_closed', $data->closed_warning['text'], 'local_mxschool');
-    logged_redirect(
-        $form->get_redirect(), get_string('checkin:preferences:update:success', 'local_mxschool'), 'update'
-    );
+    logged_redirect($form->get_redirect(), get_string('checkin:preferences:update:success', 'local_mxschool'), 'update');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

@@ -65,9 +65,7 @@ if ($form->is_cancelled()) {
     set_config('vacation_form_returnenabled', $data->return_enabled, 'local_mxschool');
     update_notification('vacation_travel_submitted', $data, 'submitted');
     update_notification('vacation_travel_notify_unsubmitted', $data, 'unsubmitted');
-    logged_redirect(
-        $form->get_redirect(), get_string('vacation_travel:preferences:update:success', 'local_mxschool'), 'update'
-    );
+    logged_redirect($form->get_redirect(), get_string('vacation_travel:preferences:update:success', 'local_mxschool'), 'update');
 }
 
 $table = new local_mxschool\local\vacation_travel\site_table();
