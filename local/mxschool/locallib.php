@@ -366,7 +366,7 @@ function clear_student_pictures() {
 /**
  * Generates a DateTime object from a time string or timestamp with the user's timezone.
  *
- * @param string|int $time A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ * @param string|int $time A date/time string in any of the supported formats (https://www.php.net/manual/en/datetime.formats.php)
  *                         or a timestamp.
  * @return DateTime The DateTime object with the specified time in the user's timezone.
  */
@@ -380,7 +380,7 @@ function generate_datetime($time='now') {
  *
  * @param string $format The format to output the timestamp in a format accepted by date()
  *                       (https://www.php.net/manual/en/function.date.php).
- * @param string|int $time A date/time string in a format accepted by date() (https://www.php.net/manual/en/function.date.php)
+ * @param string|int $time A date/time string in any of the supported formats (https://www.php.net/manual/en/datetime.formats.php)
  *                         or a timestamp.
  * @return string The specified time in the specified format.
  */

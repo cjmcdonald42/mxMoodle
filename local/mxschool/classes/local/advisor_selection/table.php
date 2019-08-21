@@ -64,7 +64,7 @@ class table extends \local_mxschool\table {
             '{user} o2a ON asf.option2id = o2a.id', '{user} o3a ON asf.option3id = o3a.id', '{user} o4a ON asf.option4id = o4a.id',
             '{user} o5a ON asf.option5id = o5a.id', '{user} sa ON asf.selectedid = sa.id'
         );
-        $year = (int)format_date('Y') - 1;
+        $year = (int) format_date('Y') - 1;
         $where = array(
             'u.deleted = 0',
             get_config('local_mxschool', 'advisor_form_enabled_who') === 'new' ? "s.admission_year = {$year}" : 's.grade <> 12'

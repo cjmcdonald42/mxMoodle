@@ -74,7 +74,7 @@ All internal files, on the other hand, must begin by verifying that core has bee
 defined('MOODLE_INTERNAL') || die;
 ```
 
-The rest of this documentation discusses various elements of commonly used page types. For more information about internal files, you should read the relevant API documentation from the [List of Core APIs](https://docs.moodle.org/dev/Core_APIs) and refer to relevant files in our [templates directory](/docs/templates/). For more information about our custom form and table abstractions, you should also refer to our [API Layer documentation](/docs/API_LAYER.md).
+The rest of this documentation discusses various elements of commonly used page types. For more information about internal files, you should read the relevant API documentation from the [List of Core APIs](https://docs.moodle.org/dev/Core_APIs) and refer to relevant files in our [templates directory](/docs/templates/). For more information about our custom table, form, and email notification abstractions, you should also refer to our [API Layer documentation](/docs/API_LAYER.md).
 
 ___
 
@@ -129,11 +129,17 @@ $filter->dorm = get_param_faculty_dorm();
 
 Pass a value of `false` as the first argument to this function if the report only applies to boarding dorms.
 
-If your report allows for record deletion, you should also include the following two lines which will populate the `$action` and `$id` variables if the user is trying to deleted a record:
+If your report allows for record deletion, also include the following two lines which will populate the `$action` and `$id` variables if the user is trying to deleted a record:
 
 ```PHP
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
+```
+
+If report is downloadable, also include the following line:
+
+```PHP
+$download = optional_param('download', '', PARAM_ALPHA);
 ```
 
 ##### Page Setup
@@ -184,6 +190,8 @@ The second-to-last step is to create the objects which will then be rendered to 
 $table = new PACKAGE\local\SUBPACKAGE\TABLE_CLASS($filter);
 ```
 
+If your report is downloadable, you will also need to pass the `$download` variable into your table's constructor.
+
 Then you must create an array of dropdowns that will be used to filter the report:
 
 ```PHP
@@ -228,6 +236,16 @@ echo $output->footer();
 ```
 
 Where `SEARCH` is the current search, usually `$filter->search` or `null`, if the report doesn't allow for searching. Optionally, you can add a value of `true` as a fifth argument to add a print button to the filter bar.
+
+If your report is downloadable, insert the following lines between the first and second lines of the last snippet:
+
+```PHP
+if ($table->is_downloading()) {
+    $renderable = new local_mxschool\output\report_table($table);
+    echo $output->render($renderable);
+    die();
+}
+```
 
 ### Form Pages
 
@@ -346,6 +364,8 @@ If there is an existing record, you may have to apply some data transformations 
 
 If there is not an existing record, you may have to set default values for your form. examples include timetamps for date/time selectors and the `userid` of a the user to populate the student field in primary forms. It is also common to set any radio field to a value of `-1` to prevent the `0` option from being auto selected.
 
+If you are using our custom 12 hour `time_selector`, you will need to call the `generate_time_selector_fields()` local library function which takes the data object as the first argument, the string prefix of the `time_selector` field as the second argument, and an optional third argument to specify a step size other than 1 minute.
+
 Preference forms will usually populate the `$data` object directly without using the `get_record()` local library function. For this purpose, use Moodle's `get_config()` function for each plugin config that can be edited by the page. This function takes the component name as the first argument and the config name as the second. If the preference page has any email text editors, use the `generate_email_preference_fields()` local library function which takes the email class as the first argument, the data object as the second argument, and a string prefix for the form fields as an optional third argument.
 
 ##### Static Querying
@@ -354,7 +374,7 @@ The next step is to assemble any arrays with relevant static data. Just like in 
 
 ###### WARNING: Any lists of options for select or radio elements must include _all_ possible options regardless of the currently selected student or other fields. The options should be adjusted appropriately in JavaScript, but due to the way that validation works, the data won't be saved if the option is not in the original array.
 
-##### Object Initialization
+##### Form Object Initialization
 
 You are now ready to create the actual form object and add the data to it. This is done with two simple lines:
 
@@ -365,9 +385,17 @@ $form->set_data($data);
 
 All parameters to the form (usually just lists that are used as options) must be passed to the form in an array as shown above because of the way that we build on Moodle's form API.
 
+Most of the time the default redirect URL is the desired option, but sometimes you may want to set some specific. In this case use the following method:
+
+```PHP
+$form->set_fallback($redirect);
+```
+
+Where `$redirect` is the `moodle_url` that the user should be redirected to when they submit or cancel the form.
+
 ##### Dealing with Submitted Data
 
-When a form is submitted or cancelled, the page is reloaded with the form data in a `POST` request. Understanding the technical details of this process is not important, but this is the reason why we process the form before we actually render the page (if we are in a state of processing, we are going to redirect, so the form should not be rendered). Fortunately, the [PEAR HTML_QuickForm library](https://pear.php.net/manual/en/package.html.html-quickform2.php), which Moodle's forms library (and therefore our form abstraction) is built upon, provides convenient hooks to process the data. Your code will look something like this:
+When a form is submitted or cancelled, the page is reloaded with the form data in a `POST` request. Understanding the technical details of this process is not important, but this is the reason why we process the form before we actually render the page (if we are in a state of processing, we are going to redirect, so the form should not be rendered). Fortunately, the [PEAR HTML_QuickForm2 library](https://pear.php.net/manual/en/package.html.html-quickform2.php), which Moodle's forms library (and therefore our form abstraction) is built upon, provides convenient hooks to process the data. Your code will look something like this:
 
 ```PHP
 if ($form->is_cancelled()) {
@@ -383,6 +411,8 @@ if ($form->is_cancelled()) {
 The first `if` block is run when the form is cancelled. In this case all we need to do is redirect to the form's redirect URL. This will be the referrer if it exists, otherwise it will be the default fallback as explained in the [data population](#data-population) section above.
 
 The second block is run when the form is submitted. The first step in this case is to perform any transformations to the data so that it is ready to be entered into the database. In particular, care should be taken to `unset` all fields which should have null values as the form may often provide other default values when nothing is submitted, such as an empty string.
+
+If you are using our custom 12 hour `time_selector`, you will need set the appropriate field of your data object to the result of a call to the `generate_timestamp()` local library function which takes the data object as the first argument and the string prefix of the `time_selector` field as the second argument.
 
 For a primary or secondary form page, all you need to do is call the `update_record()` local library function to save the data as you already specified in your `$queryfields` variable. On the other hand, for a preferences form you will have to save the data manually. Use Moodle's `get_config()` function to save any plugin configs. This function takes the config name as the first argument, the data to set as the second argument, and the component name as the third argument. To update email text, use the `update_notification()` local library function which takes the email class as the first argument, the data object as the second argument, and a string prefix from the form fields as an optional third argument.
 

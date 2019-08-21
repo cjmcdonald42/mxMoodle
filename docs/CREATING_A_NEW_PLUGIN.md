@@ -128,7 +128,7 @@ This directory is where you actually write your AMD modules. All JavaScript file
 moodleBuild
 ```
 
-This command will run Moodle's build scripts (which may take some time) then copy the minified versions of your modules into the `amd/bin` directory. These are the versions that will be run on production servers, so it is **very important** that you not skip this step. Read Moodle's [Javascript Modules
+This command will run Moodle's build scripts (which may take some time) then copy the minified versions of your modules into the `amd/bin` directory. These are the versions that will be run on production servers, so it is **very important** that you not skip this step. Read Moodle's [JavaScript Modules
 
 ### `templates/` Directory
 

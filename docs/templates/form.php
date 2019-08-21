@@ -42,13 +42,17 @@ class FORM_NAME extends \local_mxschool\form {
         $fields = array(
             '' => array(
                 'id' => self::ELEMENT_HIDDEN_INT
-            // Other hidden fields.
-            ), 'HEADER' => array(
+                // Other hidden fields.
+            ),
+            'HEADER' => array(
                 'FIELD' => array(
-                    'ELEMENT' => 'TYPE', // ETC.
-                ) // ETC.
-            ) // ETC.
+                    'element' => 'TYPE', // ETC.
+                )
+                // ETC.
+            )
+            // ETC.
         );
         parent::set_fields($fields, 'SUBPACKAGE:FORM_PREFIX', /* true or false for top actions */, 'PACKAGE');
     }
+
 }

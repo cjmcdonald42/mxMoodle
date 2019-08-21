@@ -41,7 +41,7 @@ Documentation Page | Status
 [Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md) | _complete_
 [Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) | _complete_
 [Middlesex Moodle General File Structure](/docs/GENERAL_FILE_STRUCTURE.md) | _complete_
-[Middlesex Moodle API Layer](/docs/API_LAYER.md) | _incomplete_
+[Middlesex Moodle API Layer](/docs/API_LAYER.md) | _complete_
 
 ## Credits
 v3.0 of the project was developed in 2018 by:
