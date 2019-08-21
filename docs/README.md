@@ -31,17 +31,17 @@ The project currently includes the following plugins:
 This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started guide](/docs/GETTING_STARTED.md).
 
 ## Documentation
-Unfortunately, the documentation for this project doesn't cover everything there is to know; however between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a good sense of how things are working.
+The documentation for this project doesn't cover everything there is to know, but between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a good sense of how things are working.
 
-This is the status of the documentation we currently have in place beyond the getting started guide:
+These are the documentation pages that we currently have in place:
 
-Documentation Page | Status
---- | ---
-[Middlesex Moodle Plugins Coding Style](/docs/CODING_STYLE.md) | _complete_
-[Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md) | _complete_
-[Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md) | _complete_
-[Middlesex Moodle General File Structure](/docs/GENERAL_FILE_STRUCTURE.md) | _complete_
-[Middlesex Moodle API Layer](/docs/API_LAYER.md) | _complete_
+- [Middlesex Moodle Plugins Coding Style](/docs/CODING_STYLE.md)
+- [Steps for Creating a New Local Plugin](/docs/CREATING_A_NEW_PLUGIN.md)
+- [Middlesex Moodle Local Plugin Structure](/docs/PLUGIN_STRUCTURE.md)
+- [Middlesex Moodle General File Structure](/docs/GENERAL_FILE_STRUCTURE.md)
+- [Middlesex Moodle API Layer](/docs/API_LAYER.md)
+
+If you have time to read through all of the pages, it would make the most sense to read them in the order they are listed.
 
 ## Credits
 v3.0 of the project was developed in 2018 by:
