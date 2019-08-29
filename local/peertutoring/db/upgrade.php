@@ -45,16 +45,6 @@ function xmldb_local_peertutoring_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019031000, 'local', 'peertutoring');
     }
 
-    if ($oldversion < 2019070302) {
-        $package = array('package' => 'peertutoring', 'pages' => json_encode(array(
-            'preferences' => 'preferences.php', 'tutoring_form' => 'tutoring_enter.php', 'tutoring_report' => 'tutoring_report.php'
-        )));
-        $DB->insert_record('local_mxschool_subpackage', (object) $package);
-
-        // Peertutoring savepoint reached.
-        upgrade_plugin_savepoint(true, 2019070302, 'local', 'peertutoring');
-    }
-
     if ($oldversion < 2019072209) {
 
         // Define key department (foreign) to be dropped form local_peertutoring_course.
