@@ -90,7 +90,7 @@ class local_signout_external extends external_api {
                     'text' => new external_value(PARAM_TEXT, 'name of the location')
                 ))
             ),
-            'warning' => new external_value(PARAM_TEXT, 'a warning for the student')
+            'warning' => new external_value(PARAM_RAW, 'a warning for the student')
         ));
     }
 
@@ -189,9 +189,9 @@ class local_signout_external extends external_api {
                 ))
             ),
             'maydrivepassengers' => new external_value(PARAM_BOOL, 'whether the student has permission to drive passengers'),
-            'passengerwarning' => new external_value(PARAM_TEXT, 'warning text regarding the student\'s passenger permissions'),
-            'ridesharewarning' => new external_value(PARAM_TEXT, 'warning text regarding the student\'s rideshare permissions'),
-            'typewarning' => new external_value(PARAM_TEXT, 'general warning text regarding the student\'s selected type')
+            'passengerwarning' => new external_value(PARAM_RAW, 'warning text regarding the student\'s passenger permissions'),
+            'ridesharewarning' => new external_value(PARAM_RAW, 'warning text regarding the student\'s rideshare permissions'),
+            'typewarning' => new external_value(PARAM_RAW, 'general warning text regarding the student\'s selected type')
         ));
     }
 

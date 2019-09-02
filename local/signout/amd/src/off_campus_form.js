@@ -63,7 +63,7 @@ define(
                 var passengerWarningDiv = permissionsFieldset.children().eq(1).children().eq(0);
                 if (data.passengerwarning && (data.type === 'passenger' || $('.mx-form select#id_type_select').val() == -1)) {
                     permissionsFieldset.next().hide();
-                    passengerWarningDiv.children().eq(1).children().eq(0).text(data.passengerwarning);
+                    passengerWarningDiv.children().eq(1).children().eq(0).html(data.passengerwarning);
                     passengerWarningDiv.show();
                     permissionsFieldset.show();
                 } else {
@@ -72,7 +72,7 @@ define(
                 var rideshareWarningDiv = permissionsFieldset.children().eq(1).children().eq(1);
                 if (data.ridesharewarning && (data.type === 'rideshare' || $('.mx-form select#id_type_select').val() == -1)) {
                     permissionsFieldset.next().hide();
-                    rideshareWarningDiv.children().eq(1).children().eq(0).text(data.ridesharewarning);
+                    rideshareWarningDiv.children().eq(1).children().eq(0).html(data.ridesharewarning);
                     rideshareWarningDiv.show();
                     permissionsFieldset.show();
                 } else {
@@ -81,7 +81,7 @@ define(
                 var typeWarningDiv = permissionsFieldset.children().eq(1).children().eq(2);
                 if (data.typewarning) {
                     permissionsFieldset.next().hide();
-                    typeWarningDiv.children().eq(1).children().eq(0).text(data.typewarning);
+                    typeWarningDiv.children().eq(1).children().eq(0).html(data.typewarning);
                     typeWarningDiv.show();
                     permissionsFieldset.show();
                 } else {
