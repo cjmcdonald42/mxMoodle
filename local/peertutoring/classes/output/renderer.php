@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * TODO: Description.
+ * Renderer for Middlesex's Peer Tutoring Subplugin.
  *
- * @package     PACKAGE
- * @author      PRIMARY AUTHOR
+ * @package     local_peertutoring
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace PACKAGE\output;
+namespace local_peertutoring\output;
 
 defined('MOODLE_INTERNAL') || die();
 
