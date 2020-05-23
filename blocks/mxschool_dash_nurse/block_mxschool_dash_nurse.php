@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class block_mxschool_dash_murse extends block_base {
+class block_mxschool_dash_nurse extends block_base {
 
     public function init() {
         $this->title = get_string('pluginname', 'block_mxschool_dash_nurse');
