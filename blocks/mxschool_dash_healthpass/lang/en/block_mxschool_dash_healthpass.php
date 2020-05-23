@@ -35,7 +35,7 @@ $string['privacy:metadata'] = 'MX Health Pass provides data to our Podio health 
 
 // Settings.
 $string['description'] = 'Description';
-$string['description:description'] = 'Text to display above the available links for whomever has access.';
+$string['description:description'] = 'MX Health Pass system.';
 
 ******
 
@@ -44,6 +44,4 @@ $string['description:description'] = 'Text to display above the available links 
 
 
 // Links.
-$string['advisor_selection'] = 'Advisor Selection Form';
-$string['rooming'] = 'Rooming Form';
-$string['vacation'] = 'Vacation Travel Form';
+$string['healthpass'] = 'Enter New Healthpass Form';

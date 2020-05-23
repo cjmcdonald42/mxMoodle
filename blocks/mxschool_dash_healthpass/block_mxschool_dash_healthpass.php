@@ -33,17 +33,27 @@ class block_mxschool_dash_healthpass extends block_base {
         $this->title = get_string('pluginname', 'block_mxschool_dash_healthpass');
     }
 
-    ******
-
-
-
-
-
     public function get_content() {
         global $PAGE, $USER;
         if (isset($this->content)) {
             return $this->content;
         }
+
+*****
+
+// If you have been approved
+//    Display the green approval
+//
+// If you have been denied
+//    Display the red denial
+//
+// If you haven't entered a health pass today.
+//    Display the form
+
+
+
+
+
 
         $links = array();
         if (user_is_admin() || (user_is_student() && student_may_access_advisor_selection($USER->id))) {

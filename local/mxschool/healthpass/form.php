@@ -27,6 +27,18 @@
 ***
 
 
+// name, boarding_status comes from Moodledata
+// Enter your temperature
+// Do you have a fever?
+// Do you have a sore throat?
+// Do you have a cough?
+// Do you have a runny nose?
+// Do you have muscle aches?
+// Do you have a loss of smell or taste?
+// Do you have shortness of breath?
+// Submit button.
+
+
 
 
 
