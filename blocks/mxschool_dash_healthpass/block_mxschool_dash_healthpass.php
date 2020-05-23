@@ -38,7 +38,7 @@ class block_mxschool_dash_healthpass extends block_base {
         if (isset($this->content)) {
             return $this->content;
         }
-
+}
 
 //
 
@@ -53,3 +53,6 @@ class block_mxschool_dash_healthpass extends block_base {
 // If you have been denied
 //    Display the red denial
 //    Submit new form option - time delay this by a few minutes.
+
+
+}
