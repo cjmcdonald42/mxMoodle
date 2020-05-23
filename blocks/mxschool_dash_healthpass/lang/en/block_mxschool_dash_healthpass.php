@@ -37,7 +37,7 @@ $string['privacy:metadata'] = 'MX Health Pass provides data to our Podio health 
 $string['description'] = 'Description';
 $string['description:description'] = 'MX Health Pass system.';
 
-******
+//
 
 
 

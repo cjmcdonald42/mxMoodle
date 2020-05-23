@@ -40,7 +40,7 @@ class block_mxschool_dash_healthpass extends block_base {
         }
 
 
-*****
+//
 
 
 // If you haven't entered a health pass today.
