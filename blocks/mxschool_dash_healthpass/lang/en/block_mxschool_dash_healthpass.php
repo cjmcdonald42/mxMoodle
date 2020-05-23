@@ -37,11 +37,5 @@ $string['privacy:metadata'] = 'MX Health Pass provides data to our Podio health 
 $string['description'] = 'Description';
 $string['description:description'] = 'MX Health Pass system.';
 
-//
-
-
-
-
-
 // Links.
-$string['healthpass'] = 'Enter New Healthpass Form';
+$string['healthpass:submit_form'] = 'Enter New Healthpass Form';

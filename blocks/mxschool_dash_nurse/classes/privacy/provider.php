@@ -15,16 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provider for Middlesex's Dashboard Block for the Deans.
+ * Provider for Middlesex's Dashboard Block for the Healthcenter.
  *
- * @package     block_mxschool_dash_dean
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @package     block_mxschool_dash_nurse
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_mxschool_dash_dean\privacy;
+namespace block_mxschool_dash_nurse\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
