@@ -44,11 +44,9 @@ class block_mxschool_dash_healthpass extends block_base {
     $renderable = new local_mxschool\output\index(array(
         get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
         ));
-        $this->content->text = $output->render($renderable);;
+        $this->content->text = $output->render($renderable);
+        return $this->content;
     }
-
-    return $this->content;
-
     public function specialization() {
         $this->title = get_string('blockname', 'block_mxschool_dash_healthpass');
     }
