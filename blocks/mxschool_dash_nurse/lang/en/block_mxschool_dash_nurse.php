@@ -37,7 +37,8 @@ $string['privacy:metadata'] = 'This block only provides links to other pages and
 // Links.
 $string['healthpass'] = 'Health Pass Module';
 $string['healthpass:submit_form'] = 'Submit a Health Pass Form';
-$string['healthpass:healthpass_report'] = 'Health Pass report';
+$string['healthpass:report'] = 'Health Pass report';
+$string['healthpass:preferences'] = 'Health Pass Preferences';
 
 $string['user_management'] = 'User Module';
 $string['user_management:student_report'] = 'Student Report';

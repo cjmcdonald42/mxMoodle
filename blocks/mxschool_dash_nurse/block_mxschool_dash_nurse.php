@@ -44,7 +44,7 @@ class block_mxschool_dash_nurse extends block_base {
                 new local_mxschool\output\index(array(
                     get_string('healthpass:submit_form', 'block_mxschool_dash_nurse')
                         => '/local/mxschool/healthpass/form.php',
-                    get_string('healthpass:healthpass_report', 'block_mxschool_dash_nurse')
+                    get_string('healthpass:report', 'block_mxschool_dash_nurse')
                         => '/local/mxschool/healthpass/report.php',
                     get_string('healthpass:preferences', 'block_mxschool_dash_nurse')
                             => '/local/mxschool/healthpass/preferences.php',
