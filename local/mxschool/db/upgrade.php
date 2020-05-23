@@ -854,9 +854,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080801, 'local', 'mxschool');
     }
 
-    return true;
 
-        if ($oldversion < 2020052301) {
 
          // Define table healthpass to be created.
         $table = new xmldb_table('local_mxschool_healthpass');
@@ -887,7 +885,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Define field healthid to be added to local_mxschool_student.
         $table = new xmldb_table('local_mxschool_student');
-        $field = new xmldb_field('healthid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'advisorid');
+        $field = new xmldb_field('healthid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'id');
 
         // Conditionally launch add field healthid.
         if (!$dbman->field_exists($table, $field)) {
@@ -902,7 +900,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $dbman->add_key($table, $key);
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2020052301, 'local', 'mxschool');
-    }
+        upgrade_plugin_savepoint(true, 2020052304, 'local', 'mxschool');
+      return true;
 
 }
