@@ -19,27 +19,11 @@
  *
  * @package     local_mxschool
  * @subpackage  healthpass
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
  require(__DIR__.'/../../../config.php');
  require_once(__DIR__.'/../locallib.php');
-
-
-
-
-//
-
-
-// name, boarding_status comes from Moodledata
-// Enter your temperature
-// Do you have a fever?
-// Do you have a sore throat?
-// Do you have a cough?
-// Do you have a runny nose?
-// Do you have muscle aches?
-// Do you have a loss of smell or taste?
-// Do you have shortness of breath?
-// Submit button.

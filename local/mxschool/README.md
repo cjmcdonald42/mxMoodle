@@ -39,15 +39,24 @@ This package houses the following subpackages and pages:
     - _form_ — Form for students to submit their vacation travel plans and transportation needs.
     - _report_ — Report for dorm faculty to view and manage students' responses.
     - _transportation_report_ — Report for the transportation manager to view students' responses in order to organize transportation.
+- **_healthpass_** — Intake system for submitting health data to Podio.
+    - _preferences_ — Preferences page to enable or disable the form.
+    - _form_ — Form to submit intake data.
+    - _report_ — Report for health center staff to view and manage intake responses.
 
 ## Credits
-v3.0 of this plugin was developed in 2018 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+v3.2 of this plugin was developed in 2020 by:
+- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 v3.1 of this plugin was developed in 2019 by:
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+
+v3.0 of this plugin was developed in 2018 by:
+- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+
 
 ## License
 As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).

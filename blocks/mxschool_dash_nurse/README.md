@@ -10,11 +10,11 @@ This block provides links for the Healthcenter staff to easily access our new MX
 ## Dependencies
 This plugin has the following dependencies:
 - Moodle 3.7 (2019052000)
-- [local_mxschool v3.1](/local/mxschool/README.md) (2019081400)
-- [local_signout v3.1](/local/mxschool/README.md) (2019081400)
+- [local_mxschool v3.2](/local/mxschool/README.md) (2019081400)
 
 ## Credits
-v1.0 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2020 by:
+v1.0 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
+- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 ## License
