@@ -39,13 +39,17 @@ class block_mxschool_dash_healthpass extends block_base {
             return $this->content;
         }
 
+
 *****
 
+
+// If you haven't entered a health pass today.
+//    Display the form
+//
 // If you have been approved
-//    Display the green approval
+//    Display the green approval bar
+//    Submit new form
 //
 // If you have been denied
 //    Display the red denial
-//
-// If you haven't entered a health pass today.
-//    Display the form
+//    Submit new form option - time delay this by a few minutes.
