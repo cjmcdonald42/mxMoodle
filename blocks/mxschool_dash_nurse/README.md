@@ -1,11 +1,11 @@
-# Middlesex's Dashboard Block for the Deans
+# Middlesex's Dashboard Block for the Healthcenter
 
 Moodle block plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
 
 ## Package Description
-This block provides an interface for the deans to easily access all of the pages defined in the local_mxschool and local_signout plugins.
+This block provides links for the Healthcenter staff to easily access our new MX Health Pass system and related pages.
 
 ## Dependencies
 This plugin has the following dependencies:
@@ -14,12 +14,7 @@ This plugin has the following dependencies:
 - [local_signout v3.1](/local/mxschool/README.md) (2019081400)
 
 ## Credits
-v3.0 of this plugin was developed alongside v3.0 of the local_mxschool plugin in 2018 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
-v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+v1.0 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2020 by:
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 ## License

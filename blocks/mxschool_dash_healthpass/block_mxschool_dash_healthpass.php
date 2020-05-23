@@ -38,21 +38,19 @@ class block_mxschool_dash_healthpass extends block_base {
         if (isset($this->content)) {
             return $this->content;
         }
-}
 
-//
+    $this->content = new stdClass();
+    $output = $PAGE->get_renderer('local_mxschool');
+    $renderable = new local_mxschool\output\index(array(
+        get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
+        ));
+        $this->content->text = $output->render($renderable);;
+    }
 
+    return $this->content;
 
-// If you haven't entered a health pass today.
-//    Display the form
-//
-// If you have been approved
-//    Display the green approval bar
-//    Submit new form
-//
-// If you have been denied
-//    Display the red denial
-//    Submit new form option - time delay this by a few minutes.
-
+    public function specialization() {
+        $this->title = get_string('blockname', 'block_mxschool_dash_healthpass');
+    }
 
 }

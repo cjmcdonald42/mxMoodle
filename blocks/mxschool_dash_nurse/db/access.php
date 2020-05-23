@@ -15,26 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for Middlesex's Dashboard Block for the Deans.
+ * Capabilities for Middlesex's Dashboard Block for the Healthcenter.
  *
- * @package    block_mxschool_dash_dean
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     block_mxschool_dash_nurse
+ * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'block/mxschool_dash_dean:addinstance' => array(
+    'block/mxschool_dash_nurse:addinstance' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'block/mxschool_dash_dean:myaddinstance' => array(
+    ), 'block/mxschool_dash_nurse:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    ), 'block/mxschool_dash_dean:access' => array(
+    ), 'block/mxschool_dash_nurse:access' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
     )
