@@ -40,7 +40,7 @@
      'local_mxschool_healthpass' => array(
          'abbreviation' => 'hif',
          'fields' => array(
-             'id', 'userid', 'body_temperature', 'anyone_sick_at_home',
+             'id', 'userid', 'status', 'body_temperature', 'anyone_sick_at_home',
              'has_fever', 'has_sore_throat', 'has_cough', 'has_runny_nose',
              'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'form_submitted' => 'timecreated'
          )
@@ -63,6 +63,15 @@
    redirect($form->get_redirect());
  }
  elseif($data = $form->get_data()) {
+   if ($data->body_temperature != 98 or $data->anyone_sick_at_home // logic for approve/deny
+      or $data->has_fever or $data->has_sore_throat or $data->has_cough
+      or $data->has_runny_nose or $data->has_muscle_aches or $data->has_loss_of_sense
+      or $data->has_short_breath) {
+        $data->status = "Denied";
+      }
+   else {
+     $data->status = "Approved";
+   }
    $id = update_record($queryfields, $data);
    logged_redirect(
        $form->get_redirect(), get_string('advisor_selection:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
