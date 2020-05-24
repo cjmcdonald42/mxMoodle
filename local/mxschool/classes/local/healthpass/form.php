@@ -35,7 +35,8 @@ class form extends \local_mxschool\form {
      * Form definition.
      */
     protected function definition() {
-        $students = $this->_customdata['students'];
+        $temps = array('<95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '104+');
+        $students = get_student_list();
 
         $fields = array(
             '' => array(
@@ -44,21 +45,22 @@ class form extends \local_mxschool\form {
                 'isstudent' => self::ELEMENT_HIDDEN_INT
             ),
             'info' => array(
-                'student' => array('element' => 'select', 'options' => $students),
-                'student_status' => array('element' => 'select', 'options' => $status),
-                'temp' => array('element' => 'select', 'options' => $temp),
-                'fever' => array('element' => 'selectyesno'),
-                'sore_throat' => array('element' => 'selectyesno'),
-                'cough' => array('element' => 'selectyesno'),
-                'runny_nose' => array('element' => 'selectyesno'),
-                'muscle_aches' => array('element' => 'selectyesno'),
-                'loss_of_sense' => array('element' => 'selectyesno'),
-                'short_breath' => array('element' => 'selectyesno'),
+                'userid' => array('element' => 'select', 'options' => $students),
+                'body_temperature' => array('element' => 'select', 'options' => $temps),
+                'anyone_sick_at_home' => self::ELEMENT_BOOLEAN,
+                'has_fever' => self::ELEMENT_BOOLEAN,
+                'has_sore_throat' => self::ELEMENT_BOOLEAN,
+                'has_cough' => self::ELEMENT_BOOLEAN,
+                'has_runny_nose' => self::ELEMENT_BOOLEAN,
+                'has_muscle_aches' => self::ELEMENT_BOOLEAN,
+                'has_loss_of_sense' => self::ELEMENT_BOOLEAN,
+                'has_short_breath' => self::ELEMENT_BOOLEAN,
             )
         );
-        $this->set_fields($fields, '');
+        $this->set_fields($fields, 'healthpass:form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
         $mform->disabledIf('student', 'id', 'neq', '0');
     }
+}
