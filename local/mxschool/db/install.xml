@@ -307,5 +307,7 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+      </KEYS>
+    </TABLE>
   </TABLES>
 </XMLDB>
