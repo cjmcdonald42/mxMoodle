@@ -27,3 +27,22 @@
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
+
+require_login();
+
+$filter = new stdClass(); // TODO: Implement filter
+
+setup_mxschool_page('report', 'healthpass');
+
+$table = new local_mxschool\local\healthpass\table($filter);
+$dropdowns = array();
+
+$output = $PAGE->get_renderer('local_mxschool');
+$renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);
+
+echo $output->header();
+echo $output->heading(
+    get_string('healthpass:report', 'local_mxschool')
+);
+echo $output->render($renderable);
+echo $output->footer();

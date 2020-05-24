@@ -1004,3 +1004,14 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:has_short_breath'] = "Shortness of breath?";
  #
 /* Healthpass Intake Report.  */
+ $string['healthpass:report'] = "Student Health Report";
+ $string['healthpass:report:header:userid'] = "Name";
+ $string['healthpass:report:header:status'] = "Form Status";
+ $string['healthpass:report:header:body_temperature'] = "Body Temperature";
+ $string['healthpass:report:header:has_fever'] = "Fever?";
+ $string['healthpass:report:header:has_sore_throat'] = "Sore Throat?";
+ $string['healthpass:report:header:has_cough'] = "Cough?";
+ $string['healthpass:report:header:has_runny_nose'] = "Nasal Congestion?";
+ $string['healthpass:report:header:has_muscle_aches'] = "Muscle Aches?";
+ $string['healthpass:report:header:has_loss_of_sense'] = "Loss of Smell or Taste?";
+ $string['healthpass:report:header:has_short_breath'] = "Shortness of Breath?";
