@@ -39,4 +39,5 @@ $string['description'] = 'Description';
 $string['description:description'] = 'MX Health Pass system.';
 
 // Links.
-$string['healthpass:submit_form'] = 'Enter New Healthpass Form';
+$string['healthpass:submit_form'] = 'Submit a Healthpass Form';
+ 
