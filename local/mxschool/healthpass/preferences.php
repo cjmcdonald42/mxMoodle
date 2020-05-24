@@ -21,11 +21,14 @@
  * @subpackage  healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
-//
+require_login();
+require_capability('local/mxschool:manage_healthpass_preferences', context_system::instance());
+
+setup_mxschool_page('preferences', 'healthpass');

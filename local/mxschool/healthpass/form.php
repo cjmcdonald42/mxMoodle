@@ -21,9 +21,33 @@
  * @subpackage  healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
  require(__DIR__.'/../../../config.php');
  require_once(__DIR__.'/../locallib.php');
+
+// All members of the community access this form.
+ require_login();
+
+ $id = optional_param('id', 0, PARAM_INT);
+
+ $queryfields = array(
+     'local_mxschool_healthpass' => array(
+         'abbreviation' => 'hif',
+         'fields' => array(
+             'id', 'userid', 'status', 'body_temperature', 'anyone_sick_at_home',
+             'has_fever', 'has_sore_throat', 'has_cough', 'has_runny_nose',
+             'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'form_submitted' => 'timecreated'
+         )
+     )
+ );
+
+
+ // Create a new record each time this form is submitted.
+ $data = new stdClass();
+ $data->id = $id;
+ $data->timecreated = time();
+ $data->keep_current = 1;
+ $data->userid = $USER->id;
