@@ -44,10 +44,12 @@ class form extends \local_mxschool\form {
                 'timecreated' => self::ELEMENT_HIDDEN_INT,
                 'isstudent' => self::ELEMENT_HIDDEN_INT
             ),
-            'info' => array(
+            'health_info' => array(
                 'userid' => array('element' => 'select', 'options' => $students),
                 'body_temperature' => array('element' => 'select', 'options' => $temps),
                 'anyone_sick_at_home' => self::ELEMENT_BOOLEAN,
+            ),
+            'symptoms' => array(
                 'has_fever' => self::ELEMENT_BOOLEAN,
                 'has_sore_throat' => self::ELEMENT_BOOLEAN,
                 'has_cough' => self::ELEMENT_BOOLEAN,

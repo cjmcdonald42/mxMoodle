@@ -72,11 +72,9 @@
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
 
- VAR_DUMP();
- echo "TESTTESTTEST";
 echo $output->header();
 echo $output->heading(
-    $isstudent ? get_string('healthpass:health_form:title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+  get_string('healthpass:form', 'local_mxschool')
 );
 echo $output->render($renderable);
 echo $output->footer();

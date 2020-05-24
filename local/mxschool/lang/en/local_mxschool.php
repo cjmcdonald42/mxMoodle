@@ -988,17 +988,19 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  */
 
 /* Healthpass Intake Form.  */
- $string['healthpass:form'] = '{$a}Health Form for __________';
- $string['healthpass:form:info'] = 'Health Information';
- $string['healthpass:form:info:userid'] = 'Name';
- $string['healthpass:form:info:body_temperature'] = 'What is your body temperature?';
- $string['healthpass:form:info:anyone_sick_at_home'] = "Is anyone who lives with you sick?";
- $string['healthpass:form:info:has_fever'] = "Fever?";
- $string['healthpass:form:info:has_sore_throat'] = "Sore Throat?";
- $string['healthpass:form:info:has_cough'] = "Cough?";
- $string['healthpass:form:info:has_runny_nose'] = "Runny nose?";
- $string['healthpass:form:info:has_muscle_aches'] = "Muscle aches?";
- $string['healthpass:form:info:has_loss_of_sense'] = "Loss of senses?";
- $string['healthpass:form:info:has_short_breath'] = "Shortness of breath?";
+ $string['healthpass'] = "Health Pass";
+ $string['healthpass:form'] = 'Health Form';
+ $string['healthpass:form:health_info'] = 'Health Information';
+ $string['healthpass:form:health_info:userid'] = 'Name';
+ $string['healthpass:form:health_info:body_temperature'] = 'What is your body temperature?';
+ $string['healthpass:form:health_info:anyone_sick_at_home'] = "Is anyone who lives with you sick?";
+ $string['healthpass:form:symptoms'] = "Do you have a:";
+ $string['healthpass:form:symptoms:has_fever'] = "Fever?";
+ $string['healthpass:form:symptoms:has_sore_throat'] = "Sore Throat?";
+ $string['healthpass:form:symptoms:has_cough'] = "Cough?";
+ $string['healthpass:form:symptoms:has_runny_nose'] = "Runny nose?";
+ $string['healthpass:form:symptoms:has_muscle_aches'] = "Muscle aches?";
+ $string['healthpass:form:symptoms:has_loss_of_sense'] = "Loss of senses?";
+ $string['healthpass:form:symptoms:has_short_breath'] = "Shortness of breath?";
  #
 /* Healthpass Intake Report.  */
