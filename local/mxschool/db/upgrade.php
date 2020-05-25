@@ -855,6 +855,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
 
+    if ($oldversion < 2019080801) {
 
          // Define table healthpass to be created.
         $table = new xmldb_table('local_mxschool_healthpass');
@@ -901,6 +902,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2020052304, 'local', 'mxschool');
-      return true;
+    }
 
+      return true;
 }
