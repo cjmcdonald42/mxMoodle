@@ -41,6 +41,9 @@
        $columns = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
                         'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath');
+       if ($filter->status) {
+            unset($columns[array_search('status', $columns)]);
+       }
        $headers = $this->generate_headers($columns, 'healthpass:report');
        $sortable = array('userid', 'status', 'body_temperature');
        $centered = array('userid', 'status', 'body_temperature', 'has_fever',
@@ -55,7 +58,10 @@
        $from = array('{local_mxschool_healthpass} hp',
                      '{user} u ON hp.userid = u.id' );
        $where = array('u.deleted = 0');
-       $searchable = array('u.id');
+       if ($filter->status) {
+           $where[] = "hp.status = '{$filter->status}'";
+       }
+       $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
        $this->define_sql($fields, $from, $where);
    }
 

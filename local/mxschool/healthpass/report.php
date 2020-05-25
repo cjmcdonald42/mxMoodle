@@ -30,15 +30,43 @@ require_once(__DIR__.'/../locallib.php');
 
 require_login();
 
-$filter = new stdClass(); // TODO: Implement filter
+$filter = new stdClass();
+$filter->submitted = optional_param('submitted', '', PARAM_RAW);
+$filter->user_type = optional_param('user_type', '', PARAM_RAW);
+$filter->status = optional_param('status', '', PARAM_RAW);
+$filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'healthpass');
 
 $table = new local_mxschool\local\healthpass\table($filter);
-$dropdowns = array();
+
+$submittedoptions = array(
+	'1' => get_string('healthpass:report:selectsubmitted:true', 'local_mxschool'),
+	'0' => get_string('healthpass:report:selectsubmitted:false', 'local_mxschool')
+);
+$useroptions = array(
+	'student' => get_string('healthpass:report:selectstudents', 'local_mxschool'),
+	'facultystaff' => get_string('healthpass:report:selectfaculty', 'local_mxschool')
+);
+$statusoptions = array(
+	'Approved' => get_string('healthpass:report:selectapproved:true', 'local_mxschool'),
+	'Denied' => get_string('healthpass:report:selectapproved:false', 'local_mxschool')
+);
+
+$dropdowns = array(
+	new local_mxschool\output\dropdown(
+	    'submitted', $submittedoptions, $filter->submitted, get_string('healthpass:report:selectsubmitted:all', 'local_mxschool')
+    ),
+	new local_mxschool\output\dropdown(
+	    'user_type', $useroptions, $filter->user_type, get_string('healthpass:report:selectall', 'local_mxschool')
+    ),
+	new local_mxschool\output\dropdown(
+	    'status', $statusoptions, $filter->status, get_string('healthpass:report:selectapproved:all', 'local_mxschool')
+    )
+ );
 
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new local_mxschool\output\report($table, null, $dropdowns, array(), true);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, array(), true);
 
 echo $output->header();
 echo $output->heading(
