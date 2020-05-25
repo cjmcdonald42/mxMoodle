@@ -35,7 +35,10 @@ class form extends \local_mxschool\form {
      * Form definition.
      */
     protected function definition() {
-        $temps = array('<95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '104+');
+        $temps = array(
+           '<96' => '<96', '96' => '96', '97' => '97', '98' => '98', '99' => '99',
+           '100' => '100', '101' => '101', '102' => '102', '103' => '103', '104' => '104', '104+' => '104+'
+         );
         $students = get_student_list();
 
         $fields = array(

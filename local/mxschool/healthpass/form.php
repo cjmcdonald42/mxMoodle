@@ -54,9 +54,7 @@
  $data->timecreated = time();
  $data->isstudent = $isstudent ? '1' : '0';
 
- $temps = array('<95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '104+');
-
- $form = new local_mxschool\local\healthpass\form(array('temps' => $temps));
+ $form = new local_mxschool\local\healthpass\form();
  $form->set_data($data);
 
  if($form->is_cancelled()){
