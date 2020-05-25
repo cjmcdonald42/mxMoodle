@@ -62,7 +62,7 @@
            $where[] = "hp.status = '{$filter->status}'";
        }
        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-       $this->define_sql($fields, $from, $where);
+       $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
 
    /**
