@@ -65,8 +65,14 @@ $dropdowns = array(
     )
  );
 
+ $buttons = array(
+     new local_mxschool\output\redirect_button(
+         get_string('healthpass:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/healthpass/form.php')
+     )
+);
+
 $output = $PAGE->get_renderer('local_mxschool');
-$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, array(), true);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
 echo $output->heading(

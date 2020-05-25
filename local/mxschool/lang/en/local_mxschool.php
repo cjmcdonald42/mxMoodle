@@ -1026,3 +1026,4 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:selectall'] = 'All';
  $string['healthpass:report:selectfaculty'] = 'Faculty / Staff';
  $string['healthpass:report:selectstudents'] = 'Students';
+ $string['healthpass:report:add'] = 'New Health Form';
