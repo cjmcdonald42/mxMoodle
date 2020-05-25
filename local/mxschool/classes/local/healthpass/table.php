@@ -60,35 +60,60 @@
    }
 
    /**
-    * The following methods reformat boolean values to "Yes" / "No".
+    * The following methods reformat boolean values to "Yes" / "No". Any yes's will turn red
     */
 
    protected function col_has_fever($values) {
-       return isset($values->has_fever) ? format_boolean($values->has_fever) : '';
+     return isset($values->has_fever) ? $values->has_fever ?
+            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
    }
 
    protected function col_has_sore_throat($values) {
-       return isset($values->has_sore_throat) ? format_boolean($values->has_sore_throat) : '';
+     return isset($values->has_sore_throat) ? $values->has_sore_throat ?
+            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
    }
 
    protected function col_has_cough($values) {
-       return isset($values->has_cough) ? format_boolean($values->has_cough) : '';
+     return isset($values->has_cough) ? $values->has_cough ?
+            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
    }
 
    protected function col_has_runny_nose($values) {
-       return isset($values->has_runny_nose) ? format_boolean($values->has_runny_nose) : '';
+     return isset($values->has_runny_nose) ? $values->has_runny_nose ?
+            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
    }
 
    protected function col_has_muscle_aches($values) {
-       return isset($values->has_muscle_aches) ? format_boolean($values->has_muscle_aches) : '';
+       return isset($values->has_muscle_aches) ? $values->has_muscle_aches ?
+              "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
    }
 
    protected function col_has_loss_of_sense($values) {
-       return isset($values->has_loss_of_sense) ? format_boolean($values->has_loss_of_sense) : '';
+     return isset($values->has_loss_of_sense) ? $values->has_loss_of_sense ?
+            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
    }
 
    protected function col_has_short_breath($values) {
-       return isset($values->has_short_breath) ? format_boolean($values->has_short_breath) : '';
+     return isset($values->has_short_breath) ? $values->has_short_breath ?
+            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
    }
 
+   protected function col_body_temperature($values) {
+     return isset($values->body_temperature) ? $values->body_temperature != 98 ?
+            "<p style='color:red;'>".$values->body_temperature."</p>" : $values->body_temperature
+            : '';
+   }
+
+   protected function col_status($values) {
+      if(isset($values->status)) {
+            if($values->status == 'Approved') {
+              return "<p style='color:green;'>".$values->status."</p>";
+            }
+            else if($values->status == 'Denied') {
+              return "<p style='color:red;'>".$values->status."</p>";
+            }
+            else return $values->status;
+      }
+      else return '';
+   }
 }
