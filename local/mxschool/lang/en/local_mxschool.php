@@ -1002,6 +1002,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:has_muscle_aches'] = "Muscle aches?";
  $string['healthpass:form:symptoms:has_loss_of_sense'] = "Loss of senses?";
  $string['healthpass:form:symptoms:has_short_breath'] = "Shortness of breath?";
+ $string['healthpass:form:success'] = "Health Form Submitted Succesfully"
  #
 /* Healthpass Intake Report.  */
  $string['healthpass:report'] = "Student Health Report";

@@ -74,7 +74,7 @@
    }
    $id = update_record($queryfields, $data);
    logged_redirect(
-       $form->get_redirect(), get_string('advisor_selection:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
+       $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
    );
  }
 
