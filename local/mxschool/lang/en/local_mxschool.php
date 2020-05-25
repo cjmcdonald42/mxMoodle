@@ -51,6 +51,7 @@ $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students 
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
 $string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage healthpass preferences';
+$string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage healthpass data';
 
 
 /* Events. */
@@ -1002,7 +1003,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:has_muscle_aches'] = "Muscle aches?";
  $string['healthpass:form:symptoms:has_loss_of_sense'] = "Loss of senses?";
  $string['healthpass:form:symptoms:has_short_breath'] = "Shortness of breath?";
- $string['healthpass:form:success'] = "Health Form Submitted Succesfully"
+ $string['healthpass:form:success'] = "Health Form Submitted Succesfully";
  #
 /* Healthpass Intake Report.  */
  $string['healthpass:report'] = "Student Health Report";

@@ -54,7 +54,10 @@
  $data->timecreated = time();
  $data->isstudent = $isstudent ? '1' : '0';
 
- $form = new local_mxschool\local\healthpass\form();
+ $isManager = has_capability('local/mxschool:manage_healthpass', context_system::instance());
+ $students = $isManager ? get_student_list() : array($USER->id => $USER->firstname.' '.$USER->lastname);
+
+ $form = new local_mxschool\local\healthpass\form(array('students' => $students));
  $form->set_data($data);
 
  if($form->is_cancelled()){

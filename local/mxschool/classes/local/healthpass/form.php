@@ -39,7 +39,7 @@ class form extends \local_mxschool\form {
            '<96' => '<96', '96' => '96', '97' => '97', '98' => '98', '99' => '99',
            '100' => '100', '101' => '101', '102' => '102', '103' => '103', '104' => '104', '104+' => '104+'
          );
-        $students = get_student_list();
+        $students = $this->_customdata['students'];
 
         $fields = array(
             '' => array(
