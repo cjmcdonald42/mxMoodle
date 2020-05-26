@@ -17,8 +17,9 @@
 /**
  * English language strings for Middlesex's Dashboard Block for the Healthcenter.
  *
- * @package     block_mxschool_dash_nurse
+ * @package     block_mxschool_dash_healthcenter
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,9 +29,9 @@ $string['pluginname'] = 'Healthcenter Dashboard Block';
 $string['blockname'] = 'Healthcenter';
 
 // Capabilities.
-$string['mxschool_dash_nurse:addinstance'] = 'Middlesex School: Add Healthcenter Block';
-$string['mxschool_dash_nurse:myaddinstance'] = 'Middlesex School: Add Healthcenter Block to Dashboard';
-$string['mxschool_dash_nurse:access'] = 'Middlesex School: Access Healthcenter Block';
+$string['mxschool_dash_healthcenter:addinstance'] = 'Middlesex School: Add Healthcenter Block';
+$string['mxschool_dash_healthcenter:myaddinstance'] = 'Middlesex School: Add Healthcenter Block to Dashboard';
+$string['mxschool_dash_healthcenter:access'] = 'Middlesex School: Access Healthcenter Block';
 
 // Privacy.
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
