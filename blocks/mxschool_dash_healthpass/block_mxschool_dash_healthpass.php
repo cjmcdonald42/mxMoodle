@@ -43,10 +43,9 @@ class block_mxschool_dash_healthpass extends block_base {
         $this->content = new stdClass();
         if (has_capability('block/mxschool_dash_healthpass:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
-            $renderable = array(
-            new local_mxschool\output\index(array(
-                get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
-            )));
+            $renderable = new local_mxschool\output\index(array(
+                get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
+            ));
 
             $this->content->text = $output->render($renderable);
         }
