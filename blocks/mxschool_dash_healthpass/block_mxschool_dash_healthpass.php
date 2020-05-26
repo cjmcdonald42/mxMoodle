@@ -25,6 +25,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
 class block_mxschool_dash_healthpass extends block_base {
@@ -40,15 +41,15 @@ class block_mxschool_dash_healthpass extends block_base {
         }
 
         $this->content = new stdClass();
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = array(
+        if (has_capability('block/mxschool_dash_healthpass:access', context_system::instance())) {
+            $output = $PAGE->get_renderer('local_mxschool');
+            $renderable = array(
             new local_mxschool\output\index(array(
                 get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
-            )));
+            ));
 
-            $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
-                return $html . $output->render($renderable);
-            }, '');
+            $this->content->text = $output->render($renderable);
+        }
 
         return $this->content;
     }
@@ -56,5 +57,4 @@ class block_mxschool_dash_healthpass extends block_base {
     public function specialization() {
         $this->title = get_string('blockname', 'block_mxschool_dash_healthpass');
     }
-
 }
