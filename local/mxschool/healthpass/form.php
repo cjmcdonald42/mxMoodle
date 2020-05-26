@@ -31,60 +31,16 @@
 // All members of the community access this form.
  require_login();
 
- setup_mxschool_page('form', 'healthpass');
-
  $id = optional_param('id', 0, PARAM_INT);
- $isstudent = user_is_student();
+ setup_mxschool_page('form', 'healthpass');
+ $PAGE->requires->js_call_amd('local_mxschool/healthpass_form', 'setup');
 
- $queryfields = array(
-     'local_mxschool_healthpass' => array(
-         'abbreviation' => 'hif',
-         'fields' => array(
-             'id', 'userid', 'status', 'body_temperature', 'anyone_sick_at_home',
-             'has_fever', 'has_sore_throat', 'has_cough', 'has_runny_nose',
-             'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'form_submitted' => 'timecreated'
-         )
-     )
+ $output = $PAGE->get_renderer('local_mxschool');
+ $renderable = new local_mxschool\output\form($form);
+
+ echo $output->header();
+ echo $output->heading(
+   get_string('healthpass:form', 'local_mxschool')
  );
-
- // Create a new record each time this form is submitted.
- $data = new stdClass();
- $data->id = $id;
- $data->userid = $USER->id;
- $data->timecreated = time();
- $data->isstudent = $isstudent ? '1' : '0';
-
- $isManager = has_capability('local/mxschool:manage_healthpass', context_system::instance());
- $students = $isManager ? get_student_list() : array($USER->id => $USER->firstname.' '.$USER->lastname);
-
- $form = new local_mxschool\local\healthpass\form(array('students' => $students));
- $form->set_data($data);
-
- if($form->is_cancelled()){
-   redirect($form->get_redirect());
- }
- elseif($data = $form->get_data()) {
-   if ($data->body_temperature != 98 or $data->anyone_sick_at_home // logic for approve/deny
-      or $data->has_fever or $data->has_sore_throat or $data->has_cough
-      or $data->has_runny_nose or $data->has_muscle_aches or $data->has_loss_of_sense
-      or $data->has_short_breath) {
-        $data->status = "Denied";
-      }
-   else {
-     $data->status = "Approved";
-   }
-   $id = update_record($queryfields, $data);
-   logged_redirect(
-       $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
-   );
- }
-
-$output = $PAGE->get_renderer('local_mxschool');
-$renderable = new local_mxschool\output\form($form);
-
-echo $output->header();
-echo $output->heading(
-  get_string('healthpass:form', 'local_mxschool')
-);
-echo $output->render($renderable);
-echo $output->footer();
+ echo $output->render($renderable);
+ echo $output->footer();
