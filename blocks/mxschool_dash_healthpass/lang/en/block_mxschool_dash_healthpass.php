@@ -19,6 +19,7 @@
  *
  * @package     block_mxschool_dash_healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,13 +31,10 @@ $string['blockname'] = 'MX Health Pass';
 // Capabilities.
 $string['mxschool_dash_healthpass:addinstance'] = 'Middlesex School: Add Healthpass Dashboard Block';
 $string['mxschool_dash_healthpass:myaddinstance'] = 'Middlesex School: Add Healthpass Block to Dashboard';
+$string['mxschool_dash_healthpass:access'] = 'Middlesex School: Access Healthpass Dashboard Block';
 
 // Privacy.
-$string['privacy:metadata'] = 'MX Health Pass provides data to our Podio health system and does not store any user data.';
-
-// Settings.
-$string['description'] = 'Description';
-$string['description:description'] = 'MX Health Pass system.';
+$string['privacy:metadata'] = 'MX Healthpass passes intake data to our Podio health system and does not store any user data.';
 
 // Links.
-$string['healthpass:submit_form'] = 'Submit a Healthpass Form';
+$string['healthpass:submit_form'] = 'Submit a Healthpass';
