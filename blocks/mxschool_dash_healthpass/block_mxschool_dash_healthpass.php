@@ -39,16 +39,22 @@ class block_mxschool_dash_healthpass extends block_base {
             return $this->content;
         }
 
-    $this->content = new stdClass();
-    $output = $PAGE->get_renderer('local_mxschool');
-    $renderable = new local_mxschool\output\index(array(
-        get_string('healthpass_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
-    ));
-    $this->content->text = $output->render($renderable);
-    return $this->content;
+        $this->content = new stdClass();
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = array(
+            new local_mxschool\output\index(array(
+                get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
+            ));
+
+            $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
+                return $html . $output->render($renderable);
+            }, '');
+
+        return $this->content;
     }
 
     public function specialization() {
         $this->title = get_string('blockname', 'block_mxschool_dash_healthpass');
     }
+    
 }
