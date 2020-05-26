@@ -29,6 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
+require_capability('local/mxschool:manage_healthpass', context_system::instance());
 
 $filter = new stdClass();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
@@ -75,8 +76,9 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
-echo $output->heading(
-    get_string('healthpass:report', 'local_mxschool')
-);
+echo $output->heading($PAGE->title);
+// echo $output->heading(
+//     get_string('healthpass:report', 'local_mxschool')
+// );
 echo $output->render($renderable);
 echo $output->footer();
