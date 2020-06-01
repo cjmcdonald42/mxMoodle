@@ -40,21 +40,24 @@
        global $DB;
        $columns = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
-                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time');
+                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted');
        if ($filter->status) {
             unset($columns[array_search('status', $columns)]);
        }
+	  if ($filter->date) {
+		  unset($columns[array_search('time_submitted', $columns)]);
+	  }
        $headers = $this->generate_headers($columns, 'healthpass:report');
-       $sortable = array('userid', 'status', 'body_temperature', 'time');
+       $sortable = array('userid', 'status', 'body_temperature', 'time_submitted');
        $centered = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
-                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time');
+                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted');
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
        $fields = array('hp.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
                         'hp.body_temperature', 'hp.has_fever', 'hp.has_sore_throat',
                         'hp.has_cough', 'hp.has_runny_nose', 'hp.has_muscle_aches',
-                         'hp.has_loss_of_sense', 'hp.has_short_breath', 'hp.form_submitted AS time');
+                         'hp.has_loss_of_sense', 'hp.has_short_breath', 'hp.form_submitted AS time_submitted');
        $from = array('{local_mxschool_healthpass} hp',
                      '{user} u ON hp.userid = u.id', '{local_mxschool_student} stu ON hp.userid = stu.userid',
 			 	  '{local_mxschool_faculty} fac ON hp.userid = fac.userid');
@@ -138,7 +141,7 @@
       else return '';
    }
 
-   protected function col_time($values) {
-	   return $values->time ? format_date('n/j/y g:i A', $values->time) : '';
+   protected function col_time_submitted($values) {
+	   return $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted) : '';
    }
 }
