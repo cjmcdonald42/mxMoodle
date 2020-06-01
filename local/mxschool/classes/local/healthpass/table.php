@@ -47,6 +47,9 @@
 	  if ($filter->date) {
 		  unset($columns[array_search('time_submitted', $columns)]);
 	  }
+	  if($filter->submitted == '0') {
+		  $columns = array('userid', 'time_submitted');
+	  }
        $headers = $this->generate_headers($columns, 'healthpass:report');
        $sortable = array('userid', 'status', 'body_temperature', 'time_submitted');
        $centered = array('userid', 'status', 'body_temperature', 'has_fever',
@@ -79,6 +82,17 @@
 		 $endtime->modify('+1 day');
 		 array_push($where, "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
 	  }
+	  $starttime = generate_datetime(time())->modify('midnight');
+	  if($filter->submitted == '1') {
+		  $endtime = clone $starttime;
+		  $endtime->modify('+1 day');
+		  array_push($where, "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
+	  }
+	  else if($filter->submitted == '0') {
+		  $fields = array('hp.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS time_submitted");
+	       $where = array("u.deleted = 0 GROUP BY hp.userid");
+	  }
+	  ///"form_submitted < {$starttime->getTimestamp()}"
        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
@@ -144,4 +158,5 @@
    protected function col_time_submitted($values) {
 	   return $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted) : '';
    }
+
 }
