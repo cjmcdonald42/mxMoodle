@@ -1283,7 +1283,7 @@ function get_user_list() {
 	    "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS value
 	     FROM {user} u
 	     WHERE u.deleted = 0
-	     ORDER BY name"
+	     ORDER BY value"
 	);
 	return convert_records_to_list($users);
 }
@@ -1291,18 +1291,24 @@ function get_user_list() {
 /**
 * Returns a list of all dates where a healthform has been submitted
 *
-* @return array The times as formatted date => formatted date
+* @return array The times as formatted timestamp => formatted date
 */
 function get_healthform_dates() {
 	global $DB;
 	$list = array();
 	$dates = $DB->get_records_sql(
 		"SELECT hp.id, hp.form_submitted
-		FROM {local_mxschool_healthpass} hp"
+		FROM {local_mxschool_healthpass} hp
+		ORDER BY form_submitted DESC"
 	);
-	foreach($dates as $record) {
-		$formatted_date = format_date('n/j/y', $record->form_submitted);
-		$list[$formatted_date] = $formatted_date;
-	}
+	if ($dates) {
+         foreach ($dates as $record) {
+             $date = generate_datetime($record->form_submitted);
+             $date->modify('midnight');
+             if (!array_key_exists($date->getTimestamp(), $list)) {
+                 $list[$date->getTimestamp()] = $date->format('m/d/y');
+             }
+         }
+     }
 	return $list;
 }

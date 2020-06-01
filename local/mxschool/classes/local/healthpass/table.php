@@ -70,6 +70,12 @@
 			  $where[] = "fac.userid IS NOT NULL";
 		  }
 	  }
+	  if ($filter->date) {
+		 $starttime = generate_datetime($filter->date);
+		 $endtime = clone $starttime;
+		 $endtime->modify('+1 day');
+		 array_push($where, "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
+	  }
        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
