@@ -35,6 +35,7 @@ $filter = new stdClass();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
 $filter->user_type = optional_param('user_type', '', PARAM_RAW);
 $filter->status = optional_param('status', '', PARAM_RAW);
+$filter->date = optional_param('date', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'healthpass');
@@ -53,6 +54,7 @@ $statusoptions = array(
 	'Approved' => get_string('healthpass:report:selectapproved:true', 'local_mxschool'),
 	'Denied' => get_string('healthpass:report:selectapproved:false', 'local_mxschool')
 );
+$dateoptions = get_healthform_dates();
 
 $dropdowns = array(
 	new local_mxschool\output\dropdown(
@@ -63,7 +65,10 @@ $dropdowns = array(
     ),
 	new local_mxschool\output\dropdown(
 	    'status', $statusoptions, $filter->status, get_string('healthpass:report:selectapproved:all', 'local_mxschool')
-    )
+    ),
+    new local_mxschool\output\dropdown(
+	   'date', $dateoptions, $filter->date, get_string('healthpass:report:selectdate:all', 'local_mxschool')
+   )
  );
 
  $buttons = array(

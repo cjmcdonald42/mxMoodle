@@ -1280,10 +1280,29 @@ function get_vacation_travel_type_list($mxtransportation = null) {
 function get_user_list() {
 	global $DB;
 	$users = $DB->get_records_sql(
-	    "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS name
+	    "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS value
 	     FROM {user} u
 	     WHERE u.deleted = 0
 	     ORDER BY name"
 	);
-	return convert_student_records_to_list($users);
+	return convert_records_to_list($users);
+}
+
+/**
+* Returns a list of all dates where a healthform has been submitted
+*
+* @return array The times as formatted date => formatted date
+*/
+function get_healthform_dates() {
+	global $DB;
+	$list = array();
+	$dates = $DB->get_records_sql(
+		"SELECT hp.id, hp.form_submitted
+		FROM {local_mxschool_healthpass} hp"
+	);
+	foreach($dates as $record) {
+		$formatted_date = format_date('n/j/y', $record->form_submitted);
+		$list[$formatted_date] = $formatted_date;
+	}
+	return $list;
 }
