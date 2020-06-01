@@ -89,7 +89,8 @@
 		  array_push($where, "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
 	  }
 	  else if($filter->submitted == '0') {
-		  $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS latest_submission");
+		  $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS latest_submission"); // show only the name and submission columns
+		  $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
 	       $where = array("u.deleted = 0", "u.id NOT IN
 		  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >= {$starttime->getTimestamp()}) GROUP BY u.id");
 	  }
@@ -161,7 +162,7 @@
    }
 
    protected function col_latest_submission($values) {
-	return $values->latest_submission ? format_date('n/j/y g:i A', $values->latest_submission) : '';
+	return $values->latest_submission ? format_date('n/j/y g:i A', $values->latest_submission) : 'Never';
    }
 
 }
