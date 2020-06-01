@@ -48,13 +48,13 @@
 		  unset($columns[array_search('time_submitted', $columns)]);
 	  }
 	  if($filter->submitted == '0') {
-		  $columns = array('userid', 'time_submitted');
+		  $columns = array('userid', 'latest_submission');
 	  }
        $headers = $this->generate_headers($columns, 'healthpass:report');
        $sortable = array('userid', 'status', 'body_temperature', 'time_submitted');
        $centered = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
-                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted');
+                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted', 'latest_submission');
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
        $fields = array('hp.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
@@ -89,8 +89,9 @@
 		  array_push($where, "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
 	  }
 	  else if($filter->submitted == '0') {
-		  $fields = array('hp.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS time_submitted");
-	       $where = array("u.deleted = 0 GROUP BY hp.userid");
+		  $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS latest_submission");
+	       $where = array("u.deleted = 0", "u.id NOT IN
+		  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >= {$starttime->getTimestamp()}) GROUP BY u.id");
 	  }
 	  ///"form_submitted < {$starttime->getTimestamp()}"
        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
@@ -157,6 +158,10 @@
 
    protected function col_time_submitted($values) {
 	   return $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted) : '';
+   }
+
+   protected function col_latest_submission($values) {
+	return $values->latest_submission ? format_date('n/j/y g:i A', $values->latest_submission) : '';
    }
 
 }

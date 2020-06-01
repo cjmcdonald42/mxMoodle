@@ -1018,6 +1018,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:header:has_loss_of_sense'] = "Loss of Smell or Taste?";
  $string['healthpass:report:header:has_short_breath'] = "Shortness of Breath?";
  $string['healthpass:report:header:time_submitted'] = "Time Submitted";
+  $string['healthpass:report:header:latest_submission'] = "Most Recent Submission";
  $string['healthpass:report:selectapproved:all'] = 'All';
  $string['healthpass:report:selectapproved:true'] = 'Approved';
  $string['healthpass:report:selectapproved:false'] = 'Denied';
