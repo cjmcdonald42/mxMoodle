@@ -47,7 +47,7 @@
      )
  );
 
- 
+
  // Create a new record each time this form is submitted.
  $data = new stdClass();
  $data->id = $id;
@@ -56,7 +56,7 @@
  $data->isstudent = $isstudent ? '1' : '0';
 
  $isManager = has_capability('local/mxschool:manage_healthpass', context_system::instance());
- $students = $isManager ? get_student_list() : array($USER->id => $USER->firstname.' '.$USER->lastname);
+ $students = $isManager ? get_user_list() : array($USER->id => $USER->firstname.' '.$USER->lastname);
 
  $form = new local_mxschool\local\healthpass\form(array('students' => $students));
  $form->set_data($data);

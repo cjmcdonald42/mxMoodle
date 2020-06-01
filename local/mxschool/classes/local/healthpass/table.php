@@ -40,27 +40,36 @@
        global $DB;
        $columns = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
-                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath');
+                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time');
        if ($filter->status) {
             unset($columns[array_search('status', $columns)]);
        }
        $headers = $this->generate_headers($columns, 'healthpass:report');
-       $sortable = array('userid', 'status', 'body_temperature');
+       $sortable = array('userid', 'status', 'body_temperature', 'time');
        $centered = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
-                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath');
+                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time');
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
-       $fields = array("CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
+       $fields = array('hp.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
                         'hp.body_temperature', 'hp.has_fever', 'hp.has_sore_throat',
                         'hp.has_cough', 'hp.has_runny_nose', 'hp.has_muscle_aches',
-                         'hp.has_loss_of_sense', 'hp.has_short_breath');
+                         'hp.has_loss_of_sense', 'hp.has_short_breath', 'hp.form_submitted AS time');
        $from = array('{local_mxschool_healthpass} hp',
-                     '{user} u ON hp.userid = u.id' );
+                     '{user} u ON hp.userid = u.id', '{local_mxschool_student} stu ON hp.userid = stu.userid',
+			 	  '{local_mxschool_faculty} fac ON hp.userid = fac.userid');
        $where = array('u.deleted = 0');
        if ($filter->status) {
            $where[] = "hp.status = '{$filter->status}'";
        }
+	  if ($filter->user_type) {
+		  if($filter->user_type == 'student') {
+			  $where[] = "stu.userid IS NOT NULL";
+		  }
+		  else if($filter->user_type == 'facultystaff') {
+			  $where[] = "fac.userid IS NOT NULL";
+		  }
+	  }
        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
@@ -121,5 +130,9 @@
             else return $values->status;
       }
       else return '';
+   }
+
+   protected function col_time($values) {
+	   return $values->time ? format_date('n/j/y g:i A', $values->time) : '';
    }
 }

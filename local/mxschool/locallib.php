@@ -1269,3 +1269,21 @@ function get_vacation_travel_type_list($mxtransportation = null) {
         $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
     ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
 }
+
+/* Health Pass. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
+
+/**
+* Returns a list of all users
+*
+* @return array The users as userid => name, ordered alphabetically
+*/
+function get_user_list() {
+	global $DB;
+	$users = $DB->get_records_sql(
+	    "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS name
+	     FROM {user} u
+	     WHERE u.deleted = 0
+	     ORDER BY name"
+	);
+	return convert_student_records_to_list($users);
+}
