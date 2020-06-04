@@ -41,12 +41,6 @@
        $columns = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
                         'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted');
-       if ($filter->status) {
-            unset($columns[array_search('status', $columns)]);
-       }
-	  if ($filter->date) {
-		  unset($columns[array_search('time_submitted', $columns)]);
-	  }
 	  if($filter->submitted == '0') {
 		  $columns = array('userid', 'latest_submission');
 	  }
@@ -64,7 +58,13 @@
        $from = array('{local_mxschool_healthpass} hp',
                      '{user} u ON hp.userid = u.id', '{local_mxschool_student} stu ON hp.userid = stu.userid',
 			 	  '{local_mxschool_faculty} fac ON hp.userid = fac.userid');
-       $where = array('u.deleted = 0');
+	  $starttime = generate_datetime(time())->modify('midnight');
+	  if ($filter->date) {
+  		 $starttime = generate_datetime($filter->date);
+  	  }
+	  $endtime = clone $starttime;
+	  $endtime->modify('+1 day');
+       $where = array('u.deleted = 0', "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
        if ($filter->status) {
            $where[] = "hp.status = '{$filter->status}'";
        }
@@ -76,23 +76,12 @@
 			  $where[] = "fac.userid IS NOT NULL";
 		  }
 	  }
-	  if ($filter->date) {
-		 $starttime = generate_datetime($filter->date);
-		 $endtime = clone $starttime;
-		 $endtime->modify('+1 day');
-		 array_push($where, "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
-	  }
-	  $starttime = generate_datetime(time())->modify('midnight');
-	  if($filter->submitted == '1') {
-		  $endtime = clone $starttime;
-		  $endtime->modify('+1 day');
-		  array_push($where, "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
-	  }
-	  else if($filter->submitted == '0') {
+	  if($filter->submitted == '0') {
 		  $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS latest_submission"); // show only the name and submission columns
 		  $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
 	       $where = array("u.deleted = 0", "u.id NOT IN
-		  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >= {$starttime->getTimestamp()}) GROUP BY u.id");
+		  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
+			{$starttime->getTimestamp()} AND form_submitted <= {$endtime->getTimestamp()}) GROUP BY u.id");
 	  }
 	  ///"form_submitted < {$starttime->getTimestamp()}"
        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
