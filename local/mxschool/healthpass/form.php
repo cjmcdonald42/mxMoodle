@@ -75,6 +75,7 @@
      $data->status = "Approved";
    }
    $id = update_record($queryfields, $data);
+   echo podio_submit($data);
    logged_redirect(
        $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
    );

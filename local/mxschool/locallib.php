@@ -25,7 +25,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+require_once(__DIR__.'/podio/Podio.php');
 /*
  * ========================
  * Page Setup Abstractions.
@@ -1312,3 +1312,43 @@ function get_healthform_dates() {
      }
 	return $list;
 }
+
+/**
+* Given the Health Form data, passes the information to Podio
+*
+* @param stdClass data, the form data
+* @return String response. The response from Podio
+*/
+ function podio_submit($data) {
+	 // TODO: Make these variables configurable
+	 $client_id = 'moodle';
+	 $client_secret = 'kID9dtTHRG8t0GagM6181NConHCWLkF35rlRV204SmGdJ6ggsuJeivXBZtwjR8EB';
+	 $app_id = '24551238';
+	 $app_token = '442ecf7bb56a43c7841b7e90d749c140';
+	 $url = 'https://podio.com/webforms/24551238/1796726';
+	 $contact_name = '1421936959'; // not sure how to get this number
+
+	 // On Podio, YES is 1, NO is 2
+	 $attributes = array(
+		 'fields[contact-name]' => $contact_name,
+		 'fields[enter-temperature]' => $data->body_temperature,
+		 'fields[day-student-is-anyone-in-your-home-positive-for-or-susp]' => $data->anyone_sick_at_home==0 ? 2 : 1,
+		 'fields[do-you-have-a-fever-or-feel-feverish]' => $data->has_fever==0 ? 2 : 1,
+		 'fields[do-you-have-a-sore-throat]' => $data->has_sore_throat==0 ? 2 : 1,
+		 'fields[do-you-have-a-cough]' => $data->has_cough==0 ? 2 : 1,
+		 'fields[do-you-have-nasal-congestion-or-runny-nose-not-related-]' => $data->has_runny_nose==0 ? 2 : 1,
+		 'fields[do-you-have-muscle-aches]' => $data->has_muscle_aches==0 ? 2 : 1,
+		 'fields[do-you-have-a-loss-of-smell-or-taste]' => $data->has_loss_of_sense==0 ? 2 : 1,
+		 'fields[do-you-have-shortness-of-breath]' => $data->has_short_breath==0 ? 2 : 1,
+		 'button'
+	 );
+
+	 $options = array(
+		 'file_download' => 1,
+		 'oauth_request' => 1
+	 );
+
+	 Podio::setup($client_id, $client_secret);
+	 Podio::authenticate_with_app($app_id, $app_token);
+	 return Podio::post($url, $attributes, $options);
+ }
