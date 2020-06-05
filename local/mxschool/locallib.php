@@ -1321,11 +1321,11 @@ function get_healthform_dates() {
 */
  function podio_submit($data) {
 	 // TODO: Make these variables configurable
-	 $client_id = 'moodle';
-	 $client_secret = 'kID9dtTHRG8t0GagM6181NConHCWLkF35rlRV204SmGdJ6ggsuJeivXBZtwjR8EB';
-	 $app_id = '24551238';
-	 $app_token = '442ecf7bb56a43c7841b7e90d749c140';
-	 $url = 'https://podio.com/webforms/24551238/1796726';
+	 $client_id = get_config('local_mxschool', 'client_id');
+	 $client_secret = get_config('local_mxschool', 'client_secret');
+	 $app_id = get_config('local_mxschool', 'app_id');
+	 $app_token = get_config('local_mxschool', 'app_token');
+	 $url = get_config('local_mxschool', 'podio_url');
 	 $contact_name = '1421936959'; // not sure how to get this number
 
 	 // On Podio, YES is 1, NO is 2
