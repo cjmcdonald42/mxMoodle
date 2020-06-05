@@ -15,21 +15,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Form to submit daily intake for Middlesex Health Pass Plugin.
  *
  * @package     local_mxschool
+ * @subpackage  healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+ namespace local_mxschool\local\healthpass;
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2020060501;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->dependencies = array();
+ defined('MOODLE_INTERNAL') || die();
+
+ class preferences_form extends \local_mxschool\form {
+
+	 /**
+	  * Form definition.
+	  */
+	 protected function definition() {
+		 $fields = array(
+			 'preferences' => array(
+				 'reset_time' => self::time_selector(1)
+			 ),
+			 'podio_info' => array(
+				 'client_id' => self::ELEMENT_LONG_TEXT,
+				 'client_secret' => self::ELEMENT_LONG_TEXT,
+				 'app_id' => self::ELEMENT_LONG_TEXT,
+				 'app_token' => self::ELEMENT_LONG_TEXT,
+				 'podio_url' => self::ELEMENT_LONG_TEXT
+			 )
+		 );
+		 $this->set_fields($fields, 'healthpass:preferences');
+      }
+}

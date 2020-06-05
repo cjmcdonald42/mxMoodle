@@ -1005,7 +1005,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:has_short_breath'] = "Shortness of breath?";
  $string['healthpass:form:success'] = "Health Form Submitted Succesfully";
  #
-/* Healthpass Intake Report.  */
+/* Healthpass Report.  */
  $string['healthpass:report'] = "Student Health Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
@@ -1018,7 +1018,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:header:has_loss_of_sense'] = "Loss of Smell or Taste?";
  $string['healthpass:report:header:has_short_breath'] = "Shortness of Breath?";
  $string['healthpass:report:header:time_submitted'] = "Time Submitted";
-  $string['healthpass:report:header:latest_submission'] = "Most Recent Submission";
+ $string['healthpass:report:header:latest_submission'] = "Most Recent Submission";
  $string['healthpass:report:selectapproved:all'] = 'All';
  $string['healthpass:report:selectapproved:true'] = 'Approved';
  $string['healthpass:report:selectapproved:false'] = 'Denied';
@@ -1030,3 +1030,14 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:selectstudents'] = 'Students';
  $string['healthpass:report:selectdate:all'] = 'All Dates';
  $string['healthpass:report:add'] = 'New Health Form';
+ /* Healthpass Preferences.  */
+ $string['healthpass:preferences'] = 'Health Pass Preferences';
+ $string['healthpass:preferences:preferences'] = 'Preferences';
+ $string['healthpass:preferences:preferences:reset_time'] = 'At What Time Should Healthforms Reset? (Default Midnight)';
+ $string['healthpass:preferences:podio_info'] = 'Podio Info';
+ $string['healthpass:preferences:podio_info:client_id'] = 'Client ID';
+ $string['healthpass:preferences:podio_info:client_secret'] = 'Client Secret';
+ $string['healthpass:preferences:podio_info:app_id'] = 'App ID';
+ $string['healthpass:preferences:podio_info:app_token'] = 'App Token';
+ $string['healthpass:preferences:podio_info:podio_url'] = 'Webform URL';
+ $string['healthpass:preferences:success'] = 'Health Pass Preferences Updated';
