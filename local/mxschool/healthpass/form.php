@@ -40,7 +40,7 @@
      'local_mxschool_healthpass' => array(
          'abbreviation' => 'hif',
          'fields' => array(
-             'id', 'userid', 'status', 'body_temperature', 'anyone_sick_at_home',
+             'id', 'userid', 'status', 'body_temperature', 'anyone_sick_at_home', 'traveled_internationally',
              'has_fever', 'has_sore_throat', 'has_cough', 'has_runny_nose',
              'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'form_submitted' => 'timecreated'
          )
@@ -66,7 +66,7 @@
  }
  elseif($data = $form->get_data()) {
    if ($data->body_temperature != 98 or $data->anyone_sick_at_home // logic for approve/deny
-      or $data->has_fever or $data->has_sore_throat or $data->has_cough
+      or $data->traveled_internationally or $data->has_fever or $data->has_sore_throat or $data->has_cough
       or $data->has_runny_nose or $data->has_muscle_aches or $data->has_loss_of_sense
       or $data->has_short_breath) {
         $data->status = "Denied";

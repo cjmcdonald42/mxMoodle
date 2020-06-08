@@ -995,6 +995,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:health_info:userid'] = 'Name';
  $string['healthpass:form:health_info:body_temperature'] = 'What is your body temperature?';
  $string['healthpass:form:health_info:anyone_sick_at_home'] = "Is anyone who lives with you sick?";
+ $string['healthpass:form:health_info:traveled_internationally'] = "Have you recently traveled internationally?";
  $string['healthpass:form:symptoms'] = "Do you have a:";
  $string['healthpass:form:symptoms:has_fever'] = "Fever?";
  $string['healthpass:form:symptoms:has_sore_throat'] = "Sore Throat?";
