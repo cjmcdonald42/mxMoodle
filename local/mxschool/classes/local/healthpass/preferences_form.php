@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form to submit daily intake for Middlesex Health Pass Plugin.
+ * Preferences Form for Middlesex Health Pass Plugin.
  *
  * @package     local_mxschool
  * @subpackage  healthpass

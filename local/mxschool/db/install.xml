@@ -292,9 +292,11 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student who submitted the form."/>
+        <FIELD NAME="podioid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/ COMMENT="The id of the student which references their unique id on podio.com">
         <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Whether or not the student's form is approved"/>
         <FIELD NAME="body_temperature" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's temperature"/>
-        <FIELD NAME="anyone_sick_at_home" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the student has anyone sick at home"/>
+        <FIELD NAME="anyone_sick_at_home" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has anyone sick at home"/>
+        <FIELD NAME="travelled_internationally" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has travelled internationally"/>
         <FIELD NAME="has_fever" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="has_sore_throat" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="has_cough" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
@@ -307,6 +309,7 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+        <KEY NAME="podio" TYPE="unique" FIELDS="podioid"/>
       </KEYS>
     </TABLE>
   </TABLES>

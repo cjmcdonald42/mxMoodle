@@ -18,8 +18,8 @@
  * Database updgrade steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -856,8 +856,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
 
-    if ($oldversion < 2020052601) {
-
+    if($oldversion < 2020060101) {
          // Define table healthpass to be created.
         $table = new xmldb_table('local_mxschool_healthpass');
 
@@ -901,9 +900,39 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         // Launch add key healthid.
         $dbman->add_key($table, $key);
 
-        // mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2020052601, 'local', 'mxschool');
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2020060801, 'local', 'mxschool');
+    }
+
+    if ($oldversion < 202006083) {
+
+        // Define field podioid to be added to local_mxschool_healthpass.
+        $table = new xmldb_table('local_mxschool_healthpass');
+        $field = new xmldb_field('podioid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'userid');
+
+        // Conditionally launch add field podioid.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field
+        $field = new xmldb_field('travelled_internationally', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'anyone_sick_at_home');
+
+        // Conditionally launch add field travelled_internationally.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define key podio (unique) to be added to local_mxschool_healthpass.
+        $key = new xmldb_key('podio', XMLDB_KEY_UNIQUE, ['podioid']);
+
+        // Launch add key podio.
+        $dbman->add_key($table, $key);
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 202006083, 'local', 'mxschool');
     }
 
       return true;
-}
+
+ }
