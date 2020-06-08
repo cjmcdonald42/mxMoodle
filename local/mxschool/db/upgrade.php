@@ -906,11 +906,11 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
     if ($oldversion < 202006085) {
 
-        // Define field travelled_internationally to be added to local_mxschool_healthpass.
+        // Define field traveled_internationally to be added to local_mxschool_healthpass.
         $table = new xmldb_table('local_mxschool_healthpass');
-        $field = new xmldb_field('travelled_internationally', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'anyone_sick_at_home');
+        $field = new xmldb_field('traveled_internationally', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'anyone_sick_at_home');
 
-        // Conditionally launch add field travelled_internationally.
+        // Conditionally launch add field traveled_internationally.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }

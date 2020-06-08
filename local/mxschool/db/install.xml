@@ -295,7 +295,7 @@
         <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Whether or not the student's form is approved"/>
         <FIELD NAME="body_temperature" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's temperature"/>
         <FIELD NAME="anyone_sick_at_home" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has anyone sick at home"/>
-        <FIELD NAME="travelled_internationally" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has travelled internationally"/>
+        <FIELD NAME="traveled_internationally" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has traveled internationally"/>
         <FIELD NAME="has_fever" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="has_sore_throat" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="has_cough" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>

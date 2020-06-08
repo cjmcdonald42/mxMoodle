@@ -51,6 +51,7 @@ class form extends \local_mxschool\form {
                 'userid' => array('element' => 'select', 'options' => $students),
                 'body_temperature' => array('element' => 'select', 'options' => $temps),
                 'anyone_sick_at_home' => self::ELEMENT_BOOLEAN,
+			 'traveled_internationally' => self::ELEMENT_BOOLEAN
             ),
             'symptoms' => array(
                 'has_fever' => self::ELEMENT_BOOLEAN,
