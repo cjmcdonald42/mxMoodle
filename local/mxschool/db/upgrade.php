@@ -21,7 +21,7 @@
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -904,18 +904,10 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020060801, 'local', 'mxschool');
     }
 
-    if ($oldversion < 202006083) {
+    if ($oldversion < 202006085) {
 
-        // Define field podioid to be added to local_mxschool_healthpass.
+        // Define field travelled_internationally to be added to local_mxschool_healthpass.
         $table = new xmldb_table('local_mxschool_healthpass');
-        $field = new xmldb_field('podioid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'userid');
-
-        // Conditionally launch add field podioid.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define field
         $field = new xmldb_field('travelled_internationally', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'anyone_sick_at_home');
 
         // Conditionally launch add field travelled_internationally.
@@ -923,14 +915,27 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Define key podio (unique) to be added to local_mxschool_healthpass.
-        $key = new xmldb_key('podio', XMLDB_KEY_UNIQUE, ['podioid']);
+        // Define table local_mxschool_podio to be created.
+        $table = new xmldb_table('local_mxschool_podio');
 
-        // Launch add key podio.
-        $dbman->add_key($table, $key);
+        // Adding fields to table local_mxschool_podio.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('podioid', XMLDB_TYPE_CHAR, '15', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_podio.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+        // Conditionally launch create table for local_mxschool_podio.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 202006083, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 202006085, 'local', 'mxschool');
     }
 
       return true;
