@@ -35,6 +35,7 @@ setup_mxschool_page('preferences', 'healthpass');
 
 $data = new stdClass();
 
+$data->healthpass_enabled = get_config('local_mxschool', 'healthpass_enabled');
 $data->reset_time = get_config('local_mxschool', 'healthpass_reset_time');
 $data->client_id = get_config('local_mxschool', 'client_id');
 $data->client_secret = get_config('local_mxschool', 'client_secret');
@@ -48,6 +49,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+	set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
 	set_config('healthpass_reset_time', $data->reset_time, 'local_mxschool');
 	set_config('client_id', $data->client_id, 'local_mxschool');
 	set_config('client_secret', $data->client_secret, 'local_mxschool');
