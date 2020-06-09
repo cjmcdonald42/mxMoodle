@@ -50,23 +50,55 @@ class form extends \local_mxschool\form {
             'health_info' => array(
                 'userid' => array('element' => 'select', 'options' => $students),
                 'body_temperature' => array('element' => 'select', 'options' => $temps),
-                'anyone_sick_at_home' => self::ELEMENT_BOOLEAN,
-			 'traveled_internationally' => self::ELEMENT_BOOLEAN
+                'anyone_sick_at_home' => self::ELEMENT_YES_NO_REQUIRED,
+			 'traveled_internationally' => self::ELEMENT_YES_NO_REQUIRED
             ),
             'symptoms' => array(
-                'has_fever' => self::ELEMENT_BOOLEAN,
-                'has_sore_throat' => self::ELEMENT_BOOLEAN,
-                'has_cough' => self::ELEMENT_BOOLEAN,
-                'has_runny_nose' => self::ELEMENT_BOOLEAN,
-                'has_muscle_aches' => self::ELEMENT_BOOLEAN,
-                'has_loss_of_sense' => self::ELEMENT_BOOLEAN,
-                'has_short_breath' => self::ELEMENT_BOOLEAN,
-            )
+                'has_fever' => self::ELEMENT_YES_NO,
+                'has_sore_throat' => self::ELEMENT_YES_NO,
+                'has_cough' => self::ELEMENT_YES_NO,
+                'has_runny_nose' => self::ELEMENT_YES_NO,
+                'has_muscle_aches' => self::ELEMENT_YES_NO,
+                'has_loss_of_sense' => self::ELEMENT_YES_NO,
+                'has_short_breath' => self::ELEMENT_YES_NO,
+		 ),
+		  'alternative' => array(
+			  'none_above' => self::ELEMENT_YES_NO
+		  )
         );
         $this->set_fields($fields, 'healthpass:form');
 
         $mform = $this->_form;
-        $mform->hideIf('student', 'isstudent', 'eq');
-        $mform->disabledIf('student', 'id', 'neq', '0');
+    }
+
+    /**
+	* Validates the health form before it can be submitted.
+	* The checks performed are to ensure that the user did not select "none of the above"
+	* and also "yes" for one of the symptoms
+	*
+	* @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
+	*/
+    public function validation($data, $files) {
+	   global $DB;
+	   $errors = parent::validation($data, $files);
+	   if($data['none_above']['none_above']=='Yes') {
+		   if($data['has_fever']['has_fever']=='Yes') $errors['has_fever'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		   if($data['has_sore_throat']['has_sore_throat']=='Yes') $errors['has_sore_throat'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		   if($data['has_cough']['has_cough']=='Yes') $errors['has_cough'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		   if($data['has_runny_nose']['has_runny_nose']=='Yes') $errors['has_runny_nose'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		   if($data['has_muscle_aches']['has_muscle_aches']=='Yes') $errors['has_muscle_aches'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		   if($data['has_loss_of_sense']['has_loss_of_sense']=='Yes') $errors['has_loss_of_sense'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		   if($data['has_short_breath']['has_short_breath']=='Yes') $errors['has_short_breath'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+	   }
+	   if(!isset($data['none_above']) or $data['none_above']['none_above']=='No') {
+		   if(!isset($data['has_fever']['has_fever'])) $errors['has_fever'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		   if(!isset($data['has_sore_throat']['has_sore_throat'])) $errors['has_sore_throat'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		   if(!isset($data['has_cough']['has_cough'])) $errors['has_cough'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		   if(!isset($data['has_runny_nose']['has_runny_nose'])) $errors['has_runny_nose'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		   if(!isset($data['has_muscle_aches']['has_muscle_aches'])) $errors['has_muscle_aches'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		   if(!isset($data['has_loss_of_sense']['has_loss_of_sense'])) $errors['has_loss_of_sense'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		   if(!isset($data['has_short_breath']['has_short_breath'])) $errors['has_short_breath'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+	   }
+	   return $errors;
     }
 }

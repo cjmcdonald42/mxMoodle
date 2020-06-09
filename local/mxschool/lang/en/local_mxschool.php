@@ -1004,7 +1004,11 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:has_muscle_aches'] = "Muscle aches?";
  $string['healthpass:form:symptoms:has_loss_of_sense'] = "Loss of senses?";
  $string['healthpass:form:symptoms:has_short_breath'] = "Shortness of breath?";
+ $string['healthpass:form:alternative'] = "Or";
+ $string['healthpass:form:alternative:none_above'] = "None of the above?";
  $string['healthpass:form:success'] = "Health Form Submitted Succesfully";
+ $string['healthpass:form:error:none_above_logic'] = "You cannot have none of the above and this symptom";
+ $string['healthpass:form:error:no_symptom'] = "You must answer here or check yes to none of the above";
  #
 /* Healthpass Report.  */
  $string['healthpass:report'] = "Student Health Report";

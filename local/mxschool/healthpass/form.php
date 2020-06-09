@@ -69,7 +69,8 @@
    redirect($form->get_redirect());
  }
  elseif($data = $form->get_data()) {
-   if ($data->body_temperature != 98 or $data->anyone_sick_at_home // logic for approve/deny
+	 // logic for approve/deny
+   if ($data->body_temperature != 98 or $data->anyone_sick_at_home
       or $data->traveled_internationally or $data->has_fever or $data->has_sore_throat or $data->has_cough
       or $data->has_runny_nose or $data->has_muscle_aches or $data->has_loss_of_sense
       or $data->has_short_breath) {
@@ -78,8 +79,31 @@
    else {
      $data->status = "Approved";
    }
-   $id = update_record($queryfields, $data);
-   echo podio_submit($data);
+
+   // Switch from 'yes' and 'no' to 1 and 0 for db
+   $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
+   $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
+
+   if($data->none_above['none_above']=='Yes') { // if none_above was selected, set all data to no
+	   $data->has_fever = 0;
+	   $data->has_sore_throat = 0;
+	   $data->has_cough = 0;
+	   $data->has_runny_nose = 0;
+	   $data->has_muscle_aches = 0;
+	   $data->has_loss_of_sense = 0;
+	   $data->has_short_breath = 0;
+   }
+   else { // None above was not selected so must switch each field from 'yes' and 'no' to 1 and 0 for db
+	   $data->has_fever = $data->has_fever['has_fever']=='Yes' ? 1 : 0;
+	   $data->has_sore_throat = $data->has_sore_throat['has_sore_throat']=='Yes' ? 1 : 0;
+	   $data->has_cough = $data->has_cough['has_cough']=='Yes' ? 1 : 0;
+	   $data->has_runny_nose = $data->has_runny_nose['has_runny_nose']=='Yes' ? 1 : 0;
+	   $data->has_muscle_aches = $data->has_muscle_aches['has_muscle_aches']=='Yes' ? 1 : 0;
+	   $data->has_loss_of_sense = $data->has_loss_of_sense['has_loss_of_sense']=='Yes' ? 1 : 0;
+	   $data->has_short_breath = $data->has_short_breath['has_short_breath']=='Yes' ? 1 : 0;
+   }
+   $id = update_record($queryfields, $data); // put data in db
+   podio_submit($data); // submit data to podio
    logged_redirect(
        $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
    );
