@@ -43,13 +43,22 @@ class block_mxschool_dash_healthpass extends block_base {
         $this->content = new stdClass();
         if (get_config('local_mxschool', 'healthpass_enabled')=='Yes' and has_capability('block/mxschool_dash_healthpass:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
-            $renderable = new local_mxschool\output\index(array(
-                get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
-            ));
+		  $info = get_todays_healthform_info($USER->id);
+
+		  if($info->submitted_today and !has_capability('local/mxschool:manage_healthpass', context_system::instance())) {
+			  if($info->status=='Approved') $renderable = new local_mxschool\output\index(array( // if submitted today and approved
+			 	   get_string('healthpass:form_approved', 'block_mxschool_dash_healthpass') => '/my'
+			  ));
+			  else $renderable = new local_mxschool\output\index(array( // if submitted today and denied
+				  get_string('healthpass:form_denied', 'block_mxschool_dash_healthpass') => '/my'
+			  ));
+		  }
+		  else $renderable = new local_mxschool\output\index(array( // if not submitted or is admin
+			  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
+		  ));
 
             $this->content->text = $output->render($renderable);
-        }
-
+	  }
         return $this->content;
     }
 

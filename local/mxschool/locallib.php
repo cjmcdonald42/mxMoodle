@@ -1352,3 +1352,32 @@ function get_healthform_dates() {
 	 Podio::authenticate_with_app($app_id, $app_token);
 	 return Podio::post($url, $attributes, $options);
  }
+
+ /**
+ * Given a user's $id, gets the user's healthform data from today
+ *
+ * @param int id, the user's id
+ * @return stdClass $info. $info->submitted_today is true if the user submitted today.
+ *					  $info->status is "Approved" if approved and "Denied" if the form was denied today
+ */
+ function get_todays_healthform_info($id) {
+	 global $DB;
+	 $today = generate_datetime(time());
+	 $today->modify('midnight');
+	 $healthforms = $DB->get_records_sql(
+		 "SELECT hp.userid, hp.status
+		 FROM {local_mxschool_healthpass} hp
+		 WHERE hp.form_submitted >= {$today->getTimestamp()}"
+	 );
+	 $info = new stdClass();
+	 foreach($healthforms as $form) {
+		 if($form->userid == $id) {
+			 $info->submitted_today = true;
+			 $info->status = $form->status;
+			 return $info;
+	      }
+	 }
+	 $info->submitted_today = false;
+	 $info->status = 'Unsubmitted';
+	 return $info;
+ }

@@ -28,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_healthpass';
-$plugin->version = 2020060903;
+$plugin->version = 2020060905;
 $plugin->release = 'v0.1';
 $plugin->requires = 2019052000; // Moodle 3.7.
 $plugin->maturity = MATURITY_ALPHA;

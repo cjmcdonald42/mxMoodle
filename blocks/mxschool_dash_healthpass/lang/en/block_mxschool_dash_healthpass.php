@@ -38,3 +38,5 @@ $string['privacy:metadata'] = 'MX Healthpass passes intake data to our Podio hea
 
 // Links.
 $string['healthpass:submit_form'] = 'Submit a Healthpass';
+$string['healthpass:form_approved'] = "Healthpass Approved";
+$string['healthpass:form_denied'] = "Healthpass Denied";

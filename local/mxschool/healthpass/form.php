@@ -68,18 +68,7 @@
  if($form->is_cancelled()){
    redirect($form->get_redirect());
  }
- elseif($data = $form->get_data()) {
-	 // logic for approve/deny
-   if ($data->body_temperature != 98 or $data->anyone_sick_at_home
-      or $data->traveled_internationally or $data->has_fever or $data->has_sore_throat or $data->has_cough
-      or $data->has_runny_nose or $data->has_muscle_aches or $data->has_loss_of_sense
-      or $data->has_short_breath) {
-        $data->status = "Denied";
-      }
-   else {
-     $data->status = "Approved";
-   }
-
+ elseif($data = $form->get_data())
    // Switch from 'yes' and 'no' to 1 and 0 for db
    $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
    $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
@@ -101,6 +90,16 @@
 	   $data->has_muscle_aches = $data->has_muscle_aches['has_muscle_aches']=='Yes' ? 1 : 0;
 	   $data->has_loss_of_sense = $data->has_loss_of_sense['has_loss_of_sense']=='Yes' ? 1 : 0;
 	   $data->has_short_breath = $data->has_short_breath['has_short_breath']=='Yes' ? 1 : 0;
+   }
+   // logic for approve/deny
+   if ($data->body_temperature != 98 or $data->anyone_sick_at_home
+	 or $data->traveled_internationally or $data->has_fever or $data->has_sore_throat or $data->has_cough
+	 or $data->has_runny_nose or $data->has_muscle_aches or $data->has_loss_of_sense
+	 or $data->has_short_breath) {
+	   $data->status = "Denied";
+	 }
+   else {
+	$data->status = "Approved";
    }
    $id = update_record($queryfields, $data); // put data in db
    podio_submit($data); // submit data to podio
