@@ -42,6 +42,8 @@ function xmldb_local_mxschool_install() {
 
     set_config('vacation_form_returnenabled', '1', 'local_mxschool');
 
+    set_config('healthpass_enable', 'Yes', 'local_mxschool');
+
     $subpackages = array(
         array('subpackage' => 'user_management', 'pages' => json_encode(array('student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'))),
         array('subpackage' => 'checkin', 'pages' => json_encode(array('preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator'))),

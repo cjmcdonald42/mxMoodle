@@ -49,8 +49,8 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-	set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
-	set_config('healthpass_reset_time', $data->reset_time, 'local_mxschool');
+	set_config('healthpass_enabled', $data->healthpass_enabled['healthpass_enabled'], 'local_mxschool');
+	set_config('healthpass_reset_time', generate_timestamp($data, 'reset_time'), 'local_mxschool');
 	set_config('client_id', $data->client_id, 'local_mxschool');
 	set_config('client_secret', $data->client_secret, 'local_mxschool');
 	set_config('app_id', $data->app_id, 'local_mxschool');

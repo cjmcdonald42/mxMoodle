@@ -31,6 +31,10 @@
 // All members of the community access this form.
  require_login();
 
+ if(get_config('local_mxschool', 'healthpass_enabled')=='No') {
+	 redirect_to_fallback();
+ }
+
  $id = optional_param('id', 0, PARAM_INT);
  setup_mxschool_page('form', 'healthpass');
  $PAGE->requires->js_call_amd('local_mxschool/healthpass_form', 'setup');

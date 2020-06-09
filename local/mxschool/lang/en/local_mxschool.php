@@ -1034,7 +1034,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  /* Healthpass Preferences.  */
  $string['healthpass:preferences'] = 'Health Pass Preferences';
  $string['healthpass:preferences:preferences'] = 'Preferences';
- $string['healthpass:preferences:preferences:healthform_enabled'] = 'Enable Healthform';
+ $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable Healthform';
  $string['healthpass:preferences:preferences:reset_time'] = 'At What Time Should Healthforms Reset? (Default Midnight)';
  $string['healthpass:preferences:podio_info'] = 'Podio Info';
  $string['healthpass:preferences:podio_info:client_id'] = 'Client ID';

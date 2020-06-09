@@ -37,7 +37,7 @@
 	 protected function definition() {
 		 $fields = array(
 			 'preferences' => array(
-				 'healthpass_enabled' => self::ELEMENT_BOOLEAN,
+				 'healthpass_enabled' => self::ELEMENT_YES_NO,
 				 'reset_time' => self::time_selector(1)
 			 ),
 			 'podio_info' => array(
