@@ -58,13 +58,18 @@
        $from = array('{local_mxschool_healthpass} hp',
                      '{user} u ON hp.userid = u.id', '{local_mxschool_student} stu ON hp.userid = stu.userid',
 			 	  '{local_mxschool_faculty} fac ON hp.userid = fac.userid');
-	  $starttime = generate_datetime(time())->modify('midnight');
+	  $where = array('u.deleted = 0');
+	  $starttime = generate_datetime('01/01/2020'); // defualt start and endtime
+	  $endtime = generate_datetime(time());
+	  $endtime->modify('+1 day');
 	  if ($filter->date) {
   		 $starttime = generate_datetime($filter->date);
+		 $endtime = clone $starttime;
+    	  	 $endtime->modify('+1 day');
+		 $where[] = "hp.form_submitted >= {$starttime->getTimestamp()}";
+		 $where[] = "hp.form_submitted < {$endtime->getTimestamp()}";
+
   	  }
-	  $endtime = clone $starttime;
-	  $endtime->modify('+1 day');
-       $where = array('u.deleted = 0', "hp.form_submitted >= {$starttime->getTimestamp()}", "hp.form_submitted < {$endtime->getTimestamp()}");
        if ($filter->status) {
            $where[] = "hp.status = '{$filter->status}'";
        }

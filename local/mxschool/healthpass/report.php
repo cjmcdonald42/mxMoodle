@@ -43,8 +43,8 @@ setup_mxschool_page('report', 'healthpass');
 $table = new local_mxschool\local\healthpass\table($filter);
 
 $submittedoptions = array(
-	'1' => get_string('healthpass:report:selectsubmitted:true', 'local_mxschool').' '.generate_datetime($filter->date)->format('m/d/y'),
-	'0' => get_string('healthpass:report:selectsubmitted:false', 'local_mxschool').' '.generate_datetime($filter->date)->format('m/d/y')
+	'1' => get_string('healthpass:report:selectsubmitted:true', 'local_mxschool'),
+	'0' => get_string('healthpass:report:selectsubmitted:false', 'local_mxschool')
 );
 $useroptions = array(
 	'student' => get_string('healthpass:report:selectstudents', 'local_mxschool'),
@@ -64,10 +64,10 @@ $dropdowns = array(
 	    'user_type', $useroptions, $filter->user_type, get_string('healthpass:report:selectall', 'local_mxschool')
     ),
 	new local_mxschool\output\dropdown(
-	    'status', $statusoptions, $filter->status, get_string('healthpass:report:selectapproved:all', 'local_mxschool')
+	    'status', $statusoptions, $filter->status, get_string('healthpass:report:selectall', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
-	   'date', $dateoptions, $filter->date
+	   'date', $dateoptions, $filter->date, get_string('healthpass:report:selectall', 'local_mxschool')
    )
  );
 
