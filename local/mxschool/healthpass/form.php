@@ -37,7 +37,6 @@
 
  $id = optional_param('id', 0, PARAM_INT);
  setup_mxschool_page('form', 'healthpass');
- $PAGE->requires->js_call_amd('local_mxschool/healthpass_form', 'setup');
  $isstudent = user_is_student();
 
  $queryfields = array(
