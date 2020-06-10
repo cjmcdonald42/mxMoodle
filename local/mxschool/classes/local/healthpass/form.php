@@ -39,7 +39,8 @@ class form extends \local_mxschool\form {
            '96' => '96', '97' => '97', '98' => '98', '99' => '99',
            '100' => '100', '101' => '101', '102' => '102', '103' => '103', '104' => '104', '105' => '105'
          );
-        $students = $this->_customdata['students'];
+        $users = $this->_customdata['users'];
+	   $isManager = $this->_customdata['isManager'];
 
         $fields = array(
             '' => array(
@@ -48,7 +49,9 @@ class form extends \local_mxschool\form {
                 'isstudent' => self::ELEMENT_HIDDEN_INT
             ),
             'health_info' => array(
-                'userid' => array('element' => 'select', 'options' => $students),
+                'name' => $isManager ?
+			   array('element' => 'select', 'options' => $users)
+			 : array('element' => 'static', 'text' => $users['name']),
                 'body_temperature' => array('element' => 'select', 'options' => $temps),
                 'anyone_sick_at_home' => self::ELEMENT_YES_NO_REQUIRED,
 			 'traveled_internationally' => self::ELEMENT_YES_NO_REQUIRED

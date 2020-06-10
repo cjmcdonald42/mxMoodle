@@ -43,7 +43,7 @@
      'local_mxschool_healthpass' => array(
          'abbreviation' => 'hif',
          'fields' => array(
-             'id', 'userid', 'status', 'body_temperature', 'anyone_sick_at_home', 'traveled_internationally',
+             'id', 'userid' => 'name', 'status', 'body_temperature', 'anyone_sick_at_home', 'traveled_internationally',
              'has_fever', 'has_sore_throat', 'has_cough', 'has_runny_nose',
              'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'form_submitted' => 'timecreated'
          )
@@ -59,15 +59,21 @@
  $data->isstudent = $isstudent ? '1' : '0';
 
  $isManager = has_capability('local/mxschool:manage_healthpass', context_system::instance());
- $students = $isManager ? get_user_list() : array($USER->id => $USER->firstname.' '.$USER->lastname);
+ if($isManager){ // can select from drop down if can manage healthpass
+	 $users = get_user_list();
+ }
+ else { //else auto populates to users name
+	 $users = array('name' => $USER->firstname.' '.$USER->lastname);
+ }
 
- $form = new local_mxschool\local\healthpass\form(array('students' => $students));
+ $form = new local_mxschool\local\healthpass\form(array('users' => $users, 'isManager' => $isManager));
  $form->set_data($data);
 
  if($form->is_cancelled()){
    redirect($form->get_redirect());
  }
  elseif($data = $form->get_data()) {
+   if(!isset($data->name)) $data->name = $USER->id;
    // Switch from 'yes' and 'no' to 1 and 0 for db
    $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
    $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
