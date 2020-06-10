@@ -65,14 +65,14 @@ class form extends \local_mxschool\form {
                 'has_loss_of_sense' => self::ELEMENT_YES_NO,
                 'has_short_breath' => self::ELEMENT_YES_NO,
 		 ),
-		  'alternative' => array(
-			  'none_above' => self::ELEMENT_YES_NO
-		  )
         );
-        $this->set_fields($fields, 'healthpass:form');
+        $this->set_fields($fields, 'healthpass:form', false, 'local_mxschool', false);
 
         $mform = $this->_form;
 	   $mform->setDefault('body_temperature', '98');
+	   $mform->registerNoSubmitButton('no_symptoms');
+	   $mform->addElement($mform->createElement('submit', 'no_symptoms', get_string('healthpass:form:no_symptoms_button', 'local_mxschool')));
+	   $this->add_action_buttons();
     }
 
     /**
@@ -85,24 +85,24 @@ class form extends \local_mxschool\form {
     public function validation($data, $files) {
 	   global $DB;
 	   $errors = parent::validation($data, $files);
-	   if($data['none_above']['none_above']=='Yes') {
-		   if($data['has_fever']['has_fever']=='Yes') $errors['has_fever'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
-		   if($data['has_sore_throat']['has_sore_throat']=='Yes') $errors['has_sore_throat'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
-		   if($data['has_cough']['has_cough']=='Yes') $errors['has_cough'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
-		   if($data['has_runny_nose']['has_runny_nose']=='Yes') $errors['has_runny_nose'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
-		   if($data['has_muscle_aches']['has_muscle_aches']=='Yes') $errors['has_muscle_aches'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
-		   if($data['has_loss_of_sense']['has_loss_of_sense']=='Yes') $errors['has_loss_of_sense'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
-		   if($data['has_short_breath']['has_short_breath']=='Yes') $errors['has_short_breath'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
-	   }
-	   if(!isset($data['none_above']) or $data['none_above']['none_above']=='No') {
-		   if(!isset($data['has_fever']['has_fever'])) $errors['has_fever'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
-		   if(!isset($data['has_sore_throat']['has_sore_throat'])) $errors['has_sore_throat'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
-		   if(!isset($data['has_cough']['has_cough'])) $errors['has_cough'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
-		   if(!isset($data['has_runny_nose']['has_runny_nose'])) $errors['has_runny_nose'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
-		   if(!isset($data['has_muscle_aches']['has_muscle_aches'])) $errors['has_muscle_aches'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
-		   if(!isset($data['has_loss_of_sense']['has_loss_of_sense'])) $errors['has_loss_of_sense'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
-		   if(!isset($data['has_short_breath']['has_short_breath'])) $errors['has_short_breath'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
-	   }
+	   // if($data['none_above']['none_above']=='Yes') {
+		//    if($data['has_fever']['has_fever']=='Yes') $errors['has_fever'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		//    if($data['has_sore_throat']['has_sore_throat']=='Yes') $errors['has_sore_throat'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		//    if($data['has_cough']['has_cough']=='Yes') $errors['has_cough'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		//    if($data['has_runny_nose']['has_runny_nose']=='Yes') $errors['has_runny_nose'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		//    if($data['has_muscle_aches']['has_muscle_aches']=='Yes') $errors['has_muscle_aches'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		//    if($data['has_loss_of_sense']['has_loss_of_sense']=='Yes') $errors['has_loss_of_sense'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+		//    if($data['has_short_breath']['has_short_breath']=='Yes') $errors['has_short_breath'] = get_string('healthpass:form:error:none_above_logic', 'local_mxschool');
+	   // }
+	   // if(!isset($data['none_above']) or $data['none_above']['none_above']=='No') {
+		//    if(!isset($data['has_fever']['has_fever'])) $errors['has_fever'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		//    if(!isset($data['has_sore_throat']['has_sore_throat'])) $errors['has_sore_throat'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		//    if(!isset($data['has_cough']['has_cough'])) $errors['has_cough'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		//    if(!isset($data['has_runny_nose']['has_runny_nose'])) $errors['has_runny_nose'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		//    if(!isset($data['has_muscle_aches']['has_muscle_aches'])) $errors['has_muscle_aches'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		//    if(!isset($data['has_loss_of_sense']['has_loss_of_sense'])) $errors['has_loss_of_sense'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+		//    if(!isset($data['has_short_breath']['has_short_breath'])) $errors['has_short_breath'] = get_string('healthpass:form:error:no_symptom', 'local_mxschool');
+	   // }
 	   return $errors;
     }
 }

@@ -135,7 +135,7 @@ abstract class form extends \moodleform {
      * @param string $component The component to get language strings from.
      * @throws coding_exception If any of the elements is missing property element or the specified element is not supported.
      */
-    protected function set_fields($fields, $stringprefix, $actionstop = false, $component = 'local_mxschool') {
+    protected function set_fields($fields, $stringprefix, $actionstop = false, $component = 'local_mxschool', $add_action_buttons = true) {
         if ($actionstop) {
             $this->add_action_buttons();
         }
@@ -170,7 +170,9 @@ abstract class form extends \moodleform {
                 }
             }
         }
-        $this->add_action_buttons();
+        if($add_action_buttons) {
+		  $this->add_action_buttons();
+	   }
     }
 
     /**
