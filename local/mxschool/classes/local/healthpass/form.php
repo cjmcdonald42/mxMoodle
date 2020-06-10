@@ -72,6 +72,7 @@ class form extends \local_mxschool\form {
         $this->set_fields($fields, 'healthpass:form');
 
         $mform = $this->_form;
+	   $mform->setDefault('body_temperature', '98');
     }
 
     /**
