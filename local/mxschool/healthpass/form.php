@@ -67,7 +67,7 @@
  if($form->is_cancelled()){
    redirect($form->get_redirect());
  }
- elseif($data = $form->get_data())
+ elseif($data = $form->get_data()) {
    // Switch from 'yes' and 'no' to 1 and 0 for db
    $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
    $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
