@@ -96,20 +96,11 @@
 	   $data->has_loss_of_sense = $data->has_loss_of_sense['has_loss_of_sense']=='Yes' ? 1 : 0;
 	   $data->has_short_breath = $data->has_short_breath['has_short_breath']=='Yes' ? 1 : 0;
    }
-   // logic for approve/deny
-   if ($data->body_temperature != 98 or $data->anyone_sick_at_home
-	 or $data->traveled_internationally or $data->has_fever or $data->has_sore_throat or $data->has_cough
-	 or $data->has_runny_nose or $data->has_muscle_aches or $data->has_loss_of_sense
-	 or $data->has_short_breath) {
-	   $data->status = "Denied";
-	 }
-   else {
-	$data->status = "Approved";
-   }
+   // submit data to podio and get response
+   $status = podio_submit($data);
+   $data->status = $status=='Green' ? 'Approved' : 'Denied';
    // put data in db
    $id = update_record($queryfields, $data);
-   // submit data to podio
-   podio_submit($data);
    // redirect user
    logged_redirect(
        $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'

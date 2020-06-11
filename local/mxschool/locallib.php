@@ -26,6 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/podio/Podio.php');
+require_once(__DIR__.'/podio/PodioItem.php');
 /*
  * ========================
  * Page Setup Abstractions.
@@ -1317,7 +1318,7 @@ function get_healthform_dates() {
 * Given the Health Form data, passes the information to Podio
 *
 * @param stdClass data, the form data
-* @return String response. The response from Podio
+* @return String response. Whether or not the student was approved or denied
 */
  function podio_submit($data) {
 	 // TODO: Make these variables configurable
@@ -1326,31 +1327,37 @@ function get_healthform_dates() {
 	 $app_id = get_config('local_mxschool', 'app_id');
 	 $app_token = get_config('local_mxschool', 'app_token');
 	 $url = get_config('local_mxschool', 'podio_url');
-	 $contact_name = '1421936959'; // not sure how to get this number
+	 $contact_name = 1421936959; // not sure how to get this number
 
 	 // On Podio, YES is 1, NO is 2
 	 $attributes = array(
-		 'fields[contact-name]' => $contact_name,
-		 'fields[enter-temperature]' => $data->body_temperature,
-		 'fields[day-student-is-anyone-in-your-home-positive-for-or-susp]' => $data->anyone_sick_at_home==0 ? 2 : 1,
-		 'fields[do-you-have-a-fever-or-feel-feverish]' => $data->has_fever==0 ? 2 : 1,
-		 'fields[do-you-have-a-sore-throat]' => $data->has_sore_throat==0 ? 2 : 1,
-		 'fields[do-you-have-a-cough]' => $data->has_cough==0 ? 2 : 1,
-		 'fields[do-you-have-nasal-congestion-or-runny-nose-not-related-]' => $data->has_runny_nose==0 ? 2 : 1,
-		 'fields[do-you-have-muscle-aches]' => $data->has_muscle_aches==0 ? 2 : 1,
-		 'fields[do-you-have-a-loss-of-smell-or-taste]' => $data->has_loss_of_sense==0 ? 2 : 1,
-		 'fields[do-you-have-shortness-of-breath]' => $data->has_short_breath==0 ? 2 : 1,
-		 'button'
+		 'fields' => array(
+			 'contact-name' => $contact_name,
+			 'review-date' => generate_datetime($data->timecreated)->format('Y-m-d h:i:s'),
+			 'enter-temperature' => $data->body_temperature,
+			 'day-student-is-anyone-in-your-home-positive-for-or-susp' => $data->anyone_sick_at_home==0 ? 2 : 1,
+			 'do-you-have-a-fever-or-feel-feverish' => $data->has_fever==0 ? 2 : 1,
+			 'do-you-have-a-sore-throat' => $data->has_sore_throat==0 ? 2 : 1,
+			 'do-you-have-a-cough' => $data->has_cough==0 ? 2 : 1,
+			 'do-you-have-nasal-congestion-or-runny-nose-not-related-' => $data->has_runny_nose==0 ? 2 : 1,
+			 'do-you-have-muscle-aches' => $data->has_muscle_aches==0 ? 2 : 1,
+			 'do-you-have-a-loss-of-smell-or-taste' => $data->has_loss_of_sense==0 ? 2 : 1,
+			 'do-you-have-shortness-of-breath' => $data->has_short_breath==0 ? 2 : 1
+	 	)
 	 );
 
 	 $options = array(
 		 'file_download' => 1,
 		 'oauth_request' => 1
 	 );
-
+	 // post to the form
 	 Podio::setup($client_id, $client_secret);
 	 Podio::authenticate_with_app($app_id, $app_token);
-	 return Podio::post($url, $attributes, $options);
+	 $item = PodioItem::create($app_id, $attributes, $options);
+	 $item_id = $item->item_id;
+	 // get response
+	 $reponse = PodioItem::get($item_id);
+	 return $reponse->fields->offsetGet('status')->values[0]['value'];
  }
 
  /**

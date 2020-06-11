@@ -8,6 +8,7 @@ require_once('PodioResponse.php');
 require_once('PodioOAuth.php');
 require_once('error/PodioError.php');
 require_once('error/PodioConnectionError.php');
+require_once('error/PodioBadRequestError.php');
 
 class Podio {
   public static $oauth, $debug, $logger, $session_manager, $last_response, $auth_type;
@@ -297,6 +298,9 @@ class Podio {
           break;
         }
         else {
+		   print_r($response->body);
+		   print_r($response->status);
+		   print_r($url);
           throw new PodioBadRequestError($response->body, $response->status, $url);
         }
         break;
