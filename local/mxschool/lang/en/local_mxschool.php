@@ -1007,8 +1007,8 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:alternative'] = "Or";
  $string['healthpass:form:alternative:none_above'] = "None of the above?";
  $string['healthpass:form:success'] = "Health Form Submitted Succesfully";
- $string['healthpass:form:error:none_above_logic'] = "You cannot have none of the above and this symptom";
- $string['healthpass:form:error:no_symptom'] = "You must answer here or check yes to none of the above";
+ $string['healthpass:form:error:no_symptoms_logic'] = "You cannot click 'I have no symptoms' if you have this symptom";
+ $string['healthpass:form:error:unset_symptom'] = "You must answer here or click 'I have no symptoms'";
  $string['healthpass:form:no_symptoms_button'] = "I have no symptoms";
  #
 /* Healthpass Report.  */
