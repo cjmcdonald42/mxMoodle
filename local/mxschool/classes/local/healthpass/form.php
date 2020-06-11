@@ -70,7 +70,6 @@ class form extends \local_mxschool\form {
 
         $mform = $this->_form;
 	   $mform->setDefault('body_temperature', '98');
-	   $mform->registerNoSubmitButton('no_symptoms');
 	   $mform->addElement($mform->createElement('submit', 'no_symptoms', get_string('healthpass:form:no_symptoms_button', 'local_mxschool')));
 	   $this->add_action_buttons();
     }

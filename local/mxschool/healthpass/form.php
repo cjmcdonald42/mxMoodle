@@ -54,7 +54,6 @@
  // Create a new record each time this form is submitted.
  $data = new stdClass();
  $data->id = $id;
- $data->userid = $USER->id;
  $data->timecreated = time();
  $data->isstudent = $isstudent ? '1' : '0';
 
@@ -72,48 +71,31 @@
  if($form->is_cancelled()){ // if the cancel button is pressed...
    redirect($form->get_redirect());
  }
- elseif($form->no_submit_button_pressed()) { // if the 'I have no symptoms button' is pressed....
-	 if(!isset($data->name)) $data->name = $USER->id; // name will not be set if the field is static
-	 // Change fields from 'yes' and 'no' to 1 and 0
-	 $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
-	 $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
-	 // Moodle thinks the default value is null, so here fixes that
-	 if($data->body_temperature == NULL) $data->body_temperature = 98;
-	 // set all symptoms to 0
-	 $data->has_fever = 0;
-	 $data->has_sore_throat = 0;
-	 $data->has_cough = 0;
-	 $data->has_runny_nose = 0;
-	 $data->has_muscle_aches = 0;
-	 $data->has_loss_of_sense = 0;
-	 $data->has_short_breath = 0;
-	 // approve/deny logic
-	 if($data->anyone_sick_at_home or $data->traveled_internationally
-	 	or $data->body_temperature < 98 or $data->body_temperature > 99) $data->status = "Denied";
-	 else $data->status = "Approved";
-	 // put data in db
-	 $id = update_record($queryfields, $data);
-	  // submit data to podio
-	 podio_submit($data);
-	 // redirect user
-	 logged_redirect(
-		$form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
-	 );
- }
  elseif($data = $form->get_data()) { // if the 'save changes' button is pressed...
    if(!isset($data->name)) $data->name = $USER->id; // name will not be set if the field is static
-   // Switch from 'yes' and 'no' to 1 and 0 for db
+   // switch from 'yes' and 'no' to 1 and 0
    $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
    $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
-   $data->has_fever = $data->has_fever['has_fever']=='Yes' ? 1 : 0;
-   $data->has_sore_throat = $data->has_sore_throat['has_sore_throat']=='Yes' ? 1 : 0;
-   $data->has_cough = $data->has_cough['has_cough']=='Yes' ? 1 : 0;
-   $data->has_runny_nose = $data->has_runny_nose['has_runny_nose']=='Yes' ? 1 : 0;
-   $data->has_muscle_aches = $data->has_muscle_aches['has_muscle_aches']=='Yes' ? 1 : 0;
-   $data->has_loss_of_sense = $data->has_loss_of_sense['has_loss_of_sense']=='Yes' ? 1 : 0;
-   $data->has_short_breath = $data->has_short_breath['has_short_breath']=='Yes' ? 1 : 0;
-   // Moodle thinks the default value is null, so here fixes that
-   if($data->body_temperature == NULL) $data->body_temperature = 98;
+   // If not symptoms button pressed, set all symptoms to false
+   if($data->no_symptoms) {
+	   $data->has_fever = 0;
+	   $data->has_sore_throat = 0;
+	   $data->has_cough = 0;
+	   $data->has_runny_nose = 0;
+	   $data->has_muscle_aches = 0;
+	   $data->has_loss_of_sense = 0;
+	   $data->has_short_breath = 0;
+   }
+   // If save changes button pressed, switch from 'yes' and 'no' to 1 and 0 for db
+   else {
+	   $data->has_fever = $data->has_fever['has_fever']=='Yes' ? 1 : 0;
+	   $data->has_sore_throat = $data->has_sore_throat['has_sore_throat']=='Yes' ? 1 : 0;
+	   $data->has_cough = $data->has_cough['has_cough']=='Yes' ? 1 : 0;
+	   $data->has_runny_nose = $data->has_runny_nose['has_runny_nose']=='Yes' ? 1 : 0;
+	   $data->has_muscle_aches = $data->has_muscle_aches['has_muscle_aches']=='Yes' ? 1 : 0;
+	   $data->has_loss_of_sense = $data->has_loss_of_sense['has_loss_of_sense']=='Yes' ? 1 : 0;
+	   $data->has_short_breath = $data->has_short_breath['has_short_breath']=='Yes' ? 1 : 0;
+   }
    // logic for approve/deny
    if ($data->body_temperature != 98 or $data->anyone_sick_at_home
 	 or $data->traveled_internationally or $data->has_fever or $data->has_sore_throat or $data->has_cough
