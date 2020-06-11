@@ -101,9 +101,12 @@
    $data->status = $status=='Green' ? 'Approved' : 'Denied';
    // put data in db
    $id = update_record($queryfields, $data);
+   $response_string = $data->status=='Approved' ?
+   				  get_string('healthpass:form:success:approved', 'local_mxschool')
+				  : get_string('healthpass:form:success:denied', 'local_mxschool');
    // redirect user
    logged_redirect(
-       $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
+       $form->get_redirect(), $response_string, $data->id ? 'update' : 'create'
    );
  }
 
