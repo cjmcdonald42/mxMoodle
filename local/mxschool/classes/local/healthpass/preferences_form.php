@@ -35,6 +35,7 @@
 	  * Form definition.
 	  */
 	 protected function definition() {
+		 // Define fields
 		 $fields = array(
 			 'preferences' => array(
 				 'reset_time' => self::time_selector(1),

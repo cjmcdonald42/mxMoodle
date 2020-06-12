@@ -35,6 +35,7 @@ setup_mxschool_page('preferences', 'healthpass');
 
 $data = new stdClass();
 
+// Set form fields to their current values
 $data->healthpass_enabled = get_config('local_mxschool', 'healthpass_enabled');
 $data->reset_time = get_config('local_mxschool', 'healthpass_reset_time');
 $data->client_id = get_config('local_mxschool', 'client_id');
@@ -42,12 +43,14 @@ $data->client_secret = get_config('local_mxschool', 'client_secret');
 $data->app_id = get_config('local_mxschool', 'app_id');
 $data->app_token = get_config('local_mxschool', 'app_token');
 
+// Create form
 $form = new local_mxschool\local\healthpass\preferences_form();
 $form->set_data($data);
 
-if ($form->is_cancelled()) {
+if ($form->is_cancelled()) { // If the cancel button is pressed...
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+	// Set configs according to preferences form data
 	set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
 	set_config('healthpass_reset_time', generate_timestamp($data, 'reset_time'), 'local_mxschool');
 	set_config('client_id', $data->client_id, 'local_mxschool');
@@ -57,6 +60,7 @@ if ($form->is_cancelled()) {
      logged_redirect($form->get_redirect(), get_string('healthpass:preferences:success', 'local_mxschool'), 'update');
 }
 
+// Output form onto page
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
 

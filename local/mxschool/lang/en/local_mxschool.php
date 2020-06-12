@@ -988,10 +988,14 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  * ================
  */
 
-/* Healthpass Intake Form.  */
+ /* Healthpass Intake Form.  */
+
+ // Form Headers.
  $string['healthpass'] = "Health Pass";
  $string['healthpass:form'] = 'Health Form';
  $string['healthpass:form:health_info'] = 'Health Information';
+
+ // Fields Labels.
  $string['healthpass:form:health_info:name'] = 'Name';
  $string['healthpass:form:health_info:body_temperature'] = 'What is your body temperature?';
  $string['healthpass:form:health_info:anyone_sick_at_home'] = "Is anyone who lives with you sick?";
@@ -1004,15 +1008,17 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:has_muscle_aches'] = "Muscle aches?";
  $string['healthpass:form:symptoms:has_loss_of_sense'] = "a Loss of senses?";
  $string['healthpass:form:symptoms:has_short_breath'] = "a Shortness of breath?";
- $string['healthpass:form:alternative'] = "Or";
- $string['healthpass:form:alternative:none_above'] = "None of the above?";
+
+ // Form Reponses.
  $string['healthpass:form:success:approved'] = "Healthpass Approved";
  $string['healthpass:form:success:denied'] = "Healthpass Denied";
  $string['healthpass:form:error:no_symptoms_logic'] = "You cannot click 'I have no symptoms' if you have this symptom";
  $string['healthpass:form:error:unset_symptom'] = "You must answer here or click 'I have no symptoms'";
  $string['healthpass:form:no_symptoms_button'] = "I have no symptoms";
- #
-/* Healthpass Report.  */
+
+ /* Healthpass Report.  */
+
+ // Report Headers.
  $string['healthpass:report'] = "Student Health Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
@@ -1026,6 +1032,8 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:header:has_short_breath'] = "Shortness of Breath?";
  $string['healthpass:report:header:time_submitted'] = "Time Submitted";
  $string['healthpass:report:header:latest_submission'] = "Most Recent Submission";
+
+ // Filters.
  $string['healthpass:report:selectapproved:all'] = 'All';
  $string['healthpass:report:selectapproved:true'] = 'Approved';
  $string['healthpass:report:selectapproved:false'] = 'Denied';
@@ -1036,10 +1044,17 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:selectfaculty'] = 'Faculty / Staff';
  $string['healthpass:report:selectstudents'] = 'Students';
  $string['healthpass:report:selectdate:all'] = 'All Dates';
+
+ // Report Buttons.
  $string['healthpass:report:add'] = 'New Health Form';
+
  /* Healthpass Preferences.  */
+
+ // Form Headers.
  $string['healthpass:preferences'] = 'Health Pass Preferences';
  $string['healthpass:preferences:preferences'] = 'Preferences';
+
+ // Field Labels.
  $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable Healthform';
  $string['healthpass:preferences:preferences:reset_time'] = 'At What Time Should Healthforms Reset? (Default Midnight)';
  $string['healthpass:preferences:podio_info'] = 'Podio Info';
@@ -1048,4 +1063,6 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:preferences:podio_info:app_id'] = 'App ID';
  $string['healthpass:preferences:podio_info:app_token'] = 'App Token';
  $string['healthpass:preferences:podio_info:podio_url'] = 'Webform URL';
+
+ // Form Responses.
  $string['healthpass:preferences:success'] = 'Health Pass Preferences Updated';

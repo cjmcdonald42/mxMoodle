@@ -31,6 +31,7 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_healthpass', context_system::instance());
 
+// Creeate filters
 $filter = new stdClass();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
 $filter->user_type = optional_param('user_type', '', PARAM_RAW);
@@ -40,8 +41,10 @@ $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'healthpass');
 
+// Create table and pass the filters
 $table = new local_mxschool\local\healthpass\table($filter);
 
+// Define filter options as an array with value => display
 $submittedoptions = array(
 	'1' => get_string('healthpass:report:selectsubmitted:true', 'local_mxschool'),
 	'0' => get_string('healthpass:report:selectsubmitted:false', 'local_mxschool')
@@ -56,6 +59,7 @@ $statusoptions = array(
 );
 $dateoptions = get_healthform_dates();
 
+// Create dropdowns, where the last parameter is the default value
 $dropdowns = array(
 	new local_mxschool\output\dropdown(
 	    'submitted', $submittedoptions, $filter->submitted
@@ -71,19 +75,18 @@ $dropdowns = array(
    )
  );
 
- $buttons = array(
+// Create a 'New Healthform' Button
+$buttons = array(
      new local_mxschool\output\redirect_button(
          get_string('healthpass:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/healthpass/form.php')
      )
 );
 
+// Output report to page
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();
 echo $output->heading($PAGE->title);
-// echo $output->heading(
-//     get_string('healthpass:report', 'local_mxschool')
-// );
 echo $output->render($renderable);
 echo $output->footer();

@@ -35,13 +35,16 @@ class form extends \local_mxschool\form {
      * Form definition.
      */
     protected function definition() {
+	   // All possible temperature values
         $temps = array(
            '96' => '96', '97' => '97', '98' => '98', '99' => '99',
            '100' => '100', '101' => '101', '102' => '102', '103' => '103', '104' => '104', '105' => '105'
          );
+	   // Get $users and $isManager from form page
         $users = $this->_customdata['users'];
 	   $isManager = $this->_customdata['isManager'];
 
+	   // Define fields
         $fields = array(
             '' => array(
                 'id' => self::ELEMENT_HIDDEN_INT,
@@ -70,14 +73,16 @@ class form extends \local_mxschool\form {
 
         $mform = $this->_form;
 	   $mform->setDefault('body_temperature', '98');
+
+	   // Create 'I have no symptoms' button and then add 'Save Changes' and 'Cancel' buttons
 	   $mform->addElement($mform->createElement('submit', 'no_symptoms', get_string('healthpass:form:no_symptoms_button', 'local_mxschool')));
 	   $this->add_action_buttons();
     }
 
     /**
 	* Validates the health form before it can be submitted.
-	* The checks performed are to ensure that the user did not select "none of the above"
-	* and also "yes" for one of the symptoms
+	* The checks performed are to ensure that the user did not click 'I have no symptoms'
+	* when yes has been selected for any of the symptoms.
 	*
 	* @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
 	*/

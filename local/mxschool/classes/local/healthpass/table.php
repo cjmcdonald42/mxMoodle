@@ -38,30 +38,40 @@
     */
    public function __construct($filter) {
        global $DB;
+	  // Define the names of the columns. Should match up with the $fields array.
        $columns = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
                         'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted');
+	  // If 'Not Submitted' selected, then there will only be two columns.
 	  if($filter->submitted == '0') {
 		  $columns = array('userid', 'latest_submission');
 	  }
+	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthpass:report');
+	  // Define name, status, body_temp, and time_submitted as sortable
        $sortable = array('userid', 'status', 'body_temperature', 'time_submitted');
+	  // All columns are centered
        $centered = array('userid', 'status', 'body_temperature', 'has_fever',
                         'has_sore_throat', 'has_cough', 'has_runny_nose',
                         'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted', 'latest_submission');
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
+	  // The fields to query from the database
        $fields = array('hp.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
                         'hp.body_temperature', 'hp.has_fever', 'hp.has_sore_throat',
                         'hp.has_cough', 'hp.has_runny_nose', 'hp.has_muscle_aches',
                          'hp.has_loss_of_sense', 'hp.has_short_breath', 'hp.form_submitted AS time_submitted');
+	  // The tables which to query
        $from = array('{local_mxschool_healthpass} hp',
                      '{user} u ON hp.userid = u.id', '{local_mxschool_student} stu ON hp.userid = stu.userid',
 			 	  '{local_mxschool_faculty} fac ON hp.userid = fac.userid');
+	  // Get everything unless there are filters
 	  $where = array('u.deleted = 0');
-	  $starttime = generate_datetime('01/01/2020'); // defualt start and endtime
+	  // Define defualt start and endtime
+	  $starttime = generate_datetime('01/01/2020');
 	  $endtime = generate_datetime(time());
 	  $endtime->modify('+1 day');
+	  // If filtering by date, redefine start and endtime accordingly and append to where[]
 	  if ($filter->date) {
   		 $starttime = generate_datetime($filter->date);
 		 $endtime = clone $starttime;
@@ -70,9 +80,11 @@
 		 $where[] = "hp.form_submitted < {$endtime->getTimestamp()}";
 
   	  }
+	  // If filtering by status, append to where[] accordingly
        if ($filter->status) {
            $where[] = "hp.status = '{$filter->status}'";
        }
+	  // If filtering by user_type, append to where[] accordingly
 	  if ($filter->user_type) {
 		  if($filter->user_type == 'student') {
 			  $where[] = "stu.userid IS NOT NULL";
@@ -81,9 +93,13 @@
 			  $where[] = "fac.userid IS NOT NULL";
 		  }
 	  }
+	  // If filtering by not submitted, completely change SQL
+	  // Query the database based on users rather than forms
 	  if($filter->submitted == '0') {
-		  $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS latest_submission"); // show only the name and submission columns
+		  // Show only the name and the latest submission
+		  $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS latest_submission");
 		  $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
+		  // Show only users who have not submitted a form during the given day
 	       $where = array("u.deleted = 0", "u.id NOT IN
 		  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
 			{$starttime->getTimestamp()} AND form_submitted <= {$endtime->getTimestamp()}) GROUP BY u.id");
@@ -154,7 +170,7 @@
    protected function col_time_submitted($values) {
 	   return $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted) : '';
    }
-
+   // Display 'Never' rather than null if the user has never submitted a form
    protected function col_latest_submission($values) {
 	return $values->latest_submission ? format_date('n/j/y g:i A', $values->latest_submission) : 'Never';
    }

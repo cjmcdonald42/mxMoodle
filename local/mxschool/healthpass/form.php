@@ -28,9 +28,10 @@
  require(__DIR__.'/../../../config.php');
  require_once(__DIR__.'/../locallib.php');
 
-// All members of the community access this form.
+ // All members of the community access this form.
  require_login();
 
+ // If Healthpass is disabled, redirect.
  if(get_config('local_mxschool', 'healthpass_enabled')=='0') {
 	 redirect_to_fallback();
  }
@@ -39,6 +40,7 @@
  setup_mxschool_page('form', 'healthpass');
  $isstudent = user_is_student();
 
+ // The fields in the database to query, and the corresponding $data value.
  $queryfields = array(
      'local_mxschool_healthpass' => array(
          'abbreviation' => 'hif',
@@ -50,33 +52,37 @@
      )
  );
 
-
  // Create a new record each time this form is submitted.
  $data = new stdClass();
  $data->id = $id;
  $data->timecreated = time();
  $data->isstudent = $isstudent ? '1' : '0';
 
+ // Check if the user is a Healthpass Admin
  $isManager = has_capability('local/mxschool:manage_healthpass', context_system::instance());
- if($isManager){ // can select from drop down if can manage healthpass
+ // If the user is an admin, will be able to select from a list of all users.
+ if($isManager){
 	 $users = get_user_list();
  }
- else { //else auto populates to users name
+ // Else auto populates to user's name
+ else {
 	 $users = array('name' => $USER->firstname.' '.$USER->lastname);
  }
 
+ // Create form and pass $users and $isManager
  $form = new local_mxschool\local\healthpass\form(array('users' => $users, 'isManager' => $isManager));
  $form->set_data($data);
 
- if($form->is_cancelled()){ // if the cancel button is pressed...
+ if($form->is_cancelled()){ // If the cancel button is pressed...
    redirect($form->get_redirect());
  }
- elseif($data = $form->get_data()) { // if the 'save changes' button is pressed...
-   if(!isset($data->name)) $data->name = $USER->id; // name will not be set if the field is static
-   // switch from 'yes' and 'no' to 1 and 0
+ elseif($data = $form->get_data()) { // If the 'Save Changes' or 'I have no symptoms' button is pressed...
+   // Name will not be set if the field was static, so sets the name here.
+   if(!isset($data->name)) $data->name = $USER->id;
+   // Switch from 'yes' and 'no' to 1 and 0 for the database
    $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
    $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
-   // If not symptoms button pressed, set all symptoms to false
+   // If no symptoms button pressed, set all symptoms to false
    if($data->no_symptoms) {
 	   $data->has_fever = 0;
 	   $data->has_sore_throat = 0;
@@ -96,20 +102,23 @@
 	   $data->has_loss_of_sense = $data->has_loss_of_sense['has_loss_of_sense']=='Yes' ? 1 : 0;
 	   $data->has_short_breath = $data->has_short_breath['has_short_breath']=='Yes' ? 1 : 0;
    }
-   // submit data to podio and get response
+   // Submit data to podio and get response
    $status = podio_submit($data);
+   // The status to be added to the database depends on Podio's response
    $data->status = $status=='Green' ? 'Approved' : 'Denied';
-   // put data in db
+   // Put the form data in the database
    $id = update_record($queryfields, $data);
+   // Successfully submitted message depends on healthpass status
    $response_string = $data->status=='Approved' ?
    				  get_string('healthpass:form:success:approved', 'local_mxschool')
 				  : get_string('healthpass:form:success:denied', 'local_mxschool');
-   // redirect user
+   // Redirect user
    logged_redirect(
        $form->get_redirect(), $response_string, $data->id ? 'update' : 'create'
    );
  }
 
+// Output form to page
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
 
