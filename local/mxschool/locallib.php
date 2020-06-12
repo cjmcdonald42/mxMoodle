@@ -1354,9 +1354,8 @@ function get_healthform_dates() {
 	 Podio::setup($client_id, $client_secret);
 	 Podio::authenticate_with_app($app_id, $app_token);
 	 $item = PodioItem::create($app_id, $attributes, $options);
-	 $item_id = $item->item_id;
 	 // get response
-	 $reponse = PodioItem::get($item_id);
+	 $reponse = PodioItem::get($item->item_id);
 	 return $reponse->fields->offsetGet('status')->values[0]['value'];
  }
 
@@ -1372,7 +1371,7 @@ function get_healthform_dates() {
 	 $today = generate_datetime(time());
 	 $today->modify('midnight');
 	 $healthforms = $DB->get_records_sql(
-		 "SELECT hp.userid, hp.status
+		 "SELECT hp.id, hp.userid, hp.status
 		 FROM {local_mxschool_healthpass} hp
 		 WHERE hp.form_submitted >= {$today->getTimestamp()}"
 	 );
