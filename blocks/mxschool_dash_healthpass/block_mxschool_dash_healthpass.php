@@ -41,7 +41,7 @@ class block_mxschool_dash_healthpass extends block_base {
             return $this->content;
         }
         $this->content = new stdClass();
-        if (get_config('local_mxschool', 'healthpass_enabled')=='Yes' and has_capability('block/mxschool_dash_healthpass:access', context_system::instance())) {
+        if (get_config('local_mxschool', 'healthpass_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
 		  $info = get_todays_healthform_info($USER->id);
 

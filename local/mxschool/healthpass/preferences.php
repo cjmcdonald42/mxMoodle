@@ -41,7 +41,6 @@ $data->client_id = get_config('local_mxschool', 'client_id');
 $data->client_secret = get_config('local_mxschool', 'client_secret');
 $data->app_id = get_config('local_mxschool', 'app_id');
 $data->app_token = get_config('local_mxschool', 'app_token');
-$data->podio_url = get_config('local_mxschool', 'podio_url');
 
 $form = new local_mxschool\local\healthpass\preferences_form();
 $form->set_data($data);
@@ -55,7 +54,6 @@ if ($form->is_cancelled()) {
 	set_config('client_secret', $data->client_secret, 'local_mxschool');
 	set_config('app_id', $data->app_id, 'local_mxschool');
 	set_config('app_token', $data->app_token, 'local_mxschool');
-	set_config('podio_url', $data->podio_url, 'local_mxschool');
      logged_redirect($form->get_redirect(), get_string('healthpass:preferences:success', 'local_mxschool'), 'update');
 }
 

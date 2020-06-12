@@ -31,7 +31,7 @@
 // All members of the community access this form.
  require_login();
 
- if(get_config('local_mxschool', 'healthpass_enabled')=='No') {
+ if(get_config('local_mxschool', 'healthpass_enabled')=='0') {
 	 redirect_to_fallback();
  }
 
