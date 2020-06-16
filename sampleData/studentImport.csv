@@ -1,0 +1,5 @@
+﻿id,userid,dormid,advisorid,healthid,admission_year,grade,gender,boarding_status,boarding_status_next_year,room,phone_number,birthday,picture_filename
+1,4,1,8,1,2020,9,M,B,B,101,,,
+2,5,1,8,2,2020,9,M,B,B,101,,,
+3,6,1,8,3,2020,9,M,B,B,101,,,
+4,7,1,8,4,2020,9,M,B,B,101,,,
