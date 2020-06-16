@@ -25,18 +25,18 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Healthpass Dashboard Block';
-$string['blockname'] = 'MX Health Pass';
+$string['pluginname'] = 'COVIDpass Dashboard Block';
+$string['blockname'] = 'MX COVID Pass';
 
 // Capabilities.
-$string['mxschool_dash_healthpass:addinstance'] = 'Middlesex School: Add Healthpass Dashboard Block';
-$string['mxschool_dash_healthpass:myaddinstance'] = 'Middlesex School: Add Healthpass Block to Dashboard';
-$string['mxschool_dash_healthpass:access'] = 'Middlesex School: Access Healthpass Dashboard Block';
+$string['mxschool_dash_healthpass:addinstance'] = 'Middlesex School: Add COVIDpass Dashboard Block';
+$string['mxschool_dash_healthpass:myaddinstance'] = 'Middlesex School: Add COVIDpass Block to Dashboard';
+$string['mxschool_dash_healthpass:access'] = 'Middlesex School: Access COVIDpass Dashboard Block';
 
 // Privacy.
-$string['privacy:metadata'] = 'MX Healthpass passes intake data to our Podio health system and does not store any user data.';
+$string['privacy:metadata'] = 'MX COVIDpass passes intake data to our Podio health system and does not store any user data.';
 
 // Links.
-$string['healthpass:submit_form'] = 'Submit a Healthpass';
-$string['healthpass:form_approved'] = "Healthpass Approved";
-$string['healthpass:form_denied'] = "Healthpass Denied";
+$string['healthpass:submit_form'] = 'Submit a COVIDpass';
+$string['healthpass:form_approved'] = "COVIDpass Approved";
+$string['healthpass:form_denied'] = "COVIDpass Denied";

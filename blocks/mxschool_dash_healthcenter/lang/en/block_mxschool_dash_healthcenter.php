@@ -37,10 +37,10 @@ $string['mxschool_dash_healthcenter:access'] = 'Middlesex School: Access Healthc
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['healthpass'] = 'Health Pass Module';
-$string['healthpass:submit_form'] = 'Submit a Healthpass Form';
-$string['healthpass:report'] = 'Health Pass Report';
-$string['healthpass:preferences'] = 'Health Pass Preferences';
+$string['healthpass'] = 'COVIDpass Module';
+$string['healthpass:submit_form'] = 'Submit a COVIDpass';
+$string['healthpass:report'] = 'COVIDpass Report';
+$string['healthpass:preferences'] = 'COVIDpass Preferences';
 
 $string['user_management'] = 'User Module';
 $string['user_management:student_report'] = 'Student Report';
