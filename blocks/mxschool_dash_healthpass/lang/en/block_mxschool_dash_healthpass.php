@@ -26,7 +26,7 @@
  */
 
 $string['pluginname'] = 'COVIDpass Dashboard Block';
-$string['blockname'] = 'MX COVID Pass';
+$string['blockname'] = 'MX COVIDPass';
 
 // Capabilities.
 $string['mxschool_dash_healthpass:addinstance'] = 'Middlesex School: Add COVIDpass Dashboard Block';
