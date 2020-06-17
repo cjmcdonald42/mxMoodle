@@ -40,7 +40,7 @@
 	<body style='background-color:lightgreen;'>
 		<div style='text-align:center;'
 		<br><br><br>
-		<h1>Health Pass Approved</h1>
+		<h1>COVIDpass Approved</h1>
 		<br><br>
 		<h2>{$USER->firstname} {$USER->lastname}</h2>
 		<h3>{$date->format('m/d/y')}</h3>
