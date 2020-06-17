@@ -40,6 +40,12 @@ class form extends \local_mxschool\form {
            '96' => '96', '97' => '97', '98' => '98', '99' => '99',
            '100' => '100', '101' => '101', '102' => '102', '103' => '103', '104' => '104', '105' => '105'
          );
+	    $temp_decimals = array(
+		    '.1' => '.1', '.2' => '.2', '.3' => '.3', '.4' => '.4',
+		    '.5' => '.5', '.6' => '.6', '.7' => '.7', '.8' => '.8',
+		    '.9' => '.9'
+	    );
+
 	   // Get $users and $isManager from form page
         $users = $this->_customdata['users'];
 	   $isManager = $this->_customdata['isManager'];
@@ -55,7 +61,10 @@ class form extends \local_mxschool\form {
                 'name' => $isManager ?
 			   array('element' => 'select', 'options' => $users)
 			 : array('element' => 'static', 'text' => $users['name']),
-                'body_temperature' => array('element' => 'select', 'options' => $temps),
+                'body_temperature' => array('element' => 'group', 'children' => array(
+				 'temp' => array('element' => 'select', 'options' => $temps),
+				 'temp_decimal' => array('element' => 'select', 'options' => $temp_decimals)
+			 )),
                 'anyone_sick_at_home' => self::ELEMENT_YES_NO_REQUIRED,
 			 'traveled_internationally' => self::ELEMENT_YES_NO_REQUIRED
             ),
@@ -72,7 +81,8 @@ class form extends \local_mxschool\form {
         $this->set_fields($fields, 'healthpass:form', false, 'local_mxschool', false);
 
         $mform = $this->_form;
-	   $mform->setDefault('body_temperature', '98');
+	   $mform->setDefault('body_temperature_temp', '98');
+	   $mform->setDefault('body_temperature_temp_decimal', '.6');
 
 	   // Create 'I have no symptoms' button and then add 'Save Changes' and 'Cancel' buttons
 	   $mform->addElement($mform->createElement('submit', 'no_symptoms', get_string('healthpass:form:no_symptoms_button', 'local_mxschool')));

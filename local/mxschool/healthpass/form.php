@@ -79,6 +79,8 @@
  elseif($data = $form->get_data()) { // If the 'Save Changes' or 'I have no symptoms' button is pressed...
    // Name will not be set if the field was static, so sets the name here.
    if(!isset($data->name)) $data->name = $USER->id;
+   // Concat the temperature and the decimal into one value for DB
+   $data->body_temperature = $data->body_temperature_temp . $data->body_temperature_temp_decimal;
    // Switch from 'yes' and 'no' to 1 and 0 for the database
    $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
    $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
