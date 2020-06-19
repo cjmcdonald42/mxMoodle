@@ -1401,7 +1401,7 @@ function get_healthform_dates() {
 		 FROM {local_mxschool_podio} po
 		 WHERE po.userid = {$userid}"
 	);
-	forearch($records as $record) {
+	foreach($records as $record) {
 		return $record->podioid;
 	}
  }
