@@ -1332,7 +1332,7 @@ function get_healthform_dates() {
 	 // On Podio, YES is 1, NO is 2
 	 $attributes = array(
 		 'fields' => array(
-			 'contact-name' => $contact_name,
+			 'contact-name' => get_podio_id($data->name),
 			 'review-date' => generate_datetime($data->timecreated)->format('Y-m-d h:i:s'),
 			 'enter-temperature' => $data->body_temperature,
 			 'day-student-is-anyone-in-your-home-positive-for-or-susp' => $data->anyone_sick_at_home==0 ? 2 : 1,
@@ -1386,4 +1386,22 @@ function get_healthform_dates() {
 	 $info->submitted_today = false;
 	 $info->status = 'Unsubmitted';
 	 return $info;
+ }
+
+ /**
+ * Given a userid, returns the user's podio id
+ *
+ * @param int id, the user's id.
+ * @return int podioid, the user's podio id
+ */
+ function get_podio_id($userid) {
+	 global $DB;
+	 $records = $DB->get_records_sql(
+		 "SELECT po.id, po.podioid
+		 FROM {local_mxschool_podio} po
+		 WHERE po.userid = {$userid}"
+	);
+	forearch($records as $record) {
+		return $record->podioid;
+	}
  }
