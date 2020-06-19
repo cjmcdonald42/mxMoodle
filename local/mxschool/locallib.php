@@ -1327,12 +1327,11 @@ function get_healthform_dates() {
 	 $app_id = get_config('local_mxschool', 'app_id');
 	 $app_token = get_config('local_mxschool', 'app_token');
 	 $url = get_config('local_mxschool', 'podio_url');
-	 $contact_name = 1421936959; // not sure how to get this number
 
 	 // On Podio, YES is 1, NO is 2
 	 $attributes = array(
 		 'fields' => array(
-			 'contact-name' => get_podio_id($data->name),
+			 'contact-name' => NULL,
 			 'review-date' => generate_datetime($data->timecreated)->format('Y-m-d h:i:s'),
 			 'enter-temperature' => $data->body_temperature,
 			 'day-student-is-anyone-in-your-home-positive-for-or-susp' => $data->anyone_sick_at_home==0 ? 2 : 1,
@@ -1402,6 +1401,6 @@ function get_healthform_dates() {
 		 WHERE po.userid = {$userid}"
 	);
 	foreach($records as $record) {
-		return $record->podioid;
+		return (int)$record->podioid;
 	}
  }
