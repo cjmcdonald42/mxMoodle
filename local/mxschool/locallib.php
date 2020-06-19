@@ -1281,7 +1281,7 @@ function get_vacation_travel_type_list($mxtransportation = null) {
 function get_user_list() {
 	global $DB;
 	$users = $DB->get_records_sql(
-	    "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS value
+	    "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS value
 	     FROM {user} u
 	     WHERE u.deleted = 0
 	     ORDER BY value"
