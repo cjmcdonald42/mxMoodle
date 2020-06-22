@@ -33,10 +33,7 @@ require_capability('local/mxschool:manage_healthpass', context_system::instance(
 
 // Creeate filters
 $filter = new stdClass();
-$filter->submitted = optional_param('submitted', '', PARAM_RAW);
-$filter->user_type = optional_param('user_type', '', PARAM_RAW);
 $filter->status = optional_param('status', '', PARAM_RAW);
-$filter->date = optional_param('date', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'healthpass');
@@ -45,34 +42,17 @@ setup_mxschool_page('report', 'healthpass');
 $table = new local_mxschool\local\healthpass\table($filter);
 
 // Define filter options as an array with value => display
-$submittedoptions = array(
-	'1' => get_string('healthpass:report:selectsubmitted:true', 'local_mxschool'),
-	'0' => get_string('healthpass:report:selectsubmitted:false', 'local_mxschool')
-);
-$useroptions = array(
-	'student' => get_string('healthpass:report:selectstudents', 'local_mxschool'),
-	'facultystaff' => get_string('healthpass:report:selectfaculty', 'local_mxschool')
-);
 $statusoptions = array(
-	'Approved' => get_string('healthpass:report:selectapproved:true', 'local_mxschool'),
-	'Denied' => get_string('healthpass:report:selectapproved:false', 'local_mxschool')
+	'Approved' => get_string('healthpass:report:status:approved', 'local_mxschool'),
+	'Denied' => get_string('healthpass:report:status:denied', 'local_mxschool'),
+	'Unsubmitted' => get_string('healthpass:report:status:unsubmitted', 'local_mxschool')
 );
-$dateoptions = get_healthform_dates();
 
 // Create dropdowns, where the last parameter is the default value
 $dropdowns = array(
 	new local_mxschool\output\dropdown(
-	    'submitted', $submittedoptions, $filter->submitted
-    ),
-	new local_mxschool\output\dropdown(
-	    'user_type', $useroptions, $filter->user_type, get_string('healthpass:report:selectall', 'local_mxschool')
-    ),
-	new local_mxschool\output\dropdown(
-	    'status', $statusoptions, $filter->status, get_string('healthpass:report:selectall', 'local_mxschool')
-    ),
-    new local_mxschool\output\dropdown(
-	   'date', $dateoptions, $filter->date, get_string('healthpass:report:selectall', 'local_mxschool')
-   )
+	    'status', $statusoptions, $filter->status, get_string('healthpass:report:status:all', 'local_mxschool')
+    )
  );
 
 // Create a 'New Healthform' Button

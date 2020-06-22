@@ -1023,27 +1023,14 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
- $string['healthpass:report:header:has_fever'] = "Fever";
- $string['healthpass:report:header:has_sore_throat'] = "Sore Throat";
- $string['healthpass:report:header:has_cough'] = "Cough";
- $string['healthpass:report:header:has_runny_nose'] = "Diarrhea";
- $string['healthpass:report:header:has_muscle_aches'] = "Body Aches";
- $string['healthpass:report:header:has_loss_of_sense'] = "Loss of Sense";
- $string['healthpass:report:header:has_short_breath'] = "Shortness of Breath?";
- $string['healthpass:report:header:time_submitted'] = "Time Submitted";
- $string['healthpass:report:header:latest_submission'] = "Most Recent Submission";
+ $string['healthpass:report:header:symptoms'] = "Symptoms";
+ $string['healthpass:report:header:time_submitted'] = "Most Recent Submitted";
 
  // Filters.
- $string['healthpass:report:selectapproved:all'] = 'All';
- $string['healthpass:report:selectapproved:true'] = 'Approved';
- $string['healthpass:report:selectapproved:false'] = 'Denied';
- $string['healthpass:report:selectsubmitted:all'] = 'All';
- $string['healthpass:report:selectsubmitted:true'] = 'Submitted';
- $string['healthpass:report:selectsubmitted:false'] = 'Not Submitted';
- $string['healthpass:report:selectall'] = 'All';
- $string['healthpass:report:selectfaculty'] = 'Faculty / Staff';
- $string['healthpass:report:selectstudents'] = 'Students';
- $string['healthpass:report:selectdate:all'] = 'All Dates';
+ $string['healthpass:report:status:all'] = 'Everyone';
+ $string['healthpass:report:status:approved'] = 'Approved';
+ $string['healthpass:report:status:denied'] = 'Denied';
+ $string['healthpass:report:status:unsubmitted'] = 'Unsubmitted';
 
  // Report Buttons.
  $string['healthpass:report:add'] = 'New COVIDPass Form';

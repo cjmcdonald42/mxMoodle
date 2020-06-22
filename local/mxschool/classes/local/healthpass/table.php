@@ -37,142 +37,61 @@
     * @param stdClass $filter Any filtering for the table.
     */
    public function __construct($filter) {
-       global $DB;
-	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('userid', 'status', 'body_temperature', 'has_fever',
-                        'has_sore_throat', 'has_cough', 'has_runny_nose',
-                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted');
-	  // If 'Not Submitted' selected, then there will only be two columns.
-	  if($filter->submitted == '0') {
-		  $columns = array('userid', 'latest_submission');
-	  }
-	  // Get headers from language file
+	  global $DB;
+ 	  // Define the names of the columns. Should match up with the $fields array.
+       $columns = array('userid', 'status', 'body_temperature', 'symptoms', 'time_submitted');
+ 	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthpass:report');
-	  // Define name, status, body_temp, and time_submitted as sortable
-       $sortable = array('userid', 'status', 'body_temperature', 'time_submitted');
-	  // All columns are centered
-       $centered = array('userid', 'status', 'body_temperature', 'has_fever',
-                        'has_sore_throat', 'has_cough', 'has_runny_nose',
-                        'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'time_submitted', 'latest_submission');
+ 	  // Define name, status, body_temp, and time_submitted as sortable
+       $sortable = array('userid', 'status', 'time_submitted');
+ 	  // All columns are centered
+       $centered = array('userid', 'status', 'body_temperature', 'symptoms', 'time_submitted');
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
-	  // The fields to query from the database
-       $fields = array('hp.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
-                        'hp.body_temperature', 'hp.has_fever', 'hp.has_sore_throat',
-                        'hp.has_cough', 'hp.has_runny_nose', 'hp.has_muscle_aches',
-                         'hp.has_loss_of_sense', 'hp.has_short_breath', 'hp.form_submitted AS time_submitted');
-	  // The tables which to query
-       $from = array('{local_mxschool_healthpass} hp',
-                     '{user} u ON hp.userid = u.id', '{local_mxschool_student} stu ON hp.userid = stu.userid',
-			 	  '{local_mxschool_faculty} fac ON hp.userid = fac.userid');
-	  // Get everything unless there are filters
-	  $where = array('u.deleted = 0');
-	  // Define defualt start and endtime
-	  $starttime = generate_datetime('01/01/2020');
-	  $endtime = generate_datetime(time());
-	  $endtime->modify('+1 day');
-	  // If filtering by date, redefine start and endtime accordingly and append to where[]
-	  if ($filter->date) {
-  		 $starttime = generate_datetime($filter->date);
-		 $endtime = clone $starttime;
-    	  	 $endtime->modify('+1 day');
-		 $where[] = "hp.form_submitted >= {$starttime->getTimestamp()}";
-		 $where[] = "hp.form_submitted < {$endtime->getTimestamp()}";
+ 	  // The fields to query from the database
+       $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
+                         'hp.body_temperature', 'hp.symptoms', 'MAX(hp.form_submitted) AS time_submitted');
+ 	  // The tables which to query
+       $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
+ 	  // Get everything unless there are filters
+ 	  $where = array('u.deleted = 0 GROUP BY u.id');
 
-  	  }
-	  // If filtering by status, append to where[] accordingly
-       if ($filter->status) {
-           $where[] = "hp.status = '{$filter->status}'";
-       }
-	  // If filtering by user_type, append to where[] accordingly
-	  if ($filter->user_type) {
-		  if($filter->user_type == 'student') {
-			  $where[] = "stu.userid IS NOT NULL";
-		  }
-		  else if($filter->user_type == 'facultystaff') {
-			  $where[] = "fac.userid IS NOT NULL";
-		  }
-	  }
-	  // If filtering by not submitted, completely change SQL
-	  // Query the database based on users rather than forms
-	  if($filter->submitted == '0') {
-		  // Show only the name and the latest submission
-		  $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", "MAX(hp.form_submitted) AS latest_submission");
-		  $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
-		  // Show only users who have not submitted a form during the given day
-	       $where = array("u.deleted = 0", "u.id NOT IN
-		  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
-			{$starttime->getTimestamp()} AND form_submitted <= {$endtime->getTimestamp()}) GROUP BY u.id");
-	  }
-	  ///"form_submitted < {$starttime->getTimestamp()}"
-       $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-       $this->define_sql($fields, $from, $where, $searchable, $filter->search);
+ 	  // If filtering by status, append to where[] accordingly
+        if ($filter->status) {
+ 		  if($filter->status == 'Unsubmitted') {
+			  $today = generate_datetime(time())->modify('midnight');
+			  array_unshift(
+				$where, "u.id NOT IN
+			  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
+			  	{$today->getTimestamp()})"
+			  );
+ 		  }
+             else array_unshift($where, "hp.status = '{$filter->status}'");
+        }
+
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
 
    /**
     * The following methods reformat boolean values to "Yes" / "No". Any yes's will turn red
     */
 
-   protected function col_has_fever($values) {
-     return isset($values->has_fever) ? $values->has_fever ?
-            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
-   }
-
-   protected function col_has_sore_throat($values) {
-     return isset($values->has_sore_throat) ? $values->has_sore_throat ?
-            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
-   }
-
-   protected function col_has_cough($values) {
-     return isset($values->has_cough) ? $values->has_cough ?
-            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
-   }
-
-   protected function col_has_runny_nose($values) {
-     return isset($values->has_runny_nose) ? $values->has_runny_nose ?
-            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
-   }
-
-   protected function col_has_muscle_aches($values) {
-       return isset($values->has_muscle_aches) ? $values->has_muscle_aches ?
-              "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
-   }
-
-   protected function col_has_loss_of_sense($values) {
-     return isset($values->has_loss_of_sense) ? $values->has_loss_of_sense ?
-            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
-   }
-
-   protected function col_has_short_breath($values) {
-     return isset($values->has_short_breath) ? $values->has_short_breath ?
-            "<p style='color:red;'>".get_string('yes')."</p>" : get_string('no') : '';
-   }
-
-   protected function col_body_temperature($values) {
-     return isset($values->body_temperature) ? $values->body_temperature != 98 ?
-            "<p style='color:red;'>".$values->body_temperature."</p>" : $values->body_temperature
-            : '';
-   }
-
    protected function col_status($values) {
-      if(isset($values->status)) {
-            if($values->status == 'Approved') {
-              return "<p style='color:green;'>".$values->status."</p>";
-            }
-            else if($values->status == 'Denied') {
-              return "<p style='color:red;'>".$values->status."</p>";
-            }
-            else return $values->status;
-      }
-      else return '';
+	  $today = generate_datetime(time())->modify('midnight');
+	  if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted)) {
+		 return "<p style='color:goldenrod;'>Unsubmitted</p>";
+	  }
+       else if($values->status == 'Approved') {
+         return "<p style='color:green;'>".$values->status."</p>";
+       }
+       else if($values->status == 'Denied') {
+         return "<p style='color:red;'>".$values->status."</p>";
+       }
+       else return '';
    }
 
    protected function col_time_submitted($values) {
-	   return $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted) : '';
+	   return $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted) : 'Never';
    }
-   // Display 'Never' rather than null if the user has never submitted a form
-   protected function col_latest_submission($values) {
-	return $values->latest_submission ? format_date('n/j/y g:i A', $values->latest_submission) : 'Never';
-   }
-
 }
