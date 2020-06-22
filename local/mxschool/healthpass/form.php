@@ -46,8 +46,7 @@
          'abbreviation' => 'hif',
          'fields' => array(
              'id', 'userid' => 'name', 'status', 'body_temperature', 'anyone_sick_at_home', 'traveled_internationally',
-             'has_fever', 'has_sore_throat', 'has_cough', 'has_runny_nose',
-             'has_muscle_aches', 'has_loss_of_sense', 'has_short_breath', 'form_submitted' => 'timecreated'
+             'symptoms', 'form_submitted' => 'timecreated'
          )
      )
  );
@@ -84,30 +83,26 @@
    // Switch from 'yes' and 'no' to 1 and 0 for the database
    $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
    $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
-   // If no symptoms button pressed, set all symptoms to false
+   // If no symptoms button pressed, set symptoms to NONE
    if($data->no_symptoms) {
-	   $data->has_fever = 0;
-	   $data->has_sore_throat = 0;
-	   $data->has_cough = 0;
-	   $data->has_runny_nose = 0;
-	   $data->has_muscle_aches = 0;
-	   $data->has_loss_of_sense = 0;
-	   $data->has_short_breath = 0;
+	   $data->symptoms = 'None';
    }
-   // If save changes button pressed, switch from 'yes' and 'no' to 1 and 0 for db
+   // If save changes button pressed, add symptoms to list if yes
    else {
-	   $data->has_fever = $data->has_fever['has_fever']=='Yes' ? 1 : 0;
-	   $data->has_sore_throat = $data->has_sore_throat['has_sore_throat']=='Yes' ? 1 : 0;
-	   $data->has_cough = $data->has_cough['has_cough']=='Yes' ? 1 : 0;
-	   $data->has_runny_nose = $data->has_runny_nose['has_runny_nose']=='Yes' ? 1 : 0;
-	   $data->has_muscle_aches = $data->has_muscle_aches['has_muscle_aches']=='Yes' ? 1 : 0;
-	   $data->has_loss_of_sense = $data->has_loss_of_sense['has_loss_of_sense']=='Yes' ? 1 : 0;
-	   $data->has_short_breath = $data->has_short_breath['has_short_breath']=='Yes' ? 1 : 0;
+	   $data->symptoms = "";
+	   if($data->symptom0 == 'Yes') $data->symptom0 .= get_string("healthpass:symptom0", 'local_mxschool').", ";
+	   if($data->symptom1 == 'Yes') $data->symptoms .= get_string("healthpass:symptom1", 'local_mxschool').", ";
+	   if($data->symptom2 == 'Yes') $data->symptoms .= get_string("healthpass:symptom2", 'local_mxschool').", ";
+	   if($data->symptom3 == 'Yes') $data->symptoms .= get_string("healthpass:symptom3", 'local_mxschool').", ";
+	   if($data->symptom4 == 'Yes') $data->symptoms .= get_string("healthpass:symptom4", 'local_mxschool').", ";
+	   if($data->symptom5 == 'Yes') $data->symptoms .= get_string("healthpass:symptom5", 'local_mxschool').", ";
+	   if($data->symptom6 == 'Yes') $data->symptoms .= get_string("healthpass:symptom6", 'local_mxschool').", ";
+	   // add more symptoms here
+	   if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
+	   else $data_symptoms = 'None';
    }
-   // Submit data to podio and get response
-   $status = podio_submit($data);
-   // The status to be added to the database depends on Podio's response
-   $data->status = $status=='Green' ? 'Approved' : 'Denied';
+   // Logic for approve/deny healthpass TODO: Update with max_temp config
+   $data->status = $data->symptoms == 'None' ? 'Approved' : 'Denied';
    // Put the form data in the database
    $id = update_record($queryfields, $data);
    // Successfully submitted message depends on healthpass status

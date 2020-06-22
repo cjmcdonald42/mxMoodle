@@ -1001,13 +1001,13 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:health_info:anyone_sick_at_home'] = "Have you been in contact with anyone who has or is suspected to have COVID19?";
  $string['healthpass:form:health_info:traveled_internationally'] = "Have you or has anyone you live with recently been tested for COVID19?";
  $string['healthpass:form:symptoms'] = "Do you have:";
- $string['healthpass:form:symptoms:has_fever'] = "a fever?";
- $string['healthpass:form:symptoms:has_sore_throat'] = "a sore throat?";
- $string['healthpass:form:symptoms:has_cough'] = "a new cough (not related to a chronic condition)?";
- $string['healthpass:form:symptoms:has_runny_nose'] = "diarrhea (new or worsening)?";
- $string['healthpass:form:symptoms:has_muscle_aches'] = "body aches?";
- $string['healthpass:form:symptoms:has_loss_of_sense'] = "a sudden loss of sense of taste or smell?";
- $string['healthpass:form:symptoms:has_short_breath'] = "shortness of breath?";
+ $string['healthpass:form:symptoms:symptom0'] = "a fever?";
+ $string['healthpass:form:symptoms:symptom1'] = "a sore throat?";
+ $string['healthpass:form:symptoms:symptom2'] = "a new cough (not related to a chronic condition)?";
+ $string['healthpass:form:symptoms:symptom3'] = "diarrhea (new or worsening)?";
+ $string['healthpass:form:symptoms:symptom4'] = "body aches?";
+ $string['healthpass:form:symptoms:symptom5'] = "a sudden loss of sense of taste or smell?";
+ $string['healthpass:form:symptoms:symptom6'] = "shortness of breath?";
 
  // Form Reponses.
  $string['healthpass:form:success:approved'] = "COVIDPass Approved";
@@ -1066,3 +1066,12 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
 
  // Form Responses.
  $string['healthpass:preferences:success'] = 'COVIDPass Preferences Updated';
+
+ /* Healthpass Symptoms. */
+ $string['healthpass:symptom0'] = 'Fever';
+ $string['healthpass:symptom1'] = 'Sore Throat';
+ $string['healthpass:symptom2'] = 'Cough';
+ $string['healthpass:symptom3'] = 'Diarrhea';
+ $string['healthpass:symptom4'] = 'Body Aches';
+ $string['healthpass:symptom5'] = 'Loss of Sense';
+ $string['healthpass:symptom6'] = 'Shortness of Breath';

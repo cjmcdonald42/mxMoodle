@@ -1319,6 +1319,7 @@ function get_healthform_dates() {
 *
 * @param stdClass data, the form data
 * @return String response. Whether or not the student was approved or denied
+* NOTE: DEPRECATED
 */
  function podio_submit($data) {
 	 // TODO: Make these variables configurable
@@ -1385,22 +1386,4 @@ function get_healthform_dates() {
 	 $info->submitted_today = false;
 	 $info->status = 'Unsubmitted';
 	 return $info;
- }
-
- /**
- * Given a userid, returns the user's podio id
- *
- * @param int id, the user's id.
- * @return int podioid, the user's podio id
- */
- function get_podio_id($userid) {
-	 global $DB;
-	 $records = $DB->get_records_sql(
-		 "SELECT po.id, po.podioid
-		 FROM {local_mxschool_podio} po
-		 WHERE po.userid = {$userid}"
-	);
-	foreach($records as $record) {
-		return (int)$record->podioid;
-	}
  }
