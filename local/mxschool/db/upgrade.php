@@ -856,7 +856,15 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
 
-    if($oldversion < 2020062201) {
+    if($oldversion < 2020062202) {
+
+        // Define table local_mxschool_healthpass to be dropped.
+        $table = new xmldb_table('local_mxschool_healthpass');
+
+        // Conditionally launch drop table for local_mxschool_healthpass.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
 
         // Define table local_mxschool_healthpass to be created.
         $table = new xmldb_table('local_mxschool_healthpass');
@@ -897,7 +905,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $dbman->add_key($table, $key);
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2020062201, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2020062202, 'local', 'mxschool');
     }
 
       return true;
