@@ -73,9 +73,6 @@
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
 
-   /**
-    * The following methods reformat boolean values to "Yes" / "No". Any yes's will turn red
-    */
 
    protected function col_status($values) {
 	  $today = generate_datetime(time())->modify('midnight');
@@ -93,5 +90,17 @@
 
    protected function col_time_submitted($values) {
 	   return $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted) : 'Never';
+   }
+
+   protected function col_body_temperature($values) {
+	   $today = generate_datetime(time())->modify('midnight')->getTimestamp();
+	   if(!isset($values->time_submitted) or $values->time_submitted < $today) return '';
+	   else return $values->body_temperature;
+   }
+
+   protected function col_symptoms($values) {
+		$today = generate_datetime(time())->modify('midnight')->getTimestamp();
+		if(!isset($values->symptoms) or $values->time_submitted < $today) return '';
+		else return $values->symptoms;
    }
 }
