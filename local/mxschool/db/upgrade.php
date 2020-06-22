@@ -856,30 +856,26 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
 
-    if($oldversion < 2020060101) {
-         // Define table healthpass to be created.
+    if($oldversion < 2020062201) {
+
+        // Define table local_mxschool_healthpass to be created.
         $table = new xmldb_table('local_mxschool_healthpass');
 
-        // Adding fields to table healthpass.
+        // Adding fields to table local_mxschool_healthpass.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('status', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
         $table->add_field('body_temperature', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('anyone_sick_at_home', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
-        $table->add_field('has_fever', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('has_sore_throat', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('has_cough', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('has_runny_nose', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('has_muscle_aches', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('has_loss_of_sense', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('has_short_breath', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('traveled_internationally', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
+        $table->add_field('symptoms', XMLDB_TYPE_CHAR, '300', null, null, null, null);
         $table->add_field('form_submitted', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
-        // Adding keys to table healthpass.
+        // Adding keys to table local_mxschool_healthpass.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
         $table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
 
-        // Conditionally launch create table for healthpass.
+        // Conditionally launch create table for local_mxschool_healthpass.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
@@ -901,41 +897,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $dbman->add_key($table, $key);
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2020060801, 'local', 'mxschool');
-    }
-
-    if ($oldversion < 202006085) {
-
-        // Define field traveled_internationally to be added to local_mxschool_healthpass.
-        $table = new xmldb_table('local_mxschool_healthpass');
-        $field = new xmldb_field('traveled_internationally', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'anyone_sick_at_home');
-
-        // Conditionally launch add field traveled_internationally.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define table local_mxschool_podio to be created.
-        $table = new xmldb_table('local_mxschool_podio');
-
-        // Adding fields to table local_mxschool_podio.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('podioid', XMLDB_TYPE_CHAR, '15', null, XMLDB_NOTNULL, null, null);
-
-        // Adding keys to table local_mxschool_podio.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-        $table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
-
-        // Conditionally launch create table for local_mxschool_podio.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 202006085, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2020062201, 'local', 'mxschool');
     }
 
       return true;

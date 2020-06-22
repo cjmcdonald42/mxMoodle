@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20190808" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20200622" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -296,25 +296,8 @@
         <FIELD NAME="body_temperature" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's temperature"/>
         <FIELD NAME="anyone_sick_at_home" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has anyone sick at home"/>
         <FIELD NAME="traveled_internationally" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has traveled internationally"/>
-        <FIELD NAME="has_fever" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="has_sore_throat" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="has_cough" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="has_runny_nose" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="has_muscle_aches" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="has_loss_of_sense" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="has_short_breath" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="symptoms" TYPE="char" LENGTH="300" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="form_submitted" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Timestamp of when the form was submitted"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
-      </KEYS>
-    </TABLE>
-    <TABLE NAME="local_mxschool_podio" COMMENT="mxschool podio table - stores user's podio id">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id"/>
-        <FIELD NAME="podioid" TYPE="char" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="the user's podioid"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
