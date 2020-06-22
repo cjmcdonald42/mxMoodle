@@ -90,7 +90,7 @@
    // If save changes button pressed, add symptoms to list if yes
    else {
 	   $data->symptoms = "";
-	   if($data->symptom0 == 'Yes') $data->symptom0 .= get_string("healthpass:symptom0", 'local_mxschool').", ";
+	   if($data->symptom0 == 'Yes') $data->symptoms .= get_string("healthpass:symptom0", 'local_mxschool').", ";
 	   if($data->symptom1 == 'Yes') $data->symptoms .= get_string("healthpass:symptom1", 'local_mxschool').", ";
 	   if($data->symptom2 == 'Yes') $data->symptoms .= get_string("healthpass:symptom2", 'local_mxschool').", ";
 	   if($data->symptom3 == 'Yes') $data->symptoms .= get_string("healthpass:symptom3", 'local_mxschool').", ";
