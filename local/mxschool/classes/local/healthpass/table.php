@@ -66,6 +66,12 @@
 			  	{$today->getTimestamp()})"
 			  );
  		  }
+		  else if($filter->status == 'Submitted') {
+			  $today = generate_datetime(time())->modify('midnight');
+			  array_unshift(
+				  $where, "u.id IN (SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
+			  			{$today->getTimestamp()})");
+		  }
              else array_unshift($where, "hp.status = '{$filter->status}'");
         }
 

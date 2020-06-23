@@ -45,6 +45,7 @@ $table = new local_mxschool\local\healthpass\table($filter);
 $statusoptions = array(
 	'Approved' => get_string('healthpass:report:status:approved', 'local_mxschool'),
 	'Denied' => get_string('healthpass:report:status:denied', 'local_mxschool'),
+	'Submitted' => get_string('healthpass:report:status:submitted', 'local_mxschool'),
 	'Unsubmitted' => get_string('healthpass:report:status:unsubmitted', 'local_mxschool')
 );
 
