@@ -39,7 +39,7 @@
    public function __construct($filter) {
 	  global $DB;
  	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('userid', 'status', 'body_temperature', 'symptoms', 'time_submitted');
+       $columns = array('userid', 'status', 'body_temperature', 'symptoms', 'override_status', 'comment', 'time_submitted');
  	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthpass:report');
  	  // Define name, status, body_temp, and time_submitted as sortable
@@ -50,7 +50,7 @@
 
  	  // The fields to query from the database
        $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
-                         'hp.body_temperature', 'hp.symptoms', 'hp.form_submitted AS time_submitted');
+                         'hp.body_temperature', 'hp.symptoms', 'hp.override_status', 'hp.comment', 'hp.form_submitted AS time_submitted');
  	  // The tables which to query
        $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
  	  // Get everything unless there are filters

@@ -1024,6 +1024,8 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
  $string['healthpass:report:header:symptoms'] = "Symptoms";
+ $string['healthpass:report:header:override_status'] = "Override Status";
+ $string['healthpass:report:header:comment'] = "Comment";
  $string['healthpass:report:header:time_submitted'] = "Most Recent Submitted";
 
  // Filters.
