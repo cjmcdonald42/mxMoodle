@@ -46,7 +46,7 @@
          'abbreviation' => 'hif',
          'fields' => array(
              'id', 'userid' => 'name', 'status', 'body_temperature', 'anyone_sick_at_home', 'traveled_internationally',
-             'symptoms', 'form_submitted' => 'timecreated'
+             'symptoms', 'override_status', 'form_submitted' => 'timecreated'
          )
      )
  );
@@ -103,8 +103,25 @@
    }
    // Logic for approve/deny healthpass TODO: Update with max_temp config
    $data->status = $data->symptoms == 'None' ? 'Approved' : 'Denied';
-   // Put the form data in the database
-   $id = update_record($queryfields, $data);
+   $data->override_status = 'Not Overriden';
+   // Add the user's form data to the database
+   global $DB;
+   if(!$DB->record_exists("local_mxschool_healthpass", array("userid" => "{$data->name}"))) {
+	   $id = update_record($queryfields, $data);
+   }
+   // if a healthpass record already exists for the user, update it.
+   else {
+	   $sql = "
+	   		UPDATE {local_mxschool_healthpass} hp
+			SET hp.status = '{$data->status}', hp.body_temperature = {$data->body_temperature},
+			    hp.anyone_sick_at_home = {$data->anyone_sick_at_home},
+			    hp.traveled_internationally = {$data->traveled_internationally},
+			    hp.symptoms = '{$data->symptoms}', hp.override_status = '{$data->override_status}',
+			    hp.form_submitted = {$data->timecreated}
+			WHERE hp.userid = {$data->name}
+	   		";
+	   $id = $DB->execute($sql);
+   }
    // Successfully submitted message depends on healthpass status
    $response_string = $data->status=='Approved' ?
    				  get_string('healthpass:form:success:approved', 'local_mxschool')

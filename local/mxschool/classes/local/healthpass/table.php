@@ -50,11 +50,11 @@
 
  	  // The fields to query from the database
        $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
-                         'hp.body_temperature', 'hp.symptoms', 'MAX(hp.form_submitted) AS time_submitted');
+                         'hp.body_temperature', 'hp.symptoms', 'hp.form_submitted AS time_submitted');
  	  // The tables which to query
        $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
  	  // Get everything unless there are filters
- 	  $where = array('u.deleted = 0 GROUP BY u.id');
+ 	  $where = array('u.deleted = 0');
 
  	  // If filtering by status, append to where[] accordingly
         if ($filter->status) {
