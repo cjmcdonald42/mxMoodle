@@ -908,6 +908,27 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020062202, 'local', 'mxschool');
     }
 
+    if($oldversion < 2020062301) {
+        // Define field id to be added to local_mxschool_healthpass.
+        $table = new xmldb_table('local_mxschool_healthpass');
+        $field = new xmldb_field('override_status', XMLDB_TYPE_CHAR, '20', null, null, null, null, 'symptoms');
+
+        // Conditionally launch add field id.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('comment', XMLDB_TYPE_CHAR, '500', null, null, null, null, 'override_status');
+
+        // Conditionally launch add field comment.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2020062301, 'local', 'mxschool');
+    }
+
       return true;
 
  }

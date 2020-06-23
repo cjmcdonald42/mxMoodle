@@ -1027,9 +1027,10 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:header:time_submitted'] = "Most Recent Submitted";
 
  // Filters.
- $string['healthpass:report:status:all'] = 'Everyone';
+ $string['healthpass:report:status:all'] = 'All';
  $string['healthpass:report:status:approved'] = 'Approved';
  $string['healthpass:report:status:denied'] = 'Denied';
+ $string['healthpass:report:status:submitted'] = 'Submitted';
  $string['healthpass:report:status:unsubmitted'] = 'Unsubmitted';
 
  // Report Buttons.

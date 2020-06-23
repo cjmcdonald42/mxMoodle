@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20200622" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20200623" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -297,6 +297,8 @@
         <FIELD NAME="anyone_sick_at_home" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has anyone sick at home"/>
         <FIELD NAME="traveled_internationally" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Whether or not the user has traveled internationally"/>
         <FIELD NAME="symptoms" TYPE="char" LENGTH="300" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="override_status" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="comment" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="form_submitted" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Timestamp of when the form was submitted"/>
       </FIELDS>
       <KEYS>
