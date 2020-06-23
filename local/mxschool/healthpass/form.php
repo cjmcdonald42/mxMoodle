@@ -103,7 +103,7 @@
    }
    // Logic for approve/deny healthpass TODO: Update with max_temp config
    $data->status = $data->symptoms == 'None' ? 'Approved' : 'Denied';
-   $data->override_status = 'Not Overriden';
+   $data->override_status = 'Not Overridden';
    // Add the user's form data to the database
    global $DB;
    if(!$DB->record_exists("local_mxschool_healthpass", array("userid" => "{$data->name}"))) {

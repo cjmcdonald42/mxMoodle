@@ -29,6 +29,9 @@
 
  defined('MOODLE_INTERNAL') || die();
 
+ use local_mxschool\output\action_button;
+ use local_mxschool\output\checkbox;
+
  class table extends \local_mxschool\table {
 
    /**
@@ -45,7 +48,7 @@
  	  // Define name, status, body_temp, and time_submitted as sortable
        $sortable = array('userid', 'status', 'time_submitted');
  	  // All columns are centered
-       $centered = array('userid', 'status', 'body_temperature', 'symptoms', 'time_submitted');
+       $centered = array('userid', 'status', 'body_temperature', 'symptoms', 'override_status', 'time_submitted');
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
  	  // The fields to query from the database
@@ -109,4 +112,25 @@
 		if(!isset($values->symptoms) or $values->time_submitted < $today) return '';
 		else return $values->symptoms;
    }
+
+   protected function col_override_status($values) {
+	   global $PAGE;
+	   $output = $PAGE->get_renderer('local_mxschool');
+	   switch ($values->override_status) {
+		   case 'Not Overridden':
+					return "<a style='
+								background-color:dodgerblue;
+						          color:white;
+								padding: 8px 16px;
+						          text-align:center;
+						          cursor:pointer;'
+						   id='review' href='#' onclick='reload()'
+						   target='_blank'>Review</a>
+						   <script>function reload() {
+						   		window.location.reload(false);
+						   }</script>";
+					break;
+		   }
+		   return '';
+	}
 }
