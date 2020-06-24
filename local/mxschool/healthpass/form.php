@@ -81,8 +81,8 @@
    // Concat the temperature and the decimal into one value for DB
    $data->body_temperature = $data->body_temperature_temp . $data->body_temperature_temp_decimal;
    // Switch from 'yes' and 'no' to 1 and 0 for the database
-   $data->anyone_sick_at_home = $data->anyone_sick_at_home['anyone_sick_at_home']=='Yes' ? 1 : 0;
-   $data->traveled_internationally = $data->traveled_internationally['traveled_internationally']=='Yes' ? 1 : 0;
+   $data->anyone_sick_at_home = $data->anyone_sick_at_home=='Yes' ? 1 : 0;
+   $data->traveled_internationally = $data->traveled_internationally=='Yes' ? 1 : 0;
    // If no symptoms button pressed, set symptoms to NONE
    if($data->no_symptoms) {
 	   $data->symptoms = 'None';
@@ -101,8 +101,13 @@
 	   if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
 	   else $data_symptoms = 'None';
    }
-   // Logic for approve/deny healthpass TODO: Update with max_temp config
-   $data->status = $data->symptoms == 'None' ? 'Approved' : 'Denied';
+   // Logic for approve/deny healthpass
+   if($data->symptoms=='None' and $data->body_temperature <= get_config('local_mxschool', 'healthpass_max_body_temp')
+   	 and !$data->anyone_sick_at_home and !$data->traveled_internationally) {
+		 $data->status = 'Approved';
+	 }
+   else $data->status = 'Denied';
+   // Override status always should start with not_overridden
    $data->override_status = 'Not Overridden';
    // Add the user's form data to the database
    global $DB;
