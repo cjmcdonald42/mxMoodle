@@ -61,8 +61,8 @@
 
  	  // If filtering by status, append to where[] accordingly
         if ($filter->status) {
+		  $today = generate_datetime(time())->modify('midnight');
  		  if($filter->status == 'Unsubmitted') {
-			  $today = generate_datetime(time())->modify('midnight');
 			  array_unshift(
 				$where, "u.id NOT IN
 			  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
@@ -70,12 +70,13 @@
 			  );
  		  }
 		  else if($filter->status == 'Submitted') {
-			  $today = generate_datetime(time())->modify('midnight');
 			  array_unshift(
 				  $where, "u.id IN (SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
 			  			{$today->getTimestamp()})");
 		  }
-             else array_unshift($where, "hp.status = '{$filter->status}'");
+             $where[] = "hp.status = '{$filter->status}'";
+		   $where[] = "u.id IN (SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
+				 {$today->getTimestamp()})";
         }
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
@@ -115,7 +116,9 @@
 
    protected function col_override_status($values) {
 	   global $PAGE;
+	   $today = generate_datetime(time())->modify('midnight');
 	   $output = $PAGE->get_renderer('local_mxschool');
+	   if($values->time_submitted < $today->getTimestamp()) return '';
 	   switch ($values->override_status) {
 		   case 'Not Overridden':
 					return "<a style='
@@ -131,6 +134,6 @@
 						   }</script>";
 					break;
 		   }
-		   return '';
+		   return 'ERROR';
 	}
 }
