@@ -129,28 +129,30 @@
 						          text-align:center;
 						          cursor:pointer;'
 						   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
-						   target='_blank'>Review</button>";
+						   target='_blank'>".get_string('healthpass:report:review_button', 'local_mxschool')."</button>";
 					break;
 			case 'Under Review':
-					return "<p>Under Review<p><form method='POST'><button style='
+					return "<p>".get_string('healthpass:report:under_review', 'local_mxschool').
+						  "</p><form method='POST'><button style='
 								background-color:peru;
 								color:white;
 								text-align:center;
 								cursor:pointer;'
 						   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
-						   target='_blank'>Override</button>";
+						   target='_blank'>".get_string('healthpass:report:override_button', 'local_mxschool')."</button>";
   					break;
 			case 'Overridden':
-					return "<p>Overridden</p><form method='POST'><button style='
+					return "<p>".get_string('healthpass:report:overridden', 'local_mxschool').
+						  "</p><form method='POST'><button style='
 								background-color:lightcoral;
 								color:black;
 								text-align:center;
 								cursor:pointer;'
 						   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
-						   target='_blank'>Undo Override</button>";
+						   target='_blank'>".get_string('healthpass:report:undo_override_button', 'local_mxschool')."</button>";
   					break;
 			default:
-				return "ERROR";
+					return "ERROR";
 					break;
 		}
 	}

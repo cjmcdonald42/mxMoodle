@@ -1037,6 +1037,12 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
 
  // Report Buttons.
  $string['healthpass:report:add'] = 'New COVIDPass Form';
+ $string['healthpass:report:review_button'] = 'Review';
+ $string['healthpass:report:override_button'] = 'Override';
+ $string['healthpass:report:undo_override_button'] = 'Undo Override';
+ $string['healthpass:report:under_review'] = 'Under Review';
+ $string['healthpass:report:overridden'] = 'Overridden';
+
 
  /* Healthpass Preferences.  */
 
