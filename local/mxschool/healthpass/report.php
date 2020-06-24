@@ -35,11 +35,12 @@ require_capability('local/mxschool:manage_healthpass', context_system::instance(
 $filter = new stdClass();
 $filter->status = optional_param('status', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
+$download = optional_param('download', '', PARAM_ALPHA);
 
 setup_mxschool_page('report', 'healthpass');
 
 // Create table and pass the filters
-$table = new local_mxschool\local\healthpass\table($filter);
+$table = new local_mxschool\local\healthpass\table($filter, $download);
 
 // Define filter options as an array with value => display
 $statusoptions = array(
@@ -65,6 +66,11 @@ $buttons = array(
 
 // Output report to page
 $output = $PAGE->get_renderer('local_mxschool');
+if ($table->is_downloading()) {
+    $renderable = new local_mxschool\output\report_table($table);
+    echo $output->render($renderable);
+    die();
+}
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
 echo $output->header();

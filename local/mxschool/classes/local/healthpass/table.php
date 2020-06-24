@@ -38,9 +38,10 @@
     * Creates a new table.
     *
     * @param stdClass $filter Any filtering for the table.
+    * @param string download, indicates if the table is downloading
     */
-   public function __construct($filter) {
-	  global $DB;
+   public function __construct($filter, $download) {
+	  $this->is_downloading($download, 'Healthpass', 'Healthpass');
  	  // Define the names of the columns. Should match up with the $fields array.
        $columns = array('userid', 'status', 'body_temperature', 'symptoms', 'override_status', 'comment', 'time_submitted');
  	  // Get headers from language file
@@ -87,8 +88,9 @@
    protected function col_status($values) {
 	  $today = generate_datetime(time())->modify('midnight');
 	  if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted)) {
-		 return "<p style='color:goldenrod;'>Unsubmitted</p>";
+		 return $this->is_downloading() ? 'Unsubmitted' : "<p style='color:goldenrod;'>Unsubmitted</p>";
 	  }
+	  if($this->is_downloading()) return $values->status;
        else if($values->status == 'Approved') {
          return "<p style='color:green;'>".$values->status."</p>";
        }
@@ -117,6 +119,7 @@
    protected function col_override_status($values) {
 	   $today = generate_datetime(time())->modify('midnight');
 	   if($values->time_submitted < $today->getTimestamp()) return '';
+	   if($this->is_downloading()) return $values->override_status;
 	   if(isset($_POST["update_override{$values->id}"])) {
 		   update_healthform_override_status($values->id, $values->status, $values->override_status);
 		   echo "<script>window.location.reload();</script>";
@@ -158,6 +161,7 @@
     }
 
     protected function col_comment($values) {
+	    if($this->is_downloading()) return $values->comment;
 	    if(isset($_POST["comment_submit{$values->id}"])) {
 		    update_healthform_comment($values->id, $_POST["comment{$values->id}"]);
 		    echo "<script>window.location.reload();</script>";
