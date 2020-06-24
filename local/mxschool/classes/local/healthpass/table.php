@@ -115,25 +115,43 @@
    }
 
    protected function col_override_status($values) {
-	   global $PAGE;
 	   $today = generate_datetime(time())->modify('midnight');
-	   $output = $PAGE->get_renderer('local_mxschool');
 	   if($values->time_submitted < $today->getTimestamp()) return '';
+	   if(isset($_POST["update_override{$values->id}"])) {
+		   update_healthform_override_status($values->id, $values->status, $values->override_status);
+		   echo "<script>window.location.reload();</script>";
+	   }
 	   switch ($values->override_status) {
 		   case 'Not Overridden':
-					return "<a style='
+					return "<form method='POST'><button style='
 								background-color:dodgerblue;
 						          color:white;
-								padding: 8px 16px;
 						          text-align:center;
 						          cursor:pointer;'
-						   id='review' href='#' onclick='reload()'
-						   target='_blank'>Review</a>
-						   <script>function reload() {
-						   		window.location.reload(false);
-						   }</script>";
+						   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
+						   target='_blank'>Review</button>";
 					break;
-		   }
-		   return 'ERROR';
+			case 'Under Review':
+					return "<p>Under Review<p><form method='POST'><button style='
+								background-color:peru;
+								color:white;
+								text-align:center;
+								cursor:pointer;'
+						   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
+						   target='_blank'>Override</button>";
+  					break;
+			case 'Overridden':
+					return "<p>Overridden</p><form method='POST'><button style='
+								background-color:lightcoral;
+								color:black;
+								text-align:center;
+								cursor:pointer;'
+						   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
+						   target='_blank'>Undo Override</button>";
+  					break;
+			default:
+				return "ERROR";
+					break;
+		}
 	}
 }
