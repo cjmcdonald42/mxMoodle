@@ -1049,19 +1049,18 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  // Form Headers.
  $string['healthpass:preferences'] = 'COVIDPass Preferences';
  $string['healthpass:preferences:preferences'] = 'Preferences';
+ $string['healthpass:preferences:email_info'] = 'Email Info';
 
  // Field Labels.
  $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDPass';
  $string['healthpass:preferences:preferences:reset_time'] = 'At What Time Should COVIDPass Reset? (Default Midnight)';
- $string['healthpass:preferences:podio_info'] = 'Podio Info';
- $string['healthpass:preferences:podio_info:client_id'] = 'Client ID';
- $string['healthpass:preferences:podio_info:client_secret'] = 'Client Secret';
- $string['healthpass:preferences:podio_info:app_id'] = 'App ID';
- $string['healthpass:preferences:podio_info:app_token'] = 'App Token';
- $string['healthpass:preferences:podio_info:podio_url'] = 'Webform URL';
+ $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
+ $string['healthpass:preferences:email_info:subject'] = 'Email subject';
+ $string['healthpass:preferences:email_info:body'] = 'Email body';
 
  // Form Responses.
  $string['healthpass:preferences:success'] = 'COVIDPass Preferences Updated';
+ $string['healthpass:preferences:error:not_numeric'] = 'You must enter a number here';
 
  /* Healthpass Symptoms. */
  $string['healthpass:symptom0'] = 'Fever';

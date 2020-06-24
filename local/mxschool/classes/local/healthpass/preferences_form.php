@@ -39,9 +39,26 @@
 		 $fields = array(
 			 'preferences' => array(
 				 'reset_time' => self::time_selector(1),
+				 'max_body_temp' => self::ELEMENT_TEXT,
 				 'healthpass_enabled' => array('element' => 'checkbox')
+			 ),
+			 'email_info' => array(
+				 'subject' => self::ELEMENT_LONG_TEXT,
+				 'body' => self::ELEMENT_TEXT_AREA
 			 )
 		 );
 		 $this->set_fields($fields, 'healthpass:preferences');
       }
+
+	 /**
+	 * Validates the preferences form before it can be submitted. Ensures max_body_temp is an integer
+	 *
+	 * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
+	 */
+	 public function validation($data, $files) {
+	    global $DB;
+	    $errors = parent::validation($data, $files);
+	    if(!is_numeric($data['max_body_temp'])) $errors['max_body_temp'] = get_string('healthpass:preferences:error:not_numeric', 'local_mxschool');
+	    return $errors;
+	 }
 }
