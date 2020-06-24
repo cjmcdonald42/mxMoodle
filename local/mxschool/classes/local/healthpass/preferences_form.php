@@ -40,12 +40,6 @@
 			 'preferences' => array(
 				 'reset_time' => self::time_selector(1),
 				 'healthpass_enabled' => array('element' => 'checkbox')
-			 ),
-			 'podio_info' => array(
-				 'client_id' => self::ELEMENT_LONG_TEXT,
-				 'client_secret' => self::ELEMENT_LONG_TEXT,
-				 'app_id' => self::ELEMENT_LONG_TEXT,
-				 'app_token' => self::ELEMENT_LONG_TEXT,
 			 )
 		 );
 		 $this->set_fields($fields, 'healthpass:preferences');
