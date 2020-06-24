@@ -48,7 +48,7 @@
  	  // Define name, status, body_temp, and time_submitted as sortable
        $sortable = array('userid', 'status', 'time_submitted');
  	  // All columns are centered
-       $centered = array('userid', 'status', 'body_temperature', 'symptoms', 'override_status', 'time_submitted');
+       $centered = array('userid', 'status', 'body_temperature', 'symptoms', 'override_status', 'comment', 'time_submitted');
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
  	  // The fields to query from the database
@@ -155,5 +155,22 @@
 					return "ERROR";
 					break;
 		}
-	}
+    }
+
+    protected function col_comment($values) {
+	    if(isset($_POST["comment_submit{$values->id}"])) {
+		    update_healthform_comment($values->id, $_POST["comment{$values->id}"]);
+		    echo "<script>window.location.reload();</script>";
+	    }
+	    if(isset($_POST["comment_edit{$values->id}"])) {
+		    return "<form method='POST'>
+     	    		   <textarea name='comment{$values->id}'>{$values->comment}</textarea>
+     			   <button type='submit' name='comment_submit{$values->id}'>Save</button>
+     			  </form>";
+	    }
+	    return "<p>{$values->comment}</p>
+	    	       <form method='POST'>
+			   <button type='submit' name='comment_edit{$values->id}'>Edit</button>
+			  </form>";
+    }
 }

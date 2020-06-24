@@ -1394,7 +1394,7 @@ function get_healthform_dates() {
  * @param int userid, the user's id.
  * @param String status, the user's healthform Status
  * @param String override_status, the user's override status
- * @return boolean true if sucessful
+ * @return boolean true if successful
  */
  function update_healthform_override_status($userid, $status, $override_status) {
 	 global $DB;
@@ -1428,4 +1428,21 @@ function get_healthform_dates() {
 		default:
 			throw new \coding_exception("Unknown override status in database: {$override_status}");
 	 }
+ }
+
+ /**
+ * Given the text and the user's id, updates healthform comment
+ *
+ * @param int userid, the user's id
+ * @param String text, the text for the comment
+ * @return boolean true if successful
+ */
+ function update_healthform_comment($userid, $text) {
+	 global $DB;
+	 $DB->execute(
+		 "UPDATE {local_mxschool_healthpass} hp
+		  SET hp.comment = '{$text}'
+		  WHERE hp.userid = {$userid}"
+	  );
+	  return true;
  }
