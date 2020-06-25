@@ -545,7 +545,7 @@ class local_mxschool_external extends external_api {
     public static function update_healthform_comment_parameters() {
 	   return new external_function_parameters(array(
 		  'userid' => new external_value(PARAM_INT, 'The id of the user whose health comment to update.'),
-		  'text' => new external_value(PARAM_RAW, 'The text of the new health comment.'),
+		  'text' => new external_value(PARAM_TEXT, 'The text of the new health comment.'),
 	   ));
     }
 
@@ -557,10 +557,10 @@ class local_mxschool_external extends external_api {
     * @return boolean true if succesful
     */
     public static function update_healthform_comment($userid, $text) {
-	     // external_api::validate_context(context_system::instance());
-	     // $params = self::validate_parameters(self::update_healthform_comment_parameters(), array(
-		//     'userid' => $userid, 'text' => $text)
-	     // );
+	     external_api::validate_context(context_system::instance());
+	     $params = self::validate_parameters(self::update_healthform_comment_parameters(), array(
+		    'userid' => $userid, 'text' => $text)
+	     );
 		global $DB;
 		$DB->execute(
 			"UPDATE {local_mxschool_healthpass} hp
