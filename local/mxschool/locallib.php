@@ -1429,20 +1429,3 @@ function get_healthform_dates() {
 			throw new \coding_exception("Unknown override status in database: {$override_status}");
 	 }
  }
-
- /**
- * Given the text and the user's id, updates healthform comment
- *
- * @param int userid, the user's id
- * @param String text, the text for the comment
- * @return boolean true if successful
- */
- function update_healthform_comment($userid, $text) {
-	 global $DB;
-	 $DB->execute(
-		 "UPDATE {local_mxschool_healthpass} hp
-		  SET hp.comment = '{$text}'
-		  WHERE hp.userid = {$userid}"
-	  );
-	  return true;
- }

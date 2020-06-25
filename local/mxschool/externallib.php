@@ -537,4 +537,46 @@ class local_mxschool_external extends external_api {
         ));
     }
 
+    /**
+	* Returns descriptions of the update_healthform_comment() function's parameters.
+	*
+	* @return external_function_parameters Object holding array of parameters for the update_healthform_comment() function.
+	*/
+    public static function update_healthform_comment_parameters() {
+	   return new external_function_parameters(array(
+		  'userid' => new external_value(PARAM_INT, 'The id of the user whose health comment to update.'),
+		  'text' => new external_value(PARAM_RAW, 'The text of the new health comment.'),
+	   ));
+    }
+
+    /**
+    * Given the text and the user's id, updates healthform comment
+    *
+    * @param int userid, the user's id
+    * @param String text, the text for the comment
+    * @return boolean true if succesful
+    */
+    public static function update_healthform_comment($userid, $text) {
+	     // external_api::validate_context(context_system::instance());
+	     // $params = self::validate_parameters(self::update_healthform_comment_parameters(), array(
+		//     'userid' => $userid, 'text' => $text)
+	     // );
+		global $DB;
+		$DB->execute(
+			"UPDATE {local_mxschool_healthpass} hp
+			 SET hp.comment = '{$text}'
+			 WHERE hp.userid = {$userid}"
+		 );
+		 return true;
+	    }
+
+    /**
+	* Returns a description of the update_healthform_comment() function's return value.
+	*
+	* @return external_value Object describing the return value of the set_boolean_field() function.
+	*/
+    public static function update_healthform_comment_returns() {
+	   return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
+    }
+
 }

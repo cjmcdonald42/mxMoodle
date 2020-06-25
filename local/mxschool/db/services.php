@@ -96,5 +96,13 @@ $functions = array(
                        . 'as well as any default times and a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
+   ),
+    'local_mxschool_update_healthform_comment' => array(
+	   'classname' => 'local_mxschool_external',
+	   'methodname' => 'update_healthform_comment',
+	   'classpath' => 'local/mxschool/externallib.php',
+	   'description' => 'Updates the given users healthform comment.',
+	   'type' => 'write',
+	   'ajax' => 'true'
     )
 );

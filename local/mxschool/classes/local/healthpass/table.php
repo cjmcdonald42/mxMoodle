@@ -29,8 +29,7 @@
 
  defined('MOODLE_INTERNAL') || die();
 
- use local_mxschool\output\action_button;
- use local_mxschool\output\checkbox;
+ use local_mxschool\output\comment;
 
  class table extends \local_mxschool\table {
 
@@ -162,19 +161,23 @@
 
     protected function col_comment($values) {
 	    if($this->is_downloading()) return $values->comment;
-	    if(isset($_POST["comment_submit{$values->id}"])) {
-		    update_healthform_comment($values->id, $_POST["comment{$values->id}"]);
-		    echo "<script>window.location.reload();</script>";
-	    }
-	    if(isset($_POST["comment_edit{$values->id}"])) {
-		    return "<form method='POST'>
-     	    		   <textarea name='comment{$values->id}'>{$values->comment}</textarea>
-     			   <button type='submit' name='comment_submit{$values->id}'>Save</button>
-     			  </form>";
-	    }
-	    return "<p>{$values->comment}</p>
-	    	       <form method='POST'>
-			   <button type='submit' name='comment_edit{$values->id}'>Edit</button>
-			  </form>";
+	    // if(isset($_POST["comment_submit{$values->id}"])) {
+		//     update_healthform_comment($values->id, $_POST["comment{$values->id}"]);
+		//     echo "<script>window.location.reload();</script>";
+	    // }
+	    // if(isset($_POST["comment_edit{$values->id}"])) {
+		//     return "<form method='POST'>
+     	//     		   <textarea name='comment{$values->id}'>{$values->comment}</textarea>
+     	// 		   <button type='submit' name='comment_submit{$values->id}'>Save</button>
+     	// 		  </form>";
+	    // }
+	    // return "<p>{$values->comment}</p>
+	    // 	       <form method='POST'>
+		// 	   <button type='submit' name='comment_edit{$values->id}'>Edit</button>
+		// 	  </form>";
+		global $PAGE;
+		$output = $PAGE->get_renderer('local_mxschool');
+		$renderable = new comment($values->id, $values->comment, 'Edit', 'Save');
+		return $output->render($renderable);
     }
 }
