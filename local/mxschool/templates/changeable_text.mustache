@@ -15,25 +15,17 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template   local_mxschool/comment
+    @template   local_mxschool/changeable_text
     @package    local_mxschool
     @author     Cannon Caspar, Class of 2021 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
     @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-    The purpose of this template is to render a button with ajax functionality to edit a comment on a report.
+    The purpose of this template is to render text on a report that can be accessed in javascript with $('.mx-changeable-text'+userid).
 
     Required context variables:
     - text | string | the text to display on the button
 }}
-<span class="mx-comment-text{{ userid }}"></span><br>
-<button type="button" class="mx-comment-edit-button{{ userid }} btn btn-primary d-print-none" name="{{ userid }}">{{ edit_button_text }}</button>
-<textarea class="mx-comment-edit-area{{ userid }}">{{ comment_text }}</textarea><br>
-<button type="button" class="mx-comment-save-button{{ userid }} btn btn-primary d-print-none" name="{{ userid }}">{{ save_button_text }}</button>
 
-{{# js }}
-    require(['local_mxschool/comment'], function(setup) {
-        setup({{ userid }}, '{{ comment_text }}');
-    });
-{{/ js }}
+<span class="mx-changeable-text{{ userid }}" name="{{ userid }}">{{ default_text }}</span>

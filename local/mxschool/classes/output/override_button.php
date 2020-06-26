@@ -15,21 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Renderable class for buttons for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\output;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2020062602;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_BETA;
-$plugin->dependencies = array();
+class override_button implements \renderable, \templatable {
+
+	/** @var string The user's id.*/
+	public $userid;
+    /** @var string The user's current override status.*/
+    public $override_status;
+
+    public function __construct($userid, $override_status) {
+	   $this->userid = $userid;
+        $this->override_status = $override_status;
+    }
+
+    /**
+     * Exports this data so it can be used as the context for a mustache template.
+     *
+     * @param renderer_base $output The renderer which is rendering this renderable.
+     * @return stdClass Object with properties depending on the button type.
+     */
+    public function export_for_template(\renderer_base $output) {
+        return (object) array('userid' => $this->userid,
+		   				'override_status' => $this->override_status);
+    }
+
+}

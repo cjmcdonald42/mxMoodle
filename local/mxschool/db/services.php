@@ -104,5 +104,13 @@ $functions = array(
 	   'description' => 'Updates the given users healthform comment.',
 	   'type' => 'write',
 	   'ajax' => 'true'
+   ),
+    'local_mxschool_update_healthform_override_status' => array(
+	   'classname' => 'local_mxschool_external',
+	   'methodname' => 'update_healthform_override_status',
+	   'classpath' => 'local/mxschool/externallib.php',
+	   'description' => 'Updates the given users healthform override status.',
+	   'type' => 'write',
+	   'ajax' => 'true'
     )
 );

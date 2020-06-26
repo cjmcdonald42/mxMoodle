@@ -573,10 +573,78 @@ class local_mxschool_external extends external_api {
     /**
 	* Returns a description of the update_healthform_comment() function's return value.
 	*
-	* @return external_value Object describing the return value of the set_boolean_field() function.
+	* @return external_value Object describing the return value of the update_healthform_comment() function.
 	*/
     public static function update_healthform_comment_returns() {
 	   return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
+    }
+
+ /**
+ * Returns descriptions of the update_healthform_override_status() function's parameters.
+ *
+ * @return external_function_parameters Object holding array of parameters for the update_healthform_comment() function.
+ */
+    public static function update_healthform_override_status_parameters() {
+    	  return new external_function_parameters(array(
+		   'userid' => new external_value(PARAM_INT, 'The id of the user whose health comment to update.'),
+		   'status' => new external_value(PARAM_TEXT, 'The current health status of the user.'),
+		   'override_status' => new external_value(PARAM_TEXT, 'The current override status of the user.')
+    	   ));
+    }
+
+    /**
+    * Given a healthform's current override status, updates it accordingly
+    *
+    * @param int userid, the user's id.
+    * @param String status, the user's current healthform Status
+    * @param String override_status, the user's current override status
+    * @return boolean true if successful
+    */
+    function update_healthform_override_status($userid, $status, $override_status) {
+	global $DB;
+	external_api::validate_context(context_system::instance());
+	$params = self::validate_parameters(self::update_healthform_comment_parameters(), array(
+	    'userid' => $userid, 'status' => $status, 'override_status' => $override_status)
+	);
+	switch($override_status) {
+		case 'Not Overridden':
+		    $DB->execute(
+			    "UPDATE {local_mxschool_healthpass} hp
+				SET hp.override_status = 'Under Review'
+				WHERE hp.userid = {$userid}"
+		    );
+		    return true;
+		    break;
+	    case 'Under Review':
+		   $new_status = $status=='Denied' ? 'Approved' : 'Denied';
+		   $DB->execute(
+			   "UPDATE {local_mxschool_healthpass} hp
+			    SET hp.override_status = 'Overridden', hp.status = '{$new_status}'
+			    WHERE hp.userid = {$userid}"
+		   );
+		   return true;
+		   break;
+	    case 'Overridden':
+		    $new_status = $status=='Denied' ? 'Approved' : 'Denied';
+		    $DB->execute(
+			    "UPDATE {local_mxschool_healthpass} hp
+				SET hp.override_status = 'Not Overridden', hp.status = '{$new_status}'
+				WHERE hp.userid = {$userid}"
+		    );
+		    return true;
+		    break;
+	    default:
+		    throw new \coding_exception("Unknown override status in database: {$override_status}");
+	  }
+    }
+
+   /**
+   * Returns a description of the update_healthform_override_status() function's return value.
+   *
+   * @return external_value Object describing the return value of the update_healthform_override_status() function.
+   */
+    public static function update_healthform_override_status_returns() {
+    		return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
     }
 
 }

@@ -1392,8 +1392,8 @@ function get_healthform_dates() {
  * Given a healthform's current override status, updates it accordingly
  *
  * @param int userid, the user's id.
- * @param String status, the user's healthform Status
- * @param String override_status, the user's override status
+ * @param String status, the user's current healthform Status
+ * @param String override_status, the user's current override status
  * @return boolean true if successful
  */
  function update_healthform_override_status($userid, $status, $override_status) {
