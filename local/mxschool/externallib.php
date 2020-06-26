@@ -562,11 +562,17 @@ class local_mxschool_external extends external_api {
 		    'userid' => $userid, 'text' => $text)
 	     );
 		global $DB;
-		$DB->execute(
-			"UPDATE {local_mxschool_healthpass} hp
-			 SET hp.comment = '{$text}'
-			 WHERE hp.userid = {$userid}"
-		 );
+		if(!$DB->record_exists('local_mxschool_healthpass', array('userid' => $userid))) {
+			 $record = new stdClass();
+			 $record->userid = $userid;
+			 $record->status = 'placeholder';
+			 $record->body_temperature = 'temp';
+			 $record->comment = $text;
+			 $record->form_submitted = 0;
+			 $DB->insert_record('local_mxschool_healthpass', $record);
+			 return true;
+		}
+		$DB->set_field('local_mxschool_healthpass', 'comment', $text, array('userid' => $userid));
 		 return true;
 	    }
 
