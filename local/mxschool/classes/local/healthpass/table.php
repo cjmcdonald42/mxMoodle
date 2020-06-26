@@ -63,20 +63,15 @@
         if ($filter->status) {
 		  $today = generate_datetime(time())->modify('midnight');
  		  if($filter->status == 'Unsubmitted') {
-			  array_unshift(
-				$where, "u.id NOT IN
-			  	(SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
-			  	{$today->getTimestamp()})"
-			  );
+			   $where[] = "hp.form_submitted < {$today->getTimestamp()} OR hp.userid IS NULL";
  		  }
 		  else if($filter->status == 'Submitted') {
-			  array_unshift(
-				  $where, "u.id IN (SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
-			  			{$today->getTimestamp()})");
+			   $where[] = "hp.form_submitted >= {$today->getTimestamp()}";
 		  }
-             $where[] = "hp.status = '{$filter->status}'";
-		   $where[] = "u.id IN (SELECT userid FROM {local_mxschool_healthpass} WHERE form_submitted >=
-				 {$today->getTimestamp()})";
+		  else{
+	             $where[] = "hp.status = '{$filter->status}'";
+			   $where[] = "hp.form_submitted >= {$today->getTimestamp()}";
+		   }
         }
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');

@@ -103,7 +103,7 @@
    }
    // Logic for approve/deny healthpass
    if($data->symptoms=='None' and $data->body_temperature <= get_config('local_mxschool', 'healthpass_max_body_temp')
-   	 and !$data->anyone_sick_at_home and !$data->traveled_internationally) {
+   	 and !$data->anyone_sick_at_home) {
 		 $data->status = 'Approved';
 	 }
    else $data->status = 'Denied';
