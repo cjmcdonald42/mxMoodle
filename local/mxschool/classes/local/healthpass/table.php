@@ -84,16 +84,9 @@
    protected function col_status($values) {
 	  $today = generate_datetime(time())->modify('midnight');
 	  if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted)) {
-		 return $this->is_downloading() ? 'Unsubmitted' : "<p style='color:goldenrod;'>Unsubmitted</p>";
+		 return $this->is_downloading() ? 'Unsubmitted' : "<span style='color:goldenrod;'>Unsubmitted</span>";
 	  }
 	  if($this->is_downloading()) return $values->status;
-       // else if($values->status == 'Approved') {
-       //   return "<p style='color:green;'>".$values->status."</p>";
-       // }
-       // else if($values->status == 'Denied') {
-       //   return "<p style='color:red;'>".$values->status."</p>";
-       // }
-       // else return '';
 	  global $PAGE;
 	  $output = $PAGE->get_renderer('local_mxschool');
 	  $renderable = new changeable_text($values->id, $values->status);
@@ -120,55 +113,17 @@
 	   $today = generate_datetime(time())->modify('midnight');
 	   if($values->time_submitted < $today->getTimestamp()) return '';
 	   if($this->is_downloading()) return $values->override_status;
-	   // if(isset($_POST["update_override{$values->id}"])) {
-		//    update_healthform_override_status($values->id, $values->status, $values->override_status);
-		//    echo "<script>window.location.reload();</script>";
-	   // }
-	   // switch ($values->override_status) {
-		//    case 'Not Overridden':
-		// 			return "<form method='POST'><button style='
-		// 						background-color:dodgerblue;
-		// 				          color:white;
-		// 				          text-align:center;
-		// 				          cursor:pointer;'
-		// 				   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
-		// 				   target='_blank'>".get_string('healthpass:report:review_button', 'local_mxschool')."</button>";
-		// 			break;
-		// 	case 'Under Review':
-		// 			return "<p>".get_string('healthpass:report:under_review', 'local_mxschool').
-		// 				  "</p><form method='POST'><button style='
-		// 						background-color:peru;
-		// 						color:white;
-		// 						text-align:center;
-		// 						cursor:pointer;'
-		// 				   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
-		// 				   target='_blank'>".get_string('healthpass:report:override_button', 'local_mxschool')."</button>";
-  		// 			break;
-		// 	case 'Overridden':
-		// 			return "<p>".get_string('healthpass:report:overridden', 'local_mxschool').
-		// 				  "</p><form method='POST'><button style='
-		// 						background-color:lightcoral;
-		// 						color:black;
-		// 						text-align:center;
-		// 						cursor:pointer;'
-		// 				   id='update_override{$values->id}' name='update_override{$values->id}' type='submit'
-		// 				   target='_blank'>".get_string('healthpass:report:undo_override_button', 'local_mxschool')."</button>";
-  		// 			break;
-		// 	default:
-		// 			return "ERROR";
-		// 			break;
-		// }
-		global $PAGE;
-		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new override_button($values->id, $values->override_status);
-		return $output->render($renderable);
+	   global $PAGE;
+	   $output = $PAGE->get_renderer('local_mxschool');
+	   $renderable = new override_button($values->id, $values->override_status);
+	   return $output->render($renderable);
     }
 
     protected function col_comment($values) {
 	    if($this->is_downloading()) return $values->comment;
-		global $PAGE;
-		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new comment($values->id, $values->comment, 'Edit', 'Save');
-		return $output->render($renderable);
+	    global $PAGE;
+	    $output = $PAGE->get_renderer('local_mxschool');
+	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save');
+	    return $output->render($renderable);
     }
 }

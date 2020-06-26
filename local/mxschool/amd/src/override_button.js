@@ -38,11 +38,17 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		}
 		if(override_text.text() == '') {
 			override_text.text('Under Review');
+			override_text.css('color', 'cadetblue');
 			button.text('Override');
+			button.css('background-color', 'lightsalmon');
+			button.css('border-color', 'lightsalmon');
 		}
 		else if(override_text.text() == 'Under Review') {
 			override_text.text('Overridden');
-			button.text('Undo Override');
+			override_text.css('color', 'lightsalmon');
+			button.text('Undo');
+			button.css('background-color', 'dimgray');
+			button.css('border-color', 'dimgray');
 			health_status.text(new_health_status);
 			if(new_health_status == 'Approved') {
 				health_status.css('color', 'green');
@@ -54,6 +60,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		else if(override_text.text() == 'Overridden') {
 			override_text.text('');
 			button.text('Review');
+			button.css('background-color', 'dodgerblue');
+			button.css('border-color', 'dodgerblue');
 			health_status.text(new_health_status);
 			if(new_health_status == 'Approved') {
 				health_status.css('color', 'green');
@@ -84,14 +92,22 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 	    if(override_status == 'Not Overridden') {
 		    override_text.text('');
 		    button.text('Review');
+		    button.css('background-color', 'dodgerblue');
+		    button.css('border-color', 'dodgerblue');
 	    }
 	    else if(override_status == 'Under Review') {
 		    override_text.text('Under Review');
+		    override_text.css('color', 'cadetblue');
 		    button.text('Override');
+		    button.css('background-color', 'lightsalmon');
+		    button.css('border-color', 'lightsalmon');
 	    }
 	    else if(override_status == 'Overridden') {
 		    override_text.text('Overridden');
-		    button.text('Undo Override');
+		    override_text.css('color', 'lightsalmon');
+		    button.text('Undo');
+		    button.css('background-color', 'dimgray');
+		    button.css('border-color', 'dimgray');
 	    }
 	    else {
 		    throw "Unrecognized override_status value in database: "+override_status;

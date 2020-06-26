@@ -27,8 +27,11 @@
     Required context variables:
     - text | string | the text to display on the button
 }}
-<p style="font-size:15" class="mx-override-text{{ userid }}"></p>
-<button type="button" class="mx-override-button{{ userid }} btn btn-primary d-print-none" name="{{ userid }}" value="{{ override_status }}"></button>
+<p style="font-weight:bold" class="mx-override-text{{ userid }}"></p>
+<button
+	   type="button" class="mx-override-button{{ userid }} btn btn-primary d-print-none"
+	   name="{{ userid }}" value="{{ override_status }}">
+</button>
 
 {{# js }}
     require(['local_mxschool/override_button'], function(setup) {
