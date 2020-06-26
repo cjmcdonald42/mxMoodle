@@ -65,14 +65,15 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		else {
 			throw "Unrecognized override text: "+override_text.text();
 		}
-		ajax.call([{
+		var promises = ajax.call([{
 			methodname: 'local_mxschool_update_healthform_override_status',
 			args: {
 				userid: userid,
-				status: old_health_status,
-				override_status: old_override_status
+				status: String(old_health_status),
+				override_status: String(old_override_status)
 			}
 		}]);
+	     promises[0].done().fail(notification.exception);
 	}
     return function(userid) {
 	    var button = $('.mx-override-button'+userid);

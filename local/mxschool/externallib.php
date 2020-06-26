@@ -600,12 +600,12 @@ class local_mxschool_external extends external_api {
     * @param String override_status, the user's current override status
     * @return boolean true if successful
     */
-    function update_healthform_override_status($userid, $status, $override_status) {
-	global $DB;
-	external_api::validate_context(context_system::instance());
-	$params = self::validate_parameters(self::update_healthform_comment_parameters(), array(
+    public static function update_healthform_override_status($userid, $status, $override_status) {
+     external_api::validate_context(context_system::instance());
+	$params = self::validate_parameters(self::update_healthform_override_status_parameters(), array(
 	    'userid' => $userid, 'status' => $status, 'override_status' => $override_status)
 	);
+	global $DB;
 	switch($override_status) {
 		case 'Not Overridden':
 		    $DB->execute(
