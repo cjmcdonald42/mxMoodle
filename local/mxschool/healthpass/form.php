@@ -31,10 +31,15 @@
  // All members of the community access this form.
  require_login();
 
+ $user_healthform_info = get_todays_healthform_info($USER->id);
+
  // If Healthpass is disabled, redirect.
- if(get_config('local_mxschool', 'healthpass_enabled')=='0') {
-	 redirect_to_fallback();
- }
+ if   (get_config('local_mxschool', 'healthpass_enabled')=='0'
+ 	  // NOTE: The line below only allows user to submit one healthpass a day.
+       // or (!has_capability('local/mxschool:manage_healthpass', context_system::instance()) and $user_healthform_info->submitted_today))
+    {
+	 		redirect_to_fallback();
+    }
 
  $id = optional_param('id', 0, PARAM_INT);
  setup_mxschool_page('form', 'healthpass');
@@ -45,8 +50,8 @@
      'local_mxschool_healthpass' => array(
          'abbreviation' => 'hif',
          'fields' => array(
-             'id', 'userid' => 'name', 'status', 'body_temperature', 'anyone_sick_at_home', 'traveled_internationally',
-             'symptoms', 'override_status', 'form_submitted' => 'timecreated'
+             'id', 'userid' => 'name', 'status', 'body_temperature', 'health_info',
+             'symptoms', 'override_status', 'comment' => 'health_info', 'form_submitted' => 'timecreated'
          )
      )
  );
@@ -80,9 +85,16 @@
    if(!isset($data->name)) $data->name = $USER->id;
    // Concat the temperature and the decimal into one value for DB
    $data->body_temperature = $data->body_temperature_temp . $data->body_temperature_temp_decimal;
-   // Switch from 'yes' and 'no' to 1 and 0 for the database
-   $data->anyone_sick_at_home = $data->anyone_sick_at_home=='Yes' ? 1 : 0;
-   $data->traveled_internationally = $data->traveled_internationally=='Yes' ? 1 : 0;
+
+   // Add health_info questions to the health_info string
+   $data->health_info = "";
+   if($data->health_info0 == 'Yes') $data->health_info .= get_string("healthpass:health_info0", 'local_mxschool').", ";
+   if($data->health_info1 == 'Yes') $data->health_info .= get_string("healthpass:health_info1", 'local_mxschool').", ";
+   if($data->health_info2 == 'Yes') $data->health_info .= get_string("healthpass:health_info2", 'local_mxschool').", ";
+   // add more health_info here
+   if(strlen($data->health_info) != 0) $data->health_info = substr($data->health_info, 0, -2);
+   else $data->health_info = '';
+
    // If no symptoms button pressed, set symptoms to NONE
    if($data->no_symptoms) {
 	   $data->symptoms = 'None';
@@ -97,18 +109,22 @@
 	   if($data->symptom4 == 'Yes') $data->symptoms .= get_string("healthpass:symptom4", 'local_mxschool').", ";
 	   if($data->symptom5 == 'Yes') $data->symptoms .= get_string("healthpass:symptom5", 'local_mxschool').", ";
 	   if($data->symptom6 == 'Yes') $data->symptoms .= get_string("healthpass:symptom6", 'local_mxschool').", ";
+	   if($data->symptom7 == 'Yes') $data->symptoms .= get_string("healthpass:symptom7", 'local_mxschool').", ";
 	   // add more symptoms here
 	   if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
 	   else $data_symptoms = 'None';
    }
+
    // Logic for approve/deny healthpass
    if($data->symptoms=='None' and $data->body_temperature <= get_config('local_mxschool', 'healthpass_max_body_temp')
    	 and !$data->anyone_sick_at_home) {
 		 $data->status = 'Approved';
 	 }
    else $data->status = 'Denied';
+
    // Override status always should start with not_overridden
    $data->override_status = 'Not Overridden';
+
    // Add the user's form data to the database
    global $DB;
    if(!$DB->record_exists("local_mxschool_healthpass", array("userid" => "{$data->name}"))) {

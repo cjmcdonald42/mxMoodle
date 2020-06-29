@@ -998,8 +998,9 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  // Fields Labels.
  $string['healthpass:form:health_info:name'] = 'Name';
  $string['healthpass:form:health_info:body_temperature'] = 'What is your body temperature?';
- $string['healthpass:form:health_info:anyone_sick_at_home'] = "Have you been in contact with anyone who has or is suspected to have COVID19?";
- $string['healthpass:form:health_info:traveled_internationally'] = "Have you or has anyone you live with recently been tested for COVID19?";
+ $string['healthpass:form:health_info:health_info0'] = "Have you been in contact with anyone who has or is suspected to have COVID19?";
+ $string['healthpass:form:health_info:health_info1'] = "Have you or has anyone you live with recently been tested for COVID19?";
+ $string['healthpass:form:health_info:health_info2'] = "Have you taken any fever reducing medications today? (i.e., Tylenol, Ibuprofen)";
  $string['healthpass:form:symptoms'] = "Do you have:";
  $string['healthpass:form:symptoms:symptom0'] = "a fever?";
  $string['healthpass:form:symptoms:symptom1'] = "a sore throat?";
@@ -1008,6 +1009,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:symptom4'] = "body aches?";
  $string['healthpass:form:symptoms:symptom5'] = "a sudden loss of sense of taste or smell?";
  $string['healthpass:form:symptoms:symptom6'] = "shortness of breath?";
+ $string['healthpass:form:symptoms:symptom7'] = "a headache?";
 
  // Form Reponses.
  $string['healthpass:form:success:approved'] = "COVIDPass Approved";
@@ -1062,7 +1064,11 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:preferences:success'] = 'COVIDPass Preferences Updated';
  $string['healthpass:preferences:error:not_numeric'] = 'You must enter a number here';
 
- /* Healthpass Symptoms. */
+ /* Healthpass Symptoms and Health_info. */
+ $string['healthpass:health_info0'] = 'in contact with someone who has or is suspected to have COVID19';
+ $string['healthpass:health_info1'] = 'recently tested';
+ $string['healthpass:health_info2'] = 'took fever reducing medications today';
+
  $string['healthpass:symptom0'] = 'Fever';
  $string['healthpass:symptom1'] = 'Sore Throat';
  $string['healthpass:symptom2'] = 'Cough';
@@ -1070,3 +1076,4 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:symptom4'] = 'Body Aches';
  $string['healthpass:symptom5'] = 'Loss of Sense';
  $string['healthpass:symptom6'] = 'Shortness of Breath';
+ $string['healthpass:symptom7'] = 'Headache';
