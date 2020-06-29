@@ -856,7 +856,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
 
-    if($oldversion < 2020062202) {
+    if($oldversion < 2020062901) {
 
         // Define table local_mxschool_healthpass to be dropped.
         $table = new xmldb_table('local_mxschool_healthpass');
@@ -870,13 +870,14 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $table = new xmldb_table('local_mxschool_healthpass');
 
         // Adding fields to table local_mxschool_healthpass.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	   $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('status', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
         $table->add_field('body_temperature', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('anyone_sick_at_home', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
-        $table->add_field('traveled_internationally', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
+        $table->add_field('health_info', XMLDB_TYPE_CHAR, '500', null, null, null, null);
         $table->add_field('symptoms', XMLDB_TYPE_CHAR, '300', null, null, null, null);
+        $table->add_field('override_status', XMLDB_TYPE_CHAR, '20', null, null, null, null);
+        $table->add_field('comment', XMLDB_TYPE_CHAR, '500', null, null, null, null);
         $table->add_field('form_submitted', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
         // Adding keys to table local_mxschool_healthpass.
@@ -905,28 +906,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $dbman->add_key($table, $key);
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2020062202, 'local', 'mxschool');
-    }
-
-    if($oldversion < 2020062301) {
-        // Define field id to be added to local_mxschool_healthpass.
-        $table = new xmldb_table('local_mxschool_healthpass');
-        $field = new xmldb_field('override_status', XMLDB_TYPE_CHAR, '20', null, null, null, null, 'symptoms');
-
-        // Conditionally launch add field id.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        $field = new xmldb_field('comment', XMLDB_TYPE_CHAR, '500', null, null, null, null, 'override_status');
-
-        // Conditionally launch add field comment.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2020062301, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2020062901, 'local', 'mxschool');
     }
 
       return true;
