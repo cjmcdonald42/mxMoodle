@@ -1387,3 +1387,29 @@ function get_healthform_dates() {
 	 $info->status = 'Unsubmitted';
 	 return $info;
  }
+
+ /**
+ * Given a user's id, if the user is a student, gets the student's dorm and phone number
+ *
+ * @param int id, the user's id.
+ * @return stdClass student_info, the information about the student.
+ */
+ function get_student_contact_info($id) {
+	 global $DB;
+	 if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) {
+		 return NULL;
+	 }
+	 $student_info = new stdClass();
+	 $records = $DB->get_records_sql(
+		 "SELECT s.userid, s.dormid, s.boarding_status, s.phone_number, d.name AS dorm_name
+		  FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+		  WHERE s.userid = {$id}"
+	 );
+	 foreach($records as $record) {
+		 $student_info->id = $id;
+		 $student_info->boarding_status = $record->boarding_status;
+		 $student_info->phone_number = $record->phone_number;
+		 $student_info->dorm_name = $record->dorm_name;
+		 return $student_info;
+	 }
+ }

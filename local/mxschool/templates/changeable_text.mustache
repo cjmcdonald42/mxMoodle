@@ -22,10 +22,10 @@
     @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-    The purpose of this template is to render text on a report that can be accessed in javascript with $('.mx-changeable-text'+userid).
+    The purpose of this template is to render text on a report that can be accessed in javascript with $('.mx-changeable-text'+element_name+userid).
 
     Required context variables:
     - text | string | the text to display on the button
 }}
 
-<span class="mx-changeable-text{{ userid }}" name="{{ userid }}">{{ default_text }}</span>
+<span style="white-space:pre;" class="mx-changeable-text{{ element_name }}{{ userid }}" name="{{ userid }}">{{ default_text }}</span>

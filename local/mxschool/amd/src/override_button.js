@@ -29,7 +29,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		var button = $(event.target);
 		var userid = button.attr('name');
 		var override_text = $('.mx-override-text'+userid);
-		var health_status = $('.mx-changeable-text'+userid);
+		var health_status = $('.mx-changeable-text'+'status'+userid);
+		var contact_info = $('.mx-changeable-text'+'contact_info'+userid);
 		var new_health_status = health_status.text()=='Approved' ? 'Denied' : 'Approved';
 		var old_health_status = health_status.text();
 		var old_override_status = override_text.text();
@@ -37,6 +38,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 			old_override_status = 'Not Overridden';
 		}
 		if(override_text.text() == '') {
+			contact_info.show();
 			override_text.text('Under Review');
 			override_text.css('color', 'cadetblue');
 			button.text('Override');
@@ -44,6 +46,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 			button.css('border-color', 'lightsalmon');
 		}
 		else if(override_text.text() == 'Under Review') {
+			contact_info.hide();
 			override_text.text('Overridden');
 			override_text.css('color', 'lightsalmon');
 			button.text('Undo');
@@ -58,6 +61,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 			}
 		}
 		else if(override_text.text() == 'Overridden') {
+			contact_info.hide();
 			override_text.text('');
 			button.text('Review');
 			button.css('background-color', 'dodgerblue');
@@ -87,15 +91,18 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 	    var button = $('.mx-override-button'+userid);
 	    var override_text = $('.mx-override-text'+userid);
 	    var override_status = button.attr('value');
-	    var health_status = $('.mx-changeable-text'+userid);
+	    var health_status = $('.mx-changeable-text'+'status'+userid);
+	    var contact_info = $('.mx-changeable-text'+'contact_info'+userid);
 	    // Set default value for override_status column
 	    if(override_status == 'Not Overridden') {
+		    contact_info.hide();
 		    override_text.text('');
 		    button.text('Review');
 		    button.css('background-color', 'dodgerblue');
 		    button.css('border-color', 'dodgerblue');
 	    }
 	    else if(override_status == 'Under Review') {
+		    contact_info.show();
 		    override_text.text('Under Review');
 		    override_text.css('color', 'cadetblue');
 		    button.text('Override');
@@ -103,6 +110,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		    button.css('border-color', 'lightsalmon');
 	    }
 	    else if(override_status == 'Overridden') {
+		    contact_info.hide();
 		    override_text.text('Overridden');
 		    override_text.css('color', 'lightsalmon');
 		    button.text('Undo');

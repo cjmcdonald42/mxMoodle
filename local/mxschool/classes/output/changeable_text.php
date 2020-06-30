@@ -16,6 +16,7 @@
 
 /**
  * Renderable class for changeable text for Middlesex's Dorm and Student Functions Plugin.
+ * Can be accessed in javascript with $('.mx-changeable-text'+element_name+userid).
  *
  * @package     local_mxschool
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
@@ -32,11 +33,14 @@ class changeable_text implements \renderable, \templatable {
 
 	/** @var string The user's id.*/
 	public $userid;
+	/** @var string The element's name.*/
+	public $element_name;
     /** @var string Default text.*/
     public $default_text;
 
-    public function __construct($userid, $default_text) {
+    public function __construct($userid, $element_name, $default_text) {
 	   $this->userid = $userid;
+	   $this->element_name = $element_name;
         $this->default_text = $default_text;
     }
 
@@ -48,6 +52,7 @@ class changeable_text implements \renderable, \templatable {
      */
     public function export_for_template(\renderer_base $output) {
         return (object) array('userid' => $this->userid,
+	   					'element_name' => $this->element_name,
 		   				'default_text' => $this->default_text);
     }
 

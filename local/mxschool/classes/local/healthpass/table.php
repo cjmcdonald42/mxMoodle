@@ -80,6 +80,18 @@
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
 
+   protected function col_userid($values) {
+	   $today = generate_datetime(time())->modify('midnight');
+	   if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted)) {
+		  return $values->userid;
+	   }
+	   global $PAGE;
+	   $output = $PAGE->get_renderer('local_mxschool');
+	   $student_info = get_student_contact_info($values->id);
+	   $contact_info = $student_info ? "\n{$student_info->dorm_name} ({$student_info->boarding_status})\n{$student_info->phone_number}" : '';
+	   $renderable = new changeable_text($values->id, 'contact_info', $contact_info);
+	   return "{$values->userid}{$output->render($renderable)}";
+   }
 
    protected function col_status($values) {
 	  $today = generate_datetime(time())->modify('midnight');
@@ -89,7 +101,7 @@
 	  if($this->is_downloading()) return $values->status;
 	  global $PAGE;
 	  $output = $PAGE->get_renderer('local_mxschool');
-	  $renderable = new changeable_text($values->id, $values->status);
+	  $renderable = new changeable_text($values->id, 'status', $values->status);
 	  return $output->render($renderable);
    }
 
