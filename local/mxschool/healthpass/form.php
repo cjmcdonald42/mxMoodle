@@ -34,7 +34,7 @@
  $user_healthform_info = get_todays_healthform_info($USER->id);
 
  // If Healthpass is disabled, redirect.
- if   (get_config('local_mxschool', 'healthpass_enabled')=='0'
+ if   (get_config('local_mxschool', 'healthpass_enabled')=='0')
  	  // NOTE: The line below only allows user to submit one healthpass a day.
        // or (!has_capability('local/mxschool:manage_healthpass', context_system::instance()) and $user_healthform_info->submitted_today))
     {
