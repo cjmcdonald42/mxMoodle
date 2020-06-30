@@ -134,11 +134,9 @@
    else {
 	   $sql = "
 	   		UPDATE {local_mxschool_healthpass} hp
-			SET hp.status = '{$data->status}', hp.body_temperature = {$data->body_temperature},
-			    hp.anyone_sick_at_home = {$data->anyone_sick_at_home},
-			    hp.traveled_internationally = {$data->traveled_internationally},
+			SET hp.status = '{$data->status}', hp.body_temperature = '{$data->body_temperature}',
 			    hp.symptoms = '{$data->symptoms}', hp.override_status = '{$data->override_status}',
-			    hp.form_submitted = {$data->timecreated}
+			    hp.comment = '{$data->health_info}', hp.form_submitted = {$data->timecreated}
 			WHERE hp.userid = {$data->name}
 	   		";
 	   $id = $DB->execute($sql);
