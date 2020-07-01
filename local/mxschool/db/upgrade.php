@@ -870,7 +870,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $table = new xmldb_table('local_mxschool_healthpass');
 
         // Adding fields to table local_mxschool_healthpass.
-	   $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('status', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
         $table->add_field('body_temperature', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
@@ -888,22 +888,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-
-        // Define field healthid to be added to local_mxschool_student.
-        $table = new xmldb_table('local_mxschool_student');
-        $field = new xmldb_field('healthid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'id');
-
-        // Conditionally launch add field healthid.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define key healthid (foreign) to be added to local_mxschool_student.
-        $table = new xmldb_table('local_mxschool_student');
-        $key = new xmldb_key('healthid', XMLDB_KEY_FOREIGN, ['healthid'], 'healthpass', ['id']);
-
-        // Launch add key healthid.
-        $dbman->add_key($table, $key);
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2020062901, 'local', 'mxschool');
