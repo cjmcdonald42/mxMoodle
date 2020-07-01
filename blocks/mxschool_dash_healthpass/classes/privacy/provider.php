@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provider for Middlesex's Dashboard Block for Health Pass.
+ * Provider for Middlesex's Dashboard Block for Healthpass.
  *
  * @package     block_mxschool_dash_healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>

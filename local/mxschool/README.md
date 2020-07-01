@@ -39,7 +39,7 @@ This package houses the following subpackages and pages:
     - _form_ — Form for students to submit their vacation travel plans and transportation needs.
     - _report_ — Report for dorm faculty to view and manage students' responses.
     - _transportation_report_ — Report for the transportation manager to view students' responses in order to organize transportation.
-- **_healthpass_** — Intake system for submitting health data to Podio.
+- **_healthpass_** — Daily reporting system for COVID19.
     - _preferences_ — Preferences page to enable or disable the form.
     - _form_ — Form to submit intake data.
     - _report_ — Report for health center staff to view and manage intake responses.
