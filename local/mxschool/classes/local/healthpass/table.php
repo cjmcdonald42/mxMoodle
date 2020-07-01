@@ -43,7 +43,8 @@
     * @param string download, indicates if the table is downloading
     */
    public function __construct($filter, $download) {
-	  $this->is_downloading($download, 'Healthpass', 'Healthpass');
+	  $today = generate_datetime(time())->modify('midnight');
+	  $this->is_downloading($download, "COVIDpass-{$today->format('ymd')}", "COVIDpass-{$today->format('ymd')}");
  	  // Define the names of the columns. Should match up with the $fields array.
        $columns = array('userid', 'status', 'body_temperature', 'symptoms', 'override_status', 'comment', 'time_submitted');
  	  // Get headers from language file
@@ -83,7 +84,7 @@
 
    protected function col_userid($values) {
 	   $today = generate_datetime(time())->modify('midnight');
-	   if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted)) {
+	   if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted) or $this->is_downloading()) {
 		  return $values->userid;
 	   }
 	   global $PAGE;
