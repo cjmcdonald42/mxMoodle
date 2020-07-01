@@ -56,8 +56,9 @@
        parent::__construct('health_table', $columns, $headers, $sortable, $centered, $filter, false);
 
  	  // The fields to query from the database
+
        $fields = array('u.id', "CONCAT(u.lastname, ', ', u.firstname) AS userid", 'hp.status',
-                         'hp.body_temperature', 'hp.symptoms', 'hp.override_status', 'hp.comment', 'hp.form_submitted AS time_submitted');
+                         'hp.body_temperature', 'hp.symptoms', 'hp.override_status', 'hp.comment', 'hp.form_submitted AS time_submitted', 'u.alternatename');
  	  // The tables which to query
        $from = array('{user} u', '{local_mxschool_healthpass} hp ON u.id = hp.userid');
  	  // Get everything unless there are filters
@@ -84,15 +85,16 @@
 
    protected function col_userid($values) {
 	   $today = generate_datetime(time())->modify('midnight');
+	   $name = $values->alternatename ? "{$values->userid} ({$values->alternatename})" : $values->userid;
 	   if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted) or $this->is_downloading()) {
-		  return $values->userid;
+		  return $name;
 	   }
 	   global $PAGE;
 	   $output = $PAGE->get_renderer('local_mxschool');
 	   $student_info = get_student_contact_info($values->id);
 	   $contact_info = $student_info ? "\n{$student_info->dorm_name} ({$student_info->boarding_status})\n{$student_info->phone_number}" : '';
 	   $renderable = new changeable_text($values->id, 'contact_info', $contact_info);
-	   return "{$values->userid}{$output->render($renderable)}";
+	   return "{$name}{$output->render($renderable)}";
    }
 
    protected function col_status($values) {
