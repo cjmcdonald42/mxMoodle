@@ -53,9 +53,8 @@ $queryfields = array(
         'abbreviation' => 'p',
         'join' => 's.userid = p.userid',
         'fields' => array(
-            'id' => 'permissionsid', 'overnight', 'license_date' => 'license', 'may_drive_to_town' => 'driving',
-            'may_drive_passengers' => 'passengers', 'may_ride_with' => 'riding', 'specific_drivers' => 'riding_comment',
-            'may_use_rideshare' => 'rideshare', 'may_go_to_boston' => 'boston', 'swim_competent' => 'swim_competent',
+            'id' => 'permissionsid', 'overnight', 'may_drive_with_over_21', 'may_drive_with_anyone', 'may_use_rideshare',
+		  'may_travel_to_regional_cities', 'may_drive_passengers',
             'swim_allowed' => 'swim_allowed', 'boat_allowed' => 'boat_allowed'
         )
     )
