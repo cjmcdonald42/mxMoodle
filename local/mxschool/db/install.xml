@@ -286,13 +286,13 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="may_drive_with_over_21" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="may_drive_with_anyone" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="may_use_ride_share" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="may_travel_to_regional_cities" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="may_drive_passengers" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="swim_allowed" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="boat_allowed" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="may_drive_with_over_21" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_drive_with_anyone" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_use_rideshare" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_travel_to_regional_cities" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_drive_passengers" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="swim_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="boat_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

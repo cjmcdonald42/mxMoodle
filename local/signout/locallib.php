@@ -160,7 +160,7 @@ function get_permitted_passenger_list($userid = 0) {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
                                          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND u.id <> ? AND s.grade >= 11 AND p.may_ride_with IS NOT NULL AND p.may_ride_with <> 'Over 21'
+         WHERE u.deleted = 0 AND u.id <> ? AND s.grade >= 11 AND p.may_ride_with_anyone <> 'No'
          ORDER BY name", array($userid)
     );
     return convert_student_records_to_list($students);
@@ -180,7 +180,7 @@ function get_permitted_driver_list() {
                                             LEFT JOIN {local_mxschool_student} s ON oc.userid = s.userid
                                             LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND t.deleted = 0 AND t.required_permissions = 'driver'
-                              AND p.may_drive_passengers = 'Yes' AND s.grade >= 11
+                              AND p.may_drive_passengers <> 'No' AND s.grade >= 11
          ORDER BY name ASC, oc.time_modified DESC"
     );
     foreach ($drivers as $driver) {
@@ -210,7 +210,7 @@ function get_current_driver_list($userid = 0) {
                                             LEFT JOIN {local_mxschool_permissions} p ON oc.userid = p.userid
          WHERE oc.deleted = 0 AND u.deleted = 0 AND t.deleted = 0 AND t.required_permissions = 'driver'
                               AND oc.time_created >= ? AND oc.sign_in_time IS NULL AND s.grade >= 11
-                              AND p.may_drive_passengers = 'Yes' AND NOT EXISTS (
+                              AND p.may_drive_passengers <> 'No' AND NOT EXISTS (
                                   SELECT id
                                   FROM {local_signout_off_campus}
                                   WHERE driverid = oc.id AND userid = ? AND deleted = 0 AND sign_in_time IS NULL
@@ -260,7 +260,8 @@ function get_off_campus_type_list($userid = 0) {
     );
     if ($userid) {
         $permissions = $DB->get_record_sql(
-            "SELECT p.may_drive_to_town AS maydrive, p.may_ride_with AS mayridewith, p.may_use_rideshare AS rideshare, s.grade,
+            "SELECT p.may_drive_passengers AS maydrive, p.may_drive_with_over_21 AS mayridewith21,
+		  		p.may_drive_with_anyone AS mayridewithanyone, p.may_use_rideshare AS rideshare, s.grade,
                     s.boarding_status AS boardingstatus
              FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_permissions} p ON p.userid = s.userid
              WHERE s.userid = ?", array('userid' => $userid)
@@ -271,7 +272,7 @@ function get_off_campus_type_list($userid = 0) {
             if (empty($permissions->maydrive) || $permissions->maydrive === 'No') {
                 $where[] = "(required_permissions IS NULL OR required_permissions <> 'driver')";
             }
-            if (empty($permissions->mayridewith) || $permissions->mayridewith === 'Over 21') {
+            if (empty($permissions->mayridewith21) || $permissions->mayridewith21 === 'No') {
                 $where[] = "(required_permissions IS NULL OR required_permissions <> 'passenger')";
             }
             if (empty($permissions->rideshare) || $permissions->rideshare === 'No') {

@@ -906,13 +906,13 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		// Adding fields to table local_mxschool_permissions.
 	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
 	    $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-	    $table->add_field('may_drive_with_over_21', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-	    $table->add_field('may_drive_with_anyone', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-	    $table->add_field('may_use_ride_share', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-	    $table->add_field('may_travel_to_regional_cities', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-	    $table->add_field('may_drive_passengers', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-	    $table->add_field('swim_allowed', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
-	    $table->add_field('boat_allowed', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('may_drive_with_over_21', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_drive_with_anyone', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_use_rideshare', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_travel_to_regional_cities', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_drive_passengers', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('swim_allowed', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('boat_allowed', XMLDB_TYPE_CHAR, '10', null, null, null, null);
 
 		// Adding keys to table local_mxschool_permissions.
 		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
