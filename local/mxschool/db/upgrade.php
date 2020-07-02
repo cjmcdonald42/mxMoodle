@@ -892,7 +892,40 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2020062901, 'local', 'mxschool');
     }
+    if($oldversion < 2020070201) {
+		// Define table local_mxschool_permissions to be dropped.
+		$table = new xmldb_table('local_mxschool_permissions');
 
-      return true;
+		// Conditionally launch drop table for local_mxschool_permissions.
+		if ($dbman->table_exists($table)) {
+		    $dbman->drop_table($table);
+	    	}
+	     // Define table local_mxschool_permissions to be created.
+		$table = new xmldb_table('local_mxschool_permissions');
+
+		// Adding fields to table local_mxschool_permissions.
+	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	    $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('may_drive_with_over_21', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('may_drive_with_anyone', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('may_use_ride_share', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('may_travel_to_regional_cities', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('may_drive_passengers', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('swim_allowed', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('boat_allowed', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_permissions.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+		// Conditionally launch create table for local_mxschool_permissions.
+          if (!$dbman->table_exists($table)) {
+	      	 $dbman->create_table($table);
+		 }
+
+	      upgrade_plugin_savepoint(true, 2020070201, 'local', 'mxschool');
+    }
+
+     return true;
 
  }
