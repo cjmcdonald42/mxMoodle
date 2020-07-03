@@ -35,10 +35,16 @@ require_capability('local/mxschool:manage_healthpass', context_system::instance(
 // Creeate filters
 $filter = new stdClass();
 $filter->status = optional_param('status', '', PARAM_RAW);
+$filter->user_type = optional_param('user_type', '', PARAM_RAW);
+$filter->dorm = optional_param('dorm', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
 setup_mxschool_page('report', 'healthpass');
+
+if($filter->dorm) {
+	$filter->user_type = 'Students';
+}
 
 // Create table and pass the filters
 $table = new local_mxschool\local\healthpass\table($filter, $download);
@@ -50,13 +56,39 @@ $statusoptions = array(
 	'Submitted' => get_string('healthpass:report:status:submitted', 'local_mxschool'),
 	'Unsubmitted' => get_string('healthpass:report:status:unsubmitted', 'local_mxschool')
 );
+$user_type_options = array(
+	'Students' => get_string('healthpass:report:user_type:students', 'local_mxschool'),
+	'Faculty' => get_string('healthpass:report:user_type:faculty', 'local_mxschool'),
+	'Staff' => get_string('healthpass:report:user_type:staff', 'local_mxschool')
+);
 
 // Create dropdowns, where the last parameter is the default value
-$dropdowns = array(
-	new local_mxschool\output\dropdown(
-	    'status', $statusoptions, $filter->status, get_string('healthpass:report:status:all', 'local_mxschool')
-    )
- );
+ if($filter->dorm) {
+	 $dropdowns = array(
+		 new local_mxschool\output\dropdown(
+			'status', $statusoptions, $filter->status, get_string('healthpass:report:status:all', 'local_mxschool')
+		 ),
+		  new local_mxschool\output\dropdown(
+		    'user_type', $user_type_options, 'Students', get_string('healthpass:report:status:all', 'local_mxschool')
+		 ),
+		 local_mxschool\output\dropdown::dorm_dropdown(
+			 $filter->dorm
+		 )
+	 );
+ }
+ else {
+	 $dropdowns = array(
+	 	new local_mxschool\output\dropdown(
+	 	    'status', $statusoptions, $filter->status, get_string('healthpass:report:status:all', 'local_mxschool')
+	     ),
+	      new local_mxschool\output\dropdown(
+	 	   'user_type', $user_type_options, $filter->user_type, get_string('healthpass:report:status:all', 'local_mxschool')
+	     ),
+	 	local_mxschool\output\dropdown::dorm_dropdown(
+	 		$filter->dorm
+	     )
+	);
+ }
 
 // Create a 'New Healthform' Button
 $buttons = array(

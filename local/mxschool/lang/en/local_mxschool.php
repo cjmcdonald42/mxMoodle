@@ -1029,6 +1029,10 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:status:denied'] = 'Denied';
  $string['healthpass:report:status:submitted'] = 'Submitted';
  $string['healthpass:report:status:unsubmitted'] = 'Unsubmitted';
+ $string['healthpass:report:user_type:students'] = 'Students';
+ $string['healthpass:report:user_type:faculty'] = 'Faculty';
+ $string['healthpass:report:user_type:staff'] = 'Staff';
+
 
  // Report Buttons.
  $string['healthpass:report:add'] = 'New COVIDPass Form';

@@ -68,7 +68,7 @@
         if ($filter->status) {
 		  $today = generate_datetime(time())->modify('midnight');
  		  if($filter->status == 'Unsubmitted') {
-			   $where[] = "hp.form_submitted < {$today->getTimestamp()} OR hp.userid IS NULL";
+			   $where[] = "(hp.form_submitted < {$today->getTimestamp()} OR hp.userid IS NULL)";
  		  }
 		  else if($filter->status == 'Submitted') {
 			   $where[] = "hp.form_submitted >= {$today->getTimestamp()}";
@@ -78,7 +78,28 @@
 			   $where[] = "hp.form_submitted >= {$today->getTimestamp()}";
 		   }
         }
-
+	   switch($filter->user_type) {
+		   case 'Students':
+		   		$from[] = "{local_mxschool_student} stu ON u.id = stu.userid";
+				$from[] = "{local_mxschool_dorm} d ON stu.dormid = d.id";
+				$where[] = "stu.userid IS NOT NULL";
+				break;
+		   case 'Faculty':
+			     $from[] = "{local_mxschool_faculty} fac ON u.id = fac.userid";
+			     $where[] = "fac.userid IS NOT NULL";
+				break;
+		   case 'Staff':
+		   		$from[] = "{local_mxschool_student} stu ON u.id = stu.userid";
+			     $from[] = "{local_mxschool_faculty} fac ON u.id = fac.userid";
+				$where[] = "stu.userid IS NULL";
+				$where[] = "fac.userid IS NULL";
+				break;
+		   default:
+		   		break;
+	   }
+	   if ($filter->dorm) {
+		  $where[] = $this->get_dorm_where($filter->dorm);
+	   }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }

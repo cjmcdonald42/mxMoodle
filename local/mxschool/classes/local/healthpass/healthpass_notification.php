@@ -45,7 +45,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
         if ($id) {
             $record = $DB->get_record_sql(
                 "SELECT u.id AS userid, u.alternatename AS name, hp.symptoms
-                 FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON hp.userid = u.id
+                 FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid
                  WHERE u.id = {$id}"
             );
             if (!$record) {
