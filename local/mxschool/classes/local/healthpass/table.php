@@ -110,8 +110,8 @@
    }
 
    protected function col_time_submitted($values) {
-	   return $values->time_submitted=='' ? 'Never' :
-		   $values->time_submitted ? format_date('n/j/y g:i A', $values->time_submitted)
+	   return $values->time_submitted==='' ? 'Never' :
+		   !empty($values->time_submitted) ? format_date('n/j/y g:i A', $values->time_submitted)
 		   : 'Never';
    }
 
