@@ -56,6 +56,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
 		  $this->data['symptoms'] = $record->symptoms;
 
             array_push(
+                $this->recipients, $DB->get_record('user', array('id' => $record->userid))
             );
         }
     }
@@ -67,5 +68,6 @@ abstract class healthpass_notification extends \local_mxschool\notification {
         return array_merge(parent::get_tags(), array(
             'name', 'symptoms'
         ));
+    }
 
 }
