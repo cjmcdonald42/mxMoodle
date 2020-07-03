@@ -15,21 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Email notification for when a healthform is denied for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @subpackage  healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\local\healthpass;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2020070304;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+class healthpass_denied extends healthpass_notification {
+
+    /**
+     * @param int $id The id of user who has submitted a healthform.
+     *                The default value of 0 indicates a template email that should not be sent.
+     */
+    public function __construct($id = 0) {
+        parent::__construct('healthpass_denied', $id);
+    }
+}

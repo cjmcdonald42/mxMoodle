@@ -142,13 +142,17 @@
 	   		";
 	   $id = $DB->execute($sql);
    }
-   // Successfully submitted message depends on healthpass status
-   $response_string = $data->status=='Approved' ?
-   				  get_string('healthpass:form:success:approved', 'local_mxschool')
-				  : get_string('healthpass:form:success:denied', 'local_mxschool');
+   // Sends email to the user depending on status.
+   if($data->status=='Approved') {
+	   (new local_mxschool\local\healthpass\healthpass_approved($data->name))->send();
+   }
+   else if($data->status == 'Denied') {
+	   (new local_mxschool\local\healthpass\healthpass_denied($data->name))->send();
+   }
+   else throw new \coding_exception("ERROR: Unrecognized health status: {$data->status}");
    // Redirect user
    logged_redirect(
-       $form->get_redirect(), $response_string, $data->id ? 'update' : 'create'
+       $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
    );
  }
 

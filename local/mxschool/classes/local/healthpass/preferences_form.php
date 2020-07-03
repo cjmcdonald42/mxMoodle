@@ -30,6 +30,9 @@
 
  defined('MOODLE_INTERNAL') || die();
 
+ use local_mxschool\local\healthpass\healthpass_approved;
+ use local_mxschool\local\healthpass\healthpass_denied;
+
  class preferences_form extends \local_mxschool\form {
 
 	 /**
@@ -43,10 +46,14 @@
 				 'max_body_temp' => self::ELEMENT_TEXT,
 				 'healthpass_enabled' => array('element' => 'checkbox')
 			 ),
-			 'email_info' => array(
-				 'subject' => self::ELEMENT_LONG_TEXT,
-				 'body' => self::ELEMENT_TEXT_AREA
-			 )
+			 'notifications' => array(
+                    'approved_tags' => self::email_tags(new healthpass_approved()),
+                    'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                    'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+				'denied_tags' => self::email_tags(new healthpass_denied()),
+				'denied_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+				'denied_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                ),
 		 );
 		 $this->set_fields($fields, 'healthpass:preferences');
       }

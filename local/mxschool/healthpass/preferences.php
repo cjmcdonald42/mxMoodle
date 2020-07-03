@@ -42,6 +42,8 @@ $data->reset_time = get_config('local_mxschool', 'healthpass_reset_time');
 $data->max_body_temp = get_config('local_mxschool', 'healthpass_max_body_temp');
 $data->subject = get_config('local_mxschool', 'healthpass_email_subject');
 $data->body = get_config('local_mxschool', 'healthpass_email_body');
+generate_email_preference_fields('healthpass_approved', $data, 'approved');
+generate_email_preference_fields('healthpass_denied', $data, 'denied');
 
 // Create form
 $form = new local_mxschool\local\healthpass\preferences_form();
@@ -54,8 +56,8 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
 	set_config('healthpass_reset_time', generate_timestamp($data, 'reset_time'), 'local_mxschool');
 	set_config('healthpass_max_body_temp', $data->max_body_temp, 'local_mxschool');
-	set_config('healthpass_email_subject', $data->subject, 'local_mxschool');
-	set_config('healthpass_email_body', $data->body, 'local_mxschool');
+	update_notification('healthpass_approved', $data, 'approved');
+     update_notification('healthpass_denied', $data, 'denied');
      logged_redirect($form->get_redirect(), get_string('healthpass:preferences:success', 'local_mxschool'), 'update');
 }
 
