@@ -1080,6 +1080,22 @@ function get_vacation_travel_return_sites_list($type = null) {
     return $list;
 }
 
+/**
+* Returns a list of all users
+*
+* @return array The users as userid => name, ordered alphabetically
+*/
+function get_user_list() {
+	global $DB;
+	$users = $DB->get_records_sql(
+	    "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS value
+	     FROM {user} u
+	     WHERE u.deleted = 0
+	     ORDER BY value"
+	);
+	return convert_records_to_list($users);
+}
+
 /*
  * ============================================
  * Miscellaneous Subpackage-Specific Functions.
@@ -1272,25 +1288,9 @@ function get_vacation_travel_type_list($mxtransportation = null) {
 /* Health Pass. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
 
 /**
-* Returns a list of all users
-*
-* @return array The users as userid => name, ordered alphabetically
-*/
-function get_user_list() {
-	global $DB;
-	$users = $DB->get_records_sql(
-	    "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS value
-	     FROM {user} u
-	     WHERE u.deleted = 0
-	     ORDER BY value"
-	);
-	return convert_records_to_list($users);
-}
-
-/**
 * Returns a list of all dates where a healthform has been submitted
 *
-* @return array The times as formatted timestamp => formatted date
+* @return array The times in the form timestamp => formatted date
 */
 function get_healthform_dates() {
 	global $DB;
@@ -1311,51 +1311,6 @@ function get_healthform_dates() {
      }
 	return $list;
 }
-
-/**
-* Given the Health Form data, passes the information to Podio
-*
-* @param stdClass data, the form data
-* @return String response. Whether or not the student was approved or denied
-* NOTE: DEPRECATED
-*/
- function podio_submit($data) {
-	 // TODO: Make these variables configurable
-	 $client_id = get_config('local_mxschool', 'client_id');
-	 $client_secret = get_config('local_mxschool', 'client_secret');
-	 $app_id = get_config('local_mxschool', 'app_id');
-	 $app_token = get_config('local_mxschool', 'app_token');
-	 $url = get_config('local_mxschool', 'podio_url');
-
-	 // On Podio, YES is 1, NO is 2
-	 $attributes = array(
-		 'fields' => array(
-			 'contact-name' => NULL,
-			 'review-date' => generate_datetime($data->timecreated)->format('Y-m-d h:i:s'),
-			 'enter-temperature' => $data->body_temperature,
-			 'day-student-is-anyone-in-your-home-positive-for-or-susp' => $data->anyone_sick_at_home==0 ? 2 : 1,
-			 'do-you-have-a-fever-or-feel-feverish' => $data->has_fever==0 ? 2 : 1,
-			 'do-you-have-a-sore-throat' => $data->has_sore_throat==0 ? 2 : 1,
-			 'do-you-have-a-cough' => $data->has_cough==0 ? 2 : 1,
-			 'do-you-have-nasal-congestion-or-runny-nose-not-related-' => $data->has_runny_nose==0 ? 2 : 1,
-			 'do-you-have-muscle-aches' => $data->has_muscle_aches==0 ? 2 : 1,
-			 'do-you-have-a-loss-of-smell-or-taste' => $data->has_loss_of_sense==0 ? 2 : 1,
-			 'do-you-have-shortness-of-breath' => $data->has_short_breath==0 ? 2 : 1
-	 	)
-	 );
-
-	 $options = array(
-		 'file_download' => 1,
-		 'oauth_request' => 1
-	 );
-	 // post to the form
-	 Podio::setup($client_id, $client_secret);
-	 Podio::authenticate_with_app($app_id, $app_token);
-	 $item = PodioItem::create($app_id, $attributes, $options);
-	 // get response
-	 $reponse = PodioItem::get($item->item_id);
-	 return $reponse->fields->offsetGet('status')->values[0]['value'];
- }
 
  /**
  * Given a user's $id, gets the user's healthform data from today
@@ -1410,4 +1365,26 @@ function get_healthform_dates() {
 		 $student_info->dorm_name = $record->dorm_name;
 		 return $student_info;
 	 }
+ }
+
+ /**
+ * Reuturns a list of all users who haven't submitted a healthpass in X days, where X is configured in the preferences.
+ *
+ * @return array $unsubmitted_users in the form userid => fullname
+ */
+ function get_users_with_unsubmitted_healthpass_list() {
+	 global $DB;
+	 $end_of_today = generate_datetime();
+	 $end_of_today->modify('+1 day');
+	 $end_of_today->modify('midnight');
+	 $allowed_days_unsubmitted = get_config('local_mxschool', 'healthpass_days_before_reminder');
+	 $allowed_seconds_unsubmitted = 86400 * $allowed_days_unsubmitted;
+	 $allowed_if_unsubmitted_after_timestamp = ($end_of_today->getTimestamp() - $allowed_seconds_unsubmitted);
+	 $list = array();
+	 $users = $DB->get_records_sql(
+		 "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS value
+		  FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid
+		  WHERE hp.form_submitted <= {$allowed_if_unsubmitted_after_timestamp} OR hp.form_submitted IS NULL"
+	 );
+	 return convert_records_to_list($users);
  }

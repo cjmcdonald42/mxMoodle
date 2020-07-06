@@ -1041,6 +1041,7 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:report:undo_override_button'] = 'Undo Override';
  $string['healthpass:report:under_review'] = 'Under Review';
  $string['healthpass:report:overridden'] = 'Overridden';
+ $string['healthpass:report:remind'] = 'Notify Unsubmitted';
 
 
  /* Healthpass Preferences.  */

@@ -142,6 +142,9 @@ class local_mxschool_external extends external_api {
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 return (new local_mxschool\local\vacation_travel\bulk_unsubmitted())->send();
+		  case 'healthpass_notify_unsubmitted':
+			  require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			  return (new local_mxschool\local\healthpass\bulk_unsubmitted())->send();
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }

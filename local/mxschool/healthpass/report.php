@@ -94,7 +94,8 @@ $user_type_options = array(
 $buttons = array(
      new local_mxschool\output\redirect_button(
          get_string('healthpass:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/healthpass/form.php')
-     )
+     ),
+     new local_mxschool\output\email_button(get_string('healthpass:report:remind', 'local_mxschool'), 'healthpass_notify_unsubmitted')
 );
 
 // Output report to page

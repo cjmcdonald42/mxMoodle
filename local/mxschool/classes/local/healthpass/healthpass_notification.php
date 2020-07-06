@@ -44,7 +44,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT u.id AS userid, u.alternatename AS name, hp.symptoms
+                "SELECT u.id AS userid, u.alternatename, hp.symptoms
                  FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid
                  WHERE u.id = {$id}"
             );
@@ -52,7 +52,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
                 throw new \coding_exception("Record with id {$id} not found.");
             }
 
-            $this->data['alternatename'] = $record->name;
+            $this->data['alternatename'] = $record->alternatename;
 		  $this->data['symptoms'] = $record->symptoms;
 
             array_push(

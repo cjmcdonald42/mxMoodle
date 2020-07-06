@@ -146,7 +146,7 @@
    if($data->status=='Approved') {
 	   (new local_mxschool\local\healthpass\healthpass_approved($data->name))->send();
    }
-   else if($data->status == 'Denied') {
+   else if($data->status=='Denied') {
 	   (new local_mxschool\local\healthpass\healthpass_denied($data->name))->send();
    }
    else throw new \coding_exception("ERROR: Unrecognized health status: {$data->status}");

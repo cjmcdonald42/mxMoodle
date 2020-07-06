@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 class bulk_unsubmitted extends \local_mxschool\bulk_notification {
 
     public function __construct() {
-        $list = get_student_without_rooming_form_list();
+        $list = get_users_with_unsubmitted_healthpass_list();
         foreach ($list as $userid => $name) {
             $this->notifications[] = new unsubmitted($userid);
         }
