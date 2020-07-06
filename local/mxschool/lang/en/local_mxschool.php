@@ -1048,18 +1048,23 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  // Form Headers.
  $string['healthpass:preferences'] = 'COVIDPass Preferences';
  $string['healthpass:preferences:preferences'] = 'Preferences';
- $string['healthpass:preferences:notifications'] = 'COVIDpass Email Notifications';
+ $string['healthpass:preferences:submitted_notifications'] = 'COVIDpass On Submission Email Notifications';
+  $string['healthpass:preferences:unsubmitted_notifications'] = 'COVIDpass Unsubmitted Reminder Email Notifications';
 
  // Field Labels.
  $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDPass';
  $string['healthpass:preferences:preferences:reset_time'] = 'At what time should COVIDPass reset? (default midnight)';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
- $string['healthpass:preferences:notifications:approved_tags'] = 'Available tags for COVIDpass approved email';
- $string['healthpass:preferences:notifications:approved_subject'] = 'COVIDpass approved email subject';
- $string['healthpass:preferences:notifications:approved_body'] = 'COVIDpass approved email body';
- $string['healthpass:preferences:notifications:denied_tags'] = 'Available tags for COVIDpass denied email';
- $string['healthpass:preferences:notifications:denied_subject'] = 'COVIDpass denied email subject';
- $string['healthpass:preferences:notifications:denied_body'] = 'COVIDpass denied email body';
+ $string['healthpass:preferences:submitted_notifications:approved_tags'] = 'Available tags for COVIDpass approved email';
+ $string['healthpass:preferences:submitted_notifications:approved_subject'] = 'COVIDpass approved email subject';
+ $string['healthpass:preferences:submitted_notifications:approved_body'] = 'COVIDpass approved email body';
+ $string['healthpass:preferences:submitted_notifications:denied_tags'] = 'Available tags for COVIDpass denied email';
+ $string['healthpass:preferences:submitted_notifications:denied_subject'] = 'COVIDpass denied email subject';
+ $string['healthpass:preferences:submitted_notifications:denied_body'] = 'COVIDpass denied email body';
+ $string['healthpass:preferences:unsubmitted_notifications:days_before_reminder'] = 'Number of days until the user can be sent a reminder email';
+ $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_tags'] = 'Available tags for COVIDpass reminder email';
+ $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_subject'] = 'COVIDpass reminder email subject';
+ $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_body'] = 'COVIDpass reminder email body';
 
  // Form Responses.
  $string['healthpass:preferences:success'] = 'COVIDPass Preferences Updated';

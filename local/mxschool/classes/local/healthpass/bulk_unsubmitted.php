@@ -15,9 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Bulk wrapper for the local_mxschool\local\healthpass\unsubmitted notifications for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @subpackage  healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -25,11 +26,18 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\local\healthpass;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2020070602;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+class bulk_unsubmitted extends \local_mxschool\bulk_notification {
+
+    public function __construct() {
+        $list = get_student_without_rooming_form_list();
+        foreach ($list as $userid => $name) {
+            $this->notifications[] = new unsubmitted($userid);
+        }
+        $this->notifications[] = new unsubmitted();
+    }
+
+}

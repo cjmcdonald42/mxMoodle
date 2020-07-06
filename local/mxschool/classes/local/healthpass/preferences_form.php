@@ -32,6 +32,7 @@
 
  use local_mxschool\local\healthpass\healthpass_approved;
  use local_mxschool\local\healthpass\healthpass_denied;
+ use local_mxschool\local\healthpass\unsubmitted;
 
  class preferences_form extends \local_mxschool\form {
 
@@ -46,7 +47,7 @@
 				 'max_body_temp' => self::ELEMENT_TEXT,
 				 'healthpass_enabled' => array('element' => 'checkbox')
 			 ),
-			 'notifications' => array(
+			 'submitted_notifications' => array(
                     'approved_tags' => self::email_tags(new healthpass_approved()),
                     'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                     'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
@@ -54,6 +55,12 @@
 				'denied_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				'denied_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
                 ),
+			 'unsubmitted_notifications' => array(
+				 'days_before_reminder' =>self::ELEMENT_TEXT,
+				 'unsubmitted_tags' => self::email_tags(new unsubmitted()),
+				 'unsubmitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+				 'unsubmitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+			 )
 		 );
 		 $this->set_fields($fields, 'healthpass:preferences');
       }
@@ -67,6 +74,7 @@
 	    global $DB;
 	    $errors = parent::validation($data, $files);
 	    if(!is_numeric($data['max_body_temp'])) $errors['max_body_temp'] = get_string('healthpass:preferences:error:not_numeric', 'local_mxschool');
+	    if(!is_numeric($data['days_before_reminder'])) $errors['days_before_reminder'] = get_string('healthpass:preferences:error:not_numeric', 'local_mxschool');
 	    return $errors;
 	 }
 }

@@ -15,9 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Email notification to remind students to complete the healthpass form
+ * for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @subpackage  healthpass
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -25,11 +27,20 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\local\healthpass;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2020070602;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+class unsubmitted extends \local_mxschool\notification {
+
+    /**
+     * @param int $id The userid of the recipient. A value of 0 indicates that the notification should be sent to the deans.
+     */
+    public function __construct($id = 0) {
+        global $DB;
+        parent::__construct('healthpass_notify_unsubmitted');
+
+        $this->recipients[] = $id ? $DB->get_record('user', array('id' => $id)) : self::get_deans_user();
+    }
+
+}

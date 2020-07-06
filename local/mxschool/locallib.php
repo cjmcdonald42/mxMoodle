@@ -25,8 +25,6 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once(__DIR__.'/podio/Podio.php');
-require_once(__DIR__.'/podio/PodioItem.php');
 /*
  * ========================
  * Page Setup Abstractions.

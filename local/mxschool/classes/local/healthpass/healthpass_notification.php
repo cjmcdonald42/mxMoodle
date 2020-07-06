@@ -52,7 +52,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
                 throw new \coding_exception("Record with id {$id} not found.");
             }
 
-            $this->data['name'] = $record->name;
+            $this->data['alternatename'] = $record->name;
 		  $this->data['symptoms'] = $record->symptoms;
 
             array_push(
@@ -66,7 +66,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
      */
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
-            'name', 'symptoms'
+            'alternatename', 'symptoms'
         ));
     }
 
