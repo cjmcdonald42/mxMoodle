@@ -31,6 +31,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		var override_text = $('.mx-override-text'+userid);
 		var health_status = $('.mx-changeable-text'+'status'+userid);
 		var contact_info = $('.mx-changeable-text'+'contact_info'+userid);
+	     var email_button = $("button.mx-email-button[value='" + userid + "']");
 		var new_health_status = health_status.text()=='Approved' ? 'Denied' : 'Approved';
 		var old_health_status = health_status.text();
 		var old_override_status = override_text.text();
@@ -44,6 +45,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 			button.text('Override');
 			button.css('background-color', 'lightsalmon');
 			button.css('border-color', 'lightsalmon');
+			email_button.hide();
 		}
 		else if(override_text.text() == 'Under Review') {
 			contact_info.hide();
@@ -59,6 +61,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 			else if(new_health_status == 'Denied') {
 				health_status.css('color', 'red');
 			}
+			email_button.show();
 		}
 		else if(override_text.text() == 'Overridden') {
 			contact_info.hide();
@@ -73,6 +76,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 			else if(new_health_status == 'Denied') {
 				health_status.css('color', 'red');
 			}
+			email_button.hide();
 		}
 		else {
 			throw "Unrecognized override text: "+override_text.text();
@@ -93,6 +97,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 	    var override_status = button.attr('value');
 	    var health_status = $('.mx-changeable-text'+'status'+userid);
 	    var contact_info = $('.mx-changeable-text'+'contact_info'+userid);
+	    var email_button = $("button.mx-email-button[value='" + userid + "']");
 	    // Set default value for override_status column
 	    if(override_status == 'Not Overridden') {
 		    contact_info.hide();
@@ -100,6 +105,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		    button.text('Review');
 		    button.css('background-color', 'dodgerblue');
 		    button.css('border-color', 'dodgerblue');
+		    email_button.hide();
 	    }
 	    else if(override_status == 'Under Review') {
 		    contact_info.show();
@@ -108,6 +114,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		    button.text('Override');
 		    button.css('background-color', 'lightsalmon');
 		    button.css('border-color', 'lightsalmon');
+		    email_button.hide();
 	    }
 	    else if(override_status == 'Overridden') {
 		    contact_info.hide();
@@ -116,6 +123,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		    button.text('Undo');
 		    button.css('background-color', 'dimgray');
 		    button.css('border-color', 'dimgray');
+		    email_button.show();
 	    }
 	    else {
 		    throw "Unrecognized override_status value in database: "+override_status;

@@ -33,6 +33,7 @@
  use local_mxschool\output\comment;
  use local_mxschool\output\changeable_text;
  use local_mxschool\output\override_button;
+ use local_mxschool\output\email_button;
 
  class table extends \local_mxschool\table {
 
@@ -154,8 +155,12 @@
 	   if($this->is_downloading()) return $values->override_status;
 	   global $PAGE;
 	   $output = $PAGE->get_renderer('local_mxschool');
-	   $renderable = new override_button($values->id, $values->override_status);
-	   return $output->render($renderable);
+	   $renderable_override = new override_button($values->id, $values->override_status);
+	   $renderable_email = new email_button(
+		   get_string('healthpass:report:override_email_button', 'local_mxschool'),
+		   'healthpass_overridden', $values->id, false, true
+	   );
+	   return "{$output->render($renderable_override)}{$output->render($renderable_email)}";
     }
 
     protected function col_comment($values) {

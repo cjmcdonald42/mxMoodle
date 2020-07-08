@@ -145,6 +145,9 @@ class local_mxschool_external extends external_api {
 		  case 'healthpass_notify_unsubmitted':
 			  require_capability('local/mxschool:manage_healthpass', context_system::instance());
 			  return (new local_mxschool\local\healthpass\bulk_unsubmitted())->send();
+		  case 'healthpass_overridden':
+			  require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			  return (new local_mxschool\local\healthpass\healthpass_overridden($params['emailparams']['id']))->send();
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }

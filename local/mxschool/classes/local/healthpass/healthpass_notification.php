@@ -44,7 +44,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT u.id AS userid, u.alternatename, hp.symptoms
+                "SELECT u.id AS userid, u.alternatename, hp.symptoms, hp.status
                  FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid
                  WHERE u.id = {$id}"
             );
@@ -54,6 +54,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
 
             $this->data['alternatename'] = $record->alternatename;
 		  $this->data['symptoms'] = $record->symptoms;
+		  $this->data['COVIDpass_status'] = $record->status;
 
             array_push(
                 $this->recipients, $DB->get_record('user', array('id' => $record->userid))
@@ -66,7 +67,7 @@ abstract class healthpass_notification extends \local_mxschool\notification {
      */
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
-            'alternatename', 'symptoms'
+            'alternatename', 'symptoms', 'COVIDpass_status'
         ));
     }
 

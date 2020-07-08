@@ -43,6 +43,7 @@ $data->max_body_temp = get_config('local_mxschool', 'healthpass_max_body_temp');
 $data->days_before_reminder = get_config('local_mxschool', 'healthpass_days_before_reminder');
 generate_email_preference_fields('healthpass_approved', $data, 'approved');
 generate_email_preference_fields('healthpass_denied', $data, 'denied');
+generate_email_preference_fields('healthpass_overridden', $data, 'overridden');
 generate_email_preference_fields('healthpass_notify_unsubmitted', $data, 'unsubmitted');
 
 // Create form
@@ -59,6 +60,7 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	set_config('healthpass_days_before_reminder', $data->days_before_reminder, 'local_mxschool');
 	update_notification('healthpass_approved', $data, 'approved');
      update_notification('healthpass_denied', $data, 'denied');
+	update_notification('healthpass_overridden', $data, 'overridden');
 	update_notification('healthpass_notify_unsubmitted', $data, 'unsubmitted');
      logged_redirect($form->get_redirect(), get_string('healthpass:preferences:success', 'local_mxschool'), 'update');
 }
