@@ -43,12 +43,14 @@ class block_mxschool_dash_healthcenter extends block_base {
         $this->content = new stdClass();
         if (has_capability('block/mxschool_dash_healthcenter:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
+		  $dorm = get_param_faculty_dorm();
+		  $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
             $renderables = array(
                 new local_mxschool\output\index(array(
                     get_string('healthpass:submit_form', 'block_mxschool_dash_healthcenter')
                         => '/local/mxschool/healthpass/form.php',
                     get_string('healthpass:report', 'block_mxschool_dash_healthcenter')
-                        => '/local/mxschool/healthpass/report.php?status=Denied',
+                        => "/local/mxschool/healthpass/report.php?{$filter}",
                     get_string('healthpass:preferences', 'block_mxschool_dash_healthcenter')
                             => '/local/mxschool/healthpass/preferences.php',
                 ),  get_string('healthpass', 'block_mxschool_dash_healthcenter')),

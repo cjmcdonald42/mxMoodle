@@ -588,6 +588,17 @@ function user_is_student() {
 }
 
 /**
+ * Determines whether the current user is faculty.
+ * If this fuction returns true, it is safe to use $USER->id to reference the current faculty's user id.
+ *
+ * @return bool Whether the user is a faculty member.
+ */
+function user_is_faculty() {
+    global $USER, $DB;
+    return $DB->record_exists('local_mxschool_faculty', array('userid' => $USER->id));
+}
+
+/**
  * Determines whether a specified user is a student who is permitted to access weekend forms.
  *
  * @param int $id The user id of the student to check.

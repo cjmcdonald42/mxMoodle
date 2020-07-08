@@ -63,6 +63,7 @@ $user_type_options = array(
 );
 
 // Create dropdowns, where the last parameter is the default value
+// If filtering by dorm, then set user_type to student.
  if($filter->dorm) {
 	 $dropdowns = array(
 		 new local_mxschool\output\dropdown(
@@ -76,6 +77,7 @@ $user_type_options = array(
 		 )
 	 );
  }
+ // Else then set user_type any.
  else {
 	 $dropdowns = array(
 	 	new local_mxschool\output\dropdown(
