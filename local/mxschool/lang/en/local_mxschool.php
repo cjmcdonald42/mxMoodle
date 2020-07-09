@@ -545,7 +545,21 @@ $string['checkin:weekend_calculator:legend:off_campus'] = 'Student Off Campus';
 $string['checkin:weekend_calculator:legend:free'] = 'Free weekend';
 $string['checkin:weekend_calculator:legend:closed'] = 'Campus weekend';
 
+/* Attendance Report */
+$string['checkin:attendance_report'] = 'Attendance Report';
+$string['checkin:attendance_report:title'] = 'Attendance Report';
 
+// Headers
+$string['checkin:attendance_report:header:student'] = 'Name';
+$string['checkin:attendance_report:header:dorm'] = 'Dorm';
+$string['checkin:attendance_report:header:room'] = 'Room';
+$string['checkin:attendance_report:header:grade'] = 'Grade';
+$string['checkin:attendance_report:header:attended'] = 'Attended';
+
+// Filters
+$string['checkin:attendance_report:attendance:all'] = 'All';
+$string['checkin:attendance_report:attendance:1'] = 'Attended';
+$string['checkin:attendance_report:attendance:0'] = 'Absent';
 
 /*
  * ==================
@@ -1076,9 +1090,9 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:preferences:error:not_numeric'] = 'You must enter a number here';
 
  /* Healthpass Symptoms and Health_info. */
- $string['healthpass:health_info0'] = 'in contact with someone who has or is suspected to have COVID19';
- $string['healthpass:health_info1'] = 'recently tested';
- $string['healthpass:health_info2'] = 'took fever reducing medications today';
+ $string['healthpass:health_info0'] = 'In contact with suspected COVID19';
+ $string['healthpass:health_info1'] = 'Recently tested';
+ $string['healthpass:health_info2'] = 'Took fever reducing medications';
 
  $string['healthpass:symptom0'] = 'Fever';
  $string['healthpass:symptom1'] = 'Sore Throat';

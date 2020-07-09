@@ -48,7 +48,7 @@ function xmldb_local_mxschool_install() {
 
     $subpackages = array(
         array('subpackage' => 'user_management', 'pages' => json_encode(array('student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'))),
-        array('subpackage' => 'checkin', 'pages' => json_encode(array('preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator'))),
+        array('subpackage' => 'checkin', 'pages' => json_encode(array('preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator', 'attendance_report'))),
         array('subpackage' => 'advisor_selection', 'pages' => json_encode(array('preferences', 'form', 'report'))),
         array('subpackage' => 'rooming', 'pages' => json_encode(array('preferences', 'form', 'report'))),
         array('subpackage' => 'vacation_travel', 'pages' => json_encode(array('preferences', 'form', 'report', 'transportation_report'))),

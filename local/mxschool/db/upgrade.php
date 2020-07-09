@@ -782,19 +782,22 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->create_table($table);
         }
 
-        // Add all mxschool subpackages in the bew format.
+        // Add all mxschool subpackages in the new format.
         $subpackages = array(
             array('subpackage' => 'user_management', 'pages' => json_encode(array(
                 'student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'
             ))),
             array('subpackage' => 'checkin', 'pages' => json_encode(array(
-                'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator'
+                'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator', 'attendance_report'
             ))),
             array('subpackage' => 'advisor_selection', 'pages' => json_encode(array('preferences', 'form', 'report'))),
             array('subpackage' => 'rooming', 'pages' => json_encode(array('preferences', 'form', 'report'))),
             array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
                 'preferences', 'form', 'report', 'transportation_report'
-            )))
+		 ))),
+		  array('subpackage' => 'healthpass', 'pages' => json_encode(array(
+                'preferences', 'form', 'report'
+		 )))
         );
         foreach ($subpackages as $subpackage) {
             $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
@@ -870,7 +873,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $table = new xmldb_table('local_mxschool_healthpass');
 
         // Adding fields to table local_mxschool_healthpass.
-	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	   $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('status', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
         $table->add_field('body_temperature', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
@@ -926,6 +929,28 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	      upgrade_plugin_savepoint(true, 2020070201, 'local', 'mxschool');
     }
+    if ($oldversion < 2020070901) {
+
+	    // Define table local_mxschool_attendance to be created.
+	    $table = new xmldb_table('local_mxschool_attendance');
+
+	    // Adding fields to table local_mxschool_attendance.
+	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	    $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('attended', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+
+	    // Adding keys to table local_mxschool_attendance.
+	    $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+	    $table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+	    // Conditionally launch create table for local_mxschool_attendance.
+	    if (!$dbman->table_exists($table)) {
+		   $dbman->create_table($table);
+	    }
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020070901, 'local', 'mxschool');
+}
 
      return true;
 
