@@ -55,7 +55,6 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 	   var comment_edit_area = $('.mx-comment-edit-area'+userid);
 	   var save_button = $('.mx-comment-save-button'+userid);
 	   var comment_text = $('.mx-comment-text'+userid);
-	   comment_text.text(original_comment_text);
 	   comment_text.show();
 	   comment_edit_area.hide();
 	   save_button.hide();

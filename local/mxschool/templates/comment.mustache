@@ -27,7 +27,7 @@
     Required context variables:
     - text | string | the text to display on the button
 }}
-<p class="mx-comment-text{{ userid }}"></p>
+<p class="mx-comment-text{{ userid }}">{{ comment_text }}</p>
 <button
 	type="button" class="mx-comment-edit-button{{ userid }} btn btn-primary d-print-none"
 	name="{{ userid }}">{{ edit_button_text }}
@@ -37,6 +37,6 @@
 
 {{# js }}
     require(['local_mxschool/comment'], function(setup) {
-        setup({{ userid }}, '{{ comment_text }}');
+        setup({{ userid }});
     });
 {{/ js }}
