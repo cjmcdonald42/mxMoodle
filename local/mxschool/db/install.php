@@ -45,6 +45,7 @@ function xmldb_local_mxschool_install() {
     set_config('healthpass_enable', 'Yes', 'local_mxschool');
     set_config('healthpass_max_body_temp', '99.0', 'local_mxschool');
     set_config('healthpass_days_before_reminder', '3', 'local_mxschool');
+    set_config('healthcenter_notification_email', 'healthcenter@mxschool.edu', 'local_mxschool');
 
     $subpackages = array(
         array('subpackage' => 'user_management', 'pages' => json_encode(array('student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'))),

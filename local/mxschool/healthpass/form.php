@@ -149,6 +149,9 @@
    }
    else if($data->status=='Denied') {
 	   $response_message = get_string('healthpass:form:success:denied', 'local_mxschool');
+	   if(get_config('local_mxschool', 'healthcenter_notification_enabled') == '1') {
+		   (new local_mxschool\local\healthpass\healthcenter_notification($data->name))->send();
+	   }
 	   (new local_mxschool\local\healthpass\healthpass_denied($data->name))->send();
    }
    else throw new \coding_exception("ERROR: Unrecognized health status: {$data->status}");

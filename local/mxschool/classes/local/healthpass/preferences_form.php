@@ -30,6 +30,7 @@
 
  defined('MOODLE_INTERNAL') || die();
 
+ use local_mxschool\local\healthpass\healthcenter_notification;
  use local_mxschool\local\healthpass\healthpass_approved;
  use local_mxschool\local\healthpass\healthpass_denied;
  use local_mxschool\local\healthpass\healthpass_overridden;
@@ -47,6 +48,13 @@
 				 'reset_time' => self::time_selector(1),
 				 'max_body_temp' => self::ELEMENT_TEXT,
 				 'healthpass_enabled' => array('element' => 'checkbox')
+			 ),
+			 'healthcenter_notification' => array(
+				 'healthcenter_notification_enabled' => array('element' => 'checkbox'),
+				 'healthcenter_email_address' => self::ELEMENT_LONG_TEXT_REQUIRED,
+				 'healthcenter_tags' => self::email_tags(new healthcenter_notification()),
+				 'healthcenter_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+				 'healthcenter_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
 			 ),
 			 'submitted_notifications' => array(
                     'approved_tags' => self::email_tags(new healthpass_approved()),
