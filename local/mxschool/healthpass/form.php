@@ -144,15 +144,17 @@
    }
    // Sends email to the user depending on status.
    if($data->status=='Approved') {
+	   $response_message = get_string('healthpass:form:success:approved', 'local_mxschool');
 	   (new local_mxschool\local\healthpass\healthpass_approved($data->name))->send();
    }
    else if($data->status=='Denied') {
+	   $response_message = get_string('healthpass:form:success:denied', 'local_mxschool');
 	   (new local_mxschool\local\healthpass\healthpass_denied($data->name))->send();
    }
    else throw new \coding_exception("ERROR: Unrecognized health status: {$data->status}");
    // Redirect user
    logged_redirect(
-       $form->get_redirect(), get_string('healthpass:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
+       $form->get_redirect(), $response_message, $data->id ? 'update' : 'create'
    );
  }
 

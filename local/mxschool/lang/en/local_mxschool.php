@@ -1020,7 +1020,8 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  $string['healthpass:form:symptoms:symptom7'] = "a headache?";
 
  // Form Reponses.
- $string['healthpass:form:success'] = "COVIDPass Submitted Successfully";
+ $string['healthpass:form:success:approved'] = "COVIDPass Approved";
+ $string['healthpass:form:success:denied'] = "COVIDPass Denied";
  $string['healthpass:form:error:no_symptoms_logic'] = "You cannot click 'I have no symptoms' if you have this symptom";
  $string['healthpass:form:error:unset_symptom'] = "You must answer here or click 'I have no symptoms'";
  $string['healthpass:form:no_symptoms_button'] = "I have no symptoms";
