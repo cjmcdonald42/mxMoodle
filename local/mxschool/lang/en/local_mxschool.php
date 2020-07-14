@@ -991,7 +991,7 @@ $string['deans_permission'] = 'Deans\' Permission';
 $string['deans_permission:form'] = 'Deans\' Permission Form';
 $string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
 
-// Information
+// Information.
 $string['deans_permission:form:info'] = 'Information';
 $string['deans_permission:form:info:student'] = 'Student';
 $string['deans_permission:form:info:event'] = 'Event';
@@ -1004,3 +1004,23 @@ $string['deans_permission:form:info:return'] = 'When are you returning?';
 
 // Notifications.
 $string['deans_permission:form:success'] = 'Deans\' Permission Form Submitted Successfully';
+
+
+/* Deans permission report */
+$string['deans_permission:report'] = 'Deans\' Permission Report';
+$string['deans_permission:report:title'] = 'Deans\' Permission Report';
+
+// Headers.
+$string['deans_permission:report:header:student'] = 'Student';
+$string['deans_permission:report:header:event'] = 'Event';
+$string['deans_permission:report:header:sport'] = 'Sport Played';
+$string['deans_permission:report:header:missing'] = 'Missing';
+$string['deans_permission:report:header:departure_time'] = 'Departure Time';
+$string['deans_permission:report:header:return_time'] = 'Return Time';
+$string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
+$string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
+$string['deans_permission:report:header:class_perm'] = 'Miss Class';
+$string['deans_permission:report:header:dean_perm'] = 'Approved?';
+
+// Buttons.
+$string['deans_permission:report:add'] = 'New Deans\' Permission Form';

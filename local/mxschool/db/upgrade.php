@@ -877,6 +877,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    $table->add_field('sports_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
 	    $table->add_field('studyhours_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
 	    $table->add_field('class_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+    	    $table->add_field('dean_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
 
 	    // Adding keys to table local_mxschool_deans_perm.
 	    $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);

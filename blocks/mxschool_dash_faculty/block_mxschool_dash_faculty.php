@@ -46,7 +46,8 @@ class block_mxschool_dash_faculty extends block_base {
             $renderable = new local_mxschool\output\index(array(
                 get_string('student_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/student_report.php',
                 get_string('vehicle_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/vehicle_report.php',
-                get_string('duty_report', 'block_mxschool_dash_faculty') => '/local/signout/on_campus/duty_report.php'
+                get_string('duty_report', 'block_mxschool_dash_faculty') => '/local/signout/on_campus/duty_report.php',
+                get_string('deans_permission_report', 'block_mxschool_dash_faculty') => '/local/mxschool/deans_permission/report.php'
             ));
             $this->content->text = $output->render($renderable);
         }

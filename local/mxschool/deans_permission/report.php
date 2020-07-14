@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Rooming report for Middlesex's Dorm and Student Functions Plugin.
+ * Deans permission report for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @subpackage  rooming
+ * @subpackage  deans_permission
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -29,19 +30,19 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_rooming', context_system::instance());
+require_capability('local/mxschool:manage_deans_permission', context_system::instance());
 
 $filter = new stdClass();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-setup_mxschool_page('report', 'rooming');
+setup_mxschool_page('report', 'deans_permission');
 
 $submittedoptions = array(
     '1' => get_string('rooming:report:select_submitted:true', 'local_mxschool'),
     '0' => get_string('rooming:report:select_submitted:false', 'local_mxschool')
 );
-$table = new local_mxschool\local\rooming\table($filter, $download);
+$table = new local_mxschool\local\deans_permission\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\output\dropdown(
         'submitted', $submittedoptions, $filter->submitted, get_string('dropdown:default', 'local_mxschool')
@@ -49,7 +50,7 @@ $dropdowns = array(
 );
 $buttons = array(
     new local_mxschool\output\redirect_button(
-        get_string('rooming:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/rooming/form.php')
+        get_string('deans_permission:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/deans_permission/form.php')
     )
 );
 
