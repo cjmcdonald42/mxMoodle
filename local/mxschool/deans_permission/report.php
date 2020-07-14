@@ -34,6 +34,7 @@ require_capability('local/mxschool:manage_deans_permission', context_system::ins
 
 $filter = new stdClass();
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
+$filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
 setup_mxschool_page('report', 'deans_permission');

@@ -49,6 +49,7 @@ $queryfields = array(
     )
 );
 
+$data = new stdClass();
 $data->isstudent = $isstudent ? '1' : '0';
 $students = get_student_list();
 $roomable = array(0 => get_string('form:select:default', 'local_mxschool')) + get_boarding_next_year_student_list();

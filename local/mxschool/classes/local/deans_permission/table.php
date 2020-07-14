@@ -30,6 +30,8 @@ namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
+use local_mxschool\output\permission_button;
+
 class table extends \local_mxschool\table {
 
     /**
@@ -48,7 +50,7 @@ class table extends \local_mxschool\table {
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, false);
 
         $fields = array(
-		   'dp.id', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dp.event', 'dp.sport', 'dp.missing_sports',
+		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dp.event', 'dp.sport', 'dp.missing_sports',
 		   'dp.missing_studyhours', 'dp.missing_class', 'dp.departure_time', 'dp.return_time', 'dp.sports_perm', 'dp.studyhours_perm',
 		   'dp.class_perm', 'dp.dean_perm'
         );
@@ -93,5 +95,33 @@ class table extends \local_mxschool\table {
  	*/
     protected function col_return_time($values) {
     	    return $values->return_time ? format_date('n/j/y g:i A', $values->return_time) : '';
+    }
+
+    protected function col_sports_perm($values) {
+	    global $PAGE;
+	    $output = $PAGE->get_renderer('local_mxschool');
+	    $renderable = new permission_button($values->id, $values->userid, $values->sports_perm, 'sports', 'deans_permission');
+	    return $output->render($renderable);
+    }
+
+    protected function col_studyhours_perm($values) {
+		global $PAGE;
+		$output = $PAGE->get_renderer('local_mxschool');
+		$renderable = new permission_button($values->id, $values->userid, $values->studyhours_perm, 'studyhours', 'deans_permission');
+		return $output->render($renderable);
+    }
+
+    protected function col_class_perm($values) {
+		global $PAGE;
+		$output = $PAGE->get_renderer('local_mxschool');
+		$renderable = new permission_button($values->id, $values->userid, $values->class_perm, 'class', 'deans_permission');
+		return $output->render($renderable);
+    }
+
+    protected function col_dean_perm($values) {
+		global $PAGE;
+		$output = $PAGE->get_renderer('local_mxschool');
+		$renderable = new permission_button($values->id, $values->userid, $values->dean_perm, 'dean', 'deans_permission');
+		return $output->render($renderable);
     }
 }
