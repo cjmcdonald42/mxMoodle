@@ -53,6 +53,10 @@ class block_mxschool_dash_student extends block_base {
             $links[get_string('vacation', 'block_mxschool_dash_student')]
                 = '/local/mxschool/vacation_travel/form.php';
         }
+	   if (user_is_admin() || (user_is_student())) {
+            $links[get_string('deans_permission', 'block_mxschool_dash_student')]
+                = '/local/mxschool/deans_permission/form.php';
+        }
 
         $this->content = new stdClass();
         if (count($links)) {

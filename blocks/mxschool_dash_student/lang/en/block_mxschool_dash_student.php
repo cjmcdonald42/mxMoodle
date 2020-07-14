@@ -42,3 +42,4 @@ $string['description:description'] = 'Text to display above the available links 
 $string['advisor_selection'] = 'Advisor Selection Form';
 $string['rooming'] = 'Rooming Form';
 $string['vacation'] = 'Vacation Travel Form';
+$string['deans_permission'] = 'Deans\' Permission Form';

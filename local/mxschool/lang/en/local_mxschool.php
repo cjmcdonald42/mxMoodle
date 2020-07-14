@@ -986,3 +986,21 @@ $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
  * ================
  */
 $string['deans_permission'] = 'Deans\' Permission';
+
+/* Deans permission Form */
+$string['deans_permission:form'] = 'Deans\' Permission Form';
+$string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
+
+// Information
+$string['deans_permission:form:info'] = 'Information';
+$string['deans_permission:form:info:student'] = 'Student';
+$string['deans_permission:form:info:event'] = 'Event';
+$string['deans_permission:form:info:sport'] = 'What sport do you play?';
+$string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
+$string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
+$string['deans_permission:form:info:missing_class'] = 'Will you be missing classes?';
+$string['deans_permission:form:info:departure'] = 'When are you leaving?';
+$string['deans_permission:form:info:return'] = 'When are you returning?';
+
+// Notifications.
+$string['deans_permission:form:success'] = 'Deans\' Permission Form Submitted Successfully';

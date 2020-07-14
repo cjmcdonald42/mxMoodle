@@ -15,17 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for students to submit rooming requests for Middlesex's Dorm and Student Functions Plugin.
+ * Form for students to submit deans permissions requests for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @subpackage  rooming
+ * @subpackage  deans_permission
+ * @author	 Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool\local\rooming;
+namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -36,8 +37,6 @@ class form extends \local_mxschool\form {
      */
     protected function definition() {
         $students = $this->_customdata['students'];
-        $roomable = $this->_customdata['roomable'];
-        $roomtypes = $this->_customdata['roomtypes'];
 
         $fields = array(
             '' => array(
@@ -45,12 +44,28 @@ class form extends \local_mxschool\form {
                 'timecreated' => self::ELEMENT_HIDDEN_INT,
                 'isstudent' => self::ELEMENT_HIDDEN_INT
             ),
+		  'info' => array(
+			  'student' => array('element' => 'select', 'options' => $students),
+			  'event' => self::ELEMENT_TEXT_REQUIRED,
+			  'sport' => self::ELEMENT_TEXT_REQUIRED,
+			  'missing_sports' => self::ELEMENT_BOOLEAN_REQUIRED,
+  			  'missing_studyhours' => self::ELEMENT_BOOLEAN_REQUIRED,
+			  'missing_class' => self::ELEMENT_BOOLEAN_REQUIRED,
+			  'departure' => array('element' => 'group', 'children' => array(
+				 'time' => self::time_selector(15),
+				 'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
+			  )),
+			  'return' => array('element' => 'group', 'children' => array(
+				 'time' => self::time_selector(15),
+				 'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
+			  ))
+		  )
+
         );
-        $this->set_fields($fields, 'rooming:form');
+        $this->set_fields($fields, 'deans_permission:form');
 
         $mform = $this->_form;
         $mform->hideIf('student', 'isstudent', 'eq');
-        $mform->disabledIf('student', 'id', 'neq', '0');
     }
 
     /**

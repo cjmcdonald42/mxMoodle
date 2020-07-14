@@ -15,13 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page for students to submit rooming requests for Middlesex's Dorm and Student Functions Plugin.
+ * Page for students to submit deans permission requests for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @subpackage  rooming
+ * @subpackage  deans_permission
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,68 +32,40 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 $isstudent = user_is_student();
 if (!$isstudent) {
-    require_capability('local/mxschool:manage_rooming', context_system::instance());
+    require_capability('local/mxschool:manage_deans_permission', context_system::instance());
 }
 
 $id = optional_param('id', 0, PARAM_INT);
 
-setup_mxschool_page('form', 'rooming');
-$PAGE->requires->js_call_amd('local_mxschool/rooming_form', 'setup');
-
+setup_mxschool_page('form', 'deans_permission');
 
 $queryfields = array(
-    'local_mxschool_rooming' => array(
-        'abbreviation' => 'r',
+    'local_mxschool_deans_perm' => array(
+        'abbreviation' => 'dp',
         'fields' => array(
-            'id', 'userid' => 'student', 'room_type' => 'roomtype', 'dormmate1id' => 'dormmate1', 'dormmate2id' => 'dormmate2',
-            'dormmate3id' => 'dormmate3', 'dormmate4id' => 'dormmate4', 'dormmate5id' => 'dormmate5', 'dormmate6id' => 'dormmate6',
-            'has_lived_in_double' => 'liveddouble', 'preferred_roommateid' => 'roommate', 'time_created' => 'timecreated',
-            'time_modified' => 'timemodified'
+            'id', 'userid' => 'student', 'event', 'sport', 'missing_sports', 'missing_studyhours',
+		  'missing_class', 'departure_time', 'return_time'
         )
     )
 );
 
-if ($isstudent && !student_may_access_rooming($USER->id)) {
-    redirect_to_fallback();
-}
-if ($id) { // Updating an existing record.
-    if (!$DB->record_exists('local_mxschool_rooming', array('id' => $id))) {
-        redirect_to_fallback();
-    }
-    $data = get_record($queryfields, "r.id = ?", array($id));
-    if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
-        redirect($PAGE->url);
-    }
-} else { // Creating a new record.
-    $data = new stdClass();
-    $data->id = $id;
-    $data->timecreated = time();
-    $data->liveddouble = '-1'; // Invalid default to prevent auto selection.
-    if ($isstudent) {
-        $existingid = $DB->get_field('local_mxschool_rooming', 'id', array('userid' => $USER->id));
-        if ($existingid) { // There can only be one rooming form per student.
-            redirect(new moodle_url($PAGE->url, array('id' => $existingid)));
-        }
-        $data->student = $USER->id;
-    }
-}
 $data->isstudent = $isstudent ? '1' : '0';
-$data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
-$students = get_boarding_next_year_student_list();
+$students = get_student_list();
 $roomable = array(0 => get_string('form:select:default', 'local_mxschool')) + get_boarding_next_year_student_list();
 $roomtypes = array(0 => get_string('form:select:default', 'local_mxschool')) + get_room_type_list();
 
-$form = new local_mxschool\local\rooming\form(array('students' => $students, 'roomable' => $roomable, 'roomtypes' => $roomtypes));
+$form = new local_mxschool\local\deans_permission\form(array('students' => $students));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
+    $data->departure_time = generate_timestamp($data, 'departure');
+    $data->return_time = generate_timestamp($data, 'return');
     $id = update_record($queryfields, $data);
-    $result = (new local_mxschool\local\rooming\submitted($id))->send();
     logged_redirect(
-        $form->get_redirect(), get_string('rooming:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
+        $form->get_redirect(), get_string('deans_permission:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );
 }
 
@@ -101,7 +74,7 @@ $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(
-    $isstudent ? get_string('rooming_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
+    $isstudent ? get_string('deans_permission_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
 );
 echo $output->render($renderable);
 echo $output->footer();

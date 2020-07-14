@@ -781,7 +781,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->create_table($table);
         }
 
-        // Add all mxschool subpackages in the bew format.
+        // Add all mxschool subpackages in the new format.
         $subpackages = array(
             array('subpackage' => 'user_management', 'pages' => json_encode(array(
                 'student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'
@@ -854,7 +854,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080801, 'local', 'mxschool');
     }
 
-    if ($oldversion < 2020071401) {
+    if ($oldversion < 2020071403) {
+
+	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
+		   				'preferences', 'form', 'report'
+	    			   )));
+	    $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
 
 	    // Define table local_mxschool_deans_perm to be created.
 	    $table = new xmldb_table('local_mxschool_deans_perm');
@@ -883,7 +888,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    }
 
 	    // Mxschool savepoint reached.
-	    upgrade_plugin_savepoint(true, 2020071401, 'local', 'mxschool');
+	    upgrade_plugin_savepoint(true, 2020071403, 'local', 'mxschool');
 }
 
     return true;
