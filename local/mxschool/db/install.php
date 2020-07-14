@@ -52,7 +52,10 @@ function xmldb_local_mxschool_install() {
         array('subpackage' => 'rooming', 'pages' => json_encode(array('preferences', 'form', 'report'))),
         array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
             'preferences', 'form', 'report', 'transportation_report'
-        )))
+	    ))),
+	    array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
+		   'preferences', 'form', 'report'
+	    )))
     );
     foreach ($subpackages as $subpackage) {
         $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);

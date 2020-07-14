@@ -50,6 +50,7 @@ $string['mxschool:manage_vacation_travel'] = 'Middlesex School: View and manage 
 $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students who haven\'t submitted a vacation travel form';
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
+$string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage deans\' permission forms';
 
 
 /* Events. */
@@ -978,3 +979,10 @@ $string['vacation_travel:transportation_report:return:header:email'] = 'Email';
 
 // Cells.
 $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
+
+/*
+ * ================
+ * Deans' Permission
+ * ================
+ */
+$string['deans_permission'] = 'Deans\' Permission';

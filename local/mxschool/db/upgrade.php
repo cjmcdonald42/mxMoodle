@@ -854,5 +854,37 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019080801, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2020071401) {
+
+	    // Define table local_mxschool_deans_perm to be created.
+	    $table = new xmldb_table('local_mxschool_deans_perm');
+
+	    // Adding fields to table local_mxschool_deans_perm.
+	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	    $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('event', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+	    $table->add_field('sport', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+	    $table->add_field('missing_sports', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+	    $table->add_field('missing_studyhours', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+	    $table->add_field('missing_class', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+	    $table->add_field('departure_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('return_time', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('sports_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+	    $table->add_field('studyhours_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+	    $table->add_field('class_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+
+	    // Adding keys to table local_mxschool_deans_perm.
+	    $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+	    $table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+	    // Conditionally launch create table for local_mxschool_deans_perm.
+	    if (!$dbman->table_exists($table)) {
+		   $dbman->create_table($table);
+	    }
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020071401, 'local', 'mxschool');
+}
+
     return true;
 }
