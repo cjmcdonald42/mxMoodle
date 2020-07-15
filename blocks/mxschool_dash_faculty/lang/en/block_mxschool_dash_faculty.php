@@ -40,3 +40,4 @@ $string['student_report'] = 'Student Data Report';
 $string['vehicle_report'] = 'Student Vehicles Report';
 $string['duty_report'] = 'On-Campus Duty Report';
 $string['deans_permission_report'] = 'Deans\' Permission Report';
+$string['deans_permission_preferences'] = 'Deans\' Permission Preferences';

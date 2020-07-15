@@ -65,6 +65,7 @@ if ($form->is_cancelled()) {
     $data->departure_time = generate_timestamp($data, 'departure');
     $data->return_time = generate_timestamp($data, 'return');
     $id = update_record($queryfields, $data);
+    $result = (new local_mxschool\local\deans_permission\submitted($id))->send();
     logged_redirect(
         $form->get_redirect(), get_string('deans_permission:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
     );

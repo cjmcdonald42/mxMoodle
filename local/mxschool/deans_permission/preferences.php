@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Rooming preferences page for Middlesex's Dorm and Student Functions Plugin.
+ * deans permission preferences page for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @subpackage  rooming
+ * @subpackage  deans_permission
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -31,20 +31,21 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_rooming_preferences', context_system::instance());
 
-setup_mxschool_page('preferences', 'rooming');
+setup_mxschool_page('preferences', 'deans_permission');
 
 $data = new stdClass();
-$data->start_date = get_config('local_mxschool', 'rooming_form_start_date') ?: get_config('local_mxschool', 'dorms_open_date');
-$data->roommate_instructions['text'] = get_config('local_mxschool', 'rooming_form_roommate_instructions');
+$data->deans_email_address = get_config('local_mxschool', 'deans_email_address');
+generate_email_preference_fields('deans_permission_submitted', $data, 'submitted');
 
-$form = new local_mxschool\local\rooming\preferences_form();
+$form = new local_mxschool\local\deans_permission\preferences_form();
 $form->set_data($data);
 
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    set_config('rooming_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
-    set_config('rooming_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
+	set_config('deans_email_address', $data->deans_email_address, 'local_mxschool');
+	update_notification('deans_permission_submitted', $data, 'submitted');
+	logged_redirect($form->get_redirect(), get_string('deans_permission:preferences:update:success', 'local_mxschool'), 'update');
 }
 
 $output = $PAGE->get_renderer('local_mxschool');

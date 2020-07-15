@@ -15,22 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing rooming preferences for Middlesex's Dorm and Student Functions Plugin.
+ * Form for editing deans permission preferences for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @subpackage  rooming
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool\local\rooming;
+namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
-use local_mxschool\local\rooming\submitted;
-use local_mxschool\local\rooming\unsubmitted;
+use local_mxschool\local\deans_permission\submitted;
 
 class preferences_form extends \local_mxschool\form {
 
@@ -39,17 +39,13 @@ class preferences_form extends \local_mxschool\form {
      */
     protected function definition() {
         $fields = array(
-            'availability' => array(
-                'start' => array('element' => 'group', 'children' => array(
-                    'time' => self::time_selector(1),
-                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
-                )),
-                'stop' => array('element' => 'group', 'children' => array(
-                    'time' => self::time_selector(1),
-                    'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
-                ))
-            ),
+		  'deans_email' => array(
+			   'deans_email_address' => self::ELEMENT_EMAIL_REQUIRED,
+			   'submitted_tags' => self::email_tags(new submitted()),
+			   'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			   'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  )
         );
-        $this->set_fields($fields, 'rooming:preferences', true);
+        $this->set_fields($fields, 'deans_permission:preferences', true);
     }
 }

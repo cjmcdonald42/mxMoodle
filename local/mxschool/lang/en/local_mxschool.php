@@ -1024,3 +1024,13 @@ $string['deans_permission:report:header:dean_perm'] = 'Approved?';
 
 // Buttons.
 $string['deans_permission:report:add'] = 'New Deans\' Permission Form';
+
+/* Deans Permissions Preferences */
+$string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences:title'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences:deans_email'] = 'Deans\' Permission Form Submitted Notification';
+$string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans\' Email Address';
+$string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
+$string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
+$string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
+$string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
