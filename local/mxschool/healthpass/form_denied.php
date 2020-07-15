@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Health Pass Approved Page.
+ * Middlesex's Health Pass Denied Page.
  *
  * @package     local_mxschool
  * @subpackage  healthpass

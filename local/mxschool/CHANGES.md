@@ -1,3 +1,8 @@
+## Changes in v3.2
+- Create new Healthpass system for daily screening during COVID19 event
+- Create new Deans' Permission Form for off-campus travel
+- Update student permissions to match new Magnus permission system
+
 ## Changes in v3.1
 - Rework of email notification system to be object oriented and less redundant.
 - Introduction of formal subpackage abstraction to greatly simplify page setup and package organization, especially with subplugins. See the [updated plugin structure documentation](/docs/PLUGIN_STRUCTURE.md#subpackages-abstraction) for more information.

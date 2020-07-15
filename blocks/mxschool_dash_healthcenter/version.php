@@ -30,8 +30,8 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'block_mxschool_dash_healthcenter';
 $plugin->version = 2020070800;
 $plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
+$plugin->requires = 2019052000; // Moodle 3.7
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_mxschool' => 2019081400 // MXSchool v3.1.
+    'local_mxschool' => 2020071400 // MXSchool v3.2
 );
