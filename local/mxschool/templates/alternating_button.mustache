@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template   local_mxschool/permission_button
+    @template   local_mxschool/alternating_button
     @package    local_mxschool
     @author     Cannon Caspar, Class of 2021 <jrdegreeff@mxschool.edu>
     @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -27,14 +27,14 @@
     Required context variables:
     - text | string | the text to display on the button
 }}
-<p style="font-weight:bold" class="mx-permission-text{{ name }}{{ id }}" name="{{ userid }}" value="{{ package_name }}"></p>
+<p style="font-weight:bold;text-decoration:underline;" class="mx-alternating-text{{ name }}{{ id }}" name="{{ userid }}" value="{{ package_name }}"></p>
 <button
-	   type="button" class="mx-permission-button{{ name }}{{ id }} btn btn-primary d-print-none"
+	   type="button" class="mx-alternating-button{{ name }}{{ id }} btn btn-primary d-print-none"
 	   name="{{ name }}" value="{{ id }}">
 </button>
 
 {{# js }}
-    require(['local_mxschool/permission_button'], function(setup) {
-        setup({{ id }}, {{ userid }}, '{{ name }}', {{ current_value }});
+    require(['local_mxschool/alternating_button'], function(setup) {
+        setup({{ id }}, {{ userid }}, '{{ name }}', {{ current_value }}, '{{ package_name }}');
     });
 {{/ js }}

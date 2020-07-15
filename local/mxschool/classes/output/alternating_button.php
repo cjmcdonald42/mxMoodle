@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderable class for permission buttons for Middlesex's Dorm and Student Functions Plugin.
+ * Renderable class for alternating buttons for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author	 Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
@@ -31,19 +31,19 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
-* NOTE: Permission value increases by one or resets to 0 each time the button is clicked
+* NOTE: Button value increases by one or resets to 0 each time the button is clicked.
+* NOTE: The colors and text MUST BE DEFINED in alternating_button.js file or buttons will not work.
 * Permission Values are as follows:
-* @value int 0: No current value. If clicked will send an email to user specificed in external_lib according to package_name.
-* @value int 1: Under Review. If clicked will change to approved.
-* @value int 2: Approved. If clicked will reset to No Current Value.
+* @value int 0: Change text and color in alternating_button.js file with: {$package_name}_alternating_button_{$name}_0_text or _color.
+* Can declare button actions in externallib.php under the do_alternating_button_action() method.
 */
-class permission_button implements \renderable, \templatable {
+class alternating_button implements \renderable, \templatable {
 
     /** @var int a unqiue id for the button. Can be the same as userid. */
     public $id;
     /** @var int The id of the user for whom to grant permission.*/
     public $userid;
-    /** @var int The current permission value of the button.*/
+    /** @var int The current button value of the button, either 0, 1, or 2.*/
     public $current_value;
     /** @var string A name for the button. Must be unique across the row. */
     public $name;

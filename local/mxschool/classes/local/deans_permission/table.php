@@ -30,7 +30,7 @@ namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
-use local_mxschool\output\permission_button;
+use local_mxschool\output\alternating_button;
 
 class table extends \local_mxschool\table {
 
@@ -100,28 +100,28 @@ class table extends \local_mxschool\table {
     protected function col_sports_perm($values) {
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
-	    $renderable = new permission_button($values->id, $values->userid, $values->sports_perm, 'sports', 'deans_permission');
+	    $renderable = new alternating_button($values->id, $values->userid, $values->sports_perm, 'sports', 'deans_permission');
 	    return $output->render($renderable);
     }
 
     protected function col_studyhours_perm($values) {
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new permission_button($values->id, $values->userid, $values->studyhours_perm, 'studyhours', 'deans_permission');
+		$renderable = new alternating_button($values->id, $values->userid, $values->studyhours_perm, 'studyhours', 'deans_permission');
 		return $output->render($renderable);
     }
 
     protected function col_class_perm($values) {
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new permission_button($values->id, $values->userid, $values->class_perm, 'class', 'deans_permission');
+		$renderable = new alternating_button($values->id, $values->userid, $values->class_perm, 'class', 'deans_permission');
 		return $output->render($renderable);
     }
 
     protected function col_dean_perm($values) {
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new permission_button($values->id, $values->userid, $values->dean_perm, 'dean', 'deans_permission');
+		$renderable = new alternating_button($values->id, $values->userid, $values->dean_perm, 'deans', 'deans_permission');
 		return $output->render($renderable);
     }
 }
