@@ -1019,6 +1019,8 @@ $string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
 $string['deans_permission:report:header:comment'] = 'Comment';
 $string['deans_permission:report:header:dean_perm'] = 'Approved?';
+$string['deans_permission:report:header:form_submitted'] = 'Submitted';
+
 
 // Buttons.
 $string['deans_permission:report:add'] = 'New Deans\' Permission Form';

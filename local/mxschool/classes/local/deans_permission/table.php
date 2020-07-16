@@ -44,16 +44,16 @@ class table extends \local_mxschool\table {
      */
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
-        $columns = array('student', 'event', 'sport', 'missing', 'times_away', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm');
+        $columns = array('student', 'event', 'sport', 'missing', 'times_away', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
         $headers = $this->generate_headers($columns, 'deans_permission:report');
-        $sortable = array('student', 'departure_time', 'return_time');
-        $centered = array('event', 'sport', 'departure_time', 'return_time', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm');
-        parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, false);
+        $sortable = array('student', 'form_submitted');
+        $centered = array('event', 'sport', 'departure_time', 'return_time', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
+        parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
 		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dp.event', 'dp.sport', 'dp.missing_sports',
 		   'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.sports_perm', 'dp.studyhours_perm',
-		   'dp.comment', 'dp.class_perm', 'dp.dean_perm'
+		   'dp.comment', 'dp.class_perm', 'dp.dean_perm', 'dp.form_submitted'
         );
         $from = array(
 		   '{local_mxschool_deans_perm} dp', '{user} u ON dp.userid = u.id', '{local_mxschool_student} su ON dp.userid = su.userid'
@@ -117,5 +117,17 @@ class table extends \local_mxschool\table {
 		$output = $PAGE->get_renderer('local_mxschool');
 		$renderable = new alternating_button($values->id, $values->userid, $values->dean_perm, 'deans', 'deans_permission');
 		return $output->render($renderable);
+    }
+
+    protected function col_form_submitted($values) {
+	    return isset($values->form_submitted) ? format_date('n/j/y g:i A', $values->form_submitted) : '';
+    }
+
+    /**
+	* Formats the actions column.
+	*/
+    protected function col_actions($values) {
+	   return isset($values->id) ? $this->edit_icon('/local/mxschool/deans_permission/edit_form.php', $values->id).
+	    						  $this->delete_icon($values->id): '';
     }
 }
