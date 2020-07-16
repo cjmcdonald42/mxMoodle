@@ -44,13 +44,14 @@ $queryfields = array(
         'abbreviation' => 'dp',
         'fields' => array(
             'id', 'userid' => 'student', 'event', 'sport', 'missing_sports', 'missing_studyhours',
-		  'missing_class', 'departure_time', 'return_time'
+		  'missing_class', 'times_away', 'comment', 'form_submitted' => 'timecreated'
         )
     )
 );
 
 $data = new stdClass();
 $data->isstudent = $isstudent ? '1' : '0';
+$data->student = $USER->id;
 $students = get_student_list();
 $roomable = array(0 => get_string('form:select:default', 'local_mxschool')) + get_boarding_next_year_student_list();
 $roomtypes = array(0 => get_string('form:select:default', 'local_mxschool')) + get_room_type_list();
@@ -62,8 +63,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     $data->timemodified = time();
-    $data->departure_time = generate_timestamp($data, 'departure');
-    $data->return_time = generate_timestamp($data, 'return');
+    $data->comment = '';
     $id = update_record($queryfields, $data);
     $result = (new local_mxschool\local\deans_permission\submitted($id))->send();
     logged_redirect(

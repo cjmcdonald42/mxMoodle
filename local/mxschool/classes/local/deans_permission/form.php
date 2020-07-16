@@ -51,14 +51,7 @@ class form extends \local_mxschool\form {
 			  'missing_sports' => self::ELEMENT_BOOLEAN_REQUIRED,
   			  'missing_studyhours' => self::ELEMENT_BOOLEAN_REQUIRED,
 			  'missing_class' => self::ELEMENT_BOOLEAN_REQUIRED,
-			  'departure' => array('element' => 'group', 'children' => array(
-				 'time' => self::time_selector(15),
-				 'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
-			  )),
-			  'return' => array('element' => 'group', 'children' => array(
-				 'time' => self::time_selector(15),
-				 'date' => array('element' => 'date_selector', 'options' => self::date_options_school_year())
-			  ))
+			  'times_away' => self::ELEMENT_LONG_TEXT_REQUIRED
 		  )
 
         );

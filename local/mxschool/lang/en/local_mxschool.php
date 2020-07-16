@@ -999,9 +999,7 @@ $string['deans_permission:form:info:sport'] = 'What sport do you play?';
 $string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
 $string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
 $string['deans_permission:form:info:missing_class'] = 'Will you be missing classes?';
-$string['deans_permission:form:info:departure'] = 'When are you leaving?';
-$string['deans_permission:form:info:return'] = 'When are you returning?';
-
+$string['deans_permission:form:info:times_away'] = 'When will you be away?';
 // Notifications.
 $string['deans_permission:form:success'] = 'Deans\' Permission Form Submitted Successfully';
 

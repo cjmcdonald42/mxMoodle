@@ -44,7 +44,7 @@ class submitted extends \local_mxschool\notification {
         if ($id) {
             $record = $DB->get_record_sql(
                 "SELECT dp.id, CONCAT(u.firstname, ' ', u.lastname) AS fullname, su.grade, su.boarding_status, dp.event,
-			 	    dp.sport, dp.departure_time, dp.return_time
+			 	    dp.sport, dp.times_away
 			  FROM {local_mxschool_deans_perm} dp LEFT JOIN {user} u ON dp.userid = u.id
 			  							   LEFT JOIN {local_mxschool_student} su ON dp.userid = su.userid
 			  WHERE dp.id = {$id}"
@@ -58,8 +58,7 @@ class submitted extends \local_mxschool\notification {
 		  $this->data['boarding_status'] = $record->boarding_status;
 		  $this->data['event'] = $record->event;
 		  $this->data['sport'] = $record->sport;
-		  $this->data['departure_time'] = format_date('n/j/y g:i A', $record->departure_time);
-		  $this->data['return_time'] = format_date('n/j/y g:i A', $record->return_time);
+		  $this->data['times_away'] = $record->times_away;
 
 		  $deans = $DB->get_record('user', array('id' => 2));
 		  $deans->email = get_config('local_mxschool', 'deans_email_address');
@@ -77,7 +76,7 @@ class submitted extends \local_mxschool\notification {
      */
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
-            'fullname', 'grade', 'boarding_status', 'event', 'sport', 'departure_time', 'return_time'
+            'fullname', 'grade', 'boarding_status', 'event', 'sport', 'times_away'
         ));
     }
 }
