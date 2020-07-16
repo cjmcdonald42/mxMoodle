@@ -31,6 +31,7 @@ namespace local_mxschool\local\deans_permission;
 defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\output\alternating_button;
+use local_mxschool\output\comment;
 
 class table extends \local_mxschool\table {
 
@@ -43,16 +44,16 @@ class table extends \local_mxschool\table {
      */
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
-        $columns = array('student', 'event', 'sport', 'missing', 'departure_time', 'return_time', 'sports_perm', 'studyhours_perm', 'class_perm', 'dean_perm');
+        $columns = array('student', 'event', 'sport', 'missing', 'times_away', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm');
         $headers = $this->generate_headers($columns, 'deans_permission:report');
         $sortable = array('student', 'departure_time', 'return_time');
-        $centered = array('event', 'sport', 'departure_time', 'return_time', 'sports_perm', 'studyhours_perm', 'class_perm', 'dean_perm');
+        $centered = array('event', 'sport', 'departure_time', 'return_time', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm');
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, false);
 
         $fields = array(
 		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dp.event', 'dp.sport', 'dp.missing_sports',
-		   'dp.missing_studyhours', 'dp.missing_class', 'dp.departure_time', 'dp.return_time', 'dp.sports_perm', 'dp.studyhours_perm',
-		   'dp.class_perm', 'dp.dean_perm'
+		   'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.sports_perm', 'dp.studyhours_perm',
+		   'dp.comment', 'dp.class_perm', 'dp.dean_perm'
         );
         $from = array(
 		   '{local_mxschool_deans_perm} dp', '{user} u ON dp.userid = u.id', '{local_mxschool_student} su ON dp.userid = su.userid'
@@ -83,20 +84,6 @@ class table extends \local_mxschool\table {
 	    else return substr($result, 0, -2);
     }
 
-    /**
-	* Formats the departure date and time column to 'n/j/y g:i A'.
-	*/
-    protected function col_departure_time($values) {
-    	    return $values->departure_time ? format_date('n/j/y g:i A', $values->departure_time) : '';
-    }
-
-    /**
- 	* Formats the return date and time column to 'n/j/y g:i A'.
- 	*/
-    protected function col_return_time($values) {
-    	    return $values->return_time ? format_date('n/j/y g:i A', $values->return_time) : '';
-    }
-
     protected function col_sports_perm($values) {
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
@@ -116,6 +103,13 @@ class table extends \local_mxschool\table {
 		$output = $PAGE->get_renderer('local_mxschool');
 		$renderable = new alternating_button($values->id, $values->userid, $values->class_perm, 'class', 'deans_permission');
 		return $output->render($renderable);
+    }
+
+    protected function col_comment($values) {
+	    global $PAGE;
+	    $output = $PAGE->get_renderer('local_mxschool');
+	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save', 'local_mxschool_deans_perm');
+	    return $output->render($renderable);
     }
 
     protected function col_dean_perm($values) {

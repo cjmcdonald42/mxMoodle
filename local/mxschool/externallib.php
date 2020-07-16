@@ -537,4 +537,57 @@ class local_mxschool_external extends external_api {
         ));
     }
 
+	/**
+	* Returns descriptions of the update_healthform_comment() function's parameters.
+	*
+	* @return external_function_parameters Object holding array of parameters for the update_healthform_comment() function.
+	*/
+	public static function update_comment_parameters() {
+		return new external_function_parameters(array(
+			'id' => new external_value(PARAM_INT, 'The id of the user whose health comment to update.'),
+			'text' => new external_value(PARAM_TEXT, 'The text of the new health comment.'),
+			'table' => new external_value(PARAM_TEXT, 'The table to edit the comment for'),
+		));
+	}
+
+	/**
+	* Given the text and the user's id, updates healthform comment
+	*
+	* @param int id, the id of the column to change
+	* @param String text, the text for the comment
+	* @return boolean true if succesful
+	*/
+	public static function update_comment($id, $text, $table) {
+		 external_api::validate_context(context_system::instance());
+		 $params = self::validate_parameters(self::update_comment_parameters(), array(
+		     'id' => $id, 'text' => $text, 'table' => $table)
+		 );
+		 global $DB;
+		 if ($table == 'local_mxschool_healthpass') {
+			 if(!$DB->record_exists('local_mxschool_healthpass', array('userid' => $userid))) {
+				  $record = new stdClass();
+				  $record->userid = $userid;
+				  $record->status = 'placeholder';
+				  $record->body_temperature = 'temp';
+				  $record->comment = $text;
+				  $record->form_submitted = 0;
+				  $DB->insert_record('local_mxschool_healthpass', $record);
+				  return true;
+			 }
+			 $DB->set_field($table, 'comment', $text, array('userid' => $id));
+			 return true;
+		 }
+		 $DB->set_field($table, 'comment', $text, array('id' => $id));
+		  return true;
+		}
+
+	/**
+	 * Returns a description of the update_healthform_comment() function's return value.
+	 *
+	 * @return external_value Object describing the return value of the update_healthform_comment() function.
+	 */
+	public static function update_comment_returns() {
+	    return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
+	}
+
 }

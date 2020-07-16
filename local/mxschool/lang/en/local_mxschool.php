@@ -1015,11 +1015,11 @@ $string['deans_permission:report:header:student'] = 'Student';
 $string['deans_permission:report:header:event'] = 'Event';
 $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
-$string['deans_permission:report:header:departure_time'] = 'Departure Time';
-$string['deans_permission:report:header:return_time'] = 'Return Time';
+$string['deans_permission:report:header:times_away'] = 'Dates';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
 $string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
+$string['deans_permission:report:header:comment'] = 'Comment';
 $string['deans_permission:report:header:dean_perm'] = 'Approved?';
 
 // Buttons.
