@@ -44,6 +44,23 @@ class preferences_form extends \local_mxschool\form {
 			   'submitted_tags' => self::email_tags(new submitted()),
 			   'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			   'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  ),
+		  'sports_email' => array(
+			  'sports_email_address' => self::ELEMENT_EMAIL_REQUIRED,
+			  'sports_tags' => self::email_tags(new sports_permission_request()),
+			  'sports_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'sports_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  ),
+		  'class_email' => array(
+			  'class_email_address' => self::ELEMENT_EMAIL_REQUIRED,
+			  'class_tags' => self::email_tags(new class_permission_request()),
+			  'class_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'class_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  ),
+		  'approved_email' => array(
+			  'approved_tags' => self::email_tags(new deans_permission_approved()),
+			  'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  )
         );
         $this->set_fields($fields, 'deans_permission:preferences', true);

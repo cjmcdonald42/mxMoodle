@@ -1014,6 +1014,7 @@ $string['deans_permission:report:header:event'] = 'Event';
 $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
+$string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
 $string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
@@ -1021,6 +1022,9 @@ $string['deans_permission:report:header:comment'] = 'Comment';
 $string['deans_permission:report:header:dean_perm'] = 'Approved?';
 $string['deans_permission:report:header:form_submitted'] = 'Submitted';
 
+// Filters.
+$string['deans_permission:report:approved:true'] = 'Approved';
+$string['deans_permission:report:approved:false'] = 'Under Review';
 
 // Buttons.
 $string['deans_permission:report:add'] = 'New Deans\' Permission Form';
@@ -1033,4 +1037,18 @@ $string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans
 $string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
 $string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
 $string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
+$string['deans_permission:preferences:sports_email'] = 'Sports Review Permission Request Email';
+$string['deans_permission:preferences:sports_email:sports_email_address'] = 'Athletic Director Email Address';
+$string['deans_permission:preferences:sports_email:sports_tags'] = 'Available tags for deans\' permission form sports review request email';
+$string['deans_permission:preferences:sports_email:sports_subject'] = 'Sports review request subject';
+$string['deans_permission:preferences:sports_email:sports_body'] = 'Sports review request body';
+$string['deans_permission:preferences:class_email'] = 'Class Review Permission Request Email';
+$string['deans_permission:preferences:class_email:class_email_address'] = 'Academic Director Email Address';
+$string['deans_permission:preferences:class_email:class_tags'] = 'Available tags for deans\' permission form class review request email';
+$string['deans_permission:preferences:class_email:class_subject'] = 'Class review request subject';
+$string['deans_permission:preferences:class_email:class_body'] = 'Class review request body';
+$string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
+$string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
+$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved form email subject';
+$string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
 $string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';

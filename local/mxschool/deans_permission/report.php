@@ -33,20 +33,20 @@ require_login();
 require_capability('local/mxschool:manage_deans_permission', context_system::instance());
 
 $filter = new stdClass();
-$filter->submitted = optional_param('submitted', '', PARAM_RAW);
+$filter->approved = optional_param('approved', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
 setup_mxschool_page('report', 'deans_permission');
 
-$submittedoptions = array(
-    '1' => get_string('rooming:report:select_submitted:true', 'local_mxschool'),
-    '0' => get_string('rooming:report:select_submitted:false', 'local_mxschool')
+$approvedoptions = array(
+    'approved' => get_string('deans_permission:report:approved:true', 'local_mxschool'),
+    'under_review' => get_string('deans_permission:report:approved:false', 'local_mxschool')
 );
 $table = new local_mxschool\local\deans_permission\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\output\dropdown(
-        'submitted', $submittedoptions, $filter->submitted, get_string('dropdown:default', 'local_mxschool')
+        'approved', $approvedoptions, $filter->approved, get_string('dropdown:default', 'local_mxschool')
     ),
 );
 $buttons = array(

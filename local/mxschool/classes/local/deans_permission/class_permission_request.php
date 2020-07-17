@@ -15,20 +15,39 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Email notification for when class permission is requested for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @subpackage  deans_permission
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\local\deans_permission;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-$plugin->version = 2020071703;
-$plugin->release = 'v3.1';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+class class_permission_request extends deans_permission_notification {
+
+    /**
+     * @param int $id The id of the deans permission form which has been submitted.
+     *                The default value of 0 indicates a template email that should not be sent.
+     * @throws coding_exception If the specified record does not exist.
+     */
+    public function __construct($id = 0) {
+	    parent::__construct('class_permission_request', $id);
+
+	    global $DB;
+	    $deans = $DB->get_record('user', array('id' => 2));
+	    $deans->email = get_config('local_mxschool', 'academic_director_email_address');
+	    $deans->firstname = 'Academic';
+	    $deans->lastname = 'Director';
+
+		array_push(
+		    $this->recipients, $deans
+		);
+}
+}

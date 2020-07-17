@@ -33,6 +33,7 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
 		var userid = text.attr('name');
 		var package_name = text.attr('value');
 		var strings = get_strings();
+		var value = 0;
 		if(text.text() == strings[package_name+"_alternating_text_"+name+"_0_text"]) {
 			text.text(strings[package_name+"_alternating_text_"+name+"_1_text"]);
  		     text.css('color', strings[package_name+"_alternating_text_"+name+"_1_color"]);
@@ -42,6 +43,7 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
 			update_deans_permission_color(id, package_name);
 		}
 		else if(text.text() == strings[package_name+"_alternating_text_"+name+"_1_text"]) {
+			value = 1;
 		     text.text(strings[package_name+"_alternating_text_"+name+"_2_text"]);
  		     text.css('color', strings[package_name+"_alternating_text_"+name+"_2_color"]);
  		     button.text(strings[package_name+"_alternating_button_"+name+"_2_text"]);
@@ -50,6 +52,7 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
 			update_deans_permission_color(id, package_name);
 		}
 		else if(text.text() == strings[package_name+"_alternating_text_"+name+"_2_text"]) {
+			value = 2;
 			text.text(strings[package_name+"_alternating_text_"+name+"_0_text"]);
  		     text.css('color', strings[package_name+"_alternating_text_"+name+"_0_color"]);
  		     button.text(strings[package_name+"_alternating_button_"+name+"_0_text"]);
@@ -60,7 +63,16 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
 		else {
 			throw "Unrecognized permission text: "+text.text();
 		}
-		// CALL METHOD HERE
+		var promises = ajax.call([{
+		    methodname: 'local_mxschool_do_alternating_button_action',
+		    args: {
+			   id: id,
+			   name: name,
+			   value: value,
+			   package: package_name
+		    }
+		}]);
+		promises[0].done().fail(notification.exception);
     }
     // Returns true if all permissions are checked, false otherwise.
     function deans_permission_check_approvals(id) {

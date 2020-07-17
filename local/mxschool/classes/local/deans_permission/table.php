@@ -32,6 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\output\alternating_button;
 use local_mxschool\output\comment;
+use local_mxschool\output\checkbox;
 
 class table extends \local_mxschool\table {
 
@@ -44,15 +45,15 @@ class table extends \local_mxschool\table {
      */
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
-        $columns = array('student', 'event', 'sport', 'missing', 'times_away', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
+        $columns = array('student', 'event', 'sport', 'missing', 'times_away', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
         $headers = $this->generate_headers($columns, 'deans_permission:report');
         $sortable = array('student', 'form_submitted');
-        $centered = array('event', 'sport', 'departure_time', 'return_time', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
+        $centered = array('event', 'sport', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
 		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dp.event', 'dp.sport', 'dp.missing_sports',
-		   'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.sports_perm', 'dp.studyhours_perm',
+		   'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.studyhours_perm',
 		   'dp.comment', 'dp.class_perm', 'dp.dean_perm', 'dp.form_submitted'
         );
         $from = array(
@@ -60,6 +61,8 @@ class table extends \local_mxschool\table {
         );
 	   $where = array('u.deleted = 0'
 	   );
+	   if($filter->approved == 'approved') $where[] = 'dp.dean_perm = 1';
+	   else if($filter->approved == 'under_review') $where[] = 'dp.dean_perm = 0';
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport', 'dp.event');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
@@ -82,6 +85,13 @@ class table extends \local_mxschool\table {
 	    if($values->missing_class==1) $result.='Class, ';
 	    if(strlen($result) < 1) return 'Nothing';
 	    else return substr($result, 0, -2);
+    }
+
+    protected function col_parent_perm($values) {
+	    global $PAGE;
+	    $output = $PAGE->get_renderer('local_mxschool');
+	    $renderable = new checkbox($values->id, 'local_mxschool_deans_perm', 'parent_perm', $values->parent_perm);
+	    return $output->render($renderable);
     }
 
     protected function col_sports_perm($values) {

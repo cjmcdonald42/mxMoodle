@@ -73,6 +73,10 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
                 $page = get_string('vacation_travel:site_report', 'local_mxschool');
                 break;
+		  case 'local_mxschool_deans_perm':
+		 	 require_capability('local/mxschool:manage_deans_permission', context_system::instance());
+			 $page = get_string('deans_permission:report', 'local_mxschool');
+			 break;
             default:
                 throw new coding_exception("Unsupported table: {$params['table']}.");
         }
@@ -590,4 +594,72 @@ class local_mxschool_external extends external_api {
 	    return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
 	}
 
+	/**
+	* Returns descriptions of the do_alternating_button_action() function's parameters.
+	*
+	* @return external_function_parameters Object holding array of parameters for the update_healthform_comment() function.
+	*/
+	public static function do_alternating_button_action_parameters() {
+		return new external_function_parameters(array(
+			'id' => new external_value(PARAM_INT, 'The id of the alternating button'),
+			'name' => new external_value(PARAM_TEXT, 'The name of the alternating button.'),
+			'value' => new external_value(PARAM_INT, 'The value of the alternating button'),
+			'package' => new external_value(PARAM_TEXT, 'The name of the package of which the alternating button is a part')
+		));
+	}
+
+	/**
+	* Given an alternating button's info, performs a specific action.
+	*
+	* @param int id, the id of the button
+	* @param string name, the name of the button.
+	* @param int value, the value of the button, 0-2.
+	* @param string package_name, the name of the package.
+	*/
+	public static function do_alternating_button_action($id, $name, $value, $package) {
+		 external_api::validate_context(context_system::instance());
+		 $params = self::validate_parameters(self::do_alternating_button_action_parameters(), array(
+			'id' => $id, 'name' => $name, 'value' => $value, 'package' => $package)
+		 );
+		 global $DB;
+		 $new_value = $params['value'] + 1;
+		 if($new_value==3) $new_value = 0;
+		 switch($params['package']){
+			case 'deans_permission':
+				$field = '';
+			 	switch($params['name']) {
+					case 'sports':
+						$field = 'sports_perm';
+						if($new_value == 1) (new local_mxschool\local\deans_permission\sports_permission_request($params['id']))->send();
+						break;
+					case 'studyhours':
+						$field = 'studyhours_perm';
+						break;
+					case 'class':
+						$field = 'class_perm';
+						if($new_value == 1) (new local_mxschool\local\deans_permission\class_permission_request($params['id']))->send();
+						break;
+					case 'deans':
+						if($new_value == 2) (new local_mxschool\local\deans_permission\deans_permission_approved($params['id']))->send();
+						$field = 'dean_perm';
+						break;
+					default:
+						throw new coding_exception("Unsupported name '{$params['name']}' for package {$params['package']}.");
+				}
+			     $DB->set_field('local_mxschool_deans_perm', $field, $new_value, array('id' => $params['id']));
+				break;
+			default:
+				throw new coding_exception("Unsupported package: {$params['package']}.");
+				break;
+		}
+		return true;
+	}
+	/**
+	* Returns descriptions of the do_alternating_button_action() function's returns.
+	*
+	* @return external_value Object describing the return value of the update_healthform_comment() function.
+	*/
+	public static function do_alternating_button_action_returns() {
+	    return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
+	}
 }

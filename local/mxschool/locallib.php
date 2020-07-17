@@ -357,6 +357,31 @@ function clear_student_pictures() {
     }
 }
 
+/**
+ * Given a student's userid, returns the advisor id.
+ *
+ * @param int id, the id of the student
+ * @return int|false advisor id of the studnet, or false if the id is not that of a student.
+ */
+function get_student_advisor_id($id) {
+	global $DB;
+	if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+	return $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $id));
+}
+
+/**
+ * Given a student's userid, returns the head of house id.
+ *
+ * @param int id, the id of the student
+ * @return int|false hoh id of the studnet, or false if the id is not that of a student.
+ */
+function get_student_hoh_id($id) {
+	global $DB;
+	if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+	$dormid = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
+	return $DB->get_field('local_mxschool_dorm', 'hohid', array('id' => $dormid));
+}
+
 /*
  * ===============================================
  * DateTime Abstractions and Formatting Functions.

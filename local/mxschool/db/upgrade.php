@@ -918,7 +918,21 @@ function xmldb_local_mxschool_upgrade($oldversion) {
           }
 
 	     // Mxschool savepoint reached.
-	     upgrade_plugin_savepoint(true, XXXXXXXXXX, 'local', 'mxschool');
+	     upgrade_plugin_savepoint(true, 2020071601, 'local', 'mxschool');
+	}
+	if ($oldversion < 2020071701) {
+
+	    // Define field parent_perm to be added to local_mxschool_deans_perm.
+	    $table = new xmldb_table('local_mxschool_deans_perm');
+	    $field = new xmldb_field('parent_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'times_away');
+
+	    // Conditionally launch add field parent_perm.
+	    if (!$dbman->field_exists($table, $field)) {
+		   $dbman->add_field($table, $field);
+	    }
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020071701, 'local', 'mxschool');
 	}
 
     return true;
