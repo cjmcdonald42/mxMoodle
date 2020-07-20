@@ -1011,7 +1011,8 @@ $string['deans_permission:report:title'] = 'Deans\' Permission Report';
 
 // Headers.
 $string['deans_permission:report:header:student'] = 'Student';
-$string['deans_permission:report:header:event'] = 'Event';
+$string['deans_permission:report:header:event'] = 'Event Type';
+$string['deans_permission:report:header:event_info'] = 'Event Info';
 $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
@@ -1026,6 +1027,7 @@ $string['deans_permission:report:header:form_submitted'] = 'Submitted';
 // Filters.
 $string['deans_permission:report:approved:true'] = 'Approved';
 $string['deans_permission:report:approved:false'] = 'Under Review';
+$string['deans_permission:report:event:all'] = 'All Event Types';
 
 // Buttons.
 $string['deans_permission:report:add'] = 'New Deans\' Permission Form';

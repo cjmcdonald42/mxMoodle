@@ -49,9 +49,21 @@ $queryfields = array(
     )
 );
 
-$data = new stdClass();
-$data->isstudent = $isstudent ? '1' : '0';
-$data->student = $USER->id;
+if ($id) { // Updating an existing record.
+    if (!$DB->record_exists('local_mxschool_deans_perm', array('id' => $id))) {
+        redirect_to_fallback();
+    }
+    $data = get_record($queryfields, "dp.id = ?", array($id));
+    if ($isstudent) { // Students cannot edit their forms.
+        redirect($PAGE->url);
+    }
+}
+else {
+	$data = new stdClass();
+	$data->isstudent = $isstudent ? '1' : '0';
+	$data->student = $USER->id;
+	$data->timecreated = time();
+}
 $students = get_student_list();
 $eventoptions = get_dp_events_list();
 
@@ -61,7 +73,6 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $data->timemodified = time();
     $data->comment = '';
     $id = update_record($queryfields, $data);
     $result = (new local_mxschool\local\deans_permission\submitted($id))->send();

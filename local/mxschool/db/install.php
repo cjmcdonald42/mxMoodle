@@ -54,7 +54,7 @@ function xmldb_local_mxschool_install() {
             'preferences', 'form', 'report', 'transportation_report'
 	    ))),
 	    array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
-		   'preferences', 'form', 'report'
+		   'preferences', 'form', 'report', 'new_event'
 	    )))
     );
     foreach ($subpackages as $subpackage) {

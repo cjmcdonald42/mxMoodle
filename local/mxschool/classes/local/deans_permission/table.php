@@ -45,24 +45,26 @@ class table extends \local_mxschool\table {
      */
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
-        $columns = array('student', 'event', 'sport', 'missing', 'times_away', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
+        $columns = array('student', 'event', 'event_info', 'sport', 'missing', 'times_away', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
         $headers = $this->generate_headers($columns, 'deans_permission:report');
         $sortable = array('student', 'form_submitted');
         $centered = array('event', 'sport', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
-		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dp.event', 'dp.sport', 'dp.missing_sports',
-		   'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.studyhours_perm',
+		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dpe.name AS event', 'dp.event_info',
+		   'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.studyhours_perm',
 		   'dp.comment', 'dp.class_perm', 'dp.dean_perm', 'dp.form_submitted'
         );
         $from = array(
-		   '{local_mxschool_deans_perm} dp', '{user} u ON dp.userid = u.id', '{local_mxschool_student} su ON dp.userid = su.userid'
+		   '{local_mxschool_deans_perm} dp', '{user} u ON dp.userid = u.id', '{local_mxschool_student} su ON dp.userid = su.userid',
+		   '{local_mxschool_dp_event} dpe ON dp.event_id = dpe.id'
         );
 	   $where = array('u.deleted = 0'
 	   );
 	   if($filter->approved == 'approved') $where[] = 'dp.dean_perm = 1';
 	   else if($filter->approved == 'under_review') $where[] = 'dp.dean_perm = 0';
+	   if($filter->event) $where[] = "dpe.id = {$filter->event}";
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport', 'dp.event');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
@@ -137,7 +139,7 @@ class table extends \local_mxschool\table {
 	* Formats the actions column.
 	*/
     protected function col_actions($values) {
-	   return isset($values->id) ? $this->edit_icon('/local/mxschool/deans_permission/edit_form.php', $values->id).
+	   return isset($values->id) ? $this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
 	    						  $this->delete_icon($values->id): '';
     }
 }
