@@ -972,6 +972,11 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    $other->name = 'Other';
 	    $DB->insert_record('local_mxschool_dp_event', $other);
 
+	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
+		   'form', 'report', 'preferences', 'event_edit'
+	   )));
+          $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+		
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072005, 'local', 'mxschool');
 }
