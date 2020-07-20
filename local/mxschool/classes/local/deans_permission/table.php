@@ -46,10 +46,15 @@ class table extends \local_mxschool\table {
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
         $columns = array('student', 'event', 'event_info', 'sport', 'missing', 'times_away', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
+	   if ($this->is_downloading()) {
+		  unset($columns[array_search('sports_perm', $columns)]);
+		  unset($columns[array_search('studyhours_perm', $columns)]);
+		  unset($columns[array_search('class_perm', $columns)]);
+	   }
         $headers = $this->generate_headers($columns, 'deans_permission:report');
         $sortable = array('student', 'form_submitted');
         $centered = array('event', 'sport', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
-        parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter);
+        parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
 
         $fields = array(
 		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dpe.name AS event', 'dp.event_info',
@@ -73,6 +78,7 @@ class table extends \local_mxschool\table {
 	* Formats the student column to include full name, grade, and boarding_status.
 	*/
     protected function col_student($values) {
+	    if($this->is_downloading()) return $values->student;
 	    return "{$values->student}<br>
 	    		  Grade {$values->grade} ({$values->boarding_status})";
     }
@@ -90,6 +96,7 @@ class table extends \local_mxschool\table {
     }
 
     protected function col_parent_perm($values) {
+	    if($this->is_downloading()) return format_boolean($values->parent_perm);
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
 	    $renderable = new checkbox($values->id, 'local_mxschool_deans_perm', 'parent_perm', $values->parent_perm);
@@ -118,6 +125,7 @@ class table extends \local_mxschool\table {
     }
 
     protected function col_comment($values) {
+	    if($this->is_downloading()) return $values->comment;
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
 	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save', 'local_mxschool_deans_perm');
@@ -125,6 +133,11 @@ class table extends \local_mxschool\table {
     }
 
     protected function col_dean_perm($values) {
+	    	if($this->is_downloading()) {
+			if($values->dean_perm == 0) return 'No';
+			if($values->dean_perm == 1) return 'Under Review';
+			if($values->dean_perm == 2) return 'Yes';
+		}
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
 		$renderable = new alternating_button($values->id, $values->userid, $values->dean_perm, 'deans', 'deans_permission');
