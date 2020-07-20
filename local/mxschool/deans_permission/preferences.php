@@ -31,7 +31,19 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_rooming_preferences', context_system::instance());
 
+$action = optional_param('action', '', PARAM_RAW);
+$id = optional_param('id', 0, PARAM_INT);
+
 setup_mxschool_page('preferences', 'deans_permission');
+
+$redirect = new moodle_url($PAGE->url, (array) $filter);
+if ($action === 'delete' && $id) {
+    $result = $DB->record_exists('local_mxschool_dp_event', array('id' => $id)) ? 'success' : 'failure';
+    $DB->delete_records('local_mxschool_dp_event', array('id' => $id));
+    logged_redirect(
+        $redirect, get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
+    );
+}
 
 $data = new stdClass();
 $data->deans_email_address = get_config('local_mxschool', 'deans_email_address');
@@ -58,10 +70,18 @@ if ($form->is_cancelled()) {
 	logged_redirect($form->get_redirect(), get_string('deans_permission:preferences:update:success', 'local_mxschool'), 'update');
 }
 
+$table = new local_mxschool\local\deans_permission\event_table();
+$buttons = array(new local_mxschool\output\redirect_button(
+    get_string('deans_permission:preferences:add_event', 'local_mxschool'), new moodle_url('/local/mxschool/deans_permission/event_edit.php')
+));
+
 $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
+$reportrenderable = new local_mxschool\output\report($table, null, array(), $buttons);
 
 echo $output->header();
 echo $output->heading($PAGE->title);
 echo $output->render($renderable);
+echo $output->heading(get_string('deans_permission:event_report:title', 'local_mxschool'));
+echo $output->render($reportrenderable);
 echo $output->footer();

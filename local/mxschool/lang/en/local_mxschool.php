@@ -1029,6 +1029,9 @@ $string['deans_permission:report:approved:true'] = 'Approved';
 $string['deans_permission:report:approved:false'] = 'Under Review';
 $string['deans_permission:report:event:all'] = 'All Event Types';
 
+$string['deans_permission:report:delete:success'] = 'Record Deleted Succesfully';
+$string['deans_permission:report:delete:failure'] = 'Failed to Delete Record';
+
 // Buttons.
 $string['deans_permission:report:add'] = 'New Deans\' Permission Form';
 
@@ -1055,3 +1058,16 @@ $string['deans_permission:preferences:approved_email:approved_tags'] = 'Availabl
 $string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved form email subject';
 $string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
 $string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
+
+$string['deans_permission:preferences:add_event'] = 'New Event Type Option';
+
+$string['deans_permission:event_report'] = 'Deans\' Permission Event Types';
+$string['deans_permission:event_report:title'] = 'Deans\' Permission Event Types';
+$string['deans_permission:event_report:header:event_name'] = 'Event Type';
+
+$string['deans_permission:event_edit'] = 'Create or Edit a Deans\' Permission Form Event Type';
+$string['deans_permission:event_edit:title'] = 'Create or Edit a Deans\' Permission Form Event Type';
+$string['deans_permission:event_edit:success'] = 'Event Type Added';
+$string['deans_permission:event_edit:event_name'] = 'Event Type Name';
+$string['deans_permission:event_edit:info'] = 'Info';
+$string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';

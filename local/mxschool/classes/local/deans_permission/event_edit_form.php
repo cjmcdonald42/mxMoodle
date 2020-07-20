@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for students to submit deans permissions requests for Middlesex's Dorm and Student Functions Plugin.
+ * Form for faculty to edit and create events for deans permission for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
@@ -30,37 +30,22 @@ namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
-class form extends \local_mxschool\form {
+class event_edit_form extends \local_mxschool\form {
 
     /**
      * Form definition.
      */
     protected function definition() {
-        $students = $this->_customdata['students'];
-	   $eventoptions = $this->_customdata['eventoptions'];
 
         $fields = array(
-            '' => array(
-                'id' => self::ELEMENT_HIDDEN_INT,
-                'timecreated' => self::ELEMENT_HIDDEN_INT,
-                'isstudent' => self::ELEMENT_HIDDEN_INT
-            ),
-		  'info' => array(
-			  'student' => array('element' => 'select', 'options' => $students),
-			  'event' => array('element' => 'select', 'options' => $eventoptions),
-			  'event_info' => self::ELEMENT_LONG_TEXT_REQUIRED,
-			  'sport' => self::ELEMENT_TEXT_REQUIRED,
-			  'missing_sports' => self::ELEMENT_BOOLEAN_REQUIRED,
-  			  'missing_studyhours' => self::ELEMENT_BOOLEAN_REQUIRED,
-			  'missing_class' => self::ELEMENT_BOOLEAN_REQUIRED,
-			  'times_away' => self::ELEMENT_LONG_TEXT_REQUIRED
-		  )
-
-        );
-        $this->set_fields($fields, 'deans_permission:form');
-
-        $mform = $this->_form;
-        $mform->hideIf('student', 'isstudent', 'eq');
+		   '' => array(
+			   'id' => self::ELEMENT_HIDDEN_INT
+		   ),
+		   'info' => array(
+		    	  'event_name' => self::ELEMENT_TEXT_REQUIRED
+        		)
+		);
+        $this->set_fields($fields, 'deans_permission:event_edit');
     }
 
     /**
