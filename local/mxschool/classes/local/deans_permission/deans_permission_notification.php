@@ -44,10 +44,11 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
 
          if ($id) {
              $record = $DB->get_record_sql(
-                 "SELECT dp.id, CONCAT(u.firstname, ' ', u.lastname) AS fullname, su.grade, su.boarding_status, dp.event,
+                 "SELECT dp.id, CONCAT(u.firstname, ' ', u.lastname) AS fullname, su.grade, su.boarding_status, dpe.name AS event,
  			 	    dp.sport, dp.times_away
  			  FROM {local_mxschool_deans_perm} dp LEFT JOIN {user} u ON dp.userid = u.id
  			  							   LEFT JOIN {local_mxschool_student} su ON dp.userid = su.userid
+										   LEFT JOIN {local_mxschool_dp_event} dpe ON dp.event_id = dpe.id
  			  WHERE dp.id = {$id}"
              );
              if (!$record) {

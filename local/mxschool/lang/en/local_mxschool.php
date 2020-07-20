@@ -994,8 +994,9 @@ $string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
 // Information.
 $string['deans_permission:form:info'] = 'Information';
 $string['deans_permission:form:info:student'] = 'Student';
-$string['deans_permission:form:info:event'] = 'Event';
-$string['deans_permission:form:info:sport'] = 'What sport do you play?';
+$string['deans_permission:form:info:event'] = 'Event type';
+$string['deans_permission:form:info:event_info'] = 'Event information';
+$string['deans_permission:form:info:sport'] = 'What sport do you play at MX?';
 $string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
 $string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
 $string['deans_permission:form:info:missing_class'] = 'Will you be missing classes?';

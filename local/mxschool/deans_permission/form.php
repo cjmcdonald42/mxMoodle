@@ -43,7 +43,7 @@ $queryfields = array(
     'local_mxschool_deans_perm' => array(
         'abbreviation' => 'dp',
         'fields' => array(
-            'id', 'userid' => 'student', 'event', 'sport', 'missing_sports', 'missing_studyhours',
+            'id', 'userid' => 'student', 'event_id' => 'event', 'event_info', 'sport', 'missing_sports', 'missing_studyhours',
 		  'missing_class', 'times_away', 'comment', 'form_submitted' => 'timecreated'
         )
     )
@@ -53,10 +53,9 @@ $data = new stdClass();
 $data->isstudent = $isstudent ? '1' : '0';
 $data->student = $USER->id;
 $students = get_student_list();
-$roomable = array(0 => get_string('form:select:default', 'local_mxschool')) + get_boarding_next_year_student_list();
-$roomtypes = array(0 => get_string('form:select:default', 'local_mxschool')) + get_room_type_list();
+$eventoptions = get_dp_events_list();
 
-$form = new local_mxschool\local\deans_permission\form(array('students' => $students));
+$form = new local_mxschool\local\deans_permission\form(array('students' => $students, 'eventoptions' => $eventoptions));
 $form->set_data($data);
 
 if ($form->is_cancelled()) {

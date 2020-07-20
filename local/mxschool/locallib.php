@@ -1294,3 +1294,18 @@ function get_vacation_travel_type_list($mxtransportation = null) {
         $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
     ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
 }
+
+/* Deans Permission Form */
+
+/**
+* Creates a list of all the deans permission form events.
+*
+* @return array the events in an array of the form: id => name.
+*/
+function get_dp_events_list() {
+	global $DB;
+	$records = $DB->get_records_sql("SELECT dpe.id, dpe.name AS value FROM {local_mxschool_dp_event} dpe WHERE dpe.id > 1");
+	$events = convert_records_to_list($records);
+	$events[1] = 'Other';
+	return $events;
+}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20200717" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20200720" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -269,7 +269,8 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="event" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The event for which the student is requesting permission to attend."/>
+        <FIELD NAME="event_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The event for which the student is requesting permission to attend."/>
+        <FIELD NAME="event_info" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="More info regarding the selected event for the deans permission form."/>
         <FIELD NAME="sport" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The sport the student plays."/>
         <FIELD NAME="missing_sports" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student is missing a practice or a game to attend the event."/>
         <FIELD NAME="missing_studyhours" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will miss study hours to attend the event."/>
@@ -286,6 +287,7 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The userid of the user"/>
+        <KEY NAME="event" TYPE="foreign" FIELDS="event_id" REFTABLE="local_mxschool_dp_event" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_dp_event" COMMENT="Available event options for the Deans Permission sub plugin.">

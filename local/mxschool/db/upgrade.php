@@ -935,5 +935,47 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    upgrade_plugin_savepoint(true, 2020071701, 'local', 'mxschool');
 	}
 
+     if ($oldversion < 2020072005) {
+
+		// Define field event_id to be dropped from local_mxschool_deans_perm.
+		$table = new xmldb_table('local_mxschool_deans_perm');
+		$field = new xmldb_field('event');
+		// Conditionally launch drop field event_id.
+		if ($dbman->field_exists($table, $field)) {
+		    $dbman->drop_field($table, $field);
+		}
+
+		$table = new xmldb_table('local_mxschool_deans_perm');
+		$field = new xmldb_field('event_id', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'userid');
+
+		// Conditionally launch add field event_id.
+		if (!$dbman->field_exists($table, $field)) {
+		    $dbman->add_field($table, $field);
+		}
+
+          $table = new xmldb_table('local_mxschool_deans_perm');
+		// Define key event (foreign) to be added to local_mxschool_deans_perm
+		$key = new xmldb_key('event', XMLDB_KEY_FOREIGN, ['event_id'], 'local_mxschool_dp_event', ['id']);
+		// Launch add key event.
+		$dbman->add_key($table, $key);
+
+	    // Define field event_info to be added to local_mxschool_deans_perm.
+	    $table = new xmldb_table('local_mxschool_deans_perm');
+	    $field = new xmldb_field('event_info', XMLDB_TYPE_CHAR, '500', null, null, null, null, 'event');
+
+	    // Conditionally launch add field event_info.
+	    if (!$dbman->field_exists($table, $field)) {
+		   $dbman->add_field($table, $field);
+	    }
+
+	    $other = new stdClass();
+	    $other->name = 'Other';
+	    $DB->insert_record('local_mxschool_dp_event', $other);
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020072005, 'local', 'mxschool');
+}
+
+
     return true;
 }
