@@ -10,6 +10,8 @@ This package defines basic information about students, faculty, and dorms and pr
 ## Dependencies
 This plugin has the following dependencies:
 - Moodle 3.7 (2019052000)
+and is currently running on and being developed with
+- Moodle 3.9 (2020061500)
 
 ## Subpackages
 This package houses the following subpackages and pages:

@@ -1,7 +1,8 @@
 ## Changes in v3.2
-- Create new Healthpass system for daily screening during COVID19 event
+- Create new COVIDpass system for daily screening during COVID19 event
 - Create new Deans' Permission Form for off-campus travel
 - Update student permissions to match new Magnus permission system
+- Reimpliment Dorm Proctor Attendance Form
 
 ## Changes in v3.1
 - Rework of email notification system to be object oriented and less redundant.
