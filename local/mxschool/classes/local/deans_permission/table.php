@@ -80,7 +80,7 @@ class table extends \local_mxschool\table {
     protected function col_student($values) {
 	    if($this->is_downloading()) return $values->student;
 	    return "{$values->student}<br>
-	    		  Grade {$values->grade} ({$values->boarding_status})";
+    			  ({$values->grade}, {$values->boarding_status})";
     }
 
     /**

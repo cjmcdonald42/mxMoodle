@@ -58,6 +58,7 @@ class preferences_form extends \local_mxschool\form {
 			  'class_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
 		  'approved_email' => array(
+			  'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:approved_email:note', 'local_mxschool')),
 			  'approved_tags' => self::email_tags(new deans_permission_approved()),
 			  'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED

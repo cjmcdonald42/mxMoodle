@@ -1065,6 +1065,9 @@ $string['deans_permission:preferences:class_email:class_tags'] = 'Available tags
 $string['deans_permission:preferences:class_email:class_subject'] = 'Class review request subject';
 $string['deans_permission:preferences:class_email:class_body'] = 'Class review request body';
 $string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
+$string['deans_permission:preferences:approved_email:info'] = 'Note:';
+$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor
+												   of the student, and, if the student is missing study hours, that student\'s head of house.';
 $string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
 $string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved form email subject';
 $string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
