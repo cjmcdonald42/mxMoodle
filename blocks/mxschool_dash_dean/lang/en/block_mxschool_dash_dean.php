@@ -50,6 +50,10 @@ $string['checkin:weekend_report'] = 'Weekend Check-In Sheet';
 $string['checkin:weekend_calculator'] = 'Weekend Calculator';
 $string['checkin:preferences'] = 'Check-In Sheets Preferences';
 
+$string['deans_permission'] = 'Deans\' Permission Form Module';
+$string['deans_permission:report'] = 'Deans\' Permission Forms Report';
+$string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
+
 $string['advisor_selection'] = 'Advisor Selection Module';
 $string['advisor_selection:report'] = 'Advisor Selection Report';
 $string['advisor_selection:preferences'] = 'Advisor Selection Preferences';

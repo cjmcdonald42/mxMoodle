@@ -51,6 +51,7 @@ $string['mxschool:manage_vacation_travel'] = 'Middlesex School: View and manage 
 $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students who haven\'t submitted a vacation travel form';
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
+$string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage deans\' permission forms';
 $string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage healthpass preferences';
 $string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage healthpass data';
 
@@ -990,6 +991,97 @@ $string['vacation_travel:transportation_report:return:header:email'] = 'Email';
 // Cells.
 $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
 
+/*
+ * ================
+ * Deans' Permission
+ * ================
+ */
+$string['deans_permission'] = 'Deans\' Permission';
+
+/* Deans permission Form */
+$string['deans_permission:form'] = 'Deans\' Permission Form';
+$string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
+
+// Information.
+$string['deans_permission:form:info'] = 'Information';
+$string['deans_permission:form:info:student'] = 'Student';
+$string['deans_permission:form:info:event'] = 'Event type';
+$string['deans_permission:form:info:event_info'] = 'Event information';
+$string['deans_permission:form:info:sport'] = 'What sport do you play at MX?';
+$string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
+$string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
+$string['deans_permission:form:info:missing_class'] = 'Will you be missing classes?';
+$string['deans_permission:form:info:times_away'] = 'When will you be away?';
+// Notifications.
+$string['deans_permission:form:success'] = 'Deans\' Permission Form Submitted Successfully';
+
+
+/* Deans permission report */
+$string['deans_permission:report'] = 'Deans\' Permission Report';
+$string['deans_permission:report:title'] = 'Deans\' Permission Report';
+
+// Headers.
+$string['deans_permission:report:header:student'] = 'Student';
+$string['deans_permission:report:header:event'] = 'Event Type';
+$string['deans_permission:report:header:event_info'] = 'Event Info';
+$string['deans_permission:report:header:sport'] = 'Sport Played';
+$string['deans_permission:report:header:missing'] = 'Missing';
+$string['deans_permission:report:header:times_away'] = 'Dates';
+$string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
+$string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
+$string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
+$string['deans_permission:report:header:class_perm'] = 'Miss Class';
+$string['deans_permission:report:header:comment'] = 'Comment';
+$string['deans_permission:report:header:dean_perm'] = 'Approved?';
+$string['deans_permission:report:header:form_submitted'] = 'Submitted';
+
+// Filters.
+$string['deans_permission:report:approved:true'] = 'Approved';
+$string['deans_permission:report:approved:false'] = 'Under Review';
+$string['deans_permission:report:event:all'] = 'All Event Types';
+
+$string['deans_permission:report:delete:success'] = 'Record Deleted Succesfully';
+$string['deans_permission:report:delete:failure'] = 'Failed to Delete Record';
+
+// Buttons.
+$string['deans_permission:report:add'] = 'New Deans\' Permission Form';
+
+/* Deans Permissions Preferences */
+$string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences:title'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences:deans_email'] = 'Deans\' Permission Form Submitted Notification';
+$string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans\' Email Address';
+$string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
+$string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
+$string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
+$string['deans_permission:preferences:sports_email'] = 'Sports Review Permission Request Email';
+$string['deans_permission:preferences:sports_email:sports_email_address'] = 'Athletic Director Email Address';
+$string['deans_permission:preferences:sports_email:sports_tags'] = 'Available tags for deans\' permission form sports review request email';
+$string['deans_permission:preferences:sports_email:sports_subject'] = 'Sports review request subject';
+$string['deans_permission:preferences:sports_email:sports_body'] = 'Sports review request body';
+$string['deans_permission:preferences:class_email'] = 'Class Review Permission Request Email';
+$string['deans_permission:preferences:class_email:class_email_address'] = 'Academic Director Email Address';
+$string['deans_permission:preferences:class_email:class_tags'] = 'Available tags for deans\' permission form class review request email';
+$string['deans_permission:preferences:class_email:class_subject'] = 'Class review request subject';
+$string['deans_permission:preferences:class_email:class_body'] = 'Class review request body';
+$string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
+$string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
+$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved form email subject';
+$string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
+$string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
+
+$string['deans_permission:preferences:add_event'] = 'New Event Type Option';
+
+$string['deans_permission:event_report'] = 'Deans\' Permission Event Types';
+$string['deans_permission:event_report:title'] = 'Deans\' Permission Event Types';
+$string['deans_permission:event_report:header:event_name'] = 'Event Type';
+
+$string['deans_permission:event_edit'] = 'Create or Edit a Deans\' Permission Form Event Type';
+$string['deans_permission:event_edit:title'] = 'Create or Edit a Deans\' Permission Form Event Type';
+$string['deans_permission:event_edit:success'] = 'Event Type Added';
+$string['deans_permission:event_edit:event_name'] = 'Event Type Name';
+$string['deans_permission:event_edit:info'] = 'Info';
+$string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
 /*
  * ================

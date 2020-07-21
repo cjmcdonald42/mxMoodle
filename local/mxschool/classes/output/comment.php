@@ -38,13 +38,16 @@ class comment implements \renderable, \templatable {
     public $edit_button_text;
     /** @var string The text to display in the save button.*/
     public $save_button_text;
+    /** @var string The table to edit the comment in.*/
+    public $table;
 
 
-    public function __construct($userid, $comment_text, $edit_button_text, $save_button_text) {
-	   $this->userid = $userid;
+    public function __construct($userid, $comment_text, $edit_button_text, $save_button_text, $table) {
+	      $this->userid = $userid;
         $this->comment_text = htmlspecialchars_decode($comment_text, ENT_QUOTES);
-	   $this->edit_button_text = $edit_button_text;
-	   $this->save_button_text = $save_button_text;
+	      $this->edit_button_text = $edit_button_text;
+	      $this->save_button_text = $save_button_text;
+	      $this->table = $table;
     }
 
     /**
@@ -57,7 +60,8 @@ class comment implements \renderable, \templatable {
         return (object) array('userid' => $this->userid,
 		   				'comment_text' => $this->comment_text,
 	   					'edit_button_text' => $this->edit_button_text,
-						'save_button_text' => $this->save_button_text);
+						  'save_button_text' => $this->save_button_text,
+					  	'table' => $this->table);
     }
 
 }

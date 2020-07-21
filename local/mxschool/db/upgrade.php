@@ -857,8 +857,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2019080801, 'local', 'mxschool');
     }
-
-
+  
     if($oldversion < 2020062901) {
 
         // Define table local_mxschool_healthpass to be dropped.
@@ -950,8 +949,134 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020070901, 'local', 'mxschool');
-}
+  }
 
+    if ($oldversion < 2020071403) {
+
+	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
+		   				'preferences', 'form', 'report'
+	    			   )));
+	    $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020071403, 'local', 'mxschool');
+	}
+
+	if ($oldversion < 2020071601) {
+
+	    // Define table local_mxschool_deans_perm to be dropped.
+	    $table = new xmldb_table('local_mxschool_deans_perm');
+
+	    // Conditionally launch drop table for local_mxschool_deans_perm.
+	    if ($dbman->table_exists($table)) {
+		   $dbman->drop_table($table);
+	    }
+
+	     // Define table local_mxschool_deans_perm to be created.
+	     $table = new xmldb_table('local_mxschool_deans_perm');
+
+		// Adding fields to table local_mxschool_deans_perm.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('event', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+		$table->add_field('sport', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+		$table->add_field('missing_sports', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('missing_studyhours', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('missing_class', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('times_away', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+		$table->add_field('sports_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+		$table->add_field('studyhours_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+		$table->add_field('class_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+		$table->add_field('comment', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+		$table->add_field('dean_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+		$table->add_field('form_submitted', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+
+		// Adding keys to table local_mxschool_deans_perm.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+		// Conditionally launch create table for local_mxschool_deans_perm.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+		// Define table local_mxschool_dp_event to be created.
+          $table = new xmldb_table('local_mxschool_dp_event');
+
+          // Adding fields to table local_mxschool_dp_event.
+          $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+          $table->add_field('name', XMLDB_TYPE_CHAR, '200', null, XMLDB_NOTNULL, null, null);
+
+          // Adding keys to table local_mxschool_dp_event.
+          $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+          // Conditionally launch create table for local_mxschool_dp_event.
+          if (!$dbman->table_exists($table)) {
+              $dbman->create_table($table);
+          }
+
+	     // Mxschool savepoint reached.
+	     upgrade_plugin_savepoint(true, 2020071601, 'local', 'mxschool');
+	}
+	if ($oldversion < 2020071701) {
+
+	    // Define field parent_perm to be added to local_mxschool_deans_perm.
+	    $table = new xmldb_table('local_mxschool_deans_perm');
+	    $field = new xmldb_field('parent_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'times_away');
+
+	    // Conditionally launch add field parent_perm.
+	    if (!$dbman->field_exists($table, $field)) {
+		   $dbman->add_field($table, $field);
+	    }
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020071701, 'local', 'mxschool');
+	}
+
+     if ($oldversion < 2020072005) {
+
+		// Define field event_id to be dropped from local_mxschool_deans_perm.
+		$table = new xmldb_table('local_mxschool_deans_perm');
+		$field = new xmldb_field('event');
+		// Conditionally launch drop field event_id.
+		if ($dbman->field_exists($table, $field)) {
+		    $dbman->drop_field($table, $field);
+		}
+
+		$table = new xmldb_table('local_mxschool_deans_perm');
+		$field = new xmldb_field('event_id', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'userid');
+
+		// Conditionally launch add field event_id.
+		if (!$dbman->field_exists($table, $field)) {
+		    $dbman->add_field($table, $field);
+		}
+
+          $table = new xmldb_table('local_mxschool_deans_perm');
+		// Define key event (foreign) to be added to local_mxschool_deans_perm
+		$key = new xmldb_key('event', XMLDB_KEY_FOREIGN, ['event_id'], 'local_mxschool_dp_event', ['id']);
+		// Launch add key event.
+		$dbman->add_key($table, $key);
+
+	    // Define field event_info to be added to local_mxschool_deans_perm.
+	    $table = new xmldb_table('local_mxschool_deans_perm');
+	    $field = new xmldb_field('event_info', XMLDB_TYPE_CHAR, '500', null, null, null, null, 'event');
+
+	    // Conditionally launch add field event_info.
+	    if (!$dbman->field_exists($table, $field)) {
+		   $dbman->add_field($table, $field);
+	    }
+
+	    $other = new stdClass();
+	    $other->name = 'Other';
+	    $DB->insert_record('local_mxschool_dp_event', $other);
+
+	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
+		   'form', 'report', 'preferences', 'event_edit'
+	   )));
+          $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+		
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020072005, 'local', 'mxschool');
+}
      return true;
 
  }

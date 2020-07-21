@@ -36,11 +36,13 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
     function update_comment() {
 	    var userid = $(event.target).attr('name');
 	    var new_comment = $('.mx-comment-edit-area'+userid).val();
+	    var table = $('.mx-comment-edit-area'+userid).attr('name');
 	    var promises = ajax.call([{
-		    methodname: 'local_mxschool_update_healthform_comment',
+		    methodname: 'local_mxschool_update_comment',
 		    args: {
-			    userid: userid,
-			    text: new_comment
+			    id: userid,
+			    text: new_comment,
+			    table: table
 		    }
 	    }]);
 	    promises[0].done().fail(notification.exception);
