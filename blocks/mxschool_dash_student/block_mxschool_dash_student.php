@@ -18,6 +18,7 @@
  * Content for Middlesex's Dashboard Block for Students.
  *
  * @package    block_mxschool_dash_student
+ * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -52,6 +53,10 @@ class block_mxschool_dash_student extends block_base {
         if (user_is_admin() || (user_is_student() && student_may_access_vacation_travel($USER->id))) {
             $links[get_string('vacation', 'block_mxschool_dash_student')]
                 = '/local/mxschool/vacation_travel/form.php';
+        }
+	   if (user_is_admin() || (user_is_student())) {
+            $links[get_string('deans_permission', 'block_mxschool_dash_student')]
+                = '/local/mxschool/deans_permission/form.php';
         }
 
         $this->content = new stdClass();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20190808" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20200722" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -101,27 +101,6 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="student" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the parent's student."/>
-      </KEYS>
-    </TABLE>
-    <TABLE NAME="local_mxschool_permissions" COMMENT="mxschool student permissions table - stores the data assocaited with students' permissions.">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
-        <FIELD NAME="overnight" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student stay overnight? {&quot;parent&quot;, &quot;host&quot;}."/>
-        <FIELD NAME="license_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="A timestamp which indicates the issue date of license of the student associated with the record. This should only be added to day students as it makes them valid drivers for car registration."/>
-        <FIELD NAME="may_drive_to_town" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student drive to town during the day? {&quot;Yes&quot;, &quot;No&quot;}."/>
-        <FIELD NAME="may_drive_passengers" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student give rides to other students? {&quot;Yes&quot;, &quot;No&quot;}."/>
-        <FIELD NAME="may_ride_with" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="With whom may the student ride? {&quot;Parent Permission&quot;, &quot;Over 21&quot;, &quot;Any Driver&quot;, &quot;Specific Drivers&quot;}."/>
-        <FIELD NAME="specific_drivers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Text field to be used if riding permissions are granted for specific drivers or to note other considerations — a value of NULL indicates that there is nothing to note."/>
-        <FIELD NAME="may_use_rideshare" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student use car services? {&quot;Yes&quot;, &quot;No&quot;, &quot;Parent&quot;}."/>
-        <FIELD NAME="may_go_to_boston" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="May the student go to Boston? {&quot;Yes&quot;, &quot;No&quot;, &quot;Parent&quot;}."/>
-        <FIELD NAME="swim_competent" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student able to swim competently? {&quot;Yes&quot;, &quot;No&quot;}."/>
-        <FIELD NAME="swim_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student allowed to swim? {&quot;Yes&quot;, &quot;No&quot;}."/>
-        <FIELD NAME="boat_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Is the student allowed in a boat? {&quot;Yes&quot;, &quot;No&quot;}."/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="student" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student associated with the record."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_mxschool_rooming" COMMENT="mxschool rooming request form table - stores the data from the forms which students submit to request rooming.">
@@ -284,6 +263,75 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
         <KEY NAME="weekend" TYPE="foreign" FIELDS="weekendid" REFTABLE="local_mxschool_weekend" REFFIELDS="id" COMMENT="The weekend record associated with the record."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_deans_perm" COMMENT="Stores data from the Deans' Permission Form.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="event_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The event for which the student is requesting permission to attend."/>
+        <FIELD NAME="event_info" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="More info regarding the selected event for the deans permission form."/>
+        <FIELD NAME="sport" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The sport the student plays."/>
+        <FIELD NAME="missing_sports" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student is missing a practice or a game to attend the event."/>
+        <FIELD NAME="missing_studyhours" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will miss study hours to attend the event."/>
+        <FIELD NAME="missing_class" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will be missing classes to attend the event."/>
+        <FIELD NAME="times_away" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The time during which the student will be gone from campus."/>
+        <FIELD NAME="parent_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="A boolean field indicating whether or not the student has parent permission."/>
+        <FIELD NAME="sports_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss sports"/>
+        <FIELD NAME="studyhours_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss study hours"/>
+        <FIELD NAME="class_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss class"/>
+        <FIELD NAME="comment" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="A text box for faculty to leave comments regarding a deans permission form."/>
+        <FIELD NAME="dean_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission from the deans"/>
+        <FIELD NAME="form_submitted" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The date and time at which the student submitted the deans permission form"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The userid of the user"/>
+        <KEY NAME="event" TYPE="foreign" FIELDS="event_id" REFTABLE="local_mxschool_dp_event" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_dp_event" COMMENT="Available event options for the Deans Permission sub plugin.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="200" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the location"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+  </TABLE>
+    <TABLE NAME="local_mxschool_healthpass" COMMENT="mxschool healthpass table - stores health data from the health pass forms">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student who submitted the form."/>
+        <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Whether or not the student's form is approved"/>
+        <FIELD NAME="body_temperature" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The student's temperature"/>
+        <FIELD NAME="health_info" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The students health information as submitted via the healthpass form."/>
+        <FIELD NAME="symptoms" TYPE="char" LENGTH="300" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="override_status" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="comment" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="form_submitted" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Timestamp of when the form was submitted"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The user record of the student."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_mxschool_permissions" COMMENT="Student permissions.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+	      <FIELD NAME="overnight" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_drive_with_over_21" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_drive_with_anyone" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_use_rideshare" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_travel_to_regional_cities" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="may_drive_passengers" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="swim_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="boat_allowed" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>

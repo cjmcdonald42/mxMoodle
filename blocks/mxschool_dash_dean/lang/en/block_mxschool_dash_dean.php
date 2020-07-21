@@ -18,6 +18,7 @@
  * English language strings for Middlesex's Dashboard Block for the Deans.
  *
  * @package    block_mxschool_dash_dean
+ * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -44,10 +45,15 @@ $string['user_management:vehicle_report'] = 'Student Vehicles Report';
 
 $string['checkin'] = 'Check-In Module';
 $string['checkin:generic_report'] = 'Check-In Sheet';
+$string['checkin:attendance_report'] = 'Student Attendance Report';
 $string['checkin:weekday_report'] = 'Weekday Check-In Sheet';
 $string['checkin:weekend_report'] = 'Weekend Check-In Sheet';
 $string['checkin:weekend_calculator'] = 'Weekend Calculator';
 $string['checkin:preferences'] = 'Check-In Sheets Preferences';
+
+$string['deans_permission'] = 'Deans\' Permission Form Module';
+$string['deans_permission:report'] = 'Deans\' Permission Forms Report';
+$string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
 
 $string['advisor_selection'] = 'Advisor Selection Module';
 $string['advisor_selection:report'] = 'Advisor Selection Report';

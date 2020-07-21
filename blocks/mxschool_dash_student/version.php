@@ -18,6 +18,7 @@
  * Middlesex's Dashboard Block for Students.
  *
  * @package    block_mxschool_dash_student
+ * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -27,10 +28,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_student';
-$plugin->version = 2019081400;
-$plugin->release = 'v3.1';
+$plugin->version = 2020072200;
+$plugin->release = 'v3.2';
 $plugin->requires = 2019052000; // Moodle 3.7.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'local_mxschool' => 2019081400 // MXSchool v3.1.
+$plugin->dependencies = array('local_mxschool' => 2020072200); // MXSchool v3.2
 );
