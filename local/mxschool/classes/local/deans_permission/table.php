@@ -67,8 +67,8 @@ class table extends \local_mxschool\table {
         );
 	   $where = array('u.deleted = 0'
 	   );
-	   if($filter->approved == 'approved') $where[] = 'dp.dean_perm = 1';
-	   else if($filter->approved == 'under_review') $where[] = 'dp.dean_perm = 0';
+	   if($filter->approved == 'approved') $where[] = 'dp.dean_perm = 2';
+	   else if($filter->approved == 'under_review') $where[] = '(dp.dean_perm = 0 OR dp.dean_perm = 1)';
 	   if($filter->event) $where[] = "dpe.id = {$filter->event}";
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport', 'dp.event');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
