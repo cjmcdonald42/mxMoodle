@@ -167,7 +167,7 @@
 	    if($this->is_downloading()) return $values->comment;
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
-	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save');
+	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save', 'local_mxschool_healthpass');
 	    return $output->render($renderable);
     }
 }

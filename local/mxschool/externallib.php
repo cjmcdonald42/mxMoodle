@@ -577,7 +577,7 @@ class local_mxschool_external extends external_api {
 		 );
 		 global $DB;
 		 if ($table == 'local_mxschool_healthpass') {
-			 if(!$DB->record_exists('local_mxschool_healthpass', array('userid' => $userid))) {
+			 if(!$DB->record_exists('local_mxschool_healthpass', array('userid' => $id))) {
 				  $record = new stdClass();
 				  $record->userid = $userid;
 				  $record->status = 'placeholder';

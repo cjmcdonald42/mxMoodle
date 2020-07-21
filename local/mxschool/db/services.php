@@ -105,15 +105,15 @@ $functions = array(
 	  'description' => 'Updates the comment field in a given table',
 	  'type' => 'write',
 	  'ajax' => 'true'
-  ),
-  'local_mxschool_do_alternating_button_action' => array(
-    'classname' => 'local_mxschool_external',
-    'methodname' => 'do_alternating_button_action',
-    'classpath' => 'local/mxschool/externallib.php',
-    'description' => 'Given an alternating buttons info, do a specific action',
-    'type' => 'write',
-    'ajax' => 'true'
-  ),
+	),
+	'local_mxschool_do_alternating_button_action' => array(
+	'classname' => 'local_mxschool_external',
+	'methodname' => 'do_alternating_button_action',
+	'classpath' => 'local/mxschool/externallib.php',
+	'description' => 'Given an alternating buttons info, do a specific action',
+	'type' => 'write',
+	'ajax' => 'true'
+	),
     'local_mxschool_update_healthform_override_status' => array(
 	   'classname' => 'local_mxschool_external',
 	   'methodname' => 'update_healthform_override_status',
