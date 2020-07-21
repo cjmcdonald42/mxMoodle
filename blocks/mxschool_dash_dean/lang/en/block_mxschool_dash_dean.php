@@ -44,6 +44,7 @@ $string['user_management:vehicle_report'] = 'Student Vehicles Report';
 
 $string['checkin'] = 'Check-In Module';
 $string['checkin:generic_report'] = 'Check-In Sheet';
+$string['checkin:attendance_report'] = 'Student Attendance Report';
 $string['checkin:weekday_report'] = 'Weekday Check-In Sheet';
 $string['checkin:weekend_report'] = 'Weekend Check-In Sheet';
 $string['checkin:weekend_calculator'] = 'Weekend Calculator';

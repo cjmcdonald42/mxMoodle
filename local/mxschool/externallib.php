@@ -73,10 +73,13 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:manage_vacation_travel_preferences', context_system::instance());
                 $page = get_string('vacation_travel:site_report', 'local_mxschool');
                 break;
-		  case 'local_mxschool_deans_perm':
-		 	 require_capability('local/mxschool:manage_deans_permission', context_system::instance());
-			 $page = get_string('deans_permission:report', 'local_mxschool');
-			 break;
+            case 'local_mxschool_deans_perm':
+                require_capability('local/mxschool:manage_deans_permission', context_system::instance());
+                $page = get_string('deans_permission:report', 'local_mxschool');
+            case 'local_mxschool_attendance':
+                require_capability('local/mxschool:view_limited_checkin', context_system::instance());
+                $page = get_string('checkin:attendance_report', 'local_mxschool');
+                break;
             default:
                 throw new coding_exception("Unsupported table: {$params['table']}.");
         }
@@ -146,6 +149,12 @@ class local_mxschool_external extends external_api {
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 return (new local_mxschool\local\vacation_travel\bulk_unsubmitted())->send();
+		  case 'healthpass_notify_unsubmitted':
+			  require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			  return (new local_mxschool\local\healthpass\bulk_unsubmitted())->send();
+		  case 'healthpass_overridden':
+			  require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			  return (new local_mxschool\local\healthpass\healthpass_overridden($params['emailparams']['id']))->send();
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }
@@ -541,8 +550,8 @@ class local_mxschool_external extends external_api {
         ));
     }
 
-	/**
-	* Returns descriptions of the update_healthform_comment() function's parameters.
+  /**
+	* Returns descriptions of the update_comment() function's parameters.
 	*
 	* @return external_function_parameters Object holding array of parameters for the update_healthform_comment() function.
 	*/
@@ -662,4 +671,72 @@ class local_mxschool_external extends external_api {
 	public static function do_alternating_button_action_returns() {
 	    return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
 	}
+
+ /**
+ * Returns descriptions of the update_healthform_override_status() function's parameters.
+ *
+ * @return external_function_parameters Object holding array of parameters for the update_healthform_comment() function.
+ */
+    public static function update_healthform_override_status_parameters() {
+    	  return new external_function_parameters(array(
+		   'userid' => new external_value(PARAM_INT, 'The id of the user whose health comment to update.'),
+		   'status' => new external_value(PARAM_TEXT, 'The current health status of the user.'),
+		   'override_status' => new external_value(PARAM_TEXT, 'The current override status of the user.')
+    	   ));
+    }
+
+    /**
+    * Given a healthform's current override status, updates it accordingly
+    *
+    * @param int userid, the user's id.
+    * @param String status, the user's current healthform Status
+    * @param String override_status, the user's current override status
+    * @return boolean true if successful
+    */
+    public static function update_healthform_override_status($userid, $status, $override_status) {
+     external_api::validate_context(context_system::instance());
+	$params = self::validate_parameters(self::update_healthform_override_status_parameters(), array(
+	    'userid' => $userid, 'status' => $status, 'override_status' => $override_status)
+	);
+	global $DB;
+	switch($override_status) {
+		case 'Not Overridden':
+		    $DB->execute(
+			    "UPDATE {local_mxschool_healthpass} hp
+				SET hp.override_status = 'Under Review'
+				WHERE hp.userid = {$userid}"
+		    );
+		    return true;
+		    break;
+	    case 'Under Review':
+		   $new_status = $status=='Denied' ? 'Approved' : 'Denied';
+		   $DB->execute(
+			   "UPDATE {local_mxschool_healthpass} hp
+			    SET hp.override_status = 'Overridden', hp.status = '{$new_status}'
+			    WHERE hp.userid = {$userid}"
+		   );
+		   return true;
+		   break;
+	    case 'Overridden':
+		    $new_status = $status=='Denied' ? 'Approved' : 'Denied';
+		    $DB->execute(
+			    "UPDATE {local_mxschool_healthpass} hp
+				SET hp.override_status = 'Not Overridden', hp.status = '{$new_status}'
+				WHERE hp.userid = {$userid}"
+		    );
+		    return true;
+		    break;
+	    default:
+		    throw new \coding_exception("Unknown override status in database: {$override_status}");
+	  }
+    }
+
+   /**
+   * Returns a description of the update_healthform_override_status() function's return value.
+   *
+   * @return external_value Object describing the return value of the update_healthform_override_status() function.
+   */
+    public static function update_healthform_override_status_returns() {
+    		return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
+    }
 }

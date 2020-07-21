@@ -48,7 +48,7 @@ class block_mxschool_dash_faculty extends block_base {
                 get_string('vehicle_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/vehicle_report.php',
                 get_string('duty_report', 'block_mxschool_dash_faculty') => '/local/signout/on_campus/duty_report.php',
                 get_string('deans_permission_report', 'block_mxschool_dash_faculty') => '/local/mxschool/deans_permission/report.php?approved=under_review',
-			 get_string('deans_permission_preferences', 'block_mxschool_dash_faculty') => '/local/mxschool/deans_permission/preferences.php'
+                get_string('attendance_report', 'block_mxschool_dash_faculty') => '/local/mxschool/checkin/attendance_report.php'
             ));
             $this->content->text = $output->render($renderable);
         }

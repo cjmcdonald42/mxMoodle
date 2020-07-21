@@ -18,6 +18,7 @@
  * Services for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -112,5 +113,13 @@ $functions = array(
     'description' => 'Given an alternating buttons info, do a specific action',
     'type' => 'write',
     'ajax' => 'true'
-  )
+  ),
+    'local_mxschool_update_healthform_override_status' => array(
+	   'classname' => 'local_mxschool_external',
+	   'methodname' => 'update_healthform_override_status',
+	   'classpath' => 'local/mxschool/externallib.php',
+	   'description' => 'Updates the given users healthform override status.',
+	   'type' => 'write',
+	   'ajax' => 'true'
+    )
 );

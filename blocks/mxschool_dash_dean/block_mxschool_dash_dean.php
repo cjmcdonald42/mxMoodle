@@ -55,6 +55,8 @@ class block_mxschool_dash_dean extends block_base {
                 new local_mxschool\output\index(array(
                     get_string('checkin:generic_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/checkin/generic_report.php',
+			    get_string('checkin:attendance_report', 'block_mxschool_dash_dean')
+                       => '/local/mxschool/checkin/attendance_report.php',
                     get_string('checkin:weekday_report', 'block_mxschool_dash_dean')
                         => '/local/mxschool/checkin/weekday_report.php',
                     get_string('checkin:weekend_report', 'block_mxschool_dash_dean')

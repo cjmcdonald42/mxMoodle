@@ -18,6 +18,7 @@
  * Database updgrade steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -787,13 +788,16 @@ function xmldb_local_mxschool_upgrade($oldversion) {
                 'student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'
             ))),
             array('subpackage' => 'checkin', 'pages' => json_encode(array(
-                'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator'
+                'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator', 'attendance_report'
             ))),
             array('subpackage' => 'advisor_selection', 'pages' => json_encode(array('preferences', 'form', 'report'))),
             array('subpackage' => 'rooming', 'pages' => json_encode(array('preferences', 'form', 'report'))),
             array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
                 'preferences', 'form', 'report', 'transportation_report'
-            )))
+		 ))),
+		  array('subpackage' => 'healthpass', 'pages' => json_encode(array(
+                'preferences', 'form', 'report'
+		 )))
         );
         foreach ($subpackages as $subpackage) {
             $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
@@ -853,6 +857,99 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2019080801, 'local', 'mxschool');
     }
+  
+    if($oldversion < 2020062901) {
+
+        // Define table local_mxschool_healthpass to be dropped.
+        $table = new xmldb_table('local_mxschool_healthpass');
+
+        // Conditionally launch drop table for local_mxschool_healthpass.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table local_mxschool_healthpass to be created.
+        $table = new xmldb_table('local_mxschool_healthpass');
+
+        // Adding fields to table local_mxschool_healthpass.
+	   $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('status', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('body_temperature', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('health_info', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+        $table->add_field('symptoms', XMLDB_TYPE_CHAR, '300', null, null, null, null);
+        $table->add_field('override_status', XMLDB_TYPE_CHAR, '20', null, null, null, null);
+        $table->add_field('comment', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+        $table->add_field('form_submitted', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_mxschool_healthpass.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+        // Conditionally launch create table for local_mxschool_healthpass.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2020062901, 'local', 'mxschool');
+    }
+    if($oldversion < 2020070201) {
+		// Define table local_mxschool_permissions to be dropped.
+		$table = new xmldb_table('local_mxschool_permissions');
+
+		// Conditionally launch drop table for local_mxschool_permissions.
+		if ($dbman->table_exists($table)) {
+		    $dbman->drop_table($table);
+	    	}
+	     // Define table local_mxschool_permissions to be created.
+		$table = new xmldb_table('local_mxschool_permissions');
+
+		// Adding fields to table local_mxschool_permissions.
+	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	    $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('overnight', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_drive_with_over_21', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_drive_with_anyone', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_use_rideshare', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_travel_to_regional_cities', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('may_drive_passengers', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('swim_allowed', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+	    $table->add_field('boat_allowed', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+
+		// Adding keys to table local_mxschool_permissions.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+		// Conditionally launch create table for local_mxschool_permissions.
+          if (!$dbman->table_exists($table)) {
+	      	 $dbman->create_table($table);
+		 }
+
+	      upgrade_plugin_savepoint(true, 2020070201, 'local', 'mxschool');
+    }
+    if ($oldversion < 2020070901) {
+
+	    // Define table local_mxschool_attendance to be created.
+	    $table = new xmldb_table('local_mxschool_attendance');
+
+	    // Adding fields to table local_mxschool_attendance.
+	    $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+	    $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+	    $table->add_field('attended', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+
+	    // Adding keys to table local_mxschool_attendance.
+	    $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+	    $table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+	    // Conditionally launch create table for local_mxschool_attendance.
+	    if (!$dbman->table_exists($table)) {
+		   $dbman->create_table($table);
+	    }
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020070901, 'local', 'mxschool');
+  }
 
     if ($oldversion < 2020071403) {
 
@@ -980,7 +1077,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072005, 'local', 'mxschool');
 }
+     return true;
 
-
-    return true;
-}
+ }

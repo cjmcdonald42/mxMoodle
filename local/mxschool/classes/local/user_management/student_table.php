@@ -62,16 +62,16 @@ class student_table extends \local_mxschool\table {
                 break;
             case 'permissions':
                 $columns = array(
-                    'student', 'overnight', 'license', 'driving', 'passengers', 'riding', 'ridingcomment', 'rideshare', 'boston',
-                    'swimcompetent', 'swimallowed', 'boatallowed'
+                    'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
+				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
                 $sortable = array(
-                    'student', 'overnight', 'license', 'driving', 'passengers', 'riding', 'rideshare', 'boston',
-                    'swimcompetent', 'swimallowed', 'boatallowed'
+				 'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
+ 				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
                 $centered = array(
-                    'overnight', 'license', 'driving', 'passengers', 'rideshare', 'boston', 'swimcompetent', 'swimallowed',
-                    'boatallowed'
+				 'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
+ 				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
                 break;
             case 'parents':
@@ -105,10 +105,10 @@ class student_table extends \local_mxschool\table {
             case 'permissions':
                 array_unshift($fields, 'p.id', 's.id AS sid');
                 array_push(
-                    $fields, 'p.overnight', 'p.license_date AS license', 'p.may_drive_to_town AS driving',
-                    'p.may_drive_passengers AS passengers', 'p.may_ride_with AS riding',
-                    'p.specific_drivers AS ridingcomment', 'p.may_use_rideshare AS rideshare', 'p.may_go_to_boston AS boston',
-                    'p.swim_competent AS swimcompetent', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
+                    $fields,
+                    'p.overnight', 'p.may_drive_with_over_21 AS may_drive_over_21', 'p.may_drive_with_anyone',
+                    'p.may_travel_to_regional_cities AS travel_to_cities', 'p.may_drive_passengers AS passengers',
+				'p.may_use_rideshare AS rideshare', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
                 );
                 $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';
                 break;

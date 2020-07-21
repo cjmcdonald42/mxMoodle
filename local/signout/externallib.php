@@ -131,22 +131,22 @@ class local_signout_external extends external_api {
         });
         $result->drivers = convert_associative_to_object(get_current_driver_list($params['userid']));
         $permissions = $DB->get_record('local_mxschool_permissions', array('userid' => $params['userid']));
-        $result->maydrivepassengers = $permissions->may_drive_passengers === 'Yes';
-        switch ($permissions->may_ride_with) {
-            case 'Any Driver':
-                $result->passengerwarning = '';
-                break;
-            case 'Parent Permission':
-                $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_parent');
-                break;
-            case 'Specific Drivers':
-                $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_specific')
-                    . " {$permissions->specific_drivers}";
-                break;
-            case 'Over 21':
-            default:
-                $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_over21');
-        }
+        $result->maydrivepassengers = $permissions->may_drive_passengers != 'No';
+	   if($permissions->may_drive_with_anyone == 'Yes') {
+		   $result->passengerwarning = '';
+	   }
+	   else if($permissions->may_drive_with_anyone == 'Parent') {
+		   $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_parent');
+	   }
+	   else {
+		   if($permissions->may_drive_with_over_21 == 'Yes') {
+			   $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_over21');
+		   }
+		   else if($permissions->may_drive_with_over_21 == 'Parent') {
+			   $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_parent');
+		   }
+		   else $result->passengerwarning = get_config('local_signout', 'off_campus_form_warning_passenger_specific')." none.";
+	   }
         switch ($permissions->may_use_rideshare) {
             case 'Yes':
                 $result->ridesharewarning = '';
