@@ -1079,6 +1079,56 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072005, 'local', 'mxschool');
 }
+
+	if ($oldversion < 2020072202) {
+		$pages = json_encode(array(
+		                'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator', 'attendance_report'
+				 ));
+		$DB->set_field('local_mxschool_subpackage', 'pages', $pages, array('subpackage' => 'checkin'));
+
+		// COVIDpass Defaults
+		set_config('healthpass_enabled', '0', 'local_mxschool');
+		set_config('healthpass_max_body_temp', '99.9', 'local_mxschool');
+		set_config('healthpass_enabled', '0', 'local_mxschool');
+		set_config('healthcenter_notification_enabled', '1', 'local_mxschool');
+		set_config('healthcenter_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
+		set_config('healthpass_days_before_reminder', '4', 'local_mxschool');
+		$data = new stdClass();
+		$data->healthcenter_subject = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->healthcenter_body = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->approved_subject = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->approved_body = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->denied_subject = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->denied_body = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->overridden_subject = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->overridden_body = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->unsubmitted_subject = 'DEFAULT -- Change in COVIDpass Preferences';
+		$data->unsubmitted_body = 'DEFAULT -- Change in COVIDpass Preferences';
+		update_notification('healthcenter_notification', $data, 'healthcenter');
+		update_notification('healthpass_approved', $data, 'approved');
+		update_notification('healthpass_denied', $data, 'denied');
+		update_notification('healthpass_overridden', $data, 'overridden');
+		update_notification('healthpass_notify_unsubmitted', $data, 'unsubmitted');
+
+		// Dean's Permission Defaults
+		set_config('deans_email_address', 'deanslog@mxschool.edu', 'local_mxschool');
+		set_config('athletic_director_email_address', 'krisley@mxschool.edu', 'local_mxschool');
+		set_config('academic_director_email_address', 'kmcnall@mxschool.edu', 'local_mxschool');
+		$data->submitted_subject = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		$data->submitted_body = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		$data->sports_subject = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		$data->sports_body = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		$data->class_subject = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		$data->class_body = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		$data->approved_subject = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		$data->approved_body = 'DEFAULT -- Change in Deans\' Permission Preferences';
+		update_notification('deans_permission_submitted', $data, 'submitted');
+		update_notification('sports_permission_request', $data, 'sports');
+		update_notification('class_permission_request', $data, 'class');
+		update_notification('deans_permission_approved', $data, 'approved');
+
+	     upgrade_plugin_savepoint(true, 2020072202, 'local', 'mxschool');
+	}
      return true;
 
  }
