@@ -21,7 +21,7 @@
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -854,7 +854,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2019080801, 'local', 'mxschool');
     }
-  
+
     if($oldversion < 2020062901) {
 
         $subpackage = array('subpackage' => 'healthpass', 'pages' => json_encode(array(
@@ -1075,7 +1075,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		   'form', 'report', 'preferences', 'event_edit'
 	   )));
           $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
-		
+
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072005, 'local', 'mxschool');
 }
