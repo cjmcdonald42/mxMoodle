@@ -795,9 +795,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
                 'preferences', 'form', 'report', 'transportation_report'
 		 ))),
-		  array('subpackage' => 'healthpass', 'pages' => json_encode(array(
-                'preferences', 'form', 'report'
-		 )))
         );
         foreach ($subpackages as $subpackage) {
             $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
@@ -859,6 +856,11 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
   
     if($oldversion < 2020062901) {
+
+        $subpackage = array('subpackage' => 'healthpass', 'pages' => json_encode(array(
+                'preferences', 'form', 'report'
+         )));
+        $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
 
         // Define table local_mxschool_healthpass to be dropped.
         $table = new xmldb_table('local_mxschool_healthpass');
@@ -1058,7 +1060,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	    // Define field event_info to be added to local_mxschool_deans_perm.
 	    $table = new xmldb_table('local_mxschool_deans_perm');
-	    $field = new xmldb_field('event_info', XMLDB_TYPE_CHAR, '500', null, null, null, null, 'event');
+	    $field = new xmldb_field('event_info', XMLDB_TYPE_CHAR, '500', null, null, null, null, 'event_id');
 
 	    // Conditionally launch add field event_info.
 	    if (!$dbman->field_exists($table, $field)) {
