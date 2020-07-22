@@ -43,9 +43,10 @@ class healthcenter_notification extends \local_mxschool\notification {
 
          if ($id) {
              $record = $DB->get_record_sql(
-                 "SELECT u.id AS userid, u.firstname, u.lastname, u.alternatename
-			  		hp.symptoms, hp.body_temperature, s.boarding_status, s.phone_number, d.name AS dorm
-                  FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
+                 "SELECT u.id AS userid, u.firstname, u.lastname, u.alternatename,
+			  		hp.symptoms, hp.body_temperature, s.boarding_status, s.phone_number, d.name AS dormname
+                  FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid
+			   			  LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
 			   	   		  LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
                   WHERE u.id = {$id}"
              );
@@ -59,7 +60,7 @@ class healthcenter_notification extends \local_mxschool\notification {
  		  $this->data['symptoms'] = $record->symptoms;
  		  $this->data['student_boarding_status'] = $record->boarding_status;
 		  $this->data['student_phone_number'] = $record->phone_number;
-   		  $this->data['student_dorm'] = $record->dorm;
+   		  $this->data['student_dorm'] = $record->dormname;
 		  $this->data['body_temperature'] = $record->body_temperature;
 
 		  $healthcenter = $DB->get_record('user', array('id' => 2));

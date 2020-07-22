@@ -165,8 +165,11 @@
 
     protected function col_comment($values) {
 	    if($this->is_downloading()) return $values->comment;
+    	    $today = generate_datetime(time())->modify('midnight')->getTimestamp();
+	    if($values->time_submitted < $today or !isset($values->time_submitted)) return '';
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
+	    $today = generate_datetime(time())->modify('midnight')->getTimestamp();
 	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save', 'local_mxschool_healthpass');
 	    return $output->render($renderable);
     }

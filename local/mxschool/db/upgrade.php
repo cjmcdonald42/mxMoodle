@@ -1087,9 +1087,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		$DB->set_field('local_mxschool_subpackage', 'pages', $pages, array('subpackage' => 'checkin'));
 
 		// COVIDpass Defaults
-		set_config('healthpass_enabled', '0', 'local_mxschool');
+		set_config('healthpass_enabled', '1', 'local_mxschool');
 		set_config('healthpass_max_body_temp', '99.9', 'local_mxschool');
-		set_config('healthpass_enabled', '0', 'local_mxschool');
 		set_config('healthcenter_notification_enabled', '1', 'local_mxschool');
 		set_config('healthcenter_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
 		set_config('healthpass_days_before_reminder', '4', 'local_mxschool');
