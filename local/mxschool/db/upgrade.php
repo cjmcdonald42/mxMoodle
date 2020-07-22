@@ -1086,6 +1086,11 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 				 ));
 		$DB->set_field('local_mxschool_subpackage', 'pages', $pages, array('subpackage' => 'checkin'));
 
+		$pages = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
+		    'form', 'report', 'preferences', 'event_edit'
+	    )));
+		 $DB->set_field('local_mxschool_subpackage', 'pages', $pages, 'subpackage' => 'deans_permission');
+
 		// COVIDpass Defaults
 		set_config('healthpass_enabled', '1', 'local_mxschool');
 		set_config('healthpass_max_body_temp', '99.9', 'local_mxschool');
