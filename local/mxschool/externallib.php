@@ -78,7 +78,6 @@ class local_mxschool_external extends external_api {
                 require_capability('local/mxschool:manage_deans_permission', context_system::instance());
                 $page = get_string('deans_permission:report', 'local_mxschool');
             case 'local_mxschool_attendance':
-                require_capability('local/mxschool:view_limited_checkin', context_system::instance());
                 $page = get_string('checkin:attendance_report', 'local_mxschool');
                 break;
             default:
