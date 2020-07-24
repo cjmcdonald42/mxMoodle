@@ -1010,12 +1010,12 @@ $string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
 $string['deans_permission:form:info'] = 'Information';
 $string['deans_permission:form:info:student'] = 'Student';
 $string['deans_permission:form:info:event'] = 'Event type';
-$string['deans_permission:form:info:event_info'] = 'Event information';
-$string['deans_permission:form:info:sport'] = 'What sport do you play at MX?';
+$string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? Is this recurring or single event? Where is the event (include city and state)?';
+$string['deans_permission:form:info:sport'] = 'What is your afternoon school athletic commitment (E.g. track, recfit)?';
 $string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
 $string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
 $string['deans_permission:form:info:missing_class'] = 'Will you be missing classes?';
-$string['deans_permission:form:info:times_away'] = 'When will you be away?';
+$string['deans_permission:form:info:times_away'] = 'When will you be away? Please include specific dates and times.';
 // Notifications.
 $string['deans_permission:form:success'] = 'Deans\' Permission Form Submitted Successfully';
 

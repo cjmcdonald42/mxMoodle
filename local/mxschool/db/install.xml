@@ -270,7 +270,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="event_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The event for which the student is requesting permission to attend."/>
-        <FIELD NAME="event_info" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="More info regarding the selected event for the deans permission form."/>
+        <FIELD NAME="event_info" TYPE="char" LENGTH="1000" NOTNULL="false" SEQUENCE="false" COMMENT="More info regarding the selected event for the deans permission form."/>
         <FIELD NAME="sport" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The sport the student plays."/>
         <FIELD NAME="missing_sports" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student is missing a practice or a game to attend the event."/>
         <FIELD NAME="missing_studyhours" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will miss study hours to attend the event."/>
