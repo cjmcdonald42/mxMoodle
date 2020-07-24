@@ -411,6 +411,9 @@ $string['checkin:preferences:dates:dorms_close'] = 'Dorms Close On: ';
 $string['checkin:preferences:weekends'] = 'Weekend Types';
 $string['checkin:preferences:weekends:label'] = 'Saturday {$a}';
 
+$string['checkin:preferences:attendance'] = 'Attendance Report';
+$string['checkin:preferences:attendance:reset_attendance_data'] = 'At what time should attendance data be reset?';
+
 // Weekend Form Email Notifications.
 $string['checkin:preferences:notifications'] = 'Weekend Form Email Notifications';
 $string['checkin:preferences:notifications:submitted_tags'] = 'Available Tags for Weekend Form Submitted Email';
@@ -557,6 +560,7 @@ $string['checkin:attendance_report:header:dorm'] = 'Dorm';
 $string['checkin:attendance_report:header:room'] = 'Room';
 $string['checkin:attendance_report:header:grade'] = 'Grade';
 $string['checkin:attendance_report:header:attended'] = 'Attended';
+$string['checkin:attendance_report:reset_data'] = 'Reset Attendance Data';
 
 // Filters
 $string['checkin:attendance_report:attendance:all'] = 'All';

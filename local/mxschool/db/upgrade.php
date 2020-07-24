@@ -1133,6 +1133,20 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	     upgrade_plugin_savepoint(true, 2020072202, 'local', 'mxschool');
 	}
+	if ($oldversion < 2020072302) {
+
+	    // Define field time_modified to be added to local_mxschool_attendance.
+	    $table = new xmldb_table('local_mxschool_attendance');
+	    $field = new xmldb_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '1', 'attended');
+
+	    // Conditionally launch add field time_modified.
+	    if (!$dbman->field_exists($table, $field)) {
+		   $dbman->add_field($table, $field);
+	    }
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020072302, 'local', 'mxschool');
+	}
      return true;
 
  }

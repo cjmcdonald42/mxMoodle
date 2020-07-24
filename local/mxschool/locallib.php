@@ -1308,6 +1308,16 @@ function get_room_type_list($gender = '') {
     return $roomtypes;
 }
 
+/**
+* Resets all attendance data.
+*
+*/
+function reset_attendance_data() {
+	global $DB;
+	$DB->set_field('local_mxschool_attendance', 'attended', 0);
+	$DB->set_field('local_mxschool_attendance', 'time_modified', time());
+}
+
 /* Vacation Travel. */
 
 /**

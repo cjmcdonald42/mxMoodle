@@ -39,7 +39,8 @@ class attendance_table extends \local_mxschool\table {
      *
      * @param stdClass $filter Any filtering for the table - could include property dorm.
      */
-    public function __construct($filter) {
+    public function __construct($filter, $download) {
+        $this->is_downloading($download, 'Attendance Report', 'Attendance Report');
         global $DB;
         $columns = array('student', 'dorm', 'room', 'grade', 'attended');
         if ($filter->dorm > 0) {
@@ -76,6 +77,7 @@ class attendance_table extends \local_mxschool\table {
      * Formats the attended cloumn to a javascript checkbox
      */
     protected function col_attended($values) {
+	    if($this->is_downloading()) return $values->attended ? 'X' : '';
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
 	    $renderable = new checkbox($values->atid, 'local_mxschool_attendance', 'attended', $values->attended);

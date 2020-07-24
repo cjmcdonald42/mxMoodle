@@ -34,6 +34,7 @@ require_capability('local/mxschool:manage_checkin_preferences', context_system::
 setup_mxschool_page('preferences', 'checkin');
 
 $data = new stdClass();
+$data->reset_attendance_data = get_config('local_mxschool', 'reset_att_data_time');
 $data->dorms_open = get_config('local_mxschool', 'dorms_open_date');
 $data->second_semester = get_config('local_mxschool', 'second_semester_start_date');
 $data->dorms_close = get_config('local_mxschool', 'dorms_close_date');
@@ -64,6 +65,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+    set_config('reset_att_data_time', $data->reset_attendance_data, 'local_mxschool');
     set_config('dorms_open_date', $data->dorms_open, 'local_mxschool');
     set_config('second_semester_start_date', $data->second_semester, 'local_mxschool');
     set_config('dorms_close_date', $data->dorms_close, 'local_mxschool');
