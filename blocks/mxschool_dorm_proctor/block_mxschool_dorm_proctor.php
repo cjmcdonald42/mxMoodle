@@ -45,8 +45,8 @@ class block_mxschool_dorm_proctor extends block_base {
         if (has_capability('block/mxschool_dorm_proctor:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
-                get_string('checkin_sheet', 'block_mxschool_dorm_proctor') => '/local/mxschool/checkin/attendance_report.php',
-                get_string('dorm_signout_report', 'block_mxschool_dorm_proctor') => '/local/signout/combined_report.php'
+                get_string('attendance_report', 'block_mxschool_dorm_proctor') => '/local/mxschool/checkin/attendance_report.php',
+                get_string('dorm_signout_report', 'block_mxschool_dorm_proctor') => '/local/signout/combined_report.php',
             ));
             $this->content->text = $output->render($renderable);
         }

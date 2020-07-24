@@ -1060,7 +1060,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	    // Define field event_info to be added to local_mxschool_deans_perm.
 	    $table = new xmldb_table('local_mxschool_deans_perm');
-	    $field = new xmldb_field('event_info', XMLDB_TYPE_CHAR, '500', null, null, null, null, 'event_id');
+	    $field = new xmldb_field('event_info', XMLDB_TYPE_CHAR, '1000', null, null, null, null, 'event_id');
 
 	    // Conditionally launch add field event_info.
 	    if (!$dbman->field_exists($table, $field)) {

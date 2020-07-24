@@ -37,5 +37,5 @@ $string['mxschool_dorm_proctor:access'] = 'Middlesex School: Access Proctor Dorm
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['checkin_sheet'] = 'Printable Check-In Sheet';
+$string['attendance_report'] = 'Dorm Attendance Report';
 $string['dorm_signout_report'] = 'Dorm Signout Report';
