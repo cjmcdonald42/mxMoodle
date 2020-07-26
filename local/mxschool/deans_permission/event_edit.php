@@ -54,6 +54,7 @@ if ($id) { // Updating an existing record.
 }
 else {
 	$data = new stdClass();
+	$data->id = $id;
 }
 
 $form = new local_mxschool\local\deans_permission\event_edit_form();

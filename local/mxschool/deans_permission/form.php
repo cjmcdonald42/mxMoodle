@@ -54,9 +54,11 @@ if ($id) { // Updating an existing record.
     if ($isstudent) { // Students cannot edit their forms.
         redirect($PAGE->url);
     }
+    $data->isstudent = $isstudent ? '1' : '0';
 }
 else {
 	$data = new stdClass();
+	$data->id = $id;
 	$data->isstudent = $isstudent ? '1' : '0';
 	$data->student = $USER->id;
 	$data->timecreated = time();
