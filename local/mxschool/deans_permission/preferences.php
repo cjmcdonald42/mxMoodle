@@ -34,15 +34,15 @@ require_capability('local/mxschool:manage_rooming_preferences', context_system::
 
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
+$filter = array();
 
 setup_mxschool_page('preferences', 'deans_permission');
 
-$redirect = new moodle_url($PAGE->url, (array) $filter);
 if ($action === 'delete' && $id) {
     $result = $DB->record_exists('local_mxschool_dp_event', array('id' => $id)) ? 'success' : 'failure';
     $DB->delete_records('local_mxschool_dp_event', array('id' => $id));
     logged_redirect(
-        $redirect, get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
+        new moodle_url($PAGE->url), get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
     );
 }
 
