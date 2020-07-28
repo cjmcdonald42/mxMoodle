@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Provider for Middlesex's Dashboard Block for the Deans.
- *
- * @package     block_mxschool_dash_dean
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+ /**
+   * Provider for the Middlesex Deans' Dashboard Block.
+   *
+   * @package    block_mxschool_dash_dean
+   * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+   * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+   * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+   * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+   */
 
 namespace block_mxschool_dash_dean\privacy;
 

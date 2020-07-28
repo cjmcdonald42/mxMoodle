@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dashboard Block for the Healthcenter.
+ * Middlesex Cruz Health Center Dashboard Block.
  *
  * @package     block_mxschool_dash_healthcenter
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>

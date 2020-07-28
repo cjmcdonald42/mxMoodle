@@ -15,10 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex Dashboard Block for the Deans.
- *
- /**
-  * Middlesex's Dashboard Block for the Deans.
+  * English language strings for the Middlesex Deans' Dashboard Block.
   *
   * @package    block_mxschool_dash_dean
   * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>

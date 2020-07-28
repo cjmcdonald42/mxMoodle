@@ -1,4 +1,4 @@
-# Middlesex's Dashboard Block for the Healthcenter
+# Middlesex Cruz Health Center Dashboard Block.
 This block provides a menu for the Cruz Health Center staff to access our new COVIDpass reporting system and related student information reports.
 
 ## Dependencies
@@ -15,14 +15,6 @@ Moodle is an international, open source learning management system aligned with 
 ## Credits
 v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
 - Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
-v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
-v3.0 of this plugin was developed alongside v3.0 of the local_mxschool plugin in 2018 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 ## License

@@ -1,4 +1,4 @@
-# Middlesex Dashboard Block for the Deans
+# Middlesex Deans' Dashboard Block
 This block provides an administrative menu for the Deans of Students to access the pages and preferences defined in the local_mxschool and local_signout plugins.
 
 ## Dependencies

@@ -1,4 +1,4 @@
-# Middlesex's Dashboard Block for the Faculty
+# Middlesex Faculty Dashboard Block
 This block provides an menu for all faculty to access reports defined by the local_mxschool and local_signout plugins.
 
 ## Dependencies

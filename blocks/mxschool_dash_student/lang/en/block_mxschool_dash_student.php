@@ -15,15 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dashboard Block for Students.
- *
- * @package    block_mxschool_dash_student
- * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+  * English language strings for Middlesex Student's Dashboard Block.
+  *
+  * @package    block_mxschool_dash_student
+  * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+  * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+  */
 
 $string['pluginname'] = 'Student Dashboard Block';
 $string['blockname'] = 'Middlesex Student';
