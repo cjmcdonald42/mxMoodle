@@ -66,7 +66,7 @@
  // Check if the user is a Healthpass Admin
  $isManager = has_capability('local/mxschool:manage_healthpass', context_system::instance());
  // If the user is an admin, will be able to select from a list of all users.
- if($isManager){
+ if($isManager) {
 	 $users = get_user_list();
  }
  // Else auto populates to user's name
@@ -78,7 +78,7 @@
  $form = new local_mxschool\local\healthpass\form(array('users' => $users, 'isManager' => $isManager));
  $form->set_data($data);
 
- if($form->is_cancelled()){ // If the cancel button is pressed...
+ if($form->is_cancelled()) { // If the cancel button is pressed...
    redirect($form->get_redirect());
  }
  elseif($data = $form->get_data()) { // If the 'Save Changes' or 'I have no symptoms' button is pressed...
@@ -112,13 +112,15 @@
 	   if($data->symptom6 == 'Yes') $data->symptoms .= get_string("healthpass:symptom6", 'local_mxschool').", ";
 	   if($data->symptom7 == 'Yes') $data->symptoms .= get_string("healthpass:symptom7", 'local_mxschool').", ";
 	   // add more symptoms here
-	   if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
-	   else $data_symptoms = 'None';
+
+	   // if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
+       if($data->symptoms != '') $data->symptoms = substr($data->symptoms, 0, -2);
+	  else $data->symptoms = 'None';
    }
 
    // Logic for approve/deny healthpass
-   if($data->symptoms=='None' and $data->body_temperature <= get_config('local_mxschool', 'healthpass_max_body_temp')
-   	 and !$data->anyone_sick_at_home and $data->health_info =='') {
+   if($data->symptoms == 'None' and $data->body_temperature <= get_config('local_mxschool', 'healthpass_max_body_temp')
+   	 and $data->health_info == '') {
 		 $data->status = 'Approved';
 	 }
    else $data->status = 'Denied';

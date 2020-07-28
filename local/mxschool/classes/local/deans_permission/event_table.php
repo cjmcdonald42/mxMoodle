@@ -43,7 +43,8 @@ class event_table extends \local_mxschool\table {
         $columns = array('event_name');
         $headers = $this->generate_headers($columns, 'deans_permission:event_report');
         $centered = array('event_name');
-        parent::__construct('deans_permission_event_table', $columns, $headers, null, $centered, null);
+	   $sortable = array('event-name');
+        parent::__construct('deans_permission_event_table', $columns, $headers, $sortable, $centered);
 
         $fields = array(
 		   'dpe.id', 'dpe.name AS event_name'
@@ -52,7 +53,7 @@ class event_table extends \local_mxschool\table {
 		   '{local_mxschool_dp_event} dpe'
         );
 	   $where = array('dpe.id > 0');
-        $this->define_sql($fields, $from, $where, null, $filter->search);
+        $this->define_sql($fields, $from, $where);
     }
 
     protected function col_actions($values) {

@@ -48,7 +48,7 @@ class form extends \local_mxschool\form {
 	    );
 
 	   // Get $users and $isManager from form page
-        $users = $this->_customdata['users'];
+       $users = $this->_customdata['users'];
 	   $isManager = $this->_customdata['isManager'];
 
 	   // Define fields
@@ -67,7 +67,7 @@ class form extends \local_mxschool\form {
 				 'temp_decimal' => array('element' => 'select', 'options' => $temp_decimals)
 			 )),
 			 // NOTE: Update line 89 of healthpass/form.php and the langauge file if adding more health_info questions
-                'health_info0' => self::ELEMENT_YES_NO_REQUIRED,
+             'health_info0' => self::ELEMENT_YES_NO_REQUIRED,
 			 'health_info1' => self::ELEMENT_YES_NO_REQUIRED,
 			 'health_info2' => self::ELEMENT_YES_NO_REQUIRED,
 			 // 'health_info3' => self::ELEMENT_YES_NO_REQUIRED,
@@ -83,7 +83,7 @@ class form extends \local_mxschool\form {
                 'symptom5' => self::ELEMENT_YES_NO,
                 'symptom6' => self::ELEMENT_YES_NO,
 			 // NOTE: Update line 107 of healthpass/form.php, the validation function below, and the language file if adding more symptoms
-			 'symptom7' => self::ELEMENT_YES_NO,
+                'symptom7' => self::ELEMENT_YES_NO,
 			 // 'symptom8' => self::ELEMENT_YES_NO,
 			 // 'symptom9' => self::ELEMENT_YES_NO,
 			 // 'symptom10' => self::ELEMENT_YES_NO,
@@ -91,9 +91,9 @@ class form extends \local_mxschool\form {
 			 // 'symptom12' => self::ELEMENT_YES_NO,
 		 ),
         );
-        $this->set_fields($fields, 'healthpass:form', false, 'local_mxschool', false);
+       $this->set_fields($fields, 'healthpass:form', false, 'local_mxschool', false);
 
-        $mform = $this->_form;
+       $mform = $this->_form;
 	   $mform->setDefault('body_temperature_temp', '98');
 	   $mform->setDefault('body_temperature_temp_decimal', '.6');
 
@@ -112,33 +112,33 @@ class form extends \local_mxschool\form {
     public function validation($data, $files) {
 	   global $DB;
 	   $errors = parent::validation($data, $files);
-	   if($data['no_symptoms']) { // if no_symptoms button is pressed but there are yes's
-		   if($data['symptom0']=='Yes') $errors['symptom0'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   if($data['symptom1']=='Yes') $errors['symptom1'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   if($data['symptom2']=='Yes') $errors['symptom2'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   if($data['symptom3']=='Yes') $errors['symptom3'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   if($data['symptom4']=='Yes') $errors['symptom4'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   if($data['symptom5']=='Yes') $errors['symptom5'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   if($data['symptom6']=='Yes') $errors['symptom6'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   if($data['symptom7']=='Yes') $errors['symptom7'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   // if($data['symptom8']=='Yes') $errors['symptom8'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   // if($data['symptom9']=='Yes') $errors['symptom9'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   // if($data['symptom10']=='Yes') $errors['symptom10'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   // if($data['symptom11']=='Yes') $errors['symptom11'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+	   if(array_key_exists('no_symptoms', $data)) { // if no_symptoms button is pressed but there are yes's
+		   if(array_key_exists('symptom0', $data) and $data["symptom0"]=='Yes') $errors['symptom0'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom1', $data) and $data["symptom1"]=='Yes') $errors['symptom1'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom2', $data) and $data["symptom2"]=='Yes') $errors['symptom2'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom3', $data) and $data["symptom3"]=='Yes') $errors['symptom3'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom4', $data) and $data["symptom4"]=='Yes') $errors['symptom4'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom5', $data) and $data["symptom5"]=='Yes') $errors['symptom5'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom6', $data) and $data["symptom6"]=='Yes') $errors['symptom6'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom7', $data) and $data["symptom7"]=='Yes') $errors['symptom7'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   // if(array_key_exists('symptom8', $data) and $data["symptom8"]=='Yes') $errors['symptom8'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   // if(array_key_exists('symptom9', $data) and $data["symptom9"]=='Yes') $errors['symptom9'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   // if(array_key_exists('symptom10', $data) and $data["symptom10"]=='Yes') $errors['symptom10'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   // if(array_key_exists('symptom11', $data) and $data["symptom11=='Yes') $errors['symptom11'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
 	   }
-	   if(!$data['no_symptoms']) { // if save changes is pressed but there are unset symptoms
-		   if(!$data['symptom0']) $errors['symptom0'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   if(!$data['symptom1']) $errors['symptom1'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   if(!$data['symptom2']) $errors['symptom2'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   if(!$data['symptom3']) $errors['symptom3'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   if(!$data['symptom4']) $errors['symptom4'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   if(!$data['symptom5']) $errors['symptom5'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   if(!$data['symptom6']) $errors['symptom6'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   if(!$data['symptom7']) $errors['symptom7'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   // if(!$data['symptom8']) $errors['symptom8'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   // if(!$data['symptom9']) $errors['symptom9'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   // if(!$data['symptom10']) $errors['symptom10'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   // if(!$data['symptom11']) $errors['symptom11'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+	   if(!array_key_exists('no_symptoms', $data)) { // if save changes is pressed but there are unset symptoms
+		   if(!array_key_exists('symptom0', $data)) $errors['symptom0'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom1', $data)) $errors['symptom1'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom2', $data)) $errors['symptom2'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom3', $data)) $errors['symptom3'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom4', $data)) $errors['symptom4'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom5', $data)) $errors['symptom5'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom6', $data)) $errors['symptom6'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom7', $data)) $errors['symptom7'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   // if(!array_key_exists('symptom8', $data)) $errors['symptom8'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   // if(!array_key_exists('symptom9', $data)) $errors['symptom9'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   // if(!array_key_exists('symptom10', $data)) $errors['symptom10'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   // if(!array_key_exists('symptom11', $data)) $errors['symptom11'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
 	   }
 	   return $errors;
     }
