@@ -48,7 +48,7 @@ class form extends \local_mxschool\form {
 	    );
 
 	   // Get $users and $isManager from form page
-        $users = $this->_customdata['users'];
+       $users = $this->_customdata['users'];
 	   $isManager = $this->_customdata['isManager'];
 
 	   // Define fields
@@ -67,7 +67,7 @@ class form extends \local_mxschool\form {
 				 'temp_decimal' => array('element' => 'select', 'options' => $temp_decimals)
 			 )),
 			 // NOTE: Update line 89 of healthpass/form.php and the langauge file if adding more health_info questions
-                'health_info0' => self::ELEMENT_YES_NO_REQUIRED,
+             'health_info0' => self::ELEMENT_YES_NO_REQUIRED,
 			 'health_info1' => self::ELEMENT_YES_NO_REQUIRED,
 			 'health_info2' => self::ELEMENT_YES_NO_REQUIRED,
 			 // 'health_info3' => self::ELEMENT_YES_NO_REQUIRED,
@@ -83,7 +83,7 @@ class form extends \local_mxschool\form {
                 'symptom5' => self::ELEMENT_YES_NO,
                 'symptom6' => self::ELEMENT_YES_NO,
 			 // NOTE: Update line 107 of healthpass/form.php, the validation function below, and the language file if adding more symptoms
-			 'symptom7' => self::ELEMENT_YES_NO,
+                'symptom7' => self::ELEMENT_YES_NO,
 			 // 'symptom8' => self::ELEMENT_YES_NO,
 			 // 'symptom9' => self::ELEMENT_YES_NO,
 			 // 'symptom10' => self::ELEMENT_YES_NO,
@@ -91,9 +91,9 @@ class form extends \local_mxschool\form {
 			 // 'symptom12' => self::ELEMENT_YES_NO,
 		 ),
         );
-        $this->set_fields($fields, 'healthpass:form', false, 'local_mxschool', false);
+       $this->set_fields($fields, 'healthpass:form', false, 'local_mxschool', false);
 
-        $mform = $this->_form;
+       $mform = $this->_form;
 	   $mform->setDefault('body_temperature_temp', '98');
 	   $mform->setDefault('body_temperature_temp_decimal', '.6');
 

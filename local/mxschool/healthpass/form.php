@@ -112,13 +112,15 @@
 	   if($data->symptom6 == 'Yes') $data->symptoms .= get_string("healthpass:symptom6", 'local_mxschool').", ";
 	   if($data->symptom7 == 'Yes') $data->symptoms .= get_string("healthpass:symptom7", 'local_mxschool').", ";
 	   // add more symptoms here
-	   if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
+
+	   // if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
+       if($data->symptoms) != '') $data->symptoms = substr($data->symptoms, 0, -2);
 	   else $data_symptoms = 'None';
    }
 
    // Logic for approve/deny healthpass
-   if($data->symptoms=='None' and $data->body_temperature <= get_config('local_mxschool', 'healthpass_max_body_temp')
-   	 and $data->health_info =='') {
+   if($data->symptoms == 'None' and $data->body_temperature <= get_config('local_mxschool', 'healthpass_max_body_temp')
+   	 and $data->health_info == '') {
 		 $data->status = 'Approved';
 	 }
    else $data->status = 'Denied';
