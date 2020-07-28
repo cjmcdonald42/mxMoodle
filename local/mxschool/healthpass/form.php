@@ -114,8 +114,8 @@
 	   // add more symptoms here
 
 	   // if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
-       if($data->symptoms) != '') $data->symptoms = substr($data->symptoms, 0, -2);
-	   else $data_symptoms = 'None';
+       if($data->symptoms != '') $data->symptoms = substr($data->symptoms, 0, -2);
+	  else $data->symptoms = 'None';
    }
 
    // Logic for approve/deny healthpass
