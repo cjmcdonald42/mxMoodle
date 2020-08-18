@@ -124,6 +124,8 @@ $string['indexes:checkin'] = 'Checkin Sheets and Weekend Forms Index';
 $string['indexes:advisor_selection'] = 'Advisor Selection Index';
 $string['indexes:rooming'] = 'Rooming Index';
 $string['indexes:vacation_travel'] = 'Vacation Travel Index';
+$string['indexes:healthpass'] = 'COVIDpass Index';
+$string['indexes:deans_permission'] = 'Deans\' Permission Index';
 
 
 /* Miscelaneous. */
