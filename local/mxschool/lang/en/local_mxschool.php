@@ -1107,7 +1107,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:form:health_info:name'] = 'Name';
  $string['healthpass:form:health_info:body_temperature'] = 'What is your body temperature?';
  $string['healthpass:form:health_info:health_info0'] = "Have you been in contact with anyone who has or is suspected to have COVID19?";
- $string['healthpass:form:health_info:health_info1'] = "Have you or has anyone you live with recently been tested for COVID19?";
+ $string['healthpass:form:health_info:health_info1'] = "Have you or anyone you live with recently tested positive for COVID19?";
  $string['healthpass:form:health_info:health_info2'] = "Have you taken any fever reducing medications today? (i.e., Tylenol, Ibuprofen)";
  $string['healthpass:form:symptoms'] = "Do you have:";
  $string['healthpass:form:symptoms:symptom0'] = "a fever?";
@@ -1203,7 +1203,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
  /* Healthpass Symptoms and Health_info. */
  $string['healthpass:health_info0'] = 'In contact with suspected COVID19';
- $string['healthpass:health_info1'] = 'Recently tested';
+ $string['healthpass:health_info1'] = 'Recently tested or lives with someone recently tested positive';
  $string['healthpass:health_info2'] = 'Took fever reducing medications';
 
  $string['healthpass:symptom0'] = 'Fever';
