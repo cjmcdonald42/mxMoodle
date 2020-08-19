@@ -38,6 +38,7 @@ $data = new stdClass();
 
 // Set form fields to their current values
 $data->healthpass_enabled = get_config('local_mxschool', 'healthpass_enabled');
+$data->one_per_day = get_config('local_mxschool', 'healthpass_one_per_day');
 $data->max_body_temp = get_config('local_mxschool', 'healthpass_max_body_temp');
 $data->healthcenter_notification_enabled = get_config('local_mxschool', 'healthcenter_notification_enabled');
 $data->healthcenter_email_address = get_config('local_mxschool', 'healthcenter_notification_email_address');
@@ -61,6 +62,7 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	set_config('healthcenter_notification_enabled', $data->healthcenter_notification_enabled, 'local_mxschool');
 	set_config('healthcenter_notification_email_address', $data->healthcenter_email_address, 'local_mxschool');
 	set_config('healthpass_days_before_reminder', $data->days_before_reminder, 'local_mxschool');
+	set_config('healthpass_one_per_day', $data->one_per_day, 'local_mxschool');
      update_notification('healthcenter_notification', $data, 'healthcenter');
 	update_notification('healthpass_approved', $data, 'approved');
      update_notification('healthpass_denied', $data, 'denied');

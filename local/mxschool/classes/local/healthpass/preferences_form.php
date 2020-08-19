@@ -47,7 +47,8 @@
 			 'preferences' => array(
 				 'reset_time' => self::time_selector(1),
 				 'max_body_temp' => self::ELEMENT_TEXT,
-				 'healthpass_enabled' => array('element' => 'checkbox')
+				 'healthpass_enabled' => array('element' => 'checkbox'),
+ 				 'one_per_day' => array('element' => 'checkbox')
 			 ),
 			 'healthcenter_notification' => array(
 				 'healthcenter_notification_enabled' => array('element' => 'checkbox'),

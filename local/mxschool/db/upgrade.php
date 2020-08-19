@@ -1132,6 +1132,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072302, 'local', 'mxschool');
 	}
+	if ($oldversion < 2020081901) {
+	    set_config('healthpass_one_per_day', '1', 'local_mxschool');
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020081901, 'local', 'mxschool');
+	}
+
      return true;
 
  }
