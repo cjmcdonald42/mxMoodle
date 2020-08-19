@@ -39,6 +39,7 @@ $data = new stdClass();
 // Set form fields to their current values
 $data->healthpass_enabled = get_config('local_mxschool', 'healthpass_enabled');
 $data->one_per_day = get_config('local_mxschool', 'healthpass_one_per_day');
+
 $data->max_body_temp = get_config('local_mxschool', 'healthpass_max_body_temp');
 $data->healthcenter_notification_enabled = get_config('local_mxschool', 'healthcenter_notification_enabled');
 $data->healthcenter_email_address = get_config('local_mxschool', 'healthcenter_notification_email_address');
