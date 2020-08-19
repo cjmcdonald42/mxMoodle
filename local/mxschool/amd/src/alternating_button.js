@@ -92,10 +92,16 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
 		    if(deans_permission_check_approvals(id) && $('.mx-alternating-buttondeans'+id).text() == strings['deans_permission_alternating_button_deans_1_text']) {
 			    $('.mx-alternating-buttondeans'+id).css('background-color', strings['deans_permission_alternating_button_deans_1_color_ready']);
 			    $('.mx-alternating-buttondeans'+id).css('border-color', strings['deans_permission_alternating_button_deans_1_color_ready']);
+			    $('.mx-alternating-textdeans'+id).hide();
 		    }
 		    else if($('.mx-alternating-buttondeans'+id).text() == strings['deans_permission_alternating_button_deans_1_text']) {
 			    $('.mx-alternating-buttondeans'+id).css('background-color', strings['deans_permission_alternating_button_deans_1_color_waiting']);
 			    $('.mx-alternating-buttondeans'+id).css('border-color', strings['deans_permission_alternating_button_deans_1_color_waiting']);
+			    $('.mx-alternating-textdeans'+id).show();
+		    }
+		    else {
+			    $('.mx-alternating-textdeans'+id).show();
+			    $('.mx-alternating-buttondeans'+id).show();
 		    }
 	    }
     }
@@ -177,11 +183,12 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification'], function($, aja
 
 	     deans_permission_alternating_text_deans_0_text: '',
 	     deans_permission_alternating_text_deans_0_color: 'white',
-	     deans_permission_alternating_button_deans_0_text: 'Review Requests',
-	     deans_permission_alternating_button_deans_0_color: 'steelblue',
+	     deans_permission_alternating_button_deans_0_text: 'Approve',
+	     deans_permission_alternating_button_deans_0_color: 'mediumseagreen',
 	     deans_permission_alternating_text_deans_1_text: 'Awaiting Approvals',
 	     deans_permission_alternating_text_deans_1_color: 'dimgray',
-	     deans_permission_alternating_button_deans_1_text: 'Approve',
+		deans_permission_alternating_text_deans_1_text_ready: '',
+	     deans_permission_alternating_button_deans_1_text: 'Approve Form',
 	     deans_permission_alternating_button_deans_1_color_waiting: 'indianred',
 	     deans_permission_alternating_button_deans_1_color_ready: 'mediumseagreen',
 	     deans_permission_alternating_text_deans_2_text: 'Form Approved',

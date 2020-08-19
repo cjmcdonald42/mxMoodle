@@ -84,8 +84,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
-echo $output->heading(
-    $isstudent ? get_string('deans_permission_form_title', 'local_mxschool', format_student_name($USER->id)) : $PAGE->title
-);
+echo $output->heading($PAGE->title);
 echo $output->render($renderable);
 echo $output->footer();

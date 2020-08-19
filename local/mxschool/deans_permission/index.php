@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Checkin sheets index page for Middlesex's Dorm and Student Functions Plugin.
+ * Deans Permission index page for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @subpackage  checkin
+ * @subpackage  deans_permission
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
@@ -31,5 +31,5 @@ require_once($CFG->libdir.'/adminlib.php');
 require_once(__DIR__.'/../locallib.php');
 
 redirect_non_admin();
-admin_externalpage_setup('checkin_index');
-render_index_page('checkin');
+admin_externalpage_setup('deans_permission_index');
+render_index_page('deans_permission');

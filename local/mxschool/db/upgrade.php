@@ -953,16 +953,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    upgrade_plugin_savepoint(true, 2020070901, 'local', 'mxschool');
   }
 
-    if ($oldversion < 2020071403) {
-
-	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
-		   				'preferences', 'form', 'report'
-	    			   )));
-	    $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
-	    // Mxschool savepoint reached.
-	    upgrade_plugin_savepoint(true, 2020071403, 'local', 'mxschool');
-	}
-
 	if ($oldversion < 2020071601) {
 
 	    // Define table local_mxschool_deans_perm to be dropped.
@@ -1086,11 +1076,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 				 ));
 		$DB->set_field('local_mxschool_subpackage', 'pages', $pages, array('subpackage' => 'checkin'));
 
-		$pages = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
-		    'form', 'report', 'preferences', 'event_edit'
-	    )));
-		 $DB->set_field('local_mxschool_subpackage', 'pages', $pages, array('subpackage' => 'deans_permission'));
-
 		// COVIDpass Defaults
 		set_config('healthpass_enabled', '1', 'local_mxschool');
 		set_config('healthpass_max_body_temp', '99.9', 'local_mxschool');
@@ -1147,6 +1132,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072302, 'local', 'mxschool');
 	}
+	if ($oldversion < 2020081901) {
+	    set_config('healthpass_one_per_day', '1', 'local_mxschool');
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2020081901, 'local', 'mxschool');
+	}
+
      return true;
 
  }

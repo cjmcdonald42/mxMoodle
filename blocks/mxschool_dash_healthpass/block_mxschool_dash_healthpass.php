@@ -46,14 +46,24 @@ class block_mxschool_dash_healthpass extends block_base {
 		  $info = get_todays_healthform_info($USER->id);
 
 		  if($info->submitted_today and !has_capability('local/mxschool:manage_healthpass', context_system::instance())) {
-			  if($info->status=='Approved') $renderable = new local_mxschool\output\index(array( // if submitted today and approved
-				  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
-			 	   get_string('healthpass:form_approved', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_approved.php'
-			  ));
-			  else $renderable = new local_mxschool\output\index(array( // if submitted today and denied
-				  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
-				  get_string('healthpass:form_denied', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_denied.php'
-			  ));
+			  if(get_config('local_mxschool', 'healthpass_one_per_day') == '1') {
+				  if($info->status=='Approved') $renderable = new local_mxschool\output\index(array( // if submitted today and approved
+				 	   get_string('healthpass:form_approved', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_approved.php'
+				  ));
+				  else $renderable = new local_mxschool\output\index(array( // if submitted today and denied
+					  get_string('healthpass:form_denied', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_denied.php'
+				));
+			  }
+			  else {
+				  if($info->status=='Approved') $renderable = new local_mxschool\output\index(array( // if submitted today and approved
+					   get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
+				 	   get_string('healthpass:form_approved', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_approved.php'
+				  ));
+				  else $renderable = new local_mxschool\output\index(array( // if submitted today and denied
+					  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
+					  get_string('healthpass:form_denied', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_denied.php'
+				));
+			  }
 		  }
 		  else $renderable = new local_mxschool\output\index(array( // if not submitted or is admin
 			  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'

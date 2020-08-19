@@ -56,6 +56,14 @@ if ($hassiteconfig) {
         'vacation_travel_index', new lang_string('indexes:vacation_travel', 'local_mxschool'),
         "$CFG->wwwroot/local/mxschool/vacation_travel/index.php"
     ));
+    $indexes->add('indexes', new admin_externalpage(
+	   'healthpass_index', new lang_string('indexes:healthpass', 'local_mxschool'),
+	   "$CFG->wwwroot/local/mxschool/healthpass/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+	   'deans_permission_index', new lang_string('indexes:deans_permission', 'local_mxschool'),
+	   "$CFG->wwwroot/local/mxschool/vacation_travel/index.php"
+    ));
     $mxschool->add('mxschool', $indexes);
 
     $emailsettings = new admin_settingpage('email_settings', new lang_string('email_settings', 'local_mxschool'));
