@@ -39,12 +39,12 @@
  $date = generate_datetime();
  echo "
 	<body style='background-color:lightgreen;'>
-		<div style='text-align:center;'
-		<br><br><br>
-		<h1>COVIDpass Approved</h1>
+		<div style='text-align:center; font-family:"Open Sans",sans-serif'>
 		<br><br>
-		<h2>{$USER->firstname} {$USER->lastname}</h2>
-		<h3>{$date->format('m/d/y')}</h3>
+		<h1>COVIDpass Approved</h1>
+		<br>
+		<h1>{$USER->firstname} {$USER->lastname}</h1>
+		<h1>{$date->format('m/d/y')}</h1>
 		<br><br>
 		<form method='get'>
 			<button type='submit' name='back'>Back</button>
