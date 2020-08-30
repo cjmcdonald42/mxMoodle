@@ -39,7 +39,7 @@
  $date = generate_datetime();
  echo "
 	<body style='background-color:lightgreen;'>
-		<div style='text-align:center; font-family:"Open Sans",sans-serif'>
+		<div style='text-align:center; font-family:"Open Sans",sans-serif;'>
 		<br><br>
 		<h1>COVIDpass Approved</h1>
 		<br>
