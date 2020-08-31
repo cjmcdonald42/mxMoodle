@@ -29,22 +29,32 @@
  require(__DIR__.'/../../../config.php');
  require_once(__DIR__.'/../locallib.php');
 
+ global $USER;
  $info = get_todays_healthform_info($USER->id);
 
  if(!has_capability('local/mxschool:manage_healthpass', context_system::instance())) {
 	 if($info->status != 'Denied') redirect(new moodle_url('/my'));
  }
+ $student_info = get_student_contact_info($USER->id);
+ if($student_info) {
+	$dorm = $student_info->dorm_name;
+	$b_status = $student_info->boarding_status;
+ }
 
- global $USER;
  $date = generate_datetime();
  echo "
 	<body style='background-color:salmon;'>
-		<div style='text-align:center;'
-		<br><br><br>
-		<h1>COVIDpass Denied</h1>
+		<div style='text-align:center; font-family:Open Sans,sans-serif;'>
 		<br><br>
-		<h2>{$USER->firstname} {$USER->lastname}</h2>
-		<h3>{$date->format('m/d/y')}</h3>
+		<h1>COVIDpass Denied</h1>
+		<br>
+		<h1>{$USER->firstname} {$USER->lastname}</h1>
+		";
+if(user_is_student()) {
+	echo "<h1>{$dorm} ({$b_status})</h1>";
+}
+echo "
+		<h1>{$date->format('m/d/y')}</h1>
 		<br><br>
 		<form method='get'>
 			<button type='submit' name='back'>Back</button>
