@@ -1120,6 +1120,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:form:symptoms:symptom5'] = "a sudden loss of sense of taste or smell?";
  $string['healthpass:form:symptoms:symptom6'] = "shortness of breath?";
  $string['healthpass:form:symptoms:symptom7'] = "a headache?";
+ $string['healthpass:form:symptoms:symptom8'] = "nausea or vomiting?";
 
  // Form Reponses.
  $string['healthpass:form:success:approved'] = "COVIDPass Approved";
@@ -1217,3 +1218,4 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:symptom5'] = 'Loss of Sense';
  $string['healthpass:symptom6'] = 'Shortness of Breath';
  $string['healthpass:symptom7'] = 'Headache';
+ $string['healthpass:symptom8'] = 'Nausea or Vomiting';

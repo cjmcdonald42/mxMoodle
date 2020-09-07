@@ -84,7 +84,7 @@ class form extends \local_mxschool\form {
                 'symptom6' => self::ELEMENT_YES_NO,
 			 // NOTE: Update line 107 of healthpass/form.php, the validation function below, and the language file if adding more symptoms
                 'symptom7' => self::ELEMENT_YES_NO,
-			 // 'symptom8' => self::ELEMENT_YES_NO,
+			    'symptom8' => self::ELEMENT_YES_NO,
 			 // 'symptom9' => self::ELEMENT_YES_NO,
 			 // 'symptom10' => self::ELEMENT_YES_NO,
 			 // 'symptom11' => self::ELEMENT_YES_NO,
@@ -121,7 +121,7 @@ class form extends \local_mxschool\form {
 		   if(array_key_exists('symptom5', $data) and $data["symptom5"]=='Yes') $errors['symptom5'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
 		   if(array_key_exists('symptom6', $data) and $data["symptom6"]=='Yes') $errors['symptom6'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
 		   if(array_key_exists('symptom7', $data) and $data["symptom7"]=='Yes') $errors['symptom7'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
-		   // if(array_key_exists('symptom8', $data) and $data["symptom8"]=='Yes') $errors['symptom8'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
+		   if(array_key_exists('symptom8', $data) and $data["symptom8"]=='Yes') $errors['symptom8'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
 		   // if(array_key_exists('symptom9', $data) and $data["symptom9"]=='Yes') $errors['symptom9'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
 		   // if(array_key_exists('symptom10', $data) and $data["symptom10"]=='Yes') $errors['symptom10'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
 		   // if(array_key_exists('symptom11', $data) and $data["symptom11=='Yes') $errors['symptom11'] = get_string('healthpass:form:error:no_symptoms_logic', 'local_mxschool');
@@ -135,7 +135,7 @@ class form extends \local_mxschool\form {
 		   if(!array_key_exists('symptom5', $data)) $errors['symptom5'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
 		   if(!array_key_exists('symptom6', $data)) $errors['symptom6'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
 		   if(!array_key_exists('symptom7', $data)) $errors['symptom7'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
-		   // if(!array_key_exists('symptom8', $data)) $errors['symptom8'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
+		   if(!array_key_exists('symptom8', $data)) $errors['symptom8'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
 		   // if(!array_key_exists('symptom9', $data)) $errors['symptom9'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
 		   // if(!array_key_exists('symptom10', $data)) $errors['symptom10'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');
 		   // if(!array_key_exists('symptom11', $data)) $errors['symptom11'] = get_string('healthpass:form:error:unset_symptom', 'local_mxschool');

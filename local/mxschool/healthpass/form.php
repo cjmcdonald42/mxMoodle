@@ -112,6 +112,7 @@
 	   if($data->symptom5 == 'Yes') $data->symptoms .= get_string("healthpass:symptom5", 'local_mxschool').", ";
 	   if($data->symptom6 == 'Yes') $data->symptoms .= get_string("healthpass:symptom6", 'local_mxschool').", ";
 	   if($data->symptom7 == 'Yes') $data->symptoms .= get_string("healthpass:symptom7", 'local_mxschool').", ";
+       if($data->symptom8 == 'Yes') $data->symptoms .= get_string("healthpass:symptom8", 'local_mxschool').", ";
 	   // add more symptoms here
 
 	   // if(strlen($data->symptoms) != 0) $data->symptoms = substr($data->symptoms, 0, -2);
