@@ -18,9 +18,10 @@
  * Services for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -96,5 +97,29 @@ $functions = array(
                        . 'as well as any default times and a list of students who have not completed the form.',
         'type' => 'read',
         'ajax' => 'true'
+   ),
+   'local_mxschool_update_comment' => array(
+	  'classname' => 'local_mxschool_external',
+	  'methodname' => 'update_comment',
+	  'classpath' => 'local/mxschool/externallib.php',
+	  'description' => 'Updates the comment field in a given table',
+	  'type' => 'write',
+	  'ajax' => 'true'
+	),
+	'local_mxschool_do_alternating_button_action' => array(
+		'classname' => 'local_mxschool_external',
+		'methodname' => 'do_alternating_button_action',
+		'classpath' => 'local/mxschool/externallib.php',
+		'description' => 'Given an alternating buttons info, do a specific action',
+		'type' => 'write',
+		'ajax' => 'true'
+	),
+    'local_mxschool_update_healthform_override_status' => array(
+	   'classname' => 'local_mxschool_external',
+	   'methodname' => 'update_healthform_override_status',
+	   'classpath' => 'local/mxschool/externallib.php',
+	   'description' => 'Updates the given users healthform override status.',
+	   'type' => 'write',
+	   'ajax' => 'true'
     )
 );

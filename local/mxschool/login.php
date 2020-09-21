@@ -61,8 +61,8 @@ require(__DIR__.'/../../config.php');
                     <h1 style="text-align:center">Welcome</h1>
                 </div>
                 <p class="w3-margin">
-                    You must sign in with your network credentials to access our Moodle site. You may use your username or your full
-                    email address and your network password.
+                    You must sign in with your network credentials to access our Moodle site. Your network username is the
+                    beginning of your email address.
                 </p>
                 <p class="w3-margin">
                     MX Moodle is owned by <a href="https://mxschool.edu/">Middlesex School</a>, an independent, non-denominational,

@@ -18,9 +18,10 @@
  * Content for Middlesex's Dorm Block for Proctors.
  *
  * @package    block_mxschool_dorm_proctor
+ * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -44,8 +45,8 @@ class block_mxschool_dorm_proctor extends block_base {
         if (has_capability('block/mxschool_dorm_proctor:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
             $renderable = new local_mxschool\output\index(array(
-                get_string('checkin_sheet', 'block_mxschool_dorm_proctor') => '/local/mxschool/checkin/generic_report.php',
-                get_string('dorm_signout_report', 'block_mxschool_dorm_proctor') => '/local/signout/combined_report.php'
+                get_string('attendance_report', 'block_mxschool_dorm_proctor') => '/local/mxschool/checkin/attendance_report.php',
+                get_string('dorm_signout_report', 'block_mxschool_dorm_proctor') => '/local/signout/combined_report.php',
             ));
             $this->content->text = $output->render($renderable);
         }

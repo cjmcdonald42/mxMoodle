@@ -63,6 +63,9 @@ class preferences_form extends \local_mxschool\form {
         );
 
         $fields = array(
+		  'attendance' => array(
+			  'reset_attendance_data' => self::time_selector(60)
+		  ),
             'dates' => array(
                 'dorms_open' => array('element' => 'date_selector', 'options' => $dateoptions),
                 'second_semester' => array('element' => 'date_selector', 'options' => $dateoptions),

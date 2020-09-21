@@ -19,9 +19,10 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -72,15 +73,12 @@ class student_edit_form extends \local_mxschool\form {
                 'picture' => self::ELEMENT_TEXT
             ),
             'permissions' => array(
-                'overnight' => array('element' => 'radio', 'options' => array('Parent', 'Host')),
-                'license' => array('element' => 'date_selector', 'options' => $dateoptions),
-                'driving' => self::ELEMENT_YES_NO,
-                'passengers' => self::ELEMENT_YES_NO,
-                'riding' => array('element' => 'radio', 'options' => array('parent', '21', 'any', 'specific')),
-                'riding_comment' => self::ELEMENT_TEXT_AREA,
-                'rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
-                'boston' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
-                'swim_competent' => self::ELEMENT_YES_NO,
+			 'overnight' => array('element' => 'radio', 'options' => array('Host', 'Parent')),
+                'may_drive_with_over_21' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
+                'may_drive_with_anyone' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
+                'may_use_rideshare' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
+                'may_travel_to_regional_cities' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
+                'may_drive_passengers' => array('element' => 'radio', 'options' => array('Yes', 'No', 'Parent')),
                 'swim_allowed' => self::ELEMENT_YES_NO,
                 'boat_allowed' => self::ELEMENT_YES_NO
             )

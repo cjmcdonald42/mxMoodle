@@ -18,9 +18,10 @@
  * English language strings for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -50,6 +51,9 @@ $string['mxschool:manage_vacation_travel'] = 'Middlesex School: View and manage 
 $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students who haven\'t submitted a vacation travel form';
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
+$string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage deans\' permission forms';
+$string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage healthpass preferences';
+$string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage healthpass data';
 
 
 /* Events. */
@@ -120,6 +124,8 @@ $string['indexes:checkin'] = 'Checkin Sheets and Weekend Forms Index';
 $string['indexes:advisor_selection'] = 'Advisor Selection Index';
 $string['indexes:rooming'] = 'Rooming Index';
 $string['indexes:vacation_travel'] = 'Vacation Travel Index';
+$string['indexes:healthpass'] = 'COVIDpass Index';
+$string['indexes:deans_permission'] = 'Deans\' Permission Index';
 
 
 /* Miscelaneous. */
@@ -165,15 +171,12 @@ $string['user_management:student_report:students:header:birthday'] = 'Birthday';
 
 // Permissions headers.
 $string['user_management:student_report:permissions:header:student'] = 'Name';
-$string['user_management:student_report:permissions:header:overnight'] = 'Overnight';
-$string['user_management:student_report:permissions:header:license'] = 'Issue Date of License';
-$string['user_management:student_report:permissions:header:driving'] = 'May Drive with Off-Campus Signout?';
+$string['user_management:student_report:permissions:header:overnight'] = 'May stay overnight with the permission of the';
+$string['user_management:student_report:permissions:header:may_drive_over_21'] = 'May ride with drivers over 21?';
+$string['user_management:student_report:permissions:header:may_drive_with_anyone'] = 'May ride with any driver?';
+$string['user_management:student_report:permissions:header:travel_to_cities'] = 'May travel to regional cities?';
 $string['user_management:student_report:permissions:header:passengers'] = 'May Drive Passengers?';
-$string['user_management:student_report:permissions:header:riding'] = 'May Ride With';
-$string['user_management:student_report:permissions:header:ridingcomment'] = 'Riding Comment';
 $string['user_management:student_report:permissions:header:rideshare'] = 'May Use Rideshare?';
-$string['user_management:student_report:permissions:header:boston'] = 'May Go to Boston?';
-$string['user_management:student_report:permissions:header:swimcompetent'] = 'Competent Swimmer?';
 $string['user_management:student_report:permissions:header:swimallowed'] = 'Allowed to Swim?';
 $string['user_management:student_report:permissions:header:boatallowed'] = 'Allowed in Boats?';
 
@@ -225,19 +228,16 @@ $string['user_management:student_edit:permissions'] = 'Student Permissions';
 $string['user_management:student_edit:permissions:overnight'] = 'Overnight';
 $string['user_management:student_edit:permissions:overnight:Parent'] = 'Parent';
 $string['user_management:student_edit:permissions:overnight:Host'] = 'Host';
-$string['user_management:student_edit:permissions:license'] = 'Issue Date of License';
-$string['user_management:student_edit:permissions:driving'] = 'May Drive with Off-Campus Signout?';
-$string['user_management:student_edit:permissions:passengers'] = 'May Drive Passengers?';
-$string['user_management:student_edit:permissions:riding'] = 'May Ride With';
-$string['user_management:student_edit:permissions:riding:parent'] = 'Parent Permission';
-$string['user_management:student_edit:permissions:riding:21'] = 'Over 21';
-$string['user_management:student_edit:permissions:riding:any'] = 'Any Driver';
-$string['user_management:student_edit:permissions:riding:specific'] = 'Specific Drivers';
-$string['user_management:student_edit:permissions:riding_comment'] = 'Riding Comment';
-$string['user_management:student_edit:permissions:rideshare'] = 'May Use Rideshare?';
-$string['user_management:student_edit:permissions:rideshare:Parent'] = 'Parent';
-$string['user_management:student_edit:permissions:boston'] = 'May Go to Boston?';
-$string['user_management:student_edit:permissions:boston:Parent'] = 'Parent';
+$string['user_management:student_edit:permissions:may_drive_passengers'] = 'May Drive Passengers?';
+$string['user_management:student_edit:permissions:may_drive_passengers:Parent'] = 'Parent';
+$string['user_management:student_edit:permissions:may_use_rideshare'] = 'May Use Rideshare?';
+$string['user_management:student_edit:permissions:may_use_rideshare:Parent'] = 'Parent';
+$string['user_management:student_edit:permissions:may_travel_to_regional_cities'] = 'May Go to Regional Cities?';
+$string['user_management:student_edit:permissions:may_travel_to_regional_cities:Parent'] = 'Parent';
+$string['user_management:student_edit:permissions:may_drive_with_over_21'] = 'May ride with a driver over 21?';
+$string['user_management:student_edit:permissions:may_drive_with_over_21:Parent'] = 'Parent';
+$string['user_management:student_edit:permissions:may_drive_with_anyone'] = 'May ride with anyone?';
+$string['user_management:student_edit:permissions:may_drive_with_anyone:Parent'] = 'Parent';
 $string['user_management:student_edit:permissions:swim_competent'] = 'Competent Swimmer?';
 $string['user_management:student_edit:permissions:swim_allowed'] = 'Allowed to Swim?';
 $string['user_management:student_edit:permissions:boat_allowed'] = 'Allowed in Boats?';
@@ -351,7 +351,7 @@ $string['user_management:vehicle_report:add'] = 'Register a Vehicle';
 $string['user_management:vehicle_report:header:student'] = 'Student Name';
 $string['user_management:vehicle_report:header:grade'] = 'Grade';
 $string['user_management:vehicle_report:header:phone'] = 'Student Phone Number';
-$string['user_management:vehicle_report:header:license'] = 'Issue Date of License';
+$string['user_management:vehicle_report:header:drive_passengers'] = 'May Drive Passengers';
 $string['user_management:vehicle_report:header:make'] = 'Vehicle Make';
 $string['user_management:vehicle_report:header:model'] = 'Vehicle Model';
 $string['user_management:vehicle_report:header:color'] = 'Vehicle Color';
@@ -412,6 +412,9 @@ $string['checkin:preferences:dates:dorms_close'] = 'Dorms Close On: ';
 // Weekend Types.
 $string['checkin:preferences:weekends'] = 'Weekend Types';
 $string['checkin:preferences:weekends:label'] = 'Saturday {$a}';
+
+$string['checkin:preferences:attendance'] = 'Attendance Report';
+$string['checkin:preferences:attendance:reset_attendance_data'] = 'At what time should attendance data be reset?';
 
 // Weekend Form Email Notifications.
 $string['checkin:preferences:notifications'] = 'Weekend Form Email Notifications';
@@ -549,7 +552,22 @@ $string['checkin:weekend_calculator:legend:off_campus'] = 'Student Off Campus';
 $string['checkin:weekend_calculator:legend:free'] = 'Free weekend';
 $string['checkin:weekend_calculator:legend:closed'] = 'Campus weekend';
 
+/* Attendance Report */
+$string['checkin:attendance_report'] = 'Attendance Report';
+$string['checkin:attendance_report:title'] = 'Attendance Report';
 
+// Headers
+$string['checkin:attendance_report:header:student'] = 'Name';
+$string['checkin:attendance_report:header:dorm'] = 'Dorm';
+$string['checkin:attendance_report:header:room'] = 'Room';
+$string['checkin:attendance_report:header:grade'] = 'Grade';
+$string['checkin:attendance_report:header:attended'] = 'Attended';
+$string['checkin:attendance_report:reset_data'] = 'Reset Attendance Data';
+
+// Filters
+$string['checkin:attendance_report:attendance:all'] = 'All';
+$string['checkin:attendance_report:attendance:1'] = 'Attended';
+$string['checkin:attendance_report:attendance:0'] = 'Absent';
 
 /*
  * ==================
@@ -978,3 +996,226 @@ $string['vacation_travel:transportation_report:return:header:email'] = 'Email';
 
 // Cells.
 $string['vacation_travel:transportation_report:cell:site_other'] = 'Other';
+
+/*
+ * ================
+ * Deans' Permission
+ * ================
+ */
+$string['deans_permission'] = 'Deans\' Permission';
+
+/* Deans permission Form */
+$string['deans_permission:form'] = 'Deans\' Permission Form';
+$string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
+
+// Information.
+$string['deans_permission:form:info'] = 'Information';
+$string['deans_permission:form:info:student'] = 'Student';
+$string['deans_permission:form:info:event'] = 'Event type';
+$string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? Is this recurring or single event? Where is the event (include city and state)?';
+$string['deans_permission:form:info:sport'] = 'What is your afternoon school athletic commitment (E.g. track, recfit)?';
+$string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
+$string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
+$string['deans_permission:form:info:missing_class'] = 'Will you be missing classes?';
+$string['deans_permission:form:info:times_away'] = 'When will you be away? Please include specific dates and times.';
+// Notifications.
+$string['deans_permission:form:success'] = 'Deans\' Permission Form Submitted Successfully';
+
+
+/* Deans permission report */
+$string['deans_permission:report'] = 'Deans\' Permission Report';
+$string['deans_permission:report:title'] = 'Deans\' Permission Report';
+
+// Headers.
+$string['deans_permission:report:header:student'] = 'Student';
+$string['deans_permission:report:header:event'] = 'Event Type';
+$string['deans_permission:report:header:event_info'] = 'Event Info';
+$string['deans_permission:report:header:sport'] = 'Sport Played';
+$string['deans_permission:report:header:missing'] = 'Missing';
+$string['deans_permission:report:header:times_away'] = 'Dates';
+$string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
+$string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
+$string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
+$string['deans_permission:report:header:class_perm'] = 'Miss Class';
+$string['deans_permission:report:header:comment'] = 'Comment';
+$string['deans_permission:report:header:dean_perm'] = 'Approved?';
+$string['deans_permission:report:header:form_submitted'] = 'Submitted';
+
+// Filters.
+$string['deans_permission:report:approved:true'] = 'Approved';
+$string['deans_permission:report:approved:false'] = 'Under Review';
+$string['deans_permission:report:event:all'] = 'All Event Types';
+
+$string['deans_permission:report:delete:success'] = 'Record Deleted Succesfully';
+$string['deans_permission:report:delete:failure'] = 'Failed to Delete Record';
+
+// Buttons.
+$string['deans_permission:report:add'] = 'New Deans\' Permission Form';
+
+/* Deans Permissions Preferences */
+$string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences:title'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences:deans_email'] = 'Deans\' Permission Form Submitted Notification';
+$string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans\' Email Address';
+$string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
+$string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
+$string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
+$string['deans_permission:preferences:sports_email'] = 'Sports Review Permission Request Email';
+$string['deans_permission:preferences:sports_email:sports_email_address'] = 'Athletic Director Email Address';
+$string['deans_permission:preferences:sports_email:sports_tags'] = 'Available tags for deans\' permission form sports review request email';
+$string['deans_permission:preferences:sports_email:sports_subject'] = 'Sports review request subject';
+$string['deans_permission:preferences:sports_email:sports_body'] = 'Sports review request body';
+$string['deans_permission:preferences:class_email'] = 'Class Review Permission Request Email';
+$string['deans_permission:preferences:class_email:class_email_address'] = 'Academic Director Email Address';
+$string['deans_permission:preferences:class_email:class_tags'] = 'Available tags for deans\' permission form class review request email';
+$string['deans_permission:preferences:class_email:class_subject'] = 'Class review request subject';
+$string['deans_permission:preferences:class_email:class_body'] = 'Class review request body';
+$string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
+$string['deans_permission:preferences:approved_email:info'] = 'Note:';
+$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor
+												   of the student, and, if the student is missing study hours, that student\'s head of house.';
+$string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
+$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved form email subject';
+$string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
+$string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
+
+$string['deans_permission:preferences:add_event'] = 'New Event Type Option';
+
+$string['deans_permission:event_report'] = 'Deans\' Permission Event Types';
+$string['deans_permission:event_report:title'] = 'Deans\' Permission Event Types';
+$string['deans_permission:event_report:header:event_name'] = 'Event Type';
+
+$string['deans_permission:event_edit'] = 'Create or Edit a Deans\' Permission Form Event Type';
+$string['deans_permission:event_edit:title'] = 'Create or Edit a Deans\' Permission Form Event Type';
+$string['deans_permission:event_edit:success'] = 'Event Type Added';
+$string['deans_permission:event_edit:event_name'] = 'Event Type Name';
+$string['deans_permission:event_edit:info'] = 'Info';
+$string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
+
+/*
+ * ================
+ * Healthpass.
+ * ================
+ */
+
+ /* Healthpass Intake Form.  */
+
+ // Form Headers.
+ $string['healthpass'] = "COVIDPass";
+ $string['healthpass:form'] = 'COVIDPass Form';
+ $string['healthpass:form:health_info'] = 'COVIDPass Information';
+
+ // Fields Labels.
+ $string['healthpass:form:health_info:name'] = 'Name';
+ $string['healthpass:form:health_info:body_temperature'] = 'What is your body temperature?';
+ $string['healthpass:form:health_info:health_info0'] = "Have you been in contact with anyone who has or is suspected to have COVID19?";
+ $string['healthpass:form:health_info:health_info1'] = "Have you or anyone you live with recently tested positive for COVID19?";
+ $string['healthpass:form:health_info:health_info2'] = "Have you taken any fever reducing medications today? (i.e., Tylenol, Ibuprofen)";
+ $string['healthpass:form:symptoms'] = "Do you have:";
+ $string['healthpass:form:symptoms:symptom0'] = "a fever?";
+ $string['healthpass:form:symptoms:symptom1'] = "a sore throat?";
+ $string['healthpass:form:symptoms:symptom2'] = "a new cough (not related to a chronic condition)?";
+ $string['healthpass:form:symptoms:symptom3'] = "diarrhea (new or worsening)?";
+ $string['healthpass:form:symptoms:symptom4'] = "body aches?";
+ $string['healthpass:form:symptoms:symptom5'] = "a sudden loss of sense of taste or smell?";
+ $string['healthpass:form:symptoms:symptom6'] = "shortness of breath?";
+ $string['healthpass:form:symptoms:symptom7'] = "a headache?";
+ $string['healthpass:form:symptoms:symptom8'] = "nausea or vomiting?";
+
+ // Form Reponses.
+ $string['healthpass:form:success:approved'] = "COVIDPass Approved";
+ $string['healthpass:form:success:denied'] = "COVIDPass Denied";
+ $string['healthpass:form:error:no_symptoms_logic'] = "You cannot click 'I have no symptoms' if you have this symptom";
+ $string['healthpass:form:error:unset_symptom'] = "You must answer here or click 'I have no symptoms'";
+ $string['healthpass:form:no_symptoms_button'] = "I have no symptoms";
+
+ /* Healthpass Report.  */
+
+ // Report Headers.
+ $string['healthpass:report'] = "Student COVIDPass Report";
+ $string['healthpass:report:header:userid'] = "Name";
+ $string['healthpass:report:header:status'] = "Form Status";
+ $string['healthpass:report:header:body_temperature'] = "Body Temperature";
+ $string['healthpass:report:header:symptoms'] = "Symptoms";
+ $string['healthpass:report:header:override_status'] = "Override Status";
+ $string['healthpass:report:header:comment'] = "Comment";
+ $string['healthpass:report:header:time_submitted'] = "Most Recent Submitted";
+
+ // Filters.
+ $string['healthpass:report:status:all'] = 'All';
+ $string['healthpass:report:status:approved'] = 'Approved';
+ $string['healthpass:report:status:denied'] = 'Denied';
+ $string['healthpass:report:status:submitted'] = 'Submitted';
+ $string['healthpass:report:status:unsubmitted'] = 'Unsubmitted';
+ $string['healthpass:report:user_type:students'] = 'Students';
+ $string['healthpass:report:user_type:faculty'] = 'Faculty';
+ $string['healthpass:report:user_type:staff'] = 'Staff';
+
+
+ // Report Buttons.
+ $string['healthpass:report:add'] = 'New COVIDPass Form';
+ $string['healthpass:report:review_button'] = 'Review';
+ $string['healthpass:report:override_button'] = 'Override';
+ $string['healthpass:report:undo_override_button'] = 'Undo Override';
+ $string['healthpass:report:under_review'] = 'Under Review';
+ $string['healthpass:report:overridden'] = 'Overridden';
+ $string['healthpass:report:remind'] = 'Notify Unsubmitted';
+ $string['healthpass:report:override_email_button'] = 'Notify';
+
+
+ /* Healthpass Preferences.  */
+
+ // Form Headers.
+ $string['healthpass:preferences'] = 'COVIDPass Preferences';
+ $string['healthpass:preferences:preferences'] = 'Preferences';
+ $string['healthpass:preferences:healthcenter_notification'] = 'Healthcenter Email Notifications';
+ $string['healthpass:preferences:submitted_notifications'] = 'COVIDpass Email Notifications';
+ $string['healthpass:preferences:unsubmitted_notifications'] = 'COVIDpass Reminder Notifications';
+
+ // Field Labels.
+ $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDPass';
+ $string['healthpass:preferences:preferences:one_per_day'] = 'Allow only one COVIDpass per day';
+ $string['healthpass:preferences:preferences:reset_time'] = 'At what time should COVIDPass reset? (default midnight)';
+ $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
+
+ $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the healthcenter when a COVIDpass is denied';
+ $string['healthpass:preferences:healthcenter_notification:healthcenter_email_address'] = 'Healthcenter email';
+ $string['healthpass:preferences:healthcenter_notification:healthcenter_tags'] = 'Available tags for COVIDpass healthcenter notification email';
+ $string['healthpass:preferences:healthcenter_notification:healthcenter_subject'] = 'Healthcenter notification email subject';
+ $string['healthpass:preferences:healthcenter_notification:healthcenter_body'] = 'Healthcenter notification email body';
+
+ $string['healthpass:preferences:submitted_notifications:approved_tags'] = 'Available tags for COVIDpass approved email';
+ $string['healthpass:preferences:submitted_notifications:approved_subject'] = 'COVIDpass approved email subject';
+ $string['healthpass:preferences:submitted_notifications:approved_body'] = 'COVIDpass approved email body';
+
+ $string['healthpass:preferences:submitted_notifications:denied_tags'] = 'Available tags for COVIDpass denied email';
+ $string['healthpass:preferences:submitted_notifications:denied_subject'] = 'COVIDpass denied email subject';
+ $string['healthpass:preferences:submitted_notifications:denied_body'] = 'COVIDpass denied email body';
+
+ $string['healthpass:preferences:submitted_notifications:overridden_tags'] = 'Available tags for COVIDpass overridden email';
+ $string['healthpass:preferences:submitted_notifications:overridden_subject'] = 'COVIDpass overridden email subject';
+ $string['healthpass:preferences:submitted_notifications:overridden_body'] = 'COVIDpass overridden email body';
+
+ $string['healthpass:preferences:unsubmitted_notifications:days_before_reminder'] = 'Number of days until the user can be sent a reminder email';
+ $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_tags'] = 'Available tags for COVIDpass reminder email';
+ $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_subject'] = 'COVIDpass reminder email subject';
+ $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_body'] = 'COVIDpass reminder email body';
+
+ // Form Responses.
+ $string['healthpass:preferences:success'] = 'COVIDPass Preferences Updated';
+ $string['healthpass:preferences:error:not_numeric'] = 'You must enter a number here';
+
+ /* Healthpass Symptoms and Health_info. */
+ $string['healthpass:health_info0'] = 'In contact with suspected COVID19';
+ $string['healthpass:health_info1'] = 'Recently tested or lives with someone recently tested positive';
+ $string['healthpass:health_info2'] = 'Took fever reducing medications';
+
+ $string['healthpass:symptom0'] = 'Fever';
+ $string['healthpass:symptom1'] = 'Sore Throat';
+ $string['healthpass:symptom2'] = 'Cough';
+ $string['healthpass:symptom3'] = 'Diarrhea';
+ $string['healthpass:symptom4'] = 'Body Aches';
+ $string['healthpass:symptom5'] = 'Loss of Sense';
+ $string['healthpass:symptom6'] = 'Shortness of Breath';
+ $string['healthpass:symptom7'] = 'Headache';
+ $string['healthpass:symptom8'] = 'Nausea or Vomiting';

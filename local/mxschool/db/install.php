@@ -18,9 +18,10 @@
  * Database installation steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -41,18 +42,21 @@ function xmldb_local_mxschool_install() {
 
     set_config('vacation_form_returnenabled', '1', 'local_mxschool');
 
+    set_config('healthpass_enable', 'Yes', 'local_mxschool');
+    set_config('healthpass_max_body_temp', '99.0', 'local_mxschool');
+    set_config('healthpass_days_before_reminder', '3', 'local_mxschool');
+    set_config('healthcenter_notification_email', 'healthcenter@mxschool.edu', 'local_mxschool');
+
     $subpackages = array(
-        array('subpackage' => 'user_management', 'pages' => json_encode(array(
-            'student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'
-        ))),
-        array('subpackage' => 'checkin', 'pages' => json_encode(array(
-            'preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator'
-        ))),
+        array('subpackage' => 'user_management', 'pages' => json_encode(array('student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'))),
+        array('subpackage' => 'checkin', 'pages' => json_encode(array('preferences', 'generic_report', 'weekday_report', 'weekend_form', 'weekend_report', 'weekend_calculator', 'attendance_report'))),
         array('subpackage' => 'advisor_selection', 'pages' => json_encode(array('preferences', 'form', 'report'))),
         array('subpackage' => 'rooming', 'pages' => json_encode(array('preferences', 'form', 'report'))),
         array('subpackage' => 'vacation_travel', 'pages' => json_encode(array(
             'preferences', 'form', 'report', 'transportation_report'
-        )))
+	    ))),
+	    array('subpackage' => 'deans_permission', 'pages' => json_encode(array('preferences', 'form', 'report', 'event_edit'))),
+        array('subpackage' => 'healthpass', 'pages' => json_encode(array('preferences', 'form', 'report')))
     );
     foreach ($subpackages as $subpackage) {
         $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);

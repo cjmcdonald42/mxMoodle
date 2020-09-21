@@ -18,6 +18,7 @@
  * English language strings for Middlesex's Dashboard Block for Faculty.
  *
  * @package    block_mxschool_dash_faculty
+ * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
@@ -39,3 +40,6 @@ $string['privacy:metadata'] = 'This block only provides links to other pages and
 $string['student_report'] = 'Student Data Report';
 $string['vehicle_report'] = 'Student Vehicles Report';
 $string['duty_report'] = 'On-Campus Duty Report';
+$string['deans_permission_report'] = 'Deans\' Permission Report';
+$string['deans_permission_preferences'] = 'Deans\' Permission Preferences';
+$string['attendance_report'] = 'Student Attendance Report';

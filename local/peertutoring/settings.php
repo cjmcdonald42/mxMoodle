@@ -18,9 +18,10 @@
  * Admin settings for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +33,7 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtext(
         'local_peertutoring/peertutoringmanager_email',
         new lang_string('email_settings:peertutoringmanager_email', 'local_peertutoring'),
-        new lang_string('email_settings:peertutoringmanager_email:description', 'local_peertutoring'), 'kmagee@mxschool.edu'
+        new lang_string('email_settings:peertutoringmanager_email:description', 'local_peertutoring'), 'mgerrity@mxschool.edu'
     ));
     $settings->add(new admin_setting_configtext(
         'local_peertutoring/peertutoringmanager_addressee',

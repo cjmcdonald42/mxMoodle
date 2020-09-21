@@ -18,9 +18,10 @@
  * English language strings for Middlesex's Dorm Block for Proctors.
  *
  * @package    block_mxschool_dorm_proctor
+ * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -36,5 +37,5 @@ $string['mxschool_dorm_proctor:access'] = 'Middlesex School: Access Proctor Dorm
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['checkin_sheet'] = 'Printable Check-In Sheet';
+$string['attendance_report'] = 'Dorm Attendance Report';
 $string['dorm_signout_report'] = 'Dorm Signout Report';

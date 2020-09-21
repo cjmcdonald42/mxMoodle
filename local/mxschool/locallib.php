@@ -18,14 +18,14 @@
  * Local library functions for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 /*
  * ========================
  * Page Setup Abstractions.
@@ -357,6 +357,31 @@ function clear_student_pictures() {
     }
 }
 
+/**
+ * Given a student's userid, returns the advisor id.
+ *
+ * @param int id, the id of the student
+ * @return int|false advisor id of the studnet, or false if the id is not that of a student.
+ */
+function get_student_advisor_id($id) {
+	global $DB;
+	if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+	return $DB->get_field('local_mxschool_student', 'advisorid', array('userid' => $id));
+}
+
+/**
+ * Given a student's userid, returns the head of house id.
+ *
+ * @param int id, the id of the student
+ * @return int|false hoh id of the studnet, or false if the id is not that of a student.
+ */
+function get_student_hoh_id($id) {
+	global $DB;
+	if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+	$dormid = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
+	return $DB->get_field('local_mxschool_dorm', 'hohid', array('id' => $dormid));
+}
+
 /*
  * ===============================================
  * DateTime Abstractions and Formatting Functions.
@@ -586,6 +611,17 @@ function user_is_admin() {
 function user_is_student() {
     global $USER, $DB;
     return $DB->record_exists('local_mxschool_student', array('userid' => $USER->id));
+}
+
+/**
+ * Determines whether the current user is faculty.
+ * If this fuction returns true, it is safe to use $USER->id to reference the current faculty's user id.
+ *
+ * @return bool Whether the user is a faculty member.
+ */
+function user_is_faculty() {
+    global $USER, $DB;
+    return $DB->record_exists('local_mxschool_faculty', array('userid' => $USER->id));
 }
 
 /**
@@ -842,7 +878,7 @@ function get_licensed_student_list() {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
                                          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND p.license_date IS NOT NULL
+         WHERE u.deleted = 0 AND p.may_drive_passengers IS NOT NULL
          ORDER BY name"
     );
     return convert_student_records_to_list($students);
@@ -1081,6 +1117,22 @@ function get_vacation_travel_return_sites_list($type = null) {
     return $list;
 }
 
+/**
+* Returns a list of all users
+*
+* @return array The users as userid => name, ordered alphabetically
+*/
+function get_user_list() {
+	global $DB;
+	$users = $DB->get_records_sql(
+	    "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS value
+	     FROM {user} u
+	     WHERE u.deleted = 0
+	     ORDER BY value"
+	);
+	return convert_records_to_list($users);
+}
+
 /*
  * ============================================
  * Miscellaneous Subpackage-Specific Functions.
@@ -1256,6 +1308,16 @@ function get_room_type_list($gender = '') {
     return $roomtypes;
 }
 
+/**
+* Resets all attendance data.
+*
+*/
+function reset_attendance_data() {
+	global $DB;
+	$DB->set_field('local_mxschool_attendance', 'attended', 0);
+	$DB->set_field('local_mxschool_attendance', 'time_modified', time());
+}
+
 /* Vacation Travel. */
 
 /**
@@ -1269,3 +1331,122 @@ function get_vacation_travel_type_list($mxtransportation = null) {
         $mxtransportation ? array('Plane', 'Train', 'Bus', 'NYC Direct') : array('Car', 'Plane', 'Train', 'Non-MX Bus')
     ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
 }
+
+/* Deans Permission Form @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
+
+/**
+* Creates a list of all the deans permission form events.
+*
+* @return array the events in an array of the form: id => name.
+*/
+function get_dp_events_list() {
+	global $DB;
+	$records = $DB->get_records_sql("SELECT dpe.id, dpe.name AS value FROM {local_mxschool_dp_event} dpe WHERE dpe.id > 1");
+	$events = convert_records_to_list($records);
+	$events[1] = 'Other';
+	return $events;
+}
+
+/* Health Pass. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
+
+/**
+* Returns a list of all dates where a healthform has been submitted
+*
+* @return array The times in the form timestamp => formatted date
+*/
+function get_healthform_dates() {
+	global $DB;
+	$list = array();
+	$dates = $DB->get_records_sql(
+		"SELECT hp.id, hp.form_submitted
+		FROM {local_mxschool_healthpass} hp
+		ORDER BY form_submitted DESC"
+	);
+	if ($dates) {
+         foreach ($dates as $record) {
+             $date = generate_datetime($record->form_submitted);
+             $date->modify('midnight');
+             if (!array_key_exists($date->getTimestamp(), $list)) {
+                 $list[$date->getTimestamp()] = $date->format('m/d/y');
+             }
+         }
+     }
+	return $list;
+}
+
+ /**
+ * Given a user's $id, gets the user's healthform data from today
+ *
+ * @param int id, the user's id
+ * @return stdClass $info. $info->submitted_today is true if the user submitted today.
+ *					  $info->status is "Approved" if approved and "Denied" if the form was denied today
+ */
+ function get_todays_healthform_info($id) {
+	 global $DB;
+	 $today = generate_datetime(time());
+	 $today->modify('midnight');
+	 $healthforms = $DB->get_records_sql(
+		 "SELECT hp.id, hp.userid, hp.status
+		 FROM {local_mxschool_healthpass} hp
+		 WHERE hp.form_submitted >= {$today->getTimestamp()}"
+	 );
+	 $info = new stdClass();
+	 foreach($healthforms as $form) {
+		 if($form->userid == $id) {
+			 $info->submitted_today = true;
+			 $info->status = $form->status;
+			 return $info;
+	      }
+	 }
+	 $info->submitted_today = false;
+	 $info->status = 'Unsubmitted';
+	 return $info;
+ }
+
+ /**
+ * Given a user's id, if the user is a student, gets the student's dorm and phone number
+ *
+ * @param int id, the user's id.
+ * @return stdClass student_info, the information about the student.
+ */
+ function get_student_contact_info($id) {
+	 global $DB;
+	 if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) {
+		 return NULL;
+	 }
+	 $student_info = new stdClass();
+	 $records = $DB->get_records_sql(
+		 "SELECT s.userid, s.dormid, s.boarding_status, s.phone_number, d.name AS dorm_name
+		  FROM {local_mxschool_student} s LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
+		  WHERE s.userid = {$id}"
+	 );
+	 foreach($records as $record) {
+		 $student_info->id = $id;
+		 $student_info->boarding_status = $record->boarding_status;
+		 $student_info->phone_number = $record->phone_number;
+		 $student_info->dorm_name = $record->dorm_name;
+		 return $student_info;
+	 }
+ }
+
+ /**
+ * Reuturns a list of all users who haven't submitted a healthpass in X days, where X is configured in the preferences.
+ *
+ * @return array $unsubmitted_users in the form userid => fullname
+ */
+ function get_users_with_unsubmitted_healthpass_list() {
+	 global $DB;
+	 $end_of_today = generate_datetime();
+	 $end_of_today->modify('+1 day');
+	 $end_of_today->modify('midnight');
+	 $allowed_days_unsubmitted = get_config('local_mxschool', 'healthpass_days_before_reminder');
+	 $allowed_seconds_unsubmitted = 86400 * $allowed_days_unsubmitted;
+	 $allowed_if_unsubmitted_after_timestamp = ($end_of_today->getTimestamp() - $allowed_seconds_unsubmitted);
+	 $list = array();
+	 $users = $DB->get_records_sql(
+		 "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS value
+		  FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid
+		  WHERE hp.form_submitted <= {$allowed_if_unsubmitted_after_timestamp} OR hp.form_submitted IS NULL"
+	 );
+	 return convert_records_to_list($users);
+ }
