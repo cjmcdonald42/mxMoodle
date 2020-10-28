@@ -18,7 +18,6 @@
  * English language strings for Middlesex's Dashboard Block for Faculty.
  *
  * @package    block_mxschool_dash_faculty
- * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.

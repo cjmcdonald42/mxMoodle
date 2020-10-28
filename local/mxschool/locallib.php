@@ -19,7 +19,6 @@
  *
  * @package     local_mxschool
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -1442,11 +1441,13 @@ function get_healthform_dates() {
 	 $allowed_days_unsubmitted = get_config('local_mxschool', 'healthpass_days_before_reminder');
 	 $allowed_seconds_unsubmitted = 86400 * $allowed_days_unsubmitted;
 	 $allowed_if_unsubmitted_after_timestamp = ($end_of_today->getTimestamp() - $allowed_seconds_unsubmitted);
-	 $list = array();
 	 $users = $DB->get_records_sql(
 		 "SELECT u.id, CONCAT(u.firstname, ' ', u.lastname) AS value
 		  FROM {user} u LEFT JOIN {local_mxschool_healthpass} hp ON u.id = hp.userid
 		  WHERE hp.form_submitted <= {$allowed_if_unsubmitted_after_timestamp} OR hp.form_submitted IS NULL"
 	 );
-	 return convert_records_to_list($users);
+	 $list = convert_records_to_list($users);
+	 array_shift($list);
+	 array_shift($list);
+	 return $list;
  }
