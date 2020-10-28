@@ -19,7 +19,6 @@
  *
  * @package    block_mxschool_dash_faculty
  * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -29,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_faculty';
 $plugin->version = 2020072301;
-$plugin->release = 'v3.1';
+$plugin->release = 'v3.2';
 $plugin->requires = 2019052000; // Moodle 3.7.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(

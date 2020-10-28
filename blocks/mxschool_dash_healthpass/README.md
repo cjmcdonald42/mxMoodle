@@ -1,5 +1,4 @@
 # Middlesex's Dashboard Block for Students
-
 Moodle block plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
@@ -15,7 +14,6 @@ This plugin has the following dependencies:
 ## Credits
 v1.0 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
 - Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 ## License
