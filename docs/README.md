@@ -1,5 +1,4 @@
 # ![Middlesex Shield](/assets/mx_shield.png) Middlesex Moodle Plugins ![Middlesex Shield](/assets/mx_shield.png)
-
 Custom Moodle plugins written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
@@ -44,11 +43,15 @@ These are the documentation pages that we currently have in place:
 If you have time to read through all of the pages, it would make the most sense to read them in the order they are listed.
 
 ## Credits
-v3.0 of the project was developed in 2018 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
+- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
 v3.1 of the project was developed in 2019 by:
+- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+
+v3.0 of the project was developed in 2018 by:
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
