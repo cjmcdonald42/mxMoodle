@@ -37,6 +37,7 @@
  $student_info = get_student_contact_info($USER->id);
  if($student_info) {
 	$dorm = $student_info->dorm_name;
+    $grade = $student_info->grade;
 	$b_status = $student_info->boarding_status;
  }
 
@@ -47,20 +48,23 @@
 		<br><br>
 		<h1>COVIDpass Denied</h1>
 		<br>
-		<h1>{$USER->firstname} {$USER->lastname}</h1>
-		";
+		<h1>{$USER->firstname} {$USER->lastname}</h1>";
+
 if(user_is_student()) {
-	echo "<h1>{$dorm} ({$b_status})</h1>";
+    echo "<h1>{$dorm} ({$b_status})</h1>";
+    echo "<h1>Grade: {$grade}</h1>";
 }
+
 echo "
-		<h1>{$date->format('m/d/y')}</h1>
-		<br><br>
-		<form method='get'>
-			<button type='submit' name='back'>Back</button>
-		</form>
-		</div>
+	<h1>{$date->format('m/d/y')}</h1>
+	<br><br>
+	<form method='get'>
+		<button type='submit' name='back'>Back</button>
+	</form>
+	</div>
 	</body>
 	";
+
  if(isset($_GET['back'])) {
 	redirect(new moodle_url('/my'));
  }
