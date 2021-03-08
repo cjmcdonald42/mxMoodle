@@ -1238,9 +1238,11 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:test_report:header:dormname'] = "Dorm";
  $string['healthtest:test_report:header:attended'] = "Attended?";
 
- // Report Filters.
+ // Report Filters and Buttons.
  $string['healthtest:test_report:day:all'] = "All Dates";
  $string['healthtest:test_report:block:all'] = "All Blocks";
  $string['healthtest:test_report:attended:all'] = "Everyone";
  $string['healthtest:test_report:attended:attended'] = "Attended Test";
  $string['healthtest:test_report:attended:absent'] = "Absent for Test";
+ $string['healthtest:test_report:appointment'] = "Appointment Form";
+ $string['healthtest:test_report:block_report'] = "Testing Block Report";

@@ -53,7 +53,12 @@ $attended_options = array(
 );
 
 $buttons = array(
-
+	new local_mxschool\output\redirect_button(
+         get_string('healthtest:test_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthpass/appointment_form.php')
+     ),
+	new local_mxschool\output\redirect_button(
+         get_string('healthtest:test_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthpass/block_report.php')
+     ),
 );
 
 // Create dropdowns, where the last parameter is the default value
