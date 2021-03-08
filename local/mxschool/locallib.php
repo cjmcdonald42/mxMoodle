@@ -1498,3 +1498,16 @@ function get_healthform_dates() {
 	 }
 	 return $block_options;
  }
+
+ /**
+ * Checks if a given block is on a given day
+ *
+ * @param int block_id, the id of the block
+ * @param string date, the date to check
+ * @return true if the block is on the day, false otherwise
+ */
+ function healthtest_block_is_on_day($block_id, $date) {
+	 global $DB;
+	 if($DB->record_exists('local_mxschool_testing_block', array('id' => $block_id, 'date' => $date))) return 1;
+	 else return 0;
+ }

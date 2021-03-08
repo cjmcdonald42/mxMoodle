@@ -53,7 +53,8 @@
 
  	  // The fields to query from the database
        $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'stu.grade', 'stu.boarding_status',
-  					'dorm.name AS dormname', 'ht.attended', 'ht.testing_block_id', 'tb.start_time', 'tb.end_time', 'tb.day_of_week', 'tb.date');
+  					'dorm.name AS dormname', 'ht.attended', 'ht.testing_block_id', 'tb.id AS tbid', 'tb.start_time',
+					'tb.end_time', 'tb.day_of_week', 'tb.date');
  	  // The tables which to query
        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
   					'{user} u ON u.id = ht.userid', '{local_mxschool_student} stu ON stu.userid = u.id',
@@ -61,9 +62,29 @@
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0');
 
+	  if($filter->day) {
+		  $where[] = "tb.date = '{$filter->day}'";
+	  }
+	  if($filter->block) {
+		  // Ensure that the user isn't filtering by a day and a block that isn't on that day.
+		  if(healthtest_block_is_on_day($filter->block, $filter->day)) {
+			  $where[] = "tb.id = {$filter->block}";
+		  }
+	  }
+	  if($filter->attended) {
+		  if($filter->attended == 'Absent') {
+			  $where[] = "ht.attended = 0";
+		  }
+		  else if($filter->attended == 'Present') {
+			 $where[] = "ht.attended = 1";
+		  }
+	  }
+
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'stu.grade', 'dorm.name');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
+
+	// The following functions edit what is displayed in individual columns
 
 	protected function col_firstname($values) {
 		if($values->alternatename) return "{$values->firstname} ({$values->alternatename})";
