@@ -29,6 +29,8 @@
 
  defined('MOODLE_INTERNAL') || die();
 
+ use local_mxschool\output\checkbox;
+
  class test_table extends \local_mxschool\table {
 
    /**
@@ -50,7 +52,7 @@
        parent::__construct('healthtest_test_table', $columns, $headers, $sortable, $centered, $filter, false);
 
  	  // The fields to query from the database
-       $fields = array('ht.id', 'u.lastname', 'u.firstname', 'u.alternatename', 'stu.grade', 'stu.boarding_status',
+       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'stu.grade', 'stu.boarding_status',
   					'dorm.name AS dormname', 'ht.attended', 'ht.testing_block_id', 'tb.start_time', 'tb.end_time', 'tb.day_of_week', 'tb.date');
  	  // The tables which to query
        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
@@ -81,6 +83,14 @@
 	protected function col_dormname($values) {
 		if(!$values->dormname) return "NA";
 		return $values->dormname;
+	}
+
+	protected function col_attended($values) {
+		if($this->is_downloading()) return $values->attended ? 'X' : '';
+		global $PAGE;
+		$output = $PAGE->get_renderer('local_mxschool');
+		$renderable = new checkbox($values->htid, 'local_mxschool_healthtest', 'attended', $values->attended);
+		return $output->render($renderable);
 	}
 
 }

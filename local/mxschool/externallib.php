@@ -79,6 +79,9 @@ class local_mxschool_external extends external_api {
             case 'local_mxschool_attendance':
                 $page = get_string('checkin:attendance_report', 'local_mxschool');
                 break;
+		  case 'local_mxschool_healthtest':
+                $page = get_string('healthtest:test_report', 'local_mxschool');
+                break;
             default:
                 throw new coding_exception("Unsupported table: {$params['table']}.");
         }
