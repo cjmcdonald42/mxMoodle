@@ -1452,3 +1452,48 @@ function get_healthform_dates() {
 	 array_shift($list);
 	 return $list;
  }
+
+ /* Health Test. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
+
+
+ /**
+ * Gets a list of all the days during which there is a healthtest block.
+ *
+ * @return array $day_options in the format date (YYYY-MM-DD) => String (day_of_week, date)
+ */
+ function get_healthtest_day_options() {
+	 global $DB;
+		 "SELECT tb.date
+		  FROM {local_mxschool_testing_block} tb
+		  GROUP BY tb.date"
+	  );
+	 $day_options = array();
+	 foreach($records as $record) {
+		 $day_of_week = date('D', strtotime($record->date));
+		 $day_options["{$record->date}"] = "{$day_of_week}, {$record->date}";
+	 }
+	 return $day_options;
+ }
+
+ /**
+ * Gets a list of all the blocks during a given day
+ *
+ * @param string $date the day to get the list of blocks for
+ * @return array $block_options in the format block_id => String (start_time - end_time)
+ */
+ function get_healthtest_block_options($date) {
+	 if(!$date) return array();
+	 global $DB;
+	 $records = $DB->get_records_sql(
+		 "SELECT tb.id, tb.start_time, tb.end_time
+		  FROM {local_mxschool_testing_block} tb
+		  WHERE tb.date = '{$date}'"
+	 );
+	 $block_options = array();
+	 foreach($records as $record) {
+		 $start = date('g:i A', strtotime($record->start_time));
+		 $end = date('g:i A', strtotime($record->end_time));
+		 $block_options["{$record->id}"] = "{$start} -- {$end}";
+	 }
+	 return $block_options;
+ }
