@@ -1170,7 +1170,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
 		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 		$table->add_field('testing_block_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-		$table->add_field('test_missed', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('attended', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
 		$table->add_field('time_created', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
 
 		// Adding keys to table local_mxschool_healthtest.

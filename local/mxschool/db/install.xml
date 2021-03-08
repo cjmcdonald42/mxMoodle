@@ -365,7 +365,7 @@
 	    <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
 	    <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The userid of the user."/>
 	    <FIELD NAME="testing_block_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the testing block that the user has signed up for."/>
-	    <FIELD NAME="test_missed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the user missed their test"/>
+	    <FIELD NAME="attended" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the user attended their test"/>
 	    <FIELD NAME="time_created" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of when this record was created."/>
 	  </FIELDS>
 	  <KEYS>

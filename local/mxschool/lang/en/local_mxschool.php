@@ -1218,3 +1218,22 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:symptom6'] = 'Shortness of Breath';
  $string['healthpass:symptom7'] = 'Headache';
  $string['healthpass:symptom8'] = 'Nausea or Vomiting';
+
+ /*
+  * ================
+  * Healthtest.
+  * ================
+  */
+
+ $string['healthtest'] = 'COVID Tests';
+
+ /* Healthtest Test Report.  */
+
+ // Report Headers.
+ $string['healthtest:test_report'] = "COVID Testing Report";
+ $string['healthtest:test_report:header:lastname'] = "Last Name";
+ $string['healthtest:test_report:header:firstname'] = "First Name";
+ $string['healthtest:test_report:header:grade'] = "Grade";
+ $string['healthtest:test_report:header:boarding_status'] = "Boarding Status";
+ $string['healthtest:test_report:header:dormname'] = "Dorm";
+ $string['healthtest:test_report:header:attended'] = "Attended?";
