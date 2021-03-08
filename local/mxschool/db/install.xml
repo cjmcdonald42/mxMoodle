@@ -346,5 +346,33 @@
         <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
+    <TABLE NAME="local_mxschool_testing_block" COMMENT="Table for storing data regarding testing blocks for Middlesex's Healthtest module.">
+	  <FIELDS>
+	    <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+	    <FIELD NAME="testing_cycle" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The testing cycle which this block belongs to."/>
+	    <FIELD NAME="max_testers" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The maximum number of testers that can sign up for this block."/>
+	    <FIELD NAME="day_of_week" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The day of week that this block is during."/>
+	    <FIELD NAME="start_time" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The 24 hour time of when the block begins."/>
+	    <FIELD NAME="end_time" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The 24 hour time of when the block ends"/>
+	    <FIELD NAME="date" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The date in the format YYYY-MM-DD"/>
+	  </FIELDS>
+	  <KEYS>
+	    <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+	  </KEYS>
+	</TABLE>
+	<TABLE NAME="local_mxschool_healthtest" COMMENT="Table storing data for each time a user signs up for a healthtest.">
+	  <FIELDS>
+	    <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+	    <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The userid of the user."/>
+	    <FIELD NAME="testing_block_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the testing block that the user has signed up for."/>
+	    <FIELD NAME="test_missed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the user missed their test"/>
+	    <FIELD NAME="time_created" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of when this record was created."/>
+	  </FIELDS>
+	  <KEYS>
+	    <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+	    <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The userid of the user"/>
+	    <KEY NAME="testing_block" TYPE="foreign" FIELDS="testing_block_id" REFTABLE="local_mxschool_testing_block" REFFIELDS="id" COMMENT="The reference to the testing block."/>
+	  </KEYS>
+	</TABLE>
   </TABLES>
 </XMLDB>

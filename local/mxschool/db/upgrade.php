@@ -1130,12 +1130,62 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072302, 'local', 'mxschool');
-	}
+}
 	if ($oldversion < 2020081901) {
 	    set_config('healthpass_one_per_day', '1', 'local_mxschool');
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020081901, 'local', 'mxschool');
-	}
+}
+	if ($oldversion < 2021030802) {
+
+		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
+		    'form', 'test_report', 'block_report', 'preferences'
+	    )));
+		 $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+
+		// Define table local_mxschool_testing_block to be created.
+		$table = new xmldb_table('local_mxschool_testing_block');
+
+		// Adding fields to table local_mxschool_testing_block.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('testing_cycle', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('max_testers', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('day_of_week', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('start_time', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('end_time', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('date', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_testing_block.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+		// Conditionally launch create table for local_mxschool_testing_block.
+		if (!$dbman->table_exists($table)) {
+		   $dbman->create_table($table);
+		}
+
+		// Define table local_mxschool_healthtest to be created.
+		$table = new xmldb_table('local_mxschool_healthtest');
+
+		// Adding fields to table local_mxschool_healthtest.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('testing_block_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('test_missed', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('time_created', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_healthtest.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+		$table->add_key('testing_block', XMLDB_KEY_FOREIGN, ['testing_block_id'], 'local_mxschool_testing_block', ['id']);
+
+		// Conditionally launch create table for local_mxschool_healthtest.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021030802, 'local', 'mxschool');
+}
 
      return true;
 
