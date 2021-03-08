@@ -41,6 +41,11 @@ $string['healthpass:submit_form'] = 'Submit a COVIDpass';
 $string['healthpass:report'] = 'COVIDpass Report';
 $string['healthpass:preferences'] = 'COVIDpass Preferences';
 
+$string['healthtest'] = 'COVID Testing Module';
+$string['healthtest:test_report'] = 'COVID Testing Report';
+$string['healthtest:appointment_form'] = 'Schedule a Test';
+$string['healthtest:block_report'] = 'COVID Testing Blocks Report';
+
 $string['user_management'] = 'User Module';
 $string['user_management:student_report'] = 'Student Report';
 $string['user_management:faculty_report'] = 'Faculty Report';
