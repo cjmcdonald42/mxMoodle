@@ -1463,6 +1463,7 @@ function get_healthform_dates() {
  */
  function get_healthtest_day_options() {
 	 global $DB;
+	 $records = $DB->get_records_sql(
 		 "SELECT tb.date
 		  FROM {local_mxschool_testing_block} tb
 		  GROUP BY tb.date"
