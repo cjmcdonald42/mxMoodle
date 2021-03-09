@@ -38,8 +38,9 @@ class appointment_form extends \local_mxschool\form {
 	   // Get $users and $isManager from form page
        $users = $this->_customdata['users'];
 	  $isManager = $this->_customdata['isManager'];
+	  $userid = $this->_customdata['userid'];
 
-	  $block_options = get_appointment_form_block_options();
+	  $block_options = $isManager ? get_appointment_form_block_options() : get_appointment_form_block_options($userid);
 
 	   // Define fields
         $fields = array(
@@ -52,7 +53,9 @@ class appointment_form extends \local_mxschool\form {
                 'name' => $isManager ?
 			   array('element' => 'select', 'options' => $users)
 			 : array('element' => 'static', 'text' => $users['name']),
-			 'block' => array('element' => 'select', 'options' => $block_options)
+			 'block' => $block_options ?
+			   array('element' => 'select', 'options' => $block_options)
+			 : array('element' => 'static', 'text' => 'You have already scheduled a test for every testing cycle'),
         ));
         $this->set_fields($fields, 'healthtest:form');
         $mform = $this->_form;

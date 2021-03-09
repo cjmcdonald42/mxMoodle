@@ -1582,18 +1582,66 @@ function get_current_testing_cycle($date) {
 }
 
 /**
+* Given a userid, returns all of the testing blocks the user is signed up for
+*
+* @param int userid, the user id of the user
+* @return array $user_appointment_info, in the form block_id => block_info
+*/
+function get_user_appointment_info($userid) {
+	global $DB;
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid, ht.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
+				tb.start_time, tb.end_time, tb.date, tb.max_testers
+		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE ht.userid = {$userid}"
+	);
+	$app_info = array();
+	foreach($records as $record) {
+		$app_info[$record->tbid] = array(
+			'testing_cycle' => $record->testing_cycle,
+			'start_time' => $record->start_time,
+			'end_time' => $record->end_time,
+			'date' => $record->date,
+			'attended' => $record->attended,
+			'userid' => $record->userid,
+			'max_testers' => $record->max_testers
+		);
+	}
+	return $app_info;
+}
+
+/**
 * Returns a list of all the block options (those blocks that haven't already passed) for the appointment form
 *
+* @param int userid, the id of the user to get data for. If 0,
 * @return array block_options, in the format block_id => (day, (start time end time))
 */
-function get_appointment_form_block_options() {
+function get_appointment_form_block_options($userid=null) {
 	global $DB;
 	$today = date('Y-m-d');
-	$records = $DB->get_records_sql(
-		"SELECT *
-		 FROM {local_mxschool_testing_block}
-		 WHERE date >= '{$today}'"
-	);
+	// if not admin, then gets only blocks in the future, and those not apart of testing cycle(s) that user is already signed up for.
+	if($userid) {
+		$user_app_info = get_user_appointment_info($userid);
+		$sql_array = '(';
+		foreach($user_app_info as $app_block) {
+			$cycle = $app_block['testing_cycle'];
+			$sql_array .= "{$cycle}, ";
+		}
+		$sql_array = substr($sql_array, 0, -2);
+		$sql_array .= ')';
+		$records = $DB->get_records_sql(
+			"SELECT *
+			 FROM {local_mxschool_testing_block}
+			 WHERE date >= '{$today}' AND testing_cycle NOT IN {$sql_array}"
+		);
+	}
+	else {
+		$records = $DB->get_records_sql(
+			"SELECT *
+			 FROM {local_mxschool_testing_block}
+			 WHERE date >= '{$today}'"
+		);
+	}
 	$block_options = array();
 	foreach($records as $record) {
 		$start = date('g:i A', strtotime($record->start_time));

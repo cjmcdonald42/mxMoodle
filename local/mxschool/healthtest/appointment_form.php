@@ -65,7 +65,7 @@
  }
 
  // Create form and pass $users and $isManager
- $form = new local_mxschool\local\healthtest\appointment_form(array('users' => $users, 'isManager' => $isManager));
+ $form = new local_mxschool\local\healthtest\appointment_form(array('users' => $users, 'isManager' => $isManager, 'userid' => $USER->id));
  $form->set_data($data);
 
  if($form->is_cancelled()) { // If the cancel button is pressed...
