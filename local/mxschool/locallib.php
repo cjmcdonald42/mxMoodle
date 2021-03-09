@@ -1453,6 +1453,8 @@ function get_healthform_dates() {
 	 return $list;
  }
 
+
+
  /* Health Test. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
 
 
@@ -1577,4 +1579,27 @@ function get_current_testing_cycle($date) {
 		}
 	}
 	return 0;
+}
+
+/**
+* Returns a list of all the block options (those blocks that haven't already passed) for the appointment form
+*
+* @return array block_options, in the format block_id => (day, (start time end time))
+*/
+function get_appointment_form_block_options() {
+	global $DB;
+	$today = date('Y-m-d');
+	$records = $DB->get_records_sql(
+		"SELECT *
+		 FROM {local_mxschool_testing_block}
+		 WHERE date >= '{$today}'"
+	);
+	$block_options = array();
+	foreach($records as $record) {
+		$start = date('g:i A', strtotime($record->start_time));
+		$end = date('g:i A', strtotime($record->end_time));
+		$date = date('D, n/d', strtotime($record->date));
+		$block_options[$record->id] = "{$start} -- {$end}, {$date}";
+	}
+	return $block_options;
 }

@@ -39,3 +39,5 @@ $string['privacy:metadata'] = 'MX COVIDpass passes intake data to our Podio heal
 $string['healthpass:submit_form'] = 'Submit a COVIDpass';
 $string['healthpass:form_approved'] = 'Show my COVIDpass';
 $string['healthpass:form_denied'] = 'Show my COVIDpass';
+
+$string['healthtest:schedule_app'] = 'Schedule an Appointment';

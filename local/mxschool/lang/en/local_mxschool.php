@@ -1246,3 +1246,16 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:test_report:attended:absent'] = "Absent for Test";
  $string['healthtest:test_report:appointment'] = "Appointment Form";
  $string['healthtest:test_report:block_report'] = "Testing Block Report";
+
+ /* Healthtest Appointment Form */
+
+ // Form Headers
+ $string['healthtest:form'] = 'COVID Test Appointment Form';
+ $string['healthtest:form:info'] = 'Info';
+
+ // Field Labels.
+ $string['healthtest:form:info:name'] = 'Name';
+ $string['healthtest:form:info:block'] = 'Testing Block';
+
+ // Form Responses
+ $string['healthtest:form:success'] = 'Appointment Succesfully Scheduled';
