@@ -1520,6 +1520,8 @@ function get_healthform_dates() {
  */
  function get_testing_cycle_dates($testing_cycle) {
 	 global $DB;
+	 if(!$DB->record_exists('local_mxschool_testing_block', array('testing_cycle' => $testing_cycle)))
+	 	return array('start' => 'block not found', 'end' => 'block not found');
 	 $records = $DB->get_records_sql(
 		 "SELECT testing_cycle, MAX(date) AS end, MIN(date) AS start
 		  FROM {local_mxschool_testing_block}
@@ -1553,4 +1555,26 @@ function get_testing_cycle_list() {
 		$cycle_list["{$record->testing_cycle}"] = "{$start} -- {$end}";
 	}
 	return $cycle_list;
+}
+
+/**
+* Given a date, returns either the current testing cycle, or none if nothing
+*
+* @param int date, the date to search for a testing cycle
+* @return int testing_cycle, the number of the current or most recent testing_cycle
+*/
+function get_current_testing_cycle($date) {
+	global $DB;
+	$records = $DB->get_records_sql(
+		"SELECT testing_cycle, MAX(date) AS end, MIN(date) AS start
+		 FROM {local_mxschool_testing_block}
+		 GROUP BY testing_cycle"
+	);
+	// return current testing cycle
+	foreach($records as $record) {
+		if($date >= $record->start and $date <= $record->end) {
+			return $record->testing_cycle;
+		}
+	}
+	return 0;
 }

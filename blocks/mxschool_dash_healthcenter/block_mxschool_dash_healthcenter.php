@@ -44,9 +44,11 @@ class block_mxschool_dash_healthcenter extends block_base {
             $output = $PAGE->get_renderer('local_mxschool');
 		  $dorm = get_param_faculty_dorm();
 		  $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
+
 		  $today = date('Y-m-d');
-		  if(array_key_exists($today, get_healthtest_day_options())) $healthtest_filter = "?day={$today}";
-		  else $healthtest_filter = '';
+		  $testing_cycle = get_current_testing_cycle($today);
+		  $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
+
             $renderables = array(
                 new local_mxschool\output\index(array(
                     get_string('healthpass:submit_form', 'block_mxschool_dash_healthcenter')
