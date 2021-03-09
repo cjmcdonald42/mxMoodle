@@ -62,9 +62,13 @@
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0');
 
+	  if($filter->testing_cycle) {
+		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
+	  }
+
 	  if($filter->block) {
-		  // Ensure that the user isn't filtering by a day and a block that isn't on that day.
-		  if(healthtest_block_is_on_day($filter->block, $filter->day)) {
+		  // Ensure that the user isn't filtering by a cycle and a block that isn't in that cycle.
+		  if(healthtest_block_is_in_testing_cycle($filter->block, $filter->testing_cycle)) {
 			  $where[] = "tb.id = {$filter->block}";
 		  }
 	  }

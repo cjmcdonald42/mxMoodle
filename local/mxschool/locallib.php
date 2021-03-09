@@ -1477,38 +1477,38 @@ function get_healthform_dates() {
  }
 
  /**
- * Gets a list of all the blocks during a given day
+ * Gets a list of all the blocks during a given testing cycle
  *
- * @param string $date the day to get the list of blocks for
+ * @param string $testing_cycle the day to get the list of blocks for
  * @return array $block_options in the format block_id => String (start_time - end_time)
  */
- function get_healthtest_block_options($date) {
-	 if(!$date) return array();
+ function get_healthtest_block_options($testing_cycle) {
+	 if(!$testing_cycle) return array();
 	 global $DB;
 	 $records = $DB->get_records_sql(
-		 "SELECT tb.id, tb.start_time, tb.end_time
+		 "SELECT tb.id, tb.start_time, tb.end_time, tb.date
 		  FROM {local_mxschool_testing_block} tb
-		  WHERE tb.date = '{$date}'"
+		  WHERE tb.testing_cycle = '{$testing_cycle}'"
 	 );
 	 $block_options = array();
 	 foreach($records as $record) {
+		 $date = date('n/d', strtotime($record->date));
 		 $start = date('g:i A', strtotime($record->start_time));
-		 $end = date('g:i A', strtotime($record->end_time));
-		 $block_options["{$record->id}"] = "{$start} -- {$end}";
+		 $block_options["{$record->id}"] = "{$date} {$start}";
 	 }
 	 return $block_options;
  }
 
  /**
- * Checks if a given block is on a given day
+ * Checks if a given block is in a given cycle
  *
  * @param int block_id, the id of the block
- * @param string date, the date to check
+ * @param string testing_cycle, the cycle number to check
  * @return true if the block is on the day, false otherwise
  */
- function healthtest_block_is_on_day($block_id, $date) {
+ function healthtest_block_is_in_testing_cycle($block_id, $testing_cycle) {
 	 global $DB;
-	 if($DB->record_exists('local_mxschool_testing_block', array('id' => $block_id, 'date' => $date))) return 1;
+	 if($DB->record_exists('local_mxschool_testing_block', array('id' => $block_id, 'testing_cycle' => $testing_cycle))) return 1;
 	 else return 0;
  }
 
@@ -1533,3 +1533,24 @@ function get_healthform_dates() {
 	 }
 	 return array();
  }
+
+/**
+* Returns a list of all testing cycles
+*
+* @return array $cycle_list in the format cycle_list[$cycle_num] = $cycle_start_and_end string
+*/
+function get_testing_cycle_list() {
+	global $DB;
+	$records = $DB->get_records_sql (
+		"SELECT testing_cycle, MAX(date) AS end, MIN(date) AS start
+		 FROM {local_mxschool_testing_block}
+		 GROUP BY testing_cycle"
+	);
+	$cycle_list = array();
+	foreach($records as $record) {
+		$start = date('n/d', strtotime($record->start));
+		$end = date('n/d', strtotime($record->end));
+		$cycle_list["{$record->testing_cycle}"] = "{$start} -- {$end}";
+	}
+	return $cycle_list;
+}

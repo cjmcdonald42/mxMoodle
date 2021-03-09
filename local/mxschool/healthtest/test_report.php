@@ -33,7 +33,7 @@ require_capability('local/mxschool:manage_healthpass', context_system::instance(
 
 // Creeate filters
 $filter = new stdClass();
-$filter->day = optional_param('day', '', PARAM_RAW);
+$filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
 $filter->block = optional_param('block', '', PARAM_RAW);
 $filter->attended = optional_param('attended', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -45,8 +45,8 @@ setup_mxschool_page('test_report', 'healthtest');
 $table = new local_mxschool\local\healthtest\test_table($filter, $download);
 
 // Define filter options as an array with value => display
-$day_options = get_healthtest_day_options();
-$block_options = get_healthtest_block_options($filter->day);
+$testing_cycle_options = get_testing_cycle_list();
+$block_options = get_healthtest_block_options($filter->testing_cycle);
 $attended_options = array(
 	'Present' => get_string('healthtest:test_report:attended:attended', 'local_mxschool'),
 	'Absent' => get_string('healthtest:test_report:attended:absent', 'local_mxschool')
@@ -64,7 +64,7 @@ $buttons = array(
 // Create dropdowns, where the last parameter is the default value
 $dropdowns = array(
 	new local_mxschool\output\dropdown(
-	    'day', $day_options, $filter->day, get_string('healthtest:test_report:day:all', 'local_mxschool')
+	    'testing_cycle', $testing_cycle_options, $filter->testing_cycle, get_string('healthtest:test_report:testing_cycle:all', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
 	   'block', $block_options, $filter->block, get_string('healthtest:test_report:block:all', 'local_mxschool')
