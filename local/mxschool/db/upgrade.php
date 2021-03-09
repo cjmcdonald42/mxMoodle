@@ -1185,7 +1185,30 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 		// Mxschool savepoint reached.
 		upgrade_plugin_savepoint(true, 2021030802, 'local', 'mxschool');
-}
+	}
+
+	if ($oldversion < 2021030901) {
+
+	    // Define field start_time to be dropped from local_mxschool_testing_block.
+	    $table = new xmldb_table('local_mxschool_testing_block');
+	    $field = new xmldb_field('day_of_week');
+
+	    // Conditionally launch drop field start_time.
+	    if ($dbman->field_exists($table, $field)) {
+		   $dbman->drop_field($table, $field);
+	    }
+
+	    // Changing nullability of field time_created on table local_mxschool_healthtest to null.
+		$table = new xmldb_table('local_mxschool_healthtest');
+		$field = new xmldb_field('time_created', XMLDB_TYPE_INTEGER, '20', null, null, null, null, 'attended');
+
+		// Launch change of nullability for field time_created.
+		$dbman->change_field_notnull($table, $field);
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2021030901, 'local', 'mxschool');
+	}
+
 
      return true;
 

@@ -351,7 +351,6 @@
 	    <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
 	    <FIELD NAME="testing_cycle" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The testing cycle which this block belongs to."/>
 	    <FIELD NAME="max_testers" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The maximum number of testers that can sign up for this block."/>
-	    <FIELD NAME="day_of_week" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The day of week that this block is during."/>
 	    <FIELD NAME="start_time" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The 24 hour time of when the block begins."/>
 	    <FIELD NAME="end_time" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The 24 hour time of when the block ends"/>
 	    <FIELD NAME="date" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The date in the format YYYY-MM-DD"/>
@@ -366,7 +365,7 @@
 	    <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The userid of the user."/>
 	    <FIELD NAME="testing_block_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the testing block that the user has signed up for."/>
 	    <FIELD NAME="attended" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the user attended their test"/>
-	    <FIELD NAME="time_created" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp of when this record was created."/>
+	    <FIELD NAME="time_created" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The timestamp of when this record was created."/>
 	  </FIELDS>
 	  <KEYS>
 	    <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
