@@ -1651,3 +1651,27 @@ function get_appointment_form_block_options($userid=null) {
 	}
 	return $block_options;
 }
+
+/**
+* Given a user id, returns user's next appointment block data
+*
+* @return stdClass app_data, the data of the next appointment
+*/
+function get_user_next_appointment_data($userid) {
+	global $DB;
+	$today = date('Y-m-d');
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid, ht.attended, tb.id AS tbid, tb.start_time, tb.end_time, tb.date, tb.testing_cycle
+		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE tb.date >= '{$today}' AND ht.userid = '{$userid}' ORDER BY tb.date ASC"
+	);
+	$app_data = new stdClass();
+	foreach($records as $record) {
+		$app_data->attended = $record->attended;
+		$app_data->start_time = $record->start_time;
+		$app_data->end_time = $record->end_time;
+		$app_data->date = $record->date;
+		$app_data->testing_cycle = $record->testing_cycle;
+		return $app_data;
+	}
+}

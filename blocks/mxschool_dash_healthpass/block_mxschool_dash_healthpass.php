@@ -69,6 +69,12 @@ class block_mxschool_dash_healthpass extends block_base {
 			  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
 		  );
 		  $block_data[get_string('healthtest:schedule_app', 'block_mxschool_dash_healthpass')] = '/local/mxschool/healthtest/appointment_form.php';
+
+		  $app_data = get_user_next_appointment_data($USER->id);
+		  $app_info = $app_data ?
+		  	"Your next COVID test is on ".date('D, n/d', strtotime($app_data->date))." at ".date('g:i A', strtotime($app_data->start_time)) :
+			"No COVID tests currently scheduled";
+		  $block_data[$app_info] = '/local/mxschool/healthtest/appointment_list.php';
 		  $renderable = new local_mxschool\output\index($block_data);
             $this->content->text = $output->render($renderable);
 	  }
