@@ -1511,3 +1511,25 @@ function get_healthform_dates() {
 	 if($DB->record_exists('local_mxschool_testing_block', array('id' => $block_id, 'date' => $date))) return 1;
 	 else return 0;
  }
+
+ /**
+ * Given a testing_cycle number, returns the start date and end date of that block's testing cycle
+ *
+ * @param int testing_cycle, the specific testing cycle
+ * @return array cycle_dates, where the start's key is 'start', and the end's is 'end'. Date is in the format YYYY-MM-DD.
+ */
+ function get_testing_cycle_dates($testing_cycle) {
+	 global $DB;
+	 $records = $DB->get_records_sql(
+		 "SELECT testing_cycle, MAX(date) AS end, MIN(date) AS start
+		  FROM {local_mxschool_testing_block}
+		  GROUP BY testing_cycle HAVING testing_cycle = {$testing_cycle}"
+	 );
+	 $cycle_dates = array();
+	 foreach($records as $record) {
+		 $cycle_dates['start'] = $record->start;
+		 $cycle_dates['end'] = $record->end;
+		 return $cycle_dates;
+	 }
+	 return array();
+ }

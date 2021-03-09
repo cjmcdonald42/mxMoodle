@@ -42,29 +42,26 @@
    public function __construct($filter, $download) {
 	  $this->is_downloading($download);
  	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('lastname', 'firstname', 'grade', 'boarding_status', 'dormname', 'attended');
+       $columns = array('testing_cycle', 'block', 'name', 'grade', 'dorm', 'has_tested');
  	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthtest:test_report');
  	  // Define sortable columns
-       $sortable = array('lastname', 'firstname', 'grade', 'dormname', 'attended');
+       $sortable = array('name', 'testing_cycle', 'grade', 'has_tested');
  	  // All columns are centered
-       $centered = array('lastname', 'firstname', 'grade', 'boarding_status', 'dormname', 'attended');
+       $centered = array('testing_cycle', 'block', 'name', 'dorm', 'grade', 'has_tested');
        parent::__construct('healthtest_test_table', $columns, $headers, $sortable, $centered, $filter, false);
 
  	  // The fields to query from the database
-       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'stu.grade', 'stu.boarding_status',
-  					'dorm.name AS dormname', 'ht.attended', 'ht.testing_block_id', 'tb.id AS tbid', 'tb.start_time',
-					'tb.end_time', 'tb.day_of_week', 'tb.date');
+       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'stu.grade', 'stu.boarding_status',
+  					'd.name AS dorm', 'ht.attended AS has_tested', 'ht.testing_block_id', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
+					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
   					'{user} u ON u.id = ht.userid', '{local_mxschool_student} stu ON stu.userid = u.id',
-					'{local_mxschool_dorm} dorm ON dorm.id = stu.dormid');
+					'{local_mxschool_dorm} d ON d.id = stu.dormid');
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0');
 
-	  if($filter->day) {
-		  $where[] = "tb.date = '{$filter->day}'";
-	  }
 	  if($filter->block) {
 		  // Ensure that the user isn't filtering by a day and a block that isn't on that day.
 		  if(healthtest_block_is_on_day($filter->block, $filter->day)) {
@@ -86,32 +83,34 @@
 
 	// The following functions edit what is displayed in individual columns
 
-	protected function col_firstname($values) {
-		if($values->alternatename) return "{$values->firstname} ({$values->alternatename})";
-		return $values->firstname;
+	protected function col_name($values) {
+		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
+		return "{$values->lastname}, {$values->firstname}";
 	}
 
-	protected function col_grade($values) {
-		if(!$values->grade) return "Faculty/Staff";
-		return $values->grade;
+	protected function col_dorm($values) {
+		if(!$values->dorm) return '';
+		return "{$values->dorm} ({$values->boarding_status})";
 	}
 
-	protected function col_boarding_status($values) {
-		if(!$values->boarding_status) return "NA";
-		return $values->boarding_status;
-	}
-
-	protected function col_dormname($values) {
-		if(!$values->dormname) return "NA";
-		return $values->dormname;
-	}
-
-	protected function col_attended($values) {
-		if($this->is_downloading()) return $values->attended ? 'X' : '';
+	protected function col_has_tested($values) {
+		if($this->is_downloading()) return $values->has_tested ? 'X' : '';
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new checkbox($values->htid, 'local_mxschool_healthtest', 'attended', $values->attended);
+		$renderable = new checkbox($values->htid, 'local_mxschool_healthtest', 'attended', $values->has_tested);
 		return $output->render($renderable);
 	}
 
+	protected function col_block($values) {
+		$block_date = date('n/d', strtotime($values->tbdate));
+		$block_start = date('g:i A', strtotime($values->start_time));
+		return "{$block_date} {$block_start}";
+	}
+
+	protected function col_testing_cycle($values) {
+		$testing_cycle_dates = get_testing_cycle_dates($values->testing_cycle);
+		$cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
+		$cycle_end = date('n/d', strtotime($testing_cycle_dates['end']));
+		return "{$cycle_start} -- {$cycle_end}";
+	}
 }

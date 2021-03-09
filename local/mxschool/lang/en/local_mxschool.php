@@ -1231,15 +1231,15 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
  // Report Headers.
  $string['healthtest:test_report'] = "COVID Testing Report";
- $string['healthtest:test_report:header:lastname'] = "Last Name";
- $string['healthtest:test_report:header:firstname'] = "First Name";
+ $string['healthtest:test_report:header:testing_cycle'] = "Testing Cycle";
+ $string['healthtest:test_report:header:block'] = "Block";
+ $string['healthtest:test_report:header:name'] = "Name";
  $string['healthtest:test_report:header:grade'] = "Grade";
- $string['healthtest:test_report:header:boarding_status'] = "Boarding Status";
- $string['healthtest:test_report:header:dormname'] = "Dorm";
- $string['healthtest:test_report:header:attended'] = "Attended?";
+ $string['healthtest:test_report:header:dorm'] = "Dorm";
+ $string['healthtest:test_report:header:has_tested'] = "Has Tested?";
 
  // Report Filters and Buttons.
- $string['healthtest:test_report:day:all'] = "All Dates";
+ $string['healthtest:test_report:testing_cycle:all'] = "All Testing Cycles";
  $string['healthtest:test_report:block:all'] = "All Blocks";
  $string['healthtest:test_report:attended:all'] = "Everyone";
  $string['healthtest:test_report:attended:attended'] = "Attended Test";
