@@ -72,6 +72,8 @@
    redirect($form->get_redirect());
  }
  elseif($data = $form->get_data()) { // If the 'Save Changes' button is pressed...
+   // redirect if no testing block is selected
+   if(!$testing_block_id) redirect($form->get_redirect());
    $data->attended = 0;
    if(!isset($data->name)) $data->name = $USER->id;
    // Add the user's form data to the database
