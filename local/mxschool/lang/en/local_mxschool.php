@@ -1254,6 +1254,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:form:info'] = 'Info';
 
  // Field Labels.
+ $string['healthtest:form:info:instructions'] = 'Instructions';
  $string['healthtest:form:info:name'] = 'Name';
  $string['healthtest:form:info:block'] = 'Testing Block';
 

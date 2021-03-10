@@ -41,6 +41,7 @@ class appointment_form extends \local_mxschool\form {
 	  $userid = $this->_customdata['userid'];
 
 	  $block_options = $isManager ? get_appointment_form_block_options() : get_appointment_form_block_options($userid);
+	  $instruction_text = get_config('local_mxschool', 'healthtest_form_instructions');
 
 	   // Define fields
         $fields = array(
@@ -50,6 +51,7 @@ class appointment_form extends \local_mxschool\form {
                 'isstudent' => self::ELEMENT_HIDDEN_INT
             ),
             'info' => array(
+			 'instructions' => array('element' => 'static', 'text' => $instruction_text),
                 'name' => $isManager ?
 			   array('element' => 'select', 'options' => $users)
 			 : array('element' => 'static', 'text' => $users['name']),
