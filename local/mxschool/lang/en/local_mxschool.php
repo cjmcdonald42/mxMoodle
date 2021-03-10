@@ -1259,3 +1259,35 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
  // Form Responses
  $string['healthtest:form:success'] = 'Appointment Succesfully Scheduled';
+
+ /* Healthtest Preferences Form */
+
+ // Form Headers.
+ $string['healthtest:preferences'] = 'COVID Testing Preferences';
+ $string['healthtest:preferences:preferences'] = 'Preferences';
+ $string['healthtest:preferences:reminder_notification'] = 'Test Reminder Notification';
+ $string['healthtest:preferences:missed_notification'] = 'Missed Test Notification';
+ $string['healthtest:preferences:confirm_notification'] = 'Test Confirmation Notification';
+
+ // Field Labels.
+ $string['healthtest:preferences:preferences:healthtest_enabled'] = 'Enable COVID Testing Module';
+ $string['healthtest:preferences:preferences:form_instructions'] = 'Test Scheduling Form Instructions';
+
+ $string['healthtest:preferences:reminder_notification:reminder_enabled'] = 'Enable COVID Testing automatic reminders';
+ $string['healthtest:preferences:reminder_notification:reminder_time'] = 'Time at which the next day\'s reminders are sent';
+ $string['healthtest:preferences:reminder_notification:reminder_tags'] = 'Available tags for reminder notification';
+ $string['healthtest:preferences:reminder_notification:reminder_subject'] = 'Reminder notification email subject';
+ $string['healthtest:preferences:reminder_notification:reminder_body'] = 'Reminder notification email body';
+
+ $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy healthcenter on missed test notification';
+ $string['healthtest:preferences:missed_notification:missed_tags'] = 'Available tags for test missed notification';
+ $string['healthtest:preferences:missed_notification:missed_subject'] = 'Testing missed notification email subject';
+ $string['healthtest:preferences:missed_notification:missed_body'] = 'Testing missed notification email body';
+
+ $string['healthtest:preferences:confirm_notification:confirm_enabled'] = 'Enable test scheduled confirmation emails';
+ $string['healthtest:preferences:confirm_notification:confirm_tags'] = 'Available tags for test scheduled confirmation notification';
+ $string['healthtest:preferences:confirm_notification:confirm_subject'] = 'Test scheduled confirmation notification email subject';
+ $string['healthtest:preferences:confirm_notification:confirm_body'] = 'Test scheduled confirmation notification email body';
+
+ // Form Responses.
+ $string['healthtest:preferences:success'] = 'COVID Testing Preferences Updated';
