@@ -1633,9 +1633,11 @@ function get_appointment_form_block_options($userid=null) {
 		$records = $DB->get_records_sql(
 			"SELECT *
 			 FROM {local_mxschool_testing_block}
-			 WHERE (date > '{$today}' OR (date = '{$today}' AND tb.end_time >= '{$current_time}')) AND testing_cycle NOT IN {$sql_array}"
+			 WHERE (date > '{$today}' OR (date = '{$today}' AND end_time >= '{$current_time}'))
+			 AND testing_cycle NOT IN {$sql_array}"
 		);
 	}
+	// else show all upcoming blocks
 	else {
 		$records = $DB->get_records_sql(
 			"SELECT *
@@ -1645,10 +1647,12 @@ function get_appointment_form_block_options($userid=null) {
 	}
 	$block_options = array();
 	foreach($records as $record) {
-		$start = date('g:i A', strtotime($record->start_time));
-		$end = date('g:i A', strtotime($record->end_time));
-		$date = date('D, n/d', strtotime($record->date));
-		$block_options[$record->id] = "{$start} -- {$end}, {$date}";
+		if(!testing_block_full($record->id)) {
+			$start = date('g:i A', strtotime($record->start_time));
+			$end = date('g:i A', strtotime($record->end_time));
+			$date = date('D, n/d', strtotime($record->date));
+			$block_options[$record->id] = "{$start} -- {$end}, {$date}";
+		}
 	}
 	return $block_options;
 }
@@ -1681,4 +1685,26 @@ function get_user_upcoming_appointment_info($userid) {
 		);
 	}
 	return $app_info;
+}
+
+/**
+* Given a block_id, checks whether or not the block has reached its max testers
+*
+* @param int block_id, the id of the block
+* @return true if full, false otherwise
+*/
+function testing_block_full($block_id) {
+	global $DB;
+	$total_testers_record = $DB->get_records_sql(
+		"SELECT COUNT(*) AS test_count
+		 FROM {local_mxschool_healthtest}
+		 GROUP BY testing_block_id HAVING testing_block_id = '{$block_id}'"
+	 );
+	 $total_testers = 0;
+	 foreach($total_testers_record as $record) {
+		 $total_testers = $record->test_count;
+		 break;
+	 }
+	 $max_testers = $DB->get_field('local_mxschool_testing_block', 'max_testers', array('id' => $block_id));
+	 return $total_testers >= $max_testers;
 }
