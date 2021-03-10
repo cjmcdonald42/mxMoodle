@@ -45,6 +45,7 @@ $string['healthtest'] = 'COVID Testing Module';
 $string['healthtest:test_report'] = 'COVID Testing Report';
 $string['healthtest:appointment_form'] = 'Schedule a Test';
 $string['healthtest:block_report'] = 'COVID Testing Blocks Report';
+$string['healthtest:preferences'] = 'COVID Testing Preferences';
 
 $string['user_management'] = 'User Module';
 $string['user_management:student_report'] = 'Student Report';
