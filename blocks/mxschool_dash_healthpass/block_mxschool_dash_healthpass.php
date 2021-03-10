@@ -40,54 +40,59 @@ class block_mxschool_dash_healthpass extends block_base {
             return $this->content;
         }
         $this->content = new stdClass();
+	   $bullet_points = array();
+	   $output = $PAGE->get_renderer('local_mxschool');
 
+	   /* Healthpass stuff */
         if (get_config('local_mxschool', 'healthpass_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access', context_system::instance())) {
-            $output = $PAGE->get_renderer('local_mxschool');
 		  $info = get_todays_healthform_info($USER->id);
-		  $health_pass_data = array();
 
 		  if($info->submitted_today and !has_capability('local/mxschool:manage_healthpass', context_system::instance())) {
 			  if(get_config('local_mxschool', 'healthpass_one_per_day') == '1') {
-				  if($info->status=='Approved') $health_pass_data = array( // if submitted today and approved
+				  if($info->status=='Approved') $bullet_points = array( // if submitted today and approved
 				 	   get_string('healthpass:form_approved', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_approved.php'
 				  );
-				  else $health_pass_data = array( // if submitted today and denied
+				  else $bullet_points = array( // if submitted today and denied
 					  get_string('healthpass:form_denied', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_denied.php'
 				 );
 			  }
 			  else {
-				  if($info->status=='Approved') $health_pass_data = array( // if submitted today and approved
+				  if($info->status=='Approved') $bullet_points = array( // if submitted today and approved
 					   get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
 				 	   get_string('healthpass:form_approved', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_approved.php'
 				  );
-				  else $health_pass_data = array( // if submitted today and denied
+				  else $bullet_points = array( // if submitted today and denied
 					  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php',
 					  get_string('healthpass:form_denied', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form_denied.php'
 				);
 			  }
 		  }
-		  else $renderable = $health_pass_data = array( // if not submitted or is admin
+		  else $bullet_points = array( // if not submitted or is admin
 			  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
 		  );
+	  }
 
-		  $health_pass_data[get_string('healthtest:schedule_app', 'block_mxschool_dash_healthpass')] = '/local/mxschool/healthtest/appointment_form.php';
+	  /* Healthtest stuff */
+	  if(get_config('local_mxschool', 'healthtest_enabled')=='1') {
+		  $bullet_points[get_string('healthtest:schedule_app', 'block_mxschool_dash_healthpass')] = '/local/mxschool/healthtest/appointment_form.php';
 
 		  $app_data = get_user_upcoming_appointment_info($USER->id);
 		  $healthtest_data = array();
 		  if($app_data) {
 			  foreach($app_data as $app) {
 				  $healthtest_data[] = "You have a COVID test on ".date('D, n/d', strtotime($app['date'])).
-				  				   " at ".date('g:i A', strtotime($app['start_time']));
+								   " at ".date('g:i A', strtotime($app['start_time']));
 			  }
 		  }
 		  else {
 			  $healthtest_data[] = "No COVID tests currently scheduled";
 		  }
-		  $renderable = new local_mxschool\output\index($health_pass_data);
-		  $this->content->text = $output->render($renderable) . implode($healthtest_data, '<br>');
-	  }
-        return $this->content;
-    }
+	 }
+
+	  $renderable = new local_mxschool\output\index($bullet_points);
+	  $this->content->text = $output->render($renderable) . implode($healthtest_data, '<br>');
+	  return $this->content;
+	}
 
     public function specialization() {
         $this->title = get_string('blockname', 'block_mxschool_dash_healthpass');

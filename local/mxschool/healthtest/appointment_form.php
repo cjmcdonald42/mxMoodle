@@ -31,11 +31,14 @@
  // All members of the community access this form.
  require_login();
 
- $user_healthform_info = get_todays_healthform_info($USER->id);
-
  $id = optional_param('id', 0, PARAM_INT);
  setup_mxschool_page('form', 'healthtest');
  $isstudent = user_is_student();
+
+ // redirect of healthtest is disabled
+ if (get_config('local_mxschool', 'healthtest_enabled')=='0') {
+	redirect(new moodle_url('/my'));
+ }
 
  // The fields in the database to query, and the corresponding $data value.
  $queryfields = array(
