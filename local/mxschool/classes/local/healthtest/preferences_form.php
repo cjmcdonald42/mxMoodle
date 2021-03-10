@@ -33,7 +33,7 @@
  use local_mxschool\local\healthpass\healthpass_approved;
  use local_mxschool\local\healthpass\healthpass_denied;
  use local_mxschool\local\healthpass\healthpass_overridden;
- use local_mxschool\local\healthpass\unsubmitted;
+ use local_mxschool\local\healthtest\healthtest_confirm;
 
  class preferences_form extends \local_mxschool\form {
 
@@ -62,7 +62,7 @@
                 ),
 			 'confirm_notification' => array(
 				 'confirm_enabled' => array('element' => 'checkbox'),
-				 'confirm_tags' => self::email_tags(new unsubmitted()),
+				 'confirm_tags' => self::email_tags(new healthtest_confirm()),
 				 'confirm_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				 'confirm_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 			 )

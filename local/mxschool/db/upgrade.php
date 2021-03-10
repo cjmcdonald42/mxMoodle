@@ -1209,6 +1209,29 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    upgrade_plugin_savepoint(true, 2021030901, 'local', 'mxschool');
 	}
 
+	if($oldversion < 2021031006) {
+
+		// Healthtest Defaults
+		set_config('healthtest_enabled', '1', 'local_mxschool');
+		set_config('healthtest_form_instructions', 'DEFAULT -- Change in COVID Testing preferences', 'local_mxschool');
+		set_config('healthtest_reminder_enabled', '1', 'local_mxschool');
+		set_config('healthtest_copy_healthcenter', '1', 'local_mxschool');
+		set_config('healthtest_confirm_enabled', '1', 'local_mxschool');
+
+		$data->reminder_subject = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->reminder_body = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->missed_subject = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->missed_body = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->confirm_subject = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->confirm_body = 'DEFAULT -- Change in COVID Testing Preferences';
+
+	     update_notification('healthtest_reminder', $data, 'reminder');
+		update_notification('healthtest_missed', $data, 'missed');
+	     update_notification('healthtest_confirm', $data, 'confirm');
+
+		upgrade_plugin_savepoint(true, 2021031006, 'local', 'mxschool');
+	}
+
 
      return true;
 

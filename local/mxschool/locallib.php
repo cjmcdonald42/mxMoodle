@@ -1484,7 +1484,7 @@ function get_healthform_dates() {
  * @param string $testing_cycle the day to get the list of blocks for
  * @return array $block_options in the format block_id => String (start_time - end_time)
  */
- function get_healthtest_block_options($testing_cycle) {
+ function get_healthtest_report_block_options($testing_cycle) {
 	 if(!$testing_cycle) return array();
 	 global $DB;
 	 $records = $DB->get_records_sql(

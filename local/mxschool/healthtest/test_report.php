@@ -46,7 +46,7 @@ $table = new local_mxschool\local\healthtest\test_table($filter, $download);
 
 // Define filter options as an array with value => display
 $testing_cycle_options = get_testing_cycle_list();
-$block_options = get_healthtest_block_options($filter->testing_cycle);
+$block_options = get_healthtest_report_block_options($filter->testing_cycle);
 $attended_options = array(
 	'Present' => get_string('healthtest:test_report:attended:attended', 'local_mxschool'),
 	'Absent' => get_string('healthtest:test_report:attended:absent', 'local_mxschool')

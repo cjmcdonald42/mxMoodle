@@ -72,22 +72,28 @@
  $form->set_data($data);
 
  if($form->is_cancelled()) { // If the cancel button is pressed...
-   redirect($form->get_redirect());
+	 redirect($form->get_redirect());
  }
  elseif($data = $form->get_data()) { // If the 'Save Changes' button is pressed...
-   // redirect if no testing block is selected
-   if(!$testing_block_id) redirect($form->get_redirect());
-   $data->attended = 0;
-   if(!isset($data->name)) $data->name = $USER->id;
-   // Add the user's form data to the database
-   global $DB;
-   if(!$DB->record_exists("local_mxschool_healthtest", array("testing_block_id" => "{$data->block}", 'userid' => "{$data->name}"))) {
-	   $id = update_record($queryfields, $data);
-   }
-   // Redirect user
-   logged_redirect(
-       $form->get_redirect(), get_string('healthtest:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
-   );
+	// redirect if no testing block is selected
+	if(!$data->block) redirect($form->get_redirect());
+
+	$data->attended = 0;
+	if(!isset($data->name)) $data->name = $USER->id;
+
+	// Add the user's form data to the database
+	global $DB;
+	if(!$DB->record_exists("local_mxschool_healthtest", array("testing_block_id" => "{$data->block}", 'userid' => "{$data->name}"))) {
+		$id = update_record($queryfields, $data);
+	}
+	// send email if confirmation emails are enabled
+	if(get_config('local_mxschool', 'healthtest_confirm_enabled')=='1') {
+		(new local_mxschool\local\healthtest\healthtest_confirm($id))->send();
+	}
+	// Redirect user
+	logged_redirect(
+	  $form->get_redirect(), get_string('healthtest:form:success', 'local_mxschool'), $data->id ? 'update' : 'create'
+	);
  }
 
 // Output form to page
