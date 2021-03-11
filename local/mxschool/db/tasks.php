@@ -15,21 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Tasks for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-// $plugin->version = 2020083101;
-$plugin->version = 2021031110;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+$tasks = [
+    [
+        'classname' => 'local_mxschool\local\healthtest\notify_reminder_task',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '17',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*',
+    ],
+    [
+	   'classname' => 'local_mxschool\local\healthtest\notify_missed_task',
+	   'blocking' => 0,
+	   'minute' => '0',
+	   'hour' => '17',
+	   'day' => '*',
+	   'month' => '*',
+	   'dayofweek' => '*',
+    ],
+];

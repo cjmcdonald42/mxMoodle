@@ -15,21 +15,43 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Class for reminding today's missed testers at the end of the day.
  *
  * @package     local_mxschool
+ * @subpackage  healthtest
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\local\healthtest;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-// $plugin->version = 2020083101;
-$plugin->version = 2021031110;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+class notify_missed_task extends \core\task\scheduled_task {
+
+	/**
+      * Return the task's name as shown in admin screens.
+      *
+      * @return string
+      */
+     public function get_name() {
+         return 'Healthtest Missed Reminders';
+     }
+
+     /**
+      * Execute the task.
+      */
+     public function execute() {
+		if (get_config('local_mxschool', 'healthtest_enabled')=='0') {
+			$missed_testers = get_todays_missed_tester_list();
+			foreach($missed_testers as $tester) {
+				(new local_mxschool\local\healthtest\healthtest_missed($tester))->send();
+			}
+			error_log('CONFIG IS GOOD');
+		}
+		error_log('THE NOTIFY REMINDER TASK EXECUTE FUNCTION WAS TRIGGERED');
+     }
+
+}
