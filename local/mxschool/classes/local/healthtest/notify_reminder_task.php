@@ -44,7 +44,7 @@ class notify_reminder_task extends \core\task\scheduled_task {
       * Execute the task.
       */
      public function execute() {
-		if (get_config('local_mxschool', 'healthtest_enabled')=='0') {
+		if (get_config('local_mxschool', 'healthtest_enabled')=='1') {
 			$testers = get_tomorrows_tester_list();
 			foreach($testers as $tester) {
 				(new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();

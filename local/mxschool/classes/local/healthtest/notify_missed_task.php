@@ -44,7 +44,7 @@ class notify_missed_task extends \core\task\scheduled_task {
       * Execute the task.
       */
      public function execute() {
-		if (get_config('local_mxschool', 'healthtest_enabled')=='0') {
+		if (get_config('local_mxschool', 'healthtest_enabled')=='1') {
 			$missed_testers = get_todays_missed_tester_list();
 			foreach($missed_testers as $tester) {
 				(new local_mxschool\local\healthtest\healthtest_missed($tester))->send();
