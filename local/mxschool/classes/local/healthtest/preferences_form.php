@@ -29,10 +29,8 @@
 
  defined('MOODLE_INTERNAL') || die();
 
- use local_mxschool\local\healthpass\healthcenter_notification;
- use local_mxschool\local\healthpass\healthpass_approved;
- use local_mxschool\local\healthpass\healthpass_denied;
- use local_mxschool\local\healthpass\healthpass_overridden;
+ use local_mxschool\local\healthtest\healthtest_reminder;
+ use local_mxschool\local\healthtest\healthtest_missed;
  use local_mxschool\local\healthtest\healthtest_confirm;
 
  class preferences_form extends \local_mxschool\form {
@@ -50,13 +48,13 @@
 			 'reminder_notification' => array(
 				 'reminder_enabled' => array('element' => 'checkbox'),
 				 'reminder_time' => self::time_selector(1),
-				 'reminder_tags' => self::email_tags(new healthcenter_notification()),
+				 'reminder_tags' => self::email_tags(new healthtest_reminder()),
 				 'reminder_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				 'reminder_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
 			 ),
 			 'missed_notification' => array(
 				'missed_copy_healthcenter_enabled' => array('element' => 'checkbox'),
-				'missed_tags' => self::email_tags(new healthpass_overridden()),
+				'missed_tags' => self::email_tags(new healthtest_missed()),
 				'missed_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				'missed_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
                 ),

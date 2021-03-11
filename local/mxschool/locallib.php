@@ -1708,3 +1708,46 @@ function testing_block_full($block_id) {
 	 $max_testers = $DB->get_field('local_mxschool_testing_block', 'max_testers', array('id' => $block_id));
 	 return $total_testers >= $max_testers;
 }
+
+/**
+* Returns all the users who missed their healthtest today
+*
+* @return array htids, the healthtest id of the users who missed their test
+*/
+function get_todays_missed_tester_list() {
+	global $DB;
+	$today = date('Y-m-d');
+	$current_time = date('H:i');
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid
+		 FROM {local_mxschool_healthtest} ht
+		 LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE ht.attended = 0 AND tb.date = '{$today}' AND tb.end_time <= '{$current_time}'"
+	);
+	$missed_testers = array();
+	foreach($records as $record) {
+		$missed_testers[] = $record->htid;
+	}
+	return $missed_testers;
+}
+
+/**
+* Returns all the htid of all users who have a test tomorrow.
+*
+* @return array htids, the healthtest id of every user who has a test scheduled for tomorrow
+*/
+function get_tomorrows_tester_list() {
+	global $DB;
+	$tomorrow = date('Y-m-d', strtotime('tomorrow'));
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid
+		 FROM {local_mxschool_healthtest} ht
+		 LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE tb.date = '{$tomorrow}' AND ht.attended = 0"
+	);
+	$tomorrows_testers = array();
+	foreach($records as $record) {
+		$tomorrows_testers[] = $record->htid;
+	}
+	return $tomorrows_testers;
+}

@@ -64,9 +64,6 @@ abstract class healthtest_notification extends \local_mxschool\notification {
 		  $cycle_dates = get_testing_cycle_dates($record->testing_cycle);
 		  $this->data['testing_cycle_dates'] = date('F d', strtotime($cycle_dates['start'])).' -- '.date('F d', strtotime($cycle_dates['end']));
 
-		  echo "<script>alert(USERID: {$record->userid})</script>";
-		  error_log("USERID: {$record->userid}");
-
             array_push(
                 $this->recipients, $DB->get_record('user', array('id' => $record->userid))
             );
