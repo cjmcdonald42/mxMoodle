@@ -1294,3 +1294,21 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
  // Form Responses.
  $string['healthtest:preferences:success'] = 'COVID Testing Preferences Updated';
+
+ /* Healthtest Block Report.  */
+
+ // Report Headers.
+ $string['healthtest:block_report'] = "Testing Block Report";
+ $string['healthtest:block_report:header:testing_cycle'] = "Testing Cycle";
+ $string['healthtest:block_report:header:start_time'] = "Start Time";
+ $string['healthtest:block_report:header:end_time'] = "End Time";
+ $string['healthtest:block_report:header:date'] = "Date";
+ $string['healthtest:block_report:header:num_testers'] = "Number of Testers";
+ $string['healthtest:block_report:header:max_testers'] = "Max Testers";
+
+ // Report Filters and Buttons.
+ $string['healthtest:block_report:testing_cycle:all'] = "All Testing Cycles";
+ $string['healthtest:block_report:block:all'] = "All Blocks";
+ $string['healthtest:block_report:appointment'] = "Appointment Form";
+ $string['healthtest:block_report:test_report'] = "COVID Testing Report";
+ $string['healthtest:block_report:add'] = "Create a New Testing Block";

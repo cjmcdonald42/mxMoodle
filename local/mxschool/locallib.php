@@ -1695,16 +1695,7 @@ function get_user_upcoming_appointment_info($userid) {
 */
 function testing_block_full($block_id) {
 	global $DB;
-	$total_testers_record = $DB->get_records_sql(
-		"SELECT COUNT(*) AS test_count
-		 FROM {local_mxschool_healthtest}
-		 GROUP BY testing_block_id HAVING testing_block_id = '{$block_id}'"
-	 );
-	 $total_testers = 0;
-	 foreach($total_testers_record as $record) {
-		 $total_testers = $record->test_count;
-		 break;
-	 }
+	 $total_testers = get_testing_block_num_testers($block_id);
 	 $max_testers = $DB->get_field('local_mxschool_testing_block', 'max_testers', array('id' => $block_id));
 	 return $total_testers >= $max_testers;
 }
@@ -1750,4 +1741,23 @@ function get_tomorrows_tester_list() {
 		$tomorrows_testers[] = $record->htid;
 	}
 	return $tomorrows_testers;
+}
+
+/**
+* Given a block id, returns the number of testers signed up for that block
+*
+* @param int block_id, the id of the block
+* @return int num_testers, the number of testers
+*/
+function get_testing_block_num_testers($block_id) {
+	global $DB;
+	$total_testers_record = $DB->get_records_sql(
+		"SELECT COUNT(*) AS test_count
+		 FROM {local_mxschool_healthtest}
+		 GROUP BY testing_block_id HAVING testing_block_id = '{$block_id}'"
+	 );
+	 foreach($total_testers_record as $record) {
+		 return $record->test_count;
+	 }
+	 return 0;
 }
