@@ -60,13 +60,11 @@ $testing_cycle_options = get_testing_cycle_list();
 
 $buttons = array(
 	new local_mxschool\output\redirect_button(
-         get_string('healthtest:test_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
+         get_string('healthtest:block_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
      ),
-	// new local_mxschool\output\redirect_button(
-     //     get_string('healthtest:test_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
-     // ),
-	// new local_mxschool\output\email_button(get_string('healthtest:test_report:notify_missed', 'local_mxschool'), 'healthtest_notify_missed'),
-	// new local_mxschool\output\email_button(get_string('healthtest:test_report:remind', 'local_mxschool'), 'healthtest_notify_reminder')
+	new local_mxschool\output\redirect_button(
+         get_string('healthtest:block_report:add', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_form.php')
+     )
 );
 
 // Create dropdowns, where the last parameter is the default value

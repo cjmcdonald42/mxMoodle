@@ -46,7 +46,7 @@
  	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthtest:block_report');
  	  // Define sortable columns
-       $sortable = array('testing_cycle', 'start_time', 'end_time', 'date', 'max_testers');
+       $sortable = array('date', 'start_time', 'testing_cycle', 'end_time', 'max_testers');
  	  // All columns are centered
        $centered = array('testing_cycle', 'start_time', 'end_time', 'date', 'num_testers', 'max_testers');
        parent::__construct('healthtest_block_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());

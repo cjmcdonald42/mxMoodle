@@ -32,7 +32,7 @@
  require_login();
 
  $id = optional_param('id', 0, PARAM_INT);
- setup_mxschool_page('form', 'healthtest');
+ setup_mxschool_page('test_form', 'healthtest');
  $isstudent = user_is_student();
 
  // redirect of healthtest is disabled

@@ -1252,7 +1252,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthtest Appointment Form */
 
  // Form Headers
- $string['healthtest:form'] = 'COVID Test Appointment Form';
+ $string['healthtest:test_form'] = 'COVID Test Appointment Form';
  $string['healthtest:form:info'] = 'Info';
 
  // Field Labels.
@@ -1312,3 +1312,19 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:block_report:appointment'] = "Appointment Form";
  $string['healthtest:block_report:test_report'] = "COVID Testing Report";
  $string['healthtest:block_report:add'] = "Create a New Testing Block";
+
+ /* Healthtest Block Form */
+
+ // Form Headers
+ $string['healthtest:block_form'] = 'Testing Block Form';
+ $string['healthtest:block_form:info'] = 'Block Info';
+
+ // Field Labels.
+ $string['healthtest:block_form:info:testing_cycle'] = 'Testing Cycle';
+ $string['healthtest:block_form:info:start_time'] = 'Start Time';
+ $string['healthtest:block_form:info:end_time'] = 'End Time';
+ $string['healthtest:block_form:info:date'] = 'Date';
+ $string['healthtest:block_form:info:max_testers'] = 'Maximum Allowed Testers';
+
+ // Form Responses
+ $string['healthtest:block_form:success'] = 'Testing Block Created Succesfully';
