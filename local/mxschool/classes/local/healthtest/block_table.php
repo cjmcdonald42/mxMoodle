@@ -90,4 +90,12 @@
 	protected function col_num_testers($values) {
 		return get_testing_block_num_testers($values->tbid);
 	}
+
+	/**
+	 * Formats the actions column.
+	 */
+	protected function col_actions($values) {
+	    return isset($values->tbid) ? $this->edit_icon('/local/mxschool/healthtest/block_form.php', $values->tbid).
+							   $this->delete_icon($values->tbid): '';
+	}
 }
