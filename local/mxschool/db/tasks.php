@@ -27,22 +27,22 @@
 defined('MOODLE_INTERNAL') || die();
 
 $tasks = [
-    [
-        'classname' => 'local_mxschool\local\healthtest\notify_reminder_task',
-        'blocking' => 0,
-        'minute' => '0',
-        'hour' => '17',
-        'day' => '*',
-        'month' => '*',
-        'dayofweek' => '*',
-    ],
-    [
-	   'classname' => 'local_mxschool\local\healthtest\notify_missed_task',
-	   'blocking' => 0,
-	   'minute' => '0',
-	   'hour' => '17',
-	   'day' => '*',
-	   'month' => '*',
-	   'dayofweek' => '*',
-    ],
+    // [
+    //     'classname' => 'local_mxschool\local\healthtest\notify_reminder_task',
+    //     'blocking' => 0,
+    //     'minute' => '0',
+    //     'hour' => '17',
+    //     'day' => '*',
+    //     'month' => '*',
+    //     'dayofweek' => '*',
+    // ],
+    // [
+	//    'classname' => 'local_mxschool\local\healthtest\notify_missed_task',
+	//    'blocking' => 0,
+	//    'minute' => '0',
+	//    'hour' => '17',
+	//    'day' => '*',
+	//    'month' => '*',
+	//    'dayofweek' => '*',
+    // ],
 ];

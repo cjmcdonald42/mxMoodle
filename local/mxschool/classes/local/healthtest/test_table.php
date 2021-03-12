@@ -81,7 +81,7 @@
 		  }
 	  }
 
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'stu.grade', 'dorm.name');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
 
