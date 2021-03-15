@@ -64,9 +64,20 @@ abstract class healthtest_notification extends \local_mxschool\notification {
 		  $cycle_dates = get_testing_cycle_dates($record->testing_cycle);
 		  $this->data['testing_cycle_dates'] = date('F d', strtotime($cycle_dates['start'])).' -- '.date('F d', strtotime($cycle_dates['end']));
 
-            array_push(
+		  array_push(
                 $this->recipients, $DB->get_record('user', array('id' => $record->userid))
             );
+
+		  if($emailclass == 'healthtest_missed' and get_config('local_mxschool', 'healthtest_copy_healthcenter')=='1') {
+			  $healthcenter = $DB->get_record('user', array('id' => 2));
+			  $healthcenter->email = get_config('local_mxschool', 'healthcenter_notification_email_address');
+			  $healthcenter->addresseename = 'Health Center';
+			  $healthcenter->firstname = 'Health';
+			  $healthcenter->lastname = 'Center';
+			  array_push(
+	                $this->recipients, $healthcenter
+	            );
+		  }
         }
     }
 
