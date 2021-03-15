@@ -57,7 +57,7 @@
  $data->isstudent = $isstudent ? '1' : '0';
 
  // Check if the user is a health Admin
- $isManager = has_capability('local/mxschool:manage_healthpass', context_system::instance());
+ $isManager = has_capability('local/mxschool:manage_healthtest', context_system::instance());
  // If the user is an admin, will be able to select from a list of all users.
  if($isManager) {
 	 $users = get_user_list();

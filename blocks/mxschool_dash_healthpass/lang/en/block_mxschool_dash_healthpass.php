@@ -30,7 +30,8 @@ $string['blockname'] = 'MX COVIDPass';
 // Capabilities.
 $string['mxschool_dash_healthpass:addinstance'] = 'Middlesex School: Add COVIDpass Dashboard Block';
 $string['mxschool_dash_healthpass:myaddinstance'] = 'Middlesex School: Add COVIDpass Block to Dashboard';
-$string['mxschool_dash_healthpass:access'] = 'Middlesex School: Access COVIDpass Dashboard Block';
+$string['mxschool_dash_healthpass:access_healthpass'] = 'Middlesex School: Access COVIDpass Dashboard Block';
+$string['mxschool_dash_healthpass:access_healthtest'] = 'Middlesex School: Access COVID Testing Dashboard Block';
 
 // Privacy.
 $string['privacy:metadata'] = 'MX COVIDpass passes intake data to our Podio health system and does not store any user data.';

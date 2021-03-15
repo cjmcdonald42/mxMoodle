@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_healthpass', context_system::instance());
+require_capability('local/mxschool:manage_healthtest', context_system::instance());
 
 // Creeate filters
 $filter = new stdClass();

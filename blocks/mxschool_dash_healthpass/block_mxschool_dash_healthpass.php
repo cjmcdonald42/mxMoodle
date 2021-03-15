@@ -44,7 +44,7 @@ class block_mxschool_dash_healthpass extends block_base {
 	   $output = $PAGE->get_renderer('local_mxschool');
 
 	   /* Healthpass stuff */
-        if (get_config('local_mxschool', 'healthpass_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access', context_system::instance())) {
+        if (get_config('local_mxschool', 'healthpass_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access_healthpass', context_system::instance())) {
 		  $info = get_todays_healthform_info($USER->id);
 
 		  if($info->submitted_today and !has_capability('local/mxschool:manage_healthpass', context_system::instance())) {
@@ -73,7 +73,7 @@ class block_mxschool_dash_healthpass extends block_base {
 	  }
 
 	  /* Healthtest stuff */
-	  if(get_config('local_mxschool', 'healthtest_enabled')=='1') {
+	  if(get_config('local_mxschool', 'healthtest_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access_healthtest', context_system::instance())) {
 		  $bullet_points[get_string('healthtest:schedule_app', 'block_mxschool_dash_healthpass')] = '/local/mxschool/healthtest/appointment_form.php';
 
 		  $app_data = get_user_upcoming_appointment_info($USER->id);

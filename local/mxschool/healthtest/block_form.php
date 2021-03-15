@@ -30,6 +30,7 @@ require_once(__DIR__.'/../locallib.php');
 
 require_login();
 $isstudent = user_is_student();
+require_capability('local/mxschool:manage_healthtest', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 

@@ -36,8 +36,12 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
-    'block/mxschool_dash_healthpass:access' => array(
+    'block/mxschool_dash_healthpass:access_healthpass' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
-    )
+   ),
+    'block/mxschool_dash_healthpass:access_healthtest' => array(
+	   'captype' => 'read',
+	   'contextlevel' => CONTEXT_SYSTEM
+   )
 );

@@ -53,6 +53,8 @@ $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View
 $string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage deans\' permission forms';
 $string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage healthpass preferences';
 $string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage healthpass data';
+$string['mxschool:manage_healthtest_preferences'] = 'Middlesex School: View and manage health test preferences';
+$string['mxschool:manage_healthtest'] = 'Middlesex School: View and Manage health test data';
 
 
 /* Events. */
