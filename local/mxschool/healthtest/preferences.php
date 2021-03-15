@@ -38,7 +38,7 @@ $data = new stdClass();
 // Set form fields to their current values
 $data->healthtest_enabled = get_config('local_mxschool', 'healthtest_enabled');
 $data->form_instructions = get_config('local_mxschool', 'healthtest_form_instructions');
-$data->reminder_enabled = get_config('local_mxschool', 'healthtest_reminder_enabled');
+// $data->reminder_enabled = get_config('local_mxschool', 'healthtest_reminder_enabled');
 $data->missed_copy_healthcenter_enabled = get_config('local_mxschool', 'healthtest_copy_healthcenter');
 $data->confirm_enabled = get_config('local_mxschool', 'healthtest_confirm_enabled');
 
@@ -56,7 +56,7 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	// Set configs according to preferences form data
 	set_config('healthtest_enabled', $data->healthtest_enabled, 'local_mxschool');
 	set_config('healthtest_form_instructions', $data->form_instructions, 'local_mxschool');
-	set_config('healthtest_reminder_enabled', $data->reminder_enabled, 'local_mxschool');
+	// set_config('healthtest_reminder_enabled', $data->reminder_enabled, 'local_mxschool');
 	set_config('healthtest_copy_healthcenter', $data->missed_copy_healthcenter_enabled, 'local_mxschool');
 	set_config('healthtest_confirm_enabled', $data->confirm_enabled, 'local_mxschool');
 

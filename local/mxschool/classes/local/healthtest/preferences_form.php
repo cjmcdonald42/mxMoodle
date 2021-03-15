@@ -46,8 +46,10 @@
 				 'form_instructions' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			 ),
 			 'reminder_notification' => array(
-				 'reminder_enabled' => array('element' => 'checkbox'),
-				 'reminder_time' => self::time_selector(1),
+				 // 'reminder_enabled' => array('element' => 'checkbox'),
+				 'reminder_enabled' => array('element' => 'static', 'text' => 'Auto reminders enabled'),
+				 // 'reminder_time' => self::time_selector(1),
+				 'reminder_time' => array('element' => 'static', 'text' => 'Auto reminders set for 6 PM each day'),
 				 'reminder_tags' => self::email_tags(new healthtest_reminder()),
 				 'reminder_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				 'reminder_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
