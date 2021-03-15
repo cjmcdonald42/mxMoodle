@@ -25,11 +25,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_mxschool\local\healthtest;
+namespace local_mxschool\task;
 
 defined('MOODLE_INTERNAL') || die();
 
-class notify_reminder_task extends \core\task\scheduled_task {
+class healthtest_notify_reminder extends \core\task\scheduled_task {
 
 	/**
       * Return the task's name as shown in admin screens.
@@ -44,14 +44,13 @@ class notify_reminder_task extends \core\task\scheduled_task {
       * Execute the task.
       */
      public function execute() {
+		global $CFG;
+		require_once($CFG->dirroot . '/local/mxschool/locallib.php');
+		require_once($CFG->dirroot . '/local/mxschool/classes/local/healthtest/healthtest_reminder.php');
 		if (get_config('local_mxschool', 'healthtest_enabled')=='1') {
-			$testers = get_tomorrows_tester_list();
-			foreach($testers as $tester) {
-				(new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();
-			}
-			error_log('CONFIG IS ALL GOOD');
+			email_tomorrows_testers();
+			error_log('THE THE THE THE THE THE THE REMINDER TASK WAS EXECUTED');
 		}
-		error_log('THE NOTIFY REMINDER TASK EXECUTE FUNCTION WAS TRIGGERED');
      }
 
 }

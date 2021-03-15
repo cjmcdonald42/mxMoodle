@@ -1787,3 +1787,27 @@ function user_missed_testing_block($userid, $blockid) {
 		return $record->attended == '0';
 	}
 }
+
+/**
+* Sends a reminder email to all the missed testers today
+*
+* @return true if successful, false otherwise
+*/
+function email_todays_missed_testers() {
+	$missed_testers = get_todays_missed_tester_list();
+	foreach($missed_testers as $tester) {
+		(new local_mxschool\local\healthtest\healthtest_missed($tester))->send();
+	}
+}
+
+/**
+* Sends a reminder email to all those who have a test tomorrow
+*
+* @return true if successful, false otherwise
+*/
+function email_tomorrows_testers() {
+	$testers = get_tomorrows_tester_list();
+	foreach($testers as $tester) {
+		(new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();
+	}
+}
