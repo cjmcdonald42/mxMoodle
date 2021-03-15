@@ -1598,6 +1598,7 @@ function get_all_user_appointment_info($userid) {
 	$app_info = array();
 	foreach($records as $record) {
 		$app_info[$record->tbid] = array(
+			'tbid' => $record->tbid,
 			'testing_cycle' => $record->testing_cycle,
 			'start_time' => $record->start_time,
 			'end_time' => $record->end_time,
@@ -1613,7 +1614,7 @@ function get_all_user_appointment_info($userid) {
 /**
 * Returns a list of all the block options (those blocks that haven't already passed) for the appointment form
 *
-* @param int userid, the id of the user to get data for. If 0,
+* @param int userid, the id of the user to get data for.
 * @return array block_options, in the format block_id => (day, (start time end time))
 */
 function get_appointment_form_block_options($userid=null) {
@@ -1625,8 +1626,10 @@ function get_appointment_form_block_options($userid=null) {
 		$user_app_info = get_all_user_appointment_info($userid);
 		$sql_array = '(';
 		foreach($user_app_info as $app_block) {
-			$cycle = $app_block['testing_cycle'];
-			$sql_array .= "{$cycle}, ";
+			if(!user_missed_testing_block($userid, $app_block['tbid'])) {
+				$cycle = $app_block['testing_cycle'];
+				$sql_array .= "{$cycle}, ";
+			}
 		}
 		$sql_array = substr($sql_array, 0, -2);
 		$sql_array .= ')';
@@ -1760,4 +1763,27 @@ function get_testing_block_num_testers($block_id) {
 		 return $record->test_count;
 	 }
 	 return 0;
+}
+
+/**
+* Returns true if a given user missed a given testing block
+*
+* @param int userid, the user id of the user
+* @param int blockid, the id of the block
+* @return true if the block is in the past, and the user missed the block, false otherwise
+*/
+function user_missed_testing_block($userid, $blockid) {
+	global $DB;
+	$today = date('Y-m-d');
+	$current_time = date('H:i');
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid, ht.userid, ht.testing_block_id AS tbid, ht.attended, tb.end_time, tb.date
+		 FROM {local_mxschool_healthtest} ht
+		 LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE ht.testing_block_id = '{$blockid}' AND ht.userid = '{$userid}' AND
+		 (tb.date < '{$today}' OR (tb.date = '{$today}' AND tb.end_time <= '{$current_time}'))"
+	);
+	foreach($records AS $record) {
+		return $record->attended == '0';
+	}
 }
