@@ -49,8 +49,6 @@ class healthtest_notify_missed extends \core\task\scheduled_task {
 		if (get_config('local_mxschool', 'healthtest_enabled')=='1') {
 			email_todays_missed_testers();
 		}
-
-		error_log('ALERT ALERT ALERT ALERT ALERT MISSED TASK WAS EXECUTED');
      }
 
 }

@@ -49,7 +49,6 @@ class healthtest_notify_reminder extends \core\task\scheduled_task {
 		require_once($CFG->dirroot . '/local/mxschool/classes/local/healthtest/healthtest_reminder.php');
 		if (get_config('local_mxschool', 'healthtest_enabled')=='1') {
 			email_tomorrows_testers();
-			error_log('THE THE THE THE THE THE THE REMINDER TASK WAS EXECUTED');
 		}
      }
 
