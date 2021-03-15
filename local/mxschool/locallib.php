@@ -1383,7 +1383,7 @@ function get_healthform_dates() {
  function get_todays_healthform_info($id) {
 	 global $DB;
 	 $today = generate_datetime(time());
-	 $today->modify('midnight');
+	 $today->modify('4 AM');
 	 $healthforms = $DB->get_records_sql(
 		 "SELECT hp.id, hp.userid, hp.status
 		 FROM {local_mxschool_healthpass} hp
