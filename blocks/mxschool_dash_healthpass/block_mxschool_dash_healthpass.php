@@ -74,7 +74,9 @@ class block_mxschool_dash_healthpass extends block_base {
 
 	  /* Healthtest stuff */
 	  if(get_config('local_mxschool', 'healthtest_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access_healthtest', context_system::instance())) {
-		  $bullet_points[get_string('healthtest:schedule_app', 'block_mxschool_dash_healthpass')] = '/local/mxschool/healthtest/appointment_form.php';
+		  if(has_capability('local/mxschool:manage_healthtest', context_system::instance()) or get_appointment_form_block_options($USER->id)) {
+			  $bullet_points[get_string('healthtest:schedule_app', 'block_mxschool_dash_healthpass')] = '/local/mxschool/healthtest/appointment_form.php';
+		  }
 
 		  $app_data = get_user_upcoming_appointment_info($USER->id);
 		  $healthtest_data = array();

@@ -102,7 +102,7 @@ $renderable = new local_mxschool\output\form($form);
 
 echo $output->header();
 echo $output->heading(
-  get_string('healthtest:form', 'local_mxschool')
+  get_string('healthtest:test_form', 'local_mxschool')
 );
 echo $output->render($renderable);
 echo $output->footer();
