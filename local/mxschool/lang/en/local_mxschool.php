@@ -127,6 +127,7 @@ $string['indexes:rooming'] = 'Rooming Index';
 $string['indexes:vacation_travel'] = 'Vacation Travel Index';
 $string['indexes:healthpass'] = 'COVIDpass Index';
 $string['indexes:deans_permission'] = 'Deans\' Permission Index';
+$string['indexes:healthtest'] = 'COVID Testing Index';
 
 
 /* Miscelaneous. */

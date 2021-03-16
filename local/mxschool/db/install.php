@@ -46,6 +46,8 @@ function xmldb_local_mxschool_install() {
     set_config('academic_director_email_address', 'kmcnall@mxschool.edu', 'local_mxschool');
 
     set_config('healthpass_enable', 'Yes', 'local_mxschool');
+    set_config('healthpass_one_per_day', '1', 'local_mxschool');
+    set_config('healthcenter_notification_enabled', '1', 'local_mxschool');
     set_config('healthpass_max_body_temp', '99.0', 'local_mxschool');
     set_config('healthpass_days_before_reminder', '3', 'local_mxschool');
     set_config('healthcenter_notification_email', 'healthcenter@mxschool.edu', 'local_mxschool');

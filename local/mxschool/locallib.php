@@ -1651,8 +1651,8 @@ function get_appointment_form_block_options($userid=null) {
 	$block_options = array();
 	foreach($records as $record) {
 		if(!testing_block_full($record->id)) {
-			$start = date('g:i A', strtotime($record->start_time));
-			$end = date('g:i A', strtotime($record->end_time));
+			$start = date('h:i A', strtotime($record->start_time));
+			$end = date('h:i A', strtotime($record->end_time));
 			$date = date('D, n/d', strtotime($record->date));
 			$block_options[$record->id] = "{$start} -- {$end}, {$date}";
 		}
@@ -1670,7 +1670,7 @@ function get_user_upcoming_appointment_info($userid) {
 	$today = date('Y-m-d');
 	$current_time = date('H:i');
 	$records = $DB->get_records_sql(
-		"SELECT ht.id AS htid, ht.attended, tb.id AS tbid, tb.start_time, tb.end_time, tb.date, tb.testing_cycle
+		"SELECT ht.id AS htid, ht.attended, tb.id AS tbid, tb.start_time, tb.end_time, tb.date, tb.testing_cycle, tb.max_testers
 		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
 		 WHERE (tb.date > '{$today}' OR (tb.date = '{$today}' AND tb.end_time >= '{$current_time}'))
 		 	  AND ht.userid = '{$userid}' ORDER BY tb.date ASC"
