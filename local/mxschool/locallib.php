@@ -1597,7 +1597,7 @@ function get_all_user_appointment_info($userid) {
 	);
 	$app_info = array();
 	foreach($records as $record) {
-		$app_info[$record->tbid] = array(
+		$app_info[] = array(
 			'tbid' => $record->tbid,
 			'testing_cycle' => $record->testing_cycle,
 			'start_time' => $record->start_time,
@@ -1624,15 +1624,18 @@ function get_appointment_form_block_options($userid=null) {
 	// if not admin, then gets only blocks in the future, and those not apart of testing cycle(s) that user is already signed up for.
 	if($userid) {
 		$user_app_info = get_all_user_appointment_info($userid);
-		$sql_array = '(';
-		foreach($user_app_info as $app_block) {
-			if(!user_missed_testing_block($userid, $app_block['tbid'])) {
-				$cycle = $app_block['testing_cycle'];
-				$sql_array .= "{$cycle}, ";
+		if($user_app_info AND isset($user_app_info[0]['testing_cycle'])) {
+			$sql_array = '(';
+			foreach($user_app_info as $app_block) {
+				if(!user_missed_testing_block($userid, $app_block['tbid'])) {
+					$cycle = $app_block['testing_cycle'];
+					$sql_array .= "{$cycle}, ";
+				}
 			}
+			$sql_array = substr($sql_array, 0, -2);
+			$sql_array .= ')';
 		}
-		$sql_array = substr($sql_array, 0, -2);
-		$sql_array .= ')';
+		else $sql_array = ('(-1)');
 		$records = $DB->get_records_sql(
 			"SELECT *
 			 FROM {local_mxschool_testing_block}
@@ -1670,7 +1673,7 @@ function get_user_upcoming_appointment_info($userid) {
 	$today = date('Y-m-d');
 	$current_time = date('H:i');
 	$records = $DB->get_records_sql(
-		"SELECT ht.id AS htid, ht.attended, tb.id AS tbid, tb.start_time, tb.end_time, tb.date, tb.testing_cycle, tb.max_testers
+		"SELECT ht.id AS htid, ht.attended, ht.userid, tb.id AS tbid, tb.start_time, tb.end_time, tb.date, tb.testing_cycle, tb.max_testers
 		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
 		 WHERE (tb.date > '{$today}' OR (tb.date = '{$today}' AND tb.end_time >= '{$current_time}'))
 		 	  AND ht.userid = '{$userid}' ORDER BY tb.date ASC"

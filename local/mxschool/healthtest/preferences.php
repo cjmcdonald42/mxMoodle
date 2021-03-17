@@ -53,6 +53,9 @@ $form->set_data($data);
 if ($form->is_cancelled()) { // If the cancel button is pressed...
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+	if(!isset($data->healthtest_enabled)) $data->healthtest_enabled = '0';
+	if(!isset($data->missed_copy_healthcenter_enabled)) $data->missed_copy_healthcenter_enabled = '0';
+	if(!isset($data->confirm_enabled)) $data->confirm_enabled = '0';
 	// Set configs according to preferences form data
 	set_config('healthtest_enabled', $data->healthtest_enabled, 'local_mxschool');
 	set_config('healthtest_form_instructions', $data->form_instructions, 'local_mxschool');

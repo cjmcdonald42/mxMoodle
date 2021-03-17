@@ -71,6 +71,7 @@ class block_mxschool_dash_healthpass extends block_base {
 			  get_string('healthpass:submit_form', 'block_mxschool_dash_healthpass') => '/local/mxschool/healthpass/form.php'
 		  );
 	  }
+	  $healthtest_data = array();
 
 	  /* Healthtest stuff */
 	  if(get_config('local_mxschool', 'healthtest_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access_healthtest', context_system::instance())) {
@@ -90,10 +91,14 @@ class block_mxschool_dash_healthpass extends block_base {
 			  $healthtest_data[] = "No COVID tests currently scheduled";
 		  }
 	 }
-	  else $healthtest_data = array('');
-
-	  $renderable = new local_mxschool\output\index($bullet_points);
-	  $this->content->text = $output->render($renderable) . implode($healthtest_data, '<br>');
+	  if(count($bullet_points)) {
+		 $renderable = new local_mxschool\output\index($bullet_points);
+		 $renderable = new local_mxschool\output\index($bullet_points);
+		 $this->content->text .= $output->render($renderable);
+	  }
+	  if(count($healthtest_data)) {
+		  $this->content->text .= implode($healthtest_data, '<br>');
+	  }
 	  return $this->content;
 	}
 

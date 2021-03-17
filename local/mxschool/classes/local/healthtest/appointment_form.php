@@ -37,7 +37,6 @@ class appointment_form extends \local_mxschool\form {
     protected function definition() {
 	   // Get $users and $isManager from form page
        $users = $this->_customdata['users'];
-	  array_shift($users);
 	  $isManager = $this->_customdata['isManager'];
 	  $userid = $this->_customdata['userid'];
 
@@ -54,7 +53,7 @@ class appointment_form extends \local_mxschool\form {
             'info' => array(
 			 'instructions' => array('element' => 'static', 'text' => $instruction_text),
                 'name' => $isManager ?
-			   array('element' => 'select', 'options' => $users)
+			   array('element' => 'select', 'options' => array_slice($users, 1, null, true))
 			 : array('element' => 'static', 'text' => $users['name']),
 			 'block' => $block_options ?
 			   array('element' => 'select', 'options' => $block_options)

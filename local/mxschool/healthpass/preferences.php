@@ -56,6 +56,9 @@ $form->set_data($data);
 if ($form->is_cancelled()) { // If the cancel button is pressed...
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
+	if(!isset($data->healthpass_enabled)) $data->healthpass_enabled = '0';
+	if(!isset($data->healthcenter_notification_enabled)) $data->healthcenter_notification_enabled = '0';
+	if(!isset($data->one_per_day)) $data->one_per_day = '0';
 	// Set configs according to preferences form data
 	set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
 	set_config('healthpass_max_body_temp', $data->max_body_temp, 'local_mxschool');
