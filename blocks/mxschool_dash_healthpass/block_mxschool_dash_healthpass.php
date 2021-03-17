@@ -91,6 +91,7 @@ class block_mxschool_dash_healthpass extends block_base {
 			  $healthtest_data[] = "No COVID tests currently scheduled";
 		  }
 	 }
+	 $this->content->text = '';
 	  if(count($bullet_points)) {
 		 $renderable = new local_mxschool\output\index($bullet_points);
 		 $renderable = new local_mxschool\output\index($bullet_points);
