@@ -38,8 +38,20 @@ $filter->block = optional_param('block', '', PARAM_RAW);
 $filter->attended = optional_param('attended', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
+$action = optional_param('action', '', PARAM_RAW);
+$id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('test_report', 'healthtest');
+
+// Action actions
+$redirect = new moodle_url($PAGE->url, (array) $filter);
+if ($action === 'delete' && $id) {
+    $result = $DB->record_exists('local_mxschool_healthtest', array('id' => $id)) ? 'success' : 'failure';
+    $DB->delete_records('local_mxschool_healthtest', array('id' => $id));
+    logged_redirect(
+        $redirect, get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
+    );
+}
 
 // Create table and pass the filters
 $table = new local_mxschool\local\healthtest\test_table($filter, $download);

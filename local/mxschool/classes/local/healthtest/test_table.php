@@ -49,7 +49,7 @@
        $sortable = array('name', 'testing_cycle', 'grade', 'has_tested');
  	  // All columns are centered
        $centered = array('testing_cycle', 'block', 'name', 'dorm', 'grade', 'has_tested');
-       parent::__construct('healthtest_test_table', $columns, $headers, $sortable, $centered, $filter, false);
+       parent::__construct('healthtest_test_table', $columns, $headers, $sortable, $centered, $filter, true);
 
  	  // The fields to query from the database
        $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'stu.grade', 'stu.boarding_status',
@@ -116,5 +116,12 @@
 		$cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
 		$cycle_end = date('n/d', strtotime($testing_cycle_dates['end']));
 		return "{$cycle_start} -- {$cycle_end}";
+	}
+
+	/**
+	 * Formats the actions column.
+	 */
+	protected function col_actions($values) {
+	    return isset($values->htid) ? $this->delete_icon($values->htid) : '';
 	}
 }
