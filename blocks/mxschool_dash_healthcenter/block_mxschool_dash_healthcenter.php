@@ -59,10 +59,10 @@ class block_mxschool_dash_healthcenter extends block_base {
                         => '/local/mxschool/healthpass/preferences.php',
                 ),  get_string('healthpass', 'block_mxschool_dash_healthcenter')),
 			 new local_mxschool\output\index(array(
-				get_string('healthtest:test_report', 'block_mxschool_dash_healthcenter')
-				    => "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
 				get_string('healthtest:appointment_form', 'block_mxschool_dash_healthcenter')
 				    => "/local/mxschool/healthtest/appointment_form.php",
+                get_string('healthtest:test_report', 'block_mxschool_dash_healthcenter')
+    				=> "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
 				get_string('healthtest:block_report', 'block_mxschool_dash_healthcenter')
 				    => '/local/mxschool/healthtest/block_report.php',
 			     get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')

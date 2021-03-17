@@ -41,11 +41,11 @@ $string['healthpass:submit_form'] = 'Submit a COVIDpass';
 $string['healthpass:report'] = 'COVIDpass Report';
 $string['healthpass:preferences'] = 'COVIDpass Preferences';
 
-$string['healthtest'] = 'COVID Testing Module';
-$string['healthtest:test_report'] = 'COVID Testing Report';
-$string['healthtest:appointment_form'] = 'Schedule a Test';
-$string['healthtest:block_report'] = 'COVID Testing Blocks Report';
-$string['healthtest:preferences'] = 'COVID Testing Preferences';
+$string['healthtest'] = 'COVIDtest Module';
+$string['healthtest:appointment_form'] = 'Schedule a COVIDtest';
+$string['healthtest:test_report'] = 'COVIDtest Report';
+$string['healthtest:block_report'] = 'COVIDtest Blocks Report';
+$string['healthtest:preferences'] = 'COVIDtest Preferences';
 
 $string['user_management'] = 'User Module';
 $string['user_management:student_report'] = 'Student Report';

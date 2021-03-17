@@ -127,7 +127,7 @@ $string['indexes:rooming'] = 'Rooming Index';
 $string['indexes:vacation_travel'] = 'Vacation Travel Index';
 $string['indexes:healthpass'] = 'COVIDpass Index';
 $string['indexes:deans_permission'] = 'Deans\' Permission Index';
-$string['indexes:healthtest'] = 'COVID Testing Index';
+$string['indexes:healthtest'] = 'COVIDtest Index';
 
 
 /* Miscelaneous. */
@@ -1233,7 +1233,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthtest Test Report.  */
 
  // Report Headers.
- $string['healthtest:test_report'] = "COVID Testing Report";
+ $string['healthtest:test_report'] = "COVIDtest Report";
  $string['healthtest:test_report:header:testing_cycle'] = "Testing Cycle";
  $string['healthtest:test_report:header:block'] = "Block";
  $string['healthtest:test_report:header:name'] = "Name";
@@ -1248,14 +1248,14 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:test_report:attended:attended'] = "Attended Test";
  $string['healthtest:test_report:attended:absent'] = "Absent for Test";
  $string['healthtest:test_report:appointment'] = "Appointment Form";
- $string['healthtest:test_report:block_report'] = "Testing Block Report";
+ $string['healthtest:test_report:block_report'] = "COVIDtest Block Report";
  $string['healthtest:test_report:notify_missed'] = "Notify Missed Testers";
  $string['healthtest:test_report:remind'] = 'Remind Everyone Who Has a Test Tomorrow';
 
  /* Healthtest Appointment Form */
 
  // Form Headers
- $string['healthtest:test_form'] = 'COVID Test Appointment Form';
+ $string['healthtest:test_form'] = 'COVIDtest Appointment Form';
  $string['healthtest:form:info'] = 'Info';
 
  // Field Labels.
@@ -1269,23 +1269,23 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthtest Preferences Form */
 
  // Form Headers.
- $string['healthtest:preferences'] = 'COVID Testing Preferences';
+ $string['healthtest:preferences'] = 'COVIDtest Preferences';
  $string['healthtest:preferences:preferences'] = 'Preferences';
  $string['healthtest:preferences:reminder_notification'] = 'Test Reminder Notification';
  $string['healthtest:preferences:missed_notification'] = 'Missed Test Notification';
  $string['healthtest:preferences:confirm_notification'] = 'Test Confirmation Notification';
 
  // Field Labels.
- $string['healthtest:preferences:preferences:healthtest_enabled'] = 'Enable COVID Testing Module';
+ $string['healthtest:preferences:preferences:healthtest_enabled'] = 'Enable COVIDtest Module';
  $string['healthtest:preferences:preferences:form_instructions'] = 'Test Scheduling Form Instructions';
 
- $string['healthtest:preferences:reminder_notification:reminder_enabled'] = 'Enable COVID Testing automatic reminders';
+ $string['healthtest:preferences:reminder_notification:reminder_enabled'] = 'Enable automatic COVIDtest reminders';
  $string['healthtest:preferences:reminder_notification:reminder_time'] = 'Time at which the next day\'s reminders are sent';
  $string['healthtest:preferences:reminder_notification:reminder_tags'] = 'Available tags for reminder notification';
  $string['healthtest:preferences:reminder_notification:reminder_subject'] = 'Reminder notification email subject';
  $string['healthtest:preferences:reminder_notification:reminder_body'] = 'Reminder notification email body';
 
- $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy healthcenter on missed test notification';
+ $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy Healthcenter on missed test notification';
  $string['healthtest:preferences:missed_notification:missed_tags'] = 'Available tags for test missed notification';
  $string['healthtest:preferences:missed_notification:missed_subject'] = 'Testing missed notification email subject';
  $string['healthtest:preferences:missed_notification:missed_body'] = 'Testing missed notification email body';
@@ -1296,12 +1296,12 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:preferences:confirm_notification:confirm_body'] = 'Test scheduled confirmation notification email body';
 
  // Form Responses.
- $string['healthtest:preferences:success'] = 'COVID Testing Preferences Updated';
+ $string['healthtest:preferences:success'] = 'COVIDtest Preferences Updated';
 
  /* Healthtest Block Report.  */
 
  // Report Headers.
- $string['healthtest:block_report'] = "Testing Block Report";
+ $string['healthtest:block_report'] = "COVIDtest Block Report";
  $string['healthtest:block_report:header:testing_cycle'] = "Testing Cycle";
  $string['healthtest:block_report:header:start_time'] = "Start Time";
  $string['healthtest:block_report:header:end_time'] = "End Time";
@@ -1313,13 +1313,13 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:block_report:testing_cycle:all'] = "All Testing Cycles";
  $string['healthtest:block_report:block:all'] = "All Blocks";
  $string['healthtest:block_report:appointment'] = "Appointment Form";
- $string['healthtest:block_report:test_report'] = "COVID Testing Report";
- $string['healthtest:block_report:add'] = "Create a New Testing Block";
+ $string['healthtest:block_report:test_report'] = "COVIDtest Report";
+ $string['healthtest:block_report:add'] = "Create a New COVIDtest Block";
 
  /* Healthtest Block Form */
 
  // Form Headers
- $string['healthtest:block_form'] = 'Testing Block Form';
+ $string['healthtest:block_form'] = 'COVIDtest Block Form';
  $string['healthtest:block_form:info'] = 'Block Info';
 
  // Field Labels.
