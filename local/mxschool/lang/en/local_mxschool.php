@@ -1103,9 +1103,9 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Intake Form.  */
 
  // Form Headers.
- $string['healthpass'] = "COVIDPass";
- $string['healthpass:form'] = 'COVIDPass Form';
- $string['healthpass:form:health_info'] = 'COVIDPass Information';
+ $string['healthpass'] = "COVIDpass";
+ $string['healthpass:form'] = 'COVIDpass Form';
+ $string['healthpass:form:health_info'] = 'COVIDpass Information';
 
  // Fields Labels.
  $string['healthpass:form:health_info:name'] = 'Name';
@@ -1125,8 +1125,8 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:form:symptoms:symptom8'] = "nausea or vomiting?";
 
  // Form Reponses.
- $string['healthpass:form:success:approved'] = "COVIDPass Approved";
- $string['healthpass:form:success:denied'] = "COVIDPass Denied";
+ $string['healthpass:form:success:approved'] = "COVIDpass Approved";
+ $string['healthpass:form:success:denied'] = "COVIDpass Denied";
  $string['healthpass:form:error:no_symptoms_logic'] = "You cannot click 'I have no symptoms' if you have this symptom";
  $string['healthpass:form:error:unset_symptom'] = "You must answer here or click 'I have no symptoms'";
  $string['healthpass:form:no_symptoms_button'] = "I have no symptoms";
@@ -1134,7 +1134,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Report.  */
 
  // Report Headers.
- $string['healthpass:report'] = "Student COVIDPass Report";
+ $string['healthpass:report'] = "Student COVIDpass Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
@@ -1155,7 +1155,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
 
  // Report Buttons.
- $string['healthpass:report:add'] = 'New COVIDPass Form';
+ $string['healthpass:report:add'] = 'New COVIDpass Form';
  $string['healthpass:report:review_button'] = 'Review';
  $string['healthpass:report:override_button'] = 'Override';
  $string['healthpass:report:undo_override_button'] = 'Undo Override';
@@ -1168,19 +1168,19 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Preferences.  */
 
  // Form Headers.
- $string['healthpass:preferences'] = 'COVIDPass Preferences';
+ $string['healthpass:preferences'] = 'COVIDpass Preferences';
  $string['healthpass:preferences:preferences'] = 'Preferences';
  $string['healthpass:preferences:healthcenter_notification'] = 'Healthcenter Email Notifications';
  $string['healthpass:preferences:submitted_notifications'] = 'COVIDpass Email Notifications';
  $string['healthpass:preferences:unsubmitted_notifications'] = 'COVIDpass Reminder Notifications';
 
  // Field Labels.
- $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDPass';
+ $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDpass';
  $string['healthpass:preferences:preferences:one_per_day'] = 'Allow only one COVIDpass per day';
- $string['healthpass:preferences:preferences:reset_time'] = 'At what time should the COVIDPass system reset?';
+ $string['healthpass:preferences:preferences:reset_time'] = 'At what time should the COVIDpass system reset?';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
 
- $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the healthcenter when a COVIDpass is denied';
+ $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the Health Center when a COVIDpass is denied';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_email_address'] = 'Healthcenter email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_tags'] = 'Available tags for COVIDpass healthcenter notification email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_subject'] = 'Healthcenter notification email subject';
@@ -1204,7 +1204,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_body'] = 'COVIDpass reminder email body';
 
  // Form Responses.
- $string['healthpass:preferences:success'] = 'COVIDPass Preferences Updated';
+ $string['healthpass:preferences:success'] = 'COVIDpass Preferences Updated';
  $string['healthpass:preferences:error:not_numeric'] = 'You must enter a number here';
 
  /* Healthpass Symptoms and Health_info. */
@@ -1228,7 +1228,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
   * ================
   */
 
- $string['healthtest'] = 'COVID Tests';
+ $string['healthtest'] = 'COVIDtest';
 
  /* Healthtest Test Report.  */
 
