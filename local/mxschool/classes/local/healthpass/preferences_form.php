@@ -44,7 +44,9 @@
 		 // Define fields
 		 $fields = array(
 			 'preferences' => array(
-				 'reset_time' => self::time_selector(1),
+				 //  'reset_time' => self::time_selector(1),
+                 'reset_time' => array('element' => 'static', 'text' => 'Healthpass reset set for 4 AM each day.'),
+
 				 'max_body_temp' => self::ELEMENT_TEXT,
 				 'healthpass_enabled' => array('element' => 'checkbox'),
  				 'one_per_day' => array('element' => 'checkbox')

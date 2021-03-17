@@ -1621,7 +1621,7 @@ function get_appointment_form_block_options($userid=null) {
 	global $DB;
 	$today = date('Y-m-d');
 	$current_time = date('H:i');
-	// if not admin, then gets only blocks in the future, and those not apart of testing cycle(s) that user is already signed up for.
+	// if not admin, then get only blocks in the future, and those not a part of a testing cycle(s) the user is already signed up for.
 	if($userid) {
 		$user_app_info = get_all_user_appointment_info($userid);
 		if($user_app_info AND isset($user_app_info[0]['testing_cycle'])) {
@@ -1640,7 +1640,8 @@ function get_appointment_form_block_options($userid=null) {
 			"SELECT *
 			 FROM {local_mxschool_testing_block}
 			 WHERE (date > '{$today}' OR (date = '{$today}' AND end_time >= '{$current_time}'))
-			 AND testing_cycle NOT IN {$sql_array}"
+			 AND testing_cycle NOT IN {$sql_array}
+             ORDER BY date, start_time"
 		);
 	}
 	// else show all upcoming blocks
@@ -1648,7 +1649,8 @@ function get_appointment_form_block_options($userid=null) {
 		$records = $DB->get_records_sql(
 			"SELECT *
 			 FROM {local_mxschool_testing_block}
-			 WHERE date >= '{$today}'"
+			 WHERE date >= '{$today}'
+             ORDER BY date, start_time"
 		);
 	}
 	$block_options = array();

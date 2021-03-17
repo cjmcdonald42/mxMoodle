@@ -1177,7 +1177,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  // Field Labels.
  $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDPass';
  $string['healthpass:preferences:preferences:one_per_day'] = 'Allow only one COVIDpass per day';
- $string['healthpass:preferences:preferences:reset_time'] = 'At what time should COVIDPass reset? (default midnight)';
+ $string['healthpass:preferences:preferences:reset_time'] = 'At what time should the COVIDPass system reset?';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
 
  $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the healthcenter when a COVIDpass is denied';
