@@ -51,10 +51,10 @@ $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students 
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
 $string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage deans\' permission forms';
-$string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage healthpass preferences';
-$string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage healthpass data';
-$string['mxschool:manage_healthtest_preferences'] = 'Middlesex School: View and manage health test preferences';
-$string['mxschool:manage_healthtest'] = 'Middlesex School: View and Manage health test data';
+$string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage Healthpass preferences';
+$string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage Healthpass data';
+$string['mxschool:manage_healthtest_preferences'] = 'Middlesex School: View and manage Healthtest preferences';
+$string['mxschool:manage_healthtest'] = 'Middlesex School: View and Manage Healthtest data';
 
 
 /* Events. */
@@ -64,10 +64,8 @@ $string['event:record_updated'] = 'mxschool record updated';
 $string['event:record_deleted'] = 'mxschool record deleted';
 $string['event:email_sent'] = 'mxschool email notification sent';
 
-
 /* Privacy. */
 $string['privacy:metadata'] = 'Please contact the IT Department for more details.';
-
 
 /* Renderables. */
 

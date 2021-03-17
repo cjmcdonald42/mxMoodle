@@ -53,7 +53,7 @@ function xmldb_local_mxschool_install() {
     set_config('healthcenter_notification_email', 'healthcenter@mxschool.edu', 'local_mxschool');
 
     set_config('healthtest_enabled', '1', 'local_mxschool');
-    set_config('healthtest_form_instructions', 'DEFAULT -- Change in COVID Testing preferences', 'local_mxschool');
+    set_config('healthtest_form_instructions', 'DEFAULT -- Change in COVIDtest preferences', 'local_mxschool');
     set_config('healthtest_reminder_enabled', '1', 'local_mxschool');
     set_config('healthtest_copy_healthcenter', '1', 'local_mxschool');
     set_config('healthtest_confirm_enabled', '1', 'local_mxschool');
