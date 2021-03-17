@@ -66,7 +66,7 @@
 
  	  // If filtering by status, append to where[] accordingly
         if ($filter->status) {
-		  $today = generate_datetime(time())->modify('midnight');
+		  $today = generate_datetime(time())->modify('4 AM');
  		  if($filter->status == 'Unsubmitted') {
 			   $where[] = "(hp.form_submitted < {$today->getTimestamp()} OR hp.userid IS NULL)";
  		  }
@@ -105,7 +105,7 @@
    }
 
    protected function col_userid($values) {
-	   $today = generate_datetime(time())->modify('midnight');
+	   $today = generate_datetime(time())->modify('4 AM');
 	   $name = $values->alternatename ? "{$values->userid} ({$values->alternatename})" : $values->userid;
 	   if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted) or $this->is_downloading()) {
 		  return $name;
@@ -119,7 +119,7 @@
    }
 
    protected function col_status($values) {
-	  $today = generate_datetime(time())->modify('midnight');
+	  $today = generate_datetime(time())->modify('4 AM');
 	  if($values->time_submitted < $today->getTimestamp() or !isset($values->time_submitted)) {
 		 return $this->is_downloading() ? 'Unsubmitted' : "<span style='color:goldenrod;'>Unsubmitted</span>";
 	  }
@@ -137,19 +137,19 @@
    }
 
    protected function col_body_temperature($values) {
-	   $today = generate_datetime(time())->modify('midnight')->getTimestamp();
+	   $today = generate_datetime(time())->modify('4 AM')->getTimestamp();
 	   if(!isset($values->time_submitted) or $values->time_submitted < $today) return '';
 	   else return $values->body_temperature;
    }
 
    protected function col_symptoms($values) {
-		$today = generate_datetime(time())->modify('midnight')->getTimestamp();
+		$today = generate_datetime(time())->modify('4 AM')->getTimestamp();
 		if(!isset($values->symptoms) or $values->time_submitted < $today) return '';
 		else return $values->symptoms;
    }
 
    protected function col_override_status($values) {
-	   $today = generate_datetime(time())->modify('midnight');
+	   $today = generate_datetime(time())->modify('4 AM');
 	   if($values->time_submitted < $today->getTimestamp()) return '';
 	   if($this->is_downloading()) return $values->override_status;
 	   global $PAGE;
@@ -164,11 +164,11 @@
 
     protected function col_comment($values) {
 	    if($this->is_downloading()) return $values->comment;
-    	    $today = generate_datetime(time())->modify('midnight')->getTimestamp();
+    	    $today = generate_datetime(time())->modify('4 AM')->getTimestamp();
 	    if($values->time_submitted < $today or !isset($values->time_submitted)) return '';
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
-	    $today = generate_datetime(time())->modify('midnight')->getTimestamp();
+	    $today = generate_datetime(time())->modify('4 AM')->getTimestamp();
 	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save', 'local_mxschool_healthpass');
 	    return $output->render($renderable);
     }
