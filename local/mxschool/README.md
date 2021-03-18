@@ -1,6 +1,6 @@
 # Middlesex's Dorm and Student Functions Plugin
 
-Local Moodle plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
+Local Moodle plugin written for Middlesex School; an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
 
@@ -45,8 +45,18 @@ This package houses the following subpackages and pages:
     - _preferences_ — Preferences page to enable or disable the form.
     - _form_ — Form to submit intake data.
     - _report_ — Report for health center staff to view and manage intake responses.
+- **_healthtest_** - Tracking and scheduling COVID19 testing by OCCUMED and our Health Center
+    - _preferences_ - Preferences page to enable the system and set reminders
+    - _block_form_ - To create testing blocks
+    - _block_report_ - Manage testing blocks by testing cycle
+    - _test_report_ - To track attendance during testing blocks
+    - _appointment_form_ - Allows community members to schedule their test time each testing cycle
 
 ## Credits
+v3.2.1 added the Healthtest subsystem and was developed over spring break, March 2021 by:
+- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+
 v3.2 of this plugin was developed in 2020 by:
 - Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>

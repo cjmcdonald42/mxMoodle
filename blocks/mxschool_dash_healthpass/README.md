@@ -1,5 +1,5 @@
 # Middlesex's Dashboard Block for Students
-Moodle block plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
+Custom Moodle plugins written for Middlesex School; an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
 
 Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
 

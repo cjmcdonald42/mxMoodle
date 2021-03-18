@@ -1,3 +1,6 @@
+## Changes in v3.2.1
+- Create new Healthtest system to schedule and track COVID19 testing events
+
 ## Changes in v3.2
 - Create new COVIDpass system for daily screening during COVID19 event
 - Create new Deans' Permission Form for off-campus travel
