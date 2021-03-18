@@ -29,7 +29,7 @@ The project currently includes the following plugins:
     - [local/signout](/local/signout/README.md)
     - [blocks/mxschool_dash_signout](/blocks/mxschool_dash_signout/README.md)
 
-###### NOTE: v3.2 of all of these plugins have been updated to run on `Moodle 3.9` using the default `Boost` and expanded `Boost Campus` themes.
+###### NOTE: v3.2 of all of these plugins have been updated to run on `Moodle 3.9` using the default `Boost` and the expanded `Boost Campus` themes.
 
 ## Contributing
 This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started guide](/docs/GETTING_STARTED.md).
@@ -47,6 +47,10 @@ These are the documentation pages that we currently have in place:
 If you have time to read through all of the pages, it would make the most sense to read them in the order they are listed.
 
 ## Credits
+v3.2.1 added the Healthtest subsystem and was developed over spring break, March 2021 by:
+- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+
 v3.2 of this plugin was developed in 2020 by:
 - Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>

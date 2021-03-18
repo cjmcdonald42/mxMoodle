@@ -98,7 +98,6 @@ class block_mxschool_dash_healthpass extends block_base {
 		 $this->content->text .= $output->render($renderable);
 	  }
 	  if(count($healthtest_data)) {
-//		  $this->content->text .= implode($healthtest_data, '<br>'); Passing the separator after the array deprecated in 7.4
 		  $this->content->text .= implode('<br>', $healthtest_data);
 	  }
 	  return $this->content;
