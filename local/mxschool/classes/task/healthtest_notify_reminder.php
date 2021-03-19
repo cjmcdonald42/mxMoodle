@@ -15,21 +15,41 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Class for reminding tomorrow's testers at a specific time every day.
  *
  * @package     local_mxschool
+ * @subpackage  healthtest
  * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_mxschool\task;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_mxschool';
-// $plugin->version = 2020083101;
-$plugin->version = 2021031801;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+class healthtest_notify_reminder extends \core\task\scheduled_task {
+
+	/**
+      * Return the task's name as shown in admin screens.
+      *
+      * @return string
+      */
+     public function get_name() {
+         return 'Healthtest Daily Reminders';
+     }
+
+     /**
+      * Execute the task.
+      */
+     public function execute() {
+		global $CFG;
+		require_once($CFG->dirroot . '/local/mxschool/locallib.php');
+		require_once($CFG->dirroot . '/local/mxschool/classes/local/healthtest/healthtest_reminder.php');
+		if (get_config('local_mxschool', 'healthtest_enabled')=='1') {
+			email_tomorrows_testers();
+		}
+     }
+
+}

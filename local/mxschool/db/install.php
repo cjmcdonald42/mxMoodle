@@ -41,10 +41,22 @@ function xmldb_local_mxschool_install() {
 
     set_config('vacation_form_returnenabled', '1', 'local_mxschool');
 
+    set_config('deans_email_address', 'deanslog@mxschool.edu', 'local_mxschool');
+    set_config('athletic_director_email_address', 'krisley@mxschool.edu', 'local_mxschool');
+    set_config('academic_director_email_address', 'kmcnall@mxschool.edu', 'local_mxschool');
+
     set_config('healthpass_enable', 'Yes', 'local_mxschool');
+    set_config('healthpass_one_per_day', '1', 'local_mxschool');
+    set_config('healthcenter_notification_enabled', '1', 'local_mxschool');
     set_config('healthpass_max_body_temp', '99.0', 'local_mxschool');
     set_config('healthpass_days_before_reminder', '3', 'local_mxschool');
     set_config('healthcenter_notification_email', 'healthcenter@mxschool.edu', 'local_mxschool');
+
+    set_config('healthtest_enabled', '1', 'local_mxschool');
+    set_config('healthtest_form_instructions', 'DEFAULT -- Change in COVIDtest preferences', 'local_mxschool');
+    set_config('healthtest_reminder_enabled', '1', 'local_mxschool');
+    set_config('healthtest_copy_healthcenter', '1', 'local_mxschool');
+    set_config('healthtest_confirm_enabled', '1', 'local_mxschool');
 
     $subpackages = array(
         array('subpackage' => 'user_management', 'pages' => json_encode(array('student_report', 'faculty_report', 'dorm_report', 'vehicle_report', 'picture_import'))),
@@ -55,7 +67,8 @@ function xmldb_local_mxschool_install() {
             'preferences', 'form', 'report', 'transportation_report'
 	    ))),
 	    array('subpackage' => 'deans_permission', 'pages' => json_encode(array('preferences', 'form', 'report', 'event_edit'))),
-        array('subpackage' => 'healthpass', 'pages' => json_encode(array('preferences', 'form', 'report')))
+        array('subpackage' => 'healthpass', 'pages' => json_encode(array('preferences', 'form', 'report'))),
+	   array('subpackage' => 'healthtest', 'pages' => json_encode(array('preferences', 'test_form', 'test_report', 'block_form', 'block_report')))
     );
     foreach ($subpackages as $subpackage) {
         $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);

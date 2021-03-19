@@ -51,8 +51,10 @@ $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students 
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
 $string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage deans\' permission forms';
-$string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage healthpass preferences';
-$string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage healthpass data';
+$string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage Healthpass preferences';
+$string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage Healthpass data';
+$string['mxschool:manage_healthtest_preferences'] = 'Middlesex School: View and manage Healthtest preferences';
+$string['mxschool:manage_healthtest'] = 'Middlesex School: View and Manage Healthtest data';
 
 
 /* Events. */
@@ -62,10 +64,8 @@ $string['event:record_updated'] = 'mxschool record updated';
 $string['event:record_deleted'] = 'mxschool record deleted';
 $string['event:email_sent'] = 'mxschool email notification sent';
 
-
 /* Privacy. */
 $string['privacy:metadata'] = 'Please contact the IT Department for more details.';
-
 
 /* Renderables. */
 
@@ -125,6 +125,7 @@ $string['indexes:rooming'] = 'Rooming Index';
 $string['indexes:vacation_travel'] = 'Vacation Travel Index';
 $string['indexes:healthpass'] = 'COVIDpass Index';
 $string['indexes:deans_permission'] = 'Deans\' Permission Index';
+$string['indexes:healthtest'] = 'COVIDtest Index';
 
 
 /* Miscelaneous. */
@@ -1100,9 +1101,9 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Intake Form.  */
 
  // Form Headers.
- $string['healthpass'] = "COVIDPass";
- $string['healthpass:form'] = 'COVIDPass Form';
- $string['healthpass:form:health_info'] = 'COVIDPass Information';
+ $string['healthpass'] = "COVIDpass";
+ $string['healthpass:form'] = 'COVIDpass Form';
+ $string['healthpass:form:health_info'] = 'COVIDpass Information';
 
  // Fields Labels.
  $string['healthpass:form:health_info:name'] = 'Name';
@@ -1122,8 +1123,8 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:form:symptoms:symptom8'] = "nausea or vomiting?";
 
  // Form Reponses.
- $string['healthpass:form:success:approved'] = "COVIDPass Approved";
- $string['healthpass:form:success:denied'] = "COVIDPass Denied";
+ $string['healthpass:form:success:approved'] = "COVIDpass Approved";
+ $string['healthpass:form:success:denied'] = "COVIDpass Denied";
  $string['healthpass:form:error:no_symptoms_logic'] = "You cannot click 'I have no symptoms' if you have this symptom";
  $string['healthpass:form:error:unset_symptom'] = "You must answer here or click 'I have no symptoms'";
  $string['healthpass:form:no_symptoms_button'] = "I have no symptoms";
@@ -1131,7 +1132,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Report.  */
 
  // Report Headers.
- $string['healthpass:report'] = "Student COVIDPass Report";
+ $string['healthpass:report'] = "Student COVIDpass Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
@@ -1152,7 +1153,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
 
  // Report Buttons.
- $string['healthpass:report:add'] = 'New COVIDPass Form';
+ $string['healthpass:report:add'] = 'New COVIDpass Form';
  $string['healthpass:report:review_button'] = 'Review';
  $string['healthpass:report:override_button'] = 'Override';
  $string['healthpass:report:undo_override_button'] = 'Undo Override';
@@ -1165,19 +1166,19 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Preferences.  */
 
  // Form Headers.
- $string['healthpass:preferences'] = 'COVIDPass Preferences';
+ $string['healthpass:preferences'] = 'COVIDpass Preferences';
  $string['healthpass:preferences:preferences'] = 'Preferences';
  $string['healthpass:preferences:healthcenter_notification'] = 'Healthcenter Email Notifications';
  $string['healthpass:preferences:submitted_notifications'] = 'COVIDpass Email Notifications';
  $string['healthpass:preferences:unsubmitted_notifications'] = 'COVIDpass Reminder Notifications';
 
  // Field Labels.
- $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDPass';
+ $string['healthpass:preferences:preferences:healthpass_enabled'] = 'Enable COVIDpass';
  $string['healthpass:preferences:preferences:one_per_day'] = 'Allow only one COVIDpass per day';
- $string['healthpass:preferences:preferences:reset_time'] = 'At what time should COVIDPass reset? (default midnight)';
+ $string['healthpass:preferences:preferences:reset_time'] = 'At what time should the COVIDpass system reset?';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
 
- $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the healthcenter when a COVIDpass is denied';
+ $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the Health Center when a COVIDpass is denied';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_email_address'] = 'Healthcenter email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_tags'] = 'Available tags for COVIDpass healthcenter notification email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_subject'] = 'Healthcenter notification email subject';
@@ -1201,7 +1202,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:preferences:unsubmitted_notifications:unsubmitted_body'] = 'COVIDpass reminder email body';
 
  // Form Responses.
- $string['healthpass:preferences:success'] = 'COVIDPass Preferences Updated';
+ $string['healthpass:preferences:success'] = 'COVIDpass Preferences Updated';
  $string['healthpass:preferences:error:not_numeric'] = 'You must enter a number here';
 
  /* Healthpass Symptoms and Health_info. */
@@ -1218,3 +1219,113 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:symptom6'] = 'Shortness of Breath';
  $string['healthpass:symptom7'] = 'Headache';
  $string['healthpass:symptom8'] = 'Nausea or Vomiting';
+
+ /*
+  * ================
+  * Healthtest.
+  * ================
+  */
+
+ $string['healthtest'] = 'COVIDtest';
+
+ /* Healthtest Test Report.  */
+
+ // Report Headers.
+ $string['healthtest:test_report'] = "COVIDtest Report";
+ $string['healthtest:test_report:header:testing_cycle'] = "Testing Cycle";
+ $string['healthtest:test_report:header:block'] = "Block";
+ $string['healthtest:test_report:header:name'] = "Name";
+ $string['healthtest:test_report:header:grade'] = "Grade";
+ $string['healthtest:test_report:header:dorm'] = "Dorm";
+ $string['healthtest:test_report:header:has_tested'] = "Has Tested?";
+
+ // Report Filters and Buttons.
+ $string['healthtest:test_report:testing_cycle:all'] = "All Testing Cycles";
+ $string['healthtest:test_report:block:all'] = "All Blocks";
+ $string['healthtest:test_report:attended:all'] = "Everyone";
+ $string['healthtest:test_report:attended:attended'] = "Attended Test";
+ $string['healthtest:test_report:attended:absent'] = "Absent for Test";
+ $string['healthtest:test_report:appointment'] = "Appointment Form";
+ $string['healthtest:test_report:block_report'] = "COVIDtest Block Report";
+ $string['healthtest:test_report:notify_missed'] = "Notify Today\'s Absentees";
+ $string['healthtest:test_report:remind'] = 'Send Reminders for Tomorrow';
+
+ /* Healthtest Appointment Form */
+
+ // Form Headers
+ $string['healthtest:test_form'] = 'COVIDtest Appointment Form';
+ $string['healthtest:form:info'] = 'Info';
+
+ // Field Labels.
+ $string['healthtest:form:info:instructions'] = 'Instructions';
+ $string['healthtest:form:info:name'] = 'Name';
+ $string['healthtest:form:info:block'] = 'Testing Block';
+
+ // Form Responses
+ $string['healthtest:form:success'] = 'Appointment Succesfully Scheduled';
+
+ /* Healthtest Preferences Form */
+
+ // Form Headers.
+ $string['healthtest:preferences'] = 'COVIDtest Preferences';
+ $string['healthtest:preferences:preferences'] = 'Preferences';
+ $string['healthtest:preferences:reminder_notification'] = 'Test Reminder Notification';
+ $string['healthtest:preferences:missed_notification'] = 'Missed Test Notification';
+ $string['healthtest:preferences:confirm_notification'] = 'Test Confirmation Notification';
+
+ // Field Labels.
+ $string['healthtest:preferences:preferences:healthtest_enabled'] = 'Enable COVIDtest Module';
+ $string['healthtest:preferences:preferences:form_instructions'] = 'Test Scheduling Form Instructions';
+
+ $string['healthtest:preferences:reminder_notification:reminder_enabled'] = 'Enable automatic COVIDtest reminders';
+ $string['healthtest:preferences:reminder_notification:reminder_time'] = 'Time at which the next day\'s reminders are sent';
+ $string['healthtest:preferences:reminder_notification:reminder_tags'] = 'Available tags for reminder notification';
+ $string['healthtest:preferences:reminder_notification:reminder_subject'] = 'Reminder notification email subject';
+ $string['healthtest:preferences:reminder_notification:reminder_body'] = 'Reminder notification email body';
+
+ $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy Healthcenter on missed test notification';
+ $string['healthtest:preferences:missed_notification:missed_tags'] = 'Available tags for test missed notification';
+ $string['healthtest:preferences:missed_notification:missed_subject'] = 'Testing missed notification email subject';
+ $string['healthtest:preferences:missed_notification:missed_body'] = 'Testing missed notification email body';
+
+ $string['healthtest:preferences:confirm_notification:confirm_enabled'] = 'Enable test scheduled confirmation emails';
+ $string['healthtest:preferences:confirm_notification:confirm_tags'] = 'Available tags for test scheduled confirmation notification';
+ $string['healthtest:preferences:confirm_notification:confirm_subject'] = 'Test scheduled confirmation notification email subject';
+ $string['healthtest:preferences:confirm_notification:confirm_body'] = 'Test scheduled confirmation notification email body';
+
+ // Form Responses.
+ $string['healthtest:preferences:success'] = 'COVIDtest Preferences Updated';
+
+ /* Healthtest Block Report.  */
+
+ // Report Headers.
+ $string['healthtest:block_report'] = "COVIDtest Block Report";
+ $string['healthtest:block_report:header:testing_cycle'] = "Testing Cycle";
+ $string['healthtest:block_report:header:start_time'] = "Start Time";
+ $string['healthtest:block_report:header:end_time'] = "End Time";
+ $string['healthtest:block_report:header:date'] = "Date";
+ $string['healthtest:block_report:header:num_testers'] = "Number of Testers";
+ $string['healthtest:block_report:header:max_testers'] = "Max Testers";
+
+ // Report Filters and Buttons.
+ $string['healthtest:block_report:testing_cycle:all'] = "All Testing Cycles";
+ $string['healthtest:block_report:block:all'] = "All Blocks";
+ $string['healthtest:block_report:appointment'] = "Appointment Form";
+ $string['healthtest:block_report:test_report'] = "COVIDtest Report";
+ $string['healthtest:block_report:add'] = "Create a New COVIDtest Block";
+
+ /* Healthtest Block Form */
+
+ // Form Headers
+ $string['healthtest:block_form'] = 'COVIDtest Block Form';
+ $string['healthtest:block_form:info'] = 'Block Info';
+
+ // Field Labels.
+ $string['healthtest:block_form:info:testing_cycle'] = 'Testing Cycle';
+ $string['healthtest:block_form:info:start_time'] = 'Start Time';
+ $string['healthtest:block_form:info:end_time'] = 'End Time';
+ $string['healthtest:block_form:info:date'] = 'Date';
+ $string['healthtest:block_form:info:max_testers'] = 'Maximum Allowed Testers';
+
+ // Form Responses
+ $string['healthtest:block_form:success'] = 'Testing Block Created Succesfully';

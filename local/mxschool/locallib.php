@@ -1383,7 +1383,7 @@ function get_healthform_dates() {
  function get_todays_healthform_info($id) {
 	 global $DB;
 	 $today = generate_datetime(time());
-	 $today->modify('midnight');
+	 $today->modify('4 AM');
 	 $healthforms = $DB->get_records_sql(
 		 "SELECT hp.id, hp.userid, hp.status
 		 FROM {local_mxschool_healthpass} hp
@@ -1452,3 +1452,367 @@ function get_healthform_dates() {
 	 array_shift($list);
 	 return $list;
  }
+
+
+
+ /* Health Test. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
+
+
+ /**
+ * Gets a list of all the days during which there is a healthtest block.
+ *
+ * @return array $day_options in the format date (YYYY-MM-DD) => String (day_of_week, date)
+ */
+ function get_healthtest_day_options() {
+	 global $DB;
+	 $records = $DB->get_records_sql(
+		 "SELECT tb.date
+		  FROM {local_mxschool_testing_block} tb
+		  GROUP BY tb.date"
+	  );
+	 $day_options = array();
+	 foreach($records as $record) {
+		 $day_of_week = date('D', strtotime($record->date));
+		 $day_options["{$record->date}"] = "{$day_of_week}, {$record->date}";
+	 }
+	 return $day_options;
+ }
+
+ /**
+ * Gets a list of all the blocks during a given testing cycle
+ *
+ * @param string $testing_cycle the day to get the list of blocks for
+ * @return array $block_options in the format block_id => String (start_time - end_time)
+ */
+ function get_healthtest_report_block_options($testing_cycle) {
+	 if(!$testing_cycle) return array();
+	 global $DB;
+	 $records = $DB->get_records_sql(
+		 "SELECT tb.id, tb.start_time, tb.end_time, tb.date
+		  FROM {local_mxschool_testing_block} tb
+		  WHERE tb.testing_cycle = '{$testing_cycle}'"
+	 );
+	 $block_options = array();
+	 foreach($records as $record) {
+		 $date = date('n/d', strtotime($record->date));
+		 $start = date('g:i A', strtotime($record->start_time));
+		 $block_options["{$record->id}"] = "{$date} {$start}";
+	 }
+	 return $block_options;
+ }
+
+ /**
+ * Checks if a given block is in a given cycle
+ *
+ * @param int block_id, the id of the block
+ * @param string testing_cycle, the cycle number to check
+ * @return true if the block is on the day, false otherwise
+ */
+ function healthtest_block_is_in_testing_cycle($block_id, $testing_cycle) {
+	 global $DB;
+	 if($DB->record_exists('local_mxschool_testing_block', array('id' => $block_id, 'testing_cycle' => $testing_cycle))) return 1;
+	 else return 0;
+ }
+
+ /**
+ * Given a testing_cycle number, returns the start date and end date of that block's testing cycle
+ *
+ * @param int testing_cycle, the specific testing cycle
+ * @return array cycle_dates, where the start's key is 'start', and the end's is 'end'. Date is in the format YYYY-MM-DD.
+ */
+ function get_testing_cycle_dates($testing_cycle) {
+	 global $DB;
+	 if(!$DB->record_exists('local_mxschool_testing_block', array('testing_cycle' => $testing_cycle)))
+	 	return array('start' => 'block not found', 'end' => 'block not found');
+	 $records = $DB->get_records_sql(
+		 "SELECT testing_cycle, MAX(date) AS end, MIN(date) AS start
+		  FROM {local_mxschool_testing_block}
+		  GROUP BY testing_cycle HAVING testing_cycle = {$testing_cycle}"
+	 );
+	 $cycle_dates = array();
+	 foreach($records as $record) {
+		 $cycle_dates['start'] = $record->start;
+		 $cycle_dates['end'] = $record->end;
+		 return $cycle_dates;
+	 }
+	 return array();
+ }
+
+/**
+* Returns a list of all testing cycles
+*
+* @return array $cycle_list in the format cycle_list[$cycle_num] = $cycle_start_and_end string
+*/
+function get_testing_cycle_list() {
+	global $DB;
+	$records = $DB->get_records_sql (
+		"SELECT testing_cycle, MAX(date) AS end, MIN(date) AS start
+		 FROM {local_mxschool_testing_block}
+		 GROUP BY testing_cycle"
+	);
+	$cycle_list = array();
+	foreach($records as $record) {
+		$start = date('n/d', strtotime($record->start));
+		$end = date('n/d', strtotime($record->end));
+		$cycle_list["{$record->testing_cycle}"] = "{$start} -- {$end}";
+	}
+	return $cycle_list;
+}
+
+/**
+* Given a date, returns either the current testing cycle, or none if nothing
+*
+* @param int date, the date to search for a testing cycle
+* @return int testing_cycle, the number of the current or most recent testing_cycle
+*/
+function get_current_testing_cycle($date) {
+	global $DB;
+	$records = $DB->get_records_sql(
+		"SELECT testing_cycle, MAX(date) AS end, MIN(date) AS start
+		 FROM {local_mxschool_testing_block}
+		 GROUP BY testing_cycle"
+	);
+	// return current testing cycle
+	foreach($records as $record) {
+		if($date >= $record->start and $date <= $record->end) {
+			return $record->testing_cycle;
+		}
+	}
+	return 0;
+}
+
+/**
+* Given a userid, returns all of the testing blocks the user is signed up for
+*
+* @param int userid, the user id of the user
+* @return array $user_appointment_info, in the form block_id => block_info
+*/
+function get_all_user_appointment_info($userid) {
+	global $DB;
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid, ht.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
+				tb.start_time, tb.end_time, tb.date, tb.max_testers
+		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE ht.userid = {$userid}"
+	);
+	$app_info = array();
+	foreach($records as $record) {
+		$app_info[] = array(
+			'tbid' => $record->tbid,
+			'testing_cycle' => $record->testing_cycle,
+			'start_time' => $record->start_time,
+			'end_time' => $record->end_time,
+			'date' => $record->date,
+			'attended' => $record->attended,
+			'userid' => $record->userid,
+			'max_testers' => $record->max_testers
+		);
+	}
+	return $app_info;
+}
+
+/**
+* Returns a list of all the block options (those blocks that haven't already passed) for the appointment form
+*
+* @param int userid, the id of the user to get data for.
+* @return array block_options, in the format block_id => (day, (start time end time))
+*/
+function get_appointment_form_block_options($userid=null) {
+	global $DB;
+	$today = date('Y-m-d');
+	$current_time = date('H:i');
+	// if not admin, then get only blocks in the future, and those not a part of a testing cycle(s) the user is already signed up for.
+	if($userid) {
+		$user_app_info = get_all_user_appointment_info($userid);
+		if($user_app_info AND isset($user_app_info[0]['testing_cycle'])) {
+			$sql_array = '(';
+			foreach($user_app_info as $app_block) {
+				if(!user_missed_testing_block($userid, $app_block['tbid'])) {
+					$cycle = $app_block['testing_cycle'];
+					$sql_array .= "{$cycle}, ";
+				}
+			}
+			$sql_array = substr($sql_array, 0, -2);
+			$sql_array .= ')';
+		}
+		else $sql_array = ('(-1)');
+		$records = $DB->get_records_sql(
+			"SELECT *
+			 FROM {local_mxschool_testing_block}
+			 WHERE (date > '{$today}' OR (date = '{$today}' AND end_time >= '{$current_time}'))
+			 AND testing_cycle NOT IN {$sql_array}
+             ORDER BY date, start_time"
+		);
+	}
+	// else show all upcoming blocks
+	else {
+		$records = $DB->get_records_sql(
+			"SELECT *
+			 FROM {local_mxschool_testing_block}
+			 WHERE date >= '{$today}'
+             ORDER BY date, start_time"
+		);
+	}
+	$block_options = array();
+	foreach($records as $record) {
+		if(!testing_block_full($record->id)) {
+			$start = date('h:i A', strtotime($record->start_time));
+			$end = date('h:i A', strtotime($record->end_time));
+			$date = date('D, n/d', strtotime($record->date));
+			$block_options[$record->id] = "{$start} -- {$end}, {$date}";
+		}
+	}
+	return $block_options;
+}
+
+/**
+* Given a user id, returns all of the user's upcoming appointment block data
+*
+* @return stdClass app_data, the data of the next appointment
+*/
+function get_user_upcoming_appointment_info($userid) {
+	global $DB;
+	$today = date('Y-m-d');
+	$current_time = date('H:i');
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid, ht.attended, ht.userid, tb.id AS tbid, tb.start_time, tb.end_time, tb.date, tb.testing_cycle, tb.max_testers
+		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE (tb.date > '{$today}' OR (tb.date = '{$today}' AND tb.end_time >= '{$current_time}'))
+		 	  AND ht.userid = '{$userid}' ORDER BY tb.date ASC"
+	);
+	$app_info = array();
+	foreach($records as $record) {
+		$app_info[$record->tbid] = array(
+			'testing_cycle' => $record->testing_cycle,
+			'start_time' => $record->start_time,
+			'end_time' => $record->end_time,
+			'date' => $record->date,
+			'attended' => $record->attended,
+			'userid' => $record->userid,
+			'max_testers' => $record->max_testers
+		);
+	}
+	return $app_info;
+}
+
+/**
+* Given a block_id, checks whether or not the block has reached its max testers
+*
+* @param int block_id, the id of the block
+* @return true if full, false otherwise
+*/
+function testing_block_full($block_id) {
+	global $DB;
+	 $total_testers = get_testing_block_num_testers($block_id);
+	 $max_testers = $DB->get_field('local_mxschool_testing_block', 'max_testers', array('id' => $block_id));
+	 return $total_testers >= $max_testers;
+}
+
+/**
+* Returns all the users who missed their healthtest today
+*
+* @return array htids, the healthtest id of the users who missed their test
+*/
+function get_todays_missed_tester_list() {
+	global $DB;
+	$today = date('Y-m-d');
+	$current_time = date('H:i');
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid
+		 FROM {local_mxschool_healthtest} ht
+		 LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE ht.attended = 0 AND tb.date = '{$today}' AND tb.end_time <= '{$current_time}'"
+	);
+	$missed_testers = array();
+	foreach($records as $record) {
+		$missed_testers[] = $record->htid;
+	}
+	return $missed_testers;
+}
+
+/**
+* Returns all the htid of all users who have a test tomorrow.
+*
+* @return array htids, the healthtest id of every user who has a test scheduled for tomorrow
+*/
+function get_tomorrows_tester_list() {
+	global $DB;
+	$tomorrow = date('Y-m-d', strtotime('tomorrow'));
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid
+		 FROM {local_mxschool_healthtest} ht
+		 LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE tb.date = '{$tomorrow}' AND ht.attended = 0"
+	);
+	$tomorrows_testers = array();
+	foreach($records as $record) {
+		$tomorrows_testers[] = $record->htid;
+	}
+	return $tomorrows_testers;
+}
+
+/**
+* Given a block id, returns the number of testers signed up for that block
+*
+* @param int block_id, the id of the block
+* @return int num_testers, the number of testers
+*/
+function get_testing_block_num_testers($block_id) {
+	global $DB;
+	$total_testers_record = $DB->get_records_sql(
+		"SELECT COUNT(*) AS test_count
+		 FROM {local_mxschool_healthtest}
+		 GROUP BY testing_block_id HAVING testing_block_id = '{$block_id}'"
+	 );
+	 foreach($total_testers_record as $record) {
+		 return $record->test_count;
+	 }
+	 return 0;
+}
+
+/**
+* Returns true if a given user missed a given testing block
+*
+* @param int userid, the user id of the user
+* @param int blockid, the id of the block
+* @return true if the block is in the past, and the user missed the block, false otherwise
+*/
+function user_missed_testing_block($userid, $blockid) {
+	global $DB;
+	$today = date('Y-m-d');
+	$current_time = date('H:i');
+	$records = $DB->get_records_sql(
+		"SELECT ht.id AS htid, ht.userid, ht.testing_block_id AS tbid, ht.attended, tb.end_time, tb.date
+		 FROM {local_mxschool_healthtest} ht
+		 LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		 WHERE ht.testing_block_id = '{$blockid}' AND ht.userid = '{$userid}' AND
+		 (tb.date < '{$today}' OR (tb.date = '{$today}' AND tb.end_time <= '{$current_time}'))"
+	);
+	foreach($records AS $record) {
+		return $record->attended == '0';
+	}
+}
+
+/**
+* Sends a reminder email to all the missed testers today
+*
+* @return true if successful, false otherwise
+*/
+function email_todays_missed_testers() {
+	$missed_testers = get_todays_missed_tester_list();
+	foreach($missed_testers as $tester) {
+		(new local_mxschool\local\healthtest\healthtest_missed($tester))->send();
+	}
+}
+
+/**
+* Sends a reminder email to all those who have a test tomorrow
+*
+* @return true if successful, false otherwise
+*/
+function email_tomorrows_testers() {
+	$testers = get_tomorrows_tester_list();
+	foreach($testers as $tester) {
+		(new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();
+	}
+}

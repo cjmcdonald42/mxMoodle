@@ -79,6 +79,9 @@ class local_mxschool_external extends external_api {
             case 'local_mxschool_attendance':
                 $page = get_string('checkin:attendance_report', 'local_mxschool');
                 break;
+		  case 'local_mxschool_healthtest':
+                $page = get_string('healthtest:test_report', 'local_mxschool');
+                break;
             default:
                 throw new coding_exception("Unsupported table: {$params['table']}.");
         }
@@ -148,12 +151,26 @@ class local_mxschool_external extends external_api {
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 return (new local_mxschool\local\vacation_travel\bulk_unsubmitted())->send();
-		  case 'healthpass_notify_unsubmitted':
-			  require_capability('local/mxschool:manage_healthpass', context_system::instance());
-			  return (new local_mxschool\local\healthpass\bulk_unsubmitted())->send();
-		  case 'healthpass_overridden':
-			  require_capability('local/mxschool:manage_healthpass', context_system::instance());
-			  return (new local_mxschool\local\healthpass\healthpass_overridden($params['emailparams']['id']))->send();
+		    case 'healthpass_notify_unsubmitted':
+			    require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			    return (new local_mxschool\local\healthpass\bulk_unsubmitted())->send();
+		    case 'healthpass_overridden':
+			    require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			    return (new local_mxschool\local\healthpass\healthpass_overridden($params['emailparams']['id']))->send();
+	       case 'healthtest_notify_reminder':
+		  	    require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			    $testers = get_tomorrows_tester_list();
+			    foreach($testers as $tester) {
+				    (new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();
+			  }
+			  return 1;
+	       case 'healthtest_notify_missed':
+		  	    require_capability('local/mxschool:manage_healthpass', context_system::instance());
+			    $missed_testers = get_todays_missed_tester_list();
+			    foreach($missed_testers as $tester) {
+				    (new local_mxschool\local\healthtest\healthtest_missed($tester))->send();
+			  }
+			    return 1;
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }

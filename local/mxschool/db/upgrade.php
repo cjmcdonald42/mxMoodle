@@ -1130,12 +1130,121 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020072302, 'local', 'mxschool');
-	}
+}
 	if ($oldversion < 2020081901) {
 	    set_config('healthpass_one_per_day', '1', 'local_mxschool');
 	    // Mxschool savepoint reached.
 	    upgrade_plugin_savepoint(true, 2020081901, 'local', 'mxschool');
+}
+	if ($oldversion < 2021030802) {
+
+		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
+		    'form', 'test_report', 'block_report', 'preferences'
+	    )));
+		 $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+
+		// Define table local_mxschool_testing_block to be created.
+		$table = new xmldb_table('local_mxschool_testing_block');
+
+		// Adding fields to table local_mxschool_testing_block.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('testing_cycle', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('max_testers', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('day_of_week', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('start_time', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('end_time', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('date', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_testing_block.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+		// Conditionally launch create table for local_mxschool_testing_block.
+		if (!$dbman->table_exists($table)) {
+		   $dbman->create_table($table);
+		}
+
+		// Define table local_mxschool_healthtest to be created.
+		$table = new xmldb_table('local_mxschool_healthtest');
+
+		// Adding fields to table local_mxschool_healthtest.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('testing_block_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('attended', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('time_created', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_healthtest.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+		$table->add_key('testing_block', XMLDB_KEY_FOREIGN, ['testing_block_id'], 'local_mxschool_testing_block', ['id']);
+
+		// Conditionally launch create table for local_mxschool_healthtest.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021030802, 'local', 'mxschool');
 	}
+
+	if ($oldversion < 2021030901) {
+
+	    // Define field start_time to be dropped from local_mxschool_testing_block.
+	    $table = new xmldb_table('local_mxschool_testing_block');
+	    $field = new xmldb_field('day_of_week');
+
+	    // Conditionally launch drop field start_time.
+	    if ($dbman->field_exists($table, $field)) {
+		   $dbman->drop_field($table, $field);
+	    }
+
+	    // Changing nullability of field time_created on table local_mxschool_healthtest to null.
+		$table = new xmldb_table('local_mxschool_healthtest');
+		$field = new xmldb_field('time_created', XMLDB_TYPE_INTEGER, '20', null, null, null, null, 'attended');
+
+		// Launch change of nullability for field time_created.
+		$dbman->change_field_notnull($table, $field);
+
+	    // Mxschool savepoint reached.
+	    upgrade_plugin_savepoint(true, 2021030901, 'local', 'mxschool');
+	}
+
+	if($oldversion < 2021031006) {
+
+		// Healthtest Defaults
+		set_config('healthtest_enabled', '1', 'local_mxschool');
+		set_config('healthtest_form_instructions', 'DEFAULT -- Change in COVID Testing preferences', 'local_mxschool');
+		set_config('healthtest_reminder_enabled', '1', 'local_mxschool');
+		set_config('healthtest_copy_healthcenter', '1', 'local_mxschool');
+		set_config('healthtest_confirm_enabled', '1', 'local_mxschool');
+
+		$data->reminder_subject = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->reminder_body = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->missed_subject = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->missed_body = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->confirm_subject = 'DEFAULT -- Change in COVID Testing Preferences';
+		$data->confirm_body = 'DEFAULT -- Change in COVID Testing Preferences';
+
+	     update_notification('healthtest_reminder', $data, 'reminder');
+		update_notification('healthtest_missed', $data, 'missed');
+	     update_notification('healthtest_confirm', $data, 'confirm');
+
+		upgrade_plugin_savepoint(true, 2021031006, 'local', 'mxschool');
+	}
+
+	if($oldversion < 2021031203) {
+
+		// Add block_form page to healthtest subpackage.
+		$DB->delete_records('local_mxschool_subpackage', array('subpackage' => 'healthtest'));
+
+		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
+		    'test_form', 'test_report', 'block_form', 'block_report', 'preferences'
+	    )));
+		 $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+
+		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
+	}
+
 
      return true;
 

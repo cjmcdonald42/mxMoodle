@@ -44,6 +44,11 @@ class block_mxschool_dash_healthcenter extends block_base {
             $output = $PAGE->get_renderer('local_mxschool');
 		  $dorm = get_param_faculty_dorm();
 		  $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
+
+		  $today = date('Y-m-d');
+		  $testing_cycle = get_current_testing_cycle($today);
+		  $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
+
             $renderables = array(
                 new local_mxschool\output\index(array(
                     get_string('healthpass:submit_form', 'block_mxschool_dash_healthcenter')
@@ -51,8 +56,18 @@ class block_mxschool_dash_healthcenter extends block_base {
                     get_string('healthpass:report', 'block_mxschool_dash_healthcenter')
                         => "/local/mxschool/healthpass/report.php?{$filter}",
                     get_string('healthpass:preferences', 'block_mxschool_dash_healthcenter')
-                            => '/local/mxschool/healthpass/preferences.php',
+                        => '/local/mxschool/healthpass/preferences.php',
                 ),  get_string('healthpass', 'block_mxschool_dash_healthcenter')),
+			 new local_mxschool\output\index(array(
+				get_string('healthtest:appointment_form', 'block_mxschool_dash_healthcenter')
+				    => "/local/mxschool/healthtest/appointment_form.php",
+                get_string('healthtest:test_report', 'block_mxschool_dash_healthcenter')
+    				=> "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
+				get_string('healthtest:block_report', 'block_mxschool_dash_healthcenter')
+				    => '/local/mxschool/healthtest/block_report.php',
+			     get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')
+				    => '/local/mxschool/healthtest/preferences.php',
+			 ),  get_string('healthtest', 'block_mxschool_dash_healthcenter')),
                 new local_mxschool\output\index(array(
                     get_string('user_management:student_report', 'block_mxschool_dash_healthcenter')
                         => '/local/mxschool/user_management/student_report.php',

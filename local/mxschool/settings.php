@@ -61,7 +61,11 @@ if ($hassiteconfig) {
     ));
     $indexes->add('indexes', new admin_externalpage(
 	   'deans_permission_index', new lang_string('indexes:deans_permission', 'local_mxschool'),
-	   "$CFG->wwwroot/local/mxschool/vacation_travel/index.php"
+	   "$CFG->wwwroot/local/mxschool/deans_permission/index.php"
+    ));
+    $indexes->add('indexes', new admin_externalpage(
+	   'healthtest_index', new lang_string('indexes:healthtest', 'local_mxschool'),
+	   "$CFG->wwwroot/local/mxschool/healthtest/index.php"
     ));
     $mxschool->add('mxschool', $indexes);
 
