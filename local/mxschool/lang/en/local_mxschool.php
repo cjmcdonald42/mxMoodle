@@ -1247,7 +1247,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:test_report:attended:absent'] = "Absent for Test";
  $string['healthtest:test_report:appointment'] = "Appointment Form";
  $string['healthtest:test_report:block_report'] = "COVIDtest Block Report";
- $string['healthtest:test_report:notify_missed'] = "Notify Today\'s Absentees";
+ $string['healthtest:test_report:notify_missed'] = "Notify Today's Absentees";
  $string['healthtest:test_report:remind'] = 'Send Reminders for Tomorrow';
 
  /* Healthtest Appointment Form */
