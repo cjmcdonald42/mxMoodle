@@ -1179,7 +1179,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
 
  $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the Health Center when a COVIDpass is denied';
- $string['healthpass:preferences:healthcenter_notification:healthpass_notification_email_address'] = 'Healthcenter email';
+ $string['healthpass:preferences:healthcenter_notification:healthpass_notification_email_address'] = 'Health Center email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_tags'] = 'Available tags for COVIDpass healthcenter notification email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_subject'] = 'Healthcenter notification email subject';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_body'] = 'Healthcenter notification email body';
