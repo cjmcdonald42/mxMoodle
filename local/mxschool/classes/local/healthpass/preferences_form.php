@@ -53,7 +53,7 @@
 			 ),
 			 'healthcenter_notification' => array(
 				 'healthcenter_notification_enabled' => array('element' => 'checkbox'),
-				 'healthcenter_email_address' => self::ELEMENT_LONG_TEXT_REQUIRED,
+				 'healthpass_notification_email_address' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				 'healthcenter_tags' => self::email_tags(new healthcenter_notification()),
 				 'healthcenter_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				 'healthcenter_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
