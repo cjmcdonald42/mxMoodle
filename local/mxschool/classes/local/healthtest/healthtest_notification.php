@@ -70,7 +70,7 @@ abstract class healthtest_notification extends \local_mxschool\notification {
 
 		  if($emailclass == 'healthtest_missed' and get_config('local_mxschool', 'healthtest_copy_healthcenter')=='1') {
 			  $healthcenter = $DB->get_record('user', array('id' => 2));
-			  $healthcenter->email = get_config('local_mxschool', 'healthcenter_notification_email_address');
+			  $healthcenter->email = get_config('local_mxschool', 'healthtest_notification_email_address');
 			  $healthcenter->addresseename = 'Health Center';
 			  $healthcenter->firstname = 'Health';
 			  $healthcenter->lastname = 'Center';
