@@ -63,7 +63,7 @@ class healthcenter_notification extends \local_mxschool\notification {
 		  $this->data['body_temperature'] = $record->body_temperature;
 
 		  $healthcenter = $DB->get_record('user', array('id' => 2));
-		  $healthcenter->email = get_config('local_mxschool', 'healthcenter_notification_email_address');
+		  $healthcenter->email = get_config('local_mxschool', 'healthpass_notification_email_address');
 		  $healthcenter->addresseename = 'Health Center';
 		  $healthcenter->firstname = 'Health';
 		  $healthcenter->lastname = 'Center';
