@@ -56,6 +56,7 @@
 			 ),
 			 'missed_notification' => array(
 				'missed_copy_healthcenter_enabled' => array('element' => 'checkbox'),
+                'healthcenter_email_address' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				'missed_tags' => self::email_tags(new healthtest_missed()),
 				'missed_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				'missed_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
