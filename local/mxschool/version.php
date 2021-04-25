@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_mxschool';
-$plugin->version = 2021042002;
+$plugin->version = 2021042000;
 $plugin->release = 'v3.2';
 $plugin->requires = 2019052000; // Moodle 3.7.
 $plugin->maturity = MATURITY_STABLE;

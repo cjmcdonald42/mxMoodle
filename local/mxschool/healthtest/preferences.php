@@ -40,7 +40,6 @@ $data->healthtest_enabled = get_config('local_mxschool', 'healthtest_enabled');
 $data->form_instructions = get_config('local_mxschool', 'healthtest_form_instructions');
 // $data->reminder_enabled = get_config('local_mxschool', 'healthtest_reminder_enabled');
 $data->missed_copy_healthcenter_enabled = get_config('local_mxschool', 'healthtest_copy_healthcenter');
-$data->healthcenter_email_address = get_config('local_mxschool', 'healthtest_notification_email_address');
 $data->confirm_enabled = get_config('local_mxschool', 'healthtest_confirm_enabled');
 
 generate_email_preference_fields('healthtest_reminder', $data, 'reminder');
@@ -62,7 +61,6 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	set_config('healthtest_form_instructions', $data->form_instructions, 'local_mxschool');
 	// set_config('healthtest_reminder_enabled', $data->reminder_enabled, 'local_mxschool');
 	set_config('healthtest_copy_healthcenter', $data->missed_copy_healthcenter_enabled, 'local_mxschool');
-    set_config('healthtest_notification_email_address', $data->healthcenter_email_address, 'local_mxschool');
 	set_config('healthtest_confirm_enabled', $data->confirm_enabled, 'local_mxschool');
 
      update_notification('healthtest_reminder', $data, 'reminder');
