@@ -1636,6 +1636,7 @@ function get_appointment_form_block_options($userid=null) {
 			$sql_array .= ')';
 		}
 		else $sql_array = ('(-1)');
+        if($sql_array == ')') $sql_array = '(-1)';  // Fix for data issue #68
 		$records = $DB->get_records_sql(
 			"SELECT *
 			 FROM {local_mxschool_testing_block}
