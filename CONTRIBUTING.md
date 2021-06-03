@@ -4,7 +4,7 @@ I'm really glad you're reading this.
 The Moodle Development Team is a student-led initiative that has made a profound impact on the Middlesex community and it needs your passion, your talent, and your creativity to continue.
 
 To get started:
-1. Send me an email expressing your interest and include your GitHub profile name or link.
+1. Send [Chuck](mailto:cjmcdonald@mxschool.edu) an email expressing your interest and include your GitHub profile name or link.
 2. Read our Code of Conduct.
 3. Read or review our [getting started guide](/docs/GETTING_STARTED.md)
 4. Our [issue tracker](https://github.com/mxschool/mxMoodle/issues) and [project boards](https://github.com/mxschool/mxMoodle/projects) show our work in progress and are a good starting point for jumping in.
