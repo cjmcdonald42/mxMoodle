@@ -13,6 +13,5 @@ This work is a combination of talents and technologies - Coding, UX, Documenting
 
 All commits are made to the dev branch in sub-branches specifically named for the issue being addressed. Pull requests are made to the dev branch before finally being squashed and merged to the main branch by the repository administrators. If you do your development work in a fork of this repository, that pull request should merge into dev/issue for review by the team before merging into the dev branch.
 
-
 Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>  
 The Moodle Development Team \<MooDevTea@mxschool.edu\>
