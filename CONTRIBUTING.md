@@ -21,6 +21,9 @@ When the dev branch is ready to take its place as the next live version of our c
 ## Coding conventions
 Start reading our code and you'll get the hang of it. We optimize for readability.
 
+* Indent using a soft tab of 4 spaces
+* Use double slash for single line comments and use \/* *\/ for multi-line comment blocks.
+
 This is open source software. Consider the people who will read your code, and make it look nice for them. It's sort of like driving a car: Perhaps you love doing donuts when you're alone, but with passengers the goal is to make the ride as smooth as possible.
 
 ## Contact us
