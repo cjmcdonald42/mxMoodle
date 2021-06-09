@@ -19,10 +19,8 @@ All commits are made to the dev branch in sub-branches specifically named for th
 When the dev branch is ready to take its place as the next live version of our code, it is squashed and merged with the main branch by the repository administrators.
 
 ## Coding conventions
-Start reading our code and you'll get the hang of it. We optimize for readability.
-
-* Indent using a soft tab of 4 spaces
-* Use double slash for single line comments and use \/* *\/ for multi-line comment blocks.
+Start reading our code and you'll get the hang of it. We optimize for readability. Without getting too pedantic, we follow the
+[PHP Standards Recommendations of the Framework Interop Group](https://php=fig.org/psr)
 
 This is open source software. Consider the people who will read your code, and make it look nice for them. It's sort of like driving a car: Perhaps you love doing donuts when you're alone, but with passengers the goal is to make the ride as smooth as possible.
 
