@@ -44,21 +44,21 @@ class table extends \local_mxschool\table {
      */
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
-        $columns = array('student', 'event', 'event_info', 'sport', 'missing', 'times_away', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
+        $columns = array('student', 'event', 'event_info', 'event_date', 'sport', 'missing', 'times_away', 'parent_perm',
+	   				'sports_perm', 'class_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
 	   if ($this->is_downloading()) {
 		  unset($columns[array_search('sports_perm', $columns)]);
-		  unset($columns[array_search('studyhours_perm', $columns)]);
 		  unset($columns[array_search('class_perm', $columns)]);
 	   }
         $headers = $this->generate_headers($columns, 'deans_permission:report');
         $sortable = array('student', 'form_submitted');
-        $centered = array('event', 'sport', 'parent_perm', 'sports_perm', 'studyhours_perm', 'class_perm', 'comment', 'dean_perm', 'form_submitted');
+        $centered = array('event', 'event_date', 'sport', 'parent_perm', 'sports_perm', 'class_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
 
         $fields = array(
-		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dpe.name AS event', 'dp.event_info',
-		   'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.studyhours_perm',
-		   'dp.comment', 'dp.class_perm', 'dp.dean_perm', 'dp.form_submitted'
+		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dpe.name AS event', 'dp.event_info', 'dp.event_date',
+		   'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.class_perm',
+		   'dp.internal_comment', 'dp.external_comment', 'dp.status', 'dp.form_submitted'
         );
         $from = array(
 		   '{local_mxschool_deans_perm} dp', '{user} u ON dp.userid = u.id', '{local_mxschool_student} su ON dp.userid = su.userid',
@@ -66,8 +66,9 @@ class table extends \local_mxschool\table {
         );
 	   $where = array('u.deleted = 0'
 	   );
-	   if($filter->approved == 'approved') $where[] = 'dp.dean_perm = 2';
-	   else if($filter->approved == 'under_review') $where[] = '(dp.dean_perm = 0 OR dp.dean_perm = 1)';
+	   if($filter->status == 'approved') $where[] = 'dp.status = 1';
+	   else if($filter->status == 'denied') $where[] = 'dp.dean_perm = 2';
+	   else if($filter->status == 'under_review') $where[] = 'dp.dean_perm = 0';
 	   if($filter->event) $where[] = "dpe.id = {$filter->event}";
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
@@ -80,6 +81,10 @@ class table extends \local_mxschool\table {
 	    if($this->is_downloading()) return $values->student;
 	    return "{$values->student}<br>
     			  ({$values->grade}, {$values->boarding_status})";
+    }
+
+    protected function col_event_date($values) {
+	return isset($values->event_date) ? format_date('n/j/y', $values->event_date) : '';
     }
 
     /**
@@ -109,13 +114,6 @@ class table extends \local_mxschool\table {
 	    return $output->render($renderable);
     }
 
-    protected function col_studyhours_perm($values) {
-		global $PAGE;
-		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new alternating_button($values->id, $values->userid, $values->studyhours_perm, 'studyhours', 'deans_permission');
-		return $output->render($renderable);
-    }
-
     protected function col_class_perm($values) {
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
@@ -123,23 +121,31 @@ class table extends \local_mxschool\table {
 		return $output->render($renderable);
     }
 
-    protected function col_comment($values) {
+    protected function col_internal_comment($values) {
 	    if($this->is_downloading()) return $values->comment;
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
-	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save', 'local_mxschool_deans_perm');
+	    $renderable = new comment($values->id, $values->internal_comment, 'Edit', 'Save', 'local_mxschool_deans_perm_0');
 	    return $output->render($renderable);
     }
 
-    protected function col_dean_perm($values) {
+    protected function col_external_comment($values) {
+		if($this->is_downloading()) return $values->comment;
+		global $PAGE;
+		$output = $PAGE->get_renderer('local_mxschool');
+		$renderable = new comment($values->id, $values->external_comment, 'Edit', 'Save', 'local_mxschool_deans_perm_1');
+		return $output->render($renderable);
+    }
+
+    protected function col_status($values) {
 	    	if($this->is_downloading()) {
-			if($values->dean_perm == 0) return 'No';
-			if($values->dean_perm == 1) return 'Under Review';
-			if($values->dean_perm == 2) return 'Yes';
+			if($values->dean_perm == 0) return 'Under Review';
+			if($values->dean_perm == 1) return 'Approved';
+			if($values->dean_perm == 2) return 'Denied';
 		}
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new alternating_button($values->id, $values->userid, $values->dean_perm, 'deans', 'deans_permission');
+		$renderable = new alternating_button($values->id, $values->userid, $values->status, 'deans', 'deans_permission');
 		return $output->render($renderable);
     }
 

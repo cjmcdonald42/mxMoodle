@@ -1030,20 +1030,22 @@ $string['deans_permission:report:title'] = 'Deans\' Permission Report';
 $string['deans_permission:report:header:student'] = 'Student';
 $string['deans_permission:report:header:event'] = 'Event Type';
 $string['deans_permission:report:header:event_info'] = 'Event Info';
+$string['deans_permission:report:header:event_date'] = 'Event Date';
 $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
 $string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
-$string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
-$string['deans_permission:report:header:comment'] = 'Comment';
-$string['deans_permission:report:header:dean_perm'] = 'Approved?';
+$string['deans_permission:report:header:internal_comment'] = 'Internal Comment';
+$string['deans_permission:report:header:external_comment'] = 'Message to Student';
+$string['deans_permission:report:header:status'] = 'Status?';
 $string['deans_permission:report:header:form_submitted'] = 'Submitted';
 
 // Filters.
-$string['deans_permission:report:approved:true'] = 'Approved';
-$string['deans_permission:report:approved:false'] = 'Under Review';
+$string['deans_permission:report:status:approved'] = 'Approved';
+$string['deans_permission:report:status:denied'] = 'Denied';
+$string['deans_permission:report:status:under_review'] = 'Under Review';
 $string['deans_permission:report:event:all'] = 'All Event Types';
 
 $string['deans_permission:report:delete:success'] = 'Record Deleted Succesfully';

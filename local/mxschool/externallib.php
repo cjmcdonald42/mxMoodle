@@ -606,6 +606,14 @@ class local_mxschool_external extends external_api {
 			 $DB->set_field($table, 'comment', $text, array('userid' => $id));
 			 return true;
 		 }
+		 if ($table == 'local_mxschool_deans_perm_0') {
+			 $DB->set_field('local_mxschool_deans_perm', 'internal_comment', $text, array('id' => $id));
+			  return true;
+		 }
+		 if ($table == 'local_mxschool_deans_perm_1') {
+			 $DB->set_field('local_mxschool_deans_perm', 'external_comment', $text, array('id' => $id));
+			  return true;
+		 }
 		 $DB->set_field($table, 'comment', $text, array('id' => $id));
 		  return true;
 		}
