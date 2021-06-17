@@ -67,8 +67,8 @@ class table extends \local_mxschool\table {
 	   $where = array('u.deleted = 0'
 	   );
 	   if($filter->status == 'approved') $where[] = 'dp.status = 1';
-	   else if($filter->status == 'denied') $where[] = 'dp.dean_perm = 2';
-	   else if($filter->status == 'under_review') $where[] = 'dp.dean_perm = 0';
+	   else if($filter->status == 'denied') $where[] = 'dp.status = 2';
+	   else if($filter->status == 'under_review') $where[] = 'dp.status = 0';
 	   if($filter->event) $where[] = "dpe.id = {$filter->event}";
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
@@ -125,7 +125,6 @@ class table extends \local_mxschool\table {
 	    if($this->is_downloading()) return $values->comment;
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
-	    $renderable = new comment($values->id, $values->internal_comment, 'Edit', 'Save', 'local_mxschool_deans_perm_0');
 	    return $output->render($renderable);
     }
 
@@ -133,7 +132,7 @@ class table extends \local_mxschool\table {
 		if($this->is_downloading()) return $values->comment;
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new comment($values->id, $values->external_comment, 'Edit', 'Save', 'local_mxschool_deans_perm_1');
+		$renderable = new comment($values->id, 'ext', $values->external_comment, 'Edit', 'Save', 'local_mxschool_deans_perm_1');
 		return $output->render($renderable);
     }
 

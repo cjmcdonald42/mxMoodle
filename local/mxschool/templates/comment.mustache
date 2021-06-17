@@ -27,16 +27,16 @@
     Required context variables:
     - text | string | the text to display on the button
 }}
-<p class="mx-comment-text{{ userid }}">{{ comment_text }}</p>
+<p class="mx-comment-text{{ userid }}{{ name }}">{{ comment_text }}</p>
 <button
-	type="button" class="mx-comment-edit-button{{ userid }} btn btn-primary d-print-none"
-	name="{{ userid }}">{{ edit_button_text }}
+	type="button" class="mx-comment-edit-button{{ userid }}{{ name }} btn btn-primary d-print-none"
+	name="{{ name }}" value="{{ userid }}">{{ edit_button_text }}
 </button>
-<textarea class="mx-comment-edit-area{{ userid }}" name="{{ table }}">{{ comment_text }}</textarea><br>
-<button type="button" class="mx-comment-save-button{{ userid }} btn btn-primary d-print-none" name="{{ userid }}">{{ save_button_text }}</button>
+<textarea class="mx-comment-edit-area{{ userid }}{{ name }}" name="{{ table }}">{{ comment_text }}</textarea><br>
+<button type="button" class="mx-comment-save-button{{ userid }}{{ name }} btn btn-primary d-print-none" name="{{ name }}" value="{{ userid }}">{{ save_button_text }}</button>
 
 {{# js }}
     require(['local_mxschool/comment'], function(setup) {
-        setup({{ userid }});
+        setup({{ userid }}, '{{name}}');
     });
 {{/ js }}
