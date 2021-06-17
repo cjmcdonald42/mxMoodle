@@ -763,4 +763,46 @@ class local_mxschool_external extends external_api {
     public static function update_healthform_override_status_returns() {
     		return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
     }
+
+    /**
+    * Returns descriptions of the update_approve_deny_cell() function's parameters.
+    *
+    * @return external_function_parameters Object holding array of parameters for the approve_deny_cell() function.
+    */
+    public static function update_approve_deny_cell_parameters() {
+		 return new external_function_parameters(array(
+			  'id' => new external_value(PARAM_INT, 'The id of row to update'),
+			  'field' => new external_value(PARAM_TEXT, 'The field to update'),
+			  'table' => new external_value(PARAM_TEXT, 'The table to update'),
+			  'new_value' => new external_value(PARAM_INT, 'The new value to insert into the database'),
+		  ));
+    }
+
+    /**
+    * Updates an approved/deny cell
+    *
+    * @param int id, the id of the row to update
+    * @param String field, the field to update
+    * @param String table, the table to updat
+    * @param int new_value, the new value
+    * @return boolean true when succesful
+    */
+	public static function update_approve_deny_cell($id, $field, $table, $new_value) {
+		external_api::validate_context(context_system::instance());
+		$params = self::validate_parameters(self::update_approve_deny_cell_parameters(), array(
+		    'id' => $id, 'field' => $field, 'table' => $table, 'new_value' => $new_value)
+		);
+		global $DB;
+		$DB->set_field($table, $field, $new_value, array('id' => $id));
+		return true;
+	}
+
+	/**
+	 * Returns a description of the update_approve_deny_cell() function's return value.
+	 *
+	 * @return external_value Object describing the return value of the update_healthform_comment() function.
+	 */
+	public static function update_approve_deny_cell_returns() {
+	    return new external_value(PARAM_BOOL, 'True if the operation is succesful, false otherwise.');
+	}
 }

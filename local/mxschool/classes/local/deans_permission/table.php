@@ -32,6 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 use local_mxschool\output\alternating_button;
 use local_mxschool\output\comment;
 use local_mxschool\output\checkbox;
+use local_mxschool\output\approve_deny_cell;
 
 class table extends \local_mxschool\table {
 
@@ -139,13 +140,13 @@ class table extends \local_mxschool\table {
 
     protected function col_status($values) {
 	    	if($this->is_downloading()) {
-			if($values->dean_perm == 0) return 'Under Review';
-			if($values->dean_perm == 1) return 'Approved';
-			if($values->dean_perm == 2) return 'Denied';
+			if($values->status == 0) return 'Under Review';
+			if($values->status == 1) return 'Approved';
+			if($values->status == 2) return 'Denied';
 		}
 		global $PAGE;
 		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new alternating_button($values->id, $values->userid, $values->status, 'deans', 'deans_permission');
+		$renderable = new approve_deny_cell($values->id, 'status', 'local_mxschool_deans_perm', $values->status);
 		return $output->render($renderable);
     }
 
