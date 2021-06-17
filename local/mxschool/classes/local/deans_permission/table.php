@@ -125,6 +125,7 @@ class table extends \local_mxschool\table {
 	    if($this->is_downloading()) return $values->comment;
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
+	    $renderable = new comment($values->id, 'int', $values->internal_comment, 'Edit', 'Save', 'local_mxschool_deans_perm_0');
 	    return $output->render($renderable);
     }
 
