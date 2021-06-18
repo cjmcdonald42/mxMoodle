@@ -48,10 +48,10 @@ if ($action === 'delete' && $id) {
 $data = new stdClass();
 $data->deans_email_address = get_config('local_mxschool', 'deans_email_address');
 generate_email_preference_fields('deans_permission_submitted', $data, 'submitted');
-$data->sports_email_address = get_config('local_mxschool', 'athletic_director_email_address');
-generate_email_preference_fields('sports_permission_request', $data, 'review_email');
-$data->class_email_address = get_config('local_mxschool', 'academic_director_email_address');
-generate_email_preference_fields('deans_permission_notify_healthcenter', $data, 'notify_email');
+$data->athletic_director_email_address = get_config('local_mxschool', 'athletic_director_email_address');
+generate_email_preference_fields('sports_permission_request', $data, 'review');
+$data->academic_director_email_address = get_config('local_mxschool', 'academic_director_email_address');
+generate_email_preference_fields('deans_permission_notify_healthcenter', $data, 'notify');
 generate_email_preference_fields('deans_permission_approved', $data, 'approved');
 generate_email_preference_fields('deans_permission_denied', $data, 'denied');
 
@@ -62,8 +62,8 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
 	set_config('deans_email_address', $data->deans_email_address, 'local_mxschool');
-	set_config('athletic_director_email_address', $data->sports_email_address, 'local_mxschool');
-	set_config('academic_director_email_address', $data->class_email_address, 'local_mxschool');
+	set_config('athletic_director_email_address', $data->athletic_director_email_address, 'local_mxschool');
+	set_config('academic_director_email_address', $data->academic_director_email_address, 'local_mxschool');
 	update_notification('class_permission_request', $data, 'review');
 	update_notification('sports_permission_request', $data, 'review');
 	update_notification('deans_permission_submitted', $data, 'submitted');
