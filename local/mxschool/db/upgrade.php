@@ -1297,6 +1297,19 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021061701, 'local', 'mxschool');
 	}
 
+	// defaults for deans permission email
+	if($oldversion < 2021061804) {
+		$data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
+		$data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
+
+		update_notification('class_permission_request', $data, 'default');
+		update_notification('sports_permission_request', $data, 'default');
+		update_notification('deans_permission_submitted', $data, 'default');
+		update_notification('deans_permission_notify_healthcenter', $data, 'default');
+		update_notification('deans_permission_approved', $data, 'default');
+		update_notification('deans_permission_denied', $data, 'default');
+	}
+
      return true;
 
  }
