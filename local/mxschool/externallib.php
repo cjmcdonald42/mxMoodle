@@ -151,10 +151,10 @@ class local_mxschool_external extends external_api {
             case 'vacation_travel_notify_unsubmitted':
                 require_capability('local/mxschool:notify_vacation_travel', context_system::instance());
                 return (new local_mxschool\local\vacation_travel\bulk_unsubmitted())->send();
-		    case 'healthpass_notify_unsubmitted':
+		  case 'healthpass_notify_unsubmitted':
 			    require_capability('local/mxschool:manage_healthpass', context_system::instance());
 			    return (new local_mxschool\local\healthpass\bulk_unsubmitted())->send();
-		    case 'healthpass_overridden':
+		  case 'healthpass_overridden':
 			    require_capability('local/mxschool:manage_healthpass', context_system::instance());
 			    return (new local_mxschool\local\healthpass\healthpass_overridden($params['emailparams']['id']))->send();
 	       case 'healthtest_notify_reminder':
@@ -171,6 +171,9 @@ class local_mxschool_external extends external_api {
 				    (new local_mxschool\local\healthtest\healthtest_missed($tester))->send();
 			  }
 			    return 1;
+		  case 'deans_permission_notify_healthcenter':
+			    require_capability('local/mxschool:manage_deans_permission', context_system::instance());
+			    return (new local_mxschool\local\deans_permission\notify_healthcenter($params['emailparams']['id']))->send();
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }
@@ -794,6 +797,14 @@ class local_mxschool_external extends external_api {
 		);
 		global $DB;
 		$DB->set_field($table, $field, $new_value, array('id' => $id));
+		if($table == 'local_mxschool_deans_perm') {
+			if($new_value == 1) {
+			    return (new local_mxschool\local\deans_permission\deans_permission_approved($id))->send();
+			}
+			else if($new_value == 2) {
+			    return (new local_mxschool\local\deans_permission\deans_permission_denied($id))->send();
+			}
+		}
 		return true;
 	}
 

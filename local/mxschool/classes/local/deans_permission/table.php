@@ -33,6 +33,7 @@ use local_mxschool\output\alternating_button;
 use local_mxschool\output\comment;
 use local_mxschool\output\checkbox;
 use local_mxschool\output\approve_deny_cell;
+use local_mxschool\output\email_button;
 
 class table extends \local_mxschool\table {
 
@@ -158,7 +159,11 @@ class table extends \local_mxschool\table {
 	* Formats the actions column.
 	*/
     protected function col_actions($values) {
-	   return isset($values->id) ? $this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
-	    						  $this->delete_icon($values->id): '';
+	   if(!isset($values->id)) return '';
+    	   global $PAGE;
+	   $output = $PAGE->get_renderer('local_mxschool');
+	   $renderable = new email_button('Email Healthcenter', 'deans_permission_notify_healthcenter', 0, false);
+	   return $output->render($renderable).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
+	    						  $this->delete_icon($values->id);
     }
 }
