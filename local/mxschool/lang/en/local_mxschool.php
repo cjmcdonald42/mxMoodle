@@ -1013,6 +1013,7 @@ $string['deans_permission:form:info'] = 'Information';
 $string['deans_permission:form:info:student'] = 'Student';
 $string['deans_permission:form:info:event'] = 'Event type';
 $string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? Is this recurring or single event? Where is the event (include city and state)?';
+$string['deans_permission:form:info:event_date'] = 'What day is the event?';
 $string['deans_permission:form:info:sport'] = 'What is your afternoon school athletic commitment (E.g. track, recfit)?';
 $string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
 $string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
