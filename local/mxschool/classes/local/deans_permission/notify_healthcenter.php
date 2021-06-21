@@ -41,7 +41,7 @@ class notify_healthcenter extends deans_permission_notification {
 
 	    global $DB;
 	    $healthcenter = $DB->get_record('user', array('id' => 2));
-	    $healthcenter->email = get_config('local_mxschool', 'healthpass_notification_email_address');
+	    $healthcenter->email = get_config('local_mxschool', 'dp_healthcenter_email_address');
 	    $healthcenter->addresseename = 'Health Center';
 	    $healthcenter->firstname = 'Health';
 	    $healthcenter->lastname = 'Center';

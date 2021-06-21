@@ -1298,7 +1298,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	}
 
 	// defaults for deans permission email
-	if($oldversion < 2021061804) {
+	if($oldversion < 2021061805) {
+		$data = new stdClass();
 		$data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
 		$data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
 

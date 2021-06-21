@@ -52,6 +52,7 @@ class preferences_form extends \local_mxschool\form {
 			  'review_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
 		  'notify_email' => array(
+			  'healthcenter_email_address' => self::ELEMENT_EMAIL_REQUIRED,
 			  'notify_tags' => self::email_tags(new class_permission_request()),
 			  'notify_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'notify_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED

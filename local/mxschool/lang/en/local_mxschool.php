@@ -1070,6 +1070,7 @@ $string['deans_permission:preferences:review_email:review_tags'] = 'Available ta
 $string['deans_permission:preferences:review_email:review_subject'] = 'Review request subject';
 $string['deans_permission:preferences:review_email:review_body'] = 'Review request body';
 $string['deans_permission:preferences:notify_email'] = 'Healthcenter notification email';
+$string['deans_permission:preferences:notify_email:healthcenter_email_address'] = 'Healthcenter Email Address';
 $string['deans_permission:preferences:notify_email:notify_tags'] = 'Available tags for deans\' permission form healthcenter notification email';
 $string['deans_permission:preferences:notify_email:notify_subject'] = 'Healthcenter notification subject';
 $string['deans_permission:preferences:notify_email:notify_body'] = 'Healthcenter notification subject';

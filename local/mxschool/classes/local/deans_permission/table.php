@@ -53,7 +53,7 @@ class table extends \local_mxschool\table {
 		  unset($columns[array_search('class_perm', $columns)]);
 	   }
         $headers = $this->generate_headers($columns, 'deans_permission:report');
-        $sortable = array('student', 'form_submitted');
+        $sortable = array('form_submitted', 'student', 'event_date');
         $centered = array('event', 'event_date', 'sport', 'parent_perm', 'sports_perm', 'class_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
 

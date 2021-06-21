@@ -44,6 +44,7 @@ function xmldb_local_mxschool_install() {
     set_config('deans_email_address', 'deanslog@mxschool.edu', 'local_mxschool');
     set_config('athletic_director_email_address', 'krisley@mxschool.edu', 'local_mxschool');
     set_config('academic_director_email_address', 'kmcnall@mxschool.edu', 'local_mxschool');
+    set_config('dp_healthcenter_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
 
     set_config('healthpass_enable', 'Yes', 'local_mxschool');
     set_config('healthpass_one_per_day', '1', 'local_mxschool');
