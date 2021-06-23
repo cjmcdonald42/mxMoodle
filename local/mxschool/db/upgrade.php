@@ -1298,7 +1298,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	}
 
 	// defaults for deans permission email
-	if($oldversion < 2021061805) {
+	if($oldversion < 2021062301) {
 		$data = new stdClass();
 		$data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
 		$data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
@@ -1311,7 +1311,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		update_notification('deans_permission_denied', $data, 'default');
 
 		// Mxschool savepoint reached.
-		upgrade_plugin_savepoint(true, 2021061805, 'local', 'mxschool');
+		upgrade_plugin_savepoint(true, 2021062301, 'local', 'mxschool');
 	}
 
      return true;
