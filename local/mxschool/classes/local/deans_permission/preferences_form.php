@@ -30,6 +30,9 @@ namespace local_mxschool\local\deans_permission;
 defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\local\deans_permission\submitted;
+use local_mxschool\local\deans_permission\sports_permission_request;
+use local_mxschool\local\deans_permission\class_permission_request;
+use local_mxschool\local\deans_permission\deans_permission_approved;
 
 class preferences_form extends \local_mxschool\form {
 
