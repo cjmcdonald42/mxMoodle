@@ -1309,6 +1309,9 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		update_notification('deans_permission_notify_healthcenter', $data, 'default');
 		update_notification('deans_permission_approved', $data, 'default');
 		update_notification('deans_permission_denied', $data, 'default');
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021061805, 'local', 'mxschool');
 	}
 
      return true;
