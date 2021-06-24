@@ -60,7 +60,7 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
  		  $this->data['event'] = $record->event;
  		  $this->data['sport'] = $record->sport;
  		  $this->data['times_away'] = $record->times_away;
-		  $this->data['event_date'] = $record->event_date;
+		  $this->data['event_date'] = date('n/j/y', $record->event_date);
 		  $this->data['message_to_student'] = $record->external_comment;
 		  $this->data['event_info'] = $record->event_info;
          }
