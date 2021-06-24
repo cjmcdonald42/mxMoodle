@@ -87,4 +87,7 @@ function xmldb_local_mxschool_install() {
     foreach ($sites as $site) {
         $DB->insert_record('local_mxschool_vt_site', (object) $site);
     }
+
+    $other_insert = array('id' => '1', 'name' => 'Other');
+    $DB->insert_record('local_mxschool_dp_event', (object) $other_insert);
 }

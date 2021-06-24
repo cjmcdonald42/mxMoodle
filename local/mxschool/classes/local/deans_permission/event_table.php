@@ -51,7 +51,7 @@ class event_table extends \local_mxschool\table {
         $from = array(
 		   '{local_mxschool_dp_event} dpe'
         );
-	   $where = array('dpe.id > 0');
+	   $where = array('dpe.id > 0 OR dpe.id = 0');
         $this->define_sql($fields, $from, $where);
     }
 

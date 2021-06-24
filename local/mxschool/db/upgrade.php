@@ -1056,10 +1056,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		   $dbman->add_field($table, $field);
 	    }
 
-	    $other = new stdClass();
-	    $other->name = 'Other';
-	    $DB->insert_record('local_mxschool_dp_event', $other);
-
 	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
 		   'form', 'report', 'preferences', 'event_edit'
 	   )));
@@ -1312,6 +1308,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 		// Mxschool savepoint reached.
 		upgrade_plugin_savepoint(true, 2021062301, 'local', 'mxschool');
+	}
+
+	if($oldversion < 2021062401) {
+		$other_insert = array('id' => '1', 'name' => 'Other');
+		$DB->insert_record('local_mxschool_dp_event', (object) $other_insert);
+		upgrade_plugin_savepoint(true, 2021062401, 'local', 'mxschool');
 	}
 
      return true;
