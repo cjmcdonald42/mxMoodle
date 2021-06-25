@@ -51,7 +51,7 @@ $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviati
 )));
 
 if(!$returnenabled && !$departureenabled) {
-	redirect_to_fallback();
+	redirect(new moodle_url('/my'));
 }
 
 if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
