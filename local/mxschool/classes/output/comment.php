@@ -30,8 +30,10 @@ defined('MOODLE_INTERNAL') || die();
 
 class comment implements \renderable, \templatable {
 
-	/** @var string The user's id.*/
+    /** @var string The user's id.*/
 	public $userid;
+    /** @var string a name for the button. must be unique across the row */
+    public $name;
     /** @var string The text to display in the comment.*/
     public $comment_text;
     /** @var string The text to display in the edit button.*/
@@ -42,9 +44,10 @@ class comment implements \renderable, \templatable {
     public $table;
 
 
-    public function __construct($userid, $comment_text, $edit_button_text, $save_button_text, $table) {
+    public function __construct($userid, $name, $comment_text, $edit_button_text, $save_button_text, $table) {
 	      $this->userid = $userid;
-        $this->comment_text = htmlspecialchars_decode($comment_text, ENT_QUOTES);
+		 $this->name = $name;
+           $this->comment_text = htmlspecialchars_decode($comment_text, ENT_QUOTES);
 	      $this->edit_button_text = $edit_button_text;
 	      $this->save_button_text = $save_button_text;
 	      $this->table = $table;
@@ -58,9 +61,10 @@ class comment implements \renderable, \templatable {
      */
     public function export_for_template(\renderer_base $output) {
         return (object) array('userid' => $this->userid,
+	   					'name' => $this->name,
 		   				'comment_text' => $this->comment_text,
 	   					'edit_button_text' => $this->edit_button_text,
-						  'save_button_text' => $this->save_button_text,
+						'save_button_text' => $this->save_button_text,
 					  	'table' => $this->table);
     }
 

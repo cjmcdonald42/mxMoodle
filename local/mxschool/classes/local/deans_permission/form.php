@@ -48,6 +48,7 @@ class form extends \local_mxschool\form {
 			  'student' => array('element' => 'select', 'options' => $students),
 			  'event' => array('element' => 'select', 'options' => $eventoptions),
 			  'event_info' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'event_date' => array('element' => 'date_selector'),
 			  'sport' => self::ELEMENT_TEXT_REQUIRED,
 			  'missing_sports' => self::ELEMENT_BOOLEAN_REQUIRED,
   			  'missing_studyhours' => self::ELEMENT_BOOLEAN_REQUIRED,

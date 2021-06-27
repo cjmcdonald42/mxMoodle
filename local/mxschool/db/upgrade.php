@@ -1056,10 +1056,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		   $dbman->add_field($table, $field);
 	    }
 
-	    $other = new stdClass();
-	    $other->name = 'Other';
-	    $DB->insert_record('local_mxschool_dp_event', $other);
-
 	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
 		   'form', 'report', 'preferences', 'event_edit'
 	   )));
@@ -1285,8 +1281,31 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		    $dbman->create_table($table);
 		}
 
-	//    Mxschool savepoint reached.
-	    upgrade_plugin_savepoint(true, 2021062206, 'local', 'mxschool');
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021061701, 'local', 'mxschool');
+	}
+
+	// defaults for deans permission email
+	if($oldversion < 2021062301) {
+		$data = new stdClass();
+		$data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
+		$data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
+
+		update_notification('class_permission_request', $data, 'default');
+		update_notification('sports_permission_request', $data, 'default');
+		update_notification('deans_permission_submitted', $data, 'default');
+		update_notification('deans_permission_notify_healthcenter', $data, 'default');
+		update_notification('deans_permission_approved', $data, 'default');
+		update_notification('deans_permission_denied', $data, 'default');
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021062301, 'local', 'mxschool');
+	}
+
+	if($oldversion < 2021062401) {
+		$other_insert = array('id' => '1', 'name' => 'Other');
+		$DB->insert_record('local_mxschool_dp_event', (object) $other_insert);
+		upgrade_plugin_savepoint(true, 2021062401, 'local', 'mxschool');
 	}
 
      return true;
