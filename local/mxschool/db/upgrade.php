@@ -1247,44 +1247,36 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         set_config('healthtest_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
     }
 
-    if ($oldversion < 2021061701) {
+    if ($oldversion < 2021062206) {
 
-	    // Define table local_mxschool_deans_perm to be dropped.
-	    $table = new xmldb_table('local_mxschool_deans_perm');
+	    // Define table local_mxschool_vt_trip to be dropped.
+		$table = new xmldb_table('local_mxschool_vt_trip');
 
-	    // Conditionally launch drop table for local_mxschool_deans_perm.
-	    if ($dbman->table_exists($table)) {
-		   $dbman->drop_table($table);
-    		}
+		// Conditionally launch drop table for local_mxschool_vt_trip.
+		if ($dbman->table_exists($table)) {
+		    $dbman->drop_table($table);
+		}
 
-		// Define table local_mxschool_deans_perm to be created.
-		$table = new xmldb_table('local_mxschool_deans_perm');
+		// Define table local_mxschool_vt_trip to be created.
+		$table = new xmldb_table('local_mxschool_vt_trip');
 
-		// Adding fields to table local_mxschool_deans_perm.
+		// Adding fields to table local_mxschool_vt_trip.
 		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
 		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-		$table->add_field('event_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-		$table->add_field('event_info', XMLDB_TYPE_CHAR, '1000', null, null, null, null);
-		$table->add_field('event_date', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-		$table->add_field('sport', XMLDB_TYPE_CHAR, '500', null, null, null, null);
-		$table->add_field('missing_sports', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
-		$table->add_field('missing_studyhours', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
-		$table->add_field('missing_class', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
-		$table->add_field('times_away', XMLDB_TYPE_CHAR, '500', null, null, null, null);
-		$table->add_field('parent_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
-		$table->add_field('sports_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
-		$table->add_field('class_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
-		$table->add_field('internal_comment', XMLDB_TYPE_CHAR, '500', null, null, null, null);
-		$table->add_field('external_comment', XMLDB_TYPE_TEXT, null, null, null, null, null);
-		$table->add_field('status', XMLDB_TYPE_INTEGER, '2', null, null, null, '0');
-		$table->add_field('form_submitted', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+		$table->add_field('departureid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+		$table->add_field('returnid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+		$table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
-		// Adding keys to table local_mxschool_deans_perm.
+		// Adding keys to table local_mxschool_vt_trip.
 		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
-		$table->add_key('event', XMLDB_KEY_FOREIGN, ['event_id'], 'local_mxschool_dp_event', ['id']);
+		$table->add_key('student', XMLDB_KEY_UNIQUE, ['userid']);
+		$table->add_key('departure', XMLDB_KEY_UNIQUE, ['departureid']);
+		$table->add_key('return', XMLDB_KEY_UNIQUE, ['returnid']);
 
-		// Conditionally launch create table for local_mxschool_deans_perm.
+		// Conditionally launch create table for local_mxschool_vt_trip.
 		if (!$dbman->table_exists($table)) {
 		    $dbman->create_table($table);
 		}

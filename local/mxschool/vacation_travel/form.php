@@ -34,6 +34,7 @@ if (!$isstudent) {
     require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
 }
 
+$departureenabled = get_config('local_mxschool', 'vacation_form_departurenabled');
 $returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $id = optional_param('id', 0, PARAM_INT);
 
@@ -49,6 +50,10 @@ $transportqueryfields = array('local_mxschool_vt_transport' => array('abbreviati
     'transportation_number' => 'number', 'date_time' => 'variable_date', 'international'
 )));
 
+if(!$returnenabled && !$departureenabled) {
+	redirect(new moodle_url('/my'));
+}
+
 if ($isstudent && !student_may_access_vacation_travel($USER->id)) {
     redirect_to_fallback();
 }
@@ -60,12 +65,23 @@ if ($id) { // Updating an existing record.
     if ($isstudent && $data->student !== $USER->id) { // Students can only edit their own forms.
         redirect($PAGE->url);
     }
-    $departuredata = get_record($transportqueryfields, 'dr.id = ?', array($data->departureid));
-    foreach ($departuredata as $key => $value) {
-        $data->{"dep_{$key}"} = $value;
-    }
-    if (!isset($data->dep_international)) {
-        $data->dep_international = '-1'; // Invalid default to prevent auto selection.
+    if($departureenabled) {
+	    $departuredata = get_record($transportqueryfields, 'dr.id = ?', array($data->departureid));
+	    foreach ($departuredata as $key => $value) {
+		   $data->{"dep_{$key}"} = $value;
+	    }
+	    if (!isset($data->dep_mxtransportation)) {
+		   $data->dep_mxtransportation = '-1'; // Invalid default to prevent auto selection.
+	    }
+	    if (!isset($data->dep_international)) {
+		   $data->dep_international = '-1'; // Invalid default to prevent auto selection.
+	    } else {
+             $data->dep_id = '0';
+             $data->dep_mxtransportation = '-1'; // Invalid default to prevent auto selection.
+             $data->dep_site = '-1'; // Invalid default to prevent auto selection.
+             $data->dep_variable_date = time();
+             $data->dep_international = '-1'; // Invalid default to prevent auto selection.
+         }
     }
     if ($returnenabled) {
         $returndata = get_record($transportqueryfields, 'dr.id = ?', array($data->returnid));
@@ -91,10 +107,12 @@ if ($id) { // Updating an existing record.
     $data = new stdClass();
     $data->id = $data->dep_id = $data->ret_id = $id;
     $data->timecreated = time();
-    $data->dep_mxtransportation = '-1'; // Invalid default to prevent auto selection.
-    $data->dep_site = '-1'; // Invalid default to prevent auto selection.
-    $data->dep_variable_date = time();
-    $data->dep_international = '-1'; // Invalid default to prevent auto selection.
+    if ($departureenabled) {
+	    $data->dep_mxtransportation = '-1'; // Invalid default to prevent auto selection.
+	    $data->dep_site = '-1'; // Invalid default to prevent auto selection.
+	    $data->dep_variable_date = time();
+	    $data->dep_international = '-1'; // Invalid default to prevent auto selection.
+	}
     if ($returnenabled) {
         $data->ret_mxtransportation = '-1'; // Invalid default to prevent auto selection.
         $data->ret_site = '-1'; // Invalid default to prevent auto selection.
@@ -110,7 +128,9 @@ if ($id) { // Updating an existing record.
     }
 }
 $data->isstudent = $isstudent ? '1' : '0';
-generate_time_selector_fields($data, 'dep_variable', 15);
+if ($deperatureenabled) {
+	generate_time_selector_fields($data, 'dep_variable', 15);
+}
 if ($returnenabled) {
     generate_time_selector_fields($data, 'ret_variable', 15);
 }
@@ -120,7 +140,7 @@ $retsites = get_vacation_travel_return_sites_list();
 $types = get_vacation_travel_type_list();
 
 $form = new local_mxschool\local\vacation_travel\form(array(
-    'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites, 'types' => $types
+    'departureenabled' => $departureenabled, 'returnenabled' => $returnenabled, 'students' => $students, 'depsites' => $depsites, 'retsites' => $retsites, 'types' => $types
 ));
 $form->set_data($data);
 
@@ -138,32 +158,36 @@ if ($form->is_cancelled()) {
             $returndata->{substr($key, 4)} = $value;
         }
     }
-    $departuredata->variable_date = generate_timestamp($departuredata, 'variable');
-    if (isset($departuredata->site)) {
-        $departuredefault = $DB->get_field(
-            'local_mxschool_vt_site', 'default_departure_time', array('id' => $departuredata->site)
-        );
-        if ($departuredefault) { // If there is a default time, the time from the form is nonsense.
-            $departuredata->variable_date = $departuredefault;
-        }
-    }
-    if (!$departuredata->mxtransportation) {
-        unset($departuredata->site);
-        unset($departuredata->international);
-    }
-    if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && (
-        !isset($departuredata->site) || $departuredata->site !== '0'
-    )) {
-        unset($departuredata->details);
-    }
-    if ($departuredata->type !== 'Plane' && $departuredata->type !== 'Train' && $departuredata->type !== 'Bus') {
-        unset($departuredata->carrier);
-        unset($departuredata->number);
-    }
-    if ($departuredata->type !== 'Plane') {
-        unset($departuredata->international);
-    }
-    $data->departureid = update_record($transportqueryfields, $departuredata);
+    if($departureenabled) {
+	    $departuredata->variable_date = generate_timestamp($departuredata, 'variable');
+	    if (isset($departuredata->site)) {
+	        $departuredefault = $DB->get_field(
+	            'local_mxschool_vt_site', 'default_departure_time', array('id' => $departuredata->site)
+	        );
+	        if ($departuredefault) { // If there is a default time, the time from the form is nonsense.
+	            $departuredata->variable_date = $departuredefault;
+	        }
+	    }
+	    if (!$departuredata->mxtransportation) {
+	        unset($departuredata->site);
+	        unset($departuredata->international);
+	    }
+	    if ($departuredata->type !== 'Car' && $departuredata->type !== 'Non-MX Bus' && (
+	        !isset($departuredata->site) || $departuredata->site !== '0'
+	    )) {
+	        unset($departuredata->details);
+	    }
+	    if ($departuredata->type !== 'Plane' && $departuredata->type !== 'Train' && $departuredata->type !== 'Bus') {
+	        unset($departuredata->carrier);
+	        unset($departuredata->number);
+	    }
+	    if ($departuredata->type !== 'Plane') {
+	        unset($departuredata->international);
+	    }
+	    $data->departureid = update_record($transportqueryfields, $departuredata);
+	} else {
+		unset($data->departureid);
+	}
     if ($returnenabled) {
         $returndata->variable_date = generate_timestamp($returndata, 'variable');
         if (isset($returndata->site)) {

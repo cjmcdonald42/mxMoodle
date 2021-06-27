@@ -50,6 +50,7 @@ $data->start_date = get_config('local_mxschool', 'vacation_form_start_date') ?: 
 generate_time_selector_fields($data, 'start');
 $data->stop_date = get_config('local_mxschool', 'vacation_form_stop_date') ?: get_config('local_mxschool', 'dorms_close_date');
 generate_time_selector_fields($data, 'stop');
+$data->departure_enabled = get_config('local_mxschool', 'vacation_form_departureenabled');
 $data->return_enabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 generate_email_preference_fields('vacation_travel_submitted', $data, 'submitted');
 generate_email_preference_fields('vacation_travel_notify_unsubmitted', $data, 'unsubmitted');
@@ -62,6 +63,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     set_config('vacation_form_start_date', generate_timestamp($data, 'start'), 'local_mxschool');
     set_config('vacation_form_stop_date', generate_timestamp($data, 'stop'), 'local_mxschool');
+    set_config('vacation_form_departureenabled', $data->departure_enabled, 'local_mxschool');
     set_config('vacation_form_returnenabled', $data->return_enabled, 'local_mxschool');
     update_notification('vacation_travel_submitted', $data, 'submitted');
     update_notification('vacation_travel_notify_unsubmitted', $data, 'unsubmitted');

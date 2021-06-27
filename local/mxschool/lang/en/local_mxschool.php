@@ -776,6 +776,7 @@ $string['vacation_travel:preferences'] = 'Vacation Travel Preferences';
 $string['vacation_travel:preferences:availability'] = 'Availability';
 $string['vacation_travel:preferences:availability:start'] = 'Start Date';
 $string['vacation_travel:preferences:availability:stop'] = 'Stop Date';
+$string['vacation_travel:preferences:availability:departure_enabled:text'] = 'Check to Enable the Departure Portion of the Form and Reports.';
 $string['vacation_travel:preferences:availability:return_enabled:text'] = 'Check to Enable the Return Portion of the Form and Reports.';
 
 // Vacation Travel Email Notifications.

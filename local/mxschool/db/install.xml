@@ -216,7 +216,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
-        <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the departure record associated with the record - 0 indicates no departure record."/>
+        <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the departure record associated with the record - 0 indicates no departure record."/>
         <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the return record associated with the record — a value of NULL indicates no return record."/>
         <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
