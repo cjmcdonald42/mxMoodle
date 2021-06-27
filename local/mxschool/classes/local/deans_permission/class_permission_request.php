@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification for when class permission is requested for Middlesex's Dorm and Student Functions Plugin.
+ * Email notification for when review is requested for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission

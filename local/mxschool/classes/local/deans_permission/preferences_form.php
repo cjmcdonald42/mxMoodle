@@ -30,6 +30,9 @@ namespace local_mxschool\local\deans_permission;
 defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\local\deans_permission\submitted;
+use local_mxschool\local\deans_permission\sports_permission_request;
+use local_mxschool\local\deans_permission\class_permission_request;
+use local_mxschool\local\deans_permission\deans_permission_approved;
 
 class preferences_form extends \local_mxschool\form {
 
@@ -44,23 +47,29 @@ class preferences_form extends \local_mxschool\form {
 			   'submitted_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			   'submitted_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
-		  'sports_email' => array(
-			  'sports_email_address' => self::ELEMENT_EMAIL_REQUIRED,
-			  'sports_tags' => self::email_tags(new sports_permission_request()),
-			  'sports_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-			  'sports_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  'review_email' => array(
+			  'athletic_director_email_address' => self::ELEMENT_EMAIL_REQUIRED,
+			  'academic_director_email_address' => self::ELEMENT_EMAIL_REQUIRED,
+			  'review_tags' => self::email_tags(new sports_permission_request()),
+			  'review_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'review_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
-		  'class_email' => array(
-			  'class_email_address' => self::ELEMENT_EMAIL_REQUIRED,
-			  'class_tags' => self::email_tags(new class_permission_request()),
-			  'class_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-			  'class_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  'notify_email' => array(
+			  'healthcenter_email_address' => self::ELEMENT_EMAIL_REQUIRED,
+			  'notify_tags' => self::email_tags(new class_permission_request()),
+			  'notify_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'notify_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
 		  'approved_email' => array(
 			  'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:approved_email:note', 'local_mxschool')),
 			  'approved_tags' => self::email_tags(new deans_permission_approved()),
 			  'approved_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'approved_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  ),
+		  'denied_email' => array(
+			  'denied_tags' => self::email_tags(new deans_permission_approved()),
+			  'denied_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'denied_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  )
         );
         $this->set_fields($fields, 'deans_permission:preferences', true);

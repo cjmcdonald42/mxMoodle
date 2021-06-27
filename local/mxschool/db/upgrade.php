@@ -1056,10 +1056,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		   $dbman->add_field($table, $field);
 	    }
 
-	    $other = new stdClass();
-	    $other->name = 'Other';
-	    $DB->insert_record('local_mxschool_dp_event', $other);
-
 	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
 		   'form', 'report', 'preferences', 'event_edit'
 	   )));
@@ -1250,6 +1246,75 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         set_config('healthpass_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
         set_config('healthtest_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
     }
+
+    if ($oldversion < 2021061701) {
+
+	    // Define table local_mxschool_deans_perm to be dropped.
+	    $table = new xmldb_table('local_mxschool_deans_perm');
+
+	    // Conditionally launch drop table for local_mxschool_deans_perm.
+	    if ($dbman->table_exists($table)) {
+		   $dbman->drop_table($table);
+    		}
+
+		// Define table local_mxschool_deans_perm to be created.
+		$table = new xmldb_table('local_mxschool_deans_perm');
+
+		// Adding fields to table local_mxschool_deans_perm.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('event_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('event_info', XMLDB_TYPE_CHAR, '1000', null, null, null, null);
+		$table->add_field('event_date', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('sport', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+		$table->add_field('missing_sports', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('missing_studyhours', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('missing_class', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+		$table->add_field('times_away', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+		$table->add_field('parent_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+		$table->add_field('sports_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+		$table->add_field('class_perm', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+		$table->add_field('internal_comment', XMLDB_TYPE_CHAR, '500', null, null, null, null);
+		$table->add_field('external_comment', XMLDB_TYPE_TEXT, null, null, null, null, null);
+		$table->add_field('status', XMLDB_TYPE_INTEGER, '2', null, null, null, '0');
+		$table->add_field('form_submitted', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+
+		// Adding keys to table local_mxschool_deans_perm.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+		$table->add_key('event', XMLDB_KEY_FOREIGN, ['event_id'], 'local_mxschool_dp_event', ['id']);
+
+		// Conditionally launch create table for local_mxschool_deans_perm.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021061701, 'local', 'mxschool');
+	}
+
+	// defaults for deans permission email
+	if($oldversion < 2021062301) {
+		$data = new stdClass();
+		$data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
+		$data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
+
+		update_notification('class_permission_request', $data, 'default');
+		update_notification('sports_permission_request', $data, 'default');
+		update_notification('deans_permission_submitted', $data, 'default');
+		update_notification('deans_permission_notify_healthcenter', $data, 'default');
+		update_notification('deans_permission_approved', $data, 'default');
+		update_notification('deans_permission_denied', $data, 'default');
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021062301, 'local', 'mxschool');
+	}
+
+	if($oldversion < 2021062401) {
+		$other_insert = array('id' => '1', 'name' => 'Other');
+		$DB->insert_record('local_mxschool_dp_event', (object) $other_insert);
+		upgrade_plugin_savepoint(true, 2021062401, 'local', 'mxschool');
+	}
 
      return true;
 
