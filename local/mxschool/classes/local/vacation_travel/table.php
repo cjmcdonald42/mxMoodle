@@ -41,7 +41,7 @@ class table extends \local_mxschool\table {
         if ($filter->dorm) {
             unset($columns[array_search('dorm', $columns)]);
         }
-	   if (!get_config('local_mxschool', 'vacation_form_departurenabled')) {
+	   if (!get_config('local_mxschool', 'vacation_form_departureenabled')) {
             unset($columns[array_search('depdatetime', $columns)]);
             unset($columns[array_search('deptype', $columns)]);
         }

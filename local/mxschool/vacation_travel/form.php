@@ -34,7 +34,7 @@ if (!$isstudent) {
     require_capability('local/mxschool:manage_vacation_travel', context_system::instance());
 }
 
-$departureenabled = get_config('local_mxschool', 'vacation_form_departurenabled');
+$departureenabled = get_config('local_mxschool', 'vacation_form_departureenabled');
 $returnenabled = get_config('local_mxschool', 'vacation_form_returnenabled');
 $id = optional_param('id', 0, PARAM_INT);
 
