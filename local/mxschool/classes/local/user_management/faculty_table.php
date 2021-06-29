@@ -19,9 +19,9 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,19 +37,19 @@ class faculty_table extends \local_mxschool\table {
      * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
      */
     public function __construct($filter) {
-        $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing', 'facultycode');
+        $columns = array('name', 'dorm', 'facultycode', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
         if ($filter->dorm > 0) {
             unset($columns[array_search('dorm', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'user_management:faculty_report');
-        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing', 'facultycode');
-        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing', 'facultycode');
+        $sortable = array('name', 'dorm', 'facultycode', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $centered = array('facultycode', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
         parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
             'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'f.dormid', 'd.name AS dorm',
-            'f.may_approve_signout AS approvesignout', 'f.advisory_available AS advisoryavailable',
-            'f.advisory_closing AS advisoryclosing', 'f.faculty_code AS facultycode'
+            'f.faculty_code AS facultycode', 'f.may_approve_signout AS approvesignout', 'f.advisory_available AS advisoryavailable',
+            'f.advisory_closing AS advisoryclosing'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0');
@@ -65,6 +65,13 @@ class faculty_table extends \local_mxschool\table {
      */
     protected function col_dorm($values) {
         return isset($values->dormid) ? format_dorm_name($values->dormid) : '';
+    }
+
+    /**
+     * Formats the faculty code column.
+     */
+    protected function col_facultycode($values) {
+        return format_String($values->facultycode);
     }
 
     /**
@@ -86,13 +93,6 @@ class faculty_table extends \local_mxschool\table {
      */
     protected function col_advisoryclosing($values) {
         return format_boolean($values->advisoryclosing);
-    }
-
-    /**
-     * Formats the faculty code column.
-     */
-    protected function col_facultycode($values) {
-        return format_String($values->facultycode);
     }
 
     /**

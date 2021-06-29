@@ -18,9 +18,9 @@
  * English language strings for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -275,10 +275,10 @@ $string['user_management:faculty_report'] = 'Faculty Report';
 // Headers.
 $string['user_management:faculty_report:header:name'] = 'Name';
 $string['user_management:faculty_report:header:dorm'] = 'Dorm';
+$string['user_management:faculty_report:header:facultycode'] = 'Faculty Code';
 $string['user_management:faculty_report:header:approvesignout'] = 'May Approve Off-Campus Signout?';
 $string['user_management:faculty_report:header:advisoryavailable'] = 'Advisory Available?';
 $string['user_management:faculty_report:header:advisoryclosing'] = 'Advisory Closing?';
-$string['user_management:faculty_report:header:advisoryclosing'] = 'Faculty Code';
 
 
 /* Faculty Edit. */
