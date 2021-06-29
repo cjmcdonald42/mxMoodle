@@ -1225,9 +1225,9 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		$data->confirm_subject = 'DEFAULT -- Change in COVID Testing Preferences';
 		$data->confirm_body = 'DEFAULT -- Change in COVID Testing Preferences';
 
-	     update_notification('healthtest_reminder', $data, 'reminder');
+	    update_notification('healthtest_reminder', $data, 'reminder');
 		update_notification('healthtest_missed', $data, 'missed');
-	     update_notification('healthtest_confirm', $data, 'confirm');
+	    update_notification('healthtest_confirm', $data, 'confirm');
 
 		upgrade_plugin_savepoint(true, 2021031006, 'local', 'mxschool');
 	}
@@ -1245,17 +1245,16 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
 	}
 
-    if($oldversion < 2021062902) {
+/*
+    if($oldversion < 2021063000) {
 
-        // Define table local_mxschool_faculty to be updated.
+        // Updating table local_mxschool_faculty with new faculty_code.
 		$table = new xmldb_table('local_mxschool_faculty');
+	    $field = new xmldb_field('faculty_code', XMLDB_TYPE_CHAR, '10', null, null, null, null);
 
-		// Adding field to table local_mxschool_faculty.
-        $table->add_field('faculty_code', XMLDB_TYPE_CHAR, '10', null, null, null, null);
-
-		upgrade_plugin_savepoint(true, 2021062902, 'local', 'mxschool');
+		upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
 	}
-
+*/
 
      return true;
 
