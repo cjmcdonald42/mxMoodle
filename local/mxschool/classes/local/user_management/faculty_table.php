@@ -37,19 +37,19 @@ class faculty_table extends \local_mxschool\table {
      * @param stdClass $filter Any filtering for the table - could include properties dorm and search.
      */
     public function __construct($filter) {
-        $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $columns = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing', 'facultycode');
         if ($filter->dorm > 0) {
             unset($columns[array_search('dorm', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'user_management:faculty_report');
-        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing');
-        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing');
+        $sortable = array('name', 'dorm', 'approvesignout', 'advisoryavailable', 'advisoryclosing', 'facultycode');
+        $centered = array('approvesignout', 'advisoryavailable', 'advisoryclosing', 'facultycode');
         parent::__construct('faculty_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
             'f.id', "CONCAT(u.lastname, ', ', u.firstname) AS name", 'f.dormid', 'd.name AS dorm',
             'f.may_approve_signout AS approvesignout', 'f.advisory_available AS advisoryavailable',
-            'f.advisory_closing AS advisoryclosing'
+            'f.advisory_closing AS advisoryclosing', 'f.faculty_code AS facultycode'
         );
         $from = array('{local_mxschool_faculty} f', '{user} u ON f.userid = u.id', '{local_mxschool_dorm} d ON f.dormid = d.id');
         $where = array('u.deleted = 0');
@@ -86,6 +86,13 @@ class faculty_table extends \local_mxschool\table {
      */
     protected function col_advisoryclosing($values) {
         return format_boolean($values->advisoryclosing);
+    }
+
+    /**
+     * Formats the faculty code column.
+     */
+    protected function col_facultycode($values) {
+        return format_String($values->facultycode);
     }
 
     /**

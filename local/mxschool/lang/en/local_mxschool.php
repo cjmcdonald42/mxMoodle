@@ -278,6 +278,7 @@ $string['user_management:faculty_report:header:dorm'] = 'Dorm';
 $string['user_management:faculty_report:header:approvesignout'] = 'May Approve Off-Campus Signout?';
 $string['user_management:faculty_report:header:advisoryavailable'] = 'Advisory Available?';
 $string['user_management:faculty_report:header:advisoryclosing'] = 'Advisory Closing?';
+$string['user_management:faculty_report:header:advisoryclosing'] = 'Faculty Code';
 
 
 /* Faculty Edit. */
