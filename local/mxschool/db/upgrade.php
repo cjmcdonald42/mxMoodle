@@ -18,9 +18,9 @@
  * Database updgrade steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -1243,6 +1243,17 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		 $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
 
 		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
+	}
+
+    if($oldversion < 2021062902) {
+
+        // Define table local_mxschool_faculty to be updated.
+		$table = new xmldb_table('local_mxschool_faculty');
+
+		// Adding field to table local_mxschool_faculty.
+        $table->add_field('faculty_code', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+
+		upgrade_plugin_savepoint(true, 2021062902, 'local', 'mxschool');
 	}
 
 
