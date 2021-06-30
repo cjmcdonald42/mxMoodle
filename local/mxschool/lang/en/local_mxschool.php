@@ -292,6 +292,7 @@ $string['user_management:faculty_edit:faculty:lastname'] = 'Last Name';
 $string['user_management:faculty_edit:faculty:alternatename'] = 'Alternate Name';
 $string['user_management:faculty_edit:faculty:email'] = 'Email';
 $string['user_management:faculty_edit:faculty:dorm'] = 'Dorm';
+$string['user_management:faculty_edit:faculty:faculty_code'] = 'Faculty Code';
 $string['user_management:faculty_edit:faculty:approve_signout'] = 'May Approve Off-Campus Signout';
 $string['user_management:faculty_edit:faculty:advisory_available'] = 'Advisory Available';
 $string['user_management:faculty_edit:faculty:advisory_closing'] = 'Advisory Closing';
