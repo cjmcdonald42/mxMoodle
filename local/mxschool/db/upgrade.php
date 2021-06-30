@@ -1245,12 +1245,16 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
 	}
 
-/*
     if($oldversion < 2021063000) {
 
-        // Updating table local_mxschool_faculty with new faculty_code.
+        // Updating table local_mxschool_faculty with new faculty_code field.
 		$table = new xmldb_table('local_mxschool_faculty');
 	    $field = new xmldb_field('faculty_code', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+
+        // Conditionally launch add field faculty_code.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
 
 		upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
 	}
