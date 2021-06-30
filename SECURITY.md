@@ -1,4 +1,4 @@
-# Security
+# Security.md
 Only the most recent version of this code is maintained and supported.
 Our production server uses the current release version on the main branch of this repository.
 All new development occurs on or branched off of the dev branch.
