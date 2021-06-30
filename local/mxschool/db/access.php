@@ -119,6 +119,11 @@ $capabilities = array(
 	  'captype' => 'write',
 	  'contextlevel' => CONTEXT_SYSTEM
     ),
+    'local/mxschool:access_deans_permission' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
     'local/mxschool:manage_healthpass_preferences' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',

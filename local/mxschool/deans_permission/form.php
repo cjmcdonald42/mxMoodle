@@ -30,6 +30,9 @@ require_once(__DIR__.'/../locallib.php');
 
 require_login();
 $isstudent = user_is_student();
+if (!$isstudent) {
+    require_capability('local/mxschool:access_deans_permission', context_system::instance());
+}
 
 $id = optional_param('id', 0, PARAM_INT);
 
