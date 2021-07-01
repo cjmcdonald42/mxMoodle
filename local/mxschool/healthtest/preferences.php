@@ -61,14 +61,14 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	set_config('healthtest_form_instructions', $data->form_instructions, 'local_mxschool');
 	// set_config('healthtest_reminder_enabled', $data->reminder_enabled, 'local_mxschool');
 	set_config('healthtest_copy_healthcenter', $data->missed_copy_healthcenter_enabled, 'local_mxschool');
-    set_config('healthtest_notification_email_address', $data->healthtest_notification_email_address, 'local_mxschool');
+  set_config('healthtest_notification_email_address', $data->healthtest_notification_email_address, 'local_mxschool');
 	set_config('healthtest_confirm_enabled', $data->confirm_enabled, 'local_mxschool');
 
-    update_notification('healthtest_reminder', $data, 'reminder');
+  update_notification('healthtest_reminder', $data, 'reminder');
 	update_notification('healthtest_missed', $data, 'missed');
-    update_notification('healthtest_confirm', $data, 'confirm');
+  update_notification('healthtest_confirm', $data, 'confirm');
 
-    logged_redirect($form->get_redirect(), get_string('healthtest:preferences:success', 'local_mxschool'), 'update');
+  logged_redirect($form->get_redirect(), get_string('healthtest:preferences:success', 'local_mxschool'), 'update');
 }
 
 // Output form onto page

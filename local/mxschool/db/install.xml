@@ -216,7 +216,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user id of the student associated with the record."/>
-        <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The id of the departure record associated with the record - 0 indicates no departure record."/>
+        <FIELD NAME="departureid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the departure record associated with the record - 0 indicates no departure record."/>
         <FIELD NAME="returnid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of the return record associated with the record — a value of NULL indicates no return record."/>
         <FIELD NAME="destination" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="The student's destination."/>
         <FIELD NAME="phone_number" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number to contact."/>
@@ -271,6 +271,7 @@
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="event_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The event for which the student is requesting permission to attend."/>
         <FIELD NAME="event_info" TYPE="char" LENGTH="1000" NOTNULL="false" SEQUENCE="false" COMMENT="More info regarding the selected event for the deans permission form."/>
+        <FIELD NAME="event_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The date of the event which the student is requesting to attend."/>
         <FIELD NAME="sport" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The sport the student plays."/>
         <FIELD NAME="missing_sports" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student is missing a practice or a game to attend the event."/>
         <FIELD NAME="missing_studyhours" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will miss study hours to attend the event."/>
@@ -278,10 +279,10 @@
         <FIELD NAME="times_away" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The time during which the student will be gone from campus."/>
         <FIELD NAME="parent_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="A boolean field indicating whether or not the student has parent permission."/>
         <FIELD NAME="sports_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss sports"/>
-        <FIELD NAME="studyhours_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss study hours"/>
         <FIELD NAME="class_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss class"/>
-        <FIELD NAME="comment" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="A text box for faculty to leave comments regarding a deans permission form."/>
-        <FIELD NAME="dean_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission from the deans"/>
+        <FIELD NAME="internal_comment" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="A text box for faculty to leave comments regarding a deans permission form."/>
+        <FIELD NAME="external_comment" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A text box for faculty to leave comments on the Dean's Permission Form, which the student will be able to see upon receiving the approved/denied email."/>
+        <FIELD NAME="status" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission from the deans. Status can be either 0 (pending), 1 (approved), or 2 (denied)."/>
         <FIELD NAME="form_submitted" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The date and time at which the student submitted the deans permission form"/>
       </FIELDS>
       <KEYS>
