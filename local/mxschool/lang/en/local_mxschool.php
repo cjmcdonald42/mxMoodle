@@ -18,7 +18,7 @@
  * English language strings for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -1142,7 +1142,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Report.  */
 
  // Report Headers.
- $string['healthpass:report'] = "Student COVIDpass Report";
+ $string['healthpass:report'] = "COVIDpass Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
@@ -1189,7 +1189,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
 
  $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the Health Center when a COVIDpass is denied';
- $string['healthpass:preferences:healthcenter_notification:healthcenter_email_address'] = 'Health Center email';
+ $string['healthpass:preferences:healthcenter_notification:healthpass_notification_email_address'] = 'Health Center email:';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_tags'] = 'Available tags for COVIDpass healthcenter notification email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_subject'] = 'Healthcenter notification email subject';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_body'] = 'Healthcenter notification email body';
@@ -1294,7 +1294,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:preferences:reminder_notification:reminder_body'] = 'Reminder notification email body';
 
  $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy Healthcenter on missed test notification';
- $string['healthtest:preferences:missed_notification:healthcenter_email_address'] = 'Health Center email';
+ $string['healthtest:preferences:missed_notification:healthtest_notification_email_address'] = 'Wellness Center email';
  $string['healthtest:preferences:missed_notification:missed_tags'] = 'Available tags for test missed notification';
  $string['healthtest:preferences:missed_notification:missed_subject'] = 'Testing missed notification email subject';
  $string['healthtest:preferences:missed_notification:missed_body'] = 'Testing missed notification email body';

@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -33,43 +33,43 @@
  use local_mxschool\local\healthtest\healthtest_missed;
  use local_mxschool\local\healthtest\healthtest_confirm;
 
- class preferences_form extends \local_mxschool\form {
+class preferences_form extends \local_mxschool\form {
 
-	 /**
-	  * Form definition.
-	  */
-	 protected function definition() {
-		 // Define fields
-		 $fields = array(
-			 'preferences' => array(
-				 'healthtest_enabled' => array('element' => 'checkbox'),
-				 'form_instructions' => self::ELEMENT_LONG_TEXT_REQUIRED,
-			 ),
-			 'reminder_notification' => array(
+	/**
+	 * Form definition.
+	 */
+	protected function definition() {
+		// Define fields
+		$fields = array(
+			'preferences' => array(
+				'healthtest_enabled' => array('element' => 'checkbox'),
+				'form_instructions' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			),
+			'reminder_notification' => array(
 				 // 'reminder_enabled' => array('element' => 'checkbox'),
-				 'reminder_enabled' => array('element' => 'static', 'text' => 'Auto reminders enabled'),
+				'reminder_enabled' => array('element' => 'static', 'text' => 'Auto reminders enabled'),
 				 // 'reminder_time' => self::time_selector(1),
-				 'reminder_time' => array('element' => 'static', 'text' => 'Auto reminders set for 6 PM each day.'),
-				 'reminder_tags' => self::email_tags(new healthtest_reminder()),
-				 'reminder_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-				 'reminder_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
-			 ),
-			 'missed_notification' => array(
+			    'reminder_time' => array('element' => 'static', 'text' => 'Auto reminders set for 6 PM each day.'),
+				'reminder_tags' => self::email_tags(new healthtest_reminder()),
+				'reminder_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+				'reminder_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+			),
+			'missed_notification' => array(
 				'missed_copy_healthcenter_enabled' => array('element' => 'checkbox'),
-                'healthcenter_email_address' => self::ELEMENT_LONG_TEXT_REQUIRED,
+        'healthtest_notification_email_address' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				'missed_tags' => self::email_tags(new healthtest_missed()),
 				'missed_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 				'missed_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
-                ),
-			 'confirm_notification' => array(
-				 'confirm_enabled' => array('element' => 'checkbox'),
-				 'confirm_tags' => self::email_tags(new healthtest_confirm()),
-				 'confirm_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-				 'confirm_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
-			 )
-		 );
-		 $this->set_fields($fields, 'healthtest:preferences');
-      }
+      ),
+			'confirm_notification' => array(
+				'confirm_enabled' => array('element' => 'checkbox'),
+				'confirm_tags' => self::email_tags(new healthtest_confirm()),
+				'confirm_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+				'confirm_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+			)
+		);
+		$this->set_fields($fields, 'healthtest:preferences');
+    }
 
 	 /**
 	 * Validates the preferences form before it can be submitted. Ensures max_body_temp is an integer
