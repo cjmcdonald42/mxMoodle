@@ -1132,7 +1132,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Report.  */
 
  // Report Headers.
- $string['healthpass:report'] = "Student COVIDpass Report";
+ $string['healthpass:report'] = "COVIDpass Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
@@ -1284,7 +1284,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:preferences:reminder_notification:reminder_body'] = 'Reminder notification email body';
 
  $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy Healthcenter on missed test notification';
-  $string['healthtest:preferences:healthcenter_notification:healthtest_notification_email_address'] = 'Health Center email:';
+ $string['healthtest:preferences:missed_notification:healthtest_notification_email_address'] = 'Wellness Center email';
  $string['healthtest:preferences:missed_notification:missed_tags'] = 'Available tags for test missed notification';
  $string['healthtest:preferences:missed_notification:missed_subject'] = 'Testing missed notification email subject';
  $string['healthtest:preferences:missed_notification:missed_body'] = 'Testing missed notification email body';
