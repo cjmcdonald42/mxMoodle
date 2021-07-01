@@ -40,6 +40,7 @@ $data->healthtest_enabled = get_config('local_mxschool', 'healthtest_enabled');
 $data->form_instructions = get_config('local_mxschool', 'healthtest_form_instructions');
 // $data->reminder_enabled = get_config('local_mxschool', 'healthtest_reminder_enabled');
 $data->missed_copy_healthcenter_enabled = get_config('local_mxschool', 'healthtest_copy_healthcenter');
+$data->healthtest_notification_email_address = get_config('local_mxschool', 'healthtest_notification_email_address');
 $data->confirm_enabled = get_config('local_mxschool', 'healthtest_confirm_enabled');
 
 generate_email_preference_fields('healthtest_reminder', $data, 'reminder');
