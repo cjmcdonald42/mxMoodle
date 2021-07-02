@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -70,7 +70,7 @@ abstract class healthtest_notification extends \local_mxschool\notification {
 
 		  if($emailclass == 'healthtest_missed' and get_config('local_mxschool', 'healthtest_copy_healthcenter')=='1') {
 			  $healthcenter = $DB->get_record('user', array('id' => 2));
-			  $healthcenter->email = get_config('local_mxschool', 'healthcenter_notification_email_address');
+			  $healthcenter->email = get_config('local_mxschool', 'healthtest_notification_email_address');
 			  $healthcenter->addresseename = 'Health Center';
 			  $healthcenter->firstname = 'Health';
 			  $healthcenter->lastname = 'Center';

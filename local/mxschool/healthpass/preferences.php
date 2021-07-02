@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @subpackage  healthpass
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -41,7 +41,7 @@ $data->one_per_day = get_config('local_mxschool', 'healthpass_one_per_day');
 
 $data->max_body_temp = get_config('local_mxschool', 'healthpass_max_body_temp');
 $data->healthcenter_notification_enabled = get_config('local_mxschool', 'healthcenter_notification_enabled');
-$data->healthcenter_email_address = get_config('local_mxschool', 'healthcenter_notification_email_address');
+$data->healthpass_notification_email_address = get_config('local_mxschool', 'healthpass_notification_email_address');
 $data->days_before_reminder = get_config('local_mxschool', 'healthpass_days_before_reminder');
 generate_email_preference_fields('healthcenter_notification', $data, 'healthcenter');
 generate_email_preference_fields('healthpass_approved', $data, 'approved');
@@ -63,7 +63,7 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
 	set_config('healthpass_max_body_temp', $data->max_body_temp, 'local_mxschool');
 	set_config('healthcenter_notification_enabled', $data->healthcenter_notification_enabled, 'local_mxschool');
-	set_config('healthcenter_notification_email_address', $data->healthcenter_email_address, 'local_mxschool');
+	set_config('healthpass_notification_email_address', $data->healthpass_notification_email_address, 'local_mxschool');
 	set_config('healthpass_days_before_reminder', $data->days_before_reminder, 'local_mxschool');
 	set_config('healthpass_one_per_day', $data->one_per_day, 'local_mxschool');
      update_notification('healthcenter_notification', $data, 'healthcenter');

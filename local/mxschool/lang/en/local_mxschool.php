@@ -779,6 +779,7 @@ $string['vacation_travel:preferences'] = 'Vacation Travel Preferences';
 $string['vacation_travel:preferences:availability'] = 'Availability';
 $string['vacation_travel:preferences:availability:start'] = 'Start Date';
 $string['vacation_travel:preferences:availability:stop'] = 'Stop Date';
+$string['vacation_travel:preferences:availability:departure_enabled:text'] = 'Check to Enable the Departure Portion of the Form and Reports.';
 $string['vacation_travel:preferences:availability:return_enabled:text'] = 'Check to Enable the Return Portion of the Form and Reports.';
 
 // Vacation Travel Email Notifications.
@@ -1016,6 +1017,7 @@ $string['deans_permission:form:info'] = 'Information';
 $string['deans_permission:form:info:student'] = 'Student';
 $string['deans_permission:form:info:event'] = 'Event type';
 $string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? Is this recurring or single event? Where is the event (include city and state)?';
+$string['deans_permission:form:info:event_date'] = 'What day is the event?';
 $string['deans_permission:form:info:sport'] = 'What is your afternoon school athletic commitment (E.g. track, recfit)?';
 $string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
 $string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
@@ -1033,20 +1035,22 @@ $string['deans_permission:report:title'] = 'Deans\' Permission Report';
 $string['deans_permission:report:header:student'] = 'Student';
 $string['deans_permission:report:header:event'] = 'Event Type';
 $string['deans_permission:report:header:event_info'] = 'Event Info';
+$string['deans_permission:report:header:event_date'] = 'Event Date';
 $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
 $string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
-$string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
-$string['deans_permission:report:header:comment'] = 'Comment';
-$string['deans_permission:report:header:dean_perm'] = 'Approved?';
+$string['deans_permission:report:header:internal_comment'] = 'Internal Comment';
+$string['deans_permission:report:header:external_comment'] = 'Message to Student';
+$string['deans_permission:report:header:status'] = 'Status?';
 $string['deans_permission:report:header:form_submitted'] = 'Submitted';
 
 // Filters.
-$string['deans_permission:report:approved:true'] = 'Approved';
-$string['deans_permission:report:approved:false'] = 'Under Review';
+$string['deans_permission:report:status:approved'] = 'Approved';
+$string['deans_permission:report:status:denied'] = 'Denied';
+$string['deans_permission:report:status:under_review'] = 'Under Review';
 $string['deans_permission:report:event:all'] = 'All Event Types';
 
 $string['deans_permission:report:delete:success'] = 'Record Deleted Succesfully';
@@ -1063,23 +1067,29 @@ $string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans
 $string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
 $string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
 $string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
-$string['deans_permission:preferences:sports_email'] = 'Sports Review Permission Request Email';
-$string['deans_permission:preferences:sports_email:sports_email_address'] = 'Athletic Director Email Address';
-$string['deans_permission:preferences:sports_email:sports_tags'] = 'Available tags for deans\' permission form sports review request email';
-$string['deans_permission:preferences:sports_email:sports_subject'] = 'Sports review request subject';
-$string['deans_permission:preferences:sports_email:sports_body'] = 'Sports review request body';
-$string['deans_permission:preferences:class_email'] = 'Class Review Permission Request Email';
-$string['deans_permission:preferences:class_email:class_email_address'] = 'Academic Director Email Address';
-$string['deans_permission:preferences:class_email:class_tags'] = 'Available tags for deans\' permission form class review request email';
-$string['deans_permission:preferences:class_email:class_subject'] = 'Class review request subject';
-$string['deans_permission:preferences:class_email:class_body'] = 'Class review request body';
+$string['deans_permission:preferences:review_email'] = 'Review Request Email';
+$string['deans_permission:preferences:review_email:athletic_director_email_address'] = 'Athletic Director Email Address';
+$string['deans_permission:preferences:review_email:academic_director_email_address'] = 'Academic Director Email Address';
+$string['deans_permission:preferences:review_email:review_tags'] = 'Available tags for deans\' permission form review request email';
+$string['deans_permission:preferences:review_email:review_subject'] = 'Review request subject';
+$string['deans_permission:preferences:review_email:review_body'] = 'Review request body';
+$string['deans_permission:preferences:notify_email'] = 'Healthcenter notification email';
+$string['deans_permission:preferences:notify_email:healthcenter_email_address'] = 'Healthcenter Email Address';
+$string['deans_permission:preferences:notify_email:notify_tags'] = 'Available tags for deans\' permission form healthcenter notification email';
+$string['deans_permission:preferences:notify_email:notify_subject'] = 'Healthcenter notification subject';
+$string['deans_permission:preferences:notify_email:notify_body'] = 'Healthcenter notification subject';
 $string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
 $string['deans_permission:preferences:approved_email:info'] = 'Note:';
 $string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor
-												   of the student, and, if the student is missing study hours, that student\'s head of house.';
+													of the student, and, if the student is missing study hours, that student\'s head of house.';
 $string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
-$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved form email subject';
+$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved email subject';
 $string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
+$string['deans_permission:preferences:denied_email'] = 'Deans\' Permission Form Denied Email Notification';
+$string['deans_permission:preferences:denied_email:denied_tags'] = 'Available tags for deans\' permission form denied email';
+$string['deans_permission:preferences:denied_email:denied_subject'] = 'Deans\' permission form denied subject';
+$string['deans_permission:preferences:denied_email:denied_body'] = 'Deans\' permission form denied email body';
+
 $string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
 
 $string['deans_permission:preferences:add_event'] = 'New Event Type Option';
@@ -1135,7 +1145,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Report.  */
 
  // Report Headers.
- $string['healthpass:report'] = "Student COVIDpass Report";
+ $string['healthpass:report'] = "COVIDpass Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
@@ -1182,7 +1192,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
 
  $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the Health Center when a COVIDpass is denied';
- $string['healthpass:preferences:healthcenter_notification:healthcenter_email_address'] = 'Healthcenter email';
+ $string['healthpass:preferences:healthcenter_notification:healthpass_notification_email_address'] = 'Health Center email:';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_tags'] = 'Available tags for COVIDpass healthcenter notification email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_subject'] = 'Healthcenter notification email subject';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_body'] = 'Healthcenter notification email body';
@@ -1250,7 +1260,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:test_report:attended:absent'] = "Absent for Test";
  $string['healthtest:test_report:appointment'] = "Appointment Form";
  $string['healthtest:test_report:block_report'] = "COVIDtest Block Report";
- $string['healthtest:test_report:notify_missed'] = "Notify Today\'s Absentees";
+ $string['healthtest:test_report:notify_missed'] = "Notify Today's Absentees";
  $string['healthtest:test_report:remind'] = 'Send Reminders for Tomorrow';
 
  /* Healthtest Appointment Form */
@@ -1287,6 +1297,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:preferences:reminder_notification:reminder_body'] = 'Reminder notification email body';
 
  $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy Healthcenter on missed test notification';
+ $string['healthtest:preferences:missed_notification:healthtest_notification_email_address'] = 'Wellness Center email';
  $string['healthtest:preferences:missed_notification:missed_tags'] = 'Available tags for test missed notification';
  $string['healthtest:preferences:missed_notification:missed_subject'] = 'Testing missed notification email subject';
  $string['healthtest:preferences:missed_notification:missed_body'] = 'Testing missed notification email body';

@@ -42,8 +42,8 @@ $queryfields = array(
     'local_mxschool_deans_perm' => array(
         'abbreviation' => 'dp',
         'fields' => array(
-            'id', 'userid' => 'student', 'event_id' => 'event', 'event_info', 'sport', 'missing_sports', 'missing_studyhours',
-		  'missing_class', 'times_away', 'comment', 'form_submitted' => 'timecreated'
+            'id', 'userid' => 'student', 'event_id' => 'event', 'event_info', 'event_date', 'sport', 'missing_sports', 'missing_studyhours',
+		  'missing_class', 'times_away', 'internal_comment', 'form_submitted' => 'timecreated'
         )
     )
 );
@@ -74,7 +74,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $data->comment = '';
+    $data->internal_comment = '';
     $id = update_record($queryfields, $data);
     $result = (new local_mxschool\local\deans_permission\submitted($id))->send();
     logged_redirect(

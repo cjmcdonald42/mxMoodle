@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -40,8 +40,8 @@ $data->healthtest_enabled = get_config('local_mxschool', 'healthtest_enabled');
 $data->form_instructions = get_config('local_mxschool', 'healthtest_form_instructions');
 // $data->reminder_enabled = get_config('local_mxschool', 'healthtest_reminder_enabled');
 $data->missed_copy_healthcenter_enabled = get_config('local_mxschool', 'healthtest_copy_healthcenter');
+$data->healthtest_notification_email_address = get_config('local_mxschool', 'healthtest_notification_email_address');
 $data->confirm_enabled = get_config('local_mxschool', 'healthtest_confirm_enabled');
-
 generate_email_preference_fields('healthtest_reminder', $data, 'reminder');
 generate_email_preference_fields('healthtest_missed', $data, 'missed');
 generate_email_preference_fields('healthtest_confirm', $data, 'confirm');
@@ -61,13 +61,14 @@ if ($form->is_cancelled()) { // If the cancel button is pressed...
 	set_config('healthtest_form_instructions', $data->form_instructions, 'local_mxschool');
 	// set_config('healthtest_reminder_enabled', $data->reminder_enabled, 'local_mxschool');
 	set_config('healthtest_copy_healthcenter', $data->missed_copy_healthcenter_enabled, 'local_mxschool');
+  set_config('healthtest_notification_email_address', $data->healthtest_notification_email_address, 'local_mxschool');
 	set_config('healthtest_confirm_enabled', $data->confirm_enabled, 'local_mxschool');
 
-     update_notification('healthtest_reminder', $data, 'reminder');
+  update_notification('healthtest_reminder', $data, 'reminder');
 	update_notification('healthtest_missed', $data, 'missed');
-     update_notification('healthtest_confirm', $data, 'confirm');
+  update_notification('healthtest_confirm', $data, 'confirm');
 
-     logged_redirect($form->get_redirect(), get_string('healthtest:preferences:success', 'local_mxschool'), 'update');
+  logged_redirect($form->get_redirect(), get_string('healthtest:preferences:success', 'local_mxschool'), 'update');
 }
 
 // Output form onto page
