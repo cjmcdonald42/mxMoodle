@@ -18,9 +18,9 @@
  * Capabilites for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -113,11 +113,15 @@ $capabilities = array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-   ),
-   'local/mxschool:manage_deans_permission' => array(
-	  'riskbitmask' => RISK_DATALOSS,
-	  'captype' => 'write',
-	  'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:access_deans_permission' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:manage_deans_permission' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+	    'contextlevel' => CONTEXT_SYSTEM
     ),
     'local/mxschool:manage_healthpass_preferences' => array(
         'riskbitmask' => RISK_DATALOSS,
@@ -128,15 +132,15 @@ $capabilities = array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-   ),
-   'local/mxschool:manage_healthtest_preferences' => array(
+    ),
+    'local/mxschool:manage_healthtest_preferences' => array(
 	   'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-   ),
-   'local/mxschool:manage_healthtest' => array(
-	  'riskbitmask' => RISK_DATALOSS,
-	  'captype' => 'write',
-	  'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/mxschool:manage_healthtest' => array(
+	    'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM
   )
 );
