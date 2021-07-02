@@ -1321,6 +1321,10 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
+
+		// Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2021062401, 'local', 'mxschool');
+
     }
 
      return true;
