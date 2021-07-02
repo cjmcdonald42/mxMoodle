@@ -1340,9 +1340,8 @@ function get_vacation_travel_type_list($mxtransportation = null) {
 */
 function get_dp_events_list() {
 	global $DB;
-	$records = $DB->get_records_sql("SELECT dpe.id, dpe.name AS value FROM {local_mxschool_dp_event} dpe WHERE dpe.id > 1");
+	$records = $DB->get_records_sql("SELECT dpe.id, dpe.name AS value FROM {local_mxschool_dp_event} dpe");
 	$events = convert_records_to_list($records);
-	$events[1] = 'Other';
 	return $events;
 }
 
@@ -1636,6 +1635,7 @@ function get_appointment_form_block_options($userid=null) {
 			$sql_array .= ')';
 		}
 		else $sql_array = ('(-1)');
+        if($sql_array == ')') $sql_array = '(-1)';  // Fix for data issue #68
 		$records = $DB->get_records_sql(
 			"SELECT *
 			 FROM {local_mxschool_testing_block}

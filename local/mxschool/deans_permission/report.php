@@ -32,7 +32,7 @@ require_login();
 require_capability('local/mxschool:manage_deans_permission', context_system::instance());
 
 $filter = new stdClass();
-$filter->approved = optional_param('approved', '', PARAM_RAW);
+$filter->status = optional_param('status', '', PARAM_RAW);
 $filter->event = optional_param('event', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
@@ -50,16 +50,17 @@ if ($action === 'delete' && $id) {
     );
 }
 
-$approvedoptions = array(
-    'approved' => get_string('deans_permission:report:approved:true', 'local_mxschool'),
-    'under_review' => get_string('deans_permission:report:approved:false', 'local_mxschool')
+$statusoptions = array(
+    'approved' => get_string('deans_permission:report:status:approved', 'local_mxschool'),
+    'denied' => get_string('deans_permission:report:status:denied', 'local_mxschool'),
+    'under_review' => get_string('deans_permission:report:status:under_review', 'local_mxschool')
 );
 $eventoptions = get_dp_events_list();
 
 $table = new local_mxschool\local\deans_permission\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\output\dropdown(
-        'approved', $approvedoptions, $filter->approved, get_string('dropdown:default', 'local_mxschool')
+        'status', $statusoptions, $filter->status, get_string('dropdown:default', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
 	   'event', $eventoptions, $filter->event, get_string('deans_permission:report:event:all', 'local_mxschool')

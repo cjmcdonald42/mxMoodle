@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification for when review is requested for Middlesex's Dorm and Student Functions Plugin.
+ * Email notification for when a form is denied for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
@@ -29,7 +29,7 @@ namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
-class sports_permission_request extends deans_permission_notification {
+class deans_permission_denied extends deans_permission_notification {
 
     /**
      * @param int $id The id of the deans permission form which has been submitted.
@@ -37,16 +37,19 @@ class sports_permission_request extends deans_permission_notification {
      * @throws coding_exception If the specified record does not exist.
      */
     public function __construct($id = 0) {
-	    parent::__construct('sports_permission_request', $id);
+	    parent::__construct('deans_permission_denied', $id);
 
 	    global $DB;
-	    $deans = $DB->get_record('user', array('id' => 2));
-	    $deans->email = get_config('local_mxschool', 'athletic_director_email_address');
-	    $deans->firstname = 'Athletic';
-	    $deans->lastname = 'Director';
+
+	    $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
 
 		array_push(
-		    $this->recipients, $deans
-		);
+		    $this->recipients, $DB->get_record('user', array('id' => $userid)), $DB->get_record('user', array('id' => get_student_advisor_id($userid)))
+	    );
+		if($DB->get_field('local_mxschool_deans_perm', 'missing_studyhours', array('userid' => $userid))) {
+			array_push(
+				$this->recipients, $DB->get_record('user', array('id' => get_student_hoh_id($userid)))
+			);
+		}
 }
 }
