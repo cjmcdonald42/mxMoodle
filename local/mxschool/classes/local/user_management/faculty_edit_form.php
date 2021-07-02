@@ -19,9 +19,9 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
+ * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -49,7 +49,6 @@ class faculty_edit_form extends \local_mxschool\form {
                 'alternatename' => self::ELEMENT_TEXT,
                 'email' => self::ELEMENT_EMAIL_REQUIRED,
                 'dorm' => array('element' => 'select', 'options' => $dorms),
-                'faculty_code' => self::ELEMENT_TEXT,
                 'approve_signout' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'advisory_available' => self::ELEMENT_BOOLEAN_REQUIRED,
                 'advisory_closing' => self::ELEMENT_BOOLEAN_REQUIRED
