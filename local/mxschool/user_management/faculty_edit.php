@@ -19,9 +19,9 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -39,7 +39,7 @@ $queryfields = array(
     'local_mxschool_faculty' => array(
         'abbreviation' => 'f',
         'fields' => array(
-            'id', 'dormid' => 'dorm', 'may_approve_signout' => 'approve_signout', 'advisory_available', 'advisory_closing'
+            'id', 'dormid' => 'dorm', 'faculty_code', 'may_approve_signout' => 'approve_signout', 'advisory_available', 'advisory_closing'
         )
     ),
     'user' => array(

@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -275,6 +275,7 @@ $string['user_management:faculty_report'] = 'Faculty Report';
 // Headers.
 $string['user_management:faculty_report:header:name'] = 'Name';
 $string['user_management:faculty_report:header:dorm'] = 'Dorm';
+$string['user_management:faculty_report:header:facultycode'] = 'Faculty Code';
 $string['user_management:faculty_report:header:approvesignout'] = 'May Approve Off-Campus Signout?';
 $string['user_management:faculty_report:header:advisoryavailable'] = 'Advisory Available?';
 $string['user_management:faculty_report:header:advisoryclosing'] = 'Advisory Closing?';
@@ -291,6 +292,7 @@ $string['user_management:faculty_edit:faculty:lastname'] = 'Last Name';
 $string['user_management:faculty_edit:faculty:alternatename'] = 'Alternate Name';
 $string['user_management:faculty_edit:faculty:email'] = 'Email';
 $string['user_management:faculty_edit:faculty:dorm'] = 'Dorm';
+$string['user_management:faculty_edit:faculty:faculty_code'] = 'Faculty Code';
 $string['user_management:faculty_edit:faculty:approve_signout'] = 'May Approve Off-Campus Signout';
 $string['user_management:faculty_edit:faculty:advisory_available'] = 'Advisory Available';
 $string['user_management:faculty_edit:faculty:advisory_closing'] = 'Advisory Closing';

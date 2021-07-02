@@ -18,9 +18,9 @@
  * Database updgrade steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
+ * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -1221,9 +1221,9 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		$data->confirm_subject = 'DEFAULT -- Change in COVID Testing Preferences';
 		$data->confirm_body = 'DEFAULT -- Change in COVID Testing Preferences';
 
-	     update_notification('healthtest_reminder', $data, 'reminder');
+	    update_notification('healthtest_reminder', $data, 'reminder');
 		update_notification('healthtest_missed', $data, 'missed');
-	     update_notification('healthtest_confirm', $data, 'confirm');
+	    update_notification('healthtest_confirm', $data, 'confirm');
 
 		upgrade_plugin_savepoint(true, 2021031006, 'local', 'mxschool');
 	}
@@ -1240,6 +1240,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
 	}
+
+		upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
 
     if($oldversion < 2021042000) {
         unset_config('healthcenter_notification_email_address', 'local_mxschool');
@@ -1306,7 +1308,21 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		$other_insert = array('id' => '1', 'name' => 'Other');
 		$DB->insert_record('local_mxschool_dp_event', (object) $other_insert);
 		upgrade_plugin_savepoint(true, 2021062401, 'local', 'mxschool');
+
 	}
+  
+  
+    if($oldversion < 2021063000) {
+
+        // Updating table local_mxschool_faculty with new faculty_code field.
+		$table = new xmldb_table('local_mxschool_faculty');
+	    $field = new xmldb_field('faculty_code', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+
+        // Conditionally launch add field faculty_code.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
 
      return true;
 
