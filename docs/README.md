@@ -1,9 +1,13 @@
 # ![Middlesex Shield](/assets/mx_shield.png) Middlesex Moodle Plugins ![Middlesex Shield](/assets/mx_shield.png)
-Custom Moodle plugins written for Middlesex School; an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
+Custom Moodle plugins serving the needs of our school community.
+This project is written and maintained by the [Middlesex Moodle Development Team.](/docs/ABOUT_US.md)
 
-Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
-
-This project began over a decade ago, and the plugins have been through many iterations, but work on the current version began in 2018.
+Learn more about:
+- [This project, our Moodle Development Team,](/docs/ABOUT_US.md) and [Middlesex School](https://mxschool.edu)
+- The plugins that make up this package.
+- [Our Code of Conduct.](/docs/CODE_OF_CONDUCT.md)
+- [Our Security Policy.](/docs/SECURITY.md)
+- [How you can get involved.](/docs/CONTRIBUTING.md)
 
 ## Packages
 The project currently includes the following plugins:
@@ -16,7 +20,7 @@ The project currently includes the following plugins:
     - [blocks/mxschool_dorm_student](/blocks/mxschool_dorm_student/README.md)
     - [blocks/mxschool_dorm_proctor](/blocks/mxschool_dorm_proctor/README.md)
     - [blocks/mxschool_manage_transportation](/blocks/mxschool_manage_transportation/README.md)
-    - Healthpass subsystem
+    - Healthpass subsystem - COVIDpass and COVIDtest response for community wellness
         - [blocks/mxschool_dash_healthcenter](/blocks/mxschool_dash_healthcenter/README.md)
         - [blocks/mxschool_dash_healthpass](/blocks/mxschool_dash_healthpass/README.md)
         - [local/mxschool/healthpass](/local_mxschool/healthpass/README.md)
@@ -30,6 +34,26 @@ The project currently includes the following plugins:
     - [blocks/mxschool_dash_signout](/blocks/mxschool_dash_signout/README.md)
 
 ###### NOTE: v3.2 of all of these plugins have been updated to run on `Moodle 3.9` using the default `Boost` and the expanded `Boost Campus` themes.
+
+## License
+As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt).
+© 2018-2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+
+
+
+
+
+
+// Old Code
+
+Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
+
+Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
+
+This project began over a decade ago, and the plugins have been through many iterations, but work on the current version began in 2018.
+
+
+
 
 ## Contributing
 This project offers a context for students to apply computer science skills to benefit the Middlesex community. For information on how to get started working on Moodle plugins for this project see the [getting started guide](/docs/GETTING_STARTED.md).
@@ -62,8 +86,3 @@ v3.1 of the project was developed in 2019 by:
 v3.0 of the project was developed in 2018 by:
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
-## License
-As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt).
-
-© 2018-2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.

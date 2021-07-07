@@ -12,10 +12,10 @@ The Moodle Development Team is a student-led initiative that has made a profound
 If you are not a Middlesex student, please do steps 1 and 2.
 Then contact [Chuck](mailto:cjmcdonald@mxschool.edu) for further instructions.
 
-This work is a combination of talents and technologies - Coding, UX, Documenting, QA, etc. There are many ways to be involved and our mxMoodle plugin will be better because you are involved.
+This work is a combination of talents and technologies - Coding, UX, Documenting, QA, etc. There are many ways to be involved and our mxMoodle plugin will be better because of you.
 
 ## Submitting Changes
-All commits are made to the dev branch in sub-branches specifically named for the issue being addressed. Commits are save points reflecting significant changes. Pull requests made to the dev branch contain individual features ready for inclusion.  
+All commits are made in sub-branches specifically named for the issue being addressed. Commits are save points reflecting significant changes. Pull requests are made to the dev branch contain individual features ready for inclusion.  
 When the dev branch is ready to take its place as the next live version of our code, it is squashed and merged with the main branch by the repository administrators.
 
 ## Coding conventions
