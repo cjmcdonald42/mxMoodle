@@ -2,7 +2,8 @@
 
 ## History of this project
 ### v1.0
-This project began in the mid 2000's as a locally hosted website alongside our newly built Moodle Server running early versions of Moodle 2. Dr. Michael Schaeberle and Ryan Laughlin, Class of 2007, designed and built the first version of this code using php and javascript. The system provided the check-in sheets for dorm heads and grew to include Advisor Selection, Rooming, and Vacation Travel functionality. \
+This project began in the mid 2000's as a locally hosted website alongside our newly built Moodle Server running early versions of Moodle 2. Dr. Michael Schaeberle and Ryan Laughlin, Class of 2007, designed and built the first version of this code using php and javascript. The system provided the check-in sheets for dorm heads and grew to include Advisor Selection, Rooming, and Vacation Travel functionality.
+
 Following Ryan's graduation, Dr. Schaeberle brought in [Rob Barnett](https://www.linkedin.com/in/rob-barnett-81b7638/) and The Learning Curve Consortium, Inc to handle programming, security, training, and move the site to an external host. With Mr. Barnett, Dr Schaeberle developed the first version of the eSignout system and Peer Tutoring functionality.
 
 ### v2.0
