@@ -2,6 +2,8 @@
 Only the most recent version of this code is maintained and supported.
 Currently, our production server runs Moodle 3.9 with [mxMoodle v3.2.1](https://github.com/mxschool/mxMoodle/releases/tag/v3.2.1)
 
+We are developing mxMoodle v3.3 to run Moodle 3.11 with PHP 8 and SQL 8.
+
 ## Reporting security problems
 **Do not create an issue to report a security problem.**
 Instead, please send an email to directly to Chuck at:  \<cjmcdonald@mxschool.edu\>
@@ -18,8 +20,7 @@ In case an incident is discovered or reported, We will follow the following proc
 * Find out what data was potentially exposed.
 
 ### 2. Response
-After the initial assessment and containment to the best of our ability, We will document all actions taken in a response plan.
-
+After the initial assessment and containment to the best of our ability, We will document all actions taken in a response plan. \
 We will create a comment in the official "Updates" issue to inform users about the incident and what actions we took to contain it.
 
 ### 3. Remediation
