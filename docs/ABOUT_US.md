@@ -1,4 +1,7 @@
 # About us
+1. History of this project
+2. The Moodle Development Team
+3. Roadmap for the Future
 
 ## History of this project
 ### v1.0
@@ -14,3 +17,7 @@ In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019,
 
 ### v3.2 and 3.3
 In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Chuck McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form.
+
+## The Moodle Development Team
+
+### Roadmap for the Future
