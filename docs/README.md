@@ -1,10 +1,10 @@
 # ![Middlesex Shield](/assets/mx_shield.png) Middlesex Moodle Plugins ![Middlesex Shield](/assets/mx_shield.png)
-Custom Moodle plugins serving the needs of our school community.
+Custom Moodle plugins serving the needs of our school community. \
 This project is written and maintained by the [Middlesex Moodle Development Team.](/docs/ABOUT_US.md)
 
 Learn more about:
 - [This project, our Moodle Development Team,](/docs/ABOUT_US.md) and [Middlesex School](https://mxschool.edu)
-- The plugins that make up this package.
+- The plugins that make up this project.
 - [Our Code of Conduct.](/docs/CODE_OF_CONDUCT.md)
 - [Our Security Policy.](/docs/SECURITY.md)
 - [How you can get involved.](/docs/CONTRIBUTING.md)
@@ -44,7 +44,9 @@ As Moodle itself, these plugins are provided freely under the [GNU General Publi
 
 
 
-// Old Code
+
+
+# // Old Code - I'm leaving this text here until it finds a new home.
 
 Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
 
