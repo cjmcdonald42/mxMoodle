@@ -41,6 +41,7 @@ mxMoodle v4 is planned for launch in the Fall of 2022 on Moodle v4.1
 
 ## License
 As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt).
+
 © 2018-2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
 
 
