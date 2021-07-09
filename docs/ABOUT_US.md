@@ -1,5 +1,5 @@
 # About us
-Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
+Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at: \<https://mxschool.edu\>.
 
 1. [History of this project](#history)
 2. [The Moodle Development Team](#team)
