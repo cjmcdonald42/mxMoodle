@@ -33,11 +33,15 @@ The project currently includes the following plugins:
     - [blocks/mxschool_dash_signout](/blocks/mxschool_dash_signout/README.md)
 
 ## Roadmap
-mxMoodle v3.2.1 has been updated to run on `Moodle 3.9` using the default `Boost` and the expanded `Boost Campus` themes.
+### Current production release
+mxMoodle v3.2.1 runs on Moodle 3.9 using the default Boost and the expanded Boost Campus themes.
 
-mxMoodle v3.3 is being built on `Moodle 3.11` using `php 8`, `SQL 8`, and the default `Boost` theme.
+### Summer 2021
+mxMoodle v3.3 is being built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme.
 
-mxMoodle v4 is planned for launch in the Fall of 2022 on Moodle v4.1
+### Summer 2022
+Moodle v4 is planned to release in November of 2021 with 4.1 scheduled for release in May of 2022.
+We will develop toward mxMoodle v4 for a summer 2022 upgrade.
 
 ## License
 As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt).
