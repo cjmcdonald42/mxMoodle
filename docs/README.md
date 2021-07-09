@@ -44,5 +44,5 @@ Moodle v4 is planned to release in November of 2021 with 4.1 scheduled for relea
 We will develop toward mxMoodle v4 for a summer 2022 upgrade.
 
 ## License
-As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt). \ 
+As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
 © 2018-2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
