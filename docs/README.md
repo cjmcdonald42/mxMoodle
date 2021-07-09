@@ -54,14 +54,11 @@ As Moodle itself, these plugins are provided freely under the [GNU General Publi
 
 
 
+-----
+#### // Old Code - I'm leaving this text here until it finds a new home.
 
-# // Old Code - I'm leaving this text here until it finds a new home.
 
-Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
-
-Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
-
-## Documentation
+#### Documentation
 The documentation for this project doesn't cover everything there is to know, but between [our documentation](/docs), [Moodle's documentation](https://docs.moodle.org/dev/Main_Page), and the abundant examples provided by the existing code, you should be able to get a good sense of how things are working.
 
 These are the documentation pages that we currently have in place:
