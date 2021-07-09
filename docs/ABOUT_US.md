@@ -23,14 +23,14 @@ In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took
 
 <a name="team"></a>
 ## The Moodle Development Team
-The Moodle Development Team is a student-driven club of coders and creatives responsible for this project and its future at Middlesex School. Students lead this project through all phases of development, coding, quality assurance, and documentation.
+The Moodle Development Team is a student-driven club of coders and creatives responsible for this project and its future at Middlesex School. Students lead this project through all phases of development, coding, UX design, quality assurance, and documentation.
 
 **And we need you.** \
 Start by visiting our [Contributing](docs/CONTRIBUTING.md) page.
 
-Moodle is the world's most popular learning management system. Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and to become a citizen of the world. Learn more at http://moodle.org.
+Moodle is the world's most popular learning management system. Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and to become a citizen of the world. Learn more at: \<http://moodle.org\>.
 
-Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
+Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at \<https://mxschool.edu\>.
 
 <a name="map"></a>
 ## Roadmap for the Future
@@ -42,4 +42,4 @@ mxMoodle v3.3 is being built on Moodle 3.11 using php 8, SQL 8, and the default 
 
 ### Summer 2022
 Moodle v4 is planned to release in November of 2021 with 4.1 scheduled for release in May of 2022.
-We will develop toward mxMoodle v4 for a summer 2022 upgrade.
+The 2021-2022 school year will be spent developing toward mxMoodle v4.1 for a Summer 2022 upgrade.
