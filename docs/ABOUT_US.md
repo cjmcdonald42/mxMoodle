@@ -1,11 +1,11 @@
 # About us
 Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
 
-1. [History of this project](#history-of-this-project-)
-2. [The Moodle Development Team](#the-moodle-development-team-)
-3. [Roadmap for the Future](#roadmap-for-the-future-)
+1. [History of this project](#history)
+2. [The Moodle Development Team](#team)
+3. [Roadmap for the Future](#map)
 
-## History of this project
+## History of this project <a name="history"></a>
 ### v1.0
 This project began in the mid 2000's as a locally hosted website alongside our newly built Moodle Server running early versions of Moodle 2. Dr. Michael Schaeberle and Ryan Laughlin, Class of 2007, designed and built the first version of this code using php and javascript. The system provided the check-in sheets for dorm heads and grew to include Advisor Selection, Rooming, and Vacation Travel functionality.
 
@@ -20,7 +20,7 @@ In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019,
 ### v3.2 and 3.3
 In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Chuck McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form.
 
-## The Moodle Development Team
+## The Moodle Development Team <a name="team"></a>
 The Moodle Development Team is a student-driven club of coders and creatives responsible for this project and its future at Middlesex School. Students lead this project through all phases of development, coding, quality assurance, and documentation.
 
 *And we need you.* \
@@ -30,7 +30,7 @@ Moodle is the world's most popular learning management system. Moodle is [open s
 
 Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at <https://mxschool.edu>.
 
-### Roadmap for the Future
+### Roadmap for the Future <a name="map"></a>
 #### Current production release
 mxMoodle v3.2.1 runs on Moodle 3.9 using the default Boost and the expanded Boost Campus themes.
 
