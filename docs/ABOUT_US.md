@@ -1,9 +1,34 @@
 # About us
 Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at: \<https://mxschool.edu\>.
 
-1. [History of this project](#history)
-2. [The Moodle Development Team](#team)
-3. [Roadmap for the Future](#map)
+1. [The Moodle Development Team](#team)
+2. [Roadmap for the Future](#map)
+3. [History of this project](#history)
+
+<a name="team"></a>
+## The Moodle Development Team
+The Moodle Development Team is a student-driven club of coders and creatives responsible for this project and its future at Middlesex School. Students lead this project through all phases of development, coding, UX design, quality assurance, and documentation.
+
+**And we need you.** \
+Start by visiting our [Contributing](docs/CONTRIBUTING.md) page.
+
+Moodle is the world's most popular learning management system. Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and to become a citizen of the world. Learn more at: \<http://moodle.org\>.
+
+Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at \<https://mxschool.edu\>.
+
+<a name="map"></a>
+## Roadmap for the Future
+![Road Map for mxMoodle](assets/roadmap.png)
+
+### Current production release
+mxMoodle v3.2.1 runs on Moodle 3.9 using the default Boost and the expanded Boost Campus themes.
+
+### Summer 2021
+mxMoodle v3.3 is being built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme.
+
+### Summer 2022
+Moodle v4 is planned to release in November of 2021 with 4.1 scheduled for release in May of 2022.
+The 2021-2022 school year will be spent developing toward mxMoodle v4.1 for a Summer 2022 upgrade.
 
 <a name="history"></a>
 ## History of this project
@@ -20,26 +45,3 @@ In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019,
 
 ### v3.2 and 3.3
 In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Chuck McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form.
-
-<a name="team"></a>
-## The Moodle Development Team
-The Moodle Development Team is a student-driven club of coders and creatives responsible for this project and its future at Middlesex School. Students lead this project through all phases of development, coding, UX design, quality assurance, and documentation.
-
-**And we need you.** \
-Start by visiting our [Contributing](docs/CONTRIBUTING.md) page.
-
-Moodle is the world's most popular learning management system. Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and to become a citizen of the world. Learn more at: \<http://moodle.org\>.
-
-Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at \<https://mxschool.edu\>.
-
-<a name="map"></a>
-## Roadmap for the Future
-### Current production release
-mxMoodle v3.2.1 runs on Moodle 3.9 using the default Boost and the expanded Boost Campus themes.
-
-### Summer 2021
-mxMoodle v3.3 is being built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme.
-
-### Summer 2022
-Moodle v4 is planned to release in November of 2021 with 4.1 scheduled for release in May of 2022.
-The 2021-2022 school year will be spent developing toward mxMoodle v4.1 for a Summer 2022 upgrade.
