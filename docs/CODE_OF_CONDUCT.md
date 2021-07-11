@@ -1,5 +1,5 @@
 # MX Moodle Code of Conduct
-Much like the Middlesex Community, the [Moodle Development Team](/docs/ABOUT_US.md/#team) is comprised of hardworking individuals with different backgrounds and expertise. We strive towards accessibility, acceptance, and cooperation. However, these values may cause issues in communication, perspective, and understanding. As a solution, we have created a set of rules and kindly ask all team members to adhere to these rules when working on or with this project. This code applies to the founders, programmers, and users.
+Much like the Middlesex Community, the [Moodle Development Team](/docs/ABOUT_US.md) is comprised of hardworking individuals with different backgrounds and expertise. We strive towards accessibility, acceptance, and cooperation. However, these values may cause issues in communication, perspective, and understanding. As a solution, we have created a set of rules and kindly ask all team members to adhere to these rules when working on or with this project. This code applies to the founders, programmers, and users.
 
 In addition, all Middlesex students pledge to uphold the principles and high ideals laid out in our Student Handbook. This Code of Conduct seeks to build on the Student Handbook and defers to it.
 
