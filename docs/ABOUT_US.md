@@ -10,11 +10,11 @@ Middlesex School is an independent, secondary school following the New England b
 The Moodle Development Team is a student-driven club of coders and creatives responsible for this project and its future at Middlesex School. Students lead this project through all phases of development, coding, UX design, quality assurance, and documentation.
 
 **And we need you.** \
-Start by visiting our [Contributing](docs/CONTRIBUTING.md) page.
+Start by visiting our [Contributing](/docs/CONTRIBUTING.md) page.
 
-Moodle is the world's most popular learning management system. Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and to become a citizen of the world. Learn more at: \<http://moodle.org\>.
+Moodle is the world's most popular learning management system. Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and to become a citizen of the world. Learn more at: \<[http://moodle.org](http://moodle.org)\>.
 
-Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at \<https://mxschool.edu\>.
+Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at \<[https://mxschool.edu](https://mxschool.edu)\>.
 
 <a name="map"></a>
 ## Roadmap for the Future
