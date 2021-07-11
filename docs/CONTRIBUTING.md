@@ -15,12 +15,10 @@ Then contact [Chuck](mailto:cjmcdonald@mxschool.edu) for further instructions.
 This work is a combination of talents and technologies - Coding, UX, Documenting, QA, etc. There are many ways to be involved and our mxMoodle plugin will be better because of you.
 
 ## Submitting Changes
-All commits are made in sub-branches specifically named for the issue being addressed. Commits are save points reflecting significant changes. Pull requests are made to the dev branch contain individual features ready for inclusion.  
-When the dev branch is ready to take its place as the next live version of our code, it is squashed and merged with the main branch by the repository administrators.
+All commits are made in sub-branches specifically named for the issue being addressed. Commits are save points reflecting significant changes. Pull requests are made to the dev branch contain individual features ready for inclusion. When the dev branch is ready to take its place as the next live version of our code, it is squashed and merged with the main branch by the repository administrators.
 
 ## Coding conventions
-Start reading our code and you'll get the hang of it. We optimize for readability. Without getting too pedantic, we follow the
-[PHP Standards Recommendations of the Framework Interop Group](https://php=fig.org/psr).
+Start by reading our code. We optimize for readability and you'll quickly get the hang of it. Read and refer to Moodle's own [coding style page](https://docs.moodle.org/dev/Coding_style). This document contains important information about how you should structure and format your PHP code.
 
 This is open source software. Consider the people who will read your code, and make it look nice for them. It's sort of like driving a car: Perhaps you love doing donuts when you're alone, but with passengers the goal is to make the ride as smooth as possible.
 
