@@ -22,3 +22,6 @@ In addition, all Middlesex students pledge to uphold the principles and high ide
 If you have any questions, wish to discuss a potential violation, or offer feedback, please contact: 
 - Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 - The Moodle Development Team \<MooDevTea@mxschool.edu\>
+
+-----
+*Continue to learn [how you can get involved.](/docs/CONTRIBUTING.md)*
