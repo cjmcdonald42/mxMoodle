@@ -18,7 +18,7 @@ Middlesex School is an independent, secondary school following the New England b
 
 <a name="map"></a>
 ## Roadmap for the Future
-![Road Map for mxMoodle](assets/roadmap.png)
+![Road Map for mxMoodle](/assets/roadmap.png)
 
 ### Current production release
 mxMoodle v3.2.1 runs on Moodle 3.9 using the default Boost and the expanded Boost Campus themes.
