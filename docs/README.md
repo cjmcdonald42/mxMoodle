@@ -32,17 +32,6 @@ The project currently includes the following plugins:
     - [local/signout](/local/signout/README.md)
     - [blocks/mxschool_dash_signout](/blocks/mxschool_dash_signout/README.md)
 
-## Roadmap
-### Current production release
-mxMoodle v3.2.1 runs on Moodle 3.9 using the default Boost and the expanded Boost Campus themes.
-
-### Summer 2021
-mxMoodle v3.3 is being built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme.
-
-### Summer 2022
-Moodle v4 is planned to release in November of 2021 with 4.1 scheduled for release in May of 2022.
-We will develop toward mxMoodle v4 for a summer 2022 upgrade.
-
 ## License
 As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
 © 2018-2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
