@@ -22,5 +22,5 @@ This is open source software. Consider the people who will read your code, and m
 ## Contact us
 All questions, insights, and feedback are welcome.
 
-Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>  
+Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>  </br> 
 The Moodle Development Team \<MooDevTea@mxschool.edu\>
