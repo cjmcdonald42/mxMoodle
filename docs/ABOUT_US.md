@@ -33,7 +33,7 @@ The 2021-2022 school year will be spent developing toward mxMoodle v4.1 for a Su
 <a name="history"></a>
 ## History of this project
 ### v1.0
-This project began in the mid 2000's as a locally hosted website alongside our newly built Moodle Server running early versions of Moodle 2. Dr. Michael Schaeberle and Ryan Laughlin, Class of 2007, designed and built the first version of this code using php and javascript. The system provided the check-in sheets for dorm heads and grew to include Advisor Selection, Rooming, and Vacation Travel functionality.
+This project began in the mid 2000's as a locally hosted website alongside our newly built Moodle Server running early versions of Moodle 2. Dr. Michael Schaeberle and Ryan Laughlin, Class of 2007, designed and built the first version of this code as a stand-alone website using php and javascript. The system was accessed via links on dorm Moodle pages. It provided the check-in sheets for dorm heads and grew to include Advisor Selection, Rooming, and Vacation Travel functionality.
 
 Following Ryan's graduation, Dr. Schaeberle brought in [Rob Barnett](https://www.linkedin.com/in/rob-barnett-81b7638/) and The Learning Curve Consortium, Inc to handle programming, security, training, and move the site to an external host. With Mr. Barnett, Dr Schaeberle developed the first version of the eSignout system and Peer Tutoring functionality.
 
@@ -45,3 +45,5 @@ In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019,
 
 ### v3.2 and 3.3
 In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Chuck McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form.
+
+*Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*
