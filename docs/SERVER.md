@@ -1,7 +1,7 @@
 # Setting Up Your Own Development Server
 With all the tools installed, you are ready to configure Moodle. Open your browser window and navigate to Moodle on your localhost. The config script will start automatically and walk you through accepting the EULA and getting started.
 
-##### With Moodle4Mac, this really is just a couple of clicks. More advanced setups may require more individualized assistance which is beyond the scope of this document. Please ask and we can help you through this process.
+*With Moodle4Mac, this really is just a couple of clicks. More advanced setups may require more individualized assistance which is beyond the scope of this document. Please ask and we can help you through this process.*
 
 ## Site Configuration
 Once the config script finishes, you will be on the Moodle Dashboard and we recommend the following settings for your Moodle Server. To get to these settings, select `Site administration` from the NavBar on the left of the Dashboard. Moodle has a lot of settings, so follow these steps carefully as you navigate through the settings tree to find the appropriate ones.
@@ -42,15 +42,15 @@ Once the config script finishes, you will be on the Moodle Dashboard and we reco
     - `Path to PHP CLI`: enter `/usr/bin/php`
     - Click `Save Changes`
 - `Site administration` > `Server` > `Support contact`
-    - `Supoort Name`: enter whatever you want — this value will appear in the from field of all emails sent from your server
-    - `Support Email`: enter `admin@localhost.local` (or anything else that looks like an email)
+    - `Supoort Name`: *enter whatever you want — this value will appear in the from field of all emails sent from your server*
+    - `Support Email`: `admin@localhost.local` *(or anything else that looks like an email)*
     - Click `Save Changes`
 - `Site administration` > `Server` > `Email` > `Outgoing mail configuration`
     - `SMTP hosts`: enter `smtp.gmail.com:587`
     - `SMTP security`: select `TLS`
     - `SMTP username`: enter `moodle@mxschool.edu` *You can use any email here you like*
     - `SMTP password`: *Enter the password for your Moodle email account; see Chuck for details*
-    - `No-reply address`: enter `noreply@localhost.local` (or anything else that looks like an email) — this address will be the "sender" of all mxSchool emails sent from your server
+    - `No-reply address`: `noreply@localhost.local` *(or anything else that looks like an email) — this address will be the "sender" of all mxSchool emails sent from your server*
     - `Email via information`: select `Always`
     - Click `Save Changes`
 - `Site administration` > `Development` > `Debugging`
@@ -62,60 +62,33 @@ Now log out and log back in. You should land on your dashboard when you log in, 
 ## Adding mxMoodle Plugins
 With your server configured and running, you are ready to add our custom plugins. Clone our mxMoodle repository to a location on your computer. This location should be somewhere within your user directory and _not_ within the MAMP installation. Also, we advise against cloning it to a folder that synchronizes with Google Drive or other cloud storage to avoid extraneous files being added.
 
-Now copy our plugins into your installation. We will automate this process later, but for the first time, it is a good idea to take a look at how Moodle's file structure works. Navigate to your web folder \(/Applications/MAMP/htdocs if you are using MAMP\). Here you should find a couple of directories. Select the one which corresponds to the version of Moodle you are running. In this directory, you will find the Moodle core and the preinstalled plugins (there are close to 400). There is something on the order of 10,000 files in the default installation of Moodle.
+Now copy our plugins into your installation. We will automate this process later, but for the first time, it is a good idea to take a look at how Moodle's file structure works. Navigate to your web folder \(/Applications/MAMP/htdocs if you are using MAMP\). Here you should find a couple of directories. Select the one which corresponds to the version of Moodle you are running. In this directory, you will find the Moodle core and the preinstalled plugins (there are close to 400).
 
 Our code goes in the /local and /blocks directories. Please _copy_ (hold option while dragging in Finder) everything from MXMoodle/local to your installation's /local directory. Do the same from MXMoodle/blocks to /blocks.
 **When you are doing this be sure to copy the _contents_ of each directory not the entire directory itself, because you don't want to overwrite any of the existing plugins in your Moodle installation.**
 
 While you are adding our plugins, you should also take a moment to add Moodle's `code checker` plugin which will be useful during development. All you need to do is download the plugin [here](https://github.com/moodlehq/moodle-local_codechecker/zipball/master) then move the entire directory into the same /local directory of your server and rename the directory to `codechecker`.
 
-Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes. Now click `Save Changes`, and you are ready to move to the next step.
+Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes.
 
+## Installing Testing User Data
+With your Moodle installation up and running, and your plugins installed, you are ready to add data. Our current shared folder has a set of CSV files that mirror the data on the Moodle Development Server and is a good place to start.
 
-
-
-
-
-
-
-
-##### Installing Testing User Data
-The last step for your installation is to install users to work with. This will require that you fill data in 5 different tables. You will need to acquire test data CSVs before you proceed.
-
-The first table contains the basic user data, such as the user's First name, Last name, username and password. Because passwords need to be hashed, this step has to happen through the Site Administration interface. Navigate to `Site administration` > `Users` > `Accounts` > `Upload users` and choose the CSV from your computer. Then select the following options:
+The first table contains the basic user data, such as the user's First name, Last name, username and password. This step has to happen through the Site Administration interface. Navigate to `Site administration` > `Users` > `Accounts` > `Upload users` and choose the CSV from your computer. Then select the following options:
 - `Settings` > `New user password`: select `Field required in file`
 - `Settings` > `Prevent email address duplicates`: select `No`
 - `Default Values` > `City/town`: clear this field if there is any default
 - `Default Values` > `Preferred language`: make sure this is set to `English - United States (en_us)`
 Now click `Upload Users`, and you are ready to move to the next table.
 
-The other data which you need to enter, can be imported directly through Sequel Pro. To connect to your local server, initiate a socket connection from the Sequel Pro connection interface with the following information:
+The rest of the testing data is imported directly through your Sequel client.
+Enter records into the `mdl_local_mxschool_faculty`, `mdl_local_mxschool_dorm`, `mdl_local_mxschool_student`, and `mdl_local_mxschool_permissions` tables.
 
-    Username: moodle
-    Password: moodle
-    Database: moodle##
-    Socket: Applications/MAMP/tmp/mysql/mysql.sock
-
-Where ## is replaced with the version of Moodle you are running. For example, for Moodle 3.7, you would use:
-
-    Database: moodle37
-
-While you are here, I would suggest that you add a name and color then save this configuration as a favorite by selecting the `Add to Favorites` option before you connect.
-
-Now that you are connected, feel free to look around and see all of the tables which Moodle has by default. One table of interest is the user table (`mdl_user`). If you look at this table you should see all of the users which you just added. While you are here go ahead and set the country for the Administrator to `US` and the language to `en_us` (the installation defaults to your being Australian). If you search for 'local', you will see all of the tables for our plugins, some of which automatically pre-install their data, but a few of which you will have to enter data for.
-
-Importing data within Sequel Pro is very easy. While viewing the table you want to import to, select `File` > `Import...` and choose the CSV file. Then match the fields in the CSV with the fields in the data, click `Import`, and you are all set.
-
-While initializing your database, you will need to enter records into the `mdl_local_mxschool_faculty`, `mdl_local_mxschool_dorm`, `mdl_local_mxschool_student`, and `mdl_local_mxschool_permissions` tables.
-###### WARNING: When importing this data, be sure that the `userid` and `hohid` fields correctly reference the `id`s assigned to your users when you uploaded them to the `mdl_user` table.
-
-___
-
-##### Environment Scripts
-There are a number of file manipulation operations which are common enough that you will save a lot of time by having a script that will them for you. My suggestion is to include following lines in `~/.bash_profile`. You first need to export environment variables `MOODLE_SERVER_ROOT` and `MOODLE_PROJECT_ROOT` which should hold the path to your Moodle installation and working copy respectively. For example, if you are running Moodle 3.7 add this line for your `MOODLE_SERVER_ROOT`:
+## Environment Scripts
+There are a number of file manipulation operations which are common enough that you will save a lot of time by having a script that will run them for you. My suggestion is to include following lines in your bash profile (generally, `~/.bash_profile`). You first need to export environment variables `MOODLE_SERVER_ROOT` and `MOODLE_PROJECT_ROOT` which should hold the path to your Moodle installation and working copy respectively. For example, if you are running Moodle 3.11 add this line for your `MOODLE_SERVER_ROOT`:
 
 ```bash
-export MOODLE_SERVER_ROOT="/Applications/MAMP/htdocs/moodle37"
+export MOODLE_SERVER_ROOT="/Applications/MAMP/htdocs/moodle311"
 ```
 
 Then add the following lines to be able to move files back and forth as well as some other commonly used functionality which is explained below.
