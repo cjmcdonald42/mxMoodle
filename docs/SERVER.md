@@ -1,4 +1,4 @@
-# Setting Up Your Local Test Server
+# Setting Up Your Own Development Server
 Once you have installed Moodle's MAMP Package, you are ready to set up your local development server. Because the server is pre-pacakged for you, you won't have to do very much set up. To start your server, all you need to do is open the MAMP app and press the start servers button if they do not start automatically. Now select the `My Website` tab from the top of the landing page, and you will have arrived at your Moodle installation (this may take some time to load the first time you do it). Once you reach the homepage, select log in at the bottom and use the default credentials:
 
     username: admin
@@ -101,27 +101,6 @@ While initializing your database, you will need to enter records into the `mdl_l
 ###### WARNING: When importing this data, be sure that the `userid` and `hohid` fields correctly reference the `id`s assigned to your users when you uploaded them to the `mdl_user` table.
 
 ___
-
-### Setting Up Atom
-The final part of preparing your development environment is setting up your text editor. This will basically come down to installing a few Atom packages and adding some useful scripts to your bash profile. If you have decided to use something other than Atom, the information about packages won't be useful, but you should still find a way to run the CodeSniffer. The environment scripts, on the other hand, will still be useful.
-
-##### Editor Settings
-Atom is highly configurable, and there are a few editor settings which you should change to help you stay in line with the [Style Guidelines](CODING_STYLE.md).
-- Set `Preferred Line Length` to `132`
-- Set `Tab Length` to `4`
-
-##### Installing a Linter Package
-Atom is generally a great IDE, but by default, it won't tell you about syntactical or stylistic errors as you are writing. Moodle has some specific and somewhat non-standard style guidelines (See our [Style Guidelines](CODING_STYLE.md) documentation) that you will need to follow. Luckily, they provide a way to automatically check your code against many of the guidelines with PHP_CodeSniffer. In Atom's package installation menu, search for `linter-phpcs` and install it. A pop-up will appear asking you to install the necessary dependencies if you do not already have them. These dependencies also have their own dependencies, so keep selecting `Yes` whenever you are asked if you want to install another package. In total you will need to install 5 packages. If you aren't prompted to install all of the dependencies, restarting Atom should trigger any additional prompts.
-
-Once the package is installed, there are a couple of settings which you will need to change in order for the linter to function properly:
-- Set `Executable Path` to the root of your Moodle installation followed by `/local/codechecker/pear/PHP/scripts/phpcs` — for example if you are running Moodle 3.7 use `/Applications/MAMP/htdocs/moodle37/local/codechecker/pear/PHP/scripts/phpcs`
-- Set `Code Standard or Config File` to the root of your Moodle installation followed by `/local/codechecker/moodle/ruleset.xml` — for example if you are running Moodle 3.7 use `/Applications/MAMP/htdocs/moodle37/local/codechecker/moodle/ruleset.xml`
-- Set `Tab Width` to `4`.
-
-###### NOTE: The linter sometimes seems to get overwhelmed with certain files and starts reporting indentation issues everywhere. The codechecker page on your local site (`Site administration` > `Development` > `Code checker`) can check all of your files simultaneously and does not have this issue.
-
-##### Installing a Terminal Package
-Because you will often want to use bash scripts to manipulate your development environment, it is very useful to have a terminal embedded into your IDE. I would suggest installing the Atom package `platformio-ide-terminal`.
 
 ##### Environment Scripts
 There are a number of file manipulation operations which are common enough that you will save a lot of time by having a script that will them for you. My suggestion is to include following lines in `~/.bash_profile`. You first need to export environment variables `MOODLE_SERVER_ROOT` and `MOODLE_PROJECT_ROOT` which should hold the path to your Moodle installation and working copy respectively. For example, if you are running Moodle 3.7 add this line for your `MOODLE_SERVER_ROOT`:

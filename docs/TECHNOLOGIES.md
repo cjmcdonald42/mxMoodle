@@ -17,14 +17,14 @@ JavaScript allows webpages to be interactive and change without the browser need
 Rather than writing HTML directly or building up the page within the PHP itself, Moodle uses the templating language Mustache to define HTML fragments which are ultimately combined and served to the user. Because these templates are inherently reusable, you won't often need to write new ones. However, if you do need to write a Mustache template, the [MoodleDocs page Templates page](https://docs.moodle.org/dev/Templates), the [Mustache Manual](https://mustache.github.io/mustache.5.html), and the documentation for the PHP implementation in [this GitHub repo](https://github.com/bobthecow/mustache.php) are all good resources.
 
 ## CSS
-CSS _(Cascading Style Sheets)_ is what determines how a webpage is ultimately displayed in the client's browser. Moodle is designed to allow for theme plugins which can change how the site looks dramatically. As such, we don't have to worry much about CSS when writing other types of plugins. There is a small amount of CSS in the repository, but it is not something that will need to change as the project expands. Moodle's current default theme, Boost, is built on Twitter's [Bootstrap API](https://getbootstrap.com), so if you want to use any Bootstrap elements, all you need to do is add the appropriate class in your mustache file or in the PHP.
+CSS _(Cascading Style Sheets)_ is what determines how a webpage is ultimately displayed in the client's browser. Moodle is designed to allow for theme plugins which can change how the site looks dramatically. As such, we don't have to worry much about CSS when writing other types of plugins. There is a small amount of CSS in the repository, but it is not something that will need to change as the project expands. Moodle's current default theme, Boost, is built on Twitter's [Bootstrap API](https://getbootstrap.com), so if you want to use any Bootstrap elements, all you need to do is add the appropriate class in your mustache file or in the PHP. [W3Schools](https://www.w3schools.com/cssref) has a nice CSS reference, if you need it.
 
 ## Markdown
-[Markdown](https://www.markdownguide.org) is a simplified way to add formatting elements to otherwise plain text. It's fast, lightweight, and surprisingly younger than HTML and CSS. All of our documentation, including upcoming user Wiki, is hosted by GitHub and written in plain text with markdown.
+[Markdown](https://www.markdownguide.org) is a simplified way to add formatting elements to otherwise plain text. It's fast, lightweight, and surprisingly younger than HTML and CSS. All of our documentation, including the user Wiki currently in development, is hosted by GitHub and written in plain text with markdown.
 
 ## Moodle.org
 In addition to these technologies, the [Moodle.org](https://moodle.org) website is an excellent resource for the many API layers and fundementals of Moodle. Be sure to access their [Documentation](https://docs.moodle.org), [Development site](https://docs.moodle.org/dev), and [Community Forums](https://moodle.org/course/view.php?id=5).
 
 -----
-#### *Continue to our [Development Tools](/docs/TOOLS.md) page.*
+#### *Continue to our [Developer Tools](/docs/TOOLS.md) page.*  </br>
 #### *Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*
