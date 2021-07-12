@@ -172,4 +172,4 @@ git config --global core.excludesfile ~/.gitignore_global
 ```
 
 -----
-#### *Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*
+*Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*

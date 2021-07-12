@@ -26,5 +26,5 @@ CSS _(Cascading Style Sheets)_ is what determines how a webpage is ultimately di
 In addition to these technologies, the [Moodle.org](https://moodle.org) website is an excellent resource for the many API layers and fundementals of Moodle. Be sure to access their [Documentation](https://docs.moodle.org), [Development site](https://docs.moodle.org/dev), and [Community Forums](https://moodle.org/course/view.php?id=5).
 
 -----
-#### *Continue to our [Developer Tools](/docs/TOOLS.md) page.*  </br>
-#### *Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*
+*Continue to our [Developer Tools](/docs/TOOLS.md) page.*  </br>
+*Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*

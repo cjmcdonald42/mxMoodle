@@ -35,5 +35,5 @@ To run a local server on your own computer, you will need this trifecta of web t
 If you using macOS, Moodle provides a package called Moodle4Mac which will set up a MAMP installation with the desired Moodle release automatically. You can download the appropriate package [here](https://download.moodle.org/macosx).
 
 -----
-#### *Continue to [Prepare Your Local Server](/docs/SERVER.md) page.*
-#### *Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*
+*Continue to [Prepare Your Local Server](/docs/SERVER.md) page.* </br>
+*Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*
