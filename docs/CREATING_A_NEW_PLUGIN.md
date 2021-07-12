@@ -1,3 +1,5 @@
+##### This file needs to be reviewed.
+
 # Steps for Creating a New Local Plugin
 
 Local plugins enable us to add arbitrary pages and database tables to Moodle as well as customize other existing plugins. Unfortunately, the type of additions we are making are definitely within the realm of "non-standard" from the Moodle community's perspective, so the relevant documentation is severely lacking. Moodle's current documentation for local plugins is short and very out-of-date (written for Moodle 2.0). I would _not_ recommend that you read Moodle's [local plugins documentation](https://docs.moodle.org/dev/Local_plugins) because it might be rather misleading. You should look at [this page](https://docs.moodle.org/dev/Plugin_files), though, which addresses the plugin files that are included in all plugin types and is more up-to-date. In this document, I will try to provide a more targeted and accurate overview that combines the information of these pages as well as details specific to our plugins.
