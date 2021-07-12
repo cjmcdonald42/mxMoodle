@@ -1,20 +1,10 @@
 # Setting Up Your Own Development Server
-Once you have installed Moodle's MAMP Package, you are ready to set up your local development server. Because the server is pre-pacakged for you, you won't have to do very much set up. To start your server, all you need to do is open the MAMP app and press the start servers button if they do not start automatically. Now select the `My Website` tab from the top of the landing page, and you will have arrived at your Moodle installation (this may take some time to load the first time you do it). Once you reach the homepage, select log in at the bottom and use the default credentials:
+With all the tools installed, you are ready to configure Moodle. Open your browser window and navigate to Moodle on your localhost. The config script will start automatically and walk you through accepting the EULA and getting started.
 
-    username: admin
-    password: 12345
+##### With Moodle4Mac, this really is just a couple of clicks. More advanced setups may require more individualized assistance which is beyond the scope of this document. Please ask and we can help you through this process.
 
-##### Adding Middlesex Plugins
-The first thing you will need to do once you have your server running is to add the existing version of our custom plugins to your server before you configure certain settings to mimic our production server as well as some specifically for development. To do this, you will first need to clone the repository to a location on your computer. This location should be somewhere within your user directory and _not_ within the MAMP installation.
-
-Once you have cloned the repository, you will need to copy our plugins into your installation. After you have set up your IDE, this will be an automated process, but for this first time, it is a good idea to take a look at how Moodle's file structure works. In Finder navigate to /Applications/MAMP/htdocs. Here you should find a couple of directories. Select the one which corresponds to the version of Moodle you are running. In this directory, you will find all of Moodle core and the preinstalled plugins (there are close to 400). There is something on the order of 10,000 files in the default installation of Moodle. We will be contributing to the /local and /blocks directories. You now want to _copy_ (hold option while dragging in Finder) everything from MXMoodle/local to your installation's /local directory. Do the same from MXMoodle/blocks to /blocks. **When you are doing this be sure to copy the _contents_ of each directory not the entire directory itself, because you don't want to overwrite any of the existing plugins in your Moodle installation.**
-
-While you are adding our plugins, you should also take a moment to add Moodle's `code checker` plugin which will be useful during development. All you need to do is download the plugin [here](https://github.com/moodlehq/moodle-local_codechecker/zipball/master) then move the entire directory into the same /local directory of your server. Lastly, you need to rename the directory to codechecker.
-
-Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes. Now click `Save Changes`, and you are ready to move to the next step.
-
-##### Site Configuration
-Now that you have installed our plugins, there are a few more very important settings which you will need to configure for your development site. To get to these settings, select `Site administration` in the sidebar. Moodle has a lot of settings, so follow these steps carefully as you navigate through the settings tree to find the appropriate ones.
+## Site Configuration
+Once the config script finishes, you will be on the Moodle Dashboard and we recommend the following settings for your Moodle Server. To get to these settings, select `Site administration` from the NavBar on the left of the Dashboard. Moodle has a lot of settings, so follow these steps carefully as you navigate through the settings tree to find the appropriate ones.
 - `Site administration` > `Location` > `Location Settings`
     - `Default timezone`: set to `America/New York`
     - `Force timezone`: set to `America/New York`
@@ -38,7 +28,6 @@ Now that you have installed our plugins, there are a few more very important set
     - Disable `MNet authentication`
     - `Allow accounts with same email`: check the box
     - `Guest login button`: select `Hide`
-    - `Alternate login URL`: enter the root Moodle url followed by `/local/mxschool/login.php` — for example, if your root Moodle url is `http://localhost:8888/moodle37`, then enter `http://localhost:8888/moodle37/local/mxschool/login.php`
     - Click `Save Changes`
 - `Site administration` > `Appearance` > `Navigation`
     - `Default home page for users`: select `Dashboard`
@@ -53,22 +42,42 @@ Now that you have installed our plugins, there are a few more very important set
     - `Path to PHP CLI`: enter `/usr/bin/php`
     - Click `Save Changes`
 - `Site administration` > `Server` > `Support contact`
-    - `Supoort Name`: enter whatever you want — this value will appear in the from field of all mxschool emails sent from your server
+    - `Supoort Name`: enter whatever you want — this value will appear in the from field of all emails sent from your server
     - `Support Email`: enter `admin@localhost.local` (or anything else that looks like an email)
     - Click `Save Changes`
 - `Site administration` > `Server` > `Email` > `Outgoing mail configuration`
-    - `SMTP hosts`: enter `smtp.sendgrid.net:587`
+    - `SMTP hosts`: enter `smtp.gmail.com:587`
     - `SMTP security`: select `TLS`
-    - `SMTP username`: enter `mx-moomail`
-    - `SMTP password`: _ask someone for our password and enter it here_
-    - `No-reply address`: enter `noreply@localhost.local` (or anything else that looks like an email) — this address will be the "sender" of all mxschool emails sent from your server
-    - `Email via information`: select `Never`
+    - `SMTP username`: enter `moodle@mxschool.edu` *You can use any email here you like*
+    - `SMTP password`: *Enter the password for your Moodle email account; see Chuck for details*
+    - `No-reply address`: enter `noreply@localhost.local` (or anything else that looks like an email) — this address will be the "sender" of all mxSchool emails sent from your server
+    - `Email via information`: select `Always`
     - Click `Save Changes`
 - `Site administration` > `Development` > `Debugging`
     - `Debug messages`: select `DEVELOPER: extra Moodle debug messages for developers`
     - Click `Save Changes`
 
-Now log out and be sure that you are still able to log in successfully with the new login page. If your server fails to load the login page, you probably entered the url incorrectly in the settings. You can manually enter the correct version in your browser's search bar to regain access to the site. You should land on your dashboard when you log in, and if you updated the appearance settings successfully, your theme color should be Middlesex's red.
+Now log out and log back in. You should land on your dashboard when you log in, and if you updated the appearance settings successfully, your theme color should be the Middlesex red. Our team development server uses the default blue colour to distinguish it from the live Production server.
+
+## Adding mxMoodle Plugins
+With your server configured and running, you are ready to add our custom plugins. Clone our mxMoodle repository to a location on your computer. This location should be somewhere within your user directory and _not_ within the MAMP installation. Also, we advise against cloning it to a folder that synchronizes with Google Drive or other cloud storage to avoid extraneous files being added.
+
+Now copy our plugins into your installation. We will automate this process later, but for the first time, it is a good idea to take a look at how Moodle's file structure works. Navigate to your web folder \(/Applications/MAMP/htdocs if you are using MAMP\). Here you should find a couple of directories. Select the one which corresponds to the version of Moodle you are running. In this directory, you will find the Moodle core and the preinstalled plugins (there are close to 400). There is something on the order of 10,000 files in the default installation of Moodle.
+
+Our code goes in the /local and /blocks directories. Please _copy_ (hold option while dragging in Finder) everything from MXMoodle/local to your installation's /local directory. Do the same from MXMoodle/blocks to /blocks.
+**When you are doing this be sure to copy the _contents_ of each directory not the entire directory itself, because you don't want to overwrite any of the existing plugins in your Moodle installation.**
+
+While you are adding our plugins, you should also take a moment to add Moodle's `code checker` plugin which will be useful during development. All you need to do is download the plugin [here](https://github.com/moodlehq/moodle-local_codechecker/zipball/master) then move the entire directory into the same /local directory of your server and rename the directory to `codechecker`.
+
+Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes. Now click `Save Changes`, and you are ready to move to the next step.
+
+
+
+
+
+
+
+
 
 ##### Installing Testing User Data
 The last step for your installation is to install users to work with. This will require that you fill data in 5 different tables. You will need to acquire test data CSVs before you proceed.

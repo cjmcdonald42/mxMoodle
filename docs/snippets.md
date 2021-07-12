@@ -9,3 +9,15 @@ These are the documentation pages that we currently have in place:
 - [Middlesex Moodle API Layer](/docs/API_LAYER.md)
 
 If you have time to read through all of the pages, it would make the most sense to read them in the order they are listed.
+
+
+
+
+
+
+
+
+Once you have installed Moodle's MAMP Package, you are ready to set up your local development server. Because the server is prepackaged for you, you won't have to do very much set up. To start your server, all you need to do is open the MAMP app and press the start servers button if they do not start automatically. Now select the `My Website` tab from the top of the landing page, and you will have arrived at your Moodle installation (this may take some time to load the first time you do it). Once you reach the homepage, select log in at the bottom and use the default credentials:
+
+    username: admin
+    password: 12345
