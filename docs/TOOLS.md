@@ -10,8 +10,8 @@ Our repository is hosted on GitHub. Since its purchase by Microsoft in 2018, the
 We recommended the [Atom](https://atom.io) text editor because it is actively being developed by the GitHub team, it's open source, and there are many packages available to hack or customize it to your liking. Atom comes with a preinstalled Git package that brings you the GitHub Client functionality.
 
 To help you stay in line with our [Coding Style Guidelines](CODING_STYLE.md):
-- Set your `Preferred Line Length` to `132`
-- Set your `Tab Length` to `4`
+- Set `Preferred Line Length` to `132`
+- Set `Tab Length` to `4`
 
 You will often want to use bash scripts to manipulate your development environment. In Atom, we suggest installing the terminal package `platformio-ide-terminal`.
 
@@ -24,10 +24,10 @@ Once installed, there are a couple of settings which you will need to change in 
 
 ###### NOTE: The linter sometimes seems to get overwhelmed with certain files and starts reporting indentation issues everywhere. The codechecker page on your local site (`Site administration` > `Development` > `Code checker`) can check all of your files simultaneously and does not have this issue.
 
-The [Teletype](https://teletype.atom.io) plugin adds live collaboration.
+Atom's [Teletype](https://teletype.atom.io) plugin adds live collaboration.
 
 ## A Database GUI
-Our Moodle Server stores all of its data in a SQL database. Moodle v4 will require SQL 8.x and we are developing now using this latest version. The school year begins with a number of bulk data entry tasks using CSV files that combine data from our Student Information System, Sr Systems, and our Google Workplace account. We use and highly recommend [Sequel Ace](https://github.com/Sequel-Ace/Sequel-Ace) for this task as it is open source, supported by a large world-wide community, and free. It is only available for macOS; If anyone has a good Windows alternative, please let us know.
+Our Moodle Server stores all of its data in a SQL database. Moodle v4 will require SQL 8.x and we are developing now using this latest version. The school year begins with a number of bulk data entry tasks using CSV files that combine data from our Student Information System, Sr Systems, and our Google Workplace account. We use and highly recommend [Sequel Ace](https://github.com/Sequel-Ace/Sequel-Ace) for this task as it is open source, it is supported by a large, world-wide community, and it is free. It is only available for macOS; If anyone has a good Windows alternative, please let us know.
 
 ## Apache2, MySQL, PHP
 To run a local server on your own computer, you will need this trifecta of web technologies. Specifically, we are running Apache v2, MySQL v8, and PHP v8. The upcoming release of Moodle v4 will require these latest versions and we are already developing with that in mind. You can install these packages separately, but for ease and convenience, we recommend using [MAMP](https://www.mamp.info); a prebuilt package with all three together.
@@ -35,5 +35,5 @@ To run a local server on your own computer, you will need this trifecta of web t
 If you using macOS, Moodle provides a package called Moodle4Mac which will set up a MAMP installation with the desired Moodle release automatically. You can download the appropriate package [here](https://download.moodle.org/macosx).
 
 -----
-#### *Continue to [Prepare Your Local Server](/docs/SERVER.md) page.*  </br>
+#### *Continue to [Prepare Your Local Server](/docs/SERVER.md) page.*
 #### *Return to our [Getting Started](/docs/GETTING_STARTED.md) index.*
