@@ -15,12 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Block Report for Middlesex's Health Test system.
+ * Audit Report for Healthtest system
  *
- * @package     local_mxschool
- * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @package     local_mxschool__healthtest
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,10 +29,10 @@ require_once(__DIR__.'/../locallib.php');
 // 1. is the user signed into moodle
 require_login();
 
-//2. does the user have the capability to view and manage healthtest data
+// 2. does the user have the capability to view and manage healthtest data
 require_capability('local/mxschool:manage_healthpass', context_system::instance());
 
-//3. Create an array of userIDs for every user with the capability to access the COVIDtest subsystem.
+// 3. Create an array of userIDs for every user with the capability to access the COVIDtest subsystem.
 $healthtest_users = array();
 $users = get_user_list();
 foreach ($users as $value)

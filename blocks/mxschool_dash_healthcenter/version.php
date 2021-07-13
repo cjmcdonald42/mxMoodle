@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for Healthcenter's Dashboard Block
+ * Healthcenter's Dashboard Block
  *
  * @package     block_mxschool_dash_healthcenter
  * @author      mxMoodle Development Team
