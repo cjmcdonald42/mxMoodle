@@ -42,23 +42,21 @@
    public function __construct($filter, $download) {
 	  $this->is_downloading($download);
  	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('testing_cycle', 'block', 'name', 'grade', 'dorm', 'has_tested');
+       $columns = array('testing_cycle', 'name');
  	  // Get headers from language file
-       $headers = $this->generate_headers($columns, 'healthtest:test_report');
+       $headers = $this->generate_headers($columns, 'healthtest:audit_report');
  	  // Define sortable columns
-       $sortable = array('name', 'testing_cycle', 'grade', 'has_tested');
+       $sortable = array('name', 'testing_cycle');
  	  // All columns are centered
-       $centered = array('testing_cycle', 'block', 'name', 'dorm', 'grade', 'has_tested');
-       parent::__construct('healthtest_test_table', $columns, $headers, $sortable, $centered, $filter, true);
+       $centered = array('testing_cycle', 'name');
+       parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
  	  // The fields to query from the database
-       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'stu.grade', 'stu.boarding_status',
-  					'd.name AS dorm', 'ht.attended AS has_tested', 'ht.testing_block_id', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
+       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name' 'ht.testing_block_id', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
-  					'{user} u ON u.id = ht.userid', '{local_mxschool_student} stu ON stu.userid = u.id',
-					'{local_mxschool_dorm} d ON d.id = stu.dormid');
+  					'{user} u ON u.id = ht.userid');
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0');
 
@@ -66,20 +64,9 @@
 		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
 	  }
 
-	  if($filter->block) {
-		  // Ensure that the user isn't filtering by a cycle and a block that isn't in that cycle.
-		  if(healthtest_block_is_in_testing_cycle($filter->block, $filter->testing_cycle)) {
-			  $where[] = "tb.id = {$filter->block}";
-		  }
-	  }
-	  if($filter->attended) {
-		  if($filter->attended == 'Absent') {
-			  $where[] = "ht.attended = 0";
-		  }
-		  else if($filter->attended == 'Present') {
-			 $where[] = "ht.attended = 1";
-		  }
-	  }
+
+
+
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
@@ -92,24 +79,11 @@
 		return "{$values->lastname}, {$values->firstname}";
 	}
 
-	protected function col_dorm($values) {
-		if(!$values->dorm) return '';
-		return "{$values->dorm} ({$values->boarding_status})";
-	}
 
-	protected function col_has_tested($values) {
-		if($this->is_downloading()) return $values->has_tested ? 'X' : '';
-		global $PAGE;
-		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new checkbox($values->htid, 'local_mxschool_healthtest', 'attended', $values->has_tested);
-		return $output->render($renderable);
-	}
 
-	protected function col_block($values) {
-		$block_date = date('n/d', strtotime($values->tbdate));
-		$block_start = date('g:i A', strtotime($values->start_time));
-		return "{$block_date} {$block_start}";
-	}
+
+
+
 
 	protected function col_testing_cycle($values) {
 		$testing_cycle_dates = get_testing_cycle_dates($values->testing_cycle);

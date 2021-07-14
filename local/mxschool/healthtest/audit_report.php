@@ -29,13 +29,11 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_healthtest', context_system::instance());
+require_capability('local/mxschool:access_healthtest', context_system::instance());
 
 // Creeate filters
 $filter = new stdClass();
 $filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
-$filter->block = optional_param('block', '', PARAM_RAW);
-$filter->attended = optional_param('attended', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 $action = optional_param('action', '', PARAM_RAW);
@@ -54,37 +52,15 @@ if ($action === 'delete' && $id) {
 }
 
 // Create table and pass the filters
-$table = new local_mxschool\local\healthtest\test_table($filter, $download);
+$table = new local_mxschool\local\healthtest\audit_table($filter, $download);
 
 // Define filter options as an array with value => display
 $testing_cycle_options = get_testing_cycle_list();
-$block_options = get_healthtest_report_block_options($filter->testing_cycle);
-$attended_options = array(
-	'Present' => get_string('healthtest:test_report:attended:attended', 'local_mxschool'),
-	'Absent' => get_string('healthtest:test_report:attended:absent', 'local_mxschool')
-);
-
-$buttons = array(
-	new local_mxschool\output\redirect_button(
-         get_string('healthtest:test_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
-     ),
-	new local_mxschool\output\redirect_button(
-         get_string('healthtest:test_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
-     ),
-	new local_mxschool\output\email_button(get_string('healthtest:test_report:notify_missed', 'local_mxschool'), 'healthtest_notify_missed'),
-	new local_mxschool\output\email_button(get_string('healthtest:test_report:remind', 'local_mxschool'), 'healthtest_notify_reminder')
-);
 
 // Create dropdowns, where the last parameter is the default value
 $dropdowns = array(
 	new local_mxschool\output\dropdown(
 	    'testing_cycle', $testing_cycle_options, $filter->testing_cycle, get_string('healthtest:test_report:testing_cycle:all', 'local_mxschool')
-    ),
-    new local_mxschool\output\dropdown(
-	   'block', $block_options, $filter->block, get_string('healthtest:test_report:block:all', 'local_mxschool')
-    ),
-    new local_mxschool\output\dropdown(
-        'attended', $attended_options, $filter->attended, get_string('healthtest:test_report:attended:all', 'local_mxschool')
     )
 );
 
