@@ -56,16 +56,16 @@ class block_mxschool_dash_healthcenter extends block_base {
                     get_string('healthpass:preferences', 'block_mxschool_dash_healthcenter')
                         => '/local/mxschool/healthpass/preferences.php',
                 ),  get_string('healthpass', 'block_mxschool_dash_healthcenter')),
-			 new local_mxschool\output\index(array(
-				get_string('healthtest:appointment_form', 'block_mxschool_dash_healthcenter')
-				    => "/local/mxschool/healthtest/appointment_form.php",
-                get_string('healthtest:test_report', 'block_mxschool_dash_healthcenter')
-    				=> "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
-				get_string('healthtest:block_report', 'block_mxschool_dash_healthcenter')
-				    => '/local/mxschool/healthtest/block_report.php',
-			     get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')
-				    => '/local/mxschool/healthtest/preferences.php',
-			 ),  get_string('healthtest', 'block_mxschool_dash_healthcenter')),
+			    new local_mxschool\output\index(array(
+				    get_string('healthtest:appointment_form', 'block_mxschool_dash_healthcenter')
+				        => "/local/mxschool/healthtest/appointment_form.php",
+                    get_string('healthtest:test_report', 'block_mxschool_dash_healthcenter')
+    				    => "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
+				    get_string('healthtest:block_report', 'block_mxschool_dash_healthcenter')
+				        => '/local/mxschool/healthtest/block_report.php',
+			        get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')
+			            => '/local/mxschool/healthtest/preferences.php',
+    			),  get_string('healthtest', 'block_mxschool_dash_healthcenter')),
                 new local_mxschool\output\index(array(
                     get_string('user_management:student_report', 'block_mxschool_dash_healthcenter')
                         => '/local/mxschool/user_management/student_report.php',
@@ -73,13 +73,13 @@ class block_mxschool_dash_healthcenter extends block_base {
                         => '/local/mxschool/user_management/faculty_report.php',
                     get_string('user_management:vehicle_report', 'block_mxschool_dash_healthcenter')
                         => '/local/mxschool/user_management/vehicle_report.php',
-                ), get_string('user_management', 'block_mxschool_dash_healthcenter')),
+                ),  get_string('user_management', 'block_mxschool_dash_healthcenter')),
                 new local_mxschool\output\index(array(
                     get_string('signout:on_campus:report', 'block_mxschool_dash_healthcenter')
                         => '/local/signout/on_campus/report.php',
                     get_string('signout:off_campus:report', 'block_mxschool_dash_healthcenter')
                         => '/local/signout/off_campus/report.php',
-                ), get_string('signout', 'block_mxschool_dash_healthcenter'))
+                ),  get_string('signout', 'block_mxschool_dash_healthcenter'))
             );
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
                 return $html . $output->render($renderable);
