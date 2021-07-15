@@ -1326,6 +1326,11 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021071500, 'local', 'mxschool');
 
     }
+    if($oldversion < 2021071504) {
+		// Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2021071504, 'local', 'mxschool');
+
+    }
 
   return true;
 
