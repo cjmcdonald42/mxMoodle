@@ -1241,15 +1241,16 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
 	}
 
-		upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
-
     if($oldversion < 2021042000) {
         unset_config('healthcenter_notification_email_address', 'local_mxschool');
         set_config('healthpass_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
         set_config('healthtest_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
+
+        upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
+
     }
 
-    if ($oldversion < 2021070000) {
+    if ($oldversion < 2021063000) {
 
 	    // Define table local_mxschool_vt_trip to be dropped.
 		$table = new xmldb_table('local_mxschool_vt_trip');
