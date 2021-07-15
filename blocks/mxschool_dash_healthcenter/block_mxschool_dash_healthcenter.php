@@ -25,6 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/../../local/mxschool/locallib.php');
+
 class block_mxschool_dash_healthcenter extends block_base {
 
     public function init() {

@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_healthcenter';
-$plugin->version = 2021071504;
+$plugin->version = 2021071510;
 $plugin->release = 'v3.3';
 $plugin->requires = 2021051700; // Moodle 3.11
 $plugin->maturity = MATURITY_STABLE;
