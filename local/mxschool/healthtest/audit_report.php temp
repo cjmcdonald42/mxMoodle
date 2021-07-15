@@ -31,10 +31,45 @@ require_once(__DIR__.'/../locallib.php');
 // 1. is the user signed into moodle
 require_login();
 
-//2. does the user have the capability to view and manage healthtest data
+// 2. does the user have the capability to view and manage healthtest data
 require_capability('local/mxschool:manage_healthpass', context_system::instance());
 
-//3. Create an array of userIDs for every user with the capability to access the COVIDtest subsystem.
+// Create Filter bar
+$filter = new stdClass();
+$filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
+$filter->block = optional_param('block', '', PARAM_RAW);
+$filter->search = optional_param('search', '', PARAM_RAW);
+$download = optional_param('download', '', PARAM_ALPHA);
+$action = optional_param('action', '', PARAM_RAW);
+$id = optional_param('id', 0, PARAM_INT);
+
+setup_mxschool_page('audit_report', 'healthtest');
+
+// Create table and pass the filters
+$table = new local_mxschool\local\healthtest\audit_table($filter, $download);
+
+// Define filter options as an array with value => display
+$testing_cycle_options = get_testing_cycle_list();
+$block_options = get_healthtest_report_block_options($filter->testing_cycle);
+
+// Define filter options as an array with value => display
+$testing_cycle_options = get_testing_cycle_list();
+$block_options = get_healthtest_report_block_options($filter->testing_cycle);
+$attended_options = array(
+	'Present' => get_string('healthtest:test_report:attended:attended', 'local_mxschool'),
+	'Absent' => get_string('healthtest:test_report:attended:absent', 'local_mxschool')
+);
+
+$buttons = array(
+	new local_mxschool\output\redirect_button(
+        get_string('healthtest:test_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
+    ),
+	new local_mxschool\output\redirect_button(
+        get_string('healthtest:test_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
+    ),
+);
+
+// 3. Create an array of userIDs for every user with the capability to access the COVIDtest subsystem.
 $healthtest_users = array();
 $users = get_user_list();
 foreach ($users as $value)

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for Healthcenter's Dashboard Block
+ * Healthcenter's Dashboard Block
  *
  * @package     block_mxschool_dash_healthcenter
  * @author      mxMoodle Development Team
@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_healthcenter';
-$plugin->version = 2021071200;
+$plugin->version = 2021071500;
 $plugin->release = 'v3.3';
 $plugin->requires = 2021051700; // Moodle 3.11
 $plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('local_mxschool' => 2021071200); // MXSchool v3.3
+$plugin->dependencies = array('local_mxschool' => 2021070000); // MXSchool v3.3

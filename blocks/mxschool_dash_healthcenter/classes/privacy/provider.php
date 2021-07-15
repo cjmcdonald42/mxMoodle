@@ -15,15 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provider for Middlesex's Dashboard Block for the Healthcenter.
+ * Privacy policy for Healthcenter's Dashboard Block
  *
  * @package     block_mxschool_dash_healthcenter
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 
 namespace block_mxschool_dash_healthcenter\privacy;
 
@@ -34,8 +32,6 @@ use \core_privacy\local\metadata\null_provider;
 class provider implements null_provider {
 
     /**
-     * Returns a string identifier from the component's language file to explain why the plugin doesn't store any user data.
-     *
      * @return string Unlocalized string which explains why the plugin doesn't store any user data.
      */
     public static function get_reason() {
