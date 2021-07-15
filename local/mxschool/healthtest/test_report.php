@@ -15,12 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Test Report for Middlesex's Health Test system.
+ * Healthcenter's Dashboard Block
  *
- * @package     local_mxschool
- * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @package     block_mxschool_dash_healthcenter
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,7 +33,6 @@ require_capability('local/mxschool:manage_healthtest', context_system::instance(
 $filter = new stdClass();
 $filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
 $filter->block = optional_param('block', '', PARAM_RAW);
-$filter->attended = optional_param('attended', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 $action = optional_param('action', '', PARAM_RAW);
