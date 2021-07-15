@@ -44,12 +44,14 @@ $string['healthtest'] = 'COVIDtest Module';
 $string['healthtest:appointment_form'] = 'Schedule a COVIDtest';
 $string['healthtest:test_report'] = 'COVIDtest Report';
 $string['healthtest:block_report'] = 'COVIDtest Blocks Report';
+$string['healthtest:audit_report'] = 'COVIDtest Audit Report';
 $string['healthtest:preferences'] = 'COVIDtest Preferences';
 
 $string['user_management'] = 'User Module';
 $string['user_management:student_report'] = 'Student Report';
 $string['user_management:faculty_report'] = 'Faculty Report';
 $string['user_management:vehicle_report'] = 'Student Vehicles Report';
+$string['user_management:vacation_travel_report'] = 'Vacation Travel Report';
 
 $string['signout'] = 'eSignout Module';
 $string['signout:on_campus:report'] = 'On-Campus Signout Report';

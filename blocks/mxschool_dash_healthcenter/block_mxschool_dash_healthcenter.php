@@ -40,12 +40,12 @@ class block_mxschool_dash_healthcenter extends block_base {
         $this->content = new stdClass();
         if (has_capability('block/mxschool_dash_healthcenter:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
-		  $dorm = get_param_faculty_dorm();
-		  $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
+		    $dorm = get_param_faculty_dorm();
+		    $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
 
-		  $today = date('Y-m-d');
-		  $testing_cycle = get_current_testing_cycle($today);
-		  $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
+		    $today = date('Y-m-d');
+		    $testing_cycle = get_current_testing_cycle($today);
+		    $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
 
             $renderables = array(
                 new local_mxschool\output\index(array(
@@ -63,6 +63,8 @@ class block_mxschool_dash_healthcenter extends block_base {
     				    => "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
 				    get_string('healthtest:block_report', 'block_mxschool_dash_healthcenter')
 				        => '/local/mxschool/healthtest/block_report.php',
+                    get_string('healthtest:audit_report', 'block_mxschool_dash_healthcenter')
+				        => '/local/mxschool/healthtest/audit_report.php',
 			        get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')
 			            => '/local/mxschool/healthtest/preferences.php',
     			),  get_string('healthtest', 'block_mxschool_dash_healthcenter')),
@@ -73,6 +75,8 @@ class block_mxschool_dash_healthcenter extends block_base {
                         => '/local/mxschool/user_management/faculty_report.php',
                     get_string('user_management:vehicle_report', 'block_mxschool_dash_healthcenter')
                         => '/local/mxschool/user_management/vehicle_report.php',
+                    get_string('user_management:vacation_travel_report', 'block_mxschool_dash_healthcenter')
+                        => '/local/mxschool/vacation_travel/report.php',
                 ),  get_string('user_management', 'block_mxschool_dash_healthcenter')),
                 new local_mxschool\output\index(array(
                     get_string('signout:on_campus:report', 'block_mxschool_dash_healthcenter')

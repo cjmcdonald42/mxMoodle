@@ -32,8 +32,6 @@ use \core_privacy\local\metadata\null_provider;
 class provider implements null_provider {
 
     /**
-     * Returns a string identifier from the component's language file to explain why the plugin doesn't store any user data.
-     *
      * @return string Unlocalized string which explains why the plugin doesn't store any user data.
      */
     public static function get_reason() {
