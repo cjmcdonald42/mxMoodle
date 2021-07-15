@@ -1312,6 +1312,19 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
     }
 
+    if($oldversion < 2021070000) {
+        $DB->delete_records('local_mxschool_subpackage', array('subpackage' => 'healthtest'));
+
+		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
+		    'test_form', 'test_report', 'block_form', 'block_report', 'audit_report', 'preferences'
+	    )));
+
+		$DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+
+        upgrade_plugin_savepoint(true, 2021071500, 'local', 'mxschool');
+
+    }
+
   return true;
 
 }
