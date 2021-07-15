@@ -31,7 +31,7 @@
 
  use local_mxschool\output\checkbox;
 
- class test_table extends \local_mxschool\table {
+ class audit_table extends \local_mxschool\table {
 
    /**
     * Creates a new table.
