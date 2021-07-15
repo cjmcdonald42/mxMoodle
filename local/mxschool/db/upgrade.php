@@ -1311,7 +1311,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 	}
 
-    if($oldversion < 2021063000) {
+    if($oldversion < 2021071500) {
 
         // Updating table local_mxschool_faculty with new faculty_code field.
 		$table = new xmldb_table('local_mxschool_faculty');
@@ -1323,7 +1323,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
 		// Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2021071500, 'local', 'mxschool');
 
     }
 
