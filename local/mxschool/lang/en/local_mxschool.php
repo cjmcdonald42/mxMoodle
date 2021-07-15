@@ -1357,4 +1357,4 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:audit_report:testing_cycle:all'] = "All Testing Cycles";
  $string['healthtest:audit_report:test_report'] = "COVIDtest Report";
  $string['healthtest:audit_report:appointment'] = "Appointment Report";
- $string['healthtest:audit_report:test_report'] = "COVIDtest Block Report";
+ $string['healthtest:audit_report:block_report'] = "COVIDtest Block Report";
