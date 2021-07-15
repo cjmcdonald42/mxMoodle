@@ -1347,12 +1347,14 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  // Report headers
  $string['healthtest:audit_report'] = "COVIDtest Audit Report";
  $string['healthtest:audit_report:header:testing_cycle'] = "Testing Cycle";
+ $string['healthtest:audit_report:header:name'] = "Name";
  $string['healthtest:audit_report:header:start_time'] = "Start Time";
  $string['healthtest:audit_report:header:end_time'] = "End Time";
  $string['healthtest:audit_report:header:date'] = "Date";
- $string['healthtest:audit_report:header:num_testers'] = "Number of Testers";
- $string['healthtest:audit_report:header:max_testers'] = "Max Testers";
+
 
  // Report Filters and Buttons.
  $string['healthtest:audit_report:testing_cycle:all'] = "All Testing Cycles";
  $string['healthtest:audit_report:test_report'] = "COVIDtest Report";
+ $string['healthtest:audit_report:appointment'] = "Appointment Report";
+ $string['healthtest:audit_report:test_report'] = "COVIDtest Block Report";

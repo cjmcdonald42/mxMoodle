@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Audit Report for Middlesex's Health Test system.
+ * Test Report for Middlesex's Health Test system.
  *
  * @package     local_mxschool
  * @subpackage  healthtest
- * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
+ * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,16 +28,12 @@
 require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
-// 1. is the user signed into moodle
 require_login();
+require_capability('local/mxschool:manage_healthtest', context_system::instance());
 
-// 2. does the user have the capability to view and manage healthtest data
-require_capability('local/mxschool:manage_healthpass', context_system::instance());
-
-// Create Filter bar
+// Creeate filters
 $filter = new stdClass();
 $filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
-$filter->block = optional_param('block', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 $action = optional_param('action', '', PARAM_RAW);
@@ -45,69 +41,51 @@ $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('audit_report', 'healthtest');
 
+// Action actions
+$redirect = new moodle_url($PAGE->url, (array) $filter);
+if ($action === 'delete' && $id) {
+    $result = $DB->record_exists('local_mxschool_healthtest', array('id' => $id)) ? 'success' : 'failure';
+    $DB->delete_records('local_mxschool_healthtest', array('id' => $id));
+    logged_redirect(
+        $redirect, get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
+    );
+}
+
 // Create table and pass the filters
 $table = new local_mxschool\local\healthtest\audit_table($filter, $download);
 
 // Define filter options as an array with value => display
 $testing_cycle_options = get_testing_cycle_list();
-$block_options = get_healthtest_report_block_options($filter->testing_cycle);
-
-// Define filter options as an array with value => display
-$testing_cycle_options = get_testing_cycle_list();
-$block_options = get_healthtest_report_block_options($filter->testing_cycle);
-$attended_options = array(
-	'Present' => get_string('healthtest:test_report:attended:attended', 'local_mxschool'),
-	'Absent' => get_string('healthtest:test_report:attended:absent', 'local_mxschool')
-);
 
 $buttons = array(
 	new local_mxschool\output\redirect_button(
-        get_string('healthtest:test_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
-    ),
+         get_string('healthtest:audit_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
+     ),
 	new local_mxschool\output\redirect_button(
-        get_string('healthtest:test_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
-    ),
+         get_string('healthtest:audit_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
+     ),
+     new local_mxschool\output\redirect_button(
+          get_string('healthtest:audit_report:test_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/test_report.php')
+      )
 );
 
-// 3. Create an array of userIDs for every user with the capability to access the COVIDtest subsystem.
-$healthtest_users = array();
-$users = get_user_list();
-foreach ($users as $value)
-{
-    if($value.has_capability('local/mxschool:access_healthtest', context_system::instance())
-    {
-        array_push($healthtest_users, $value);
-    }
+// Create dropdowns, where the last parameter is the default value
+$dropdowns = array(
+	new local_mxschool\output\dropdown(
+	    'testing_cycle', $testing_cycle_options, $filter->testing_cycle, get_string('healthtest:audit_report:testing_cycle:all', 'local_mxschool')
+    )
+);
+
+// Output report to page
+$output = $PAGE->get_renderer('local_mxschool');
+if ($table->is_downloading()) {
+    $renderable = new local_mxschool\output\report_table($table);
+    echo $output->render($renderable);
+    die();
 }
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
 
-//made a lot of notes, would like to go over with chuck
-
-//I thought testing cycle list was common for everybody, but on pseudocode we said to check if a specific user's testing cycle list is empty
-// hmm
-
-$testing_cycle_list = .get_testing_cycle_list(); //the testing cycle list that exists for every user
-foreach ($healthtest_users as $user) // traversing through the users that have access to the COVIDtest subsystem
-{
-    $user_appointment_info = .get_all_user_appointment_info($user); //using localib method to get all the info on the user regarding their appointment
-    $user_attended = $user_appointment_info['attended']; //not sure if syntax right, basically a boolean to check if they attended
-    $user_upcoming_appointment_info = .get_user_upcoming_appointment_info($user); //using locallib method to get info on upcoming appt. of user
-
-    foreach ($testing_cycle_list as $list) //traversing through the testing cycle list from line 48.
-    {
-        if($user_attended) // checking if the user attended their appt. (see line 52)
-        {
-            if(!$list.isempty()) // checking if the user's testing cycle list is empty
-            {
-                array_push($list, ", "); // if user's testing cycle list is empty, array adds a comma and a space
-            }
-            array_push($list, $list.get_current_testing_cycle()))
-            //the testing cycle list
-        }
-        else {
-            if($user_upcoming_appointment_info['testing_cycle'] .get_user_upcoming_appointment_info($user))
-        }
-    }
-
-
-}
-*/
+echo $output->header();
+echo $output->heading($PAGE->title);
+echo $output->render($renderable);
+echo $output->footer();

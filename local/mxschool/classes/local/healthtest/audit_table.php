@@ -46,7 +46,7 @@
  	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthtest:audit_report');
  	  // Define sortable columns
-       $sortable = array('name', 'testing_cycle');
+       $sortable = array('testing_cycle', 'name');
  	  // All columns are centered
        $centered = array('testing_cycle', 'name');
        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
@@ -66,8 +66,6 @@
 
 
 
-
-
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
    }
@@ -78,11 +76,6 @@
 		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
 		return "{$values->lastname}, {$values->firstname}";
 	}
-
-
-
-
-
 
 
 	protected function col_testing_cycle($values) {
