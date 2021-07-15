@@ -42,17 +42,17 @@
    public function __construct($filter, $download) {
 	  $this->is_downloading($download);
  	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('testing_cycle', 'name');
+       $columns = array('name', 'testing_cycle');
  	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthtest:audit_report');
  	  // Define sortable columns
-       $sortable = array('testing_cycle', 'name');
+       $sortable = array('name', 'testing_cycle');
  	  // All columns are centered
-       $centered = array('testing_cycle', 'name');
+       $centered = array('name', 'testing_cycle');
        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
  	  // The fields to query from the database
-       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'ht.testing_block_id', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
+       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
