@@ -40,12 +40,12 @@ class block_mxschool_dash_healthcenter extends block_base {
         $this->content = new stdClass();
         if (has_capability('block/mxschool_dash_healthcenter:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
-		    $dorm = get_param_faculty_dorm();
-		    $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
+// 		    $dorm = get_param_faculty_dorm();
+//		    $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
 
-		    $today = date('Y-m-d');
-		    $testing_cycle = get_current_testing_cycle($today);
-		    $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
+// 		    $today = date('Y-m-d');
+//		    $testing_cycle = get_current_testing_cycle($today);
+//		    $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
 
             $renderables = array(
                 new local_mxschool\output\index(array(
