@@ -15,11 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dorm and Student Functions Plugin.
+ * Audit Report for Healthtest system
  *
- * @package     local_mxschool
- * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @package     local_mxschool__healthtest
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -1343,3 +1342,17 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
  // Form Responses
  $string['healthtest:block_form:success'] = 'Testing Block Created Succesfully';
+
+ // Healthtest Audit Report
+ // Report headers
+ $string['healthtest:audit_report'] = "COVIDtest Audit Report";
+ $string['healthtest:audit_report:header:testing_cycle'] = "Testing Cycle";
+ $string['healthtest:audit_report:header:start_time'] = "Start Time";
+ $string['healthtest:audit_report:header:end_time'] = "End Time";
+ $string['healthtest:audit_report:header:date'] = "Date";
+ $string['healthtest:audit_report:header:num_testers'] = "Number of Testers";
+ $string['healthtest:audit_report:header:max_testers'] = "Max Testers";
+
+ // Report Filters and Buttons.
+ $string['healthtest:audit_report:testing_cycle:all'] = "All Testing Cycles";
+ $string['healthtest:audit_report:test_report'] = "COVIDtest Report";
