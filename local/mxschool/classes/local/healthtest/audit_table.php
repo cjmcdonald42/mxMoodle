@@ -23,13 +23,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- namespace local_mxschool\local\healthtest;
+namespace local_mxschool\local\healthtest;
 
- defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die();
 
- use local_mxschool\output\checkbox;
-
- class audit_table extends \local_mxschool\table {
+class audit_table extends \local_mxschool\table {
 
    /**
     * Creates a new table.
@@ -37,17 +35,30 @@
     * @param stdClass $filter Any filtering for the table.
     * @param string download, indicates if the table is downloading
     */
-   public function __construct($filter, $download) {
-	  $this->is_downloading($download);
- 	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('name', 'testing_cycle');
- 	  // Get headers from language file
-       $headers = $this->generate_headers($columns, 'healthtest:audit_report');
- 	  // Define sortable columns
-       $sortable = array('name', 'testing_cycle');
- 	  // All columns are centered
-       $centered = array('name', 'testing_cycle');
-       parent::__construct('healthtest_test_table', $columns, $headers, $sortable, $centered, $filter, true);
+    public function __construct($filter, $download) {
+	    $this->is_downloading($download);
+
+ 	    // Define the names of the columns. Should match up with the $fields array.
+        $columns = array('name', 'testing_cycle');
+ 	    // Get headers from language file
+        $headers = $this->generate_headers($columns, 'healthtest:audit_report');
+ 	    // Define sortable columns
+        $sortable = array('name', 'testing_cycle');
+ 	    // All columns are centered
+        $centered = array('name', 'testing_cycle');
+        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
+
+
+ 	    // The fields to query from the database
+        $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name',
+        			    'ht.attended AS has_tested', 'ht.testing_block_id', 'tb.testing_cycle', 'tb.id AS tbid',
+					    'tb.end_time', 'tb.date AS tbdate');
+        // The tables which to query
+        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
+  					    '{user} u ON u.id = ht.userid', '{local_mxschool_student} stu ON stu.userid = u.id',
+					    '{local_mxschool_dorm} d ON d.id = stu.dormid');
+ 	    // Get everything unless there are filters
+ 	    $where = array('u.deleted = 0');
 
 
 
@@ -61,32 +72,7 @@
 
 
 
-
-
- 	  // The fields to query from the database
-       $fields = array('ht.id AS htid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'stu.grade', 'stu.boarding_status',
-  					'd.name AS dorm', 'ht.attended AS has_tested', 'ht.testing_block_id', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
-					'tb.end_time', 'tb.date AS tbdate');
- 	  // The tables which to query
-       $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
-  					'{user} u ON u.id = ht.userid', '{local_mxschool_student} stu ON stu.userid = u.id',
-					'{local_mxschool_dorm} d ON d.id = stu.dormid');
- 	  // Get everything unless there are filters
- 	  $where = array('u.deleted = 0');
-
-
-
-
-
-
-
-
-
-
-
-
-
-	  if($filter->testing_cycle) {
+	 if($filter->testing_cycle) {
 		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
 	  }
 
@@ -110,31 +96,13 @@
    }
 
 	// The following functions edit what is displayed in individual columns
-
 	protected function col_name($values) {
 		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
-		return "{$values->lastname}, {$values->firstname}";
+	    return "{$values->lastname}, {$values->firstname}";
 	}
 
-	protected function col_dorm($values) {
-		if(!$values->dorm) return '';
-		return "{$values->dorm} ({$values->boarding_status})";
-	}
 
-	protected function col_has_tested($values) {
-		if($this->is_downloading()) return $values->has_tested ? 'X' : '';
-		global $PAGE;
-		$output = $PAGE->get_renderer('local_mxschool');
-		$renderable = new checkbox($values->htid, 'local_mxschool_healthtest', 'attended', $values->has_tested);
-		return $output->render($renderable);
-	}
-
-	protected function col_block($values) {
-		$block_date = date('n/d', strtotime($values->tbdate));
-		$block_start = date('g:i A', strtotime($values->start_time));
-		return "{$block_date} {$block_start}";
-	}
-
+/*
 	protected function col_testing_cycle($values) {
 		$testing_cycle_dates = get_testing_cycle_dates($values->testing_cycle);
 		$cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
@@ -142,10 +110,14 @@
 		return "{$cycle_start} -- {$cycle_end}";
 	}
 
-	/**
-	 * Formats the actions column.
-	 */
+	// Formats the actions column.
 	protected function col_actions($values) {
 	    return isset($values->htid) ? $this->delete_icon($values->htid) : '';
 	}
+
+*/
+
+
+
+
 }
