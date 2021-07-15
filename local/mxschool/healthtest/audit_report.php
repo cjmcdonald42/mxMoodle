@@ -39,7 +39,7 @@ $download = optional_param('download', '', PARAM_ALPHA);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-setup_mxschool_page('test_report', 'healthtest');
+setup_mxschool_page('audit_report', 'healthtest');
 
 // Action actions
 $redirect = new moodle_url($PAGE->url, (array) $filter);

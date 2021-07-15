@@ -1328,8 +1328,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
     }
 
 		upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
-	}
+
 
   return true;
 
- }
+}
