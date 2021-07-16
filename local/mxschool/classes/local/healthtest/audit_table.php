@@ -63,7 +63,7 @@
       {
           if(!($user.has_capability('local/mxschool:access_healthtest', context_system::instance())))
           {
-              unset($healthtest_users, $user);
+              unset($fields[$user]);
           }
       }
 
