@@ -47,26 +47,26 @@
         $centered = array('name', 'testing_cycle');
         parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
- 	    // The fields to query from the database
+        // The fields to query from the database
         $fields = array('u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name',
+    		'ht.id', 'ht.testing_block_id', 'ht.attended AS has_tested',
+            'tb.id', 'tb.testing_cycle', 'tb.start_time', 'tb.end_time', 'tb.date');
+            
+   	  // The tables which to query
+        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
+    					'{user} u ON u.id = ht.userid', '{local_mxschool_student} stu ON stu.userid = u.id',
+  					'{local_mxschool_dorm} d ON d.id = stu.dormid');
+   	  // Get everything unless there are filters
+   	    $where = array('u.deleted = 0');
 
-
-
-        // 'ht.id AS htid', 'ht.testing_block_id AS appointment', 'ht.attended AS has_tested',
-        // 'tb.testing_cycle','tb.id AS tbid', 'tb.start_time', 'tb.end_time', 'tb.date AS tbdate');
-
- 	    // The tables which to query
-        // $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id', '{user} u ON u.id = ht.userid');
-
- 	    // Get everything unless there are filters
- 	    $where = array('u.deleted = 0');
-
-//	    if($filter->testing_cycle) {
-//		    $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
+        if($filter->testing_cycle) {
+		    $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
 	    }
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
+        $this->define_sql($fields, $from, $where, $searchable,
+        // $filter->search
+        );
     }
 
 	// The following functions edit what is displayed in individual columns
