@@ -15,12 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Test Report for Middlesex's Health Test system.
+ * Healthtest Audit Report
  *
- * @package     local_mxschool
- * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @package     local_mxschool_healthtest
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -40,16 +38,6 @@ $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('audit_report', 'healthtest');
-
-// Action actions
-$redirect = new moodle_url($PAGE->url, (array) $filter);
-if ($action === 'delete' && $id) {
-    $result = $DB->record_exists('local_mxschool_healthtest', array('id' => $id)) ? 'success' : 'failure';
-    $DB->delete_records('local_mxschool_healthtest', array('id' => $id));
-    logged_redirect(
-        $redirect, get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
-    );
-}
 
 // Create table and pass the filters
 $table = new local_mxschool\local\healthtest\audit_table($filter, $download);
