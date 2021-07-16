@@ -15,12 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Test report table for Middlesex's Dorm and Student Functions Plugin.
+ * Healthtest Audit Report
  *
- * @package     local_mxschool
- * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @package     local_mxschool_healthtest
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +27,7 @@
 
  defined('MOODLE_INTERNAL') || die();
 
- use local_mxschool\output\checkbox;
+ use local_mxschool\output\checkbox; // Do we use a checkbox on this report?
 
  class audit_table extends \local_mxschool\table {
 
