@@ -53,8 +53,26 @@
  	  // The tables which to query
        $from = array('{user} u', '{local_mxschool_healthtest} ht ON u.id = ht.userid', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
   					);
+
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0');
+
+      $healthtest_users = $fields('userid');
+
+      foreach($healthtest_users as $user)
+      {
+          if(!($user.has_capability('local/mxschool:access_healthtest', context_system::instance())))
+          {
+              unset($healthtest_users, $user);
+          }
+      }
+
+      // create function that pulls out ids without access.
+
+
+
+      //call the function here to $fields
+      //get users that have access to healthtest
 
 	  if($filter->testing_cycle) {
 		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
@@ -69,17 +87,9 @@
     }
 
 	// The following functions edit what is displayed in individual columns
-/*
-    $healthtest_users = array();
-    $users = get_user_list();
-    foreach ($users as $user)
-    {
-        if($user.has_capability('local/mxschool:access_healthtest', context_system::instance())
-        {
-            array_push($healthtest_users, $user);
-        }
-    }
-    */
+
+
+
 
 	protected function col_name($values) {
 		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
