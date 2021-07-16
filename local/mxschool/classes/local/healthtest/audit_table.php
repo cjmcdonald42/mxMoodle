@@ -69,6 +69,7 @@
     }
 
 	// The following functions edit what is displayed in individual columns
+/*
     $healthtest_users = array();
     $users = get_user_list();
     foreach ($users as $user)
@@ -78,11 +79,13 @@
             array_push($healthtest_users, $user);
         }
     }
+    */
 
-	protected function col_name($healthtest_users) {
-		if($healthtest_users->alternatename) return "{$healthtest_users->lastname}, {$healthtest_users->firstname} ({$healthtest_users->alternatename})";
-		return "{$healthtest_users->lastname}, {$healthtest_users->firstname}";
+	protected function col_name($values) {
+		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
+		return "{$values->lastname}, {$values->firstname}";
 	}
+
 /*
 	protected function col_testing_cycle($values) {
 		$testing_cycle_dates = get_testing_cycle_dates($values->testing_cycle);
