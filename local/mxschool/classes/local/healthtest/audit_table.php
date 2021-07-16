@@ -58,10 +58,12 @@
  	  $where = array('u.deleted = 0'); // ask about what $where array is takin in
 
       $users = get_user_list();
-      
+
+
       foreach($users as $user)
       {
-          if(!($user.has_capability('local/mxschool:access_healthtest', context_system::instance())))
+          $context = context_module::instance($cm->id);
+          if(!(has_capability('local/mxschool:access_healthtest', $context)
           {
               unset($fields[$user]);
           }
