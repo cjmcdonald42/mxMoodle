@@ -27,8 +27,6 @@
 
  defined('MOODLE_INTERNAL') || die();
 
- use local_mxschool\output\checkbox; // Do we use a checkbox on this report?
-
  class audit_table extends \local_mxschool\table {
 
    /**
@@ -65,8 +63,10 @@
 
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
-   }
+        $this->define_sql($fields, $from, $where, $searchable,
+        // $filter->search
+        );
+    }
 
 	// The following functions edit what is displayed in individual columns
 
@@ -74,19 +74,12 @@
 		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
 		return "{$values->lastname}, {$values->firstname}";
 	}
-
-
+/*
 	protected function col_testing_cycle($values) {
 		$testing_cycle_dates = get_testing_cycle_dates($values->testing_cycle);
 		$cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
 		$cycle_end = date('n/d', strtotime($testing_cycle_dates['end']));
 		return "{$cycle_start} -- {$cycle_end}";
 	}
-
-	/**
-	 * Formats the actions column.
 	 */
-	protected function col_actions($values) {
-	    return isset($values->htid) ? $this->delete_icon($values->htid) : '';
-	}
 }
