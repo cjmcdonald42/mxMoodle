@@ -29,6 +29,9 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_healthtest', context_system::instance());
 
+
+
+
 // Creeate filters
 $filter = new stdClass();
 $filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);

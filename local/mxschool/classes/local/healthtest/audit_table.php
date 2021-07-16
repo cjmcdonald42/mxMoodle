@@ -48,11 +48,11 @@
        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
  	  // The fields to query from the database
-       $fields = array('u.id AS htid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
+       $fields = array('u.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
-  					'{user} u ON ht.userid=u.id');
+  					'{user} u');
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0');
 
@@ -69,10 +69,19 @@
     }
 
 	// The following functions edit what is displayed in individual columns
+    $healthtest_users = array();
+    $users = get_user_list();
+    foreach ($users as $user)
+    {
+        if($user.has_capability('local/mxschool:access_healthtest', context_system::instance())
+        {
+            array_push($healthtest_users, $user);
+        }
+    }
 
-	protected function col_name($values) {
-		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
-		return "{$values->lastname}, {$values->firstname}";
+	protected function col_name($healthtest_users) {
+		if($healthtest_users->alternatename) return "{$healthtest_users->lastname}, {$healthtest_users->firstname} ({$healthtest_users->alternatename})";
+		return "{$healthtest_users->lastname}, {$healthtest_users->firstname}";
 	}
 /*
 	protected function col_testing_cycle($values) {
