@@ -142,10 +142,10 @@ $capabilities = array(
 	    'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-  )
-  'local/mxschool:access_healthtest' => array(
+    ),
+    'local/mxschool:access_healthtest' => array(
       'riskbitmask' => RISK_DATALOSS,
       'captype' => 'write',
       'contextlevel' => CONTEXT_SYSTEM
-)
+    ),
 );
