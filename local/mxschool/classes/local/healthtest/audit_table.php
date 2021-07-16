@@ -55,11 +55,11 @@
   					);
 
  	  // Get everything unless there are filters
- 	  $where = array('u.deleted = 0');
+ 	  $where = array('u.deleted = 0'); // ask about what $where array is takin in
 
-      $healthtest_users = $fields('userid');
-
-      foreach($healthtest_users as $user)
+      $users = get_user_list();
+      
+      foreach($users as $user)
       {
           if(!($user.has_capability('local/mxschool:access_healthtest', context_system::instance())))
           {
