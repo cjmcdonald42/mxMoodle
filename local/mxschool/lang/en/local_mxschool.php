@@ -1347,7 +1347,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  // Report headers
  $string['healthtest:audit_report'] = "COVIDtest Audit Report";
  $string['healthtest:audit_report:header:name'] = "Name";
- $string['healthtest:audit_report:header:testing_cycle'] = "Testing Cycle";
+ $string['healthtest:audit_report:header:testing_cycle'] = "Testing Cycles";
 
  // Report Filters and Buttons.
  $string['healthtest:audit_report:testing_cycle:all'] = "All Testing Cycles";

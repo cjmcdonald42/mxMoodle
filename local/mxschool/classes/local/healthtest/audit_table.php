@@ -48,16 +48,21 @@
         parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
  	    // The fields to query from the database
-        $fields = array('ht.id AS htid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle',
-            'tb.id AS tbid', 'tb.start_time', 'tb.end_time', 'tb.date AS tbdate');
+        $fields = array('u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name',
+
+
+
+        // 'ht.id AS htid', 'ht.testing_block_id AS appointment', 'ht.attended AS has_tested',
+        // 'tb.testing_cycle','tb.id AS tbid', 'tb.start_time', 'tb.end_time', 'tb.date AS tbdate');
+
  	    // The tables which to query
-        $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
-  			'{user} u ON u.id = ht.userid');
+        // $from = array('{local_mxschool_healthtest} ht', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id', '{user} u ON u.id = ht.userid');
+
  	    // Get everything unless there are filters
  	    $where = array('u.deleted = 0');
 
-	    if($filter->testing_cycle) {
-		    $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
+//	    if($filter->testing_cycle) {
+//		    $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
 	    }
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
@@ -70,18 +75,12 @@
 		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
 		return "{$values->lastname}, {$values->firstname}";
 	}
-
+/*
 	protected function col_testing_cycle($values) {
 		$testing_cycle_dates = get_testing_cycle_dates($values->testing_cycle);
 		$cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
 		$cycle_end = date('n/d', strtotime($testing_cycle_dates['end']));
 		return "{$cycle_start} -- {$cycle_end}";
 	}
-
-	/**
-	 * Formats the actions column.
 	 */
-	protected function col_actions($values) {
-	    return isset($values->htid) ? $this->delete_icon($values->htid) : '';
-	}
 }
