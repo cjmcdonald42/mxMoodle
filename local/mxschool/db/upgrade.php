@@ -1325,7 +1325,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
     }
 
-	if ($oldversion < 2021071614) {
+	if ($oldversion < 2021071710) {
 
 		// Define table local_mxschool_audit to be created.
 		$table = new xmldb_table('local_mxschool_audit');
@@ -1344,7 +1344,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		}
 
 		// Mxschool savepoint reached.
-		upgrade_plugin_savepoint(true, 2021071615, 'local', 'mxschool');
+		upgrade_plugin_savepoint(true, 2021071710, 'local', 'mxschool');
 	}
 
   return true;
