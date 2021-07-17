@@ -47,8 +47,9 @@
        $centered = array('name', 'testing_cycle');
        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
-       $healthtest_users = get_user_list();
-       foreach($healthtest_users as $user)
+       $users = get_user_list();
+       $healthtest_users=array();
+       foreach($users as $user)
        {
            $context = context_module::instance($cm->id);
            if(has_capability('local/mxschool:access_healthtest', $context, $user)
