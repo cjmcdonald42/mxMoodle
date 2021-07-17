@@ -54,15 +54,15 @@
            if(has_capability('local/mxschool:access_healthtest', $context)
            {
                array_push($healthtest_users, $user);
-           };
-       };
+           }
+       }
 
        $healthtest_users_record = array('userids' => $healthtest_users);
 
        //I see in locallib, there is a method called update_record(). Perhaps we use it by using the thing I've commented out below.
        //update_record($fields, $healthtest_users_record);
 
-
+       
  	  // The fields to query from the database
        $fields = array('u.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
