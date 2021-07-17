@@ -48,9 +48,11 @@
        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
        $healthtest_users = get_user_list();
-       foreach($healthtest_users as $user) {
+       foreach($healthtest_users as $user)
+       {
            $context = context_module::instance($cm->id);
-           if(has_capability('local/mxschool:access_healthtest', $context) {
+           if(has_capability('local/mxschool:access_healthtest', $context)
+           {
                array_push($healthtest_users, $user);
            };
        };
@@ -84,14 +86,15 @@
 
 	  if($filter->testing_cycle) {
 		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
-	  };
+	  }
 
 
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-        $this->define_sql($fields, $from, $where, $searchable);
+        $this->define_sql($fields, $from, $where, $searchable,
         // $filter->search
-    };
+        );
+    }
 
 	// The following functions edit what is displayed in individual columns
 
