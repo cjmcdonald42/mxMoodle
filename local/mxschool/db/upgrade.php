@@ -1325,6 +1325,28 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
     }
 
+	if ($oldversion < 2021071614) {
+
+		// Define table local_mxschool_audit to be created.
+		$table = new xmldb_table('local_mxschool_audit');
+
+		// Adding fields to table local_mxschool_healthtest.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_audit.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+		// Conditionally launch create table for local_mxschool_audit.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021071615, 'local', 'mxschool');
+	}
+
   return true;
 
 }

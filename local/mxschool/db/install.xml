@@ -375,5 +375,15 @@
         <KEY NAME="testing_block" TYPE="foreign" FIELDS="testing_block_id" REFTABLE="local_mxschool_testing_block" REFFIELDS="id" COMMENT="The reference to the testing block."/>
       </KEYS>
     </TABLE>
+    <TABLE NAME="local_mxschool_audit" COMMENT="Table storing data for users that have access to the healthtest system.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The userid of the user."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="The userid of the user"/>
+      </KEYS>
+    </TABLE>
   </TABLES>
 </XMLDB>
