@@ -47,6 +47,22 @@
        $centered = array('name', 'testing_cycle');
        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
+       $healthtest_users = get_user_list();
+       foreach($healthtest_users as $user)
+       {
+           $context = context_module::instance($cm->id);
+           if(has_capability('local/mxschool:access_healthtest', $context)
+           {
+               array_push($healthtest_users, $user);
+           }
+       }
+
+       $healthtest_users_record = array('userids' => $healthtest_users);
+
+       //I see in locallib, there is a method called update_record(). Perhaps we use it by using the thing I've commented out below.
+       //update_record($fields, $healthtest_users_record);
+
+       
  	  // The fields to query from the database
        $fields = array('u.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
@@ -57,17 +73,9 @@
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0'); // ask about what $where array is takin in
 
-      $users = get_user_list();
 
 
-      foreach($users as $user)
-      {
-          $context = context_module::instance($cm->id);
-          if(!(has_capability('local/mxschool:access_healthtest', $context)
-          {
-              unset($fields[$user]);
-          }
-      }
+
 
       // create function that pulls out ids without access.
 
