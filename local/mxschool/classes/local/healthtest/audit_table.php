@@ -49,10 +49,10 @@
 
 
  	  // The fields to query from the database
-       $fields = array('av.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
+       $fields = array('av.id AS avid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
-       $from = array('{local_mxschool_audit} av' , '{local_mxschool_healthtest} ht', '{user} u ON u.id = av.userid',  '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
+       $from = array('{local_mxschool_audit} av', '{local_mxschool_testing_block} tb', '{user} u ON u.id = av.userid'
   					);
 
  	  // Get everything unless there are filters
@@ -98,5 +98,13 @@
 		$cycle_end = date('n/d', strtotime($testing_cycle_dates['end']));
 		return "{$cycle_start} -- {$cycle_end}";
 	}
+
+    $cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
+    if($cycle_start == $today)
+    {
+        return ", ("+$values->testing_cycle)+")";
+}
+return ($values->testing_cycle);
+
 	 */
 }
