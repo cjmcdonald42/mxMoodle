@@ -47,28 +47,12 @@
        $centered = array('name', 'testing_cycle');
        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
 
-       $users = get_user_list();
-       $healthtest_users=array();
-       foreach($users as $user)
-       {
-           $context = context_module::instance($cm->id);
-           if(has_capability('local/mxschool:access_healthtest', $context, $user)
-           {
-               array_push($healthtest_users, $user);
-           }
-       }
-
-       $healthtest_users_record = array('userids' => $healthtest_users);
-
-       //I see in locallib, there is a method called update_record(). Perhaps we use it by using the thing I've commented out below.
-       //update_record($fields, $healthtest_users_record);
-
 
  	  // The fields to query from the database
-       $fields = array('u.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
+       $fields = array('av.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
-       $from = array('{user} u', '{local_mxschool_healthtest} ht ON u.id = ht.userid', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
+       $from = array('{local_mxschool_audit} av' , '{local_mxschool_healthtest} ht', '{user} u ON u.id = av.userid',  '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
   					);
 
  	  // Get everything unless there are filters
