@@ -42,10 +42,10 @@
  	  // Get headers from language file
        $headers = $this->generate_headers($columns, 'healthtest:audit_report');
  	  // Define sortable columns
-       $sortable = array('name', 'testing_cycle');
+       $sortable = array('testing_cycle', 'name');
  	  // All columns are centered
        $centered = array('name', 'testing_cycle');
-       parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, true);
+       parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, false);
 
 
  	  // The fields to query from the database
@@ -59,15 +59,19 @@
  	  $where = array('u.deleted = 0'); // ask about what $where array is takin in
 
 
+/*
+$users = ($fields->userid)
+foreach($users as $user)
+{
+    $appt_info=get_all_user_appointment_info($user);
+    if($appt_info['attended']==0)
+    {
+        $testing_cycle=$appt_info['testing_cycle'];
+        return (", "+$testing_cycle);
+    }
+}
+*/
 
-
-
-      // create function that pulls out ids without access.
-
-
-
-      //call the function here to $fields
-      //get users that have access to healthtest
 
 	  if($filter->testing_cycle) {
 		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
@@ -84,27 +88,17 @@
 	// The following functions edit what is displayed in individual columns
 
 
-
-
 	protected function col_name($values) {
 		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
 		return "{$values->lastname}, {$values->firstname}";
 	}
 
-/*
+
 	protected function col_testing_cycle($values) {
-		$testing_cycle_dates = get_testing_cycle_dates($values->testing_cycle);
-		$cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
-		$cycle_end = date('n/d', strtotime($testing_cycle_dates['end']));
-		return "{$cycle_start} -- {$cycle_end}";
-	}
-
-    $cycle_start = date('n/d', strtotime($testing_cycle_dates['start']));
-    if($cycle_start == $today)
-    {
-        return ", ("+$values->testing_cycle)+")";
-}
-return ($values->testing_cycle);
-
-	 */
+        $appt_info = get_all_user_appointment_info($values->userid);
+        if($appt_info[attended]==0)
+        {
+            $testing_cycle=$appt_info[testing_cycle];
+            return (", $testing_cycle");
+        }
 }
