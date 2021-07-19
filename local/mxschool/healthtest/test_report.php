@@ -71,6 +71,9 @@ $buttons = array(
 	new local_mxschool\output\redirect_button(
          get_string('healthtest:test_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
      ),
+     new local_mxschool\output\redirect_button(
+          get_string('healthtest:test_report:audit_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/audit_report.php')
+      ),
 	new local_mxschool\output\email_button(get_string('healthtest:test_report:notify_missed', 'local_mxschool'), 'healthtest_notify_missed'),
 	new local_mxschool\output\email_button(get_string('healthtest:test_report:remind', 'local_mxschool'), 'healthtest_notify_reminder')
 );

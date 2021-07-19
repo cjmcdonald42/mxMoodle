@@ -1259,6 +1259,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:test_report:attended:absent'] = "Absent for Test";
  $string['healthtest:test_report:appointment'] = "Appointment Form";
  $string['healthtest:test_report:block_report'] = "COVIDtest Block Report";
+ $string['healthtest:test_report:audit_report'] = "COVIDtest Audit Report";
  $string['healthtest:test_report:notify_missed'] = "Notify Today's Absentees";
  $string['healthtest:test_report:remind'] = 'Send Reminders for Tomorrow';
 
@@ -1325,6 +1326,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:block_report:block:all'] = "All Blocks";
  $string['healthtest:block_report:appointment'] = "Appointment Form";
  $string['healthtest:block_report:test_report'] = "COVIDtest Report";
+ $string['healthtest:block_report:audit_report'] = "COVIDtest Audit Report";
  $string['healthtest:block_report:add'] = "Create a New COVIDtest Block";
 
  /* Healthtest Block Form */
