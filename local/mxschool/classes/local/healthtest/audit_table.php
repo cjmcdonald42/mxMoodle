@@ -100,6 +100,5 @@ foreach($users as $user)
             $testing_cycle=$appt_info['testing_cycle'];
             return (", $testing_cycle");
         }
-
-
+    }
 }
