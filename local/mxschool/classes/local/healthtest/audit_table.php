@@ -93,12 +93,13 @@ foreach($users as $user)
 		return "{$values->lastname}, {$values->firstname}";
 	}
 
-
-	protected function col_testing_cycle($values) {
+    protected function col_testing_cycle($values) {
         $appt_info = get_all_user_appointment_info($values->userid);
         if($appt_info['attended']==0)
         {
             $testing_cycle=$appt_info['testing_cycle'];
             return (", $testing_cycle");
         }
+
+
 }
