@@ -67,10 +67,10 @@ class block_mxschool_dash_dean extends block_base {
                         => '/local/mxschool/checkin/preferences.php'
                 ), get_string('checkin', 'block_mxschool_dash_dean')),
 			    new local_mxschool\output\index(array(
-				get_string('deans_permission:report', 'block_mxschool_dash_dean')
-				    => '/local/mxschool/deans_permission/report.php?status=under_review',
-				get_string('deans_permission:preferences', 'block_mxschool_dash_dean')
-				    => '/local/mxschool/deans_permission/preferences.php'
+				    get_string('deans_permission:report', 'block_mxschool_dash_dean')
+				        => '/local/mxschool/deans_permission/report.php?status=under_review',
+				    get_string('deans_permission:preferences', 'block_mxschool_dash_dean')
+				        => '/local/mxschool/deans_permission/preferences.php'
 			    ), get_string('deans_permission', 'block_mxschool_dash_dean')),
                 new local_mxschool\output\index(array(
                     get_string('advisor_selection:report', 'block_mxschool_dash_dean')
