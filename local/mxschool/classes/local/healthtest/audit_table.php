@@ -49,7 +49,7 @@
 
 
  	  // The fields to query from the database
-       $fields = array('av.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
+       $fields = array('av.id AS avid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
        $from = array('{local_mxschool_audit} av', '{user} u ON u.id = av.userid', '{local_mxschool_healthtest} ht ON u.id = ht.userid', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
@@ -94,11 +94,12 @@ foreach($users as $user)
 	}
 
     protected function col_testing_cycle($values) {
-        $appt_info = get_all_user_appointment_info($values->userid);
+        $appt_info = get_all_user_appointment_info2($values->userid);
         if($appt_info['attended']==0)
         {
             $testing_cycle=$appt_info['testing_cycle'];
             return (", $testing_cycle");
         }
+        return ", ($testing_cycle)";
     }
 }
