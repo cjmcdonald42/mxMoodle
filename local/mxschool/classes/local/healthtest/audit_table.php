@@ -35,29 +35,29 @@
     * @param stdClass $filter Any filtering for the table.
     * @param string download, indicates if the table is downloading
     */
-   public function __construct($filter, $download) {
-	  $this->is_downloading($download);
- 	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('name', 'testing_cycle');
- 	  // Get headers from language file
-       $headers = $this->generate_headers($columns, 'healthtest:audit_report');
- 	  // Define sortable columns
-       $sortable = array('name', 'testing_cycle');
- 	  // All columns are centered
-       $centered = array('name', 'testing_cycle');
-       parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, false);
+    public function __construct($filter, $download) {
+	    $this->is_downloading($download);
+  	    // Define the names of the columns. Should match up with the $fields array.
+        $columns = array('name', 'testing_cycle');
+ 	    // Get headers from language file
+        $headers = $this->generate_headers($columns, 'healthtest:audit_report');
+ 	    // Define sortable columns
+        $sortable = array('name', 'testing_cycle');
+ 	    // All columns are centered
+        $centered = array('name', 'testing_cycle');
+        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, false);
 
+        // The fields to query from the database
+        $fields = array('av.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name',
+            'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time', 'tb.end_time', 'tb.date AS tbdate');
+ 	    // The tables which to query
+        $from = array('{local_mxschool_audit} av', '{user} u ON u.id = av.userid',
+            '{local_mxschool_healthtest} ht ON u.id = ht.userid',
+            '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
+        );
 
- 	  // The fields to query from the database
-       $fields = array('av.id AS userid' , 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle', 'tb.id AS tbid', 'tb.start_time',
-					'tb.end_time', 'tb.date AS tbdate');
- 	  // The tables which to query
-       $from = array('{local_mxschool_audit} av', '{user} u ON u.id = av.userid', '{local_mxschool_healthtest} ht ON u.id = ht.userid', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
-   );
-
- 	  // Get everything unless there are filters
- 	  $where = array('u.deleted = 0'); // ask about what $where array is takin in
-
+ 	    // Get everything unless there are filters
+ 	    $where = array('u.deleted = 0'); // ask about what $where array is takin in
 
 /*
 $users = ($fields->userid)
@@ -72,22 +72,15 @@ foreach($users as $user)
 }
 */
 
-
-	  if($filter->testing_cycle) {
+	    if($filter->testing_cycle) {
 		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
-	  }
-
-
+	    }
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-        $this->define_sql($fields, $from, $where, $searchable,
-        // $filter->search
-        );
+        $this->define_sql($fields, $from, $where, $searchable,);
     }
 
 	// The following functions edit what is displayed in individual columns
-
-
 	protected function col_name($values) {
 		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
 		return "{$values->lastname}, {$values->firstname}";
@@ -96,9 +89,9 @@ foreach($users as $user)
 
 	protected function col_testing_cycle($values) {
         $appt_info = get_all_user_appointment_info($values->userid);
-        if($appt_info[attended]==0)
-        {
+        if($appt_info[attended]==0) {
             $testing_cycle=$appt_info[testing_cycle];
             return (", $testing_cycle");
         }
+    }
 }
