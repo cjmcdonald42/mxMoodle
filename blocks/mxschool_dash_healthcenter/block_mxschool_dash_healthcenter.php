@@ -88,7 +88,7 @@ class block_mxschool_dash_healthcenter extends block_base {
             );
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
                 return $html . $output->render($renderable);
-            }, '');
+                }, '');
         }
         return $this->content;
     }
