@@ -15,12 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Block Report for Middlesex's Health Test system.
+ * Healthtest Audit Report
  *
- * @package     local_mxschool
- * @subpackage  healthtest
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @package     local_mxschool_healthtest
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +27,10 @@ require(__DIR__.'/../../../config.php');
 require_once(__DIR__.'/../locallib.php');
 
 require_login();
-require_capability('local/mxschool:manage_healthpass', context_system::instance());
+require_capability('local/mxschool:manage_healthtest', context_system::instance());
+
+
+
 
 // Creeate filters
 $filter = new stdClass();
@@ -39,44 +40,30 @@ $download = optional_param('download', '', PARAM_ALPHA);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
-setup_mxschool_page('block_report', 'healthtest');
-
-// Action actions
-$redirect = new moodle_url($PAGE->url, (array) $filter);
-if ($action === 'delete' && $id) {
-    $result = $DB->record_exists('local_mxschool_testing_block', array('id' => $id)) ? 'success' : 'failure';
-    $DB->delete_records('local_mxschool_testing_block', array('id' => $id));
-    $DB->delete_records('local_mxschool_healthtest', array('testing_block_id' => $id));
-    logged_redirect(
-        $redirect, get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
-    );
-}
+setup_mxschool_page('audit_report', 'healthtest');
 
 // Create table and pass the filters
-$table = new local_mxschool\local\healthtest\block_table($filter, $download);
+$table = new local_mxschool\local\healthtest\audit_table($filter, $download);
 
 // Define filter options as an array with value => display
 $testing_cycle_options = get_testing_cycle_list();
 
 $buttons = array(
 	new local_mxschool\output\redirect_button(
-         get_string('healthtest:block_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
+         get_string('healthtest:audit_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
      ),
 	new local_mxschool\output\redirect_button(
-         get_string('healthtest:block_report:test_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/test_report.php')
+         get_string('healthtest:audit_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
      ),
      new local_mxschool\output\redirect_button(
-          get_string('healthtest:block_report:audit_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/audit_report.php')
-      ),
-	new local_mxschool\output\redirect_button(
-         get_string('healthtest:block_report:add', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_form.php')
-     )
+          get_string('healthtest:audit_report:test_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/test_report.php')
+      )
 );
 
 // Create dropdowns, where the last parameter is the default value
 $dropdowns = array(
 	new local_mxschool\output\dropdown(
-	    'testing_cycle', $testing_cycle_options, $filter->testing_cycle, get_string('healthtest:test_report:testing_cycle:all', 'local_mxschool')
+	    'testing_cycle', $testing_cycle_options, $filter->testing_cycle, get_string('healthtest:audit_report:testing_cycle:all', 'local_mxschool')
     )
 );
 

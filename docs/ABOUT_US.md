@@ -26,7 +26,6 @@ Team Members:  </br>
 Advisor: </br>
     [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
-
 <a name="map"></a>
 ## Roadmap for the Future
 ![Road Map for mxMoodle](/assets/roadmap.png)
