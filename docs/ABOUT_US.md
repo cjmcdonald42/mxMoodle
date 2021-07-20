@@ -16,6 +16,14 @@ Moodle is the world's most popular learning management system powering [hundreds
 
 Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at \<[https://mxschool.edu](https://mxschool.edu)\>.
 
+### We Are
+Team Lead:    [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023
+
+Team Members: [Pranav Natarajan](https://github.com/CurryBoy9000), Class of 2022
+
+Advisor:      [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
+
+
 <a name="map"></a>
 ## Roadmap for the Future
 ![Road Map for mxMoodle](/assets/roadmap.png)
@@ -44,7 +52,7 @@ Following the successful transition to Moodle 3, Dr. Schaeberle handed this proj
 In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019, and [Chuck McDonald](https://github.com/MXchuck), Academic Technology Specialist, began a ground-up rewrite of our Moodle plugins, developing an API layer and documentation that would facilitate all future work and make Moodle programming even more accessible to our students. This fresh code base expanded our signout system to include both on and off campus signouts, and introduce interactive elements such as the Proctors' Event Check-In list.
 
 ### v3.2 and 3.3
-In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Chuck McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form.
+In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Chuck McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Cannon then passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report and pave the road for the upcoming Moodle v4 upgrade during the summer of 2022.
 
 -----
 *Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*
