@@ -94,7 +94,7 @@ foreach($users as $user)
 	}
 
     protected function col_testing_cycle($values) {
-        $appt_info = get_all_user_appointment_info2($values->userid);
+        $appt_info = get_all_user_appointment_info2($values->avid);
         if($appt_info['attended']==0)
         {
             $testing_cycle=$appt_info['testing_cycle'];
