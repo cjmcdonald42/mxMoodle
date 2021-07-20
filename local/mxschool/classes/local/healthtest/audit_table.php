@@ -77,12 +77,8 @@ foreach($users as $user)
 		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
 	  }
 
-
-
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
-        $this->define_sql($fields, $from, $where, $searchable,
-        // $filter->search
-        );
+        $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
 	// The following functions edit what is displayed in individual columns
