@@ -17,8 +17,7 @@ Moodle is the world's most popular learning management system powering [hundreds
 Middlesex School is an independent, secondary school following the New England boarding school tradition. Learn more at \<[https://mxschool.edu](https://mxschool.edu)\>.
 
 ### We Are
-Team Lead:    [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023
-
+Team Lead:    [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 </br>
 Team Members: [Pranav Natarajan](https://github.com/CurryBoy9000), Class of 2022
 
 Advisor:      [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
