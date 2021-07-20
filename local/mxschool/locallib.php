@@ -1619,9 +1619,9 @@ function get_all_user_appointment_info($userid) {
 function get_all_user_appointment_info2($userid) {
 	global $DB;
 	$records = $DB->get_records_sql(
-		"SELECT av.id AS avid, av.userid, av.testing_block_id, av.attended, tb.id AS tbid, tb.testing_cycle,
+		"SELECT av.id AS avid, av.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
 				tb.start_time, tb.end_time, tb.date, tb.max_testers
-		 FROM {local_mxschool_audit} av LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = av.testing_block_id
+		 FROM {local_mxschool_audit} av LEFT JOIN {user} u ON u.id=av.userid LEFT JOIN {local_mxschool_healthtest} ht ON u.id=ht.userid LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = av.testing_block_id
 		 WHERE av.userid = {$userid}"
 	);
 	$app_info = array();
