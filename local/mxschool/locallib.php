@@ -1610,35 +1610,6 @@ function get_all_user_appointment_info($userid) {
 	return $app_info;
 }
 
-/**
-* Given a userid, returns all of the testing blocks the user is signed up for
-*
-* @param int userid, the user id of the user
-* @return array $user_appointment_info, in the form block_id => block_info
-*/
-function get_all_user_appointment_info2($userid) {
-	global $DB;
-	$records = $DB->get_records_sql(
-		"SELECT av.id AS avid, av.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
-				tb.start_time, tb.end_time, tb.date, tb.max_testers
-		 FROM {local_mxschool_audit} av LEFT JOIN {user} u ON u.id=av.userid LEFT JOIN {local_mxschool_healthtest} ht ON u.id=ht.userid LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
-		 WHERE av.userid = {$userid}"
-	);
-	$app_info = array();
-	foreach($records as $record) {
-		$app_info[] = array(
-			'tbid' => $record->tbid,
-			'testing_cycle' => $record->testing_cycle,
-			'start_time' => $record->start_time,
-			'end_time' => $record->end_time,
-			'date' => $record->date,
-			'attended' => $record->attended,
-			'userid' => $record->userid,
-			'max_testers' => $record->max_testers
-		);
-	}
-	return $app_info;
-}
 
 /**
 * Returns a list of all the block options (those blocks that haven't already passed) for the appointment form
