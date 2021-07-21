@@ -95,8 +95,17 @@ foreach($users as $user)
         $output = "";
         foreach($user_app_info as $app)
         {
-
-            $output.= $app['testing_cycle'];
+            if($app['attended']==1)
+            {
+                if(empty($output))
+                {
+                    $output.= $app['testing_cycle'];
+                }
+                else {
+                    $output .= ", ";
+                    $output.= $app['testing_cycle'];
+                }
+            }
         }
         return $output;
 	}
