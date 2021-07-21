@@ -93,7 +93,8 @@ foreach($users as $user)
         $user=($values->userid);
         $user_app_info=get_all_user_appointment_info($user);
         $output = "";
-        foreach($user_app_info as $app)
+        $user_app_info_numerical = array_reverse($user_app_info, true);
+        foreach($user_app_info_numerical as $app)
         {
             if($app['attended']==1)
             {
@@ -123,7 +124,7 @@ foreach($users as $user)
                     }
                 }
                 elseif ($app['date']==$today) {
-                    $nowtime=time();
+                    $nowtime=time('H:i');
                     if($app['end_time']>$nowtime)
                     {
                         if(empty($output))
