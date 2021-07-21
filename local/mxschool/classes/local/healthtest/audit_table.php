@@ -106,6 +106,40 @@ foreach($users as $user)
                     $output.= $app['testing_cycle'];
                 }
             }
+            else {
+                $today = date('Y-m-d');
+                if($app['date']>$today))
+                {
+                    if(empty($output))
+                    {
+                        $output .= "(";
+                        $output.= $app['testing_cycle'];
+                        $output .= ")";
+                    }
+                    else {
+                        $output .= ", (";
+                        $output.= $app['testing_cycle'];
+                        $output .= ")";
+                    }
+                }
+                elseif ($app['date']==$today) {
+                    $nowtime=time();
+                    if($app['end_time']>$nowtime)
+                    {
+                        if(empty($output))
+                        {
+                            $output .= "(";
+                            $output.= $app['testing_cycle'];
+                            $output .= ")";
+                        }
+                        else {
+                            $output .= ", (";
+                            $output.= $app['testing_cycle'];
+                            $output .= ")";
+                        }
+                    }
+                }
+            }
         }
         return $output;
 	}
