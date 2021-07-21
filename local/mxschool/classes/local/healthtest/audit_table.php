@@ -93,11 +93,11 @@ foreach($users as $user)
         $user=($values->userid);
         $user_app_info=get_all_user_appointment_info($user);
         $output = "";
-        $user_app_info_numerical = array_reverse($user_app_info, true);
-        foreach($user_app_info_numerical as $app)
+        foreach($user_app_info as $app)
         {
             if($app['attended']==1)
             {
+
                 if(empty($output))
                 {
                     $output.= $app['testing_cycle'];

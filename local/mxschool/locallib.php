@@ -1592,7 +1592,8 @@ function get_all_user_appointment_info($userid) {
 		"SELECT ht.id AS htid, ht.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
 				tb.start_time, tb.end_time, tb.date, tb.max_testers
 		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
-		 WHERE ht.userid = {$userid}"
+		 WHERE ht.userid = {$userid}
+         ORDER BY tb.testing_cycle " 
 	);
 	$app_info = array();
 	foreach($records as $record) {
