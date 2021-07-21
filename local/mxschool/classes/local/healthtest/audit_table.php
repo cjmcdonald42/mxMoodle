@@ -108,7 +108,7 @@ foreach($users as $user)
             }
             else {
                 $today = date('Y-m-d');
-                if($app['date']>$today))
+                if($app['date']>$today)
                 {
                     if(empty($output))
                     {
