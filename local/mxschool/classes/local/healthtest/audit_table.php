@@ -49,7 +49,7 @@
 
 
  	  // The fields to query from the database
-       $fields = array('av.id AS avid' , 'av.userid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle AS testing_cycle', 'tb.id AS tbid', 'tb.start_time', 'ht.attended AS attended',
+       $fields = array('av.userid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle AS testing_cycle', 'tb.id AS tbid', 'tb.start_time', 'ht.attended AS attended',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
        $from = array('{local_mxschool_audit} av', '{user} u ON u.id = av.userid', '{local_mxschool_healthtest} ht ON u.id = ht.userid', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
