@@ -49,7 +49,7 @@
 
 
  	  // The fields to query from the database
-       $fields = array('av.userid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle AS testing_cycle', 'tb.id AS tbid', 'tb.start_time', 'ht.attended AS attended',
+       $fields = array('av.userid AS uid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'tb.testing_cycle AS testing_cycle', 'tb.id AS tbid', 'tb.start_time', 'ht.attended AS attended',
 					'tb.end_time', 'tb.date AS tbdate');
  	  // The tables which to query
        $from = array('{local_mxschool_audit} av', '{user} u ON u.id = av.userid', '{local_mxschool_healthtest} ht ON u.id = ht.userid', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id',
@@ -57,20 +57,6 @@
 
  	  // Get everything unless there are filters
  	  $where = array('u.deleted = 0'); // ask about what $where array is takin in
-
-
-/*
-$users = ($fields->userid)
-foreach($users as $user)
-{
-    $appt_info=get_all_user_appointment_info($user);
-    if($appt_info['attended']==0)
-    {
-        $testing_cycle=$appt_info['testing_cycle'];
-        return (", "+$testing_cycle);
-    }
-}
-*/
 
 
 	  if($filter->testing_cycle) {
@@ -90,7 +76,7 @@ foreach($users as $user)
 	}
 
     protected function col_testing_cycle($values) {
-        $user=($values->userid);
+        $user=($values->uid);
         $user_app_info=get_all_user_appointment_info($user);
         $output = "";
         foreach($user_app_info as $app)
