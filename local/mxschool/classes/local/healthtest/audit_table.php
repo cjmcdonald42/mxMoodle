@@ -100,11 +100,11 @@ foreach($users as $user)
 
                 if(empty($output))
                 {
-                    $output.= $app['testing_cycle'];
+                    $output .= $app['testing_cycle'];
                 }
                 else {
                     $output .= ", ";
-                    $output.= $app['testing_cycle'];
+                    $output .= $app['testing_cycle'];
                 }
             }
             else {
@@ -114,28 +114,29 @@ foreach($users as $user)
                     if(empty($output))
                     {
                         $output .= "(";
-                        $output.= $app['testing_cycle'];
+                        $output .= $app['testing_cycle'];
                         $output .= ")";
                     }
                     else {
                         $output .= ", (";
-                        $output.= $app['testing_cycle'];
+                        $output .= $app['testing_cycle'];
                         $output .= ")";
                     }
                 }
                 elseif ($app['date']==$today) {
-                    $nowtime=time('H:i');
-                    if($app['end_time']>$nowtime)
+                    $end_time=$app['end_time'];
+                    $nowtime=date('H:i');
+                    if($end_time>$nowtime)
                     {
                         if(empty($output))
                         {
                             $output .= "(";
-                            $output.= $app['testing_cycle'];
+                            $output .= $app['testing_cycle'];
                             $output .= ")";
                         }
                         else {
                             $output .= ", (";
-                            $output.= $app['testing_cycle'];
+                            $output .= $app['testing_cycle'];
                             $output .= ")";
                         }
                     }
