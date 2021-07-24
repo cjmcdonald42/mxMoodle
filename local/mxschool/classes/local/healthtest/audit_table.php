@@ -23,11 +23,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- namespace local_mxschool\local\healthtest;
+namespace local_mxschool\local\healthtest;
 
- defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die();
 
- class audit_table extends \local_mxschool\table {
+class audit_table extends \local_mxschool\table {
 
    /**
     * Creates a new table.
@@ -35,100 +35,39 @@
     * @param stdClass $filter Any filtering for the table.
     * @param string download, indicates if the table is downloading
     */
-   public function __construct($filter, $download) {
-	  $this->is_downloading($download);
- 	  // Define the names of the columns. Should match up with the $fields array.
-       $columns = array('name', 'testing_cycle');
- 	  // Get headers from language file
-       $headers = $this->generate_headers($columns, 'healthtest:audit_report');
- 	  // Define sortable columns
-       $sortable = array('name', 'testing_cycle');
- 	  // All columns are centered
-       $centered = array('name', 'testing_cycle');
-       parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, false);
+    public function __construct($filter, $download) {
+	$this->is_downloading($download);
+        // Define the names of the columns. Should match up with the $fields array.
+        $columns = array('name', 'testing_cycle');
+     	// Get headers from language file
+        $headers = $this->generate_headers($columns, 'healthtest:audit_report');
+ 	// Define sortable columns
+        $sortable = array('name', 'testing_cycle');
+ 	// All columns are centered
+        $centered = array('name', 'testing_cycle');
+        parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, false);
 
+ 	// The fields to query from the database
+        $fields = array('a.id', 'a.userid','u.firstname', 'u.alternatename', 'u.lastname', 'u.lastname AS name');
 
- 	  // The fields to query from the database
-       $fields = array('av.id AS avid', 'av.userid AS userid', 'u.lastname', 'u.firstname', 'u.alternatename', 'u.lastname AS name', 'ht.id', 'ht.userid', 'ht.attended AS attended', 'ht.testing_block_id', 'tb.testing_cycle AS testing_cycle', 'tb.id AS tbid', 'tb.start_time',
-					'tb.end_time', 'tb.date AS tbdate');
- 	  // The tables which to query
-       $from = array('{local_mxschool_audit} av', '{user} u ON u.id = av.userid', '{local_mxschool_healthtest} ht ON u.id = ht.userid', '{local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id'
-   );
+	// The tables which to query
+        $from = array('{local_mxschool_audit} a', '{user} u ON u.id = a.userid');
 
- 	  // Get everything unless there are filters
- 	  $where = array('u.deleted = 0'); // ask about what $where array is takin in
-
-
-	  if($filter->testing_cycle) {
-		  $where[] = "tb.testing_cycle = '{$filter->testing_cycle}'";
-	  }
+ 	// Filter active users
+ 	$where = array('u.deleted = 0');
 
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
-	// The following functions edit what is displayed in individual columns
-
-
-	protected function col_name($values) {
-		if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
-		return "{$values->lastname}, {$values->firstname}";
-	}
+    // The following functions edit what is displayed in individual columns
+    protected function col_name($values) {
+	if($values->alternatename) return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
+	return "{$values->lastname}, {$values->firstname}";
+    }
 
     protected function col_testing_cycle($values) {
-        $user=($values->userid);
-        $user_app_info=get_all_user_appointment_info2($user);
-        $output = "";
-        foreach($user_app_info as $app)
-        {
-            if($app['attended']==1)
-            {
-
-                if(empty($output))
-                {
-                    $output .= $app['testing_cycle'];
-                }
-                else {
-                    $output .= ", ";
-                    $output .= $app['testing_cycle'];
-                }
-            }
-            else {
-                $today = date('Y-m-d');
-                if($app['date']>$today)
-                {
-                    if(empty($output))
-                    {
-                        $output .= "(";
-                        $output .= $app['testing_cycle'];
-                        $output .= ")";
-                    }
-                    else {
-                        $output .= ", (";
-                        $output .= $app['testing_cycle'];
-                        $output .= ")";
-                    }
-                }
-                elseif ($app['date']==$today) {
-                    $end_time=$app['end_time'];
-                    $nowtime=date('H:i');
-                    if($end_time>$nowtime)
-                    {
-                        if(empty($output))
-                        {
-                            $output .= "(";
-                            $output .= $app['testing_cycle'];
-                            $output .= ")";
-                        }
-                        else {
-                            $output .= ", (";
-                            $output .= $app['testing_cycle'];
-                            $output .= ")";
-                        }
-                    }
-                }
-            }
-        }
-        return $output;
-	}
+        $testing_cycles = get_testing_cycles($values->userid);
+        return "{$testing_cycles}";
+    }
 }
