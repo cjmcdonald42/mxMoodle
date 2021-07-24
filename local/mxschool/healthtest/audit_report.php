@@ -29,10 +29,7 @@ require_once(__DIR__.'/../locallib.php');
 require_login();
 require_capability('local/mxschool:manage_healthtest', context_system::instance());
 
-
-
-
-// Creeate filters
+// Create filters
 $filter = new stdClass();
 $filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -50,14 +47,14 @@ $testing_cycle_options = get_testing_cycle_list();
 
 $buttons = array(
 	new local_mxschool\output\redirect_button(
-         get_string('healthtest:audit_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
-     ),
+        get_string('healthtest:audit_report:appointment', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/appointment_form.php')
+    ),
 	new local_mxschool\output\redirect_button(
-         get_string('healthtest:audit_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
-     ),
-     new local_mxschool\output\redirect_button(
-          get_string('healthtest:audit_report:test_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/test_report.php')
-      )
+        get_string('healthtest:audit_report:block_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_report.php')
+    ),
+    new local_mxschool\output\redirect_button(
+        get_string('healthtest:audit_report:test_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/test_report.php')
+    )
 );
 
 // Create dropdowns, where the last parameter is the default value

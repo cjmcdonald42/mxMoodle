@@ -1452,10 +1452,7 @@ function get_healthform_dates() {
 	 return $list;
  }
 
-
-
  /* Health Test. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
-
 
  /**
  * Gets a list of all the days during which there is a healthtest block.
@@ -1610,38 +1607,6 @@ function get_all_user_appointment_info($userid) {
 	}
 	return $app_info;
 }
-
-/**
-* Given a userid, returns all of the testing blocks the user is signed up for
-*
-* @param int userid, the user id of the user
-* @return array $user_appointment_info, in the form block_id => block_info
-*/
-function get_all_user_appointment_info2($userid) {
-	global $DB;
-	$records = $DB->get_records_sql(
-		"SELECT av.id AS avid, av.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
-				tb.start_time, tb.end_time, tb.date, tb.max_testers
-		 FROM {local_mxschool_audit} av LEFT JOIN {user} u ON u.id =av.userid LEFT JOIN {local_mxschool_healthtest} ht ON u.id= ht.userid LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
-		 WHERE av.userid = {$userid}"
-	);
-	$app_info = array();
-	foreach($records as $record) {
-		$app_info[] = array(
-			'tbid' => $record->tbid,
-			'testing_cycle' => $record->testing_cycle,
-			'start_time' => $record->start_time,
-			'end_time' => $record->end_time,
-			'date' => $record->date,
-			'attended' => $record->attended,
-			'userid' => $record->userid,
-			'max_testers' => $record->max_testers
-		);
-	}
-	return $app_info;
-}
-
-
 
 /**
 * Returns a list of all the block options (those blocks that haven't already passed) for the appointment form
@@ -1848,4 +1813,41 @@ function email_tomorrows_testers() {
 	foreach($testers as $tester) {
 		(new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();
 	}
+}
+
+/*
+ * Health Test Audit Report
+ * @author Moodle Development Team
+ *
+ * Given a user, returns a list of testing cycles attended
+ *
+ * @param $userid
+ * @return string testing_cycles
+ */
+function get_testing_cycles($userid) {
+    global $DB;
+	$records = $DB->get_records_sql(
+	   "SELECT ht.id, ht.userid, ht.testing_block_id, ht.attended,
+                tb.id, tb.testing_cycle, tb.end_time, tb.date
+		FROM {local_mxschool_healthtest} ht
+        LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		WHERE ht.userid = {$userid}
+        GROUP BY testing_cycle
+        ORDER BY testing_cycle"
+	);
+
+    $testing_cycles = '';
+    $today = format_date('Y-m-d');
+	$now = format_date('H:i');
+    foreach($records as $record) {
+        if ($record->attended == '1') {
+            if ($testing_cycles != '') $testing_cycles .= ', ';
+            $testing_cycles .= $record->testing_cycle;
+        } elseif (($record->date >= $today) or
+                 (($record->date == $today) and ($record->end_time >= $now))) {
+            if ($testing_cycles != '') $testing_cycles .= ', ';
+            $testing_cycles .= "(" . $record->testing_cycle . ")";
+            }
+        }
+	return $testing_cycles;
 }
