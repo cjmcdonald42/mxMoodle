@@ -1843,11 +1843,11 @@ function local_mx_get_testing_cycles($userid) {
         if ($record->attended == '1') {
             if ($testing_cycles != '') $testing_cycles .= ', ';
             $testing_cycles .= $record->testing_cycle;
-        } elseif (($record->date > $today) or
-                 (($record->date == $today) and ($record->end_time >= $now))) {
-            if ($testing_cycles != '') $testing_cycles .= ', ';
+        } else if (($record->date > $today) or
+                  (($record->date == $today) and ($record->end_time >= $now))) {
+        if ($testing_cycles != '') $testing_cycles .= ', ';
             $testing_cycles .= "(" . $record->testing_cycle . ")";
             }
         }
-	return $testing_cycles;
+    return $testing_cycles;
 }
