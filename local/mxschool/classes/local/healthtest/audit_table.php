@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class audit_table extends \local_mxschool\table {
     public function __construct($filter, $download) {
-    $this->is_downloading($download);
+        $this->is_downloading($download);
         // Define the names of the columns. Should match up with the $fields array.
         $columns = array('name', 'testing_cycle');
         // Get headers from language file.
@@ -58,7 +58,7 @@ class audit_table extends \local_mxschool\table {
 
     // The following functions edit what is displayed in individual columns.
     protected function col_name($values) {
-        if($values->alternatename) {
+        if ($values->alternatename) {
             return "{$values->lastname}, {$values->firstname} ({$values->alternatename})";
         } else {
             return "{$values->lastname}, {$values->firstname}";

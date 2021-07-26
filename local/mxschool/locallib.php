@@ -1839,14 +1839,14 @@ function local_mx_get_testing_cycles($userid) {
     $testing_cycles = '';
     $today = format_date('Y-m-d');
 	$now = format_date('H:i');
-    foreach($records as $record) {
+    foreach ($records as $record) {
         if ($record->attended == '1') {
             if ($testing_cycles != '') $testing_cycles .= ', ';
             $testing_cycles .= $record->testing_cycle;
         } else if (($record->date > $today) or
                   (($record->date == $today) and ($record->end_time >= $now))) {
-        if ($testing_cycles != '') $testing_cycles .= ', ';
-            $testing_cycles .= "(" . $record->testing_cycle . ")";
+            if ($testing_cycles != '') $testing_cycles .= ', ';
+                $testing_cycles .= "(" . $record->testing_cycle . ")";
             }
         }
     return $testing_cycles;
