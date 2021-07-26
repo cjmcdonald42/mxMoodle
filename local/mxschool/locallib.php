@@ -1824,11 +1824,11 @@ function email_tomorrows_testers() {
  * @param $userid
  * @return string testing_cycles
  */
-function get_testing_cycles($userid) {
+function local_mx_get_testing_cycles($userid) {
     global $DB;
 	$records = $DB->get_records_sql(
 	   "SELECT ht.id, ht.userid, ht.testing_block_id, ht.attended,
-                tb.id, tb.testing_cycle, tb.end_time, tb.date
+               tb.id, tb.testing_cycle, tb.end_time, tb.date
 		FROM {local_mxschool_healthtest} ht
         LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
 		WHERE ht.userid = {$userid}

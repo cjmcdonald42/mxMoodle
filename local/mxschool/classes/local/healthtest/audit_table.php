@@ -63,7 +63,7 @@ class audit_table extends \local_mxschool\table {
     }
 
     protected function col_testing_cycle($values) {
-        $testing_cycles = get_testing_cycles($values->userid);
+        $testing_cycles = local_mx_get_testing_cycles($values->userid);
         return "{$testing_cycles}";
     }
 }
