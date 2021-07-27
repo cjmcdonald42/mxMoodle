@@ -69,7 +69,7 @@ function xmldb_local_mxschool_install() {
 	    ))),
 	    array('subpackage' => 'deans_permission', 'pages' => json_encode(array('preferences', 'form', 'report', 'event_edit'))),
         array('subpackage' => 'healthpass', 'pages' => json_encode(array('preferences', 'form', 'report'))),
-	   array('subpackage' => 'healthtest', 'pages' => json_encode(array('preferences', 'test_form', 'test_report', 'block_form', 'block_report')))
+	    array('subpackage' => 'healthtest', 'pages' => json_encode(array('preferences', 'test_form', 'test_report', 'block_form', 'block_report', 'audit_report')))
     );
     foreach ($subpackages as $subpackage) {
         $DB->insert_record('local_mxschool_subpackage', (object) $subpackage);

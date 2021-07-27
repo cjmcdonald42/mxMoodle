@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dashboard Block for the Healthcenter.
+ * English Language file for Healthcenter's Dashboard Block
  *
  * @package     block_mxschool_dash_healthcenter
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -45,12 +44,14 @@ $string['healthtest'] = 'COVIDtest Module';
 $string['healthtest:appointment_form'] = 'Schedule a COVIDtest';
 $string['healthtest:test_report'] = 'COVIDtest Report';
 $string['healthtest:block_report'] = 'COVIDtest Blocks Report';
+$string['healthtest:audit_report'] = 'COVIDtest Audit Report';
 $string['healthtest:preferences'] = 'COVIDtest Preferences';
 
 $string['user_management'] = 'User Module';
 $string['user_management:student_report'] = 'Student Report';
 $string['user_management:faculty_report'] = 'Faculty Report';
 $string['user_management:vehicle_report'] = 'Student Vehicles Report';
+$string['user_management:vacation_travel_report'] = 'Vacation Travel Report';
 
 $string['signout'] = 'eSignout Module';
 $string['signout:on_campus:report'] = 'On-Campus Signout Report';

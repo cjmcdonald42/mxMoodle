@@ -15,11 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Dorm and Student Functions Plugin.
+ * Middlesex School Plugin Suite.
  *
  * @package     local_mxschool
- * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_mxschool';
-$plugin->version = 2021070000;
+$plugin->version = 2021072601;
 $plugin->release = 'v3.2';
 $plugin->requires = 2019052000; // Moodle 3.7.
 $plugin->maturity = MATURITY_STABLE;

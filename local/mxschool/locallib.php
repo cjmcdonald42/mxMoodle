@@ -1452,10 +1452,7 @@ function get_healthform_dates() {
 	 return $list;
  }
 
-
-
  /* Health Test. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
-
 
  /**
  * Gets a list of all the days during which there is a healthtest block.
@@ -1592,7 +1589,8 @@ function get_all_user_appointment_info($userid) {
 		"SELECT ht.id AS htid, ht.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
 				tb.start_time, tb.end_time, tb.date, tb.max_testers
 		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
-		 WHERE ht.userid = {$userid}"
+		 WHERE ht.userid = {$userid}
+         ORDER BY tb.testing_cycle "
 	);
 	$app_info = array();
 	foreach($records as $record) {
@@ -1815,4 +1813,41 @@ function email_tomorrows_testers() {
 	foreach($testers as $tester) {
 		(new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();
 	}
+}
+
+/*
+ * Health Test Audit Report
+ * @author Moodle Development Team
+ *
+ * Given a user, returns a list of testing cycles attended
+ *
+ * @param $userid
+ * @return string testing_cycles
+ */
+function local_mx_get_testing_cycles($userid) {
+    global $DB;
+	$records = $DB->get_records_sql(
+	   "SELECT ht.id, ht.userid, ht.testing_block_id, ht.attended,
+               tb.id, tb.testing_cycle, tb.end_time, tb.date
+		FROM {local_mxschool_healthtest} ht
+        LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		WHERE ht.userid = {$userid}
+        GROUP BY testing_cycle
+        ORDER BY testing_cycle"
+	);
+
+    $testing_cycles = '';
+    $today = format_date('Y-m-d');
+	$now = format_date('H:i');
+    foreach ($records as $record) {
+        if ($record->attended == '1') {
+            if ($testing_cycles != '') $testing_cycles .= ', ';
+            $testing_cycles .= $record->testing_cycle;
+        } else if (($record->date > $today) or
+                  (($record->date == $today) and ($record->end_time >= $now))) {
+            if ($testing_cycles != '') $testing_cycles .= ', ';
+                $testing_cycles .= "(" . $record->testing_cycle . ")";
+            }
+        }
+    return $testing_cycles;
 }

@@ -15,17 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dashboard Block for the Deans.
+ * English Language file for the Deans' Dashboard Block.
  *
- * @package    block_mxschool_dash_dean
- * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     block_mxschool_dash_healthcenter
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Deans\' Dashboard Block';
-$string['blockname'] = 'Middlesex Admin';
+$string['blockname'] = 'mxMoodle Admin';
 
 // Capabilities.
 $string['mxschool_dash_dean:addinstance'] = 'Middlesex School: Add Deans\' Block';
@@ -36,7 +35,7 @@ $string['mxschool_dash_dean:access'] = 'Middlesex School: Access Deans\' Block';
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links.
-$string['user_management'] = 'User Module';
+$string['user_management'] = 'User Management';
 $string['user_management:student_report'] = 'Student Report';
 $string['user_management:faculty_report'] = 'Faculty Report';
 $string['user_management:dorm_report'] = 'Dorm Report';
@@ -50,15 +49,15 @@ $string['checkin:weekend_report'] = 'Weekend Check-In Sheet';
 $string['checkin:weekend_calculator'] = 'Weekend Calculator';
 $string['checkin:preferences'] = 'Check-In Sheets Preferences';
 
-$string['deans_permission'] = 'Deans\' Permission Form Module';
-$string['deans_permission:report'] = 'Deans\' Permission Forms Report';
+$string['deans_permission'] = 'Deans\' Permission Form';
+$string['deans_permission:report'] = 'Deans\' Permission Form Report';
 $string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
 
-$string['advisor_selection'] = 'Advisor Selection Module';
+$string['advisor_selection'] = 'Advisor Selection';
 $string['advisor_selection:report'] = 'Advisor Selection Report';
 $string['advisor_selection:preferences'] = 'Advisor Selection Preferences';
 
-$string['rooming'] = 'Rooming Request Module';
+$string['rooming'] = 'Rooming Requests';
 $string['rooming:report'] = 'Rooming Request Report';
 $string['rooming:preferences'] = 'Rooming Request Preferences';
 

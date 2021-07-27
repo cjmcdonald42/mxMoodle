@@ -1241,15 +1241,16 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
 	}
 
-		upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
-
     if($oldversion < 2021042000) {
         unset_config('healthcenter_notification_email_address', 'local_mxschool');
         set_config('healthpass_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
         set_config('healthtest_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
+
+        upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
+
     }
 
-    if ($oldversion < 2021062206) {
+    if ($oldversion < 2021063000) {
 
 	    // Define table local_mxschool_vt_trip to be dropped.
 		$table = new xmldb_table('local_mxschool_vt_trip');
@@ -1283,12 +1284,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		    $dbman->create_table($table);
 		}
 
-		// Mxschool savepoint reached.
-		upgrade_plugin_savepoint(true, 2021061701, 'local', 'mxschool');
-	}
-
-	// defaults for deans permission email
-	if($oldversion < 2021062301) {
 		$data = new stdClass();
 		$data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
 		$data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
@@ -1300,18 +1295,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		update_notification('deans_permission_approved', $data, 'default');
 		update_notification('deans_permission_denied', $data, 'default');
 
-		// Mxschool savepoint reached.
-		upgrade_plugin_savepoint(true, 2021062301, 'local', 'mxschool');
-	}
-
-	if($oldversion < 2021062401) {
 		$other_insert = array('id' => '1', 'name' => 'Other');
 		$DB->insert_record('local_mxschool_dp_event', (object) $other_insert);
-		upgrade_plugin_savepoint(true, 2021062401, 'local', 'mxschool');
-
-	}
-
-    if($oldversion < 2021063000) {
 
         // Updating table local_mxschool_faculty with new faculty_code field.
 		$table = new xmldb_table('local_mxschool_faculty');
@@ -1323,13 +1308,45 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
 		// Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021062401, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2021070000, 'local', 'mxschool');
 
     }
 
-		upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
+    if($oldversion < 2021070000) {
+        $DB->delete_records('local_mxschool_subpackage', array('subpackage' => 'healthtest'));
+
+		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
+		    'test_form', 'test_report', 'block_form', 'block_report', 'audit_report', 'preferences'
+	    )));
+
+		$DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+
+        upgrade_plugin_savepoint(true, 2021071500, 'local', 'mxschool');
+
+    }
+
+	if ($oldversion < 2021071710) {
+
+		// Define table local_mxschool_audit to be created.
+		$table = new xmldb_table('local_mxschool_audit');
+
+		// Adding fields to table local_mxschool_healthtest.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_audit.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+		// Conditionally launch create table for local_mxschool_audit.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+		// Mxschool savepoint reached.
+		upgrade_plugin_savepoint(true, 2021071710, 'local', 'mxschool');
 	}
 
   return true;
 
- }
+}
