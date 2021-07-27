@@ -31,7 +31,6 @@ require_capability('local/mxschool:manage_healthtest', context_system::instance(
 
 // Create filters.
 $filter = new stdClass();
-$filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 $action = optional_param('action', '', PARAM_RAW);
@@ -60,13 +59,6 @@ $buttons = array(
     )
 );
 
-// Create dropdowns, where the last parameter is the default value.
-$dropdowns = array(
-    new local_mxschool\output\dropdown(
-        'testing_cycle', $testing_cycle_options, $filter->testing_cycle,
-            get_string('healthtest:audit_report:testing_cycle:all', 'local_mxschool')
-    )
-);
 
 // Output report to page.
 $output = $PAGE->get_renderer('local_mxschool');

@@ -42,14 +42,16 @@ class audit_table extends \local_mxschool\table {
         // Get headers from language file.
         $headers = $this->generate_headers($columns, 'healthtest:audit_report');
         // Define sortable columns.
-        $sortable = array('name', 'testing_cycle');
+        $sortable = array('name');
         // All columns are centered.
         $centered = array('name', 'testing_cycle');
         parent::__construct('healthtest_audit_table', $columns, $headers, $sortable, $centered, $filter, false);
         // The fields to query from the database.
-        $fields = array('a.id', 'a.userid', 'u.firstname', 'u.alternatename', 'u.lastname', 'u.lastname AS name');
+        $fields = array('a.id', 'a.userid',
+                        'u.firstname', 'u.alternatename', 'u.lastname', 'u.lastname AS name',
+                        'tb.testing_cycle AS testing_cycle');
         // The tables which to query.
-        $from = array('{local_mxschool_audit} a', '{user} u ON u.id = a.userid');
+        $from = array('{local_mxschool_audit} a', '{user} u ON u.id = a.userid', '{local_mxschool_testing_block} tb');
         // Filter active users.
         $where = array('u.deleted = 0');
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
