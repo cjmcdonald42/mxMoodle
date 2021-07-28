@@ -1354,5 +1354,5 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  // Report Filters and Buttons.
  $string['healthtest:audit_report:testing_cycle:all'] = "All Testing Cycles";
  $string['healthtest:audit_report:test_report'] = "COVIDtest Report";
- $string['healthtest:audit_report:appointment'] = "Appointment Report";
+ $string['healthtest:audit_report:appointment'] = "Appointment Form";
  $string['healthtest:audit_report:block_report'] = "COVIDtest Block Report";
