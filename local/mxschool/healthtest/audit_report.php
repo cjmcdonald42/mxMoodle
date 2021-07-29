@@ -17,7 +17,8 @@
 /**
  * Healthtest Audit Report
  *
- * @package     local_mxschool_healthtest
+ * @package     local_mxschool
+ * @subpackage  healthtest
  * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -31,19 +32,14 @@ require_capability('local/mxschool:manage_healthtest', context_system::instance(
 
 // Create filters.
 $filter = new stdClass();
-$filter->testing_cycle = optional_param('testing_cycle', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
-$action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
 
 setup_mxschool_page('audit_report', 'healthtest');
 
 // Create table and pass the filters.
 $table = new local_mxschool\local\healthtest\audit_table($filter, $download);
-
-// Define filter options as an array with value => display.
-$testing_cycle_options = get_testing_cycle_list();
 
 $buttons = array(
     new local_mxschool\output\redirect_button(
@@ -60,14 +56,6 @@ $buttons = array(
     )
 );
 
-// Create dropdowns, where the last parameter is the default value.
-$dropdowns = array(
-    new local_mxschool\output\dropdown(
-        'testing_cycle', $testing_cycle_options, $filter->testing_cycle,
-            get_string('healthtest:audit_report:testing_cycle:all', 'local_mxschool')
-    )
-);
-
 // Output report to page.
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
@@ -75,7 +63,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
-$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, true);
+$renderable = new local_mxschool\output\report($table, $filter->search, $buttons, false);
 
 echo $output->header();
 echo $output->heading($PAGE->title);
