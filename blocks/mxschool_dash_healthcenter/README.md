@@ -3,7 +3,8 @@ This dashboard block provides links for the Health Centre staff to access the He
 
 ## Capabilities
 - block/mxschool_dash_healthcenter:addinstance : add this block to any moodle page, not used.
-- block/mxschool_dash_healthcenter:myaddinstance : add this block to the dashboard. Granted to healthcentre role and given to Cruz Health Centre staff.
+- block/mxschool_dash_healthcenter:myaddinstance : add this block to the dashboard.
+  Granted to healthcentre role and given to Cruz Health Centre staff.
 - block/mxschool_dash_healthcenter:access : access this block. Granted to healthcentre role and given to Cruz Health Centre staff.
 
 ## Dependencies

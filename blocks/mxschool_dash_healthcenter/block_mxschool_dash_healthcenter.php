@@ -40,85 +40,91 @@ class block_mxschool_dash_healthcenter extends block_base {
         }
 
         $this->content = new stdClass();
-              $output = $PAGE->get_renderer('local_mxschool');
-                  $dorm = get_param_faculty_dorm();
-                  $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
-                  $today = format_date('Y-m-d');
-                  $testing_cycle = get_current_testing_cycle($today);
-                  $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
+        $output = $PAGE->get_renderer('local_mxschool');
+        $dorm = get_param_faculty_dorm();
+        $filter = $dorm == '' ? "status=Denied" : "dorm={$dorm}";
+        $today = format_date('Y-m-d');
+        $testing_cycle = get_current_testing_cycle($today);
+        $healthtest_filter = $testing_cycle ? "?testing_cycle={$testing_cycle}" : '';
 
-              $renderables = array(
-                  new local_mxschool\output\index(array(
-                      get_string('user_management:student_report', 'block_mxschool_dash_healthcenter')
-                          => '/local/mxschool/user_management/student_report.php',
-                      get_string('user_management:faculty_report', 'block_mxschool_dash_healthcenter')
-                          => '/local/mxschool/user_management/faculty_report.php',
-                      get_string('user_management:vehicle_report', 'block_mxschool_dash_healthcenter')
-                          => '/local/mxschool/user_management/vehicle_report.php',
-                      get_string('user_management:vacation_travel_report', 'block_mxschool_dash_healthcenter')
-                          => '/local/mxschool/vacation_travel/report.php',
-                  ),  get_string('user_management', 'block_mxschool_dash_healthcenter')),
-                  new local_mxschool\output\index(array(
-                      get_string('signout:on_campus:report', 'block_mxschool_dash_healthcenter')
-                          => '/local/signout/on_campus/report.php',
-                      get_string('signout:off_campus:report', 'block_mxschool_dash_healthcenter')
-                          => '/local/signout/off_campus/report.php',
-                  ),  get_string('signout', 'block_mxschool_dash_healthcenter'))
-              );
+        $renderables = array(
+            new local_mxschool\output\index(array(
+                get_string('user_management:student_report', 'block_mxschool_dash_healthcenter')
+                    => '/local/mxschool/user_management/student_report.php',
+                get_string('user_management:faculty_report', 'block_mxschool_dash_healthcenter')
+                    => '/local/mxschool/user_management/faculty_report.php',
+                get_string('user_management:vehicle_report', 'block_mxschool_dash_healthcenter')
+                    => '/local/mxschool/user_management/vehicle_report.php',
+                get_string('user_management:vacation_travel_report', 'block_mxschool_dash_healthcenter')
+                    => '/local/mxschool/vacation_travel/report.php',
+            ),
+            get_string('user_management', 'block_mxschool_dash_healthcenter')),
 
-              if(get_config('local_mxschool', 'healthtest_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access_healthtest', context_system::instance()))
-              {
-                  array_push($renderables,
-                    new local_mxschool\output\index(array(
-                        get_string('healthtest:appointment_form', 'block_mxschool_dash_healthcenter')
-    				        => "/local/mxschool/healthtest/appointment_form.php",
-                        get_string('healthtest:test_report', 'block_mxschool_dash_healthcenter')
-        				    => "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
-    				    get_string('healthtest:block_report', 'block_mxschool_dash_healthcenter')
-    				        => '/local/mxschool/healthtest/block_report.php',
-                        get_string('healthtest:audit_report', 'block_mxschool_dash_healthcenter')
-    				        => '/local/mxschool/healthtest/audit_report.php',
-    			        get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')
-    			            => '/local/mxschool/healthtest/preferences.php',
-        			),  get_string('healthtest', 'block_mxschool_dash_healthcenter'))
-                );
-            }
-            else if(has_capability('block/mxschool_dash_healthpass:access_healthtest', context_system::instance())){
-                array_push($renderables,
-                  new local_mxschool\output\index(array(
+            new local_mxschool\output\index(array(
+                get_string('signout:on_campus:report', 'block_mxschool_dash_healthcenter')
+                    => '/local/signout/on_campus/report.php',
+                get_string('signout:off_campus:report', 'block_mxschool_dash_healthcenter')
+                    => '/local/signout/off_campus/report.php',
+            ),
+            get_string('signout', 'block_mxschool_dash_healthcenter'))
+        );
+
+        if(get_config('local_mxschool', 'healthtest_enabled')=='1' and
+        has_capability('block/mxschool_dash_healthpass:access_healthtest', context_system::instance())) {
+            array_push($renderables,
+                new local_mxschool\output\index(array(
+                    get_string('healthtest:appointment_form', 'block_mxschool_dash_healthcenter')
+    				    => "/local/mxschool/healthtest/appointment_form.php",
+                    get_string('healthtest:test_report', 'block_mxschool_dash_healthcenter')
+        			    => "/local/mxschool/healthtest/test_report.php{$healthtest_filter}",
+    				get_string('healthtest:block_report', 'block_mxschool_dash_healthcenter')
+    				    => '/local/mxschool/healthtest/block_report.php',
+                    get_string('healthtest:audit_report', 'block_mxschool_dash_healthcenter')
+    				    => '/local/mxschool/healthtest/audit_report.php',
+    			    get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')
+    			        => '/local/mxschool/healthtest/preferences.php',
+        		),
+                get_string('healthtest', 'block_mxschool_dash_healthcenter'))
+            );
+        }
+        else if(has_capability('block/mxschool_dash_healthpass:access_healthtest', context_system::instance())) {
+            array_push($renderables,
+                new local_mxschool\output\index(array(
                     get_string('healthtest:preferences', 'block_mxschool_dash_healthcenter')
-    			            => '/local/mxschool/healthtest/preferences.php',
-        		),  get_string('healthtest', 'block_mxschool_dash_healthcenter'))
-              );
-            }
+    			        => '/local/mxschool/healthtest/preferences.php',
+        		),
+                get_string('healthtest', 'block_mxschool_dash_healthcenter'))
+            );
+        }
 
-            if(get_config('local_mxschool', 'healthpass_enabled')=='1' and has_capability('block/mxschool_dash_healthpass:access_healthpass', context_system::instance()))
-            {
-                  array_push($renderables,
-                    new local_mxschool\output\index(array(
-                      get_string('healthpass:submit_form', 'block_mxschool_dash_healthcenter')
-                          => '/local/mxschool/healthpass/form.php',
-                      get_string('healthpass:report', 'block_mxschool_dash_healthcenter')
-                          => "/local/mxschool/healthpass/report.php?{$filter}",
-                      get_string('healthpass:preferences', 'block_mxschool_dash_healthcenter')
-                          => '/local/mxschool/healthpass/preferences.php',
-                  ),  get_string('healthpass', 'block_mxschool_dash_healthcenter'))
-                );
-            }
-            else if(has_capability('block/mxschool_dash_healthpass:access_healthpass', context_system::instance())){
-                  array_push($renderables,
-                    new local_mxschool\output\index(array(
-                      get_string('healthpass:preferences', 'block_mxschool_dash_healthcenter')
-                          => '/local/mxschool/healthpass/preferences.php',
-                  ),  get_string('healthpass', 'block_mxschool_dash_healthcenter'))
-                );
-            }
+        if(get_config('local_mxschool', 'healthpass_enabled')=='1' and
+            has_capability('block/mxschool_dash_healthpass:access_healthpass', context_system::instance())) {
+            array_push($renderables,
+                new local_mxschool\output\index(array(
+                    get_string('healthpass:submit_form', 'block_mxschool_dash_healthcenter')
+                        => '/local/mxschool/healthpass/form.php',
+                    get_string('healthpass:report', 'block_mxschool_dash_healthcenter')
+                        => "/local/mxschool/healthpass/report.php?{$filter}",
+                    get_string('healthpass:preferences', 'block_mxschool_dash_healthcenter')
+                        => '/local/mxschool/healthpass/preferences.php',
+                ),
+                get_string('healthpass', 'block_mxschool_dash_healthcenter'))
+            );
+        }
+        else if(has_capability('block/mxschool_dash_healthpass:access_healthpass', context_system::instance())) {
+            array_push($renderables,
+                new local_mxschool\output\index(array(
+                    get_string('healthpass:preferences', 'block_mxschool_dash_healthcenter')
+                        => '/local/mxschool/healthpass/preferences.php',
+                ),
+                get_string('healthpass', 'block_mxschool_dash_healthcenter'))
+            );
+        }
 
         $renderables=array_reverse($renderables);
-
         $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
-                  return $html . $output->render($renderable);
-                  }, '');
+            return $html . $output->render($renderable);
+        }, '');
 
         return $this->content;
     }

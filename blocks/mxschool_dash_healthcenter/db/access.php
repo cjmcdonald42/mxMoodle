@@ -30,13 +30,13 @@ $capabilities = array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-        ),
+    ),
     'block/mxschool_dash_healthcenter:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-        ),
+    ),
     'block/mxschool_dash_healthcenter:access' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM
-        )
-    );
+    )
+);
