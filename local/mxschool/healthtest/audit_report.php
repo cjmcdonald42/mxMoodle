@@ -56,6 +56,9 @@ $buttons = array(
     )
 );
 
+// No dropdown filters but we need an empty array.
+$dropdowns = array();
+
 // Output report to page.
 $output = $PAGE->get_renderer('local_mxschool');
 if ($table->is_downloading()) {
@@ -63,7 +66,7 @@ if ($table->is_downloading()) {
     echo $output->render($renderable);
     die();
 }
-$renderable = new local_mxschool\output\report($table, $filter->search, $buttons, false);
+$renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, false);
 
 echo $output->header();
 echo $output->heading($PAGE->title);
