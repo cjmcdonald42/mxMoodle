@@ -1347,7 +1347,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021071710, 'local', 'mxschool');
 	}
 
-    if ($oldversion < 2021080203) {
+    if ($oldversion < 2021080211) {
 
         // Define field event_id to be dropped from local_mxschool_deans_perm.
         $table = new xmldb_table('local_mxschool_deans_perm');
@@ -1367,7 +1367,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021080203, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2021080211, 'local', 'mxschool');
      }
 
   return true;
