@@ -49,7 +49,7 @@ class form extends \local_mxschool\form {
 			  'event' => array('element' => 'select', 'options' => $eventoptions),
 			  'event_info' => self::ELEMENT_LONG_TEXT_REQUIRED,
               'recurring' => self::ELEMENT_BOOLEAN_REQUIRED,
-              'times_away' => self::ELEMENT_LONG_TEXT_REQUIRED
+              'times_away' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'sport' => self::ELEMENT_TEXT_REQUIRED,
 			  'missing_sports' => self::ELEMENT_BOOLEAN_REQUIRED,
   			  'missing_studyhours' => self::ELEMENT_BOOLEAN_REQUIRED,
