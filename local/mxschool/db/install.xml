@@ -272,12 +272,12 @@
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="event_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The event for which the student is requesting permission to attend."/>
         <FIELD NAME="event_info" TYPE="char" LENGTH="1000" NOTNULL="false" SEQUENCE="false" COMMENT="More info regarding the selected event for the deans permission form."/>
-        <FIELD NAME="event_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The date of the event which the student is requesting to attend."/>
+        <FIELD NAME="recurring" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student's event is recurring."/>
+        <FIELD NAME="times_away" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The dates and times during which the student will be gone from campus."/>
         <FIELD NAME="sport" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The sport the student plays."/>
         <FIELD NAME="missing_sports" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student is missing a practice or a game to attend the event."/>
         <FIELD NAME="missing_studyhours" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will miss study hours to attend the event."/>
         <FIELD NAME="missing_class" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will be missing classes to attend the event."/>
-        <FIELD NAME="times_away" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The time during which the student will be gone from campus."/>
         <FIELD NAME="parent_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="A boolean field indicating whether or not the student has parent permission."/>
         <FIELD NAME="sports_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss sports"/>
         <FIELD NAME="class_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss class"/>
