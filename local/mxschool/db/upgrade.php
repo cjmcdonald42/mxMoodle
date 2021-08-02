@@ -18,8 +18,7 @@
  * Database updgrade steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Aarav Mehta, Class of 2023 <amehta@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+ * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -1246,11 +1245,11 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         set_config('healthpass_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
         set_config('healthtest_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
 
-        upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2021042000, 'local', 'mxschool');
 
     }
 
-    if ($oldversion < 2021063000) {
+    if ($oldversion < 2021080210) {
 
 	    // Define table local_mxschool_vt_trip to be dropped.
 		$table = new xmldb_table('local_mxschool_vt_trip');
@@ -1307,25 +1306,12 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-		// Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021070000, 'local', 'mxschool');
-
-    }
-
-    if($oldversion < 2021070000) {
+        // Add audit_report subpackage
         $DB->delete_records('local_mxschool_subpackage', array('subpackage' => 'healthtest'));
-
 		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
 		    'test_form', 'test_report', 'block_form', 'block_report', 'audit_report', 'preferences'
 	    )));
-
 		$DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
-
-        upgrade_plugin_savepoint(true, 2021071500, 'local', 'mxschool');
-
-    }
-
-	if ($oldversion < 2021071710) {
 
 		// Define table local_mxschool_audit to be created.
 		$table = new xmldb_table('local_mxschool_audit');
@@ -1342,12 +1328,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		if (!$dbman->table_exists($table)) {
 		    $dbman->create_table($table);
 		}
-
-		// Mxschool savepoint reached.
-		upgrade_plugin_savepoint(true, 2021071710, 'local', 'mxschool');
-	}
-
-    if ($oldversion < 2021080203) {
 
         // Define field event_id to be dropped from local_mxschool_deans_perm.
         $table = new xmldb_table('local_mxschool_deans_perm');
@@ -1367,9 +1347,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021080203, 'local', 'mxschool');
-     }
+        upgrade_plugin_savepoint(true, 2021080210, 'local', 'mxschool');
+    }
 
-  return true;
-
+return true;
 }
