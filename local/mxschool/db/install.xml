@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20210629" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20210803" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -273,7 +273,7 @@
         <FIELD NAME="event_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The event for which the student is requesting permission to attend."/>
         <FIELD NAME="event_info" TYPE="char" LENGTH="1000" NOTNULL="false" SEQUENCE="false" COMMENT="More info regarding the selected event for the deans permission form."/>
         <FIELD NAME="recurring" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student's event is recurring."/>
-        <FIELD NAME="times_away" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The dates and times during which the student will be gone from campus."/>
+        <FIELD NAME="times_away" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The time during which the student will be gone from campus."/>
         <FIELD NAME="sport" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="The sport the student plays."/>
         <FIELD NAME="missing_sports" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student is missing a practice or a game to attend the event."/>
         <FIELD NAME="missing_studyhours" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will miss study hours to attend the event."/>
