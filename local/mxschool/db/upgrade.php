@@ -1347,7 +1347,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021071710, 'local', 'mxschool');
 	}
 
-    if ($oldversion < 2021080211) {
+    if ($oldversion < 2021080301) {
 
         $table = new xmldb_table('local_mxschool_deans_perm');
         $field = new xmldb_field('recurring', XMLDB_TYPE_INTEGER, '1', null, null, null, null, '0');
@@ -1357,23 +1357,17 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021080211, 'local', 'mxschool');
-     }
-
-    if ($oldversion < 2021080213) {
-
         // Define field event_info to be added to local_mxschool_deans_perm.
         $table = new xmldb_table('local_mxschool_deans_perm');
-        $field = new xmldb_field('event_info');
+        $field = new xmldb_field('event_date');
 
         // Conditionally launch add field event_info.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
         }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021080213, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2021080301, 'local', 'mxschool');
     }
 
   return true;
