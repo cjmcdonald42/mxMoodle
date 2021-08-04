@@ -1246,11 +1246,10 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         set_config('healthpass_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
         set_config('healthtest_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
 
-        upgrade_plugin_savepoint(true, 2021063000, 'local', 'mxschool');
-
+        upgrade_plugin_savepoint(true, 2021042000, 'local', 'mxschool');
     }
 
-    if ($oldversion < 2021063000) {
+    if ($oldversion < 2021080600) {
 
 	    // Define table local_mxschool_vt_trip to be dropped.
 		$table = new xmldb_table('local_mxschool_vt_trip');
@@ -1307,12 +1306,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-		// Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021070000, 'local', 'mxschool');
-
-    }
-
-    if($oldversion < 2021070000) {
         $DB->delete_records('local_mxschool_subpackage', array('subpackage' => 'healthtest'));
 
 		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
@@ -1320,12 +1313,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 	    )));
 
 		$DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
-
-        upgrade_plugin_savepoint(true, 2021071500, 'local', 'mxschool');
-
-    }
-
-	if ($oldversion < 2021071710) {
 
 		// Define table local_mxschool_audit to be created.
 		$table = new xmldb_table('local_mxschool_audit');
@@ -1342,12 +1329,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		if (!$dbman->table_exists($table)) {
 		    $dbman->create_table($table);
 		}
-
-		// Mxschool savepoint reached.
-		upgrade_plugin_savepoint(true, 2021071710, 'local', 'mxschool');
-	}
-
-    if ($oldversion < 2021080301) {
 
         $table = new xmldb_table('local_mxschool_deans_perm');
         $field = new xmldb_field('recurring', XMLDB_TYPE_INTEGER, '1', null, null, null, null, '0');
@@ -1367,7 +1348,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021080301, 'local', 'mxschool');
+        upgrade_plugin_savepoint(true, 2021080600, 'local', 'mxschool');
     }
 
   return true;
