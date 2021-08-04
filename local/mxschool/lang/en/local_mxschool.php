@@ -55,6 +55,8 @@ $string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and 
 $string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage Healthpass data';
 $string['mxschool:manage_healthtest_preferences'] = 'Middlesex School: View and manage Healthtest preferences';
 $string['mxschool:manage_healthtest'] = 'Middlesex School: View and Manage Healthtest data';
+$string['mxschool:access_healthtest'] = 'Middlesex School: Access Healthtest system';
+
 
 
 /* Events. */
@@ -1015,7 +1017,7 @@ $string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
 $string['deans_permission:form:info'] = 'Information';
 $string['deans_permission:form:info:student'] = 'Student';
 $string['deans_permission:form:info:event'] = 'Event type';
-$string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? Where is the event (include city and state)?';
+$string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? zWhere is the event (include city and state)?';
 $string['deans_permission:form:info:recurring'] = 'Is this a recurring event?';
 $string['deans_permission:form:info:times_away'] = 'Dates and Times you will be away.';
 $string['deans_permission:form:info:sport'] = 'What is your afternoon school athletic commitment (E.g. track, recfit)?';
