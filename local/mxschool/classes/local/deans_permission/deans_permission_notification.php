@@ -44,7 +44,7 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
          if ($id) {
              $record = $DB->get_record_sql(
                  "SELECT dp.id, CONCAT(u.firstname, ' ', u.lastname) AS fullname, su.grade, su.boarding_status, dpe.name AS event,
- 			 	    dp.sport, dp.times_away, dp.event_date, dp.external_comment, dp.event_info
+ 			 	    dp.sport, dp.times_away, dp.recurring, dp.external_comment, dp.event_info
  			  FROM {local_mxschool_deans_perm} dp LEFT JOIN {user} u ON dp.userid = u.id
  			  							   LEFT JOIN {local_mxschool_student} su ON dp.userid = su.userid
 										   LEFT JOIN {local_mxschool_dp_event} dpe ON dp.event_id = dpe.id
@@ -60,7 +60,7 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
  		  $this->data['event'] = $record->event;
  		  $this->data['sport'] = $record->sport;
  		  $this->data['times_away'] = $record->times_away;
-		  $this->data['event_date'] = date('n/j/y', $record->event_date);
+		  $this->data['recurring'] = $record->recurring;
 		  $this->data['message_to_student'] = $record->external_comment;
 		  $this->data['event_info'] = $record->event_info;
          }
@@ -71,7 +71,7 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
       */
      public function get_tags() {
          return array_merge(parent::get_tags(), array(
-             'fullname', 'grade', 'boarding_status', 'event', 'event_info', 'event_date', 'sport', 'times_away', 'message_to_student'
+             'fullname', 'grade', 'boarding_status', 'event', 'event_info', 'recurring', 'sport', 'times_away', 'message_to_student'
          ));
      }
 

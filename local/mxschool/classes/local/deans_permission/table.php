@@ -46,19 +46,19 @@ class table extends \local_mxschool\table {
      */
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
-        $columns = array('student', 'event', 'event_info', 'event_date', 'sport', 'missing', 'times_away', 'parent_perm',
+        $columns = array('student', 'event', 'event_info', 'recurring', 'sport', 'missing', 'times_away', 'parent_perm',
 	   				'sports_perm', 'class_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
 	   if ($this->is_downloading()) {
 		  unset($columns[array_search('sports_perm', $columns)]);
 		  unset($columns[array_search('class_perm', $columns)]);
 	   }
         $headers = $this->generate_headers($columns, 'deans_permission:report');
-        $sortable = array('form_submitted', 'student', 'event_date');
-        $centered = array('event', 'event_date', 'sport', 'parent_perm', 'sports_perm', 'class_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
+        $sortable = array('form_submitted', 'student', 'recurring');
+        $centered = array('event', 'recurring', 'sport', 'parent_perm', 'sports_perm', 'class_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
 
         $fields = array(
-		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dpe.name AS event', 'dp.event_info', 'dp.event_date',
+		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dpe.name AS event', 'dp.event_info', 'dp.recurring',
 		   'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.class_perm',
 		   'dp.internal_comment', 'dp.external_comment', 'dp.status', 'dp.form_submitted'
         );
@@ -85,8 +85,10 @@ class table extends \local_mxschool\table {
     			  ({$values->grade}, {$values->boarding_status})";
     }
 
-    protected function col_event_date($values) {
-	return isset($values->event_date) ? format_date('n/j/y', $values->event_date) : '';
+    protected function col_recurring($values) {
+           $result='No';
+           if($values->recurring==1) $result='Yes';
+           return $result;
     }
 
     /**

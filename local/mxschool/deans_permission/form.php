@@ -42,7 +42,7 @@ $queryfields = array(
     'local_mxschool_deans_perm' => array(
         'abbreviation' => 'dp',
         'fields' => array(
-            'id', 'userid' => 'student', 'event_id' => 'event', 'event_info', 'event_date', 'sport', 'missing_sports', 'missing_studyhours',
+            'id', 'userid' => 'student', 'event_id' => 'event', 'event_info', 'recurring', 'sport', 'missing_sports', 'missing_studyhours',
 		  'missing_class', 'times_away', 'internal_comment', 'form_submitted' => 'timecreated'
         )
     )
