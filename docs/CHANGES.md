@@ -1,3 +1,11 @@
+## Changes in v3.3
+Summer 2021 Upgrades and Enhancements.
+- New Deans' Permission Form functionality
+- New Healthtest Auditing functionality
+- Numerous Language String tweaks
+- Block enhancements
+- Readiness for Moodle v3.11, php8, Sequel 5
+
 ## Changes in v3.2.1
 - Create new Healthtest system to schedule and track COVID19 testing events
 

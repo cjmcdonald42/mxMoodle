@@ -17,7 +17,8 @@
 /**
  * Audit Report for Healthtest system
  *
- * @package     local_mxschool__healthtest
+ * @package     local_mxschool
+ * @subpackage  healthtest
  * @author      mxMoodle Development Team
  * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

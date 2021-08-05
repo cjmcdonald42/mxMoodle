@@ -11,7 +11,7 @@ This package defines basic information about students, faculty, and dorms and pr
 This plugin has the following dependencies:
 - Moodle 3.7 (2019052000)
 and is currently running on and being developed with
-- Moodle 3.9 (2020061500)
+- Moodle 3.11 (2021051700)
 
 ## Subpackages
 This package houses the following subpackages and pages:
@@ -52,24 +52,6 @@ This package houses the following subpackages and pages:
     - _test_report_ - To track attendance during testing blocks
     - _appointment_form_ - Allows community members to schedule their test time each testing cycle
 
-## Credits
-v3.2.1 added the Healthtest subsystem and was developed over spring break, March 2021 by:
-- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
-v3.2 of this plugin was developed in 2020 by:
-- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
-v3.1 of this plugin was developed in 2019 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
-v3.0 of this plugin was developed in 2018 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
-
 ## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).
-
-© 2018-2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
+© 2018-2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
