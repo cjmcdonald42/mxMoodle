@@ -18,9 +18,8 @@
  * Local library functions for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -1340,9 +1339,8 @@ function get_vacation_travel_type_list($mxtransportation = null) {
 */
 function get_dp_events_list() {
 	global $DB;
-	$records = $DB->get_records_sql("SELECT dpe.id, dpe.name AS value FROM {local_mxschool_dp_event} dpe WHERE dpe.id > 1");
+	$records = $DB->get_records_sql("SELECT dpe.id, dpe.name AS value FROM {local_mxschool_dp_event} dpe");
 	$events = convert_records_to_list($records);
-	$events[1] = 'Other';
 	return $events;
 }
 
@@ -1453,10 +1451,7 @@ function get_healthform_dates() {
 	 return $list;
  }
 
-
-
  /* Health Test. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
-
 
  /**
  * Gets a list of all the days during which there is a healthtest block.
@@ -1593,7 +1588,8 @@ function get_all_user_appointment_info($userid) {
 		"SELECT ht.id AS htid, ht.userid, ht.testing_block_id, ht.attended, tb.id AS tbid, tb.testing_cycle,
 				tb.start_time, tb.end_time, tb.date, tb.max_testers
 		 FROM {local_mxschool_healthtest} ht LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
-		 WHERE ht.userid = {$userid}"
+		 WHERE ht.userid = {$userid}
+         ORDER BY tb.testing_cycle "
 	);
 	$app_info = array();
 	foreach($records as $record) {
@@ -1636,6 +1632,7 @@ function get_appointment_form_block_options($userid=null) {
 			$sql_array .= ')';
 		}
 		else $sql_array = ('(-1)');
+        if($sql_array == ')') $sql_array = '(-1)';  // Fix for data issue #68
 		$records = $DB->get_records_sql(
 			"SELECT *
 			 FROM {local_mxschool_testing_block}
@@ -1815,4 +1812,41 @@ function email_tomorrows_testers() {
 	foreach($testers as $tester) {
 		(new local_mxschool\local\healthtest\healthtest_reminder($tester))->send();
 	}
+}
+
+/*
+ * Health Test Audit Report
+ * @author Moodle Development Team
+ *
+ * Given a user, returns a list of testing cycles attended
+ *
+ * @param $userid
+ * @return string testing_cycles
+ */
+function local_mx_get_testing_cycles($userid) {
+    global $DB;
+	$records = $DB->get_records_sql(
+	   "SELECT ht.id, ht.userid, ht.testing_block_id, ht.attended,
+               tb.id, tb.testing_cycle, tb.end_time, tb.date
+		FROM {local_mxschool_healthtest} ht
+        LEFT JOIN {local_mxschool_testing_block} tb ON tb.id = ht.testing_block_id
+		WHERE ht.userid = {$userid}
+        GROUP BY testing_cycle
+        ORDER BY testing_cycle"
+	);
+
+    $testing_cycles = '';
+    $today = format_date('Y-m-d');
+	$now = format_date('H:i');
+    foreach ($records as $record) {
+        if ($record->attended == '1') {
+            if ($testing_cycles != '') $testing_cycles .= ', ';
+            $testing_cycles .= $record->testing_cycle;
+        } else if (($record->date > $today) or
+                  (($record->date == $today) and ($record->end_time >= $now))) {
+            if ($testing_cycles != '') $testing_cycles .= ', ';
+                $testing_cycles .= "(" . $record->testing_cycle . ")";
+            }
+        }
+    return $testing_cycles;
 }

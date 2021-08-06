@@ -65,6 +65,9 @@ $buttons = array(
 	new local_mxschool\output\redirect_button(
          get_string('healthtest:block_report:test_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/test_report.php')
      ),
+     new local_mxschool\output\redirect_button(
+          get_string('healthtest:block_report:audit_report', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/audit_report.php')
+      ),
 	new local_mxschool\output\redirect_button(
          get_string('healthtest:block_report:add', 'local_mxschool'), new moodle_url('/local/mxschool/healthtest/block_form.php')
      )

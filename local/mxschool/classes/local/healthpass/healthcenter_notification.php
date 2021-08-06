@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  healthpass
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -56,17 +55,17 @@ class healthcenter_notification extends \local_mxschool\notification {
             $this->data['firstname'] = $record->firstname;
             $this->data['lastname'] = $record->lastname;
             $this->data['alternatename'] = $record->alternatename;
- 		  $this->data['symptoms'] = $record->symptoms;
- 		  $this->data['student_boarding_status'] = $record->boarding_status;
-		  $this->data['student_phone_number'] = $record->phone_number;
-   		  $this->data['student_dorm'] = $record->dormname;
-		  $this->data['body_temperature'] = $record->body_temperature;
+ 		    $this->data['symptoms'] = $record->symptoms;
+ 		    $this->data['student_boarding_status'] = $record->boarding_status;
+		    $this->data['student_phone_number'] = $record->phone_number;
+   		    $this->data['student_dorm'] = $record->dormname;
+		    $this->data['body_temperature'] = $record->body_temperature;
 
-		  $healthcenter = $DB->get_record('user', array('id' => 2));
-		  $healthcenter->email = get_config('local_mxschool', 'healthcenter_notification_email_address');
-		  $healthcenter->addresseename = 'Health Center';
-		  $healthcenter->firstname = 'Health';
-		  $healthcenter->lastname = 'Center';
+		    $healthcenter = $DB->get_record('user', array('id' => 2));
+		    $healthcenter->email = get_config('local_mxschool', 'healthpass_notification_email_address');
+		    $healthcenter->addresseename = 'Health Center';
+		    $healthcenter->firstname = 'Health';
+		    $healthcenter->lastname = 'Center';
 
              array_push(
                  $this->recipients, $healthcenter

@@ -1,3 +1,5 @@
+##### This file needs to be reviewed.
+
 # Middlesex Moodle Local Plugin Structure
 
 Middlesex's custom local plugins are relatively complex, so they require relatively specific structural guidelines to keep the codebase consistent, predictable, and easy to maintain. The structure of our plugins falls into two main categories:

@@ -26,17 +26,19 @@
 
 define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {
     function edit_comment(event) {
-	   var userid = $(event.target).attr('name');
-	   $('.mx-comment-text'+userid).hide();
-	   $('.mx-comment-edit-button'+userid).hide();
-	   $('.mx-comment-edit-area'+userid).val($('.mx-comment-text'+userid).text());
-	   $('.mx-comment-edit-area'+userid).show();
-	   $('.mx-comment-save-button'+userid).show();
+	   var name = $(event.target).attr('name');
+   	   var userid = $(event.target).attr('value');
+	   $('.mx-comment-text'+userid+name).hide();
+	   $('.mx-comment-edit-button'+userid+name).hide();
+	   $('.mx-comment-edit-area'+userid+name).val($('.mx-comment-text'+userid+name).text());
+	   $('.mx-comment-edit-area'+userid+name).show();
+	   $('.mx-comment-save-button'+userid+name).show();
     }
     function update_comment() {
-	    var userid = $(event.target).attr('name');
-	    var new_comment = $('.mx-comment-edit-area'+userid).val();
-	    var table = $('.mx-comment-edit-area'+userid).attr('name');
+	    var name = $(event.target).attr('name');
+    	    var userid = $(event.target).attr('value');
+	    var new_comment = $('.mx-comment-edit-area'+userid+name).val();
+	    var table = $('.mx-comment-edit-area'+userid+name).attr('name');
 	    var promises = ajax.call([{
 		    methodname: 'local_mxschool_update_comment',
 		    args: {
@@ -46,17 +48,17 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 		    }
 	    }]);
 	    promises[0].done().fail(notification.exception);
-	    $('.mx-comment-text'+userid).text(new_comment);
-	    $('.mx-comment-text'+userid).show();
-	    $('.mx-comment-edit-button'+userid).show();
-	    $('.mx-comment-edit-area'+userid).hide();
-	    $('.mx-comment-save-button'+userid).hide();
+	    $('.mx-comment-text'+userid+name).text(new_comment);
+	    $('.mx-comment-text'+userid+name).show();
+	    $('.mx-comment-edit-button'+userid+name).show();
+	    $('.mx-comment-edit-area'+userid+name).hide();
+	    $('.mx-comment-save-button'+userid+name).hide();
     }
-    return function(userid, original_comment_text) {
-        var edit_button = $('.mx-comment-edit-button'+userid);
-	   var comment_edit_area = $('.mx-comment-edit-area'+userid);
-	   var save_button = $('.mx-comment-save-button'+userid);
-	   var comment_text = $('.mx-comment-text'+userid);
+    return function(userid, name, original_comment_text) {
+        var edit_button = $('.mx-comment-edit-button'+userid+name);
+	   var comment_edit_area = $('.mx-comment-edit-area'+userid+name);
+	   var save_button = $('.mx-comment-save-button'+userid+name);
+	   var comment_text = $('.mx-comment-text'+userid+name);
 	   comment_text.show();
 	   comment_edit_area.hide();
 	   save_button.hide();

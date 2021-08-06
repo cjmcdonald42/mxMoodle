@@ -1,22 +1,20 @@
-# Middlesex's Dashboard Block for the Healthcenter
-Moodle block plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
+# Dashboard Block for the Healthcenter
+This dashboard block provides links for the Health Centre staff to access the Healthpass subsystem, eSignout, and User Management reports.
 
-Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
-
-## Package Description
-This block provides links for the Healthcenter staff to access our new COVIDpass system and related pages.
+## Capabilities
+- block/mxschool_dash_healthcenter:addinstance : add this block to any moodle page, not used.
+- block/mxschool_dash_healthcenter:myaddinstance : add this block to the dashboard.
+  Granted to healthcentre role and given to Cruz Health Centre staff.
+- block/mxschool_dash_healthcenter:access : access this block. Granted to healthcentre role and given to Cruz Health Centre staff.
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.7 (2019052000)
-- [local_mxschool v3.2](/local/mxschool/README.md) (2020072200)
+- Moodle 3.11 (2021051700)
+- [mxMoodle v3.3](/local/mxschool/README.md) (2021080600)
 
 ## Credits
-v1.0 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
-- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+This plugin was written and is currently maintained by the [Moodle Development Team](https://github.com/mxschool/mxMoodle/blob/dev/docs/ABOUT_US.md) as part of our [mxMoodle](https://github.com/mxschool/mxMoodle) Suite.
 
 ## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).
-
-© 2018-2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
+© 2018-2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.

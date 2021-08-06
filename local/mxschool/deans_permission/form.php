@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,6 +29,9 @@ require_once(__DIR__.'/../locallib.php');
 
 require_login();
 $isstudent = user_is_student();
+if (!$isstudent) {
+    require_capability('local/mxschool:access_deans_permission', context_system::instance());
+}
 
 $id = optional_param('id', 0, PARAM_INT);
 
@@ -39,8 +41,8 @@ $queryfields = array(
     'local_mxschool_deans_perm' => array(
         'abbreviation' => 'dp',
         'fields' => array(
-            'id', 'userid' => 'student', 'event_id' => 'event', 'event_info', 'sport', 'missing_sports', 'missing_studyhours',
-		  'missing_class', 'times_away', 'comment', 'form_submitted' => 'timecreated'
+            'id', 'userid' => 'student', 'event_id' => 'event', 'event_info', 'recurring', 'sport', 'missing_sports', 'missing_studyhours',
+		  'missing_class', 'times_away', 'internal_comment', 'form_submitted' => 'timecreated'
         )
     )
 );
@@ -71,7 +73,7 @@ $form->set_data($data);
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-    $data->comment = '';
+    $data->internal_comment = '';
     $id = update_record($queryfields, $data);
     $result = (new local_mxschool\local\deans_permission\submitted($id))->send();
     logged_redirect(

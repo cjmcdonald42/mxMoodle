@@ -48,4 +48,4 @@ ___
 
 ## Testing
 
-We currently do not have any unit testing or automated continuous integration set up for our custom code. This is somethings that we should probably add in the future, but for now we rely on extensive manual testing on development and mock-deployment servers before any code is used on our live server.
+We currently do not have any unit testing or automated continuous integration set up for our custom code. This is something that we should probably add in the future, but for now we rely on extensive manual testing on development and mock-deployment servers before any code is used on our live server.

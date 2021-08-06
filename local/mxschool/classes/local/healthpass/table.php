@@ -169,7 +169,7 @@
 	    global $PAGE;
 	    $output = $PAGE->get_renderer('local_mxschool');
 	    $today = generate_datetime(time())->modify('4 AM')->getTimestamp();
-	    $renderable = new comment($values->id, $values->comment, 'Edit', 'Save', 'local_mxschool_healthpass');
+	    $renderable = new comment($values->id, 'hp', $values->comment, 'Edit', 'Save', 'local_mxschool_healthpass');
 	    return $output->render($renderable);
     }
 }

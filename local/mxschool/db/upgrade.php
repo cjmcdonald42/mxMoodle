@@ -18,9 +18,8 @@
  * Database updgrade steps for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -1056,10 +1055,6 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		   $dbman->add_field($table, $field);
 	    }
 
-	    $other = new stdClass();
-	    $other->name = 'Other';
-	    $DB->insert_record('local_mxschool_dp_event', $other);
-
 	    $subpackage = array('subpackage' => 'deans_permission', 'pages' => json_encode(array(
 		   'form', 'report', 'preferences', 'event_edit'
 	   )));
@@ -1225,9 +1220,9 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		$data->confirm_subject = 'DEFAULT -- Change in COVID Testing Preferences';
 		$data->confirm_body = 'DEFAULT -- Change in COVID Testing Preferences';
 
-	     update_notification('healthtest_reminder', $data, 'reminder');
+	    update_notification('healthtest_reminder', $data, 'reminder');
 		update_notification('healthtest_missed', $data, 'missed');
-	     update_notification('healthtest_confirm', $data, 'confirm');
+	    update_notification('healthtest_confirm', $data, 'confirm');
 
 		upgrade_plugin_savepoint(true, 2021031006, 'local', 'mxschool');
 	}
@@ -1245,7 +1240,118 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 		upgrade_plugin_savepoint(true, 2021031203, 'local', 'mxschool');
 	}
 
+    if($oldversion < 2021042000) {
+        unset_config('healthcenter_notification_email_address', 'local_mxschool');
+        set_config('healthpass_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
+        set_config('healthtest_notification_email_address', 'healthcenter@mxschool.edu', 'local_mxschool');
 
-     return true;
+        upgrade_plugin_savepoint(true, 2021042000, 'local', 'mxschool');
+    }
 
- }
+    if ($oldversion < 2021080600) {
+
+	    // Define table local_mxschool_vt_trip to be dropped.
+		$table = new xmldb_table('local_mxschool_vt_trip');
+
+		// Conditionally launch drop table for local_mxschool_vt_trip.
+		if ($dbman->table_exists($table)) {
+		    $dbman->drop_table($table);
+		}
+
+		// Define table local_mxschool_vt_trip to be created.
+		$table = new xmldb_table('local_mxschool_vt_trip');
+
+		// Adding fields to table local_mxschool_vt_trip.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('departureid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+		$table->add_field('returnid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+		$table->add_field('destination', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('phone_number', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('time_created', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+		$table->add_field('time_modified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_vt_trip.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('student', XMLDB_KEY_UNIQUE, ['userid']);
+		$table->add_key('departure', XMLDB_KEY_UNIQUE, ['departureid']);
+		$table->add_key('return', XMLDB_KEY_UNIQUE, ['returnid']);
+
+		// Conditionally launch create table for local_mxschool_vt_trip.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+		$data = new stdClass();
+		$data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
+		$data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
+
+/*
+		update_notification('class_permission_request', $data, 'default');
+		update_notification('sports_permission_request', $data, 'default');
+		update_notification('deans_permission_submitted', $data, 'default');
+		update_notification('deans_permission_notify_healthcenter', $data, 'default');
+		update_notification('deans_permission_approved', $data, 'default');
+		update_notification('deans_permission_denied', $data, 'default');
+*/
+
+		$other_insert = array('id' => '1', 'name' => 'Other');
+		$DB->insert_record('local_mxschool_dp_event', (object) $other_insert);
+
+        // Updating table local_mxschool_faculty with new faculty_code field.
+		$table = new xmldb_table('local_mxschool_faculty');
+	    $field = new xmldb_field('faculty_code', XMLDB_TYPE_CHAR, '10', null, null, null, null);
+
+        // Conditionally launch add field faculty_code.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $DB->delete_records('local_mxschool_subpackage', array('subpackage' => 'healthtest'));
+
+		$subpackage = array('subpackage' => 'healthtest', 'pages' => json_encode(array(
+		    'test_form', 'test_report', 'block_form', 'block_report', 'audit_report', 'preferences'
+	    )));
+
+		$DB->insert_record('local_mxschool_subpackage', (object) $subpackage);
+
+		// Define table local_mxschool_audit to be created.
+		$table = new xmldb_table('local_mxschool_audit');
+
+		// Adding fields to table local_mxschool_healthtest.
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+		$table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+		// Adding keys to table local_mxschool_audit.
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+		$table->add_key('user', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+		// Conditionally launch create table for local_mxschool_audit.
+		if (!$dbman->table_exists($table)) {
+		    $dbman->create_table($table);
+		}
+
+        $table = new xmldb_table('local_mxschool_deans_perm');
+        $field = new xmldb_field('recurring', XMLDB_TYPE_INTEGER, '1', null, null, null, null, '0');
+
+        // Conditionally launch add field recurring.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field event_info to be added to local_mxschool_deans_perm.
+        $table = new xmldb_table('local_mxschool_deans_perm');
+        $field = new xmldb_field('event_date');
+
+        // Conditionally launch add field event_info.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2021080600, 'local', 'mxschool');
+    }
+
+  return true;
+
+}

@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dorm and Student Functions Plugin.
+ * English language strings for mxMoodle: Middlesex Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -50,12 +49,13 @@ $string['mxschool:manage_vacation_travel'] = 'Middlesex School: View and manage 
 $string['mxschool:notify_vacation_travel'] = 'Middlesex School: Notify students who haven\'t submitted a vacation travel form';
 $string['mxschool:manage_vacation_travel_transportation'] = 'Middlesex School: View and manage students\' detailed vacation travel records';
 $string['mxschool:manage_vacation_travel_preferences'] = 'Middlesex School: View and manage vacation travel preferences';
-$string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage deans\' permission forms';
+$string['mxschool:access_deans_permission'] = 'Middlesex School: Access Deans\' permission forms';
+$string['mxschool:manage_deans_permission'] = 'Middlesex School: View and manage Deans\' permission forms';
 $string['mxschool:manage_healthpass_preferences'] = 'Middlesex School: View and manage Healthpass preferences';
 $string['mxschool:manage_healthpass'] = 'Middlesex School: View and Manage Healthpass data';
 $string['mxschool:manage_healthtest_preferences'] = 'Middlesex School: View and manage Healthtest preferences';
 $string['mxschool:manage_healthtest'] = 'Middlesex School: View and Manage Healthtest data';
-
+$string['mxschool:access_healthtest'] = 'Middlesex School: Access Healthtest system';
 
 /* Events. */
 $string['event:page_viewed'] = 'mxschool page viewed';
@@ -93,7 +93,6 @@ $string['report:print_button'] = 'Print';
 $string['report:header:actions'] = 'Actions';
 $string['report:delete_icon:confirmation'] = 'Are you sure want to delete this record?';
 
-
 /* Settings. */
 $string['mxschool_category'] = 'Middlesex';
 
@@ -127,7 +126,6 @@ $string['indexes:healthpass'] = 'COVIDpass Index';
 $string['indexes:deans_permission'] = 'Deans\' Permission Index';
 $string['indexes:healthtest'] = 'COVIDtest Index';
 
-
 /* Miscelaneous. */
 $string['am'] = 'AM';
 $string['pm'] = 'PM';
@@ -141,15 +139,12 @@ $string['room_type:single'] = 'Single';
 $string['room_type:double'] = 'Double';
 $string['room_type:quad'] = 'Quad';
 
-
-
 /*
  * ================
  * User Management.
  * ================
  */
 $string['user_management'] = 'User Management';
-
 
 /* Student Report. */
 $string['user_management:student_report'] = 'Student Report';
@@ -189,7 +184,6 @@ $string['user_management:student_report:parents:header:homephone'] = 'Home Phone
 $string['user_management:student_report:parents:header:cellphone'] = 'Cell Phone';
 $string['user_management:student_report:parents:header:workphone'] = 'Work Phone';
 $string['user_management:student_report:parents:header:email'] = 'Email';
-
 
 /* Student Edit. */
 $string['user_management:student_edit'] = 'Edit Student Record';
@@ -242,10 +236,8 @@ $string['user_management:student_edit:permissions:swim_competent'] = 'Competent 
 $string['user_management:student_edit:permissions:swim_allowed'] = 'Allowed to Swim?';
 $string['user_management:student_edit:permissions:boat_allowed'] = 'Allowed in Boats?';
 
-
 /* Student Notifications. */
 $string['user_management:student:update:success'] = 'Student Record Updated Successfully';
-
 
 /* Parent Edit. */
 $string['user_management:parent_edit'] = 'Edit Parent Record';
@@ -261,13 +253,11 @@ $string['user_management:parent_edit:parent:cell_phone'] = 'Parent Cell Phone';
 $string['user_management:parent_edit:parent:work_phone'] = 'Parent Work Phone';
 $string['user_management:parent_edit:parent:email'] = 'Parent Email';
 
-
 /* Parent Notifications. */
 $string['user_management:parent:create:success'] = 'Parent Record Created Successfully';
 $string['user_management:parent:update:success'] = 'Parent Record Updated Successfully';
 $string['user_management:parent:delete:success'] = 'Parent Record Deleted Successfully';
 $string['user_management:parent:delete:failure'] = 'Parent Record Not Found for Deletion';
-
 
 /* Faculty Report. */
 $string['user_management:faculty_report'] = 'Faculty Report';
@@ -275,10 +265,10 @@ $string['user_management:faculty_report'] = 'Faculty Report';
 // Headers.
 $string['user_management:faculty_report:header:name'] = 'Name';
 $string['user_management:faculty_report:header:dorm'] = 'Dorm';
+$string['user_management:faculty_report:header:facultycode'] = 'Faculty Code';
 $string['user_management:faculty_report:header:approvesignout'] = 'May Approve Off-Campus Signout?';
 $string['user_management:faculty_report:header:advisoryavailable'] = 'Advisory Available?';
 $string['user_management:faculty_report:header:advisoryclosing'] = 'Advisory Closing?';
-
 
 /* Faculty Edit. */
 $string['user_management:faculty_edit'] = 'Edit Faculty Record';
@@ -291,14 +281,13 @@ $string['user_management:faculty_edit:faculty:lastname'] = 'Last Name';
 $string['user_management:faculty_edit:faculty:alternatename'] = 'Alternate Name';
 $string['user_management:faculty_edit:faculty:email'] = 'Email';
 $string['user_management:faculty_edit:faculty:dorm'] = 'Dorm';
+$string['user_management:faculty_edit:faculty:faculty_code'] = 'Faculty Code';
 $string['user_management:faculty_edit:faculty:approve_signout'] = 'May Approve Off-Campus Signout';
 $string['user_management:faculty_edit:faculty:advisory_available'] = 'Advisory Available';
 $string['user_management:faculty_edit:faculty:advisory_closing'] = 'Advisory Closing';
 
-
 /* Faculty Notifications. */
 $string['user_management:faculty:update:success'] = 'Faculty Record Updated Successfully';
-
 
 /* Dorm Report. */
 $string['user_management:dorm_report'] = 'Dorm Report';
@@ -313,7 +302,6 @@ $string['user_management:dorm_report:header:permissionsline'] = 'Permissions Lin
 $string['user_management:dorm_report:header:type'] = 'Type';
 $string['user_management:dorm_report:header:gender'] = 'Gender';
 $string['user_management:dorm_report:header:available'] = 'Available';
-
 
 /* Dorm Edit. */
 $string['user_management:dorm_edit'] = 'Edit Dorm Record';
@@ -333,13 +321,11 @@ $string['user_management:dorm_edit:dorm:gender:Girls'] = 'Girls';
 $string['user_management:dorm_edit:dorm:gender:All'] = 'All';
 $string['user_management:dorm_edit:dorm:available'] = 'Available';
 
-
 /* Dorm Notifications. */
 $string['user_management:dorm:create:success'] = 'Dorm Record Created Successfully';
 $string['user_management:dorm:update:success'] = 'Dorm Record Updated Successfully';
 $string['user_management:dorm:delete:success'] = 'Dorm Record Deleted Successfully';
 $string['user_management:dorm:delete:failure'] = 'Dorm Record Not Found for Deletion';
-
 
 /* Vehicle Report. */
 $string['user_management:vehicle_report'] = 'Registered Student Vehicles Report';
@@ -357,7 +343,6 @@ $string['user_management:vehicle_report:header:model'] = 'Vehicle Model';
 $string['user_management:vehicle_report:header:color'] = 'Vehicle Color';
 $string['user_management:vehicle_report:header:registration'] = 'Vehicle Registration';
 
-
 /* Vehicle Edit. */
 $string['user_management:vehicle_edit'] = 'Edit Student Vehicle Record';
 
@@ -372,25 +357,20 @@ $string['user_management:vehicle_edit:vehicle:model'] = 'Model';
 $string['user_management:vehicle_edit:vehicle:color'] = 'Color';
 $string['user_management:vehicle_edit:vehicle:registration'] = 'Registration';
 
-
 /* Vehicle Notifications. */
 $string['user_management:vehicle:create:success'] = 'Vehicle Record Created Successfully';
 $string['user_management:vehicle:update:success'] = 'Vehicle Record Updated Successfully';
 $string['user_management:vehicle:delete:success'] = 'Vehicle Record Deleted Successfully';
 $string['user_management:vehicle:delete:failure'] = 'Vehicle Record Not Found for Deletion';
 
-
 /* Picture Import. */
 $string['user_management:picture_import'] = 'Import Student Pictures';
 $string['user_management:picture_import:clear:text'] = 'Select to Delete all Student Picture Records from the Database';
 $string['user_management:picture_import:pictures'] = 'Select Pictures to Import';
 
-
 /* Picture Notifications. */
 $string['user_management:picture_import:success'] = 'Student Pictures Imported Successfully';
 $string['user_management:picture_import:delete:success'] = 'Student Pictures Deleted Successfully';
-
-
 
 /*
  * ==================================
@@ -398,7 +378,6 @@ $string['user_management:picture_import:delete:success'] = 'Student Pictures Del
  * ==================================
  */
 $string['checkin'] = 'Check-In Sheets and Weekend Forms';
-
 
 /* Check-in Preferences. */
 $string['checkin:preferences'] = 'Check-In Sheets Preferences';
@@ -434,7 +413,6 @@ $string['checkin:preferences:text:closed_warning'] = 'Warning for a Closed Weeke
 // Notification.
 $string['checkin:preferences:update:success'] = 'Check-in Preferences Saved Successfully';
 
-
 /* Generic Check-in Sheet. */
 $string['checkin:generic_report'] = 'Check-In Sheet';
 $string['checkin:generic_report:title'] = '{$a}Check-In Sheet for __________';
@@ -445,7 +423,6 @@ $string['checkin:generic_report:header:dorm'] = 'Dorm';
 $string['checkin:generic_report:header:room'] = 'Room';
 $string['checkin:generic_report:header:grade'] = 'Grade';
 $string['checkin:generic_report:header:checkin'] = '';
-
 
 /* Weekday Check-in Sheet. */
 $string['checkin:weekday_report'] = 'Weekday Check-In Sheet';
@@ -458,7 +435,6 @@ $string['checkin:weekday_report:header:room'] = 'Room';
 $string['checkin:weekday_report:header:grade'] = 'Grade';
 $string['checkin:weekday_report:header:early'] = 'Early';
 $string['checkin:weekday_report:header:late'] = 'Late';
-
 
 /* Weekend Form. */
 $string['checkin:weekend_form'] = 'Weekend Form';
@@ -484,7 +460,6 @@ $string['checkin:weekend_form:error:no_phone'] = 'You must specify a phone numbe
 $string['checkin:weekend_form:success'] = 'Weekend Form Submitted Successfully';
 $string['checkin:weekend_form:delete:success'] = 'Weekend Form Record Deleted Successfully';
 $string['checkin:weekend_form:delete:failure'] = 'Weekend Form Record Not Found for Deletion';
-
 
 /* Weekend Check-in Sheet. */
 $string['checkin:weekend_report'] = 'Weekend Check-In Sheet';
@@ -515,14 +490,12 @@ $string['checkin:weekend_report:header:departurereturn'] = 'Departure<br>Return'
 // Cells.
 $string['checkin:weekend_report:cell:approve_button'] = 'Send Email';
 
-
 /* Weekend Comment Form. */
 $string['checkin:weekend_comment_form:comment'] = 'Comments';
 
 // Notifications.
 $string['checkin:weekend_comment_form:create:success'] = 'Weekend Comment Created Successfully';
 $string['checkin:weekend_comment_form:update:success'] = 'Weekend Comment Updated Successfully';
-
 
 /* Weekend Calculator. */
 $string['checkin:weekend_calculator'] = 'Weekend Calculator';
@@ -576,7 +549,6 @@ $string['checkin:attendance_report:attendance:0'] = 'Absent';
  */
 $string['advisor_selection'] = 'Advisor Selection';
 
-
 /* Advisor Selection Preferences. */
 $string['advisor_selection:preferences'] = 'Advisor Selection Preferences';
 
@@ -608,7 +580,6 @@ $string['advisor_selection:preferences:text:instructions'] = 'Changing Advisor I
 // Notification.
 $string['advisor_selection:preferences:update:success'] = 'Advisor Selection Preferences Saved Successfully';
 
-
 /* Faculty Report. */
 $string['advisor_selection:faculty_report'] = 'Faculty Report';
 
@@ -616,7 +587,6 @@ $string['advisor_selection:faculty_report'] = 'Faculty Report';
 $string['advisor_selection:faculty_report:header:name'] = 'Name';
 $string['advisor_selection:faculty_report:header:advisoryavailable'] = 'Advisory Available?';
 $string['advisor_selection:faculty_report:header:advisoryclosing'] = 'Advisory Closing?';
-
 
 /* Advisor Selection Form. */
 $string['advisor_selection:form'] = 'Advisor Selection Form';
@@ -647,7 +617,6 @@ $string['advisor_selection:form:error:incomplete'] = 'You must either select fiv
 // Notifications.
 $string['advisor_selection:form:success'] = 'Advisor Selection Form Submitted Successfully';
 
-
 /* Advisor Selection Report. */
 $string['advisor_selection:report'] = 'Advisor Selection Report';
 
@@ -671,15 +640,12 @@ $string['advisor_selection:report:header:option4'] = 'Choice 4';
 $string['advisor_selection:report:header:option5'] = 'Choice 5';
 $string['advisor_selection:report:header:selected'] = 'Chosen Advisor';
 
-
-
 /*
  * ========
  * Rooming.
  * ========
  */
 $string['rooming'] = 'Rooming';
-
 
 /* Rooming Preferecnes. */
 $string['rooming:preferences'] = 'Rooming Preferences';
@@ -704,7 +670,6 @@ $string['rooming:preferences:text:roommate_instructions'] = 'Instructions Regard
 
 // Notification.
 $string['rooming:preferences:update:success'] = 'Rooming Preferences Saved Successfully';
-
 
 /* Rooming Form. */
 $string['rooming:form'] = 'Rooming Requests Form';
@@ -733,7 +698,6 @@ $string['rooming:form:error:roommate'] = 'You must select a preferred roommate.'
 // Notifications.
 $string['rooming:form:success'] = 'Rooming Requests Form Submitted Successfully';
 
-
 /* Rooming Report. */
 $string['rooming:report'] = 'Rooming Requests Report';
 
@@ -759,15 +723,12 @@ $string['rooming:report:header:dormmates'] = 'Requested Dormmates';
 $string['rooming:report:header:liveddouble'] = 'Has Lived in a Double';
 $string['rooming:report:header:roommate'] = 'Preferred Roommate';
 
-
-
 /*
  * ================
  * Vacation Travel.
  * ================
  */
 $string['vacation_travel'] = 'Vacation Travel';
-
 
 /* Vacation Travel Preferences. */
 $string['vacation_travel:preferences'] = 'Vacation Travel Preferences';
@@ -776,6 +737,7 @@ $string['vacation_travel:preferences'] = 'Vacation Travel Preferences';
 $string['vacation_travel:preferences:availability'] = 'Availability';
 $string['vacation_travel:preferences:availability:start'] = 'Start Date';
 $string['vacation_travel:preferences:availability:stop'] = 'Stop Date';
+$string['vacation_travel:preferences:availability:departure_enabled:text'] = 'Check to Enable the Departure Portion of the Form and Reports.';
 $string['vacation_travel:preferences:availability:return_enabled:text'] = 'Check to Enable the Return Portion of the Form and Reports.';
 
 // Vacation Travel Email Notifications.
@@ -789,7 +751,6 @@ $string['vacation_travel:preferences:notifications:unsubmitted_body'] = 'Body fo
 
 // Notifcation.
 $string['vacation_travel:preferences:update:success'] = 'Vacation Travel Preferences Saved Successfully';
-
 
 /* Vacation Travel Site Report. */
 $string['vacation_travel:site_report'] = 'Site Report';
@@ -805,7 +766,6 @@ $string['vacation_travel:site_report:header:defaultdeparturetime'] = 'Default De
 $string['vacation_travel:site_report:header:returnenabled'] = 'Available for Return';
 $string['vacation_travel:site_report:header:defaultreturntime'] = 'Default Return Time';
 
-
 /* Vacation Travel Site Edit. */
 $string['vacation_travel:site_edit'] = 'Edit Site Record';
 
@@ -818,13 +778,11 @@ $string['vacation_travel:site_edit:site:default_departure_time'] = 'Default Depa
 $string['vacation_travel:site_edit:site:return_enabled'] = 'Available for Return';
 $string['vacation_travel:site_edit:site:default_return_time'] = 'Default Return Time';
 
-
 /* Vacation Travel Site Notifications. */
 $string['vacation_travel:site:create:success'] = 'Vacation Travel Site Record Created Successfully';
 $string['vacation_travel:site:update:success'] = 'Vacation Travel Site Record Updated Successfully';
 $string['vacation_travel:site:delete:success'] = 'Vacation Travel Site Record Deleted Successfully';
 $string['vacation_travel:site:delete:failure'] = 'Vacation Travel Site Record Not Found for Deletion';
-
 
 /* Vacation Travel Form. */
 $string['vacation_travel:form'] = 'Vacation Travel Form';
@@ -942,7 +900,6 @@ $string['vacation_travel:report:header:retdatetime'] = 'Return Date and Time';
 $string['vacation_travel:report:header:rettype'] = 'Return Type';
 $string['vacation_travel:report:header:retinfo'] = 'Return Details';
 
-
 /* Vacation Travel Transportation Report. */
 $string['vacation_travel:transportation_report'] = 'Transportation Report';
 $string['vacation_travel:transportation_report:title:departure'] = 'Departure Transportation Report';
@@ -1012,15 +969,15 @@ $string['deans_permission:form:title'] = 'Deans\' Permission Form for {$a}';
 $string['deans_permission:form:info'] = 'Information';
 $string['deans_permission:form:info:student'] = 'Student';
 $string['deans_permission:form:info:event'] = 'Event type';
-$string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? Is this recurring or single event? Where is the event (include city and state)?';
+$string['deans_permission:form:info:event_info'] = 'Event Information: What is the event you would like to attend? Where is the event (include city and state)?';
+$string['deans_permission:form:info:recurring'] = 'Is this a recurring event?';
+$string['deans_permission:form:info:times_away'] = 'Dates and Times you will be away:';
 $string['deans_permission:form:info:sport'] = 'What is your afternoon school athletic commitment (E.g. track, recfit)?';
 $string['deans_permission:form:info:missing_sports'] = 'Will you be missing a practice or a game?';
 $string['deans_permission:form:info:missing_studyhours'] = 'Will you be missing study hours?';
 $string['deans_permission:form:info:missing_class'] = 'Will you be missing classes?';
-$string['deans_permission:form:info:times_away'] = 'When will you be away? Please include specific dates and times.';
 // Notifications.
 $string['deans_permission:form:success'] = 'Deans\' Permission Form Submitted Successfully';
-
 
 /* Deans permission report */
 $string['deans_permission:report'] = 'Deans\' Permission Report';
@@ -1030,20 +987,22 @@ $string['deans_permission:report:title'] = 'Deans\' Permission Report';
 $string['deans_permission:report:header:student'] = 'Student';
 $string['deans_permission:report:header:event'] = 'Event Type';
 $string['deans_permission:report:header:event_info'] = 'Event Info';
+$string['deans_permission:report:header:recurring'] = 'Recurring Event?';
 $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
 $string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
-$string['deans_permission:report:header:studyhours_perm'] = 'Miss Study Hours';
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
-$string['deans_permission:report:header:comment'] = 'Comment';
-$string['deans_permission:report:header:dean_perm'] = 'Approved?';
+$string['deans_permission:report:header:internal_comment'] = 'Internal Comment';
+$string['deans_permission:report:header:external_comment'] = 'Message to Student';
+$string['deans_permission:report:header:status'] = 'Status?';
 $string['deans_permission:report:header:form_submitted'] = 'Submitted';
 
 // Filters.
-$string['deans_permission:report:approved:true'] = 'Approved';
-$string['deans_permission:report:approved:false'] = 'Under Review';
+$string['deans_permission:report:status:approved'] = 'Approved';
+$string['deans_permission:report:status:denied'] = 'Denied';
+$string['deans_permission:report:status:under_review'] = 'Under Review';
 $string['deans_permission:report:event:all'] = 'All Event Types';
 
 $string['deans_permission:report:delete:success'] = 'Record Deleted Succesfully';
@@ -1060,23 +1019,28 @@ $string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans
 $string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
 $string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
 $string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
-$string['deans_permission:preferences:sports_email'] = 'Sports Review Permission Request Email';
-$string['deans_permission:preferences:sports_email:sports_email_address'] = 'Athletic Director Email Address';
-$string['deans_permission:preferences:sports_email:sports_tags'] = 'Available tags for deans\' permission form sports review request email';
-$string['deans_permission:preferences:sports_email:sports_subject'] = 'Sports review request subject';
-$string['deans_permission:preferences:sports_email:sports_body'] = 'Sports review request body';
-$string['deans_permission:preferences:class_email'] = 'Class Review Permission Request Email';
-$string['deans_permission:preferences:class_email:class_email_address'] = 'Academic Director Email Address';
-$string['deans_permission:preferences:class_email:class_tags'] = 'Available tags for deans\' permission form class review request email';
-$string['deans_permission:preferences:class_email:class_subject'] = 'Class review request subject';
-$string['deans_permission:preferences:class_email:class_body'] = 'Class review request body';
+$string['deans_permission:preferences:review_email'] = 'Review Request Email';
+$string['deans_permission:preferences:review_email:athletic_director_email_address'] = 'Athletic Director Email Address';
+$string['deans_permission:preferences:review_email:academic_director_email_address'] = 'Academic Director Email Address';
+$string['deans_permission:preferences:review_email:review_tags'] = 'Available tags for deans\' permission form review request email';
+$string['deans_permission:preferences:review_email:review_subject'] = 'Review request subject';
+$string['deans_permission:preferences:review_email:review_body'] = 'Review request body';
+$string['deans_permission:preferences:notify_email'] = 'Healthcenter notification email';
+$string['deans_permission:preferences:notify_email:healthcenter_email_address'] = 'Healthcenter Email Address';
+$string['deans_permission:preferences:notify_email:notify_tags'] = 'Available tags for deans\' permission form healthcenter notification email';
+$string['deans_permission:preferences:notify_email:notify_subject'] = 'Healthcenter notification subject';
+$string['deans_permission:preferences:notify_email:notify_body'] = 'Healthcenter notification subject';
 $string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
 $string['deans_permission:preferences:approved_email:info'] = 'Note:';
-$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor
-												   of the student, and, if the student is missing study hours, that student\'s head of house.';
+$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor of the student, and, if the student is missing study hours, that student\'s head of house.';
 $string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
-$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved form email subject';
+$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved email subject';
 $string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
+$string['deans_permission:preferences:denied_email'] = 'Deans\' Permission Form Denied Email Notification';
+$string['deans_permission:preferences:denied_email:denied_tags'] = 'Available tags for deans\' permission form denied email';
+$string['deans_permission:preferences:denied_email:denied_subject'] = 'Deans\' permission form denied subject';
+$string['deans_permission:preferences:denied_email:denied_body'] = 'Deans\' permission form denied email body';
+
 $string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
 
 $string['deans_permission:preferences:add_event'] = 'New Event Type Option';
@@ -1132,7 +1096,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  /* Healthpass Report.  */
 
  // Report Headers.
- $string['healthpass:report'] = "Student COVIDpass Report";
+ $string['healthpass:report'] = "COVIDpass Report";
  $string['healthpass:report:header:userid'] = "Name";
  $string['healthpass:report:header:status'] = "Form Status";
  $string['healthpass:report:header:body_temperature'] = "Body Temperature";
@@ -1151,7 +1115,6 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:report:user_type:faculty'] = 'Faculty';
  $string['healthpass:report:user_type:staff'] = 'Staff';
 
-
  // Report Buttons.
  $string['healthpass:report:add'] = 'New COVIDpass Form';
  $string['healthpass:report:review_button'] = 'Review';
@@ -1161,7 +1124,6 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:report:overridden'] = 'Overridden';
  $string['healthpass:report:remind'] = 'Notify Unsubmitted';
  $string['healthpass:report:override_email_button'] = 'Notify';
-
 
  /* Healthpass Preferences.  */
 
@@ -1179,7 +1141,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthpass:preferences:preferences:max_body_temp'] = 'Highest allowable body temperature';
 
  $string['healthpass:preferences:healthcenter_notification:healthcenter_notification_enabled'] = 'Enable email notifications to the Health Center when a COVIDpass is denied';
- $string['healthpass:preferences:healthcenter_notification:healthcenter_email_address'] = 'Healthcenter email';
+ $string['healthpass:preferences:healthcenter_notification:healthpass_notification_email_address'] = 'Health Center email:';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_tags'] = 'Available tags for COVIDpass healthcenter notification email';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_subject'] = 'Healthcenter notification email subject';
  $string['healthpass:preferences:healthcenter_notification:healthcenter_body'] = 'Healthcenter notification email body';
@@ -1247,7 +1209,8 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:test_report:attended:absent'] = "Absent for Test";
  $string['healthtest:test_report:appointment'] = "Appointment Form";
  $string['healthtest:test_report:block_report'] = "COVIDtest Block Report";
- $string['healthtest:test_report:notify_missed'] = "Notify Today\'s Absentees";
+ $string['healthtest:test_report:audit_report'] = "COVIDtest Audit Report";
+ $string['healthtest:test_report:notify_missed'] = "Notify Today's Absentees";
  $string['healthtest:test_report:remind'] = 'Send Reminders for Tomorrow';
 
  /* Healthtest Appointment Form */
@@ -1284,6 +1247,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:preferences:reminder_notification:reminder_body'] = 'Reminder notification email body';
 
  $string['healthtest:preferences:missed_notification:missed_copy_healthcenter_enabled'] = 'Copy Healthcenter on missed test notification';
+ $string['healthtest:preferences:missed_notification:healthtest_notification_email_address'] = 'Wellness Center email';
  $string['healthtest:preferences:missed_notification:missed_tags'] = 'Available tags for test missed notification';
  $string['healthtest:preferences:missed_notification:missed_subject'] = 'Testing missed notification email subject';
  $string['healthtest:preferences:missed_notification:missed_body'] = 'Testing missed notification email body';
@@ -1312,6 +1276,7 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
  $string['healthtest:block_report:block:all'] = "All Blocks";
  $string['healthtest:block_report:appointment'] = "Appointment Form";
  $string['healthtest:block_report:test_report'] = "COVIDtest Report";
+ $string['healthtest:block_report:audit_report'] = "COVIDtest Audit Report";
  $string['healthtest:block_report:add'] = "Create a New COVIDtest Block";
 
  /* Healthtest Block Form */
@@ -1329,3 +1294,15 @@ $string['deans_permission:event_edit:info:event_name'] = 'Event Type Name';
 
  // Form Responses
  $string['healthtest:block_form:success'] = 'Testing Block Created Succesfully';
+
+ // Healthtest Audit Report
+ // Report headers
+ $string['healthtest:audit_report'] = "COVIDtest Audit Report";
+ $string['healthtest:audit_report:header:name'] = "Name";
+ $string['healthtest:audit_report:header:testing_cycle'] = "Testing Cycles";
+
+ // Report Filters and Buttons.
+ $string['healthtest:audit_report:testing_cycle:all'] = "All Testing Cycles";
+ $string['healthtest:audit_report:test_report'] = "COVIDtest Report";
+ $string['healthtest:audit_report:appointment'] = "Appointment Form";
+ $string['healthtest:audit_report:block_report'] = "COVIDtest Block Report";

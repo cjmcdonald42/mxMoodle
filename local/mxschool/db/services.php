@@ -120,5 +120,13 @@ $functions = array(
 	   'description' => 'Updates the given users healthform override status.',
 	   'type' => 'write',
 	   'ajax' => 'true'
+   ),
+    'local_mxschool_update_approve_deny_cell' => array(
+    'classname' => 'local_mxschool_external',
+    'methodname' => 'update_approve_deny_cell',
+    'classpath' => 'local/mxschool/externallib.php',
+    'description' => 'Updates an approve/deny cell',
+    'type' => 'write',
+    'ajax' => 'true'
     )
 );
