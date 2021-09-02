@@ -1351,6 +1351,19 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021080600, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2021090300) {
+
+	    // Define table local_mxschool_vt_trip to be dropped.
+        $table = new xmldb_table('local_mxschool_deans_perm');
+        $field = new xmldb_field('notify_hoh', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2021090300, 'local', 'mxschool');
+    }
+
   return true;
 
 }
