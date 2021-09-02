@@ -161,7 +161,7 @@ function get_permitted_passenger_list($userid = 0) {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
                                          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND u.id <> ? AND s.grade >= 11 AND p.may_ride_with_anyone <> 'No'
+         WHERE u.deleted = 0 AND u.id <> ? AND s.grade >= 11 AND p.may_drive_with_anyone <> 'No'
          ORDER BY name", array($userid)
     );
     return convert_student_records_to_list($students);
