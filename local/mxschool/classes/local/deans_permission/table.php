@@ -60,7 +60,7 @@ class table extends \local_mxschool\table {
         $fields = array(
 		   'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status', 'dpe.name AS event', 'dp.event_info', 'dp.recurring',
 		   'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours', 'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.class_perm',
-		   'dp.internal_comment', 'dp.external_comment', 'dp.status', 'dp.form_submitted', 'dp.notify_hoh'
+		   'dp.internal_comment', 'dp.external_comment', 'dp.status', 'dp.form_submitted'
         );
         $from = array(
 		   '{local_mxschool_deans_perm} dp', '{user} u ON dp.userid = u.id', '{local_mxschool_student} su ON dp.userid = su.userid',
