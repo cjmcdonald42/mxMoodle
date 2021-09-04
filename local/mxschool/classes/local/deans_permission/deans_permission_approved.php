@@ -51,10 +51,5 @@ class deans_permission_approved extends deans_permission_notification {
 				$this->recipients, $DB->get_record('user', array('id' => get_student_hoh_id($userid)))
 			);
 		}
-        if($DB->get_field('local_mxschool_deans_perm', 'notify_hoh', array('userid' => $userid))) {
-			array_push(
-				$this->recipients, $DB->get_record('user', array('id' => get_student_hoh_id($userid)))
-			);
-		}
-}
+    }
 }
