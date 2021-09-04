@@ -992,6 +992,7 @@ $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
 $string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
+$string['deans_permission:report:header:missing_studyhours'] = 'Missing Study Hours?';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
 $string['deans_permission:report:header:internal_comment'] = 'Internal Comment';
