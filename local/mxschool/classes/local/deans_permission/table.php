@@ -172,8 +172,5 @@ class table extends \local_mxschool\table {
 	   if(!isset($values->id)) return '';
     	   global $PAGE;
 	   $output = $PAGE->get_renderer('local_mxschool');
-       $renderable = new checkbox($values->id, 'local_mxschool_deans_perm', 'notify_hoh', $values->notify_hoh);
-	   return $output->render($renderable).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
-	    						  $this->delete_icon($values->id);
     }
 }
