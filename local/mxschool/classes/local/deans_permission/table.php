@@ -55,6 +55,7 @@ class table extends \local_mxschool\table {
         $sortable = array('form_submitted', 'student', 'recurring');
         $centered = array('event', 'recurring', 'sport', 'missing_studyhours', 'parent_perm', 'sports_perm', 'class_perm',
             'internal_comment', 'external_comment', 'status', 'form_submitted');
+      
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
 
         $fields = array(
@@ -112,6 +113,14 @@ class table extends \local_mxschool\table {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new checkbox($values->id, 'local_mxschool_deans_perm', 'missing_studyhours', $values->missing_studyhours);
+        return $output->render($renderable);
+    }
+
+    protected function col_missing_studyhours($values) {
+        if($this->is_downloading()) return format_boolean($values->missing_studyhours);
+        global $PAGE;
+        $output = $PAGE->get_renderer('local_mxschool');
+        $renderable = new checkbox($values->id, 'local_mxschool_deans_perm', 'missing_studyhours', $values->parent_perm);
         return $output->render($renderable);
     }
 

@@ -18,10 +18,8 @@
  * Local library functions for Middlesex's eSignout Subplugin.
  *
  * @package     local_signout
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -161,7 +159,7 @@ function get_permitted_passenger_list($userid = 0) {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
                                          LEFT JOIN {local_mxschool_permissions} p ON s.userid = p.userid
-         WHERE u.deleted = 0 AND u.id <> ? AND s.grade >= 11 AND p.may_ride_with_anyone <> 'No'
+         WHERE u.deleted = 0 AND u.id <> ? AND s.grade >= 11 AND p.may_drive_with_anyone <> 'No'
          ORDER BY name", array($userid)
     );
     return convert_student_records_to_list($students);
