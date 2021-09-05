@@ -51,5 +51,5 @@ class deans_permission_approved extends deans_permission_notification {
 				$this->recipients, $DB->get_record('user', array('id' => get_student_hoh_id($userid)))
 			);
 		}
-}
+    }
 }
