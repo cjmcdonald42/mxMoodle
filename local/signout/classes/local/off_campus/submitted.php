@@ -19,9 +19,8 @@
  *
  * @package     local_signout
  * @subpackage  off_campus
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -45,8 +44,8 @@ class submitted extends \local_mxschool\notification {
                 "SELECT u.id as student, oc.approverid AS approver, d.hohid AS hoh, oc.typeid,
                         t.required_permissions AS permissions, t.name AS type, t.email_warning AS warning, oc.other, oc.passengers,
                         dr.userid as driver, oc.destination, oc.departure_time AS departuretime, oc.time_modified AS timesubmitted,
-                        p.may_drive_passengers AS driverpermission, p.may_ride_with AS passengerpermission,
-                        p.specific_drivers AS specificdrivers, p.may_use_rideshare AS ridesharepermission
+                        p.may_drive_passengers AS driverpermission, p.may_drive_with_anyone AS passengerwithanyone,
+                        p.may_drive_with_over_21 AS passengerwithadult, p.may_use_rideshare AS ridesharepermission
                  FROM {local_signout_off_campus} oc LEFT JOIN {user} u ON oc.userid = u.id
                                                     LEFT JOIN {local_mxschool_student} s ON u.id = s.userid
                                                     LEFT JOIN {local_mxschool_dorm} d ON s.dormid = d.id
@@ -76,18 +75,22 @@ class submitted extends \local_mxschool\notification {
                             );
                         }
                         break;
+
+                // TODO I've changed permissions to these four possible scenarios in line with the new
+                // Magnus Permissions
                     case 'passenger':
-                        if (empty($record->passengerpermission) || $record->passengerpermission === 'Over 21') {
+                        if (empty($record->passengerwithadult) || $record->passengerwithadult === 'No') {
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
                             $irregular = true; // Should never happen.
-                        } else if ($record->passengerpermission === 'Specific Drivers') {
-                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_specific')
-                                . " {$record->specificdrivers}";
-                            $irregular = true;
-                        } else if ($record->passengerpermission === 'Parent Permission') {
+                        } else if ($record->passengerwithadult === 'Parent' || $record->passengerwithanyone === 'Parent') {
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
+                            $irregular = true;
+                        } else if (empty($record->passengerwithanyone) || $record->passengerwithanyone === 'No') {
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
+                            $irregular = true;
                         }
                         break;
+
                     case 'rideshare':
                         if (empty($record->ridesharepermission) || $record->ridesharepermission === 'No') {
                             $permissionswarning = get_config(
@@ -99,29 +102,24 @@ class submitted extends \local_mxschool\notification {
                         }
                         break;
                 }
+
             } else if (isset($record->warning)) {
                 $permissionswarning = $record->warning;
             } else if ($record->typeid == -1) { // For 'other' types include both the passenger and the rideshare warnings.
                 $passengerwarning = get_string('off_campus:notification:warning:default', 'local_signout');
-                if (empty($record->passengerpermission) || $record->passengerpermission === 'Over 21') {
+                if (empty($record->passengerwithadult) || $record->passengerwithadult === 'No') {
                     $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
-                } else if ($record->passengerpermission === 'Specific Drivers') {
-                    $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_specific')
-                        . " {$record->specificdrivers}";
-                } else if ($record->passengerpermission === 'Parent Permission') {
+                } else if ($record->passengerwithadult === 'Parent') {
                     $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
                 }
                 $ridesharewarning = get_string('off_campus:notification:warning:default', 'local_signout');
                 if (empty($record->ridesharepermission) || $record->ridesharepermission === 'No') {
-                    $ridesharewarning = get_config(
-                        'local_signout', 'off_campus_notification_warning_rideshare_notallowed'
-                    );
+                    $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_notallowed');
                 } else if ($record->ridesharepermission === 'Parent') {
                     $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_parent');
                 }
-                $permissionswarning = get_string('off_campus:notification:warning:other', 'local_signout', array(
-                    'passengerwarning' => $passengerwarning, 'ridesharewarning' => $ridesharewarning
-                ));
+                $permissionswarning = get_string('off_campus:notification:warning:other', 'local_signout',
+                    array('passengerwarning' => $passengerwarning, 'ridesharewarning' => $ridesharewarning ));
                 $irregular = true;
             }
 
