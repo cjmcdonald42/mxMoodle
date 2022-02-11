@@ -72,10 +72,8 @@ Our code goes in the /local and /blocks directories. Please _copy_ (hold option 
 
 ## Moodle Development Plugins
 From the Moodle Plugin Library, you should download these plugins:
-### Code-Checker
-[Code-Checker](https://moodle.org/plugins/local_codechecker) is a PHP Code Sniffer tool to check that code follows the [Moodle coding style](https://docs.moodle.org/dev/Coding_style).
-### Moodle PHPdoc check
-[Moodle PHPdoc check](https://moodle.org/plugins/local_moodlecheck) Tool for Moodle developers that allows one to check phpdocs in the code for compliance with [Moodle Coding Style](https://docs.moodle.org/dev/Coding_style).
+- [Code-Checker](https://moodle.org/plugins/local_codechecker) is a PHP Code Sniffer tool to check that code follows the [Moodle coding style](https://docs.moodle.org/dev/Coding_style).
+- [Moodle PHPdoc check](https://moodle.org/plugins/local_moodlecheck) Tool for Moodle developers that allows one to check phpdocs in the code for compliance with [Moodle Coding Style](https://docs.moodle.org/dev/Coding_style).
 
 ## Installing Testing User Data
 With your Moodle installation up and running, and your plugins installed, you are ready to add data. Our current shared folder has a set of CSV files that mirror the data on the Moodle Development Server and is a good place to start.
