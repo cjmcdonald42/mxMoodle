@@ -59,6 +59,9 @@ Once the config script finishes, you will be on the Moodle Dashboard and we reco
 
 Now log out and log back in. You should land on your dashboard when you log in, and if you updated the appearance settings successfully, your theme color should be the Middlesex red. Our team development server uses the default blue colour to distinguish it from the live Production server.
 
+## Adding Development Plugins
+From the Moodle Plugins database, download Code-Checker and Moodle PHPdoc check. Unzip these two zip files into the local folder of your Moodle directory.
+
 ## Adding mxMoodle Plugins
 With your server configured and running, you are ready to add our custom plugins. Clone our mxMoodle repository to a location on your computer. This location should be somewhere within your user directory and _not_ within the MAMP installation. Also, we advise against cloning it to a folder that synchronizes with Google Drive or other cloud storage to avoid extraneous files being added.
 
