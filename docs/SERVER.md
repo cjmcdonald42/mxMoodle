@@ -70,12 +70,17 @@ Now copy our plugins into your installation. We will automate this process later
 Our code goes in the /local and /blocks directories. Please _copy_ (hold option while dragging in Finder) everything from MXMoodle/local to your installation's /local directory. Do the same from MXMoodle/blocks to /blocks.
 **When you are doing this be sure to copy the _contents_ of each directory not the entire directory itself, because you don't want to overwrite any of the existing plugins in your Moodle installation.**
 
-While you are adding our plugins, you should also take a moment to add Moodle's `code checker` plugin which will be useful during development. All you need to do is download the plugin [here](https://github.com/moodlehq/moodle-local_codechecker/zipball/master) then move the entire directory into the same /local directory of your server and rename the directory to `codechecker`.
-
-Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes.
+## Moodle Development Plugins
+From the Moodle Plugin Library, you should download these plugins:
+### Code-Checker
+[Code-Checker](https://moodle.org/plugins/local_codechecker) is a PHP Code Sniffer tool to check that code follows the [Moodle coding style](https://docs.moodle.org/dev/Coding_style).
+### Moodle PHPdoc check
+[Moodle PHPdoc check](https://moodle.org/plugins/local_moodlecheck) Tool for Moodle developers that allows one to check phpdocs in the code for compliance with [Moodle Coding Style](https://docs.moodle.org/dev/Coding_style).
 
 ## Installing Testing User Data
 With your Moodle installation up and running, and your plugins installed, you are ready to add data. Our current shared folder has a set of CSV files that mirror the data on the Moodle Development Server and is a good place to start.
+
+Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes.
 
 The first table contains the basic user data, such as the user's First name, Last name, username and password. This step has to happen through the Site Administration interface. Navigate to `Site administration` > `Users` > `Accounts` > `Upload users` and choose the CSV from your computer. Then select the following options:
 - `Settings` > `New user password`: select `Field required in file`
