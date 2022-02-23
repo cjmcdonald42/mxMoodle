@@ -105,6 +105,7 @@ class submitted extends \local_mxschool\notification {
                         }
                         break;
                 }
+
             } else if (isset($record->warning)) {
                 $permissionswarning = $record->warning;
             } else if ($record->typeid == -1) { // For 'other' types include both the passenger and the rideshare warnings.
@@ -119,15 +120,12 @@ class submitted extends \local_mxschool\notification {
                 }
                 $ridesharewarning = get_string('off_campus:notification:warning:default', 'local_signout');
                 if (empty($record->ridesharepermission) || $record->ridesharepermission === 'No') {
-                    $ridesharewarning = get_config(
-                        'local_signout', 'off_campus_notification_warning_rideshare_notallowed'
-                    );
+                    $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_notallowed');
                 } else if ($record->ridesharepermission === 'Parent') {
                     $ridesharewarning = get_config('local_signout', 'off_campus_notification_warning_rideshare_parent');
                 }
-                $permissionswarning = get_string('off_campus:notification:warning:other', 'local_signout', array(
-                    'passengerwarning' => $passengerwarning, 'ridesharewarning' => $ridesharewarning
-                ));
+                $permissionswarning = get_string('off_campus:notification:warning:other', 'local_signout',
+                    array('passengerwarning' => $passengerwarning, 'ridesharewarning' => $ridesharewarning ));
                 $irregular = true;
             }
 

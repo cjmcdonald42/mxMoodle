@@ -55,22 +55,22 @@ $form->set_data($data);
 if ($form->is_cancelled()) { // If the cancel button is pressed...
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
-	if(!isset($data->healthpass_enabled)) $data->healthpass_enabled = '0';
-	if(!isset($data->healthcenter_notification_enabled)) $data->healthcenter_notification_enabled = '0';
-	if(!isset($data->one_per_day)) $data->one_per_day = '0';
-	// Set configs according to preferences form data
-	set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
-	set_config('healthpass_max_body_temp', $data->max_body_temp, 'local_mxschool');
-	set_config('healthcenter_notification_enabled', $data->healthcenter_notification_enabled, 'local_mxschool');
-	set_config('healthpass_notification_email_address', $data->healthpass_notification_email_address, 'local_mxschool');
-	set_config('healthpass_days_before_reminder', $data->days_before_reminder, 'local_mxschool');
-	set_config('healthpass_one_per_day', $data->one_per_day, 'local_mxschool');
-     update_notification('healthcenter_notification', $data, 'healthcenter');
-	update_notification('healthpass_approved', $data, 'approved');
-     update_notification('healthpass_denied', $data, 'denied');
-	update_notification('healthpass_overridden', $data, 'overridden');
-	update_notification('healthpass_notify_unsubmitted', $data, 'unsubmitted');
-     logged_redirect($form->get_redirect(), get_string('healthpass:preferences:success', 'local_mxschool'), 'update');
+    if(!isset($data->healthpass_enabled)) $data->healthpass_enabled = '0';
+    if(!isset($data->healthcenter_notification_enabled)) $data->healthcenter_notification_enabled = '0';
+    if(!isset($data->one_per_day)) $data->one_per_day = '0';
+    // Set configs according to preferences form data
+    set_config('healthpass_enabled', $data->healthpass_enabled, 'local_mxschool');
+    set_config('healthpass_max_body_temp', $data->max_body_temp, 'local_mxschool');
+    set_config('healthcenter_notification_enabled', $data->healthcenter_notification_enabled, 'local_mxschool');
+    set_config('healthpass_notification_email_address', $data->healthpass_notification_email_address, 'local_mxschool');
+    set_config('healthpass_days_before_reminder', $data->days_before_reminder, 'local_mxschool');
+    set_config('healthpass_one_per_day', $data->one_per_day, 'local_mxschool');
+    update_notification('healthcenter_notification', $data, 'healthcenter');
+    update_notification('healthpass_approved', $data, 'approved');
+    update_notification('healthpass_denied', $data, 'denied');
+    update_notification('healthpass_overridden', $data, 'overridden');
+    update_notification('healthpass_notify_unsubmitted', $data, 'unsubmitted');
+    logged_redirect($form->get_redirect(), get_string('healthpass:preferences:success', 'local_mxschool'), 'update');
 }
 
 // Output form onto page
