@@ -47,8 +47,9 @@ class block_mxschool_dash_faculty extends block_base {
 			  get_string('student_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/student_report.php',
 			  get_string('vehicle_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/vehicle_report.php',
 			  get_string('duty_report', 'block_mxschool_dash_faculty') => '/local/signout/on_campus/duty_report.php',
-			  get_string('attendance_report', 'block_mxschool_dash_faculty') => '/local/mxschool/checkin/attendance_report.php'
-		  );
+			  get_string('attendance_report', 'block_mxschool_dash_faculty') => '/local/mxschool/checkin/attendance_report.php',
+              get_string('report', 'block_mxschool_manage_tutoring') => '/local/peertutoring/report.php'
+		 );
 		  if(has_capability('local/mxschool:manage_deans_permission', context_system::instance())) {
 			  $links[get_string('deans_permission_report', 'block_mxschool_dash_faculty')] = '/local/mxschool/deans_permission/report.php';
 		  }
