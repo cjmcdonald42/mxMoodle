@@ -1,1 +1,4 @@
 .DS_Store
+admin/
+local/codechecker/
+local/moodlecheck/
