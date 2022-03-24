@@ -239,6 +239,7 @@ $string['report'] = 'Peer Tutoring Report';
 
 // Filter.
 $string['report:select_tutor:all'] = 'All Tutors';
+$string['report:select_advisor:all'] = 'All Advisors';
 $string['report:select_department:all'] = 'All Departments';
 $string['report:select_type:all'] = 'All Types';
 $string['report:select_type:other'] = 'Other';

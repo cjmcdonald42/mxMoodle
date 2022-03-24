@@ -15,22 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Peer Tutoring Subplugin.
+ * English language strings for Middlesex's Dashboard Block for Faculty.
  *
- * @package    local_peertutoring
+ * @package    block_mxschool_dash_faculty
  * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Advisor Dashboard Block';
+$string['blockname'] = 'Middlesex Advisors';
 
-$plugin->component = 'local_peertutoring';
-$plugin->version = 20190901113;
-$plugin->release = 'v3.1';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'local_mxschool' => 2019081400 // MXSchool v3.1.
-);
+// Capabilities.
+$string['mxschool_dash_advisor:addinstance'] = 'Middlesex School: Add Advisor Dashboard Block';
+$string['mxschool_dash_advisor:myaddinstance'] = 'Middlesex School: Add Advisor Dashboard Block to Dashboard';
+$string['mxschool_dash_advisor:access'] = 'Middlesex School: Access Advisor Dashboard Block';
+
+// Privacy.
+$string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
+
+// Links.
+$string['student_report'] = 'Student Data Report';
+$string['vehicle_report'] = 'Student Vehicles Report';
+$string['duty_report'] = 'On-Campus Duty Report';
+$string['deans_permission_report'] = 'Deans\' Permission Report';
+$string['deans_permission_preferences'] = 'Deans\' Permission Preferences';
+$string['attendance_report'] = 'Student Attendance Report';

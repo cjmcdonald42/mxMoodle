@@ -52,7 +52,7 @@ class combined_table extends \local_mxschool\table {
         parent::__construct('combined_table', $columns, $headers, $sortable, $centered, $filter, !$isproctor);
 
         $fields = array(
-            's.id', 's.userid', 'onc.id AS onid', 'offc.id AS offid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.grade',
+            's.id', 's.userid', 'onc.id AS onid', 'offc.id AS offid', "CONCAT(u.lastname, ', ', u.firstname) AS student", "CONCAT(ua.lastname, ', ', ua.firstname) AS advisor", 's.grade',
             's.dormid', 'l.name AS location', 'onc.other', 'offc.destination',
             "CASE
                 WHEN onc.id IS NOT NULL AND (offc.id IS NULL OR onc.time_created > offc.time_created) THEN 'on_campus'
@@ -67,7 +67,7 @@ class combined_table extends \local_mxschool\table {
         );
         $starttime = generate_datetime('midnight')->getTimestamp();
         $from = array(
-            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
+            '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{user} ua ON s.advisorid = ua.id', '{local_mxschool_dorm} d ON s.dormid = d.id',
             "{local_signout_on_campus} onc ON onc.id = (
                 SELECT oc.id
                 FROM {local_signout_on_campus} oc LEFT JOIN {local_signout_location} l ON oc.locationid = l.id
@@ -92,6 +92,9 @@ class combined_table extends \local_mxschool\table {
         $where = array('u.deleted = 0');
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
+        }
+        if ($filter->advisor) {
+            $where[] = "ua.id = {$filter->advisor}";
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'l.name', 'onc.other', 'offc.destination');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
