@@ -32,6 +32,7 @@ require_login();
 require_capability('local/mxschool:manage_students', context_system::instance());
 
 $filter = new stdClass();
+$filter->advisor = get_param_faculty_advisor();
 $filter->type = optional_param('type', 'students', PARAM_RAW);
 $filter->dorm = get_param_faculty_dorm();
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -58,9 +59,12 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
         'delete', $result === 'success'
     );
 }
-
+$advisors = get_advisor_list();
 $table = new local_mxschool\local\user_management\student_table($filter);
 $dropdowns = array(
+    new local_mxschool\output\dropdown(
+        'advisor', $advisors, $filter->advisor, get_string('report:select_advisor:all', 'local_mxschool')
+    ),
     new local_mxschool\output\dropdown('type', $types, $filter->type), local_mxschool\output\dropdown::dorm_dropdown($filter->dorm)
 );
 $buttons = $filter->type === 'parents' ? $buttons = array(new local_mxschool\output\redirect_button(

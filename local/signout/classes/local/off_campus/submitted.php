@@ -82,10 +82,13 @@ class submitted extends \local_mxschool\notification {
                         if (empty($record->passengerwithadult) || $record->passengerwithadult === 'No') {
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
                             $irregular = true; // Should never happen.
-                        } else if ($record->passengerwithadult === 'Parent' || $record->passengerwithanyone === 'Parent') {
+                        } else if ($record->passengerwithadult === 'Parent') {
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
                             $irregular = true;
                         } else if (empty($record->passengerwithanyone) || $record->passengerwithanyone === 'No') {
+                            $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
+                            $irregular = true;
+                        } else if ($record->passengerwithanyone === 'Parent') {
                             $permissionswarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
                             $irregular = true;
                         }
@@ -107,8 +110,11 @@ class submitted extends \local_mxschool\notification {
                 $permissionswarning = $record->warning;
             } else if ($record->typeid == -1) { // For 'other' types include both the passenger and the rideshare warnings.
                 $passengerwarning = get_string('off_campus:notification:warning:default', 'local_signout');
-                if (empty($record->passengerwithadult) || $record->passengerwithadult === 'No') {
+                if (empty($record->passengerwithadult) || $record->passengerwithadult === 'Yes') {
                     $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_over21');
+                } else if ($record->passengerwithanyone === 'No') {
+                    // TODO this case is no longer used - basically made No and Parent flag the permission warning
+                    $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_specific');
                 } else if ($record->passengerwithadult === 'Parent') {
                     $passengerwarning = get_config('local_signout', 'off_campus_notification_warning_passenger_parent');
                 }

@@ -1,4 +1,4 @@
 .DS_Store
-admin/
-local/codechecker/
-local/moodlecheck/
+/admin/tools/pluginskel/
+/local/codechecker/
+/local/moodlecheck/

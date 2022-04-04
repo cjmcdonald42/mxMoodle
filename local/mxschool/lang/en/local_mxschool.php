@@ -154,6 +154,8 @@ $string['user_management:student_report:type:students'] = 'Student Report';
 $string['user_management:student_report:type:permissions'] = 'Permissions Report';
 $string['user_management:student_report:type:parents'] = 'Parent Report';
 $string['user_management:student_report:add_parent'] = 'New Parent';
+$string['report:select_advisor:all'] = 'All Advisors';
+
 
 // Students headers.
 $string['user_management:student_report:students:header:student'] = 'Name';

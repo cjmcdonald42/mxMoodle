@@ -32,6 +32,7 @@ require_capability('local/peertutoring:manage_tutoring', context_system::instanc
 
 $filter = new stdClass();
 $filter->tutor = optional_param('tutor', 0, PARAM_INT);
+$filter->advisor = get_param_faculty_advisor();
 $filter->department = optional_param('department', 0, PARAM_INT);
 $filter->type = optional_param('type', 0, PARAM_INT);
 $filter->date = optional_param('date', 0, PARAM_INT);
@@ -56,6 +57,7 @@ if ($action === 'delete' && $id) {
     );
 }
 
+$advisors = get_advisor_list();
 $tutors = get_tutor_list();
 $departments = get_department_list();
 $dates = get_tutoring_date_list();
@@ -64,6 +66,9 @@ $table = new local_peertutoring\local\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\output\dropdown(
         'date', $dates, $filter->date, get_string('report:select_date:all', 'local_peertutoring')
+    ),
+    new local_mxschool\output\dropdown(
+        'advisor', $advisors, $filter->advisor, get_string('report:select_advisor:all', 'local_peertutoring')
     ),
     new local_mxschool\output\dropdown(
         'tutor', $tutors, $filter->tutor, get_string('report:select_tutor:all', 'local_peertutoring')

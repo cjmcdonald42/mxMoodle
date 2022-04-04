@@ -702,6 +702,21 @@ function get_param_faculty_dorm($includeday = true) {
     return $DB->get_field('local_mxschool_faculty', 'dormid', array('userid' => $USER->id)) ?: '';
 }
 
+function get_param_faculty_advisor() {
+    global $DB, $USER;
+    if (isset($_GET['advisor']) && (is_numeric($_GET['advisor']) || empty($_GET['advisor']))) {
+        $advisor = $_GET['advisor']; // The value is now safe to use.
+        // An empty parameter indicates that search has taken place with the all option selected.
+        // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
+        if (empty($advisor) || isset(get_advisor_list()[$advisor])) {
+            return $advisor;
+        }
+    }
+    return $DB->get_field('local_mxschool_student', 'advisorid', array('advisorid' => $USER->id)) ?: '';
+}
+
+
+
 /**
  * Determines the date to be selected.
  *
@@ -1849,4 +1864,16 @@ function local_mx_get_testing_cycles($userid) {
             }
         }
     return $testing_cycles;
+}
+
+
+function get_advisor_list(){
+    global $DB;
+    $advisors = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_student} a LEFT JOIN {user} u ON a.advisorid = u.id
+         WHERE u.deleted = 0
+         ORDER BY name"
+    );
+    return convert_student_records_to_list($advisors);
 }
