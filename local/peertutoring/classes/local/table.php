@@ -66,11 +66,13 @@ class table extends \local_mxschool\table {
 
         $fields = array(
             's.id', 's.tutorid', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 's.studentid',
-            "CONCAT(su.lastname, ', ', su.firstname) AS student", 's.tutoring_date AS tutoringdate', 'd.name AS department',
+            "CONCAT(su.lastname, ', ', su.firstname) AS student", "CONCAT(ua.lastname, ', ', ua.firstname) AS advisor", 's.tutoring_date AS tutoringdate', 'd.name AS department',
             'c.name AS course', 's.topic', 'ty.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
         );
         $from = array(
             '{local_peertutoring_session} s', '{user} tu ON s.tutorid = tu.id', '{user} su ON s.studentid = su.id',
+            '{local_mxschool_student} sa ON s.studentid = sa.userid',
+            '{user} ua ON sa.advisorid = ua.id',
             '{local_peertutoring_tutor} t ON s.tutorid = t.userid', '{local_peertutoring_course} c ON s.courseid = c.id',
             '{local_peertutoring_dept} d ON c.departmentid = d.id', '{local_peertutoring_type} ty ON s.typeid = ty.id',
             '{local_peertutoring_rating} r ON s.ratingid = r.id'
@@ -81,6 +83,9 @@ class table extends \local_mxschool\table {
         );
         if ($filter->tutor) {
             $where[] = "tu.id = {$filter->tutor}";
+        }
+        if ($filter->advisor) {
+            $where[] = "ua.id = {$filter->advisor}";
         }
         if ($filter->department) {
             $where[] = "s.departmentid = {$filter->department}";

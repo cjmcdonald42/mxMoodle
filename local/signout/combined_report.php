@@ -39,6 +39,7 @@ if ($isproctor) {
 $filter = new stdClass();
 $filter->dorm = $isproctor ? $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $USER->id))
     : get_param_faculty_dorm();
+$filter->advisor = get_param_faculty_advisor();
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
@@ -60,13 +61,18 @@ if ($action === 'delete' && $id && $table) {
     $DB->set_field("local_signout_{$table}", 'deleted', 1, array('id' => $id));
     logged_redirect($redirect, get_string("{$table}:delete:{$result}", 'local_signout'), 'delete', $result === 'success');
 }
-
+$advisors = get_advisor_list();
 $table = new local_signout\local\combined_table($filter, $isproctor);
 if ($isproctor) {
     $dropdowns = array();
     $buttons = array();
 } else {
-    $dropdowns = array(\local_mxschool\output\dropdown::dorm_dropdown($filter->dorm));
+    $dropdowns = array(
+        new local_mxschool\output\dropdown(
+        'advisor', $advisors, $filter->advisor, get_string('report:select_advisor:all', 'local_mxschool')
+    ),
+        local_mxschool\output\dropdown::dorm_dropdown($filter->dorm)
+    );
     $buttons = array(
         new local_mxschool\output\redirect_button(
             get_string('on_campus:report:add', 'local_signout'), new moodle_url('/local/signout/on_campus/form.php')

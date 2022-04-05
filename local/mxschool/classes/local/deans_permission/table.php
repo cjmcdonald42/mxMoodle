@@ -59,7 +59,7 @@ class table extends \local_mxschool\table {
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
 
         $fields = array(
-            'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 'su.grade', 'su.boarding_status',
+            'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", "CONCAT(ua.lastname, ', ', ua.firstname) AS advisor", 'su.grade', 'su.boarding_status',
             'dpe.name AS event', 'dp.event_info', 'dp.recurring', 'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours',
             'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.class_perm','dp.internal_comment',
             'dp.external_comment', 'dp.status', 'dp.form_submitted'
@@ -67,14 +67,18 @@ class table extends \local_mxschool\table {
         $from = array(
             '{local_mxschool_deans_perm} dp', '{user} u ON dp.userid = u.id',
             '{local_mxschool_student} su ON dp.userid = su.userid',
+            '{user} ua ON su.advisorid = ua.id',
             '{local_mxschool_dp_event} dpe ON dp.event_id = dpe.id'
         );
         $where = array('u.deleted = 0');
+        if ($filter->advisor) {
+            $where[] = "ua.id = {$filter->advisor}";
+        }
         if($filter->status == 'approved') $where[] = 'dp.status = 1';
         else if($filter->status == 'denied') $where[] = 'dp.status = 2';
         else if($filter->status == 'under_review') $where[] = 'dp.status = 0';
         if($filter->event) $where[] = "dpe.id = {$filter->event}";
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport', 'au.lastname', 'au.firstname');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 

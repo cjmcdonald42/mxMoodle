@@ -45,6 +45,9 @@ class student_table extends \local_mxschool\table {
         switch ($filter->type) {
             case 'students':
                 $columns = array('student', 'grade', 'advisor', 'dorm', 'room', 'phone', 'birthday');
+                if ($filter->advisor) {
+                    unset($columns[array_search('advisor', $columns)]);
+                }
                 if ($filter->dorm > 0) {
                     unset($columns[array_search('dorm', $columns)]);
                     if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
@@ -85,13 +88,16 @@ class student_table extends \local_mxschool\table {
         $headers = $this->generate_headers($columns, "user_management:student_report:{$filter->type}");
         parent::__construct('student_table', $columns, $headers, $sortable, $centered, $filter);
 
-        $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student");
-        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
-        $where = array('u.deleted = 0');
+        $fields = array('s.userid', 's.advisorid', "CONCAT(u.lastname, ', ', u.firstname) AS student", "CONCAT(au.lastname, ', ', au.firstname) AS advisor");
+        $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{user} au ON s.advisorid = au.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
+        $where = array('u.deleted = 0', 'au.deleted=0');
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
         }
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
+        if ($filter->advisor) {
+            $where[] = "au.id = {$filter->advisor}";
+        }
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'au.lastname', 'au.firstname');
         switch ($filter->type) {
             case 'students':
                 array_unshift($fields, 's.id');

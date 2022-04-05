@@ -32,6 +32,7 @@ require_login();
 require_capability('local/mxschool:manage_deans_permission', context_system::instance());
 
 $filter = new stdClass();
+$filter->advisor = get_param_faculty_advisor();
 $filter->status = optional_param('status', '', PARAM_RAW);
 $filter->event = optional_param('event', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
@@ -49,7 +50,7 @@ if ($action === 'delete' && $id) {
         $redirect, get_string("deans_permission:report:delete:{$result}", 'local_mxschool'), 'delete', $result === 'success'
     );
 }
-
+$advisors = get_advisor_list();
 $statusoptions = array(
     'approved' => get_string('deans_permission:report:status:approved', 'local_mxschool'),
     'denied' => get_string('deans_permission:report:status:denied', 'local_mxschool'),
@@ -59,6 +60,9 @@ $eventoptions = get_dp_events_list();
 
 $table = new local_mxschool\local\deans_permission\table($filter, $download);
 $dropdowns = array(
+    new local_mxschool\output\dropdown(
+        'advisor', $advisors, $filter->advisor, get_string('report:select_advisor:all', 'local_mxschool')
+    ),
     new local_mxschool\output\dropdown(
         'status', $statusoptions, $filter->status, get_string('dropdown:default', 'local_mxschool')
     ),

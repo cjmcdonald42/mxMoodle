@@ -15,22 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's eSignout Subplugin.
+ * Provider for Middlesex's Dashboard Block for Faculty.
  *
- * @package     local_signout
+ * @package     block_mxschool_dash_faculty
  * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
  * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
  * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mxschool_dash_faculty\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_signout';
-$plugin->version = 2021090500;
-$plugin->release = 'v3.1';
-$plugin->requires = 2019052000; // Moodle 3.7.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'local_mxschool' => 2019081400 // MXSchool v3.1.
-);
+use \core_privacy\local\metadata\null_provider;
+
+class provider implements null_provider {
+
+    /**
+     * Returns a string identifier from the component's language file to explain why the plugin doesn't store any user data.
+     *
+     * @return string Unlocalized string which explains why the plugin doesn't store any user data.
+     */
+    public static function get_reason() {
+        return 'privacy:metadata';
+    }
+
+}
