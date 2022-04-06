@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Peer Tutoring Subplugin.
+ * English language strings for mxMoodle Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,9 +31,14 @@
 $string['pluginname'] = 'Middlesex Peer Tutoring';
 
 /* Capabilities. */
+$string['peertutoring:add'] = 'Middlesex School Peer Tutoring: Add New Records';
+$string['peertutoring:view'] = 'Middlesex School Peer Tutoring: View Peer Tutoring Report';
+$string['peertutoring:manage'] = 'Middlesex School Peer Tutoring: Manage Peer Tutoring Preferences';
+
+/* TODO remove these old permissions
 $string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
 $string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View and manage tutoring records';
-
+*/
 
 /* Settings. */
 $string['email_settings'] = 'Peer Tutoring Email Settings';

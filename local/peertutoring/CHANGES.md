@@ -1,3 +1,9 @@
+## Changes in v4.0
+- Reorganize subplugin's permissions.
+
+// TODO
+// - Integrate subplugin access with Student and Faculty Dashboard Blocks.
+
 ## Changes in v3.1
 - Update of the existing code to be compatible with the updated API layer of v3.1 of the local_mxschool plugin.
 
