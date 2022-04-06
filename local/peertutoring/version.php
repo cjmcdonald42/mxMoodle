@@ -18,7 +18,7 @@
  * mxMoodle Peer Tutoring Subplugin.
  *
  * @package    local_peertutoring
- * @author     mxMoodle Development Team
+ * @author     Middlesex Moodle Development Team
  * @copyright  2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

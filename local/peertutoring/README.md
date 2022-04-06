@@ -1,4 +1,4 @@
-# mxMoodle Peer Tutoring Subplugin
+# Middlesex Moodle Peer Tutoring Subplugin
 
 Local Moodle plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
 
