@@ -28,12 +28,12 @@
  * General.
  * ========
  */
-$string['pluginname'] = 'Middlesex Peer Tutoring';
+$string['pluginname'] = 'mxMoodle Peer Tutoring';
 
 /* Capabilities. */
-$string['peertutoring:add'] = 'Middlesex School Peer Tutoring: Add New Records';
-$string['peertutoring:view'] = 'Middlesex School Peer Tutoring: View Peer Tutoring Report';
-$string['peertutoring:manage'] = 'Middlesex School Peer Tutoring: Manage Peer Tutoring Preferences';
+$string['peertutoring:add'] = 'mxMoodle Peer Tutoring: Add New Records';
+$string['peertutoring:view'] = 'mxMoodle Peer Tutoring: View Peer Tutoring Report';
+$string['peertutoring:manage'] = 'mxMoodle Peer Tutoring: Manage Peer Tutoring Preferences';
 
 /* TODO remove these old permissions
 $string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
