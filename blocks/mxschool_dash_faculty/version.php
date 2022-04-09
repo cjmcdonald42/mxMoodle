@@ -17,21 +17,21 @@
 /**
  * Middlesex's Dashboard Block for Faculty.
  *
- * @package    block_mxschool_dash_faculty
- * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     block_mxschool_dash_faculty
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_faculty';
 $plugin->version = 2022040505;
-$plugin->release = 'v3.2';
+$plugin->release = 'v4.0';
 $plugin->requires = 2019052000; // Moodle 3.7.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
     'local_mxschool' => 2020072200, // MXSchool v3.2.
     'local_signout' => 2019081400 // eSignout v3.1.
+    'local_peertutoring' => 2022040000 // peertutoring v4.0.
 );
