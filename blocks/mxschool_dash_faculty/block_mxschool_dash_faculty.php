@@ -57,16 +57,20 @@ class block_mxschool_dash_faculty extends block_base {
                         => '/local/mxschool/user_management/student_report.php',
                     get_string('checkin:duty_report', 'block_mxschool_dash_faculty')
                         => '/local/mxschool/user_management/student_report.php',
+                ),
 
-                    if (has_capability('local/mxschool:manage_deans_permission', context_system::instance())) {
+                if (has_capability('local/mxschool:manage_deans_permission', context_system::instance())) {
+                    new local_mxschool\output\index(array(
                         get_string('checkin:deans_permission_report', 'block_mxschool_dash_faculty')
-                            => '/local/mxschool/deans_permission/report.php'
-                    },
-                    if (has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
+                            => '/local/mxschool/deans_permission/report.php',
+                    )
+                },
+                if (has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
+                    new local_mxschool\output\index(array(
                         get_string('checkin:deans_permission_report', 'block_mxschool_manage_tutoring')
-                            => '/local/peertutoring/report.php'
-                    },
-                ), get_string('checkin', 'block_mxschool_dash_faculty'))
+                            => '/local/peertutoring/report.php',
+                    ), get_string('checkin', 'block_mxschool_dash_faculty'))
+                },
             );
 
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
