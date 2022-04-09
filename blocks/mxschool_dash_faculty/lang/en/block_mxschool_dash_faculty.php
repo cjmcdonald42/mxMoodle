@@ -35,13 +35,13 @@ $string['mxschool_dash_faculty:access'] = 'Middlesex: Access Faculty Dashboard B
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
 // Links
-$string['students'] = 'Student Data';
+$string['students'] = 'Student Reports';
 $string['students:advisor_report'] = 'My Advisees';
 $string['students:dorm_report'] = 'My Dorm';
 $string['students:peertutoring'] = 'Peer Tutoring';
 $string['students:deans_permission_report'] = 'Deans\' Permission Report';
 $string['students:vehicle_report'] = 'Student Vehicles';
 
-$string['checkin'] = 'Check In';
-$string['checkin:attendance_report'] = 'Event Attendance';
-$string['checkin:duty_report'] = 'On-Campus Duty Report';
+$string['duty'] = 'Duty Reports';
+$string['duty:attendance_report'] = 'Event Attendance';
+$string['duty:duty_report'] = 'On-Campus Duty Report';

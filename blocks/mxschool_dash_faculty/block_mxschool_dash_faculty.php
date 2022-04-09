@@ -57,11 +57,11 @@ class block_mxschool_dash_faculty extends block_base {
                         => '/local/mxschool/user_management/vehicle_report.php',
                 ), get_string('students', 'block_mxschool_dash_faculty')),
                 new local_mxschool\output\index(array(
-                    get_string('checkin:attendance_report', 'block_mxschool_dash_faculty')
+                    get_string('duty:attendance_report', 'block_mxschool_dash_faculty')
                         => '/local/mxschool/user_management/student_report.php',
-                    get_string('checkin:duty_report', 'block_mxschool_dash_faculty')
+                    get_string('duty:duty_report', 'block_mxschool_dash_faculty')
                         => '/local/mxschool/user_management/student_report.php',
-                ), get_string('checkin', 'block_mxschool_dash_faculty'))
+                ), get_string('duty', 'block_mxschool_dash_faculty'))
             );
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
                 return $html . $output->render($renderable);
