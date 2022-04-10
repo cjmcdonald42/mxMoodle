@@ -34,5 +34,5 @@ v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in
 - Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 ## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt). </ br>
+As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).  
 © 2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
