@@ -1,6 +1,16 @@
-# Middlesex's Dashboard Block for Faculty.
-## Package Description
-This block provides an interface for all faculty to access reports defined by the local_mxschool, local_signout, and local_peertutoring plugins.
+# Middlesex Faculty Dashboard Block
+## Description
+This block is for all faculty and provides links to reports defined by the local_mxschool, local_signout, and local_peertutoring plugins.
+
+Student Data reports:
+- My Advisees: This is the student data report filtered by the Faculty's advisees. If the Faculty does not have advisees, then the report will default to All Advisors
+- My Dorm: This is the student data report filtered by the Faculty's assigned dorm. If the Faculty does not have an assigned dorm, then the report will default to All Dorms
+- Peer Tutoring: This is the Peer Tutoring report
+- Student Vehicles: Student Vehicle report
+
+Check In reports:
+- Event Attendance: This is the general attendance report defaulting to the Faculty's assigned dorm. If the Faculty does not have an assigned dorm, then the report will default to All Dorms.
+- On-Campus Duty Report
 
 ## Dependencies
 This plugin has the following dependencies:
@@ -11,7 +21,7 @@ This plugin has the following dependencies:
 
 ## Credits
 v4.0 of this plugin was developed alongside v4.0 of the local_mxschool plugin in 2022 by:
-- Aarav Mehta, Class of 2023
+- Aarav Mehta, Class of 2023 \<amehta@mxschool.edu\>
 - Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 - The mxMoodle Development Team
 
