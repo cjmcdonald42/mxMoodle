@@ -20,16 +20,16 @@ This plugin has the following dependencies:
 - [local_peertutoring v4.0](/local/peertutoring/README.md) (2022___)
 
 ## Credits
-v4.0 of this plugin was developed alongside v4.0 of the local_mxschool plugin in 2022 by:
+v4.0 of this plugin was developed alongside v4.0 of the local_mxschool plugin in 2022 by:  
 Aarav Mehta, Class of 2023 \<amehta@mxschool.edu\>  
 Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>  
 The mxMoodle Development Team
 
-v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
+v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:  
 Cannon Caspar, Class of 2021 \<cpcaspar@mxschool.edu\>  
 Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
-v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:
+v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:  
 Jeremiah DeGreeff, Class of 2019 \<jrdegreeff@mxschool.edu\>  
 Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
