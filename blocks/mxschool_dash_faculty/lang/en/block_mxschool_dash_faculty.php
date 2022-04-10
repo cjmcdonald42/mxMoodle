@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dashboard Block for Faculty.
+ * English language strings for Middlesex's Faculty Dashboard Block
  *
  * @package     block_mxschool_dash_faculty
  * @author      mxMoodle Development Team
