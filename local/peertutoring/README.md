@@ -9,7 +9,7 @@ This package provides a system for peer tutors to log their tutoring sessions in
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.7 (2019052000)
+- Moodle 4.0 (2022___)
 - [local_mxschool v3.1](/local/mxschool/README.md) (2019081400)
 
 ## Subpackages
@@ -20,16 +20,19 @@ This package houses the following subpackages and pages:
     - _report_ — Report for the Peer Tutoring Administrator to view and manage the peer tutoring records.
 
 ## Credits
-TODO:
-v4.0 of this plug in...
+// TODO v4.0 of this plug in...
+v4.0 of this plugin was developed alongside v4.0 of the local_mxschool plugin in 2022 by:
+- Middlesex Moodle Development Team
+- Aarav Mehta, Class of 2023 \<amehta@mxschool.edu\>
+- Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+- Jeremiah DeGreeff, Class of 2019 \<jrdegreeff@mxschool.edu\>
+- Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 v3.0 of this plugin was developed alongside v3.0 of the local_mxschool plugin in 2018 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+- Jeremiah DeGreeff, Class of 2019 \<jrdegreeff@mxschool.edu\>
+- Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 
 ## License
