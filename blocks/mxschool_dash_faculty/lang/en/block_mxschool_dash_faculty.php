@@ -38,10 +38,13 @@ $string['privacy:metadata'] = 'This block only provides links to other pages and
 $string['students'] = 'Student Reports';
 $string['students:advisor_report'] = 'My Advisees';
 $string['students:dorm_report'] = 'My Dorm';
-$string['students:peertutoring'] = 'Peer Tutoring';
 $string['students:deans_permission_report'] = 'Deans\' Permission Report';
 $string['students:vehicle_report'] = 'Student Vehicles';
 
-$string['duty'] = 'Duty Reports';
 $string['duty:attendance_report'] = 'Event Attendance';
 $string['duty:duty_report'] = 'On-Campus Duty Report';
+
+$string['peertutoring'] = 'Peer Tutoring';
+$string['peertutoring:ptview'] = 'View Peer Tutoring';
+$string['peertutoring:ptmanage'] = 'Manage Peer Tutoring';
+$string['peertutoring:ptpreferences'] = 'Peer Tutoring Preferences';

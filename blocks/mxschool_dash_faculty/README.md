@@ -5,12 +5,19 @@ This block is for all faculty and provides links to reports defined by the local
 Student Data reports:
 - My Advisees: This is the student data report filtered by the Faculty's advisees. If the Faculty does not have advisees, then the report will default to All Advisors
 - My Dorm: This is the student data report filtered by the Faculty's assigned dorm. If the Faculty does not have an assigned dorm, then the report will default to All Dorms
-- Peer Tutoring: This is the Peer Tutoring report
+- View Deans' Permission Report (This is for approvers right now but it would be nice to show an Advisor View of this)
 - Student Vehicles: Student Vehicle report
 
 Check In reports:
 - Event Attendance: This is the general attendance report defaulting to the Faculty's assigned dorm. If the Faculty does not have an assigned dorm, then the report will default to All Dorms.
 - On-Campus Duty Report
+
+Peer Tutoring reports:
+(If view capability: Faculty)
+- View Peer Tutoring Report
+(If manage capability: Peer Tutoring Manager)
+- Manage Peer Tutoring Report
+- Manage Peer Tutoring Preferences
 
 ## Dependencies
 This plugin has the following dependencies:
