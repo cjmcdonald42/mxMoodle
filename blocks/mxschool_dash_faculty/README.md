@@ -1,27 +1,45 @@
-# Middlesex's Dashboard Block for Peer Tutors
-Moodle block plugin written for Middlesex. Middlesex is an independent secondary school for boarding and day students in grades 9-12. Learn more at <https://mxschool.edu>.
+# Middlesex Faculty Dashboard Block
+## Description
+This block is for all faculty and provides links to reports defined by the local_mxschool, local_signout, and local_peertutoring plugins.
 
-Moodle is the world’s open source learning platform. Learn more at <https://moodle.org>.
+Student Data reports:
+- My Advisees: This is the student data report filtered by the Faculty's advisees. If the Faculty does not have advisees, then the report will default to All Advisors
+- My Dorm: This is the student data report filtered by the Faculty's assigned dorm. If the Faculty does not have an assigned dorm, then the report will default to All Dorms
+- View Deans' Permission Report (This is for approvers right now but it would be nice to show an Advisor View of this)
+- Student Vehicles: Student Vehicle report
 
-## Package Description
-This block provides an interface for all faculty to access reports defined by the local_mxschool and local_signout plugins.
+Check In reports:
+- Event Attendance: This is the general attendance report defaulting to the Faculty's assigned dorm. If the Faculty does not have an assigned dorm, then the report will default to All Dorms.
+- On-Campus Duty Report
+
+Peer Tutoring reports:
+(If view capability: Faculty)
+- View Peer Tutoring Report
+(If manage capability: Peer Tutoring Manager)
+- Manage Peer Tutoring Report
+- Manage Peer Tutoring Preferences
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.7 (2019052000)
+- Moodle 4.0 (2022___)
 - [local_mxschool v3.2](/local/mxschool/README.md) (2020072200)
 - [local_signout v3.1](/local/mxschool/README.md) (2019081400)
+- [local_peertutoring v4.0](/local/peertutoring/README.md) (2022___)
 
 ## Credits
+v4.0 of this plugin was developed alongside v4.0 of the local_mxschool plugin in 2022 by:
+- Aarav Mehta, Class of 2023 \<amehta@mxschool.edu\>
+- Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
+- The mxMoodle Development Team
+
 v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
-- Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+- Cannon Caspar, Class of 2021 \<cpcaspar@mxschool.edu\>
+- Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in 2019 by:
-- Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
-- Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
+- Jeremiah DeGreeff, Class of 2019 \<jrdegreeff@mxschool.edu\>
+- Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 ## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).
-
-© 2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).  
+© 2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
