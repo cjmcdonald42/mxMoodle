@@ -75,6 +75,6 @@ $output = $PAGE->get_renderer('local_mxschool');
 $renderable = new local_mxschool\output\report($table, $filter->search, $dropdowns, $buttons, $filter->type !== 'parents');
 
 echo $output->header();
-echo $output->heading(($filter->dorm > 0 ? format_dorm_name($filter->dorm) . ' ' : '') . $types[$filter->type]);
+echo $output->heading("Advisee Student Report");
 echo $output->render($renderable);
 echo $output->footer();
