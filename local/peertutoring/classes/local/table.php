@@ -88,7 +88,7 @@ class table extends \local_mxschool\table {
             $where[] = "ua.id = {$filter->advisor}";
         }
         if ($filter->department) {
-            $where[] = "s.departmentid = {$filter->department}";
+            $where[] = "c.departmentid = {$filter->department}";
         }
         if ($filter->type) {
             $where[] = "s.typeid = {$filter->type}";

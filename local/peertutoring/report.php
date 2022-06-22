@@ -28,7 +28,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
 
 require_login();
-require_capability('local/peertutoring:manage_tutoring', context_system::instance());
+require_capability('local/peertutoring:manage', context_system::instance());
 
 $filter = new stdClass();
 $filter->tutor = optional_param('tutor', 0, PARAM_INT);
