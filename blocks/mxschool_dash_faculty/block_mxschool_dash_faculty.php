@@ -69,7 +69,7 @@ class block_mxschool_dash_faculty extends block_base {
                 new local_mxschool\output\index(array(
                     get_string('peertutoring:ptview', 'block_mxschool_dash_faculty')
                         => '/local/peertutoring/report.php',
-                ), get_string('peertutoring', 'block_mxschool_dash_faculty'))
+                ), get_string('peertutoring', 'block_mxschool_dash_faculty')))
         } else if (has_capability('local/peertutoring:manage', context_system::instance())) {
             array_push($renderables,
                 new local_mxschool\output\index(array(
@@ -77,8 +77,8 @@ class block_mxschool_dash_faculty extends block_base {
                         => '/local/peertutoring/report.php',
                     get_string('peertutoring:ptpreferences', 'block_mxschool_dash_faculty')
                         => '/local/peertutoring/report.php',
-                ), get_string('peertutoring', 'block_mxschool_dash_faculty'))
-            );
+                ), get_string('peertutoring', 'block_mxschool_dash_faculty')))
+        }
 
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
                 return $html . $output->render($renderable);
