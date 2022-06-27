@@ -64,7 +64,7 @@ class block_mxschool_dash_faculty extends block_base {
 
 // TODO Add links and capabilities for Peer Tutoring Reports here
 // TODO No, seriously, please check my syntax on this...
-        if (has_capability('local/peertutoring:view', , context_system::instance())) {
+        if (has_capability('local/peertutoring:view', context_system::instance())) {
             array_push($renderables,
                 new local_mxschool\output\index(array(
                     get_string('peertutoring:ptview', 'block_mxschool_dash_faculty')
