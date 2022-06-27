@@ -70,7 +70,7 @@ class block_mxschool_dash_faculty extends block_base {
                     get_string('peertutoring:ptview', 'block_mxschool_dash_faculty')
                         => '/local/peertutoring/report.php',
                 ), get_string('peertutoring', 'block_mxschool_dash_faculty'))
-        } else if (has_capability('local/peertutoring:manage', , context_system::instance())) {
+        } else if (has_capability('local/peertutoring:manage', context_system::instance())) {
             array_push($renderables,
                 new local_mxschool\output\index(array(
                     get_string('peertutoring:ptmanage', 'block_mxschool_dash_faculty')
