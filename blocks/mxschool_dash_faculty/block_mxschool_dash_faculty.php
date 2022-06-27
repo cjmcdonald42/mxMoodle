@@ -61,7 +61,7 @@ class block_mxschool_dash_faculty extends block_base {
                         => '/local/mxschool/user_management/student_report.php',
                 ), get_string('duty', 'block_mxschool_dash_faculty'))
             );
-
+/*
 // TODO Add links and capabilities for Peer Tutoring Reports here
 // TODO No, seriously, please check my syntax on this...
         if (has_capability('local/peertutoring:view', context_system::instance())) {
@@ -79,6 +79,7 @@ class block_mxschool_dash_faculty extends block_base {
                         => '/local/peertutoring/report.php',
                 ), get_string('peertutoring', 'block_mxschool_dash_faculty')))
         }
+*/
 
             $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
                 return $html . $output->render($renderable);
