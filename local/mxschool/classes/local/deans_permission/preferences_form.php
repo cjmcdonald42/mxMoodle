@@ -60,6 +60,12 @@ class preferences_form extends \local_mxschool\form {
 			  'notify_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'notify_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
+          'notifystudent_email' => array(
+			  'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:notifystudent_email:note', 'local_mxschool')),
+			  'notifystudent_tags' => self::email_tags(new deans_permission_notifystudent()),
+			  'notifystudent_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'notifystudent_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  ),
 		  'approved_email' => array(
 			  'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:approved_email:note', 'local_mxschool')),
 			  'approved_tags' => self::email_tags(new deans_permission_approved()),
