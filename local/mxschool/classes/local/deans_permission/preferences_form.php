@@ -31,7 +31,6 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\local\deans_permission\submitted;
 use local_mxschool\local\deans_permission\sports_permission_request;
-use local_mxschool\local\deans_permission\class_permission_request;
 use local_mxschool\local\deans_permission\deans_permission_approved;
 
 class preferences_form extends \local_mxschool\form {
@@ -53,12 +52,6 @@ class preferences_form extends \local_mxschool\form {
 			  'review_tags' => self::email_tags(new sports_permission_request()),
 			  'review_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'review_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
-		  ),
-		  'notify_email' => array(
-			  'healthcenter_email_address' => self::ELEMENT_EMAIL_REQUIRED,
-			  'notify_tags' => self::email_tags(new class_permission_request()),
-			  'notify_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-			  'notify_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
           'notifystudent_email' => array(
 			  'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:notifystudent_email:note', 'local_mxschool')),

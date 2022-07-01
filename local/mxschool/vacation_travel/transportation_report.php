@@ -36,6 +36,7 @@ $filter->portion = get_config('local_mxschool', 'vacation_form_returnenabled') ?
     : 'departure';
 $filter->mxtransportation = optional_param('mxtransportation', '', PARAM_RAW);
 $filter->type = optional_param('type', '', PARAM_RAW);
+$filter->internationalStudent = optional_param('internationalStudent', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
@@ -52,6 +53,12 @@ if (!isset($portions[$filter->portion])) {
 $mxtransportationoptions = array(
     '1' => get_string('vacation_travel:transportation_report:select_mxtransportation:true', 'local_mxschool'),
     '0' => get_string('vacation_travel:transportation_report:select_mxtransportation:false', 'local_mxschool')
+);
+
+$internationalStudentOptions = array(
+    '1' => get_string('vacation_travel:transportation_report:select_internationalStudent:true', 'local_mxschool'),
+    '0' => get_string('vacation_travel:transportation_report:select_domesticStudent:false', 'local_mxschool')
+    'all' => get_string('vacation_travel:transportation_report:select_allStudents', 'local_mxschool')
 );
 $types = array(
     'Car' => get_string('vacation_travel:transportation_report:select_type:Car', 'local_mxschool'),
@@ -70,6 +77,10 @@ $dropdowns = array(
     ),
     new local_mxschool\output\dropdown(
         'type', $types, $filter->type, get_string('vacation_travel:transportation_report:select_type:all', 'local_mxschool')
+    )
+    new local_mxschool\output\dropdown(
+        'mxtransportation', $internationalStudentOptions, $filter->internationalStudent,
+        get_string('dropdown:default', 'local_mxschool')
     )
 );
 if (get_config('local_mxschool', 'vacation_form_returnenabled')) {

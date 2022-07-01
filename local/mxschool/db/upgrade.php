@@ -1352,6 +1352,48 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021080600, 'local', 'mxschool');
     }
 
+    if ($oldversion < 2021080600) {
+
+        // Define field default_departure_time to be added to local_mxschool_vt_site.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('international', XMLDB_TYPE_INTEGER, '1', null, null, null, null, '0');
+
+        // Conditionally launch add field default_departure_time.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2022062702, 'local', 'mxschool');
+    }
+
+    if($oldversion < 2022062702){
+        // Define field default_departure_time to be added to local_mxschool_vt_site.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('internationalStudent', XMLDB_TYPE_INTEGER, '1', null, null, null, null, '0');
+
+        // Conditionally launch add field default_departure_time.
+        $dbman->change_field($table, $field);
+
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 20220622005, 'local', 'mxschool');
+    }
+
+    if($oldversion < 20220622005){
+        // Define field default_departure_time to be added to local_mxschool_vt_site.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('international');
+
+        // Conditionally launch add field default_departure_time.
+        $dbman->drop_field($table, $field);
+
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 20220622009, 'local', 'mxschool');
+    }
+
   return true;
 
 }
