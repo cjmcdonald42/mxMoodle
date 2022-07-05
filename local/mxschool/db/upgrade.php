@@ -1394,6 +1394,19 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 20220622009, 'local', 'mxschool');
     }
 
+    if($oldversion < 20220622009){
+        // Define field default_departure_time to be added to local_mxschool_vt_site.
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('international');
+
+        // Conditionally launch add field default_departure_time.
+        $dbman->drop_field($table, $field);
+
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 20220622019, 'local', 'mxschool');
+    }
+
   return true;
 
 }

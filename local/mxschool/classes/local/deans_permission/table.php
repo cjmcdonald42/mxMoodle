@@ -182,7 +182,8 @@ class table extends \local_mxschool\table {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new email_button('Email Healthcenter', 'deans_permission_notify_healthcenter', $values->id, false);
-        return $output->render($renderable).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
+        $renderable2 = new email_button('Email Student', 'deans_permission_notify_student', $values->id, false);
+        return $output->render($renderable).$output->render($renderable2).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
             $this->delete_icon($values->id);
     }
 }

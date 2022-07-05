@@ -28,7 +28,7 @@ namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
-class deans_permission_notifystudent extends deans_permission_notification {
+class notify_student extends deans_permission_notification {
 
     /**
      * @param int $id The id of the deans permission form which has been submitted.
@@ -36,7 +36,7 @@ class deans_permission_notifystudent extends deans_permission_notification {
      * @throws coding_exception If the specified record does not exist.
      */
     public function __construct($id = 0) {
-        parent::__construct('deans_permission_notifystudent', $id);
+        parent::__construct('deans_permission_notify_student', $id);
         global $DB;
 
         $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
