@@ -41,7 +41,7 @@ class transportation_table extends \local_mxschool\table {
         $this->is_downloading($download, 'Vacation Travel Transportation', $filter->portion);
         $columns = array(
             'student', 'dorm', 'destination', 'phone', 'mxtransportation', 'type', 'site', 'details', 'carrier', 'number',
-            'datetime', 'international', 'timemodified', 'email', 'internationalStudent'
+            'datetime', 'international', 'timemodified', 'email'
         );
         if ($filter->mxtransportation !== '') {
             unset($columns[array_search('mxtransportation', $columns)]);
@@ -83,7 +83,7 @@ class transportation_table extends \local_mxschool\table {
             's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 't.destination',
             't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation', 'dr.type AS type', 'drs.name AS site',
             'dr.details', 'dr.carrier', 'dr.transportation_number AS number', 'dr.date_time AS datetime', 'dr.international',
-            't.time_modified AS timemodified', 'u.email', 's.internationalStudent'
+            't.time_modified AS timemodified', 'u.email'
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_vt_trip} t ON s.userid = t.userid',
@@ -94,9 +94,7 @@ class transportation_table extends \local_mxschool\table {
         if ($filter->mxtransportation !== '') {
             $where[] = "dr.mx_transportation = '{$filter->mxtransportation}'";
         }
-        if ($filter->internationalStudent == 1){
-            $where[] = "s.internationalStudent = '{$filter->internationalStudent}'";
-        }
+
         if ($filter->type) {
             $where[] = "dr.type = '{$filter->type}'";
         }
