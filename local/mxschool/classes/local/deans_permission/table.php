@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @subpackage  deans_permission
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -104,7 +104,8 @@ class table extends \local_mxschool\table {
         $result = "";
         if($values->missing_sports==1) $result.='Sports, ';
 
-    // TODO Remove flag for Study Hours - we're putting the back in it's own column
+    // TODO Done - remove this comment
+    //    Remove flag for Study Hours - we're putting this back in it's own column
     //    if($values->missing_studyhours==1) $result.='Study Hours, ';
 
         if($values->missing_class==1) $result.='Class, ';
