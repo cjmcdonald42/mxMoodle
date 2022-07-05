@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\local\deans_permission\submitted;
 use local_mxschool\local\deans_permission\sports_permission_request;
-// Athletic Review and Academic Review consolidated into one notification so remove separate notification
+// Athletic Review and Academic Review consolidated into one notification but this line is on the live server. Is it being used?
 // use local_mxschool\local\deans_permission\class_permission_request;
 
 // TODO What happened to the healthcenter notification?
