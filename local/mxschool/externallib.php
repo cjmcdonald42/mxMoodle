@@ -18,9 +18,8 @@
  * External functions for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -171,9 +170,16 @@ class local_mxschool_external extends external_api {
 				    (new local_mxschool\local\healthtest\healthtest_missed($tester))->send();
 			  }
 			    return 1;
-		  case 'deans_permission_notify_healthcenter':
-			    require_capability('local/mxschool:manage_deans_permission', context_system::instance());
-			    return (new local_mxschool\local\deans_permission\notify_healthcenter($params['emailparams']['id']))->send();
+
+
+            case 'deans_permission_notify_student':
+                require_capability('local/mxschool:manage_deans_permission', context_system::instance());
+                return (new local_mxschool\local\deans_permission\notify_student($params['emailparams']['id']))->send();
+
+            case 'deans_permission_notify_healthcenter':
+                require_capability('local/mxschool:manage_deans_permission', context_system::instance());
+                return (new local_mxschool\local\deans_permission\notify_healthcenter($params['emailparams']['id']))->send();
+
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }

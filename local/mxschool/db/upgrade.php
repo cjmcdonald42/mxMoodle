@@ -1352,6 +1352,17 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021080600, 'local', 'mxschool');
     }
 
+    if($oldversion < 2021080600) {
+        $data = new stdClass();
+        $data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
+        $data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
+        update_notification('deans_permission_notify_student', $data, 'default');
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2022070602, 'local', 'mxschool');
+
+    }
+
   return true;
 
 }

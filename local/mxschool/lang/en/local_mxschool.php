@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -99,7 +99,7 @@ $string['mxschool_category'] = 'Middlesex';
 // Email Settings.
 $string['email_settings'] = 'Email Settings';
 $string['email_settings:redirect'] = 'Redirect email';
-$string['email_settings:redirect:description'] = 'The email address to redirect to for debugging - if empty emails will be sent to actual recipients.';
+$string['email_settings:redirect:description'] = 'The email address to redirect to for debugging - if empty, emails will be sent to actual recipients.';
 $string['email_settings:deans_email'] = 'Deans email';
 $string['email_settings:deans_email:description'] = 'The email address to send notifications to the deans.';
 $string['email_settings:deans_addressee'] = 'Deans addressee name';
@@ -1013,39 +1013,44 @@ $string['deans_permission:report:delete:failure'] = 'Failed to Delete Record';
 $string['deans_permission:report:add'] = 'New Deans\' Permission Form';
 
 /* Deans Permissions Preferences */
-$string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
-$string['deans_permission:preferences:title'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences'] = 'Deans\' Permission Form Preferences';
+$string['deans_permission:preferences:title'] = 'Deans\' Permission Form Preferences';
 $string['deans_permission:preferences:deans_email'] = 'Deans\' Permission Form Submitted Notification';
 $string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans\' Email Address';
-$string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
-$string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
-$string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
-$string['deans_permission:preferences:review_email'] = 'Review Request Email';
-$string['deans_permission:preferences:review_email:athletic_director_email_address'] = 'Athletic Director Email Address';
-$string['deans_permission:preferences:review_email:academic_director_email_address'] = 'Academic Director Email Address';
-$string['deans_permission:preferences:review_email:review_tags'] = 'Available tags for deans\' permission form review request email';
-$string['deans_permission:preferences:review_email:review_subject'] = 'Review request subject';
-$string['deans_permission:preferences:review_email:review_body'] = 'Review request body';
-$string['deans_permission:preferences:notify_email'] = 'Healthcenter notification email';
-$string['deans_permission:preferences:notify_email:healthcenter_email_address'] = 'Healthcenter Email Address';
-$string['deans_permission:preferences:notify_email:notify_tags'] = 'Available tags for deans\' permission form healthcenter notification email';
-$string['deans_permission:preferences:notify_email:notify_subject'] = 'Healthcenter notification subject';
-$string['deans_permission:preferences:notify_email:notify_body'] = 'Healthcenter notification subject';
-$string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
+$string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available Tags for Submission Notification';
+$string['deans_permission:preferences:deans_email:submitted_subject'] = 'Submission Notification Subject';
+$string['deans_permission:preferences:deans_email:submitted_body'] = 'Submission Notification Body';
+$string['deans_permission:preferences:review_email'] = 'Review Request Notification';
+$string['deans_permission:preferences:review_email:athletic_director_email_address'] = 'Athletic Director Email';
+$string['deans_permission:preferences:review_email:academic_director_email_address'] = 'Academic Director Email';
+$string['deans_permission:preferences:review_email:review_tags'] = 'Available tags for Review Request Notification';
+$string['deans_permission:preferences:review_email:review_subject'] = 'Review Request Notification Subject';
+$string['deans_permission:preferences:review_email:review_body'] = 'Review Request Notification Body';
+$string['deans_permission:preferences:notify_student'] = 'Student Email Notification';
+$string['deans_permission:preferences:notify_student:info'] = 'Note:';
+$string['deans_permission:preferences:notify_student:note'] = 'When triggered, this email will go to the student and their advisor';
+$string['deans_permission:preferences:notify_student:notify_student_tags'] = 'Available Tags for Student Email Notification';
+$string['deans_permission:preferences:notify_student:notify_student_subject'] = 'Student Email Notification Subject';
+$string['deans_permission:preferences:notify_student:notify_student_body'] = 'Student Email Notification Body';
+$string['deans_permission:preferences:notify_email'] = 'Healthcenter Notification';
+$string['deans_permission:preferences:notify_email:healthcenter_email_address'] = 'Healthcenter Email';
+$string['deans_permission:preferences:notify_email:notify_tags'] = 'Available Tags for Healthcenter Notification';
+$string['deans_permission:preferences:notify_email:notify_subject'] = 'Healthcenter Notification Subject';
+$string['deans_permission:preferences:notify_email:notify_body'] = 'Healthcenter Notification Body';
+$string['deans_permission:preferences:approved_email'] = 'Form Approved Notification';
 $string['deans_permission:preferences:approved_email:info'] = 'Note:';
-$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor of the student, and, if the student is missing study hours, that student\'s head of house.';
-$string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
-$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved email subject';
-$string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
-$string['deans_permission:preferences:denied_email'] = 'Deans\' Permission Form Denied Email Notification';
-$string['deans_permission:preferences:denied_email:denied_tags'] = 'Available tags for deans\' permission form denied email';
-$string['deans_permission:preferences:denied_email:denied_subject'] = 'Deans\' permission form denied subject';
-$string['deans_permission:preferences:denied_email:denied_body'] = 'Deans\' permission form denied email body';
+$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor of the student and, if the student is missing study hours, that student\'s head of house.';
+$string['deans_permission:preferences:approved_email:approved_tags'] = 'Available Tags for Form Approved Notification';
+$string['deans_permission:preferences:approved_email:approved_subject'] = 'Form Approved Notification Subject';
+$string['deans_permission:preferences:approved_email:approved_body'] = 'Form Approved Notification Body';
+$string['deans_permission:preferences:denied_email'] = 'Form Denied Notification';
+$string['deans_permission:preferences:denied_email:denied_tags'] = 'Available Tags for Form Denied Notification';
+$string['deans_permission:preferences:denied_email:denied_subject'] = 'Form Denied Notification Subject';
+$string['deans_permission:preferences:denied_email:denied_body'] = 'Form Denied Notification Body';
 
-$string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
+$string['deans_permission:preferences:update:success'] = 'Deans\' Permission Form Preferences Updated Succesfully';
 
 $string['deans_permission:preferences:add_event'] = 'New Event Type Option';
-
 $string['deans_permission:event_report'] = 'Deans\' Permission Event Types';
 $string['deans_permission:event_report:title'] = 'Deans\' Permission Event Types';
 $string['deans_permission:event_report:header:event_name'] = 'Event Type';
