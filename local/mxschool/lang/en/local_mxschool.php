@@ -1026,7 +1026,7 @@ $string['deans_permission:preferences:review_email:academic_director_email_addre
 $string['deans_permission:preferences:review_email:review_tags'] = 'Available tags for deans\' permission form review request email';
 $string['deans_permission:preferences:review_email:review_subject'] = 'Review request subject';
 $string['deans_permission:preferences:review_email:review_body'] = 'Review request body';
-$string['deans_permission:preferences:notify_student'] = 'Notify Student Email Notification';
+$string['deans_permission:preferences:notify_student'] = 'Student Email Notification';
 $string['deans_permission:preferences:notify_student:info'] = 'Note:';
 $string['deans_permission:preferences:notify_student:note'] = 'When triggered, this email will go to the student and their advisor';
 $string['deans_permission:preferences:notify_student:notify_student_tags'] = 'Available tags for student notification';

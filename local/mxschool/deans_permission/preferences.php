@@ -50,7 +50,7 @@ generate_email_preference_fields('deans_permission_submitted', $data, 'submitted
 $data->athletic_director_email_address = get_config('local_mxschool', 'athletic_director_email_address');
 generate_email_preference_fields('sports_permission_request', $data, 'review');
 $data->academic_director_email_address = get_config('local_mxschool', 'academic_director_email_address');
-generate_email_preference_fields('deans_permission_notify_student', $data, 'notify');
+generate_email_preference_fields('deans_permission_notify_student', $data, 'notify_student');
 generate_email_preference_fields('deans_permission_notify_healthcenter', $data, 'notify');
 $data->healthcenter_email_address = get_config('local_mxschool', 'dp_healthcenter_email_address');
 generate_email_preference_fields('deans_permission_approved', $data, 'approved');
