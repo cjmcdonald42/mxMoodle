@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @subpackage  deans_permission
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -79,8 +79,8 @@ class table extends \local_mxschool\table {
     }
 
     /**
-	* Formats the student column to include full name, grade, and boarding_status.
-	*/
+     * Formats the student column to include full name, grade, and boarding_status.
+     */
     protected function col_student($values) {
         if($this->is_downloading()) return $values->student;
         return "{$values->student}<br>
@@ -94,8 +94,8 @@ class table extends \local_mxschool\table {
     }
 
     /**
-	* Formats the missing column to include each event the student will miss.
-	*/
+     * Formats the missing column to include each event the student will miss.
+     */
     protected function col_missing($values) {
         $result = "";
         if($values->missing_sports==1) $result.='Sports, ';
@@ -171,14 +171,14 @@ class table extends \local_mxschool\table {
     }
 
     /**
-    * Formats the actions column.
-    */
+     * Formats the actions column.
+     */
     protected function col_actions($values) {
         if(!isset($values->id)) return '';
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new email_button('Email Healthcenter', 'deans_permission_notify_healthcenter', $values->id, false);
-        return $output->render($renderable).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
-            $this->delete_icon($values->id);
+        $renderable1 = new email_button('Email Healthcenter', 'deans_permission_notify_healthcenter', $values->id, false);
+        $renderable2 = new email_button('Email Student', 'deans_permission_notify_student', $values->id, false);
+        return $output->render($renderable1).$output->render($renderable2).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).$this->delete_icon($values->id);
     }
 }
