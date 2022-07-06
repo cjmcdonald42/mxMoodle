@@ -99,7 +99,7 @@ $string['mxschool_category'] = 'Middlesex';
 // Email Settings.
 $string['email_settings'] = 'Email Settings';
 $string['email_settings:redirect'] = 'Redirect email';
-$string['email_settings:redirect:description'] = 'The email address to redirect to for debugging - if empty emails will be sent to actual recipients.';
+$string['email_settings:redirect:description'] = 'The email address to redirect to for debugging - if empty, emails will be sent to actual recipients.';
 $string['email_settings:deans_email'] = 'Deans email';
 $string['email_settings:deans_email:description'] = 'The email address to send notifications to the deans.';
 $string['email_settings:deans_addressee'] = 'Deans addressee name';
