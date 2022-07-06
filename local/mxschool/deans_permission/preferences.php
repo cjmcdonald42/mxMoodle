@@ -69,7 +69,7 @@ if ($form->is_cancelled()) {
     update_notification('class_permission_request', $data, 'review');
     update_notification('sports_permission_request', $data, 'review');
     update_notification('deans_permission_submitted', $data, 'submitted');
-    update_notification('deans_permission_notify_student', $data, 'notify');
+    update_notification('deans_permission_notify_student', $data, 'notify_student');
     update_notification('deans_permission_notify_healthcenter', $data, 'notify');
     update_notification('deans_permission_approved', $data, 'approved');
     update_notification('deans_permission_denied', $data, 'denied');
