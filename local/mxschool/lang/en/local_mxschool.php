@@ -920,6 +920,10 @@ $string['vacation_travel:transportation_report:select_type:Train'] = 'Train';
 $string['vacation_travel:transportation_report:select_type:NYCDirect'] = 'NYC Direct';
 $string['vacation_travel:transportation_report:select_type:Non-MXBus'] = 'Non-MX Bus';
 $string['vacation_travel:transportation_report:add'] = 'New Vacation Travel Form';
+$string['vacation_travel:transportation_report:select_is_international:true'] = 'International Students';
+$string['vacation_travel:transportation_report:select_is_international:false'] = 'Domestic Students';
+$string['vacation_travel:transportation_report:select_residency:all'] = 'All Students';
+
 
 // Departure headers.
 $string['vacation_travel:transportation_report:departure:header:student'] = 'Student';
