@@ -1,5 +1,5 @@
 # About us
-Middlesex School is an independent, secondary school following the New England boarding school tradition.  </br>
+Middlesex School is an independent secondary school following the New England boarding school tradition.  </br>
 Learn more at: \<[https://mxschool.edu](https://mxschool.edu)\>.
 
 1. [The Moodle Development Team](#team)
@@ -33,7 +33,7 @@ Advisor: </br>
 mxMoodle v3.3.1, built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0 and includes new functionality for Healthtest Auditing and the Deans' Permission Form.
 
 ### Spring / Summer 2022
-Moodle v4 is planned to release in April. We are aiming to upgrade to Moodle 4.1 for July, 2022 and are now devloping and verifying all work aiming for this upgrade point.
+Moodle v4 is planned to release in April. We are aiming to upgrade to Moodle 4.1 for July, 2022 and are now developing and verifying all work aiming for this upgrade point.
 
 <a name="history"></a>
 ## History of this project

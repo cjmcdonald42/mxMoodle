@@ -78,7 +78,7 @@ From the Moodle Plugin Library, you should download these plugins:
 ## Installing Testing User Data
 With your Moodle installation up and running, and your plugins installed, you are ready to add data. Our current shared folder has a set of CSV files that mirror the data on the Moodle Development Server and is a good place to start.
 
-Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes.
+Once you have copied the plugin files, if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes.
 
 The first table contains the basic user data, such as the user's First name, Last name, username and password. This step has to happen through the Site Administration interface. Navigate to `Site administration` > `Users` > `Accounts` > `Upload users` and choose the CSV from your computer. Then select the following options:
 - `Settings` > `New user password`: select `Field required in file`
