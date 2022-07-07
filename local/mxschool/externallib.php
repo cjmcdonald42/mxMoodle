@@ -174,6 +174,10 @@ class local_mxschool_external extends external_api {
 		  case 'deans_permission_notify_healthcenter':
 			    require_capability('local/mxschool:manage_deans_permission', context_system::instance());
 			    return (new local_mxschool\local\deans_permission\notify_healthcenter($params['emailparams']['id']))->send();
+
+        case 'deans_permission_notify_student':
+      			    require_capability('local/mxschool:manage_deans_permission', context_system::instance());
+      			    return (new local_mxschool\local\deans_permission\notify_student($params['emailparams']['id']))->send();
             default:
                 throw new coding_exception("Unsupported email class: {$params['emailclass']}.");
         }

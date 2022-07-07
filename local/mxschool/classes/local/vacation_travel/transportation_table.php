@@ -94,6 +94,7 @@ class transportation_table extends \local_mxschool\table {
         if ($filter->mxtransportation !== '') {
             $where[] = "dr.mx_transportation = '{$filter->mxtransportation}'";
         }
+
         if ($filter->type) {
             $where[] = "dr.type = '{$filter->type}'";
         }

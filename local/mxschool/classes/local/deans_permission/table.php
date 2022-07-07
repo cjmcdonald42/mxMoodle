@@ -20,7 +20,7 @@
  * @package     local_mxschool
  * @subpackage  deans_permission
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -104,7 +104,8 @@ class table extends \local_mxschool\table {
         $result = "";
         if($values->missing_sports==1) $result.='Sports, ';
 
-    // TODO Remove flag for Study Hours - we're putting the back in it's own column
+    // TODO Done - remove this comment
+    //    Remove flag for Study Hours - we're putting this back in it's own column
     //    if($values->missing_studyhours==1) $result.='Study Hours, ';
 
         if($values->missing_class==1) $result.='Class, ';
@@ -182,7 +183,8 @@ class table extends \local_mxschool\table {
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new email_button('Email Healthcenter', 'deans_permission_notify_healthcenter', $values->id, false);
-        return $output->render($renderable).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
+        $renderable2 = new email_button('Email Student', 'deans_permission_notify_student', $values->id, false);
+        return $output->render($renderable).$output->render($renderable2).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
             $this->delete_icon($values->id);
     }
 }
