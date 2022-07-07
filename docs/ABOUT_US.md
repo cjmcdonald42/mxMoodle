@@ -17,7 +17,7 @@ Moodle is the world's most popular learning management system powering [hundreds
 
 ### We Are
 Team Lead: </br>
-[Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023
+[Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 \<amehta@mxschool.edu\>
 
 Team Members:
 - [Pranav Natarajan](https://github.com/CurryBoy9000), Class of 2022

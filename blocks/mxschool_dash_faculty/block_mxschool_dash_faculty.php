@@ -15,17 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Content for Middlesex's Dashboard Block for Faculty.
+ * Content for mxFaculty Dashboard Block
  *
  * @package    block_mxschool_dash_faculty
- * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author     mxMoodle Development Team
+ * @copyright  2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 require_once(__DIR__.'/../../local/mxschool/locallib.php');
 
 class block_mxschool_dash_faculty extends block_base {
@@ -36,27 +34,54 @@ class block_mxschool_dash_faculty extends block_base {
 
     public function get_content() {
         global $PAGE, $USER;
-        if (isset($this->content)) {
-            return $this->content;
-        }
+        if (isset($this->content)) { return $this->content; }
 
         $this->content = new stdClass();
         if (has_capability('block/mxschool_dash_faculty:access', context_system::instance())) {
             $output = $PAGE->get_renderer('local_mxschool');
-		  $links = array(
-			  get_string('student_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/student_report.php',
-			  get_string('vehicle_report', 'block_mxschool_dash_faculty') => '/local/mxschool/user_management/vehicle_report.php',
-			  get_string('duty_report', 'block_mxschool_dash_faculty') => '/local/signout/on_campus/duty_report.php',
-			  get_string('attendance_report', 'block_mxschool_dash_faculty') => '/local/mxschool/checkin/attendance_report.php'
-		  );
-		  if(has_capability('local/mxschool:manage_deans_permission', context_system::instance())) {
-			  $links[get_string('deans_permission_report', 'block_mxschool_dash_faculty')] = '/local/mxschool/deans_permission/report.php';
-		  }
-		  $renderable = new local_mxschool\output\index($links);
-            $this->content->text = $output->render($renderable);
-        }
 
-        return $this->content;
+            $renderables = array(
+                new local_mxschool\output\index(array(
+                    get_string('student:data_report', 'block_mxschool_dash_faculty')
+                        => '/local/mxschool/user_management/student_report.php',
+                    get_string('student:peer_tutoring_report', 'block_mxschool_dash_faculty')
+                        => '/local/peertutoring/report.php',
+                    get_string('student:vehicle_report', 'block_mxschool_dash_faculty')
+                        => '/local/mxschool/user_management/vehicle_report.php'
+                ), get_string('student:header', 'block_mxschool_dash_faculty')),
+
+                new local_mxschool\output\index(array(
+                    get_string('duty:on_campus_report', 'block_mxschool_dash_faculty')
+                        => '/local/signout/on_campus/duty_report.php',
+                    get_string('duty:attendance_report', 'block_mxschool_dash_faculty')
+                        => '/local/mxschool/checkin/attendance_report.php'
+                ), get_string('duty:header', 'block_mxschool_dash_faculty')),
+            );
+
+            if(has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
+                array_push($renderables,
+                    new local_mxschool\output\index(array(
+                        get_string('peer_tutoring:report', 'block_mxschool_dash_faculty')
+                            => '/local/peertutoring/report.php'
+                    ), get_string('peer_tutoring:header', 'block_mxschool_dash_faculty')),
+                );
+            }
+
+            if(has_capability('local/mxschool:manage_deans_permission', context_system::instance())) {
+                array_push($renderables,
+                    new local_mxschool\output\index(array(
+                        get_string('deans_permission:report', 'block_mxschool_dash_faculty')
+                            => '/local/mxschool/deans_permission/report.php?status=under_review'
+                    ), get_string('deans_permission:header', 'block_mxschool_dash_faculty')),
+                );
+            }
+
+            $this->content->text = array_reduce($renderables, function($html, $renderable) use($output) {
+                return $html . $output->render($renderable);
+            }, '');
+
+            return $this->content;
+        }
     }
 
     public function specialization() {
