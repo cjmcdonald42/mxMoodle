@@ -97,16 +97,14 @@ class transportation_table extends \local_mxschool\table {
         if ($filter->type) {
             $where[] = "dr.type = '{$filter->type}'";
         }
-        if($filter->student_type){
-            $where[] = "s.is_international = '{$filter->student_type}'";
-            if($filter->student_type == 1){
-                $where[] = "s.is_international = '{$filter->student_type}'";
-            }
-            else if($filter->student_type == 0){
-                $where[] = "s.is_international = '{$filter->student_type}'";
-            }
+        switch ($filter->student_type) {
+            case '1':
+                $where[] = "s.is_international";
+                break;
+            case '0':
+                $where[] = "!(s.is_international)";
+                break;
         }
-
 
 
 
