@@ -57,6 +57,10 @@ class block_mxschool_dash_student extends block_base {
             $links[get_string('deans_permission', 'block_mxschool_dash_student')]
                 = '/local/mxschool/deans_permission/form.php';
         }
+        if (user_is_admin() || (user_is_student() && student_may_access_tutoring($USER->id))) {
+            $links[get_string('form', 'block_mxschool_dash_student')]
+                = '/local/peertutoring/form.php';
+        }
 
         $this->content = new stdClass();
         if (count($links)) {
