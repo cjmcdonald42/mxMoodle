@@ -220,7 +220,7 @@ $string['user_management:student_edit:student:phone_number'] = 'Phone Number';
 $string['user_management:student_edit:student:birthday'] = 'Birthday';
 $string['user_management:student_edit:student:is_international:0'] = 'Domestic';
 $string['user_management:student_edit:student:is_international:1'] = 'International';
-$string['user_management:student_edit:student:is_international'] = 'Domestic/International';
+$string['user_management:student_edit:student:is_international'] = 'Domestic/International Student';
 
 
 // Student Permissions.
