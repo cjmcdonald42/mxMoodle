@@ -41,7 +41,7 @@ $queryfields = array(
         'fields' => array(
             'id', 'phone_number', 'birthday', 'admission_year', 'grade', 'gender', 'advisorid' => 'advisor',
             'boarding_status' => 'is_boarder', 'boarding_status_next_year' => 'is_boarder_next_year', 'dormid' => 'dorm', 'room',
-            'picture_filename' => 'picture'
+            'picture_filename' => 'picture', 'is_international'
         )
     ),
     'user' => array(
