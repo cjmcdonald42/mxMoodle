@@ -18,9 +18,8 @@
  * Page for peer tutors to log their tutoring sessions for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      Middlesex Moodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +29,7 @@ require_once(__DIR__.'/locallib.php');
 require_login();
 $isstudent = user_is_student();
 if (!$isstudent) {
-    require_capability('local/peertutoring:manage_tutoring', context_system::instance());
+    require_capability('local/peertutoring:add', context_system::instance());
 }
 
 $id = optional_param('id', 0, PARAM_INT);
