@@ -29,6 +29,8 @@ namespace local_peertutoring\local;
 defined('MOODLE_INTERNAL') || die();
 
 use local_peertutoring\local\daily_summary;
+use local_peertutoring\local\\submitted;
+
 
 class preferences_form extends \local_mxschool\form {
 
@@ -39,6 +41,11 @@ class preferences_form extends \local_mxschool\form {
         $fields = array(
             'notifications' => array(
                 'tags' => self::email_tags(new daily_summary()),
+                'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
+            ),
+            'submitted' => array(
+                'tags' => self::email_tags(new submitted()),
                 'subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED,
             )
