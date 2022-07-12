@@ -218,6 +218,10 @@ $string['user_management:student_edit:student:room'] = 'Room';
 $string['user_management:student_edit:student:picture'] = 'Student Picture Filename';
 $string['user_management:student_edit:student:phone_number'] = 'Phone Number';
 $string['user_management:student_edit:student:birthday'] = 'Birthday';
+$string['user_management:student_edit:student:is_international:0'] = 'Domestic';
+$string['user_management:student_edit:student:is_international:1'] = 'International';
+$string['user_management:student_edit:student:is_international'] = 'Domestic/International Student';
+
 
 // Student Permissions.
 $string['user_management:student_edit:permissions'] = 'Student Permissions';
@@ -920,6 +924,10 @@ $string['vacation_travel:transportation_report:select_type:Train'] = 'Train';
 $string['vacation_travel:transportation_report:select_type:NYCDirect'] = 'NYC Direct';
 $string['vacation_travel:transportation_report:select_type:Non-MXBus'] = 'Non-MX Bus';
 $string['vacation_travel:transportation_report:add'] = 'New Vacation Travel Form';
+$string['vacation_travel:transportation_report:select_is_international:true'] = 'International Students';
+$string['vacation_travel:transportation_report:select_is_international:false'] = 'Domestic Students';
+$string['vacation_travel:transportation_report:select_residency:all'] = 'All Students';
+
 
 // Departure headers.
 $string['vacation_travel:transportation_report:departure:header:student'] = 'Student';

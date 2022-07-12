@@ -80,7 +80,7 @@ class transportation_table extends \local_mxschool\table {
         );
 
         $fields = array(
-            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 't.destination',
+            's.id', 's.userid', 's.is_international', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 't.destination',
             't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation', 'dr.type AS type', 'drs.name AS site',
             'dr.details', 'dr.carrier', 'dr.transportation_number AS number', 'dr.date_time AS datetime', 'dr.international',
             't.time_modified AS timemodified', 'u.email'
@@ -98,6 +98,17 @@ class transportation_table extends \local_mxschool\table {
         if ($filter->type) {
             $where[] = "dr.type = '{$filter->type}'";
         }
+        switch ($filter->student_type) {
+            case '1':
+                $where[] = "s.is_international";
+                break;
+            case '0':
+                $where[] = "!(s.is_international)";
+                break;
+        }
+
+
+
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
@@ -168,6 +179,7 @@ class transportation_table extends \local_mxschool\table {
     protected function col_timemodified($values) {
         return $values->tid ? format_date('n/j/y g:i A', $values->timemodified) : '';
     }
+
 
     /**
      * Formats the actions column.
