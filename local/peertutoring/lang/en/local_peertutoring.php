@@ -31,14 +31,12 @@
 $string['pluginname'] = 'Middlesex Peer Tutoring';
 
 // Capabilities
+// Teachers can View the report
+// Peer Tutors can View the report and Add data
+// The Peer Tutoring Manager can View, Add, and Manage this subsystem
 $string['peertutoring:add'] = 'Middlesex Peer Tutoring: Add New Records';
 $string['peertutoring:view'] = 'Middlesex Peer Tutoring: View Peer Tutoring Report';
 $string['peertutoring:manage'] = 'Middlesex Peer Tutoring: Manage Peer Tutoring Preferences';
-
-/* TODO remove these old permissions
-$string['peertutoring:manage_preferences'] = 'Middlesex School Peer Tutoring: View and manage peer tutoring preferences';
-$string['peertutoring:manage_tutoring'] = 'Middlesex School Peer Tutoring: View and manage tutoring records';
- */
 
 // Settings
 $string['email_settings'] = 'Peer Tutoring Email Settings';

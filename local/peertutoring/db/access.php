@@ -40,18 +40,5 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
-
-/* TODO remove these old permissions
-    'local/peertutoring:manage_preferences' => array(
-        'riskbitmask' => RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    ),
-    'local/peertutoring:manage_tutoring' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM
-    )
-
 */
 );
