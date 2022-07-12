@@ -54,6 +54,7 @@ $mxtransportationoptions = array(
     '1' => get_string('vacation_travel:transportation_report:select_mxtransportation:true', 'local_mxschool'),
     '0' => get_string('vacation_travel:transportation_report:select_mxtransportation:false', 'local_mxschool')
 );
+
 $types = array(
     'Car' => get_string('vacation_travel:transportation_report:select_type:Car', 'local_mxschool'),
     'Plane' => get_string('vacation_travel:transportation_report:select_type:Plane', 'local_mxschool'),
