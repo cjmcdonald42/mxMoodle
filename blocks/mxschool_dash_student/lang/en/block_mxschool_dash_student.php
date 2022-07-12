@@ -43,3 +43,4 @@ $string['advisor_selection'] = 'Advisor Selection Form';
 $string['rooming'] = 'Rooming Form';
 $string['vacation'] = 'Vacation Travel Form';
 $string['deans_permission'] = 'Deans\' Permission Form';
+$string['form'] = 'Submit a Peer Tutoring Form';
