@@ -380,6 +380,29 @@ function get_student_hoh_id($id) {
 	return $DB->get_field('local_mxschool_dorm', 'hohid', array('id' => $dormid));
 }
 
+/**
+ * Given a student's userid, returns the dorm id.
+ *
+ * @param int id, the id of the student
+ * @return int|false dorm id of the studnet, or false if the id is not that of a student.
+ */
+function get_student_dorm_id($id) {
+	global $DB;
+	if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+	return $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
+}
+
+/**
+ * Given a dorm's id, returns the dorm log email.
+ *
+ * @param int id, the id of the dorm
+ * @return string|false dorm log email of the dorm, or false if the id is not that of a dorm.
+ */
+function get_dorm_log_email($dormid) {
+	global $DB;
+	if(!$DB->record_exists('local_mxschool_dorm', array('id' => $dormid))) return false;
+	return $DB->get_field('local_mxschool_dorm', 'dormid', array('dorm_log_email' => $email));
+}
 /*
  * ===============================================
  * DateTime Abstractions and Formatting Functions.
