@@ -63,6 +63,8 @@ if ($action === 'delete' && $id && $table) {
 
 $data = new stdClass();
 generate_email_preference_fields('peer_tutor_summary', $data);
+generate_email_preference_fields('peer_tutor_submitted', $data);
+
 
 $form = new local_peertutoring\local\preferences_form();
 $form->set_data($data);
@@ -71,6 +73,7 @@ if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {
     update_notification('peer_tutor_summary', $data);
+    update_notification('peer_tutor_submitted', $data);
     logged_redirect($form->get_redirect(), get_string('preferences:update:success', 'local_peertutoring'), 'update');
 }
 
