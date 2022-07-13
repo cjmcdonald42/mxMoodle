@@ -20,8 +20,7 @@ This package houses the following subpackages and pages:
     - _report_ — Report for the Peer Tutoring Administrator to view and manage the peer tutoring records.
 
 ## Credits
-// TODO v4.0 of this plug in...
-v4.0 of this plugin was developed alongside v4.0 of the local_mxschool plugin in 2022 by:
+v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2022 by:
 - Middlesex Moodle Development Team
 - Aarav Mehta, Class of 2023 \<amehta@mxschool.edu\>
 - Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
@@ -34,8 +33,6 @@ v3.0 of this plugin was developed alongside v3.0 of the local_mxschool plugin in
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
-
 ## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).
-
+As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
 © 2018-2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.

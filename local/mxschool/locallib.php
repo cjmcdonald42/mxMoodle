@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -633,7 +633,7 @@ function student_may_access_weekend($userid) {
 }
 
 /**
- * Determines whether a specified user is a student who is permitted to access the advisor selectino form.
+ * Determines whether a specified user is a student who is permitted to access the advisor selection form.
  *
  * @param int $id The user id of the student to check.
  * @return bool Whether the specified student is permitted to access the advisor selection form.
@@ -694,7 +694,7 @@ function get_param_faculty_dorm($includeday = true) {
     if (isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm']))) {
         $dorm = $_GET['dorm']; // The value is now safe to use.
         // An empty parameter indicates that search has taken place with the all option selected.
-        // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
+        // A value of -2 indicates all boarding houses; a value of -1 indicates all day houses.
         if (empty($dorm) || isset(get_dorm_list($includeday)[$dorm]) || ($includeday && in_array($dorm, array(-1, -2)))) {
             return $dorm;
         }

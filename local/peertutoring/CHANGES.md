@@ -1,4 +1,4 @@
-## Changes in v4.0
+## Changes in v3.3
 - Reorganize subplugin's permissions.
   - Add: permission for Peer Tutor to add records
   - View: permission for faculty to view the report

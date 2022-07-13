@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Middlesex's Peer Tutoring Subplugin.
+ * mxMoodle Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Middlesex Moodle Development Team
+ * @author      mxMoodle Development Team
  * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_peertutoring';
-$plugin->version = 2022090104;
+$plugin->version = 2022071200;
 $plugin->release = 'v3.1';
 $plugin->requires = 2019052000; // Moodle 3.7.
 $plugin->maturity = MATURITY_STABLE;
