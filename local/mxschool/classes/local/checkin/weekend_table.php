@@ -59,7 +59,7 @@ class weekend_table extends \local_mxschool\table {
         $headers2 = $this->generate_headers($columns2, 'checkin:weekend_report');
         $columns = array_merge($columns1, $columns2);
         $headers = array_merge($headers1, $headers2);
-        $sortable = array('student', 'room', 'grade', 'approved');
+        $sortable = array('student', 'room', 'grade');
         if (!$filter->dorm) {
             unset($sortable[array_search('room', $sortable)]);
         }
