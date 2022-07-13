@@ -50,10 +50,10 @@ $data->deans_email_address = get_config('local_mxschool', 'deans_email_address')
 generate_email_preference_fields('deans_permission_submitted', $data, 'submitted');
 $data->athletic_director_email_address = get_config('local_mxschool', 'athletic_director_email_address');
 generate_email_preference_fields('sports_permission_request', $data, 'review');
-$data->academic_director_email_address = get_config('local_mxschool', 'academic_director_email_address');
 generate_email_preference_fields('deans_permission_notify_healthcenter', $data, 'notify');
 $data->healthcenter_email_address = get_config('local_mxschool', 'dp_healthcenter_email_address');
 generate_email_preference_fields('deans_permission_notify_student', $data, 'notify');
+generate_email_preference_fields('deans_permission_notify_dorm_log', $data, 'notify');
 generate_email_preference_fields('deans_permission_approved', $data, 'approved');
 generate_email_preference_fields('deans_permission_denied', $data, 'denied');
 
@@ -65,13 +65,12 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
 	set_config('deans_email_address', $data->deans_email_address, 'local_mxschool');
 	set_config('athletic_director_email_address', $data->athletic_director_email_address, 'local_mxschool');
-	set_config('academic_director_email_address', $data->academic_director_email_address, 'local_mxschool');
 	set_config('dp_healthcenter_email_address', $data->healthcenter_email_address, 'local_mxschool');
-	update_notification('class_permission_request', $data, 'review');
 	update_notification('sports_permission_request', $data, 'review');
 	update_notification('deans_permission_submitted', $data, 'submitted');
 	update_notification('deans_permission_notify_healthcenter', $data, 'notify');
     update_notification('deans_permission_notify_student', $data, 'notify');
+    update_notification('deans_permission_notify_dorm_log', $data, 'notify');
 	update_notification('deans_permission_approved', $data, 'approved');
 	update_notification('deans_permission_denied', $data, 'denied');
 	logged_redirect($form->get_redirect(), get_string('deans_permission:preferences:update:success', 'local_mxschool'), 'update');
