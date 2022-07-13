@@ -46,14 +46,13 @@ class table extends \local_mxschool\table {
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
         $columns = array('student', 'event', 'event_info', 'recurring', 'sport', 'missing', 'times_away', 'parent_perm',
-            'missing_studyhours', 'sports_perm', 'class_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
+            'missing_studyhours', 'sports_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
         if ($this->is_downloading()) {
             unset($columns[array_search('sports_perm', $columns)]);
-            unset($columns[array_search('class_perm', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'deans_permission:report');
         $sortable = array('form_submitted', 'student', 'recurring');
-        $centered = array('event', 'recurring', 'sport', 'missing_studyhours', 'parent_perm', 'sports_perm', 'class_perm',
+        $centered = array('event', 'recurring', 'sport', 'missing_studyhours', 'parent_perm', 'sports_perm',
             'internal_comment', 'external_comment', 'status', 'form_submitted');
 
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
@@ -61,7 +60,7 @@ class table extends \local_mxschool\table {
         $fields = array(
             'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", "CONCAT(ua.lastname, ', ', ua.firstname) AS advisor", 'su.grade', 'su.boarding_status',
             'dpe.name AS event', 'dp.event_info', 'dp.recurring', 'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours',
-            'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.class_perm','dp.internal_comment',
+            'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.internal_comment',
             'dp.external_comment', 'dp.status', 'dp.form_submitted'
         );
         $from = array(
@@ -108,7 +107,6 @@ class table extends \local_mxschool\table {
     //    Remove flag for Study Hours - we're putting this back in it's own column
     //    if($values->missing_studyhours==1) $result.='Study Hours, ';
 
-        if($values->missing_class==1) $result.='Class, ';
         if(strlen($result) < 1) return 'Nothing';
         else return substr($result, 0, -2);
     }
@@ -136,12 +134,6 @@ class table extends \local_mxschool\table {
         return $output->render($renderable);
     }
 
-    protected function col_class_perm($values) {
-        global $PAGE;
-        $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new alternating_button($values->id, $values->userid, $values->class_perm, 'class', 'deans_permission');
-        return $output->render($renderable);
-    }
 
     protected function col_internal_comment($values) {
         if($this->is_downloading()) return $values->comment;
@@ -184,7 +176,8 @@ class table extends \local_mxschool\table {
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable = new email_button('Email Healthcenter', 'deans_permission_notify_healthcenter', $values->id, false);
         $renderable2 = new email_button('Email Student', 'deans_permission_notify_student', $values->id, false);
-        return $output->render($renderable).$output->render($renderable2).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
+        $renderable3 = new email_button('Email Dorm Log', 'deans_permission_notify_dorm_log', $values->id, false);
+        return $output->render($renderable).$output->render($renderable2).$output->render($renderable3).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).
             $this->delete_icon($values->id);
     }
 }
