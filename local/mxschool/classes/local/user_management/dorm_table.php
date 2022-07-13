@@ -37,14 +37,14 @@ class dorm_table extends \local_mxschool\table {
      * @param stdClass $filter Any filtering for the table - could include property search.
      */
     public function __construct($filter) {
-        $columns = array('name', 'hoh', 'permissionsline', 'type', 'gender', 'available');
+        $columns = array('name', 'hoh', 'permissionsline', 'type', 'gender', 'available', 'dorm_log_email');
         $headers = $this->generate_headers($columns, 'user_management:dorm_report');
         $sortable = array('name', 'type', 'gender', 'available');
         $centered = array('abbreviation', 'type', 'gender', 'available');
         parent::__construct('dorm_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
-            'd.id', 'd.name', "d.hohid AS hoh", 'd.permissions_line AS permissionsline', 'd.type', 'd.gender', 'd.available'
+            'd.id', 'd.name', "d.hohid AS hoh", 'd.permissions_line AS permissionsline', 'd.type', 'd.gender', 'd.available', 'd.dorm_log_email'
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('d.deleted = 0', 'u.deleted = 0');
