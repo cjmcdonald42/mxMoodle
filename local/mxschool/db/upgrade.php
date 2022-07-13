@@ -1366,6 +1366,20 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 20220706028, 'local', 'mxschool');
     }
 
+    if ($oldversion < 20220706028) {
+
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('is_international', XMLDB_TYPE_CHAR, '30', null, null, null, null);
+
+        // Conditionally launch add field recurring.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 20220706091, 'local', 'mxschool');
+    }
+
   return true;
 
 }
