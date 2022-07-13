@@ -18,7 +18,7 @@
  * Page for peer tutors to log their tutoring sessions for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Middlesex Moodle Development Team
+ * @author      mxMoodle Development Team
  * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

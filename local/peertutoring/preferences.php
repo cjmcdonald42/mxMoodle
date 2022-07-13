@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Preferences page for Middlesex's Peer Tutoring Subplugin.
+ * Preferences page for mxMoodle Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
  * @author      Middlesex Moodle Development Team

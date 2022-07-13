@@ -15,19 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Peer Tutoring Subplugin.
+ * English language strings for mxMoodle Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Middlesex Moodle Development Team
+ * @author      mxMoodle Development Team
  * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*
- * ========
- * General.
- * ========
- */
 $string['pluginname'] = 'Middlesex Peer Tutoring';
 
 // Capabilities
@@ -51,14 +46,8 @@ $string['indexes:peertutoring'] = 'Peer Tutoring Index';
 // Tasks
 $string['task:summary_email'] = 'Daily summary email to peer tutoring manager';
 
-
-/*
- * ==============
- * Peer Tutoring.
- * ==============
- */
+// TODO Where does this get used?
 $string['peertutoring'] = 'Peer Tutoring';
-
 
 // Preferences
 $string['preferences'] = 'Peer Tutoring Preferences';
@@ -223,18 +212,19 @@ $string['session:delete:failure'] = 'Peer Tutoring Session Record Not Found for 
 $string['report'] = 'Peer Tutoring Report';
 
 // Filter
+$string['report:select_date:all'] = 'All Dates';
 $string['report:select_tutor:all'] = 'All Tutors';
 $string['report:select_advisor:all'] = 'All Advisors';
 $string['report:select_department:all'] = 'All Departments';
 $string['report:select_type:all'] = 'All Types';
 $string['report:select_type:other'] = 'Other';
-$string['report:select_date:all'] = 'All Dates';
 $string['report:add'] = 'New Peer Tutoring Record';
 
 // Headers
 $string['report:header:tutor'] = 'Tutor';
 $string['report:header:tutoringdate'] = 'Date';
 $string['report:header:student'] = 'Student';
+$string['report:header:advisor'] = 'Advisor';
 $string['report:header:department'] = 'Department';
 $string['report:header:course'] = 'Course';
 $string['report:header:topic'] = 'Topic';

@@ -58,7 +58,7 @@ class block_mxschool_dash_faculty extends block_base {
                 ), get_string('duty:header', 'block_mxschool_dash_faculty')),
             );
 
-            if(has_capability('block/mxschool_manage_tutoring:access', context_system::instance())) {
+            if(has_capability('local/peertutoring:view', context_system::instance())) {
                 array_push($renderables,
                     new local_mxschool\output\index(array(
                         get_string('peer_tutoring:report', 'block_mxschool_dash_faculty')

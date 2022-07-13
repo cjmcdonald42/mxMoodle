@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Tutoring Table for Middlesex's Peer Tutoring Subplugin.
+ * Tutoring Table for mxMoodle Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -41,9 +40,12 @@ class table extends \local_mxschool\table {
         if (!$email) {
             $this->is_downloading($download, 'Peer Tutoring Records', 'Peer Tutoring Record');
         }
-        $columns = array('tutor', 'tutoringdate', 'student', 'department', 'course', 'topic', 'type', 'rating', 'notes');
+        $columns = array('tutor', 'tutoringdate', 'student', 'advisor', 'department', 'course', 'topic', 'type', 'rating', 'notes');
         if ($filter->tutor) {
             unset($columns[array_search('tutor', $columns)]);
+        }
+        if ($filter->advisor) {
+            unset($columns[array_search('advisor', $columns)]);
         }
         if ($filter->department) {
             unset($columns[array_search('department', $columns)]);
@@ -52,7 +54,7 @@ class table extends \local_mxschool\table {
             unset($columns[array_search('type', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'report', 'local_peertutoring');
-        $sortable = array('tutoringdate', 'tutor', 'student', 'department', 'course', 'type', 'rating');
+        $sortable = array('tutoringdate', 'tutor', 'student', 'advisor', 'department', 'course', 'type', 'rating');
         $centered = array('tutoringdate', 'department', 'course');
         parent::__construct(
             'tutoring_table', $columns, $headers, $sortable, $centered, $filter, !$email && !$this->is_downloading(), false
@@ -66,11 +68,13 @@ class table extends \local_mxschool\table {
 
         $fields = array(
             's.id', 's.tutorid', "CONCAT(tu.lastname, ', ', tu.firstname) AS tutor", 's.studentid',
-            "CONCAT(su.lastname, ', ', su.firstname) AS student", 's.tutoring_date AS tutoringdate', 'd.name AS department',
+            "CONCAT(su.lastname, ', ', su.firstname) AS student", "CONCAT(ua.lastname, ', ', ua.firstname) AS advisor",
+            's.tutoring_date AS tutoringdate', 'd.name AS department',
             'c.name AS course', 's.topic', 'ty.displaytext AS type', 's.other', 'r.displaytext AS rating', 's.notes'
         );
         $from = array(
             '{local_peertutoring_session} s', '{user} tu ON s.tutorid = tu.id', '{user} su ON s.studentid = su.id',
+            '{local_mxschool_student} sa ON s.studentid = sa.userid', '{user} ua ON sa.advisorid = ua.id',
             '{local_peertutoring_tutor} t ON s.tutorid = t.userid', '{local_peertutoring_course} c ON s.courseid = c.id',
             '{local_peertutoring_dept} d ON c.departmentid = d.id', '{local_peertutoring_type} ty ON s.typeid = ty.id',
             '{local_peertutoring_rating} r ON s.ratingid = r.id'
@@ -81,6 +85,9 @@ class table extends \local_mxschool\table {
         );
         if ($filter->tutor) {
             $where[] = "tu.id = {$filter->tutor}";
+        }
+        if ($filter->advisor) {
+            $where[] = "ua.id = {$filter->advisor}";
         }
         if ($filter->department) {
             $where[] = "c.departmentid = {$filter->department}";
@@ -96,7 +103,7 @@ class table extends \local_mxschool\table {
         }
         $searchable = array(
             'tu.lastname', 'tu.firstname', 'tu.alternatename', 'su.lastname', 'su.firstname', 'su.alternatename', 'd.name',
-            'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext', 's.notes'
+            'c.name', 's.topic', 'ty.displaytext', 's.other', 'r.displaytext', 's.notes', 'ua.lastname', 'ua.firstname'
         );
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
