@@ -37,6 +37,7 @@ use local_mxschool\local\deans_permission\sports_permission_request;
 // Restore this line but I can't find where it was deleted - so I'm writing it now.
 use local_mxschool\local\deans_permission\notify_healthcenter;
 use local_mxschool\local\deans_permission\deans_permission_notify_student;
+use local_mxschool\local\deans_permission\deans_permission_notify_dorm_log;
 use local_mxschool\local\deans_permission\deans_permission_approved;
 // TODO The deans_permission_denied.php form exists but is missing and entry here.
 // Is that a mistake?
@@ -56,7 +57,6 @@ class preferences_form extends \local_mxschool\form {
 		  ),
 		  'review_email' => array(
 			  'athletic_director_email_address' => self::ELEMENT_EMAIL_REQUIRED,
-			  'academic_director_email_address' => self::ELEMENT_EMAIL_REQUIRED,
 			  'review_tags' => self::email_tags(new sports_permission_request()),
 			  'review_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'review_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
@@ -66,7 +66,7 @@ class preferences_form extends \local_mxschool\form {
 // TODO Change the lang here to notify_healthcenter_email
           'notify_email' => array(
  			  'healthcenter_email_address' => self::ELEMENT_EMAIL_REQUIRED,
- 			  'notify_tags' => self::email_tags(new class_permission_request()),
+ 			  'notify_tags' => self::email_tags(new notify_healthcenter()),
  			  'notify_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
  			  'notify_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
  		  ),
@@ -77,6 +77,14 @@ class preferences_form extends \local_mxschool\form {
 			  'notify_student_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
 			  'notify_student_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
 		  ),
+
+          'notify_dorm_log_email' => array(
+			  'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:notify_dorm_log_email:note', 'local_mxschool')),
+			  'notify_dorm_log_tags' => self::email_tags(new notify_dorm_log()),
+			  'notify_dorm_log_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+			  'notify_dorm_log_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+		  ),
+
 		  'approved_email' => array(
 			  'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:approved_email:note', 'local_mxschool')),
 			  'approved_tags' => self::email_tags(new deans_permission_approved()),
