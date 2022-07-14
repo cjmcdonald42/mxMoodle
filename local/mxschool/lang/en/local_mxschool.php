@@ -992,8 +992,10 @@ $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
 $string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
-$string['deans_permission:report:header:missing_studyhours'] = 'Miss Study Hours';
+$string['deans_permission:report:header:missing_studyhours'] = 'Notify Dorm';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
+
+// TODO Remove this unused text string
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
 $string['deans_permission:report:header:internal_comment'] = 'Internal Comment';
 $string['deans_permission:report:header:external_comment'] = 'Message to Student';

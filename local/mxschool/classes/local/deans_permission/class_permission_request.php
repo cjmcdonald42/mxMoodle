@@ -25,17 +25,19 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/** TODO This notification can be removed
+
 namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
 class class_permission_request extends deans_permission_notification {
 
-    /**
+
      * @param int $id The id of the deans permission form which has been submitted.
      *                The default value of 0 indicates a template email that should not be sent.
      * @throws coding_exception If the specified record does not exist.
-     */
+
     public function __construct($id = 0) {
 	    parent::__construct('class_permission_request', $id);
 
@@ -50,3 +52,4 @@ class class_permission_request extends deans_permission_notification {
 		);
 }
 }
+ */

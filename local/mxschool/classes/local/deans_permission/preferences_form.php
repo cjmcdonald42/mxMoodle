@@ -30,7 +30,6 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\local\deans_permission\submitted;
 use local_mxschool\local\deans_permission\sports_permission_request;
-use local_mxschool\local\deans_permission\class_permission_request;
 use local_mxschool\local\deans_permission\notify_student;
 use local_mxschool\local\deans_permission\notify_healthcenter;
 use local_mxschool\local\deans_permission\deans_permission_approved;
@@ -51,7 +50,6 @@ class preferences_form extends \local_mxschool\form {
             ),
             'review_email' => array(
                 'athletic_director_email_address' => self::ELEMENT_EMAIL_REQUIRED,
-                'academic_director_email_address' => self::ELEMENT_EMAIL_REQUIRED,
                 'review_tags' => self::email_tags(new sports_permission_request()),
                 'review_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'review_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
