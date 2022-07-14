@@ -58,11 +58,15 @@ class block_mxschool_dash_faculty extends block_base {
                 ), get_string('duty:header', 'block_mxschool_dash_faculty')),
             );
 
-            if(has_capability('local/peertutoring:view', context_system::instance())) {
+            if(has_capability('local/peertutoring:manage', context_system::instance())) {
                 array_push($renderables,
                     new local_mxschool\output\index(array(
+                        get_string('peer_tutoring:form', 'block_mxschool_dash_faculty')
+                            => '/local/peertutoring/form.php',
                         get_string('peer_tutoring:report', 'block_mxschool_dash_faculty')
-                            => '/local/peertutoring/report.php'
+                            => '/local/peertutoring/report.php',
+                        get_string('peer_tutoring:preferences', 'block_mxschool_dash_faculty')
+                            => '/local/peertutoring/preferences.php'
                     ), get_string('peer_tutoring:header', 'block_mxschool_dash_faculty')),
                 );
             }

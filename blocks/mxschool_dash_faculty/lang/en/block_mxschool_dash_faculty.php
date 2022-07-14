@@ -37,7 +37,7 @@ $string['privacy:metadata'] = 'This block only provides links to other pages and
 // Links
 $string['student:header'] = 'Student Reports';
 $string['student:data_report'] = 'Student Data Report';
-$string['student:peer_tutoring_report'] = 'Advisee Peer Tutoring';
+$string['student:peer_tutoring_report'] = 'Peer Tutoring Report';
 $string['student:vehicle_report'] = 'Student Vehicles Report';
 
 $string['duty:header'] = 'Duty Reports';
@@ -45,7 +45,9 @@ $string['duty:on_campus_report'] = 'On-Campus Duty Report';
 $string['duty:attendance_report'] = 'Student Attendance Report';
 
 $string['peer_tutoring:header'] = 'Peer Tutoring';
+$string['peer_tutoring:form'] = 'Submit a Peer Tutoring Form';
 $string['peer_tutoring:report'] = 'Peer Tutoring Report';
+$string['peer_tutoring:preferences'] = 'Manage Peer Tutoring Preferences';
 
 $string['deans_permission:header'] = 'Deans\' Permission';
 $string['deans_permission:report'] = 'Deans\' Permission Report';
