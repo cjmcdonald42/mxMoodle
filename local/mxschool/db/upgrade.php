@@ -1357,6 +1357,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         $data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
         $data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
         update_notification('deans_permission_notify_student', $data, 'default');
+//        update_notification('class_permission_request', $data, 'default');
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2022070602, 'local', 'mxschool');

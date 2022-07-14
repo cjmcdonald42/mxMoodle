@@ -37,7 +37,7 @@ $string['privacy:metadata'] = 'This block only provides links to other pages and
 // Links
 $string['student:header'] = 'Student Reports';
 $string['student:data_report'] = 'Student Data Report';
-$string['student:peer_tutoring_report'] = 'Student Data Report';
+$string['student:peer_tutoring_report'] = 'Advisee Peer Tutoring';
 $string['student:vehicle_report'] = 'Student Vehicles Report';
 
 $string['duty:header'] = 'Duty Reports';
