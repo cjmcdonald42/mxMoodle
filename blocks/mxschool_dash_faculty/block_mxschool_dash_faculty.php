@@ -64,7 +64,7 @@ class block_mxschool_dash_faculty extends block_base {
                         get_string('peer_tutoring:form', 'block_mxschool_dash_faculty')
                             => '/local/peertutoring/form.php',
                         get_string('peer_tutoring:report', 'block_mxschool_dash_faculty')
-                            => '/local/peertutoring/report.php',
+                            => '/local/peertutoring/report.php?advisor=',
                         get_string('peer_tutoring:preferences', 'block_mxschool_dash_faculty')
                             => '/local/peertutoring/preferences.php'
                     ), get_string('peer_tutoring:header', 'block_mxschool_dash_faculty')),
