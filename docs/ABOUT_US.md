@@ -19,21 +19,15 @@ Moodle is the world's most popular learning management system powering [hundreds
 Team Lead: </br>
 [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 \<amehta@mxschool.edu\>
 
-Team Members:
-- [Pranav Natarajan](https://github.com/CurryBoy9000), Class of 2022
-- [Sophia Schubnel](https://github.com/MXSophia), Class of 2022
-- [Preston Taylor](https://github.com/pjtaylorMx), Class of 2022
-- [Joey Caspar](https://github.com/JoeyCaspar), Class of 2024
-
 Advisor: </br>
 [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 <a name="goals"></a>
 ### Current production release
-mxMoodle v3.3.1, built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0 and includes new functionality for Healthtest Auditing and the Deans' Permission Form.
-
-### Spring / Summer 2022
-Moodle v4 is planned to release in April. We are aiming to upgrade to Moodle 4.1 for July, 2022 and are now developing and verifying all work aiming for this upgrade point.
+mxMoodle v3.4, built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0, including:
+- New functionality for Healthtest Auditing and the Deans' Permission Form.
+- A new Residential Status field so that students can be filtered by International or Domestic addresses.
+- Expanded access to the Peer Tutoring subsystem.
 
 <a name="history"></a>
 ## History of this project
@@ -49,7 +43,7 @@ Following the successful transition to Moodle v3, Dr. Schaeberle passed the torc
 In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019, and [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, began a ground-up rewrite of our Moodle plugins, developing an API layer and documentation that would facilitate all future work and make Moodle programming even more accessible to our students. This fresh code base expanded our signout system to include both on and off campus signouts, and introduce interactive elements such as the Proctors' Event Check-In list.
 
 ### v3.2 and 3.3
-In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report and pave the road for the upcoming Moodle v4 upgrade during the summer of 2022.
+In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report.
 
 -----
 *Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*

@@ -11,7 +11,7 @@ We recommended the [Atom](https://atom.io) text editor because it is actively be
 
 To help you stay in line with our [Coding Style Guidelines](CODING_STYLE.md):
 - Set `Preferred Line Length` to `132`
-- Set `Tab Length` to `4`
+- Set `Tab Length` to `4 spaces`
 
 You will often want to use bash scripts to manipulate your development environment. In Atom, we suggest installing the terminal package `platformio-ide-terminal`.
 

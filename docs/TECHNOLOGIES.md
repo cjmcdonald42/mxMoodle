@@ -23,7 +23,7 @@ CSS _(Cascading Style Sheets)_ is what determines how a webpage is ultimately di
 [Markdown](https://www.markdownguide.org) is a simplified way to add formatting elements to otherwise plain text. It's fast, lightweight, and surprisingly younger than HTML and CSS. All of our documentation, including the user Wiki currently in development, is hosted by GitHub and written in plain text with markdown.
 
 ## Moodle.org
-In addition to these technologies, the [Moodle.org](https://moodle.org) website is an excellent resource for the many API layers and fundementals of Moodle. Be sure to access their [Documentation](https://docs.moodle.org), [Development site](https://docs.moodle.org/dev), and [Community Forums](https://moodle.org/course/view.php?id=5).
+In addition to these technologies, the [Moodle.org](https://moodle.org) website is an excellent resource for the many API layers and fundementals of Moodle. Be sure to access their [Documentation](https://docs.moodle.org), [Development site](https://moodledev.io), and [Community Forums](https://moodle.org/course/view.php?id=5).
 
 -----
 *Continue to our [Developer Tools](/docs/TOOLS.md) page.*  </br>
