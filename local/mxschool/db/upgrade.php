@@ -1352,6 +1352,8 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021080600, 'local', 'mxschool');
     }
 
+
+// TODO Combine these updates into one batch for final commit.
     if($oldversion < 2021080600) {
         $data = new stdClass();
         $data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
@@ -1361,6 +1363,19 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
         // Mxschool savepoint reached.
         upgrade_plugin_savepoint(true, 2022070602, 'local', 'mxschool');
+
+    }
+
+    if($oldversion < 2022071506) {
+        $data = new stdClass();
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('intl', XMLDB_TYPE_CHAR, '10', null, null, null, 'D', 'gender');
+
+        // Conditionally launch add field event_info.
+        if (!$dbman->field_exists($table, $field)) { $dbman->add_field($table, $field); }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2022071506, 'local', 'mxschool');
 
     }
 

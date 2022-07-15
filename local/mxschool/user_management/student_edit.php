@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -39,7 +38,7 @@ $queryfields = array(
     'local_mxschool_student' => array(
         'abbreviation' => 's',
         'fields' => array(
-            'id', 'phone_number', 'birthday', 'admission_year', 'grade', 'gender', 'advisorid' => 'advisor',
+            'id', 'phone_number', 'birthday', 'admission_year', 'grade', 'gender', 'intl', 'advisorid' => 'advisor',
             'boarding_status' => 'is_boarder', 'boarding_status_next_year' => 'is_boarder_next_year', 'dormid' => 'dorm', 'room',
             'picture_filename' => 'picture'
         )

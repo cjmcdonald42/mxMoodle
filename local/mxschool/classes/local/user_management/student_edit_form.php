@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -62,6 +61,7 @@ class student_edit_form extends \local_mxschool\form {
                 'admission_year' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
                 'gender' => array('element' => 'radio', 'options' => array('M', 'F'), 'rules' => array('required')),
+                'intl' => array('element' => 'radio', 'options' => array('D', 'I'), 'rules' => array('required')),
                 'advisor' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
                 'is_boarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),
                 'is_boarder_next_year' => array(
