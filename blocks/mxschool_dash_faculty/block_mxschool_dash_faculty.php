@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Content for mxFaculty Dashboard Block
+ * Content for Middlesex's Faculty Dashboard Block
  *
  * @package    block_mxschool_dash_faculty
  * @author     mxMoodle Development Team
