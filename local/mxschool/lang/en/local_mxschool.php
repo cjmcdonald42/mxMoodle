@@ -1036,11 +1036,11 @@ $string['deans_permission:preferences:review_email:review_subject'] = 'Review Re
 $string['deans_permission:preferences:review_email:review_body'] = 'Review Request Notification Body';
 
 // TODO Healthcentre email notification
-$string['deans_permission:preferences:notify_email'] = 'Healthcenter Notification';
-$string['deans_permission:preferences:notify_email:healthcenter_email_address'] = 'Healthcenter Email';
-$string['deans_permission:preferences:notify_email:notify_tags'] = 'Available Tags for Healthcenter Notification';
-$string['deans_permission:preferences:notify_email:notify_subject'] = 'Healthcenter Notification Subject';
-$string['deans_permission:preferences:notify_email:notify_body'] = 'Healthcenter Notification Body';
+$string['deans_permission:preferences:notify_healthcenter'] = 'Healthcenter Notification';
+$string['deans_permission:preferences:notify_healthcenter:healthcenter_email_address'] = 'Healthcenter Email';
+$string['deans_permission:preferences:notify_healthcenter:notify_healthcenter_tags'] = 'Available Tags for Healthcenter Notification';
+$string['deans_permission:preferences:notify_healthcenter:notify_healthcenter_subject'] = 'Healthcenter Notification Subject';
+$string['deans_permission:preferences:notify_healthcenter:notify_healthcenter_body'] = 'Healthcenter Notification Body';
 
 // TODO Student email notification
 $string['deans_permission:preferences:notify_student'] = 'Student Email Notification';
@@ -1051,13 +1051,12 @@ $string['deans_permission:preferences:notify_student:notify_student_subject'] = 
 $string['deans_permission:preferences:notify_student:notify_student_body'] = 'Student Email Notification Body';
 
 // TODO Deans Log notification
-$string['deans_permission:preferences:notify_dorm_log'] = 'Deans\' Permission Form Notify Dorm Log Email Notification';
+$string['deans_permission:preferences:notify_dorm_log'] = 'Dorm Log Notification';
 $string['deans_permission:preferences:notify_dorm_log:info'] = 'Note:';
-$string['deans_permission:preferences:notify_dorm_log:note'] = 'If the message to student is sent, this email will go to the dorm log';
+$string['deans_permission:preferences:notify_dorm_log:note'] = 'When triggered, this email will go to the students\' dorm log';
 $string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_tags'] = 'Available tags for deans\' permission form notify dorm log email';
-$string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_subject'] = 'Deans\' permission form notify dorm log email subject';
-$string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_body'] = 'Deans\' permission form notify dorm log email body';
-
+$string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_subject'] = 'Notify dorm log email subject';
+$string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_body'] = 'Notify dorm log email body';
 
 $string['deans_permission:preferences:approved_email'] = 'Form Approved Notification';
 $string['deans_permission:preferences:approved_email:info'] = 'Note:';

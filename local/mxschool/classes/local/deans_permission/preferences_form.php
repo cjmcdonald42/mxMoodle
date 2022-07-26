@@ -58,7 +58,7 @@ class preferences_form extends \local_mxschool\form {
             'notify_student' => array(
                 'info' => array('element' => 'static', 'text' =>
                     get_string('deans_permission:preferences:notify_student:note', 'local_mxschool')),
-                'notify_student_tags' => self::email_tags(new class_permission_request()),
+                'notify_student_tags' => self::email_tags(new notify_student()),
                 'notify_student_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'notify_student_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
@@ -68,12 +68,11 @@ class preferences_form extends \local_mxschool\form {
                 'notify_dorm_log_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'notify_dorm_log_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
-// TODO This is the email to notify the HealthCenter
-            'notify_email' => array(
+            'notify_healthcenter' => array(
                 'healthcenter_email_address' => self::ELEMENT_EMAIL_REQUIRED,
-                'notify_tags' => self::email_tags(new class_permission_request()),
-                'notify_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
-                'notify_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+                'notify_healthcenter_tags' => self::email_tags(new notify_healthcenter()),
+                'notify_healthcenter_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'notify_healthcenter_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
             'approved_email' => array(
                 'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:approved_email:note', 'local_mxschool')),

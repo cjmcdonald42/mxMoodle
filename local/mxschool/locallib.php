@@ -392,16 +392,18 @@ function get_student_dorm_id($id) {
 	return $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
 }
 
+// TODO Can this be removed?
 /**
- * Given a dorm's id, returns the dorm log email address.
+ * Given a student's userid, returns the dorm log email address.
  *
- * @param int id, the id of the dorm
- * @return string|false dorm log email of the dorm, or false if the id is not that of a dorm.
+ * @param int id, the id of the student
+ * @return string|false dorm log email of the student, or false if the id is not that of a student.
  */
-function get_dorm_log_email($dormid) {
-	global $DB;
-	if(!$DB->record_exists('local_mxschool_dorm', array('id' => $dormid))) return false;
-	return $DB->get_field('local_mxschool_dorm', 'dormid', array('dorm_log' => $email));
+function get_dorm_log_email($id) {
+    global $DB;
+    if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+	$dormid = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
+    return $DB->get_field('local_mxschool_dorm', 'dorm_log', array('id' => $dormid));
 }
 
 /*
