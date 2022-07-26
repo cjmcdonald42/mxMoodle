@@ -178,7 +178,7 @@ $string['rating:delete:failure'] = 'Effectiveness Rating Record Not Found for De
 
 // Peer Tutoring Form
 $string['form'] = 'Peer Tutoring Form';
-$string['form_title'] = 'Peer Tutoring Form for {$a}';
+$string['form:title'] = 'Peer Tutoring Form for {$a}';
 
 // General Information
 $string['form:info'] = 'General Information';
