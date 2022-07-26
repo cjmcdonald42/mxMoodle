@@ -30,8 +30,9 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_mxschool\local\deans_permission\submitted;
 use local_mxschool\local\deans_permission\sports_permission_request;
-use local_mxschool\local\deans_permission\notify_student;
 use local_mxschool\local\deans_permission\notify_healthcenter;
+use local_mxschool\local\deans_permission\notify_student;
+use local_mxschool\local\deans_permission\notify_dorm_log;
 use local_mxschool\local\deans_permission\deans_permission_approved;
 use local_mxschool\local\deans_permission\deans_permission_denied;
 
@@ -61,6 +62,13 @@ class preferences_form extends \local_mxschool\form {
                 'notify_student_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
                 'notify_student_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
             ),
+            'notify_dorm_log' => array(
+                'info' => array('element' => 'static', 'text' => get_string('deans_permission:preferences:notify_dorm_log:note', 'local_mxschool')),
+                'notify_dorm_log_tags' => self::email_tags(new notify_dorm_log()),
+                'notify_dorm_log_subject' => self::ELEMENT_LONG_TEXT_REQUIRED,
+                'notify_dorm_log_body' => self::ELEMENT_FORMATTED_TEXT_REQUIRED
+            ),
+// TODO This is the email to notify the HealthCenter
             'notify_email' => array(
                 'healthcenter_email_address' => self::ELEMENT_EMAIL_REQUIRED,
                 'notify_tags' => self::email_tags(new class_permission_request()),

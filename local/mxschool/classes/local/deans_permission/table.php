@@ -46,13 +46,13 @@ class table extends \local_mxschool\table {
     public function __construct($filter, $download) {
         $this->is_downloading($download, 'Deans\' Permission', 'Deans\' Permission');
         $columns = array('student', 'event', 'event_info', 'recurring', 'sport', 'missing', 'times_away', 'parent_perm',
-            'missing_studyhours', 'sports_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
+            'notify_dorm_log', 'sports_perm', 'internal_comment', 'external_comment', 'status', 'form_submitted');
         if ($this->is_downloading()) {
             unset($columns[array_search('sports_perm', $columns)]);
         }
         $headers = $this->generate_headers($columns, 'deans_permission:report');
         $sortable = array('form_submitted', 'student', 'recurring');
-        $centered = array('event', 'recurring', 'sport', 'missing_studyhours', 'parent_perm', 'sports_perm',
+        $centered = array('event', 'recurring', 'sport', 'parent_perm', 'notify_dorm_log', 'sports_perm',
             'internal_comment', 'external_comment', 'status', 'form_submitted');
 
         parent::__construct('deans_permission_table', $columns, $headers, $sortable, $centered, $filter, !$this->is_downloading());
@@ -61,7 +61,7 @@ class table extends \local_mxschool\table {
             'dp.id', 'dp.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student",
             "CONCAT(ua.lastname, ', ', ua.firstname) AS advisor", 'su.grade', 'su.boarding_status',
             'dpe.name AS event', 'dp.event_info', 'dp.recurring', 'dp.sport', 'dp.missing_sports', 'dp.missing_studyhours',
-            'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.internal_comment',
+            'dp.missing_class', 'dp.times_away', 'dp.parent_perm', 'dp.sports_perm', 'dp.notify_dorm_log', 'dp.internal_comment',
             'dp.external_comment', 'dp.status', 'dp.form_submitted'
         );
         $from = array(
@@ -105,11 +105,11 @@ class table extends \local_mxschool\table {
         else return substr($result, 0, -2);
     }
 
-    protected function col_missing_studyhours($values) {
-        if($this->is_downloading()) return format_boolean($values->missing_studyhours);
+    protected function col_notify_dorm_log($values) {
+        if($this->is_downloading()) return format_boolean($values->notify_dorm_log);
         global $PAGE;
         $output = $PAGE->get_renderer('local_mxschool');
-        $renderable = new checkbox($values->id, 'local_mxschool_deans_perm', 'missing_studyhours', $values->missing_studyhours);
+        $renderable = new checkbox($values->id, 'local_mxschool_deans_perm', 'notify_dorm_log', $values->notify_dorm_log);
         return $output->render($renderable);
     }
 
@@ -169,6 +169,7 @@ class table extends \local_mxschool\table {
         $output = $PAGE->get_renderer('local_mxschool');
         $renderable1 = new email_button('Email Healthcenter', 'deans_permission_notify_healthcenter', $values->id, false);
         $renderable2 = new email_button('Email Student', 'deans_permission_notify_student', $values->id, false);
-        return $output->render($renderable1).$output->render($renderable2).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).$this->delete_icon($values->id);
+        $renderable3 = new email_button('Email Dorm Log', 'deans_permission_notify_dorm_log', $values->id, false);
+        return $output->render($renderable1).$output->render($renderable2).$output->render($renderable3).$this->edit_icon('/local/mxschool/deans_permission/form.php', $values->id).$this->delete_icon($values->id);
     }
 }

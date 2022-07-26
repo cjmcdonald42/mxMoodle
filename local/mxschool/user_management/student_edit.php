@@ -82,9 +82,14 @@ if ($form->is_cancelled()) {
     if (!$data->picture) {
         unset($data->picture);
     }
+
+// TODO throwing an error - why is this even here? to what does it even refer?
+/**
     if (!$data->license) {
         unset($data->license);
     }
+ */
+
     if (!isset($data->riding) || $data->riding !== 'specific') {
         unset($data->ridingcomment);
     }

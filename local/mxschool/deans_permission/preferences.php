@@ -51,6 +51,7 @@ $data->athletic_director_email_address = get_config('local_mxschool', 'athletic_
 generate_email_preference_fields('sports_permission_request', $data, 'review');
 generate_email_preference_fields('deans_permission_notify_student', $data, 'notify_student');
 generate_email_preference_fields('deans_permission_notify_healthcenter', $data, 'notify');
+generate_email_preference_fields('deans_permission_notify_notify_dorm_log', $data, 'notify');
 $data->healthcenter_email_address = get_config('local_mxschool', 'dp_healthcenter_email_address');
 generate_email_preference_fields('deans_permission_approved', $data, 'approved');
 generate_email_preference_fields('deans_permission_denied', $data, 'denied');
@@ -68,6 +69,7 @@ if ($form->is_cancelled()) {
     update_notification('deans_permission_submitted', $data, 'submitted');
     update_notification('deans_permission_notify_student', $data, 'notify_student');
     update_notification('deans_permission_notify_healthcenter', $data, 'notify');
+    update_notification('deans_permission_notify_dorm_log', $data, 'notify');
     update_notification('deans_permission_approved', $data, 'approved');
     update_notification('deans_permission_denied', $data, 'denied');
     logged_redirect($form->get_redirect(), get_string('deans_permission:preferences:update:success', 'local_mxschool'), 'update');
