@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -44,7 +43,7 @@ class student_table extends \local_mxschool\table {
         $this->type = $filter->type;
         switch ($filter->type) {
             case 'students':
-                $columns = array('student', 'grade', 'advisor', 'dorm', 'room', 'phone', 'birthday');
+                $columns = array('student', 'grade', 'advisor', 'dorm', 'room', 'phone', 'birthday', 'intl');
                 if ($filter->dorm > 0) {
                     unset($columns[array_search('dorm', $columns)]);
                     if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
@@ -54,8 +53,8 @@ class student_table extends \local_mxschool\table {
                 if ($filter->dorm == -1) {
                     unset($columns[array_search('room', $columns)]);
                 }
-                $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday');
-                $centered = array('grade', 'room', 'birthday');
+                $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'intl');
+                $centered = array('grade', 'room', 'birthday', 'intl');
                 if ($filter->dorm <= 0) {
                     unset($sortable[array_search('room', $sortable)]);
                 }
@@ -97,7 +96,7 @@ class student_table extends \local_mxschool\table {
                 array_unshift($fields, 's.id');
                 array_push(
                     $fields, 's.grade', "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 's.dormid', 'd.name AS dorm', 's.room',
-                    's.phone_number AS phone', 's.birthday'
+                    's.phone_number AS phone', 's.birthday', 's.intl'
                 );
                 $from[] = '{user} a ON s.advisorid = a.id';
                 array_push($searchable, 'a.firstname', 'a.lastname');

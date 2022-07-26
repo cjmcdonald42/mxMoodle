@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,14 +36,14 @@ class dorm_table extends \local_mxschool\table {
      * @param stdClass $filter Any filtering for the table - could include property search.
      */
     public function __construct($filter) {
-        $columns = array('name', 'hoh', 'permissionsline', 'type', 'gender', 'available');
+        $columns = array('name', 'hoh', 'permissionsline', 'dorm_log', 'type', 'gender', 'available');
         $headers = $this->generate_headers($columns, 'user_management:dorm_report');
         $sortable = array('name', 'type', 'gender', 'available');
         $centered = array('abbreviation', 'type', 'gender', 'available');
         parent::__construct('dorm_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
-            'd.id', 'd.name', "d.hohid AS hoh", 'd.permissions_line AS permissionsline', 'd.type', 'd.gender', 'd.available'
+            'd.id', 'd.name', "d.hohid AS hoh", 'd.permissions_line AS permissionsline', 'd.dorm_log', 'd.type', 'd.gender', 'd.available'
         );
         $from = array('{local_mxschool_dorm} d', '{user} u ON d.hohid = u.id');
         $where = array('d.deleted = 0', 'u.deleted = 0');
