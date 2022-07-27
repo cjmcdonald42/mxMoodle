@@ -36,19 +36,19 @@ class notify_dorm_log extends deans_permission_notification {
      * @throws coding_exception If the specified record does not exist.
      */
      public function __construct($id = 0) {
- 	    parent::__construct('deans_permission_notify_dorm_log', $id);
- 	    global $DB;
+        parent::__construct('deans_permission_notify_dorm_log', $id);
+        global $DB;
 
         $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
+
         $dorm_log = $DB->get_record('user', array('id' => 2));
-	    $dorm_log->email = get_dorm_log_email($userid)
-	    $dorm_log->addresseename = 'Deans Permission';
-	    $dorm_log->firstname = 'Deans';
-	    $dorm_log->lastname = 'Permission';
+        $dorm_log->email = get_dorm_log_email($userid);
+        $dorm_log->firstname = 'Dorm';
+        $dorm_log->lastname = 'Log';
 
         array_push(
             $this->recipients, $dorm_log
-	    );
+        );
 
     }
 }
