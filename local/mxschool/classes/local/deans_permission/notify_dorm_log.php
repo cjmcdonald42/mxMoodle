@@ -40,8 +40,11 @@ class notify_dorm_log extends deans_permission_notification {
  	    global $DB;
 
         $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
-        $dormid = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
-        $dorm_log = $DB->get_field('local_mxschool_dorm', 'dorm_log', array('id' => $dormid));
+        $dorm_log = $DB->get_record('user', array('id' => 2));
+	    $dorm_log->email = get_dorm_log_email($userid)
+	    $dorm_log->addresseename = 'Deans Permission';
+	    $dorm_log->firstname = 'Deans';
+	    $dorm_log->lastname = 'Permission';
 
         array_push(
             $this->recipients, $dorm_log

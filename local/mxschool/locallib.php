@@ -392,7 +392,6 @@ function get_student_dorm_id($id) {
 	return $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
 }
 
-// TODO Can this be removed?
 /**
  * Given a student's userid, returns the dorm log email address.
  *
