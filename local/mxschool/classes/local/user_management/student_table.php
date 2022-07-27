@@ -53,6 +53,9 @@ class student_table extends \local_mxschool\table {
                 if ($filter->dorm == -1) {
                     unset($columns[array_search('room', $columns)]);
                 }
+                if ($filter->intl) {
+                    unset($columns[array_search('intl', $columns)]);
+                }
                 $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'intl');
                 $centered = array('grade', 'room', 'birthday', 'intl');
                 if ($filter->dorm <= 0) {
@@ -61,16 +64,11 @@ class student_table extends \local_mxschool\table {
                 break;
             case 'permissions':
                 $columns = array(
-                    'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
-				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
+                    'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities', 'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
-                $sortable = array(
-				 'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
- 				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
+                $sortable = array('student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities', 'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
-                $centered = array(
-				 'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
- 				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
+                $centered = array('student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities', 'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
                 break;
             case 'parents':
@@ -84,11 +82,14 @@ class student_table extends \local_mxschool\table {
         $headers = $this->generate_headers($columns, "user_management:student_report:{$filter->type}");
         parent::__construct('student_table', $columns, $headers, $sortable, $centered, $filter);
 
-        $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student");
+        $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.intl');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0');
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
+        }
+        if ($filter->intl) {
+            $where[] = "s.intl = '{$filter->intl}'";
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         switch ($filter->type) {
@@ -104,10 +105,9 @@ class student_table extends \local_mxschool\table {
             case 'permissions':
                 array_unshift($fields, 'p.id', 's.id AS sid');
                 array_push(
-                    $fields,
-                    'p.overnight', 'p.may_drive_with_over_21 AS may_drive_over_21', 'p.may_drive_with_anyone',
+                    $fields, 'p.overnight', 'p.may_drive_with_over_21 AS may_drive_over_21', 'p.may_drive_with_anyone',
                     'p.may_travel_to_regional_cities AS travel_to_cities', 'p.may_drive_passengers AS passengers',
-				'p.may_use_rideshare AS rideshare', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
+                    'p.may_use_rideshare AS rideshare', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
                 );
                 $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';
                 break;

@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,6 +33,7 @@ require_capability('local/mxschool:manage_students', context_system::instance())
 $filter = new stdClass();
 $filter->type = optional_param('type', 'students', PARAM_RAW);
 $filter->dorm = get_param_faculty_dorm();
+$filter->intl = optional_param('intl', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $action = optional_param('action', '', PARAM_RAW);
 $id = optional_param('id', 0, PARAM_INT);
@@ -59,10 +59,17 @@ if ($filter->type === 'parents' && $action === 'delete' && $id) {
     );
 }
 
+$intloptions = array(
+    'D' => get_string('dropdown:intl:domestic', 'local_mxschool'),
+    'I' => get_string('dropdown:intl:international', 'local_mxschool')
+);
+
 $table = new local_mxschool\local\user_management\student_table($filter);
 $dropdowns = array(
-    new local_mxschool\output\dropdown('type', $types, $filter->type), local_mxschool\output\dropdown::dorm_dropdown($filter->dorm)
+    new local_mxschool\output\dropdown('type', $types, $filter->type), local_mxschool\output\dropdown::dorm_dropdown($filter->dorm),
+    new local_mxschool\output\dropdown('intl', $intloptions, $filter->intl, get_string('dropdown:intl', 'local_mxschool'))
 );
+
 $buttons = $filter->type === 'parents' ? $buttons = array(new local_mxschool\output\redirect_button(
     get_string('user_management:student_report:add_parent', 'local_mxschool'),
     new moodle_url('/local/mxschool/user_management/parent_edit.php')
