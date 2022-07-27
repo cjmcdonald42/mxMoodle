@@ -78,6 +78,10 @@ $string['dropdown:dorm'] = 'All Dorms';
 $string['dropdown:house_all'] = 'All Houses';
 $string['dropdown:house_day'] = 'All Day';
 $string['dropdown:house_boarding'] = 'All Boarding';
+$string['dropdown:intl'] = 'All Students';
+$string['dropdown:intl:domestic'] = 'Domestic';
+$string['dropdown:intl:international'] = 'International';
+
 
 // Email Button.
 $string['email_button:confirmation'] = 'Are you sure you want to send this bulk notification?';
