@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  vacation_travel
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -80,10 +79,7 @@ class transportation_table extends \local_mxschool\table {
         );
 
         $fields = array(
-            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 't.destination',
-            't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation', 'dr.type AS type', 'drs.name AS site',
-            'dr.details', 'dr.carrier', 'dr.transportation_number AS number', 'dr.date_time AS datetime', 'dr.international',
-            't.time_modified AS timemodified', 'u.email'
+            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.intl', 't.destination', 't.phone_number AS phone', 'dr.mx_transportation AS mxtransportation', 'dr.type AS type', 'drs.name AS site', 'dr.details', 'dr.carrier', 'dr.transportation_number AS number', 'dr.date_time AS datetime', 'dr.international', 't.time_modified AS timemodified', 'u.email'
         );
         $from = array(
             '{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_vt_trip} t ON s.userid = t.userid',
@@ -96,6 +92,9 @@ class transportation_table extends \local_mxschool\table {
         }
         if ($filter->type) {
             $where[] = "dr.type = '{$filter->type}'";
+        }
+        if ($filter->intl) {
+            $where[] = "s.intl = '{$filter->intl}'";
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);

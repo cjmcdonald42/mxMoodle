@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  vacation_travel
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -36,6 +35,7 @@ $filter->portion = get_config('local_mxschool', 'vacation_form_returnenabled') ?
     : 'departure';
 $filter->mxtransportation = optional_param('mxtransportation', '', PARAM_RAW);
 $filter->type = optional_param('type', '', PARAM_RAW);
+$filter->intl = optional_param('intl', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 $download = optional_param('download', '', PARAM_ALPHA);
 
@@ -61,16 +61,16 @@ $types = array(
     'NYC Direct' => get_string('vacation_travel:transportation_report:select_type:NYCDirect', 'local_mxschool'),
     'Non-MX Bus' => get_string('vacation_travel:transportation_report:select_type:Non-MXBus', 'local_mxschool')
 );
+$intloptions = array(
+    'D' => get_string('dropdown:intl:domestic', 'local_mxschool'),
+    'I' => get_string('dropdown:intl:international', 'local_mxschool')
+);
 
 $table = new local_mxschool\local\vacation_travel\transportation_table($filter, $download);
 $dropdowns = array(
-    new local_mxschool\output\dropdown(
-        'mxtransportation', $mxtransportationoptions, $filter->mxtransportation,
-        get_string('dropdown:default', 'local_mxschool')
-    ),
-    new local_mxschool\output\dropdown(
-        'type', $types, $filter->type, get_string('vacation_travel:transportation_report:select_type:all', 'local_mxschool')
-    )
+    new local_mxschool\output\dropdown( 'mxtransportation', $mxtransportationoptions, $filter->mxtransportation, get_string('dropdown:default', 'local_mxschool')),
+    new local_mxschool\output\dropdown('type', $types, $filter->type, get_string('vacation_travel:transportation_report:select_type:all', 'local_mxschool')),
+    new local_mxschool\output\dropdown('intl', $intloptions, $filter->intl, get_string('dropdown:intl', 'local_mxschool'))
 );
 if (get_config('local_mxschool', 'vacation_form_returnenabled')) {
     array_unshift($dropdowns, new local_mxschool\output\dropdown('portion', $portions, $filter->portion));

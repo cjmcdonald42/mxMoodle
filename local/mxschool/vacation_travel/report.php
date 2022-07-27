@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  vacation_travel
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,6 +33,7 @@ require_capability('local/mxschool:manage_vacation_travel', context_system::inst
 $filter = new stdClass();
 $filter->dorm = get_param_faculty_dorm(false);
 $filter->submitted = optional_param('submitted', '', PARAM_RAW);
+$filter->intl = optional_param('intl', '', PARAM_RAW);
 $filter->search = optional_param('search', '', PARAM_RAW);
 
 setup_mxschool_page('report', 'vacation_travel');
@@ -42,14 +42,19 @@ $submittedoptions = array(
     '1' => get_string('vacation_travel:report:select_submitted:true', 'local_mxschool'),
     '0' => get_string('vacation_travel:report:select_submitted:false', 'local_mxschool')
 );
+$intloptions = array(
+    'D' => get_string('dropdown:intl:domestic', 'local_mxschool'),
+    'I' => get_string('dropdown:intl:international', 'local_mxschool')
+);
 
 $table = new local_mxschool\local\vacation_travel\table($filter);
 $dropdowns = array(
     local_mxschool\output\dropdown::dorm_dropdown($filter->dorm, false),
     new local_mxschool\output\dropdown(
-        'submitted', $submittedoptions, $filter->submitted, get_string('dropdown:default', 'local_mxschool')
-    )
+        'submitted', $submittedoptions, $filter->submitted, get_string('vacation_travel:report:select_submitted:all', 'local_mxschool')),
+    new local_mxschool\output\dropdown('intl', $intloptions, $filter->intl, get_string('dropdown:intl', 'local_mxschool'))
 );
+
 $buttons = array(new local_mxschool\output\redirect_button(
     get_string('vacation_travel:report:add', 'local_mxschool'), new moodle_url('/local/mxschool/vacation_travel/form.php')
 ));
