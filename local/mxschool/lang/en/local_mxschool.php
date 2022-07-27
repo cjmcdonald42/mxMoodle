@@ -894,6 +894,7 @@ $string['vacation_travel:report'] = 'Vacation Travel Report';
 $string['vacation_travel:report:title'] = '{$a}Vacation Travel Report';
 
 // Filter.
+$string['vacation_travel:report:select_submitted:all'] = 'All Forms';
 $string['vacation_travel:report:select_submitted:true'] = 'Submitted';
 $string['vacation_travel:report:select_submitted:false'] = 'Not Submitted';
 $string['vacation_travel:report:add'] = 'New Vacation Travel Form';
