@@ -45,5 +45,8 @@ In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019,
 ### v3.2 and 3.3
 In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report.
 
+### v3.4
+Over the spring and summer of 2022, the mxMoodle Development Team, led by [Aarav Mehta](https://github.com/AaravMehta4897), made a number of enhancements adding several new notifications, functionality for filtering based on Residential Status, and...
+
 -----
 *Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*

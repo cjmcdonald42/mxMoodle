@@ -9,12 +9,12 @@ This block provides an interface for all faculty to access reports defined by th
 ## Dependencies
 This plugin has the following dependencies:
 - Moodle 3.11 (2021051700)
-- [local_mxschool v3.2](/local/mxschool/README.md) (2020072200)
+- [local_mxschool v3.4](/local/mxschool/README.md) (202208__00)
 - [local_signout v3.1](/local/signout/README.md) (2019081400)
 - [local_peertutoring v3.1](/local/peertutoring/README.md) (2019090100)
 
 ## Credits
-v3.3 of this plugin was rewritten in 2022 by the [mxMoodle Development Team](/docs/ABOUT_US.md)
+v4 of this plugin was rewritten in the summer of 2022 by the [mxMoodle Development Team](/docs/ABOUT_US.md) combining the functionality of other stand-alone blocks with the more modern bulleted list HTML of our newer blocks.
 
 v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
 - Cannon Caspar, Class of 2021 \<cpcaspar@mxschool.edu\>

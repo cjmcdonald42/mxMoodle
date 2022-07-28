@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_faculty';
 $plugin->version = 2022071500;
-$plugin->release = 'v3.2';
+$plugin->release = 'v3.4';
 $plugin->requires = 2021051700; // Moodle 3.11
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
