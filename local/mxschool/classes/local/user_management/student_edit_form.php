@@ -60,7 +60,7 @@ class student_edit_form extends \local_mxschool\form {
                 'birthday' => self::ELEMENT_TEXT_REQUIRED,
                 'admission_year' => self::ELEMENT_TEXT_REQUIRED,
                 'grade' => array('element' => 'radio', 'options' => array(9, 10, 11, 12), 'rules' => array('required')),
-                'gender' => array('element' => 'radio', 'options' => array('M', 'F'), 'rules' => array('required')),
+                'gender' => array('element' => 'radio', 'options' => array('M', 'F', 'N'), 'rules' => array('required')),
                 'intl' => array('element' => 'radio', 'options' => array('D', 'I'), 'rules' => array('required')),
                 'advisor' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
                 'is_boarder' => array('element' => 'radio', 'options' => array('Boarder', 'Day'), 'rules' => array('required')),

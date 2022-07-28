@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  rooming
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -47,7 +46,8 @@ $submittedoptions = array(
 );
 $genderoptions = array(
     'M' => get_string('rooming:report:select_gender:M', 'local_mxschool'),
-    'F' => get_string('rooming:report:select_gender:F', 'local_mxschool')
+    'F' => get_string('rooming:report:select_gender:F', 'local_mxschool'),
+    'N' => get_string('rooming:report:select_gender:N', 'local_mxschool')
 );
 $roomtypeoptions = get_room_type_list();
 $doubleoptions = array(
@@ -58,7 +58,7 @@ $doubleoptions = array(
 $table = new local_mxschool\local\rooming\table($filter, $download);
 $dropdowns = array(
     new local_mxschool\output\dropdown(
-        'submitted', $submittedoptions, $filter->submitted, get_string('dropdown:default', 'local_mxschool')
+        'submitted', $submittedoptions, $filter->submitted, get_string('rooming:report:select_submitted:all', 'local_mxschool')
     ),
     new local_mxschool\output\dropdown(
         'gender', $genderoptions, $filter->gender, get_string('rooming:report:select_gender:all', 'local_mxschool')
