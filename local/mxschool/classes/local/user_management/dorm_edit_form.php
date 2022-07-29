@@ -46,7 +46,7 @@ class dorm_edit_form extends \local_mxschool\form {
                 'permissions_line' => self::ELEMENT_TEXT_REQUIRED,
                 'dorm_log' => self::ELEMENT_TEXT_REQUIRED,
                 'type' => array('element' => 'radio', 'options' => array('Boarding', 'Day', 'All'), 'rules' => array('required')),
-                'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'All'), 'rules' => array('required')),
+                'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'Ungendered'), 'rules' => array('required')),
                 'available' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );
