@@ -71,6 +71,15 @@ class block_mxschool_dash_faculty extends block_base {
                 );
             }
 
+            if(has_capability('local/mxschool:manage_vacation_travel', context_system::instance())) {
+                array_push($renderables,
+                    new local_mxschool\output\index(array(
+                        get_string('transportation:report', 'block_mxschool_dash_faculty')
+                            => '/local/mxschool/vacation_travel/transportation_report.php'
+                    ), get_string('transportation:header', 'block_mxschool_dash_faculty')),
+                );
+            }
+
             if(has_capability('local/mxschool:manage_deans_permission', context_system::instance())) {
                 array_push($renderables,
                     new local_mxschool\output\index(array(
