@@ -18,9 +18,8 @@
  * English language strings for Middlesex's Dashboard Block for Students.
  *
  * @package    block_mxschool_dash_student
- * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author     mxMoodle Development Team
+ * @copyright  2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -43,3 +42,4 @@ $string['advisor_selection'] = 'Advisor Selection Form';
 $string['rooming'] = 'Rooming Form';
 $string['vacation'] = 'Vacation Travel Form';
 $string['deans_permission'] = 'Deans\' Permission Form';
+$string['peer_tutoring'] = 'Submit a Peer Tutoring Form';
