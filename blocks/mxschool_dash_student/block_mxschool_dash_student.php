@@ -58,9 +58,8 @@ class block_mxschool_dash_student extends block_base {
         }
         if (user_is_admin() || (has_capability('local/peertutoring:add', context_system::instance()))) {
             $links[get_string('peer_tutoring', 'block_mxschool_dash_student')]
-                = '/local/mxschool/deans_permission/form.php';
+                = '/local/peertutoring/form.php';
         }
-    }
 
         $this->content = new stdClass();
         if (count($links)) {
