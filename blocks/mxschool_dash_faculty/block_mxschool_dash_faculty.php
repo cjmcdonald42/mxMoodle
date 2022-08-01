@@ -71,7 +71,7 @@ class block_mxschool_dash_faculty extends block_base {
                 );
             }
 
-            if(has_capability('local/mxschool:manage_vacation_travel', context_system::instance())) {
+            if(has_capability('local/mxschool:manage_vacation_travel_transportation', context_system::instance())) {
                 array_push($renderables,
                     new local_mxschool\output\index(array(
                         get_string('transportation:report', 'block_mxschool_dash_faculty')

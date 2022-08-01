@@ -49,5 +49,8 @@ $string['peer_tutoring:form'] = 'Submit a Peer Tutoring Form';
 $string['peer_tutoring:report'] = 'Peer Tutoring Report';
 $string['peer_tutoring:preferences'] = 'Manage Peer Tutoring Preferences';
 
+$string['transportation:header'] = 'Vacation Travel';
+$string['transportation:report'] = 'Transportation Report';
+
 $string['deans_permission:header'] = 'Deans\' Permission';
 $string['deans_permission:report'] = 'Deans\' Permission Report';
