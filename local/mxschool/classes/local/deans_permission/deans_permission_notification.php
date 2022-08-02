@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Base class for all email notification regarding deans permission form
+ * Base class for all Deans Permission Form email notifications.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission

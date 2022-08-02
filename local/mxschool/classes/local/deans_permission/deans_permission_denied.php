@@ -37,19 +37,15 @@ class deans_permission_denied extends deans_permission_notification {
      * @throws coding_exception If the specified record does not exist.
      */
     public function __construct($id = 0) {
-	    parent::__construct('deans_permission_denied', $id);
+        parent::__construct('deans_permission_denied', $id);
+        global $DB;
 
-	    global $DB;
-
-	    $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
-
-		array_push(
-		    $this->recipients, $DB->get_record('user', array('id' => $userid)), $DB->get_record('user', array('id' => get_student_advisor_id($userid)))
-	    );
-		if($DB->get_field('local_mxschool_deans_perm', 'missing_studyhours', array('userid' => $userid))) {
-			array_push(
-				$this->recipients, $DB->get_record('user', array('id' => get_student_hoh_id($userid)))
-			);
-		}
-}
+        $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
+        array_push(
+            $this->recipients, $DB->get_record('user', array('id' => $userid)),         // Student
+            $DB->get_record('user', array('id' => get_student_advisor_id($userid))),    // Advisor
+// TODO Does the HoH get a copy of denied DPFs?
+//          $DB->get_record('user', array('id' => get_student_hoh_id($userid)))         // Head of House
+        );
+    }
 }

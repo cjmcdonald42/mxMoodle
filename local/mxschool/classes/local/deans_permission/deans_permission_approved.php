@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification for when a form is approved for Middlesex's Dorm and Student Functions Plugin.
+ * Email notification for an _Approved_ Deans' Permission Form.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -39,16 +39,12 @@ class deans_permission_approved extends deans_permission_notification {
         parent::__construct('deans_permission_approved', $id);
         global $DB;
 
+        // Approved forms go to the student with a copy to their advisor and their HoH.
         $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
-
         array_push(
-            $this->recipients, $DB->get_record('user', array('id' => $userid)),
-            $DB->get_record('user', array('id' => get_student_advisor_id($userid)))
-	    );
-        if($DB->get_field('local_mxschool_deans_perm', 'missing_studyhours', array('userid' => $userid))) {
-            array_push(
-                $this->recipients, $DB->get_record('user', array('id' => get_student_hoh_id($userid)))
-            );
-        }
+            $this->recipients, $DB->get_record('user', array('id' => $userid)),         // Student
+            $DB->get_record('user', array('id' => get_student_advisor_id($userid))),    // Advisor
+            $DB->get_record('user', array('id' => get_student_hoh_id($userid)))         // Head of House
+        );
     }
 }
