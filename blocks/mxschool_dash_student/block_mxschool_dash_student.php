@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Content for Middlesex Dashboard Block for Students.
+ * Content for the mxStudent Dashboard Block
  *
  * @package    block_mxschool_dash_student
  * @author     mxMoodle Development Team

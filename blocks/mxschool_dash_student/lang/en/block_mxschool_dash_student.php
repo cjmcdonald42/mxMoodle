@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dashboard Block for Students.
+ * English language strings for the mxStudent Dashboard Block
  *
  * @package    block_mxschool_dash_student
  * @author     mxMoodle Development Team

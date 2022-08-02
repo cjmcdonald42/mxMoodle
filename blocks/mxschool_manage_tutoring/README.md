@@ -6,6 +6,7 @@ Moodle is the world’s open source learning platform. Learn more at <https://mo
 
 ## Package Description
 This block provides an interface for the Peer Tutoring Administrator to access the tutoring report defined in the local_peertutoring plugin.
+This block was deprecated in v3.4 and will be deleted.
 
 ## Dependencies
 This plugin has the following dependencies:

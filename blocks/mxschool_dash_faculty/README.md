@@ -9,12 +9,15 @@ This block provides an interface for all faculty to access reports defined by th
 ## Dependencies
 This plugin has the following dependencies:
 - Moodle 3.11 (2021051700)
-- [local_mxschool v3.4](/local/mxschool/README.md) (202208__00)
+- [local_mxschool v3.4](/local/mxschool/README.md) (2022080500)
 - [local_signout v3.1](/local/signout/README.md) (2019081400)
-- [local_peertutoring v3.1](/local/peertutoring/README.md) (2019090100)
+- [local_peertutoring v3.4](/local/peertutoring/README.md) (2022080500)
 
 ## Credits
-v4 of this plugin was rewritten in the summer of 2022 by the [mxMoodle Development Team](/docs/ABOUT_US.md) combining the functionality of other stand-alone blocks with the more modern bulleted list HTML of our newer blocks.
+v3.4 of this plugin was rewritten in the summer of 2022 by the [mxMoodle Development Team](/docs/ABOUT_US.md).
+This rewrite combines the functionality of other stand-alone blocks with our modern bulleted list HTML which was developed for our newer blocks.
+
+v3.3 No changes were made in 2021.
 
 v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:
 - Cannon Caspar, Class of 2021 \<cpcaspar@mxschool.edu\>
@@ -26,4 +29,4 @@ v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in
 
 ## License
 As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
-© 2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+© 2018-2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.

@@ -26,11 +26,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_mxschool_dash_faculty';
-$plugin->version = 2022080102;
+$plugin->version = 2022080500;
 $plugin->release = 'v3.4';
 $plugin->requires = 2021051700; // Moodle 3.11
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_mxschool' => 2020072200, // MXSchool v3.2.
-    'local_signout' => 2019081400 // eSignout v3.1.
+    'local_mxschool' => 2022080500, // MXSchool v3.4
+    'local_signout' => 2019081400 // eSignout v3.1
 );

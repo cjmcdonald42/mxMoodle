@@ -51,7 +51,7 @@ Once the config script finishes, you will be on the Moodle Dashboard and we reco
     - `Show page information`: select `Yes`.
     - Click `Save Changes`
 
-Now log out and log back in. You should land on your dashboard when you log in. The mxMoodle development team's server uses the default blue colour as a strong visual distinction from the live Production server.
+Now log out and log back in. You should land on your dashboard when you log in. The mxMoodle development team's server uses the default blue colour as a strong visual distinction from the Middlesex Red used on our live Production server.
 
 ## Moodle Development Plugins
 From the Moodle Plugin Library, you should download these plugins:
