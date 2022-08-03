@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification for an _Denied_ Deans' Permission Form.
+ * Email notification for a _Denied_ Deans' Permission Form.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
@@ -43,8 +43,7 @@ class deans_permission_denied extends deans_permission_notification {
         array_push(
             $this->recipients, $DB->get_record('user', array('id' => $userid)),         // Student
             $DB->get_record('user', array('id' => get_student_advisor_id($userid))),    // Advisor
-// TODO Does the HoH get a copy of denied DPFs?
-//          $DB->get_record('user', array('id' => get_student_hoh_id($userid)))         // Head of House
+            $DB->get_record('user', array('id' => get_student_hoh_id($userid)))         // Head of House
         );
     }
 }
