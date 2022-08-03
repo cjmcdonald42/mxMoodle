@@ -62,7 +62,21 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
             $this->data['recurring'] = $record->recurring;
             $this->data['internal_comment'] = $record->internal_comment;
             $this->data['message_to_student'] = $record->external_comment;
-            $this->data['missing_activities'] = get_missing($missing_activities);
+
+        // TODO Wouldn't this be so much more elegant if it was made into a function. Properly.
+        // Create a string out of "Class, Sports, Study Hours" based on what is being missed.
+            $missing_activities = '';
+            if ($record->missing_class == '1') $missing_activities .= 'Class';
+            if ($record->missing_sports == '1') {
+                if (strlen($missing_activities) > 0) $missing_activities .= ', ';
+                $missing_activities .= 'Sports';
+            }
+            if ($record->missing_studyhours == '1') {
+                if (strlen($missing_activities) > 0) $missing_activities .= ', ';
+                $missing_activities .= 'Study Hours';
+            }
+            if (strlen($missing_activities) < 1) $missing_activities .= 'None';
+            $this->data['missing_activities'] = $missing_activities;
         }
     }
 
@@ -71,21 +85,7 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
       */
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
-            'fullname', 'grade', 'boarding_status', 'event', 'event_info', 'recurring', 'sport', 'times_away', 'message_to_student', 'internal_comment', 'missing'
+            'fullname', 'grade', 'boarding_status', 'event', 'event_info', 'recurring', 'sport', 'times_away', 'message_to_student', 'internal_comment', 'missing_activities'
         ));
-    }
-
-    public function get_missing($missing_activities) {
-        $missing_activities = '';
-        if (missing_class == 1) $missing_activities .= 'Class';
-        if (missing_sports == 1) {
-            if (strlen($missing_activities) > 0) $missing_activities .= ', ';
-            $missing_activities .= 'Sports';
-        }
-        if (missing_studyhours == 1) {
-            if (strlen($missing_activities) > 0) $missing_activities .= ', ';
-            $missing_activities .= 'Study Hours';
-        }
-        return $missing_activities;
     }
 }
