@@ -28,6 +28,8 @@ namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/../../../locallib.php');
+
 abstract class deans_permission_notification extends \local_mxschool\notification {
 
     /**
@@ -62,27 +64,14 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
             $this->data['recurring'] = $record->recurring;
             $this->data['internal_comment'] = $record->internal_comment;
             $this->data['message_to_student'] = $record->external_comment;
-
-        // TODO Wouldn't this be so much more elegant if it was made into a function. Properly.
-        // Create a string out of "Class, Sports, Study Hours" based on what is being missed.
-            $missing_activities = '';
-            if ($record->missing_class == '1') $missing_activities .= 'Class';
-            if ($record->missing_sports == '1') {
-                if (strlen($missing_activities) > 0) $missing_activities .= ', ';
-                $missing_activities .= 'Sports';
-            }
-            if ($record->missing_studyhours == '1') {
-                if (strlen($missing_activities) > 0) $missing_activities .= ', ';
-                $missing_activities .= 'Study Hours';
-            }
-            if (strlen($missing_activities) < 1) $missing_activities .= 'None';
-            $this->data['missing_activities'] = $missing_activities;
+            $this->data['missing_activities'] =
+                get_dp_missing_activities($record->missing_class, $record->missing_sports, $record->missing_studyhours);
         }
     }
 
     /**
-      * @return array The list of strings which can serve as tags for the notification.
-      */
+     * @return array The list of strings which can serve as tags for the notification.
+     */
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
             'fullname', 'grade', 'boarding_status', 'event', 'event_info', 'recurring', 'sport', 'times_away', 'message_to_student', 'internal_comment', 'missing_activities'

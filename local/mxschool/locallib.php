@@ -1355,11 +1355,11 @@ function get_vacation_travel_type_list($mxtransportation = null) {
     ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
 }
 
-/* Deans Permission Form @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
-
+/**
+ * Deans Permission Form
+ */
 /**
 * Creates a list of all the deans permission form events.
-*
 * @return array the events in an array of the form: id => name.
 */
 function get_dp_events_list() {
@@ -1368,6 +1368,31 @@ function get_dp_events_list() {
 	$events = convert_records_to_list($records);
 	return $events;
 }
+
+/**
+ * Given the boolean string values of the missing activities flags, create one string for the meta tag {missing} used
+ * by notifications sent from the Deans' Permission Form.
+ *
+ * @param missing_class, missing_sports, missing_studyhours from the Deans Permission Forms
+ * @return missing_activities as a string.
+ */
+function get_dp_missing_activities($missing_class, $missing_sports, $missing_studyhours) {
+    $missing_activities = '';
+    if ($missing_class == '1') $missing_activities .= 'Class';
+    if ($missing_sports == '1') {
+        if (strlen($missing_activities) > 0) $missing_activities .= ', ';
+        $missing_activities .= 'Sports';
+    }
+    if ($missing_studyhours == '1') {
+        if (strlen($missing_activities) > 0) $missing_activities .= ', ';
+        $missing_activities .= 'Study Hours';
+    }
+    if (strlen($missing_activities) < 1) $missing_activities .= 'None';
+
+    return $missing_activities;
+}
+
+
 
 /* Health Pass. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
 
