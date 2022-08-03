@@ -100,15 +100,15 @@ class table extends \local_mxschool\table {
         $result = "";
         if($values->missing_sports==1) $result.='Sports';
         if($values->missing_class==1) {
-            if(strlen($result) > 0) $result.=", ";
+            if(strlen($result) > 0) $result.=', ';
             $result.='Class';
         }
         if($values->missing_studyhours==1) {
-            if(strlen($result) > 0) $result.=", ";
+            if(strlen($result) > 0) $result.=', ';
             $result.='Study Hours';
         }
         if(strlen($result) < 1) return 'Nothing';
-        else return substr($result, 0, -2);
+        else return $result;
     }
 
     protected function col_parent_perm($values) {
