@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Base class for all email notification regarding deans permission form
+ * Base class for all Deans Permission Form email notifications.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
@@ -27,6 +27,8 @@
 namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__.'/../../../locallib.php');
 
 abstract class deans_permission_notification extends \local_mxschool\notification {
 
@@ -42,7 +44,7 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
 
         if ($id) {
             $record = $DB->get_record_sql(
-                "SELECT dp.id, CONCAT(u.firstname, ' ', u.lastname) AS fullname, su.grade, su.boarding_status, dpe.name AS event, dp.sport, dp.times_away, dp.recurring, dp.external_comment, dp.event_info, dp.internal_comment
+                "SELECT dp.id, CONCAT(u.firstname, ' ', u.lastname) AS fullname, su.grade, su.boarding_status, dpe.name AS event, dp.event_info, dp.sport, dp.times_away, dp.recurring, dp.missing_sports, dp.missing_studyhours, dp.missing_class, dp.external_comment, dp.internal_comment
                 FROM {local_mxschool_deans_perm} dp LEFT JOIN {user} u ON dp.userid = u.id
                     LEFT JOIN {local_mxschool_student} su ON dp.userid = su.userid
                     LEFT JOIN {local_mxschool_dp_event} dpe ON dp.event_id = dpe.id
@@ -56,21 +58,23 @@ abstract class deans_permission_notification extends \local_mxschool\notificatio
             $this->data['grade'] = $record->grade;
             $this->data['boarding_status'] = $record->boarding_status;
             $this->data['event'] = $record->event;
+            $this->data['event_info'] = $record->event_info;
             $this->data['sport'] = $record->sport;
             $this->data['times_away'] = $record->times_away;
             $this->data['recurring'] = $record->recurring;
             $this->data['internal_comment'] = $record->internal_comment;
             $this->data['message_to_student'] = $record->external_comment;
-            $this->data['event_info'] = $record->event_info;
+            $this->data['missing_activities'] =
+                get_dp_missing_activities($record->missing_class, $record->missing_sports, $record->missing_studyhours);
         }
     }
 
     /**
-      * @return array The list of strings which can serve as tags for the notification.
-      */
+     * @return array The list of strings which can serve as tags for the notification.
+     */
     public function get_tags() {
         return array_merge(parent::get_tags(), array(
-            'fullname', 'grade', 'boarding_status', 'event', 'event_info', 'recurring', 'sport', 'times_away', 'message_to_student', 'internal_comment'
+            'fullname', 'grade', 'boarding_status', 'event', 'event_info', 'recurring', 'sport', 'times_away', 'message_to_student', 'internal_comment', 'missing_activities'
         ));
     }
 }

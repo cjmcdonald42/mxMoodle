@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification for when a form is denied for Middlesex's Dorm and Student Functions Plugin.
+ * Email notification for a _Denied_ Deans' Permission Form.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,19 +36,14 @@ class deans_permission_denied extends deans_permission_notification {
      * @throws coding_exception If the specified record does not exist.
      */
     public function __construct($id = 0) {
-	    parent::__construct('deans_permission_denied', $id);
+        parent::__construct('deans_permission_denied', $id);
+        global $DB;
 
-	    global $DB;
-
-	    $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
-
-		array_push(
-		    $this->recipients, $DB->get_record('user', array('id' => $userid)), $DB->get_record('user', array('id' => get_student_advisor_id($userid)))
-	    );
-		if($DB->get_field('local_mxschool_deans_perm', 'missing_studyhours', array('userid' => $userid))) {
-			array_push(
-				$this->recipients, $DB->get_record('user', array('id' => get_student_hoh_id($userid)))
-			);
-		}
-}
+        $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
+        array_push(
+            $this->recipients, $DB->get_record('user', array('id' => $userid)),         // Student
+            $DB->get_record('user', array('id' => get_student_advisor_id($userid))),    // Advisor
+            $DB->get_record('user', array('id' => get_student_hoh_id($userid)))         // Head of House
+        );
+    }
 }
