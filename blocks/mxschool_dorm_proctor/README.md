@@ -8,8 +8,8 @@ This block provides an interface for proctors to access checkin sheets defined i
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.7 (2019052000)
-- [local_mxschool v3.2](/local/mxschool/README.md) (2020072200)
+- Moodle 3.11 (2021051700)
+- [local_mxschool v3.4](/local/mxschool/README.md) (2022080500)
 - [local_signout v3.1](/local/mxschool/README.md) (2019081400)
 
 ## Credits

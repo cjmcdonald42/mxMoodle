@@ -9,9 +9,10 @@ This block provides an interface for the students to use the eSignout system def
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.7 (2019052000)
-- [local_mxschool v3.1](/local/mxschool/README.md) (2019081400)
-- [local_signout v3.1](/local/mxschool/README.md) (2019081400)
+- Moodle 3.11 (2021051700)
+- [local_mxschool v3.4](/local/mxschool/README.md) (2022080500)
+- [local_signout v3.1](/local/signout/README.md) (2019081400)
+- [local_peertutoring v3.4](/local/peertutoring/README.md) (2022080500)
 
 ## Credits
 v3.1 of this plugin was developed alongside v3.1 of the local_signout plugin in 2019 by:

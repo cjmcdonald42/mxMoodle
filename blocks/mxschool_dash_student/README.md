@@ -14,6 +14,7 @@ To this, we've newly added links for:
 This plugin has the following dependencies:
 - Moodle 3.11 (2021051700)
 - [local_mxschool v3.4](/local/mxschool/README.md) (2022080500)
+- [local_peertutoring v3.4](/local/peertutoring/README.md) (2022080500)
 
 ## Credits
 v3.4 of this plugin was rewritten in the summer of 2022 by the [mxMoodle Development Team](/docs/ABOUT_US.md).

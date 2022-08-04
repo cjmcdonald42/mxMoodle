@@ -8,9 +8,9 @@ This block provides an interface for the deans to easily access all of the pages
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.7 (2019052000)
-- [local_mxschool v3.2](/local/mxschool/README.md) (2020072200)
-- [local_signout v3.1](/local/mxschool/README.md) (2019081400)
+- Moodle 3.11 (2021051700)
+- [local_mxschool v3.4](/local/mxschool/README.md) (2022080500)
+- [local_signout v3.1](/local/signout/README.md) (2019081400)
 
 ## Credits
 v3.2 of this plugin was developed alongside v3.2 of the local_mxschool plugin in 2020 by:

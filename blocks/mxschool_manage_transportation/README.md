@@ -9,8 +9,8 @@ This block was deprecated in v3.4 and will be deleted.
 
 ## Dependencies
 This plugin has the following dependencies:
-- Moodle 3.7 (2019052000)
-- [local_mxschool v3.1](/local/mxschool/README.md) (2019081400)
+- Moodle 3.11 (2021051700)
+- [local_mxschool v3.4](/local/mxschool/README.md) (2022080500)
 
 ## Credits
 v3.0 of this plugin was developed alongside v3.0 of the local_mxschool plugin in 2018 by:
