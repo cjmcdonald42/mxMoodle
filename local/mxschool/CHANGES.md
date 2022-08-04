@@ -1,3 +1,9 @@
+## Changes in v3.4
+- Enhancements to the Deans Permission form
+- Clean up and streamline the dashboard blocks, consolidating single link blocks
+- Expand documentation for readibility and alignment to open source standards
+- Many tweaks and minor issue resolutions and enhancements
+
 ## Changes in v3.3
 Summer 2021 Upgrades and Enhancements.
 - New Deans' Permission Form functionality

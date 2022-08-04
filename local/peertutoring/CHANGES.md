@@ -1,14 +1,10 @@
-## Changes in v3.3
+## Changes in v3.4
 - Reorganize subplugin's permissions.
   - Add: permission for Peer Tutor to add records
   - View: permission for faculty to view the report
   - Manage: permission for the Peer Tutoring manager to manage preferences and change records
-
-// TODO
-// - Integrate subplugin access with Student and Faculty Dashboard Blocks - PR #140, 107-advisor-functionality
-// - Add a new filter to the Peer Tutoring Report: My Advisees (The default view for faculty) | All Students
-// - Add View mode for Faculty which removes the Action column
-
+- Integrate subplugin access with Student and Faculty Dashboard Blocks
+- Restructure permissions to create a View mode for the Peer Tutoring Report
 
 ## Changes in v3.1
 - Update of the existing code to be compatible with the updated API layer of v3.1 of the local_mxschool plugin.

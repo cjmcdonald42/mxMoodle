@@ -14,6 +14,7 @@ To this, we've newly added links for:
 This plugin has the following dependencies:
 - Moodle 3.11 (2021051700)
 - [local_mxschool v3.4](/local/mxschool/README.md) (2022080500)
+- [local_peertutoring v3.4](/local/peertutoring/README.md) (2022080500)
 
 ## Credits
 v3.4 of this plugin was rewritten in the summer of 2022 by the [mxMoodle Development Team](/docs/ABOUT_US.md).
@@ -33,6 +34,4 @@ v3.0 of this plugin was developed alongside v3.0 of the local_mxschool plugin in
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
-## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
-© 2018-2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+_See [our documentation](/docs/README.md) to learn more about this project_
