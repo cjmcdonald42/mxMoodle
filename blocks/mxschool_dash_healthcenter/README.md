@@ -15,6 +15,4 @@ This plugin has the following dependencies:
 ## Credits
 This plugin was written and is currently maintained by the [Moodle Development Team](https://github.com/mxschool/mxMoodle/blob/dev/docs/ABOUT_US.md) as part of our [mxMoodle](https://github.com/mxschool/mxMoodle) Suite.
 
-## License
-As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
-© 2018-2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+_See [our documentation](/docs/README.md) to learn more about this project_

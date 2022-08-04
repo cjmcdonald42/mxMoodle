@@ -7,7 +7,7 @@ Moodle is the world’s open source learning platform. Learn more at <https://mo
 This package defines basic information about students, faculty, and dorms and provides a number of subsystems which implement management functionality for dorm faculty and administrative functionality for the deans. The package also defines a number of abstractions and provides its own API on top of the core Moodle functionality in order to simplify development and provide consistency in all of the Middlesex Moodle Subplugins.
 
 ## Dependencies
-This plugin and is dependant and currently running on:
+This plugin is developed with and currently running on:
 - Moodle 3.11 (2021051700)
 All future development is being done on Moodle v4 with the expectation of advancing to v4.1 during the summer of 2023.
 
@@ -56,6 +56,4 @@ This package houses the following subpackages and pages:
     - _test_report_ - To track attendance during testing blocks
     - _appointment_form_ - Allows community members to schedule their test time each testing cycle
 
-## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
-© 2018-2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+_See [our documentation](/docs/README.md) to learn more about this project_

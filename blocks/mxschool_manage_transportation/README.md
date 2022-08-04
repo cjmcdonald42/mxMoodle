@@ -21,7 +21,4 @@ v3.1 of this plugin was developed alongside v3.1 of the local_mxschool plugin in
 - Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
 - Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
 
-## License
-As Moodle itself, this plugin is provided freely under the [GNU General Public License v3.0](/COPYING.txt).
-
-© 2018-2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+_See [our documentation](/docs/README.md) to learn more about this project_
