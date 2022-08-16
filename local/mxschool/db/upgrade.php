@@ -1354,7 +1354,7 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 
 
 // TODO Combine these updates into one batch for final commit.
-    if($oldversion < 2021072605) {
+    if($oldversion < 2022080500) {
         $data = new stdClass();
         $data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
         $data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
@@ -1365,23 +1365,25 @@ function xmldb_local_mxschool_upgrade($oldversion) {
 // update_notification('class_permission_request', $data, 'default');
 
         $data = new stdClass();
+
         $table = new xmldb_table('local_mxschool_student');
         $field = new xmldb_field('intl', XMLDB_TYPE_CHAR, '10', null, null, null, 'D');
-        // Conditionally launch add field event_info.
         if (!$dbman->field_exists($table, $field)) { $dbman->add_field($table, $field); }
 
-        $data = new stdClass();
         $table = new xmldb_table('local_mxschool_dorm');
         $field = new xmldb_field('dorm_log', XMLDB_TYPE_CHAR, '30', null, null, null, null);
         if (!$dbman->field_exists($table, $field)) { $dbman->add_field($table, $field); }
 
-// TODO remove class_perm field
+        $table = new xmldb_table('local_mxschool_deans_perm');
+        $field = new xmldb_field('class_perm');
+        if ($dbman->field_exists($table, $field)) { $dbman->drop_field($table, $field); }
+        $field = new xmldb_field('dean_perm');
+        if ($dbman->field_exists($table, $field)) { $dbman->drop_field($table, $field); }
 
         // Mxschool savepoint reached.
-        upgrade_plugin_savepoint(true, 2021072605, 'local', 'mxschool');
-
+        upgrade_plugin_savepoint(true, 2022080500, 'local', 'mxschool');
     }
 
-  return true;
+return true;
 
 }
