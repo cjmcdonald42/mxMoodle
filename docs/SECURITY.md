@@ -1,6 +1,5 @@
 # Security Policy
-Only the most recent version of this code is maintained and supported.
-Currently, our production server runs Moodle 3.11 with [mxMoodle v3.3](https://github.com/mxschool/mxMoodle/releases/tag/v3.3)
+Only the most recent version of this code is maintained and supported. Our production server runs Moodle 3.11 with mxMoodle v3.4.
 
 ## Reporting security problems
 **Do not create an issue to report a security problem.**

@@ -44,10 +44,13 @@ Following the successful transition to Moodle v3, Dr. Schaeberle passed the torc
 In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019, and [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, began a ground-up rewrite of our Moodle plugins, developing an API layer and documentation that would facilitate all future work and make Moodle programming even more accessible to our students. This fresh code base expanded our signout system to include both on and off campus signouts, and introduce interactive elements such as the Proctors' Event Check-In list.
 
 ### v3.2 and 3.3
-In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report.
+In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report. During this time, the GitHub site was expanded to include improvements for readability and open-source standards with significant contributions from [Pranav Natarajan](https://github.com/CurryBoy9000).
 
 ### v3.4
 Over the spring and summer of 2022, the mxMoodle Development Team, led by [Aarav Mehta](https://github.com/AaravMehta4897) and advised by [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, enhanced the functionality of the Deans' Permission and the Peer Tutoring System and expanded the documentation to bring it in line with global standards for open source projects.
+
+### v3.5
+The next long-term release of Moodle with be v4.1 expected this fall. Over the 2022-23 school year, the Moodle Development Team will be reflecting on our current work, our current issues, and our enhancement requests. We are aiming for the next production release to take place next summer, 2023, along with a full upgrade to Moodle v4.1
 
 -----
 *Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*
