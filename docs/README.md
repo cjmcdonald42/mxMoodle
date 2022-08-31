@@ -35,5 +35,5 @@ The project currently includes the following plugins:
     - [blocks/mxschool_dash_signout](/blocks/mxschool_dash_signout/README.md)
 
 ## License
-As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/COPYING.txt). </br>
+As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/docs/LICENSE.txt). </br>
 © 2018-2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
