@@ -329,7 +329,7 @@ $string['user_management:dorm_edit:dorm:type:All'] = 'All';
 $string['user_management:dorm_edit:dorm:gender'] = 'Gender';
 $string['user_management:dorm_edit:dorm:gender:Boys'] = 'Boys';
 $string['user_management:dorm_edit:dorm:gender:Girls'] = 'Girls';
-$string['user_management:dorm_edit:dorm:gender:All'] = 'All';
+$string['user_management:dorm_edit:dorm:gender:Ungendered'] = 'All';
 $string['user_management:dorm_edit:dorm:available'] = 'Available';
 
 /* Dorm Notifications. */
