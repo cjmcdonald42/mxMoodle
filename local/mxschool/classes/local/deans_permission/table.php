@@ -74,7 +74,7 @@ class table extends \local_mxschool\table {
         else if ($filter->status == 'denied') $where[] = 'dp.status = 2';
         else if ($filter->status == 'under_review') $where[] = 'dp.status = 0';
         if ($filter->event) $where[] = "dpe.id = {$filter->event}";
-        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport', 'au.lastname', 'au.firstname');
+        $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 'dp.sport', 'ua.lastname', 'ua.firstname');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
     }
 
