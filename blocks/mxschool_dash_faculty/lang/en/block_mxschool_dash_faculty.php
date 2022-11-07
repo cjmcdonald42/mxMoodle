@@ -15,30 +15,42 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for Middlesex's Dashboard Block for Faculty.
+ * English language strings for mxFaculty Dashboard Block
  *
  * @package    block_mxschool_dash_faculty
- * @author     Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author     mxMoodle Development Team
+ * @copyright  2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Faculty Dashboard Block';
-$string['blockname'] = 'Middlesex Faculty';
+$string['blockname'] = 'mxFaculty Reports';
 
-// Capabilities.
-$string['mxschool_dash_faculty:addinstance'] = 'Middlesex School: Add Faculty Dashboard Block';
-$string['mxschool_dash_faculty:myaddinstance'] = 'Middlesex School: Add Faculty Dashboard Block to Dashboard';
-$string['mxschool_dash_faculty:access'] = 'Middlesex School: Access Faculty Dashboard Block';
+// Capabilities
+$string['mxschool_dash_faculty:addinstance'] = 'Middlesex: Add Faculty Dashboard Block';
+$string['mxschool_dash_faculty:myaddinstance'] = 'Middlesex: Add Faculty Dashboard Block to Dashboard';
+$string['mxschool_dash_faculty:access'] = 'Middlesex: Access Faculty Dashboard Block';
 
-// Privacy.
+// Privacy
 $string['privacy:metadata'] = 'This block only provides links to other pages and does not store any user data.';
 
-// Links.
-$string['student_report'] = 'Student Data Report';
-$string['vehicle_report'] = 'Student Vehicles Report';
-$string['duty_report'] = 'On-Campus Duty Report';
-$string['deans_permission_report'] = 'Deans\' Permission Report';
-$string['deans_permission_preferences'] = 'Deans\' Permission Preferences';
-$string['attendance_report'] = 'Student Attendance Report';
+// Links
+$string['student:header'] = 'Student Reports';
+$string['student:data_report'] = 'Student Data Report';
+$string['student:peer_tutoring_report'] = 'Peer Tutoring Report';
+$string['student:vehicle_report'] = 'Student Vehicles Report';
+
+$string['duty:header'] = 'Duty Reports';
+$string['duty:on_campus_report'] = 'On-Campus Duty Report';
+$string['duty:attendance_report'] = 'Student Attendance Report';
+
+$string['peer_tutoring:header'] = 'Peer Tutoring';
+$string['peer_tutoring:form'] = 'Submit a Peer Tutoring Form';
+$string['peer_tutoring:report'] = 'Peer Tutoring Report';
+$string['peer_tutoring:preferences'] = 'Manage Peer Tutoring Preferences';
+
+$string['transportation:header'] = 'Vacation Travel';
+$string['transportation:report'] = 'Transportation Report';
+
+$string['deans_permission:header'] = 'Deans\' Permission';
+$string['deans_permission:report'] = 'Deans\' Permission Report';

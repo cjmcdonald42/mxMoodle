@@ -18,9 +18,8 @@
  * Edit page for department records for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      Middlesex Moodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +27,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
 
 require_login();
-require_capability('local/peertutoring:manage_preferences', context_system::instance());
+require_capability('local/peertutoring:manage', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 

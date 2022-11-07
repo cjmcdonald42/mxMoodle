@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * External Functions for Middlesex's Peer Tutoring Subplugin.
+ * External Functions for mxMoodle Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -47,7 +46,7 @@ class local_peertutoring_external extends external_api {
      */
     public static function get_available_tutors() {
         external_api::validate_context(context_system::instance());
-        require_capability('local/peertutoring:manage_preferences', context_system::instance());
+        require_capability('local/peertutoring:view', context_system::instance());
 
         $result = new stdClass();
         $result->students = convert_associative_to_object(get_eligible_unassigned_student_list());

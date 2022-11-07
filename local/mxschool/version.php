@@ -19,15 +19,15 @@
  *
  * @package     local_mxschool
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_mxschool';
-$plugin->version = 2021090600;
-$plugin->release = 'v3.2';
-$plugin->requires = 2019052000; // Moodle 3.7.
+$plugin->version = 2022081200;
+$plugin->release = 'v3.4';
+$plugin->requires = 2021051700; // Moodle 3.11
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array();

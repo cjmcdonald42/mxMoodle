@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -1352,6 +1352,38 @@ function xmldb_local_mxschool_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021080600, 'local', 'mxschool');
     }
 
-  return true;
+
+// TODO Combine these updates into one batch for final commit.
+    if($oldversion < 2022080500) {
+        $data = new stdClass();
+        $data->default_subject = 'DEFAULT -- Change in Deans Permission Preferences';
+        $data->default_body = 'DEFAULT -- Change in Deans Permission Preferences';
+        update_notification('deans_permission_notify_student', $data, 'default');
+        update_notification('deans_permission_notify_dorm_log', $data, 'default');
+
+// TODO remove this entry?
+// update_notification('class_permission_request', $data, 'default');
+
+        $data = new stdClass();
+
+        $table = new xmldb_table('local_mxschool_student');
+        $field = new xmldb_field('intl', XMLDB_TYPE_CHAR, '10', null, null, null, 'D');
+        if (!$dbman->field_exists($table, $field)) { $dbman->add_field($table, $field); }
+
+        $table = new xmldb_table('local_mxschool_dorm');
+        $field = new xmldb_field('dorm_log', XMLDB_TYPE_CHAR, '30', null, null, null, null);
+        if (!$dbman->field_exists($table, $field)) { $dbman->add_field($table, $field); }
+
+        $table = new xmldb_table('local_mxschool_deans_perm');
+        $field = new xmldb_field('class_perm');
+        if ($dbman->field_exists($table, $field)) { $dbman->drop_field($table, $field); }
+        $field = new xmldb_field('dean_perm');
+        if ($dbman->field_exists($table, $field)) { $dbman->drop_field($table, $field); }
+
+        // Mxschool savepoint reached.
+        upgrade_plugin_savepoint(true, 2022080500, 'local', 'mxschool');
+    }
+
+return true;
 
 }

@@ -18,23 +18,26 @@
  * Capabilites for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 $capabilities = array(
-    'local/peertutoring:manage_preferences' => array(
+    'local/peertutoring:add' => array(
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
     ),
-    'local/peertutoring:manage_tutoring' => array(
-        'riskbitmask' => RISK_PERSONAL | RISK_DATALOSS,
+    'local/peertutoring:view' => array(
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM
+    ),
+    'local/peertutoring:manage' => array(
+        'riskbitmask' => RISK_DATALOSS, RISK_PERSONAL, RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM
-    )
+    ),
 );

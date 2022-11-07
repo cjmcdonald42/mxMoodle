@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -44,7 +43,7 @@ class student_table extends \local_mxschool\table {
         $this->type = $filter->type;
         switch ($filter->type) {
             case 'students':
-                $columns = array('student', 'grade', 'advisor', 'dorm', 'room', 'phone', 'birthday');
+                $columns = array('student', 'grade', 'advisor', 'dorm', 'room', 'phone', 'birthday', 'intl');
                 if ($filter->dorm > 0) {
                     unset($columns[array_search('dorm', $columns)]);
                     if ($DB->get_field('local_mxschool_dorm', 'type', array('id' => $filter->dorm)) === 'Day') {
@@ -54,24 +53,22 @@ class student_table extends \local_mxschool\table {
                 if ($filter->dorm == -1) {
                     unset($columns[array_search('room', $columns)]);
                 }
-                $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday');
-                $centered = array('grade', 'room', 'birthday');
+                if ($filter->intl) {
+                    unset($columns[array_search('intl', $columns)]);
+                }
+                $sortable = array('student', 'grade', 'advisor', 'dorm', 'room', 'birthday', 'intl');
+                $centered = array('grade', 'room', 'birthday', 'intl');
                 if ($filter->dorm <= 0) {
                     unset($sortable[array_search('room', $sortable)]);
                 }
                 break;
             case 'permissions':
                 $columns = array(
-                    'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
-				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
+                    'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities', 'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
-                $sortable = array(
-				 'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
- 				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
+                $sortable = array('student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities', 'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
-                $centered = array(
-				 'student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities',
- 				'passengers', 'rideshare', 'swimallowed', 'boatallowed'
+                $centered = array('student', 'overnight', 'may_drive_over_21', 'may_drive_with_anyone', 'travel_to_cities', 'passengers', 'rideshare', 'swimallowed', 'boatallowed'
                 );
                 break;
             case 'parents':
@@ -85,11 +82,14 @@ class student_table extends \local_mxschool\table {
         $headers = $this->generate_headers($columns, "user_management:student_report:{$filter->type}");
         parent::__construct('student_table', $columns, $headers, $sortable, $centered, $filter);
 
-        $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student");
+        $fields = array('s.userid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.intl');
         $from = array('{local_mxschool_student} s', '{user} u ON s.userid = u.id', '{local_mxschool_dorm} d ON s.dormid = d.id');
         $where = array('u.deleted = 0');
         if ($filter->dorm) {
             $where[] = $this->get_dorm_where($filter->dorm);
+        }
+        if ($filter->intl) {
+            $where[] = "s.intl = '{$filter->intl}'";
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename');
         switch ($filter->type) {
@@ -97,7 +97,7 @@ class student_table extends \local_mxschool\table {
                 array_unshift($fields, 's.id');
                 array_push(
                     $fields, 's.grade', "CONCAT(a.lastname, ', ', a.firstname) AS advisor", 's.dormid', 'd.name AS dorm', 's.room',
-                    's.phone_number AS phone', 's.birthday'
+                    's.phone_number AS phone', 's.birthday', 's.intl'
                 );
                 $from[] = '{user} a ON s.advisorid = a.id';
                 array_push($searchable, 'a.firstname', 'a.lastname');
@@ -105,10 +105,9 @@ class student_table extends \local_mxschool\table {
             case 'permissions':
                 array_unshift($fields, 'p.id', 's.id AS sid');
                 array_push(
-                    $fields,
-                    'p.overnight', 'p.may_drive_with_over_21 AS may_drive_over_21', 'p.may_drive_with_anyone',
+                    $fields, 'p.overnight', 'p.may_drive_with_over_21 AS may_drive_over_21', 'p.may_drive_with_anyone',
                     'p.may_travel_to_regional_cities AS travel_to_cities', 'p.may_drive_passengers AS passengers',
-				'p.may_use_rideshare AS rideshare', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
+                    'p.may_use_rideshare AS rideshare', 'p.swim_allowed AS swimallowed', 'p.boat_allowed AS boatallowed'
                 );
                 $from[] = '{local_mxschool_permissions} p ON u.id = p.userid';
                 break;
@@ -124,13 +123,6 @@ class student_table extends \local_mxschool\table {
                 break;
         }
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);
-    }
-
-    /**
-     * Formats the license column to 'n/j/y'.
-     */
-    protected function col_license($values) {
-        return $values->license ? format_date('n/j/y', $values->license) : '';
     }
 
     /**
@@ -158,7 +150,7 @@ class student_table extends \local_mxschool\table {
                 return $this->edit_icon('/local/mxschool/user_management/student_edit.php', $values->sid);
             case 'parents':
                 return $this->edit_icon('/local/mxschool/user_management/parent_edit.php', $values->id)
-                       . $this->delete_icon($values->id);
+            . $this->delete_icon($values->id);
         }
     }
 

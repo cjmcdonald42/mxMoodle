@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Email notification for an _Approved_ Deans' Permission Form.
+ * Email notification for when review is requested for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
@@ -28,7 +28,7 @@ namespace local_mxschool\local\deans_permission;
 
 defined('MOODLE_INTERNAL') || die();
 
-class deans_permission_approved extends deans_permission_notification {
+class notify_student extends deans_permission_notification {
 
     /**
      * @param int $id The id of the deans permission form which has been submitted.
@@ -36,15 +36,14 @@ class deans_permission_approved extends deans_permission_notification {
      * @throws coding_exception If the specified record does not exist.
      */
     public function __construct($id = 0) {
-        parent::__construct('deans_permission_approved', $id);
+        parent::__construct('deans_permission_notify_student', $id);
         global $DB;
 
-        // Approved forms go to the student with a copy to their advisor and their HoH.
         $userid = $DB->get_field('local_mxschool_deans_perm', 'userid', array('id' => $id));
+
         array_push(
-            $this->recipients, $DB->get_record('user', array('id' => $userid)),         // Student
-            $DB->get_record('user', array('id' => get_student_advisor_id($userid))),    // Advisor
-            $DB->get_record('user', array('id' => get_student_hoh_id($userid)))         // Head of House
-        );
+             $this->recipients, $DB->get_record('user', array('id' => $userid)),
+             $DB->get_record('user', array('id' => get_student_advisor_id($userid)))
+ 	    );
     }
 }

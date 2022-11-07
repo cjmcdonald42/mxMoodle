@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -380,6 +380,31 @@ function get_student_hoh_id($id) {
 	return $DB->get_field('local_mxschool_dorm', 'hohid', array('id' => $dormid));
 }
 
+/**
+ * Given a student's userid, returns the dorm id.
+ *
+ * @param int id, the id of the student
+ * @return int|false dorm id of the studnet, or false if the id is not that of a student.
+ */
+function get_student_dorm_id($id) {
+	global $DB;
+	if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+	return $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
+}
+
+/**
+ * Given a student's userid, returns the dorm log email address.
+ *
+ * @param int id, the id of the student
+ * @return string|false dorm log email of the studnet, or false if the id is not that of a student.
+ */
+function get_dorm_log_email($id) {
+    global $DB;
+    if(!$DB->record_exists('local_mxschool_student', array('userid' => $id))) return false;
+    $dormid = $DB->get_field('local_mxschool_student', 'dormid', array('userid' => $id));
+    return $DB->get_field('local_mxschool_dorm', 'dorm_log', array('id' => $dormid));
+}
+
 /*
  * ===============================================
  * DateTime Abstractions and Formatting Functions.
@@ -633,7 +658,7 @@ function student_may_access_weekend($userid) {
 }
 
 /**
- * Determines whether a specified user is a student who is permitted to access the advisor selectino form.
+ * Determines whether a specified user is a student who is permitted to access the advisor selection form.
  *
  * @param int $id The user id of the student to check.
  * @return bool Whether the specified student is permitted to access the advisor selection form.
@@ -694,7 +719,7 @@ function get_param_faculty_dorm($includeday = true) {
     if (isset($_GET['dorm']) && (is_numeric($_GET['dorm']) || empty($_GET['dorm']))) {
         $dorm = $_GET['dorm']; // The value is now safe to use.
         // An empty parameter indicates that search has taken place with the all option selected.
-        // A value o f-2 indicates all boarding houses; a value of -1 indicates all day houses.
+        // A value of -2 indicates all boarding houses; a value of -1 indicates all day houses.
         if (empty($dorm) || isset(get_dorm_list($includeday)[$dorm]) || ($includeday && in_array($dorm, array(-1, -2)))) {
             return $dorm;
         }
@@ -1330,11 +1355,11 @@ function get_vacation_travel_type_list($mxtransportation = null) {
     ) : array('Car', 'Plane', 'Train', 'Bus', 'NYC Direct', 'Non-MX Bus');
 }
 
-/* Deans Permission Form @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
-
+/**
+ * Deans Permission Form
+ */
 /**
 * Creates a list of all the deans permission form events.
-*
 * @return array the events in an array of the form: id => name.
 */
 function get_dp_events_list() {
@@ -1343,6 +1368,31 @@ function get_dp_events_list() {
 	$events = convert_records_to_list($records);
 	return $events;
 }
+
+/**
+ * Given the boolean string values of the missing activities flags, create one string for the meta tag {missing} used
+ * by notifications sent from the Deans' Permission Form.
+ *
+ * @param missing_class, missing_sports, missing_studyhours from the Deans Permission Forms
+ * @return missing_activities as a string.
+ */
+function get_dp_missing_activities($missing_class, $missing_sports, $missing_studyhours) {
+    $missing_activities = '';
+    if ($missing_class == '1') $missing_activities .= 'Class';
+    if ($missing_sports == '1') {
+        if (strlen($missing_activities) > 0) $missing_activities .= ', ';
+        $missing_activities .= 'Sports';
+    }
+    if ($missing_studyhours == '1') {
+        if (strlen($missing_activities) > 0) $missing_activities .= ', ';
+        $missing_activities .= 'Study Hours';
+    }
+    if (strlen($missing_activities) < 1) $missing_activities .= 'None';
+
+    return $missing_activities;
+}
+
+
 
 /* Health Pass. @author Cannon Caspar, class of 2021 <cpcaspar@mxschool.edu> */
 

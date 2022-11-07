@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  deans_permission
- * @author      Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,17 +36,17 @@ class notify_healthcenter extends deans_permission_notification {
      * @throws coding_exception If the specified record does not exist.
      */
     public function __construct($id = 0) {
-	    parent::__construct('deans_permission_notify_healthcenter', $id);
+        parent::__construct('deans_permission_notify_healthcenter', $id);
+        global $DB;
 
-	    global $DB;
-	    $healthcenter = $DB->get_record('user', array('id' => 2));
-	    $healthcenter->email = get_config('local_mxschool', 'dp_healthcenter_email_address');
-	    $healthcenter->addresseename = 'Health Center';
-	    $healthcenter->firstname = 'Health';
-	    $healthcenter->lastname = 'Center';
+        $healthcenter = $DB->get_record('user', array('id' => 2));
+        $healthcenter->email = get_config('local_mxschool', 'dp_healthcenter_email_address');
+        $healthcenter->addresseename = 'Health Center';
+        $healthcenter->firstname = 'Health';
+        $healthcenter->lastname = 'Center';
 
-		array_push(
-		    $this->recipients, $healthcenter
-		);
+        array_push(
+            $this->recipients, $healthcenter
+        );
 }
 }

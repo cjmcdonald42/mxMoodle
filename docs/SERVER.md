@@ -4,39 +4,33 @@ With all the tools installed, you are ready to configure Moodle. Open your brows
 *With Moodle4Mac, this really is just a couple of clicks. More advanced setups may require more individualized assistance which is beyond the scope of this document. Please ask and we can help you through this process.*
 
 ## Site Configuration
-Once the config script finishes, you will be on the Moodle Dashboard and we recommend the following settings for your Moodle Server. To get to these settings, select `Site administration` from the NavBar on the left of the Dashboard. Moodle has a lot of settings, so follow these steps carefully as you navigate through the settings tree to find the appropriate ones.
-- `Site administration` > `Location` > `Location Settings`
+Once the config script finishes, you will be on the Moodle Dashboard and we recommend the following settings for your Moodle Server. To get to these settings, select `Site administration` from the NavBar at the top of the Dashboard. Moodle has a lot of settings, so follow these steps carefully as you navigate through the settings tree to find the appropriate ones.
+- `Site administration` > `General` > `Location` > `Location Settings`
     - `Default timezone`: set to `America/New York`
     - `Force timezone`: set to `America/New York`
     - `Default country`: set to `United States`
     - Click `Save Changes`
 - `Site administration` > `Language` > `Language Packs`
-    - Find `English - United States (en_us)` and install it.
+    - Find `English (United States) (en_us)` and install it.
 - `Site administration` > `Language` > `Language Settings`
-    - `Default language`: set to `English - United States (en_us)`
-    - Click `Save Changes`
-- `Site administration` > `Front page` > `Front page settings`
-    - `Full site name`: set to whatever you want
-    - `Short name for site`: set to an abbreviated version of the full site name
+    - `Default language`: set to `English (United States) (en_us)` - This will be the default if you set this during the initial config.
+    - `Display language menu`: set to `No` by unchecking the box.
+    - `Cache language menu`: set to `No`.
+    - `Cache all language strings`: set to `No`.
     - Click `Save Changes`
 - `Site administration` > `Security` > `Site security settings`
-    - `Force users to log in`: check the box
-    - `Password policy`: uncheck the box
+    - `Force users to log in`: set to `Yes` by checking the box.
+    - `Cron execution via command line only`: optionally set this to `No` if you are working from your local machine.
+    - `Password policy`: set to `No`.
     - Click `Save Changes`
+- `Site administration` > `Users` > `Accounts` > `Browse list of users`
+    - With the Password policy disabled, you can, optionally, change the Admin password to something simple.
 - `Site administration` > `Plugins` > `Authentication` > `Manage authentication`
-    - Disable `Email-based self-registration`
-    - Disable `MNet authentication`
-    - `Allow accounts with same email`: check the box
+    - Enable `Allow accounts with same email`
     - `Guest login button`: select `Hide`
-    - Click `Save Changes`
-- `Site administration` > `Appearance` > `Navigation`
-    - `Default home page for users`: select `Dashboard`
     - Click `Save Changes`
 - `Site administration` > `Appearance` > `AJAX and Javascript`
     - `Cache Javascript`: uncheck the box
-    - Click `Save Changes`
-- `Site administration` > `Appearance` > `Themes` > `Boost`
-    - `Brand color`: enter `#CF003D`
     - Click `Save Changes`
 - `Site administration` > `Server` > `System paths`
     - `Path to PHP CLI`: enter `/usr/bin/php`
@@ -46,18 +40,23 @@ Once the config script finishes, you will be on the Moodle Dashboard and we reco
     - `Support Email`: `admin@localhost.local` *(or anything else that looks like an email)*
     - Click `Save Changes`
 - `Site administration` > `Server` > `Email` > `Outgoing mail configuration`
-    - `SMTP hosts`: enter `smtp.gmail.com:587`
-    - `SMTP security`: select `TLS`
-    - `SMTP username`: enter `moodle@mxschool.edu` *You can use any email here you like*
-    - `SMTP password`: *Enter the password for your Moodle email account; see Chuck for details*
-    - `No-reply address`: `noreply@localhost.local` *(or anything else that looks like an email) — this address will be the "sender" of all mxSchool emails sent from your server*
-    - `Email via information`: select `Always`
-    - Click `Save Changes`
+    - *Optionally, see Chuck for these settings. You can use SendGrid or your own Google account*
 - `Site administration` > `Development` > `Debugging`
-    - `Debug messages`: select `DEVELOPER: extra Moodle debug messages for developers`
+    - `Debug messages`: select `DEVELOPER: extra Moodle debug messages for developers`.
+    - `Display debug messages`: select `Yes`.
+    - `Performance info`: select `Yes`.
+    - `Show origin of languages strings`: select `Yes`.
+    - `Show origin of SQL calls`: choose to show at least 2 lines of the stack trace.
+    - `Show validator links`: select `Yes`.
+    - `Show page information`: select `Yes`.
     - Click `Save Changes`
 
-Now log out and log back in. You should land on your dashboard when you log in, and if you updated the appearance settings successfully, your theme color should be the Middlesex red. Our team development server uses the default blue colour to distinguish it from the live Production server.
+Now log out and log back in. You should land on your dashboard when you log in. The mxMoodle development team's server uses the default blue colour as a strong visual distinction from the Middlesex Red used on our live Production server.
+
+## Moodle Development Plugins
+From the Moodle Plugin Library, you should download these plugins:
+- [Code-Checker](https://moodle.org/plugins/local_codechecker) is a PHP Code Sniffer tool to check that code follows the [Moodle coding style](https://docs.moodle.org/dev/Coding_style).
+- [Moodle PHPdoc check](https://moodle.org/plugins/local_moodlecheck) Tool for Moodle developers that allows one to check phpdocs in the code for compliance with [Moodle Coding Style](https://docs.moodle.org/dev/Coding_style).
 
 ## Adding mxMoodle Plugins
 With your server configured and running, you are ready to add our custom plugins. Clone our mxMoodle repository to a location on your computer. This location should be somewhere within your user directory and _not_ within the MAMP installation. Also, we advise against cloning it to a folder that synchronizes with Google Drive or other cloud storage to avoid extraneous files being added.
@@ -67,12 +66,10 @@ Now copy our plugins into your installation. We will automate this process later
 Our code goes in the /local and /blocks directories. Please _copy_ (hold option while dragging in Finder) everything from MXMoodle/local to your installation's /local directory. Do the same from MXMoodle/blocks to /blocks.
 **When you are doing this be sure to copy the _contents_ of each directory not the entire directory itself, because you don't want to overwrite any of the existing plugins in your Moodle installation.**
 
-While you are adding our plugins, you should also take a moment to add Moodle's `code checker` plugin which will be useful during development. All you need to do is download the plugin [here](https://github.com/moodlehq/moodle-local_codechecker/zipball/master) then move the entire directory into the same /local directory of your server and rename the directory to `codechecker`.
-
-Once you have copied the plugin files if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes.
-
-## Installing Testing User Data
+## Installing Sample User Data
 With your Moodle installation up and running, and your plugins installed, you are ready to add data. Our current shared folder has a set of CSV files that mirror the data on the Moodle Development Server and is a good place to start.
+
+Once you have copied the plugin files, if you navigate to the dashboard as an administrator, you will be redirected to the installation page. All you need to do is scroll to the bottom of the page and click `Upgrade Moodle database now`. Once the plugins install, click `continue`, and you will be prompted to enter a number of settings for our plugins. For most of these, you can just accept the default values, but you should change the `Redirect email` to your own email address for testing purposes.
 
 The first table contains the basic user data, such as the user's First name, Last name, username and password. This step has to happen through the Site Administration interface. Navigate to `Site administration` > `Users` > `Accounts` > `Upload users` and choose the CSV from your computer. Then select the following options:
 - `Settings` > `New user password`: select `Field required in file`

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/mxschool/db" VERSION="20210629" COMMENT="XMLDB file for Moodle local/mxschool"
+<XMLDB PATH="local/mxschool/db" VERSION="20220726" COMMENT="XMLDB file for Moodle local/mxschool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -52,6 +52,7 @@
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the dorm is a boys dorm or a girls dorm {&quot;Boys&quot;, &quot;Girls&quot;, &quot;All&quot;}."/>
         <FIELD NAME="available" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the dorm is currently available for students to live in."/>
         <FIELD NAME="permissions_line" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The phone number that should be called for permissions purposes."/>
+        <FIELD NAME="dorm_log" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false" COMMENT="Email address of the dorm log"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -141,6 +142,7 @@
         <FIELD NAME="admission_year" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="The year the student entered Middlesex."/>
         <FIELD NAME="grade" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="The current grade of the student."/>
         <FIELD NAME="gender" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The gender of the student."/>
+        <FIELD NAME="intl" TYPE="char" LENGTH="10" NOTNULL="false" DEFAULT="D" SEQUENCE="false" COMMENT="International 'I' or Domestic 'D' Status"/>
         <FIELD NAME="boarding_status" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student is a boarding student or a day student {&quot;Boarder&quot;, &quot;Day&quot;}."/>
         <FIELD NAME="boarding_status_next_year" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Whether the student will be a boarding student or a day student next year {&quot;Boarder&quot;, &quot;Day&quot;}."/>
         <FIELD NAME="room" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The student's room in their dorm."/>
@@ -280,7 +282,6 @@
         <FIELD NAME="missing_class" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student will be missing classes to attend the event."/>
         <FIELD NAME="parent_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="A boolean field indicating whether or not the student has parent permission."/>
         <FIELD NAME="sports_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss sports"/>
-        <FIELD NAME="class_perm" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission to miss class"/>
         <FIELD NAME="internal_comment" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="A text box for faculty to leave comments regarding a deans permission form."/>
         <FIELD NAME="external_comment" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="A text box for faculty to leave comments on the Dean's Permission Form, which the student will be able to see upon receiving the approved/denied email."/>
         <FIELD NAME="status" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether or not the student has permission from the deans. Status can be either 0 (pending), 1 (approved), or 2 (denied)."/>

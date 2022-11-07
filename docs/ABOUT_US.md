@@ -1,10 +1,8 @@
 # About us
-Middlesex School is an independent, secondary school following the New England boarding school tradition.  </br>
-Learn more at: \<[https://mxschool.edu](https://mxschool.edu)\>.
-
+Learn more about:
 1. [The Moodle Development Team](#team)
-2. [Roadmap for the Future](#map)
-3. [History of this project](#history)
+2. [Our current goals](#goals)
+3. [The history of this project](#history)
 
 <a name="team"></a>
 ## The Moodle Development Team
@@ -13,34 +11,24 @@ The Moodle Development Team is a student-driven club of coders and creatives res
 **And we need you.** \
 Start by visiting our [Contributing](/docs/CONTRIBUTING.md) page.
 
-Moodle is the world's most popular learning management system powering [hundreds of thousands of learning environments worldwide](https://stats.moodle.org). Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and to become a citizen of the world. Learn more at: \<[http://moodle.org](https://docs.moodle.org/311/en/About_Moodle)\>.
+Moodle is the world's most popular learning management system powering [hundreds of thousands of learning environments worldwide](https://stats.moodle.org). Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and become a citizen of the world. Learn more at: \<[http://moodle.org](https://docs.moodle.org/311/en/About_Moodle)\>.
 
 ### We Are
 Team Lead: </br>
-[Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023
-
-Team Members:
-- [Pranav Natarajan](https://github.com/CurryBoy9000), Class of 2022
-- [Sophia Schubnel](https://github.com/MXSophia), Class of 2022
-- [Preston Taylor](https://github.com/pjtaylorMx), Class of 2022
-- [Joey Caspar](https://github.com/JoeyCaspar), Class of 2024
+[Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 \<amehta@mxschool.edu\>
 
 Advisor: </br>
 [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
-<a name="map"></a>
-## Roadmap for the Future
-![Road Map for mxMoodle](/assets/roadmap.png)
-
+<a name="goals"></a>
 ### Current production release
-mxMoodle v3.2.1 runs on Moodle 3.9 using the default Boost and the expanded Boost Campus themes.
-
-### Summer 2021
-mxMoodle v3.3, built on Moodle 3.11 using php 8, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0 and includes new functionality for Healthtest Auditing and the Deans' Permission Form.
-
-### Summer 2022
-Moodle v4 is planned to release in November of 2021 with 4.1 scheduled for release in May of 2022.
-The 2021-2022 school year will be spent developing toward mxMoodle v4.1 for a Summer 2022 upgrade.
+mxMoodle v3.4, built on Moodle 3.11 using php 7.4, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0, including:
+- New functionality for Healthtest Auditing and the Deans' Permission Form.
+- Greater accessibility for the Peer Tutoring System.
+- A new Residential Status field so that students can be filtered by International or Domestic addresses.
+- Expanded gender options that recognize non-binary students.
+- Expanded access to the Peer Tutoring subsystem.
+- Simplified access via consolidated blocks and links on the Dashboard
 
 <a name="history"></a>
 ## History of this project
@@ -56,7 +44,13 @@ Following the successful transition to Moodle v3, Dr. Schaeberle passed the torc
 In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019, and [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, began a ground-up rewrite of our Moodle plugins, developing an API layer and documentation that would facilitate all future work and make Moodle programming even more accessible to our students. This fresh code base expanded our signout system to include both on and off campus signouts, and introduce interactive elements such as the Proctors' Event Check-In list.
 
 ### v3.2 and 3.3
-In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took the lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report and pave the road for the upcoming Moodle v4 upgrade during the summer of 2022.
+In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report. During this time, the GitHub site was expanded to include improvements for readability and open-source standards with significant contributions from [Pranav Natarajan](https://github.com/CurryBoy9000).
+
+### v3.4
+Over the spring and summer of 2022, the mxMoodle Development Team, led by [Aarav Mehta](https://github.com/AaravMehta4897) and advised by [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, enhanced the functionality of the Deans' Permission and the Peer Tutoring System and expanded the documentation to bring it in line with global standards for open source projects.
+
+### v3.5
+The next long-term release of Moodle with be v4.1 expected this fall. Over the 2022-23 school year, the Moodle Development Team will be reflecting on our current work, our current issues, and our enhancement requests. We are aiming for the next production release to take place next summer, 2023, along with a full upgrade to Moodle v4.1
 
 -----
 *Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*

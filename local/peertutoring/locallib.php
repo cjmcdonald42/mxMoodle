@@ -18,9 +18,8 @@
  * Local library functions for Middlesex's Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -77,7 +76,7 @@ function get_eligible_unassigned_student_list() {
         "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
          FROM {local_mxschool_student} s LEFT JOIN {user} u ON s.userid = u.id
          WHERE u.deleted = 0 AND s.grade >= 11
-                             AND NOT EXISTS (SELECT userid FROM {local_peertutoring_tutor} t WHERE userid = u.id and t.deleted = 0)
+            AND NOT EXISTS (SELECT userid FROM {local_peertutoring_tutor} t WHERE userid = u.id and t.deleted = 0)
          ORDER BY name"
     );
     return convert_student_records_to_list($students);
@@ -211,4 +210,46 @@ function get_tutoring_date_list() {
         }
     }
     return $list;
+}
+
+/**
+ * Determines the faculty id to display for a faculty user.
+ *
+ * The priorities of this function are as follows:
+ * 1) An id specified as a 'faculty' GET parameter, if the id is valid.
+ * 2) The userid of the currently logged in faculty member, if it exists.
+ * 3) An empty string.
+ *
+ * NOTE: The $_GET superglobal is used in this function in order to differentiate between an unset parameter and the all option.
+ *       Its value is only used after being checked as numeric or empty to avoid potential security issues.
+ *
+ * @param bool $includeday Whether to include day houses or limit to boading houses.
+ * @return string The user id or an empty string.
+ */
+function get_param_faculty_advisor() {
+    global $DB, $USER;
+    if (isset($_GET['advisor']) && (is_numeric($_GET['advisor']) || empty($_GET['advisor']))) {
+        $advisor = $_GET['advisor']; // The value is now safe to use.
+        // An empty parameter indicates that search has taken place with the all option selected.
+        if (empty($advisor) || isset(get_advisor_list()[$advisor])) {
+            return $advisor;
+        }
+    }
+    return $DB->get_field('local_mxschool_faculty', 'userid', array('userid' => $USER->id)) ?: '';
+}
+
+/*
+ * Queries the database to create a list of advisors.
+ * @return array advisors as userid => name, ordered alphabetically by advisor name.
+ * function convert_student_records_to_list is used to create a list by name.
+ */
+function get_advisor_list() {
+    global $DB;
+    $advisors = $DB->get_records_sql(
+        "SELECT u.id, CONCAT(u.lastname, ', ', u.firstname) AS name
+         FROM {local_mxschool_faculty} f LEFT JOIN {user} u ON f.userid = u.id
+         WHERE u.deleted = 0
+         ORDER BY name"
+    );
+    return convert_student_records_to_list($advisors);
 }

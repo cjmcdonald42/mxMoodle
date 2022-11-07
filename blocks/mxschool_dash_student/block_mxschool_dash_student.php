@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Content for Middlesex's Dashboard Block for Students.
+ * Content for the mxStudent Dashboard Block
  *
  * @package    block_mxschool_dash_student
- * @author     Cannon Caspar, Class of 2021 <cpcaspar@mxschool.edu>
- * @author     Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright  2020 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author     mxMoodle Development Team
+ * @copyright  2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -56,6 +55,10 @@ class block_mxschool_dash_student extends block_base {
 	   if (user_is_admin() || (user_is_student())) {
             $links[get_string('deans_permission', 'block_mxschool_dash_student')]
                 = '/local/mxschool/deans_permission/form.php';
+        }
+        if (user_is_admin() || (has_capability('local/peertutoring:add', context_system::instance()))) {
+            $links[get_string('peer_tutoring', 'block_mxschool_dash_student')]
+                = '/local/peertutoring/form.php';
         }
 
         $this->content = new stdClass();

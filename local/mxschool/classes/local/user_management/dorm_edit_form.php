@@ -19,9 +19,8 @@
  *
  * @package     local_mxschool
  * @subpackage  user_management
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -45,8 +44,9 @@ class dorm_edit_form extends \local_mxschool\form {
                 'name' => self::ELEMENT_TEXT_REQUIRED,
                 'hoh' => array('element' => 'select', 'options' => $faculty, 'rules' => array('required')),
                 'permissions_line' => self::ELEMENT_TEXT_REQUIRED,
+                'dorm_log' => self::ELEMENT_TEXT_REQUIRED,
                 'type' => array('element' => 'radio', 'options' => array('Boarding', 'Day', 'All'), 'rules' => array('required')),
-                'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'All'), 'rules' => array('required')),
+                'gender' => array('element' => 'radio', 'options' => array('Boys', 'Girls', 'Ungendered'), 'rules' => array('required')),
                 'available' => self::ELEMENT_BOOLEAN_REQUIRED
             )
         );

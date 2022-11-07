@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Vacation travel table for Middlesex's Dorm and Student Functions Plugin.
+ * Vacation Travel Report for Middlesex's Dorm and Student Functions Plugin.
  *
  * @package     local_mxschool
  * @subpackage  vacation_travel
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -56,7 +55,7 @@ class table extends \local_mxschool\table {
         parent::__construct('vaction_table', $columns, $headers, $sortable, $centered, $filter);
 
         $fields = array(
-            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid',
+            's.id', 's.userid', 't.id AS tid', "CONCAT(u.lastname, ', ', u.firstname) AS student", 's.dormid', 's.intl',
             't.destination', 't.phone_number AS phone', 'dt.date_time AS depdatetime', 'dt.type AS deptype',
             'rt.date_time AS retdatetime', 'rt.type AS rettype', 'rt.carrier AS retcarrier',
             'rt.transportation_number AS retnumber',
@@ -76,6 +75,9 @@ class table extends \local_mxschool\table {
             case '0':
                 $where[] = "NOT EXISTS (SELECT userid FROM {local_mxschool_vt_trip} WHERE userid = u.id)";
                 break;
+        }
+        if ($filter->intl) {
+            $where[] = "s.intl = '{$filter->intl}'";
         }
         $searchable = array('u.firstname', 'u.lastname', 'u.alternatename', 't.destination');
         $this->define_sql($fields, $from, $where, $searchable, $filter->search);

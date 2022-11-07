@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Tutoring Report for Middlesex's Peer Tutoring Subplugin.
+ * Tutoring Report for mxMoodle Peer Tutoring Subplugin.
  *
  * @package     local_peertutoring
- * @author      Jeremiah DeGreeff, Class of 2019 <jrdegreeff@mxschool.edu>
- * @author      Charles J McDonald, Academic Technology Specialist <cjmcdonald@mxschool.edu>
- * @copyright   2019 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @author      mxMoodle Development Team
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +27,11 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
 
 require_login();
-require_capability('local/peertutoring:manage_tutoring', context_system::instance());
+require_capability('local/peertutoring:view', context_system::instance());
 
 $filter = new stdClass();
 $filter->tutor = optional_param('tutor', 0, PARAM_INT);
+$filter->advisor = get_param_faculty_advisor();
 $filter->department = optional_param('department', 0, PARAM_INT);
 $filter->type = optional_param('type', 0, PARAM_INT);
 $filter->date = optional_param('date', 0, PARAM_INT);
@@ -57,6 +57,7 @@ if ($action === 'delete' && $id) {
 }
 
 $tutors = get_tutor_list();
+$advisors = get_advisor_list();
 $departments = get_department_list();
 $dates = get_tutoring_date_list();
 
@@ -67,6 +68,9 @@ $dropdowns = array(
     ),
     new local_mxschool\output\dropdown(
         'tutor', $tutors, $filter->tutor, get_string('report:select_tutor:all', 'local_peertutoring')
+    ),
+    new local_mxschool\output\dropdown(
+        'advisor', $advisors, $filter->advisor, get_string('report:select_advisor:all', 'local_peertutoring')
     ),
     new local_mxschool\output\dropdown(
         'department', $departments, $filter->department, get_string('report:select_department:all', 'local_peertutoring')

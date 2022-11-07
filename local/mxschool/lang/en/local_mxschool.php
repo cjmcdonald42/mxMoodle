@@ -19,7 +19,7 @@
  *
  * @package     local_mxschool
  * @author      mxMoodle Development Team
- * @copyright   2021 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+ * @copyright   2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -78,6 +78,10 @@ $string['dropdown:dorm'] = 'All Dorms';
 $string['dropdown:house_all'] = 'All Houses';
 $string['dropdown:house_day'] = 'All Day';
 $string['dropdown:house_boarding'] = 'All Boarding';
+$string['dropdown:intl'] = 'All Students';
+$string['dropdown:intl:domestic'] = 'Domestic';
+$string['dropdown:intl:international'] = 'International';
+
 
 // Email Button.
 $string['email_button:confirmation'] = 'Are you sure you want to send this bulk notification?';
@@ -99,7 +103,7 @@ $string['mxschool_category'] = 'Middlesex';
 // Email Settings.
 $string['email_settings'] = 'Email Settings';
 $string['email_settings:redirect'] = 'Redirect email';
-$string['email_settings:redirect:description'] = 'The email address to redirect to for debugging - if empty emails will be sent to actual recipients.';
+$string['email_settings:redirect:description'] = 'The email address to redirect to for debugging - if empty, emails will be sent to actual recipients.';
 $string['email_settings:deans_email'] = 'Deans email';
 $string['email_settings:deans_email:description'] = 'The email address to send notifications to the deans.';
 $string['email_settings:deans_addressee'] = 'Deans addressee name';
@@ -163,6 +167,7 @@ $string['user_management:student_report:students:header:dorm'] = 'Dorm';
 $string['user_management:student_report:students:header:room'] = 'Room';
 $string['user_management:student_report:students:header:phone'] = 'Phone Number';
 $string['user_management:student_report:students:header:birthday'] = 'Birthday';
+$string['user_management:student_report:students:header:intl'] = 'Residential Status';
 
 // Permissions headers.
 $string['user_management:student_report:permissions:header:student'] = 'Name';
@@ -202,8 +207,12 @@ $string['user_management:student_edit:student:grade:10'] = '10';
 $string['user_management:student_edit:student:grade:11'] = '11';
 $string['user_management:student_edit:student:grade:12'] = '12';
 $string['user_management:student_edit:student:gender'] = 'Gender';
-$string['user_management:student_edit:student:gender:M'] = 'M';
-$string['user_management:student_edit:student:gender:F'] = 'F';
+$string['user_management:student_edit:student:gender:M'] = 'Male';
+$string['user_management:student_edit:student:gender:F'] = 'Female';
+$string['user_management:student_edit:student:gender:N'] = 'Non Binary';
+$string['user_management:student_edit:student:intl'] = 'Residential Status';
+$string['user_management:student_edit:student:intl:D'] = 'Domestic';
+$string['user_management:student_edit:student:intl:I'] = 'International';
 $string['user_management:student_edit:student:advisor'] = 'Advisor';
 $string['user_management:student_edit:student:is_boarder'] = 'Boarder/Day Student';
 $string['user_management:student_edit:student:is_boarder:Boarder'] = 'Boarder';
@@ -299,6 +308,7 @@ $string['user_management:dorm_report:add'] = 'New Dorm';
 $string['user_management:dorm_report:header:name'] = 'Name';
 $string['user_management:dorm_report:header:hoh'] = 'Head of House';
 $string['user_management:dorm_report:header:permissionsline'] = 'Permissions Line';
+$string['user_management:dorm_report:header:dorm_log'] = 'Dorm Log Email';
 $string['user_management:dorm_report:header:type'] = 'Type';
 $string['user_management:dorm_report:header:gender'] = 'Gender';
 $string['user_management:dorm_report:header:available'] = 'Available';
@@ -311,6 +321,7 @@ $string['user_management:dorm_edit:dorm'] = 'Dorm Information';
 $string['user_management:dorm_edit:dorm:name'] = 'Name';
 $string['user_management:dorm_edit:dorm:hoh'] = 'Head of House';
 $string['user_management:dorm_edit:dorm:permissions_line'] = 'Permissions Line';
+$string['user_management:dorm_edit:dorm:dorm_log'] = 'Dorm Log Email Address';
 $string['user_management:dorm_edit:dorm:type'] = 'Type';
 $string['user_management:dorm_edit:dorm:type:Boarding'] = 'Boarding';
 $string['user_management:dorm_edit:dorm:type:Day'] = 'Day';
@@ -318,7 +329,7 @@ $string['user_management:dorm_edit:dorm:type:All'] = 'All';
 $string['user_management:dorm_edit:dorm:gender'] = 'Gender';
 $string['user_management:dorm_edit:dorm:gender:Boys'] = 'Boys';
 $string['user_management:dorm_edit:dorm:gender:Girls'] = 'Girls';
-$string['user_management:dorm_edit:dorm:gender:All'] = 'All';
+$string['user_management:dorm_edit:dorm:gender:Ungendered'] = 'All';
 $string['user_management:dorm_edit:dorm:available'] = 'Available';
 
 /* Dorm Notifications. */
@@ -702,11 +713,13 @@ $string['rooming:form:success'] = 'Rooming Requests Form Submitted Successfully'
 $string['rooming:report'] = 'Rooming Requests Report';
 
 // Filter.
-$string['rooming:report:select_submitted:true'] = 'Submitted';
-$string['rooming:report:select_submitted:false'] = 'Not Submitted';
-$string['rooming:report:select_gender:all'] = 'All Genders';
+$string['rooming:report:select_submitted:all'] = 'All Forms';
+$string['rooming:report:select_submitted:true'] = 'Forms Submitted';
+$string['rooming:report:select_submitted:false'] = 'Forms Not Submitted';
+$string['rooming:report:select_gender:all'] = 'All Students';
 $string['rooming:report:select_gender:M'] = 'Boys';
 $string['rooming:report:select_gender:F'] = 'Girls';
+$string['rooming:report:select_gender:N'] = 'Non Binary';
 $string['rooming:report:select_roomtype:all'] = 'All Room Types';
 $string['rooming:report:select_double:true'] = 'Has Lived in Double';
 $string['rooming:report:select_double:false'] = 'Has Not Lived in Double';
@@ -884,6 +897,7 @@ $string['vacation_travel:report'] = 'Vacation Travel Report';
 $string['vacation_travel:report:title'] = '{$a}Vacation Travel Report';
 
 // Filter.
+$string['vacation_travel:report:select_submitted:all'] = 'All Forms';
 $string['vacation_travel:report:select_submitted:true'] = 'Submitted';
 $string['vacation_travel:report:select_submitted:false'] = 'Not Submitted';
 $string['vacation_travel:report:add'] = 'New Vacation Travel Form';
@@ -992,8 +1006,10 @@ $string['deans_permission:report:header:sport'] = 'Sport Played';
 $string['deans_permission:report:header:missing'] = 'Missing';
 $string['deans_permission:report:header:times_away'] = 'Dates';
 $string['deans_permission:report:header:parent_perm'] = 'Parent Permission?';
-$string['deans_permission:report:header:missing_studyhours'] = 'Miss Study Hours';
+$string['deans_permission:report:header:notify_dorm_log'] = 'Notify Dorm Log';
 $string['deans_permission:report:header:sports_perm'] = 'Miss Sports';
+
+// TODO Remove this unused text string
 $string['deans_permission:report:header:class_perm'] = 'Miss Class';
 $string['deans_permission:report:header:internal_comment'] = 'Internal Comment';
 $string['deans_permission:report:header:external_comment'] = 'Message to Student';
@@ -1013,39 +1029,57 @@ $string['deans_permission:report:delete:failure'] = 'Failed to Delete Record';
 $string['deans_permission:report:add'] = 'New Deans\' Permission Form';
 
 /* Deans Permissions Preferences */
-$string['deans_permission:preferences'] = 'Deans\' Permission Preferences';
-$string['deans_permission:preferences:title'] = 'Deans\' Permission Preferences';
+$string['deans_permission:preferences'] = 'Deans\' Permission Form Preferences';
+$string['deans_permission:preferences:title'] = 'Deans\' Permission Form Preferences';
 $string['deans_permission:preferences:deans_email'] = 'Deans\' Permission Form Submitted Notification';
 $string['deans_permission:preferences:deans_email:deans_email_address'] = 'Deans\' Email Address';
-$string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available tags for deans\' permission form submission email';
-$string['deans_permission:preferences:deans_email:submitted_subject'] = 'Deans\' permission submission form email subject';
-$string['deans_permission:preferences:deans_email:submitted_body'] = 'Deans\' permission submission form email body';
-$string['deans_permission:preferences:review_email'] = 'Review Request Email';
-$string['deans_permission:preferences:review_email:athletic_director_email_address'] = 'Athletic Director Email Address';
-$string['deans_permission:preferences:review_email:academic_director_email_address'] = 'Academic Director Email Address';
-$string['deans_permission:preferences:review_email:review_tags'] = 'Available tags for deans\' permission form review request email';
-$string['deans_permission:preferences:review_email:review_subject'] = 'Review request subject';
-$string['deans_permission:preferences:review_email:review_body'] = 'Review request body';
-$string['deans_permission:preferences:notify_email'] = 'Healthcenter notification email';
-$string['deans_permission:preferences:notify_email:healthcenter_email_address'] = 'Healthcenter Email Address';
-$string['deans_permission:preferences:notify_email:notify_tags'] = 'Available tags for deans\' permission form healthcenter notification email';
-$string['deans_permission:preferences:notify_email:notify_subject'] = 'Healthcenter notification subject';
-$string['deans_permission:preferences:notify_email:notify_body'] = 'Healthcenter notification subject';
-$string['deans_permission:preferences:approved_email'] = 'Deans\' Permission Form Approved Email Notification';
-$string['deans_permission:preferences:approved_email:info'] = 'Note:';
-$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor of the student, and, if the student is missing study hours, that student\'s head of house.';
-$string['deans_permission:preferences:approved_email:approved_tags'] = 'Available tags for deans\' permission form approved email';
-$string['deans_permission:preferences:approved_email:approved_subject'] = 'Deans\' permission form approved email subject';
-$string['deans_permission:preferences:approved_email:approved_body'] = 'Deans\' permission form approved email body';
-$string['deans_permission:preferences:denied_email'] = 'Deans\' Permission Form Denied Email Notification';
-$string['deans_permission:preferences:denied_email:denied_tags'] = 'Available tags for deans\' permission form denied email';
-$string['deans_permission:preferences:denied_email:denied_subject'] = 'Deans\' permission form denied subject';
-$string['deans_permission:preferences:denied_email:denied_body'] = 'Deans\' permission form denied email body';
+$string['deans_permission:preferences:deans_email:submitted_tags'] = 'Available Tags for Submission Notification';
+$string['deans_permission:preferences:deans_email:submitted_subject'] = 'Submission Notification Subject';
+$string['deans_permission:preferences:deans_email:submitted_body'] = 'Submission Notification Body';
+$string['deans_permission:preferences:review_email'] = 'Review Request Notification';
+$string['deans_permission:preferences:review_email:athletic_director_email_address'] = 'Athletic Director Email';
+$string['deans_permission:preferences:review_email:academic_director_email_address'] = 'Academic Director Email';
+$string['deans_permission:preferences:review_email:review_tags'] = 'Available tags for Review Request Notification';
+$string['deans_permission:preferences:review_email:review_subject'] = 'Review Request Notification Subject';
+$string['deans_permission:preferences:review_email:review_body'] = 'Review Request Notification Body';
 
-$string['deans_permission:preferences:update:success'] = 'Deans\' Permission Preferences Updated Succesfully';
+// TODO Healthcentre email notification
+$string['deans_permission:preferences:notify_healthcenter'] = 'Healthcenter Notification';
+$string['deans_permission:preferences:notify_healthcenter:healthcenter_email_address'] = 'Healthcenter Email';
+$string['deans_permission:preferences:notify_healthcenter:notify_healthcenter_tags'] = 'Available Tags for Healthcenter Notification';
+$string['deans_permission:preferences:notify_healthcenter:notify_healthcenter_subject'] = 'Healthcenter Notification Subject';
+$string['deans_permission:preferences:notify_healthcenter:notify_healthcenter_body'] = 'Healthcenter Notification Body';
+
+// TODO Student email notification
+$string['deans_permission:preferences:notify_student'] = 'Student Email Notification';
+$string['deans_permission:preferences:notify_student:info'] = 'Note:';
+$string['deans_permission:preferences:notify_student:note'] = 'When triggered, this email will go to the student and their advisor';
+$string['deans_permission:preferences:notify_student:notify_student_tags'] = 'Available Tags for Student Email Notification';
+$string['deans_permission:preferences:notify_student:notify_student_subject'] = 'Student Email Notification Subject';
+$string['deans_permission:preferences:notify_student:notify_student_body'] = 'Student Email Notification Body';
+
+// TODO Deans Log notification
+$string['deans_permission:preferences:notify_dorm_log'] = 'Dorm Log Notification';
+$string['deans_permission:preferences:notify_dorm_log:info'] = 'Note:';
+$string['deans_permission:preferences:notify_dorm_log:note'] = 'When triggered, this email will go to the students\' dorm log';
+$string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_tags'] = 'Available tags for deans\' permission form notify dorm log email';
+$string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_subject'] = 'Notify dorm log email subject';
+$string['deans_permission:preferences:notify_dorm_log:notify_dorm_log_body'] = 'Notify dorm log email body';
+
+$string['deans_permission:preferences:approved_email'] = 'Form Approved Notification';
+$string['deans_permission:preferences:approved_email:info'] = 'Note:';
+$string['deans_permission:preferences:approved_email:note'] = 'If the form is approved, this email will go to the student, the advisor of the student and, if the student is missing study hours, that student\'s head of house.';
+$string['deans_permission:preferences:approved_email:approved_tags'] = 'Available Tags for Form Approved Notification';
+$string['deans_permission:preferences:approved_email:approved_subject'] = 'Form Approved Notification Subject';
+$string['deans_permission:preferences:approved_email:approved_body'] = 'Form Approved Notification Body';
+$string['deans_permission:preferences:denied_email'] = 'Form Denied Notification';
+$string['deans_permission:preferences:denied_email:denied_tags'] = 'Available Tags for Form Denied Notification';
+$string['deans_permission:preferences:denied_email:denied_subject'] = 'Form Denied Notification Subject';
+$string['deans_permission:preferences:denied_email:denied_body'] = 'Form Denied Notification Body';
+
+$string['deans_permission:preferences:update:success'] = 'Deans\' Permission Form Preferences Updated Succesfully';
 
 $string['deans_permission:preferences:add_event'] = 'New Event Type Option';
-
 $string['deans_permission:event_report'] = 'Deans\' Permission Event Types';
 $string['deans_permission:event_report:title'] = 'Deans\' Permission Event Types';
 $string['deans_permission:event_report:header:event_name'] = 'Event Type';
