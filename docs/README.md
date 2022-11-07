@@ -1,14 +1,14 @@
 # ![Middlesex Shield](/assets/mx_shield.png) mxMoodle Plugins ![Middlesex Shield](/assets/mx_shield.png)
 Custom Moodle plugins written for Middlesex School; an independent, secondary school following the New England boarding school tradition.
 
-Moodle is the world’s open source learning platform. </br>
-As a [sustainable, open source project](http://oss-watch.ac.uk/resources/cs-moodle), Moodle aims to advance the [UN's Sustainable Development Goals](https://www.un.org/sustainabledevelopment/) through [education](https://www.mnialive.com/articles/education-is-the-solution-for-sustainable-development-goals-says-moodle-founder/).
+Moodle is the world’s open-source learning platform. </br>
+As a [sustainable, open-source project](http://oss-watch.ac.uk/resources/cs-moodle), Moodle aims to advance the [UN's Sustainable Development Goals](https://www.un.org/sustainabledevelopment/) through [quality education](https://www.mnialive.com/articles/education-is-the-solution-for-sustainable-development-goals-says-moodle-founder/).
 
 This project is written and maintained by the [mxMoodle Development Team.](/docs/ABOUT_US.md)
 
 Learn more about:
 - [This project, our Moodle Development Team,](/docs/ABOUT_US.md) and [Middlesex School](https://mxschool.edu)
-- [The Moodle Project](https://moodle.org)
+- [The Moodle Project](https://moodle.org), [The Moodle content style guide](https://moodle.styleguide.com/the-moodle-content-style-guide)
 - [Our Code of Conduct.](/docs/CODE_OF_CONDUCT.md)
 - [Our Security Policy.](/docs/SECURITY.md)
 - [How you can get involved.](/docs/CONTRIBUTING.md)
@@ -36,4 +36,4 @@ The project currently includes the following plugins:
 
 ## License
 As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/docs/LICENSE.txt). </br>
-© 2018-2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+© 2007-2023 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.

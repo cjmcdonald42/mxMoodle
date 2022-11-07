@@ -6,8 +6,9 @@ The [Moodle Development Team](/docs/ABOUT_US.md) is a student-led initiative tha
 ## Getting Started
 1. Send [Chuck](mailto:cjmcdonald@mxschool.edu) an email expressing your interest and include your GitHub profile name or link.
 2. Read our [Code of Conduct](/docs/CODE_OF_CONDUCT.md).
-3. Read our [getting started guide](/docs/GETTING_STARTED.md)
-4. Our [issue tracker](https://github.com/mxschool/mxMoodle/issues) and [project boards](https://github.com/mxschool/mxMoodle/projects/4) show our work in progress and are a good starting point for jumping in.
+3. Familiarize yourself with [The Moodle content style guide.](https://moodle.styleguide.com/the-moodle-content-style-guide)
+4. Read our [getting started guide](/docs/GETTING_STARTED.md)
+5. Our [issue tracker](https://github.com/mxschool/mxMoodle/issues) and [project boards](https://github.com/mxschool/mxMoodle/projects/4) show our work in progress and are a good starting point for jumping in.
 
 This work is a combination of talents and technologies - Coding, UX, Documenting, QA, etc. There are many ways to be involved and our mxMoodle plugin suite will be better because of you.
 

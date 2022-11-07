@@ -11,17 +11,20 @@ The Moodle Development Team is a student-driven club of coders and creatives res
 **And we need you.** \
 Start by visiting our [Contributing](/docs/CONTRIBUTING.md) page.
 
-Moodle is the world's most popular learning management system powering [hundreds of thousands of learning environments worldwide](https://stats.moodle.org). Moodle is [open source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and become a citizen of the world. Learn more at: \<[http://moodle.org](https://docs.moodle.org/311/en/About_Moodle)\>.
+Moodle is the world's most popular learning management system powering [hundreds of thousands of learning environments worldwide](https://stats.moodle.org). Moodle is [open-source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and become a citizen of the world. Learn more about [Moodle v4 by clicking here.](https://docs.moodle.org/400/en/About_Moodle)\>.
 
 ### We Are
 Team Lead: </br>
 [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 \<amehta@mxschool.edu\>
 
+Team Members: </br>
+Cam Daly
+
 Advisor: </br>
 [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 <a name="goals"></a>
-### Current production release
+### Current production release, mxMoodle v3.4
 mxMoodle v3.4, built on Moodle 3.11 using php 7.4, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0, including:
 - New functionality for Healthtest Auditing and the Deans' Permission Form.
 - Greater accessibility for the Peer Tutoring System.
