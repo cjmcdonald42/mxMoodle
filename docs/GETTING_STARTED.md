@@ -8,7 +8,7 @@ This work is a combination of talents and technologies - Coding, UX, Documenting
 4. Check out our [open issues](https://github.com/mxschool/mxMoodle/issues) and [project boards](https://github.com/mxschool/mxMoodle/projects).
 
 If you've made it this far, you are ready to join us. </br>
-If you have questions or at any time are unsure what to do next, please ASK. </br>
+If you have questions or at any time are unsure what to do next, please ask. </br>
 *All questions, insights, and feedback are welcome.*
 
 Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>  </br>

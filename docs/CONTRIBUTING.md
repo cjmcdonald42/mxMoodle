@@ -13,7 +13,7 @@ The [Moodle Development Team](/docs/ABOUT_US.md) is a student-led initiative tha
 This work is a combination of talents and technologies - Coding, UX, Documenting, QA, etc. There are many ways to be involved and our mxMoodle plugin suite will be better because of you.
 
 ## Submitting Changes
-All commits are made in feature branches specifically named for the issue being addressed. Commits are save points reflecting significant changes. Pull requests are made to the dev branch containing individual features ready for inclusion. When the dev branch is ready to take its place as the next live version of our code, it is squashed and merged with the main branch by the repository administrators.
+All commits are made in feature branches specifically named for the issue being addressed. Commits are save points reflecting significant changes. Pull requests are made to the development branch, currently in_development_2023, containing individual features ready for inclusion. When the dev branch is ready to take its place as the next live version of our code, it is squashed and merged with the main branch by the repository administrators.
 
 ## Coding conventions
 Start by reading our code. We optimize for readability and you'll quickly get the hang of it. Read and refer to Moodle's own [coding style page](https://moodledev.io/general/development/policies/codingstyle). This document contains important information about how you should structure and format your PHP code.

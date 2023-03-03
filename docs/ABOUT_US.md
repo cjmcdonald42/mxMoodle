@@ -18,16 +18,16 @@ Moodle is the world's most popular learning management system powering [hundreds
 Team Lead: </br>
 [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 \<amehta@mxschool.edu\>
 
-Team Members: </br>
-[Paetyn Naidoo](https://github.com/itspaetyn), Class of 2025 \<pnaidoo@mxschool.edu>
+Team Members:
+[Paetyn Naidoo](https://github.com/itspaetyn), Class of 2025 \<pnaidoo@mxschool.edu\> </br>
 Cam Daly, Class of 2023
 
 Advisor: </br>
 [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 <a name="goals"></a>
-### mxMoodle v3.5, currently in development
-The next long-term release of Moodle with be v4.1 expected this fall. Over the 2022-23 school year, the Moodle Development Team will be reflecting on our current work, our current issues, and our enhancement requests. We are aiming for the next production release to take place next summer, 2023, along with a full upgrade to Moodle v4.1
+### mxMoodle v3.5, currently in development, Spring and Summer of 2023
+Our focus during this coding season will be to close a number of issues; some bug fixes and some feature upgrades. Our upgrade to Moodle 4 will be realized this summer with Moodle 4.2.
 
 <a name="history"></a>
 ## History of this project
@@ -55,7 +55,7 @@ Over the spring and summer of 2022, the mxMoodle Development Team, led by [Aarav
 - Simplified access via consolidated blocks and links on the Dashboard
 
 ### v3.5
-The next long-term release of Moodle with be v4.1 expected this fall. Over the 2022-23 school year, the Moodle Development Team will be reflecting on our current work, our current issues, and our enhancement requests. We are aiming for the next production release to take place next summer, 2023, along with a full upgrade to Moodle v4.1
+During the spring and summer of 2023, we will be working on closing a number of issue that include bug fixes and feature upgrades in preparation for a summer upgrade to Moodle 4.2.
 
 -----
 *Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*
