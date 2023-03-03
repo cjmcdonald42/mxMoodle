@@ -8,7 +8,8 @@ Learn more about:
 ## The Moodle Development Team
 The Moodle Development Team is a student-driven club of coders and creatives responsible for this project and its future at Middlesex School. Students lead this project through all phases of development, coding, UX design, quality assurance, and documentation.
 
-**And we need you.** \
+**And we need you.**
+
 Start by visiting our [Contributing](/docs/CONTRIBUTING.md) page.
 
 Moodle is the world's most popular learning management system powering [hundreds of thousands of learning environments worldwide](https://stats.moodle.org). Moodle is [open-source](https://en.wikipedia.org/wiki/Open_source) and aligned with the United Nations [Sustainable Development Goals](https://www.un.org/sustainabledevelopment/). To develop for Moodle is to invest in the future and become a citizen of the world. Learn more about [Moodle v4 by clicking here.](https://docs.moodle.org/400/en/About_Moodle)\>.
@@ -18,20 +19,15 @@ Team Lead: </br>
 [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 \<amehta@mxschool.edu\>
 
 Team Members: </br>
-Cam Daly
+[Paetyn Naidoo](https://github.com/itspaetyn), Class of 2025 \<pnaidoo@mxschool.edu>
+Cam Daly, Class of 2023
 
 Advisor: </br>
 [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
 
 <a name="goals"></a>
-### Current production release, mxMoodle v3.4
-mxMoodle v3.4, built on Moodle 3.11 using php 7.4, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0, including:
-- New functionality for Healthtest Auditing and the Deans' Permission Form.
-- Greater accessibility for the Peer Tutoring System.
-- A new Residential Status field so that students can be filtered by International or Domestic addresses.
-- Expanded gender options that recognize non-binary students.
-- Expanded access to the Peer Tutoring subsystem.
-- Simplified access via consolidated blocks and links on the Dashboard
+### mxMoodle v3.5, currently in development
+The next long-term release of Moodle with be v4.1 expected this fall. Over the 2022-23 school year, the Moodle Development Team will be reflecting on our current work, our current issues, and our enhancement requests. We are aiming for the next production release to take place next summer, 2023, along with a full upgrade to Moodle v4.1
 
 <a name="history"></a>
 ## History of this project
@@ -50,7 +46,13 @@ In 2018-2019, [Jeremiah DrGreeff](https://github.com/jrdegreeff), Class of 2019,
 In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took lead of the Moodle Development Team. With [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, he enhanced and updated many systems in our mxMoodle code; adding the new Healthpass and Healthtest subsystems, and creating the Deans' Permission Form. Over the summer of 2021, Cannon passed the reins to [Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023, to further enhance the healthtest system with a new audit report. During this time, the GitHub site was expanded to include improvements for readability and open-source standards with significant contributions from [Pranav Natarajan](https://github.com/CurryBoy9000).
 
 ### v3.4
-Over the spring and summer of 2022, the mxMoodle Development Team, led by [Aarav Mehta](https://github.com/AaravMehta4897) and advised by [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, enhanced the functionality of the Deans' Permission and the Peer Tutoring System and expanded the documentation to bring it in line with global standards for open source projects.
+Over the spring and summer of 2022, the mxMoodle Development Team, led by [Aarav Mehta](https://github.com/AaravMehta4897) and advised by [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, enhanced the functionality of the Deans' Permission and the Peer Tutoring System and expanded the documentation to bring it in line with global standards for open source projects. mxMoodle v3.4 is built on Moodle 3.11 using php 7.4, SQL 8, and the default Boost theme. This update is built on new technologies that pave the way for Moodle 4.0, including:
+- New functionality for Healthtest Auditing and the Deans' Permission Form.
+- Greater accessibility for the Peer Tutoring System.
+- A new Residential Status field so that students can be filtered by International or Domestic addresses.
+- Expanded gender options that recognize non-binary students.
+- Expanded access to the Peer Tutoring subsystem.
+- Simplified access via consolidated blocks and links on the Dashboard
 
 ### v3.5
 The next long-term release of Moodle with be v4.1 expected this fall. Over the 2022-23 school year, the Moodle Development Team will be reflecting on our current work, our current issues, and our enhancement requests. We are aiming for the next production release to take place next summer, 2023, along with a full upgrade to Moodle v4.1
