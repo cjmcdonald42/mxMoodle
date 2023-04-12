@@ -23,6 +23,7 @@ The project currently includes the following plugins:
     - [blocks/mxschool_dorm_faculty](/blocks/mxschool_dorm_faculty/README.md)
     - [blocks/mxschool_dorm_proctor](/blocks/mxschool_dorm_proctor/README.md)
     - [blocks/mxschool_dorm_student](/blocks/mxschool_dorm_student/README.md)
+    - [blocks/mxschool_manage_transportation](blocks/mxschool_manage_transportation/README.md)
     - Healthpass subsystem - COVIDpass and COVIDtest response for community wellness
         - [blocks/mxschool_dash_healthcenter](/blocks/mxschool_dash_healthcenter/README.md)
         - [blocks/mxschool_dash_healthpass](/blocks/mxschool_dash_healthpass/README.md)
@@ -36,4 +37,4 @@ The project currently includes the following plugins:
 
 ## License
 As Moodle itself, these plugins are provided freely under the [GNU General Public License v3.0](/docs/LICENSE.txt). </br>
-© 2018-2022 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
+© 2018-2023 Middlesex School, 1400 Lowell Rd, Concord MA 01742 All Rights Reserved.
