@@ -15,10 +15,10 @@ Moodle is the world's most popular learning management system powering [hundreds
 
 ### We Are
 Team Lead: </br>
-[Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023 \<amehta@mxschool.edu\>
+[Aarav Mehta](https://github.com/AaravMehta4897), Class of 2023
 
 Advisor: </br>
-[Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist \<cjmcdonald@mxschool.edu\>
+[Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist
 
 <a name="goals"></a>
 ### Current production release
@@ -48,9 +48,6 @@ In 2020-2021, [Cannon Caspar](https://github.com/Cannon544), Class of 2021, took
 
 ### v3.4
 Over the spring and summer of 2022, the mxMoodle Development Team, led by [Aarav Mehta](https://github.com/AaravMehta4897) and advised by [Charles J McDonald](https://github.com/MXchuck), Academic Technology Specialist, enhanced the functionality of the Deans' Permission and the Peer Tutoring System and expanded the documentation to bring it in line with global standards for open source projects.
-
-### v3.5
-The next long-term release of Moodle with be v4.1 expected this fall. Over the 2022-23 school year, the Moodle Development Team will be reflecting on our current work, our current issues, and our enhancement requests. We are aiming for the next production release to take place next summer, 2023, along with a full upgrade to Moodle v4.1
 
 -----
 *Continue to our [Code of Conduct](/docs/CODE_OF_CONDUCT.md)*

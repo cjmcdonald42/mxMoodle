@@ -11,5 +11,5 @@ If you've made it this far, you are ready to join us. </br>
 If you have questions or at any time are unsure what to do next, please ASK. </br>
 *All questions, insights, and feedback are welcome.*
 
-Charles J McDonald, Academic Technology Specialist \<cjmcdonald@mxschool.edu\>  </br>
-The Moodle Development Team \<MooDevTea@mxschool.edu\>
+Charles J McDonald, Academic Technology Specialist \<HelpDesk@mxschool.edu\>
+
