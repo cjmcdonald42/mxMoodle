@@ -45,6 +45,10 @@ $data->roommate_instructions['text'] = get_config('local_mxschool', 'rooming_for
 $form = new local_mxschool\local\rooming\preferences_form();
 $form->set_data($data);
 
+
+// TODO: Create a toggle that will allow the user to choose all boarding students or just boarding students of their gender.
+
+
 if ($form->is_cancelled()) {
     redirect($form->get_redirect());
 } else if ($data = $form->get_data()) {

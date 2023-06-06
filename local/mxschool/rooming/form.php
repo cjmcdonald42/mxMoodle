@@ -79,6 +79,11 @@ if ($id) { // Updating an existing record.
 $data->isstudent = $isstudent ? '1' : '0';
 $data->instructions = get_config('local_mxschool', 'rooming_form_roommate_instructions');
 $students = get_boarding_next_year_student_list();
+
+// TODO: Add functionality to filter by gender or not based on toggle on Rooming Preferences.
+// TODO: Function get_boarding_next_year_student_list does not sort by gender --> Look in the JScript.
+
+
 $roomable = array(0 => get_string('form:select:default', 'local_mxschool')) + get_boarding_next_year_student_list();
 $roomtypes = array(0 => get_string('form:select:default', 'local_mxschool')) + get_room_type_list();
 

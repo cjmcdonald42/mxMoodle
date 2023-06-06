@@ -77,6 +77,10 @@ class form extends \local_mxschool\form {
      *
      * @return array of errors as "element_name"=>"error_description" or an empty array if there are no errors.
      */
+
+     // TODO: Either select gender or allow all genders in room mate and dorm mate lists based on Rooming Preferences.
+
+
     public function validation($data, $files) {
         global $DB;
         $errors = parent::validation($data, $files);
