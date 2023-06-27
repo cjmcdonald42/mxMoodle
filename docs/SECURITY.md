@@ -1,5 +1,5 @@
 # Security Policy
-Only the most recent version of this code is maintained and supported. Our production server runs Moodle 3.11 with mxMoodle v3.4.
+Only the most recent version of this code is maintained and supported. Our production server runs Moodle 3.11 with mxMoodle v3.4. Moodle does not track or store any personal or sensitive information. 
 
 ## Reporting security problems
 **Do not create an issue to report a security problem.**
@@ -12,7 +12,7 @@ In case an incident is discovered or reported, We will follow the following proc
 
 ### 1. Containment
 * Is still ongoing? If yes, first priority is to stop it.
-* Is the incident outside of my influence? If yes, first priority is to contain it.
+* Is the incident outside of our influence? If yes, first priority is to contain it.
 * Find out who knows about the incident and who is affected.
 * Find out what data was potentially exposed.
 

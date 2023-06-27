@@ -85,12 +85,12 @@ if ($hassiteconfig) {
     $emailsettings->add(new admin_setting_configtext(
         'local_mxschool/transportationmanager_email',
         new lang_string('email_settings:transportationmanager_email', 'local_mxschool'),
-        new lang_string('email_settings:transportationmanager_email:description', 'local_mxschool'), 'ptorres@mxschool.edu'
+        new lang_string('email_settings:transportationmanager_email:description', 'local_mxschool'), 'bgilmore@mxschool.edu'
     ));
     $emailsettings->add(new admin_setting_configtext(
         'local_mxschool/transportationmanager_addressee',
         new lang_string('email_settings:transportationmanager_addressee', 'local_mxschool'),
-        new lang_string('email_settings:transportationmanager_addressee:description', 'local_mxschool'), 'Transportation Manager'
+        new lang_string('email_settings:transportationmanager_addressee:description', 'local_mxschool'), 'Ben Gilmore'
     ));
     $mxschool->add('mxschool', $emailsettings);
 
